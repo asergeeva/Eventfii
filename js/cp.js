@@ -1,0 +1,69 @@
+/*
+ * Author : Grady Laksmono
+ * Email : grady@eventfii.com
+ * All code (c) 2011 Eventfii Inc. 
+ * All rights reserved
+ */
+$(document).ready(function() {
+	$("img[rel]").overlay();
+});
+
+var CP_EVENT = (function() {
+	return {
+		init: function() {
+			$('#updateEvent_date').datepicker();
+			$('#updateEvent_deadline').datepicker();
+			$('#updateEvent_title').focus();	
+		},
+		
+		openUpdateEvent: function(eid) {
+			this.init();
+			$('#updateEvent_submit').live('click', this.updateEventSubmit);
+			
+			$.get(EFGLOBAL.baseUrl + '/event/edit', {
+				eventId: eid.split('-')[1]
+			}, function(eventInfo) {
+				eventInfo = eval('(' + eventInfo + ')');
+				$('#updateEvent_title').val(eventInfo.title);
+				$('#updateEvent_description').val(eventInfo.description);
+				$('#updateEvent_address').val(eventInfo.location_address);
+				$('#updateEvent_date').val(eventInfo.event_datetime.split(' ')[0]);
+				$('#updateEvent_time').val(eventInfo.event_datetime.split(' ')[1]);
+				$('#updateEvent_deadline').val(eventInfo.event_deadline);
+				$('#updateEvent_min_spots').val(eventInfo.min_spot);
+				$('#updateEvent_max_spots').val(eventInfo.max_spot);
+				$('#updateEvent_cost').val(eventInfo.cost);
+				$('#updateEvent_gets').val(eventInfo.gets);
+				if (eventInfo.is_public === "1") {
+					$('#updateEvent_ispublic_yes').attr('checked', 'checked');
+				} else {
+					$('#updateEvent_ispublic_no').attr('checked', 'checked');
+				}
+				$('#updateEvent_url').val(eventInfo.url);
+			});
+		},
+		
+		updateEventSubmit: function() {
+			$.post(EFGLOBAL.baseUrl + '/event/update', {
+				title: 				$('#updateEvent_title').val(),
+				description:	$('#updateEvent_description').val(),
+				address: 			$('#updateEvent_address').val(),
+				date: 				$('#updateEvent_date').val(),
+				time:					$('#updateEvent_time').val(),
+				deadline: 		$('#updateEvent_deadline').val(),
+				min_spot: 		$('#updateEvent_min_spots').val(),
+				max_spot: 		$('#updateEvent_max_spots').val(),
+				cost: 				$('#updateEvent_cost').val(),
+				gets: 				$('#updateEvent_gets').val(),
+				eo_bio: 			$('#updateEvent_bio').val(),
+				is_public: 		$('input:radio[name=updateEvent_ispublic]:checked').val(),
+				url:					$('#updateEvent_url').val()
+			}, this.updateEventSubmitCB);
+			$('#update_event_form').html(EFGLOBAL.ajaxLoader);
+		}, 
+		
+		updateEventSubmitCB: function(respData) {
+			$('#update_event_form').html('<h2>Success</h2>');
+		}
+	}
+})();

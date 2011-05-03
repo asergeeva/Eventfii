@@ -1,0 +1,41 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#ef_logo {
+	float: left;
+}
+
+#profile_container h3 {
+	margin-top: 15px;
+	margin-bottom: 0px;
+	padding: 0px;
+	float: right;
+}
+
+#profile_container p {
+	float: right;
+	margin-left: 10px;
+}
+
+#home_container #middle {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	margin-top: 20px;
+}
+
+#existing_user_login_form {
+	float:left;	
+}
+
+#new_user_login_form {
+	float:left;
+}
+
+#createEvent_url {
+	width: 250px;
+}
+
+#current_event_container {
+	margin-top: 50px;
+}

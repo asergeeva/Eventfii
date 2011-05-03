@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/* CSS Document */
+
+* {
+	font-family:Helvetica, "Trebuchet MS", Arial, sans-serif;
+}
+
+#container {
+	color: #666;
+}
+
+a {
+	font-style: none;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.goButton {
+	background-image: url('../images/biggobutton_03.png');
+	width: 152px;
+	height: 78px;
+	line-height: 0px;
+	font-size: 0px;
+}
+
+.updateButton {
+	background-image: url('../images/updatebutton_03.png');
+	width: 131px;
+	height: 67px;
+	line-height: 0px;
+	font-size: 0px;
+}
+
+table tr th {
+	text-align: left;
+}
+
+#login_container {
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* NAVIGATION */
+ul.top_nav {
+	list-style: none;
+	float: right;
+}
+
+ul.top_nav li {
+	display: block;
+	width: 150px;
+	float: left;
+	margin-left: 45px;
+	margin-right: 45px;
+}

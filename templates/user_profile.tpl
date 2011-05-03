@@ -1,0 +1,1 @@
+<h2>{$userInfo['fname']} {$userInfo['lname']}</h2>
