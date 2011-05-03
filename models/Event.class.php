@@ -20,6 +20,8 @@ class Event {
 	public $is_public;
 	public $gets;
 	
+	public $eid;
+	
 	function __construct($organizer,
 							 $title,
 						   $url,

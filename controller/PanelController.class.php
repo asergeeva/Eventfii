@@ -118,7 +118,11 @@ class PanelController {
 															$_REQUEST['cost'],
 															$_REQUEST['is_public'],
 															$_REQUEST['gets']);
+															
+				$eventInfo->eid = $_REQUEST['eventId'];
 				$this->dbCon->updateEvent($eventInfo);
+				$this->assignCPEvents($_SESSION['uid']);
+				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
 				require('models/Event.class.php');

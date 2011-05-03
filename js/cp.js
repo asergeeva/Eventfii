@@ -44,6 +44,9 @@ var CP_EVENT = (function() {
 		},
 		
 		updateEventSubmit: function() {
+			var urlToken = $('#updateEvent_url').val().split('/'),
+					eid = urlToken[urlToken.length - 1];
+					
 			$.post(EFGLOBAL.baseUrl + '/event/update', {
 				title: 				$('#updateEvent_title').val(),
 				description:	$('#updateEvent_description').val(),
@@ -57,13 +60,16 @@ var CP_EVENT = (function() {
 				gets: 				$('#updateEvent_gets').val(),
 				eo_bio: 			$('#updateEvent_bio').val(),
 				is_public: 		$('input:radio[name=updateEvent_ispublic]:checked').val(),
-				url:					$('#updateEvent_url').val()
-			}, this.updateEventSubmitCB);
+				url:					$('#updateEvent_url').val(),
+				eventId:      eid
+			}, CP_EVENT.updateCP);
 			$('#update_event_form').html(EFGLOBAL.ajaxLoader);
 		}, 
 		
-		updateEventSubmitCB: function(respData) {
-			$('#update_event_form').html('<h2>Success</h2>');
+		updateCP: function(updatedContainer) {
+			$('#container').html(updatedContainer).ready(function() {
+				$("img[rel]").overlay();
+			});
 		}
 	}
 })();

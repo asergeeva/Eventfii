@@ -43,7 +43,7 @@ class DBConfig {
 		return $resultArr;
 	}
 	
-	public function executeInsertQuery($query) {
+	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
 	  $dbResult = mysql_query($query);
 	  if (!$dbResult && $this->DEBUG) {
@@ -89,7 +89,7 @@ class DBConfig {
 	public function createNewUser($fname, $lname, $email, $pass) {
 		$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
 													VALUES ('".$fname."', '".$lname."', '".$email."', '".$pass."', 'I am ".$fname."')";
-		$this->executeInsertQuery($CREATE_NEW_USER);
+		$this->executeUpdateQuery($CREATE_NEW_USER);
 	}
 	
 	public function getCurSignup($eid) {
@@ -127,11 +127,26 @@ class DBConfig {
 																			 	".mysql_real_escape_string($newEvent["cost"]).", 
 																			  ".mysql_real_escape_string($newEvent["is_public"]).",
 																			 '".mysql_real_escape_string($newEvent["gets"])."')";
-		$this->executeInsertQuery($CREATE_NEW_EVENT);
+		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
 	public function updateEvent($eventInfo) {
+		$datetime = $this->dateToSql($eventInfo->date)." ".$eventInfo->time;
+		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
+		$UPDATE_EVENT = "UPDATE ef_events e SET 
+												e.title = '".mysql_real_escape_string($eventInfo->title)."', 
+												e.min_spot = ".mysql_real_escape_string($eventInfo->min_spot).", 
+												e.max_spot = ".mysql_real_escape_string($eventInfo->max_spot).", 
+												e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
+												e.event_datetime = '".mysql_real_escape_string($datetime)."', 
+												e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
+												e.description = '".mysql_real_escape_string($eventInfo->description)."', 
+												e.cost = ".mysql_real_escape_string($eventInfo->cost).", 
+												e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
+												e.gets = '".mysql_real_escape_string($eventInfo->gets)."' 
+										 WHERE e.id = ".mysql_real_escape_string($eventInfo->eid);
+		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
 	
 	public function getQueryResultAssoc($sqlQuery) {
@@ -171,43 +186,6 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	public function getEvents($uid) {
-		$GET_EVENTS = "SELECT * FROM
-											((SELECT e.id, 
-															 e.created, 
-															 e.organizer, 
-															 e.title, 
-															 e.url, 
-															 e.min_spot,
-															 e.max_spot, 
-															 e.location_address, 
-															 e.location_lat, 
-															 e.location_long, 
-															 e.event_datetime, 
-															 e.event_deadline,
-															 e.description, 
-															 e.cost 
-											FROM ef_events e WHERE e.organizer = ".$uid.")
-											UNION
-											(SELECT e.id, 
-															e.created, 
-															e.organizer, 
-															e.title, 
-															e.url, 
-															e.min_spot,
-															e.max_spot, 
-															e.location_address, 
-															e.location_lat, 
-															e.location_long, 
-															e.event_datetime, 
-															e.event_deadline,
-															e.description, 
-															e.cost
-											FROM ef_attendance a, ef_events e WHERE a.user_id = ".$uid." AND a.event_id = e.id)) e
-											WHERE e.event_datetime > NOW() ORDER BY e.event_datetime ASC";		
-		return $this->getQueryResultAssoc($GET_EVENTS);
-	}
-	
 	public function getEventInfo($eid) {
 		$GET_EVENT = "SELECT DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
 										e.created, e.organizer, e.title, e.url, e.min_spot, e.max_spot, 
@@ -228,7 +206,7 @@ class DBConfig {
 	public function eventSignUp($uid, $eid) {
 		if (!$this->hasAttend($uid, $eid)) {
 			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$uid.")";
-			$this->executeInsertQuery($SIGN_UP_EVENT);
+			$this->executeUpdateQuery($SIGN_UP_EVENT);
 			return true;
 		}
 		return false;
