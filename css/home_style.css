@@ -2,7 +2,6 @@
 #home_container {
 	margin-left: auto;
 	margin-right: auto;
-	width: 1024px;
 }
 
 #logo_container {
@@ -23,20 +22,36 @@
 	float: left;
 	font-size: 18px;
 	clear: both;
+	width: 100%;
 }
 
 /* MIDDLE */
 #home_container #middle {
-	clear: both;
-	background-image:url('../images/frontpagebanner_02.png');
+	background-color: #FBB03B;
 	background-repeat: no-repeat;
-	margin-left: auto;
-	height: 500px;
+	clear: both;
+	height: 200px;
+	margin-top: 120px;
+	position: absolute;
+	width: 100%;
+	z-index: -5;
 }
 
-#home_container #middle #middle_left {
-	width: 500px;
+#home_container #middle #middle_container {
+ 	margin-left: auto;
+	margin-right: auto;
+	width: 1024px;
+}
+
+#home_container #middle_left {
+	width: 444px;
+	height: 285px;
 	float: left;
+	background-image: url('../images/fp/whitebox_03.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	margin-top: 85px;
+	margin-left: 180px;
 }
 
 #home_container #middle #logo_container {
@@ -47,12 +62,14 @@
 #home_container #middle #steps_container {
 	width: 520px;
 	float: left;
-	margin-top: 55px;
+	margin-left: 450px;
+	margin-top: 20px;
 }
 
 #home_container #new_events {
 	float: left;
-	margin-top: 80px;
+	clear: both;
+	margin-top: 60px;
 }
 
 /* FOOTER */

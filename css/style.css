@@ -5,6 +5,11 @@
 	font-family:Helvetica, "Trebuchet MS", Arial, sans-serif;
 }
 
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
 #container {
 	color: #666;
 }
@@ -43,8 +48,10 @@ table tr th {
 
 /* NAVIGATION */
 ul.top_nav {
-	list-style: none;
-	float: right;
+	list-style: none outside none;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1024px;
 }
 
 ul.top_nav li {

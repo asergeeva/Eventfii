@@ -106,18 +106,18 @@ class PanelController {
 			case '/event/update':
 				require('models/Event.class.php');
 				$eventInfo = new Event($_SESSION['uid'],
-															$_REQUEST['title'], 
-															$_REQUEST['url'], 
-															$_REQUEST['min_spot'],
-															$_REQUEST['max_spot'], 
-															$_REQUEST['address'], 
-															$_REQUEST['date'],
-															$_REQUEST['time'],
-															$_REQUEST['deadline'],
-															$_REQUEST['description'], 
-															$_REQUEST['cost'],
-															$_REQUEST['is_public'],
-															$_REQUEST['gets']);
+															 $_REQUEST['title'], 
+															 $_REQUEST['url'], 
+															 $_REQUEST['min_spot'],
+															 $_REQUEST['max_spot'], 
+															 $_REQUEST['address'], 
+															 $_REQUEST['date'],
+															 $_REQUEST['time'],
+															 $_REQUEST['deadline'],
+															 $_REQUEST['description'], 
+															 $_REQUEST['cost'],
+															 $_REQUEST['is_public'],
+															 $_REQUEST['gets']);
 															
 				$eventInfo->eid = $_REQUEST['eventId'];
 				$this->dbCon->updateEvent($eventInfo);
