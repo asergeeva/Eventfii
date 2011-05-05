@@ -6,11 +6,6 @@
  */
 
 /* CONTROL PANEL */
-#cp_body {
-	margin: 0px;
-	padding: 0px;
-}
-
 #cp_container {
 	margin-left: auto;
 	margin-right: auto;
@@ -18,7 +13,6 @@
 
 /* HEADER */
 #cp_container #header {
-	padding-left: 40px;
 	background-color: #fab549;
 }
 

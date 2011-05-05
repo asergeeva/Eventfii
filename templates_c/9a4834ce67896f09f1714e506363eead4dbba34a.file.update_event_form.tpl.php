@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2011-05-03 08:59:22
+<?php /* Smarty version Smarty-3.0.7, created on 2011-05-05 08:46:36
          compiled from "templates/update_event_form.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:5185512654dbfc3ea790d42-84131871%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:21356036354dc263ecbb03f4-97391373%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '9a4834ce67896f09f1714e506363eead4dbba34a' => 
     array (
       0 => 'templates/update_event_form.tpl',
-      1 => 1304203966,
+      1 => 1304585152,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '5185512654dbfc3ea790d42-84131871',
+  'nocache_hash' => '21356036354dc263ecbb03f4-97391373',
   'function' => 
   array (
   ),
@@ -87,12 +87,17 @@ $_smarty_tpl->decodeProperties(array (
     </div>
   </div>
   <div class="event_field_pic">
-    <h2 class="event_form_section_header_radio">Upload picture</h2>
-		<input type="file" name="updateEvent_picture" id="updateEvent_picture" />
-  </div>
-  <div class="event_field_pic">
     <h2 class="event_form_section_header_radio">URL</h2>
 		<input type="text" name="updateEvent_url" id="updateEvent_url" disabled="disabled" />
+  </div>
+  <div class="event_field_pic">
+    <h2 class="event_form_section_header_radio">Upload picture</h2>
+    <div id="update-file-uploader">       
+        <noscript>          
+            <p>Please enable JavaScript to use file uploader.</p>
+            <!-- or put a simple form for upload here -->
+        </noscript>         
+    </div>
   </div>
   <a href="#" id="updateEvent_submit" class="updateButton">Update</a>
 </div>

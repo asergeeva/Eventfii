@@ -141,7 +141,12 @@ class PanelController {
 															$_REQUEST['cost'],
 															$_REQUEST['is_public'],
 															$_REQUEST['gets']);
+				
+				
 				$this->checkNewEvent($newEvent);
+				break;
+			case '/event/image/upload':
+				require('models/FileUploader.class.php');
 				break;
 			case '/event/attend':
 				if ($this->dbCon->eventSignUp($_REQUEST['uid'], $_REQUEST['eid'])) {

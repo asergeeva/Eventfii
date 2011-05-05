@@ -6,6 +6,19 @@
  */
 $(document).ready(function() {
 	$("img[rel]").overlay();
+	CREATE_EVENT_FORM.init();
+	
+	var eventUrlToken = $('#createEvent_url').val().split('/'),
+			eid = eventUrlToken[eventUrlToken.length - 1];
+	
+	var uploader = new qq.FileUploader({
+		// pass the dom node (ex. $(selector)[0] for jQuery users)
+    element: $('#update-file-uploader')[0],
+    // path to server-side upload script
+    action: EFGLOBAL.baseUrl + '/event/image/upload',
+		// additional data
+		params: {eventId: eid}
+	});
 });
 
 var CP_EVENT = (function() {
@@ -13,7 +26,7 @@ var CP_EVENT = (function() {
 		init: function() {
 			$('#updateEvent_date').datepicker();
 			$('#updateEvent_deadline').datepicker();
-			$('#updateEvent_title').focus();	
+			$('#updateEvent_title').focus();
 		},
 		
 		openUpdateEvent: function(eid) {

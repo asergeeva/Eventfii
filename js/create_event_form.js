@@ -4,13 +4,22 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+$(document).ready(function() {
+	var eventUrlToken = $('#createEvent_url').val().split('/'),
+			eid = eventUrlToken[eventUrlToken.length - 1];
+	
+	var uploader = new qq.FileUploader({
+		// pass the dom node (ex. $(selector)[0] for jQuery users)
+    element: $('#create-file-uploader')[0],
+    // path to server-side upload script
+    action: EFGLOBAL.baseUrl + '/event/image/upload',
+		// additional data
+		params: {eventId: eid}
+	});
+});
  
 var CREATE_EVENT_FORM = (function() {
- $('#createEvent_date').datepicker();
- $('#createEvent_deadline').datepicker();
- $('#createEvent_description').focus();
-	 
- $('#createEvent_submit').live('click', function() {
+	$('#createEvent_submit').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/submit', {
 			title: 				$('#createEvent_title').val(),
 			description:	$('#createEvent_description').val(),
@@ -22,8 +31,8 @@ var CREATE_EVENT_FORM = (function() {
 			max_spot: 		$('#createEvent_max_spots').val(),
 			cost: 				$('#createEvent_cost').val(),
 			gets: 				$('#createEvent_gets').val(),
-			eo_bio: 			$('#createEvent_bio').val(),
 			is_public: 		$('input:radio[name=createEvent_ispublic]:checked').val(),
+			image:        $('#createEvent_picture').val(),
 			url:					$('#createEvent_url').val()
 		}, CREATE_EVENT_FORM.createEventSubmit);
 		$('#middle').html(EFGLOBAL.ajaxLoader);

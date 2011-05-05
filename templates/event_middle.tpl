@@ -2,6 +2,8 @@
   <h2>{$eventInfo['title']}</h2>
   <h3>Days left: {$eventInfo['days_left']}</h3>
   
+  <img src="{$CURHOST}/upload/{$eventInfo['id']}.jpg"
+  
   <div id="event_details">
   <h3>Description</h3>
   {$eventInfo['description']}

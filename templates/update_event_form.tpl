@@ -68,12 +68,17 @@
     </div>
   </div>
   <div class="event_field_pic">
-    <h2 class="event_form_section_header_radio">Upload picture</h2>
-		<input type="file" name="updateEvent_picture" id="updateEvent_picture" />
-  </div>
-  <div class="event_field_pic">
     <h2 class="event_form_section_header_radio">URL</h2>
 		<input type="text" name="updateEvent_url" id="updateEvent_url" disabled="disabled" />
+  </div>
+  <div class="event_field_pic">
+    <h2 class="event_form_section_header_radio">Upload picture</h2>
+    <div id="update-file-uploader">       
+        <noscript>          
+            <p>Please enable JavaScript to use file uploader.</p>
+            <!-- or put a simple form for upload here -->
+        </noscript>         
+    </div>
   </div>
   <a href="#" id="updateEvent_submit" class="updateButton">Update</a>
 </div>

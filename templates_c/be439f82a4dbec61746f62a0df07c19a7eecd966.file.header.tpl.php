@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2011-05-03 08:59:05
+<?php /* Smarty version Smarty-3.0.7, created on 2011-05-05 03:21:33
          compiled from "templates/header.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:3578762274dbfc3d989d7d0-52247406%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:14748546814dc217bd113b18-38703150%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'be439f82a4dbec61746f62a0df07c19a7eecd966' => 
     array (
       0 => 'templates/header.tpl',
-      1 => 1303493136,
+      1 => 1304564822,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '3578762274dbfc3d989d7d0-52247406',
+  'nocache_hash' => '14748546814dc217bd113b18-38703150',
   'function' => 
   array (
   ),
@@ -27,3 +27,5 @@ $_smarty_tpl->decodeProperties(array (
 /style.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $_smarty_tpl->getVariable('CSS_PATH')->value;?>
 /jquery-ui-1.8.11.custom.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $_smarty_tpl->getVariable('CSS_PATH')->value;?>
+/fileuploader.css" />

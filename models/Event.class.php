@@ -23,18 +23,18 @@ class Event {
 	public $eid;
 	
 	function __construct($organizer,
-							 $title,
-						   $url,
-						   $min_spot,
-							 $max_spot,
-						   $address,
-						   $date,
-						   $time,
-							 $deadline,
-						   $description,
-						   $cost,
-							 $is_public,
-							 $gets) {
+											 $title,
+											 $url,
+											 $min_spot,
+											 $max_spot,
+											 $address,
+											 $date,
+											 $time,
+											 $deadline,
+											 $description,
+											 $cost,
+											 $is_public,
+											 $gets) {
 		$this->organizer = $organizer;
 		$this->title = $title;
 		$this->url = $url;

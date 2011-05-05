@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2011-05-03 09:05:52
+<?php /* Smarty version Smarty-3.0.7, created on 2011-05-05 08:46:57
          compiled from "templates/event_middle.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:2903750394dbfc570ab8c89-45847817%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:17026527784dc264011c6dc0-13675251%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'e57c8769ae5dd77320c9a1c5b03f5e68f4001aa7' => 
     array (
       0 => 'templates/event_middle.tpl',
-      1 => 1303547435,
+      1 => 1304584557,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '2903750394dbfc570ab8c89-45847817',
+  'nocache_hash' => '17026527784dc264011c6dc0-13675251',
   'function' => 
   array (
   ),
@@ -22,6 +22,10 @@ $_smarty_tpl->decodeProperties(array (
 </h2>
   <h3>Days left: <?php echo $_smarty_tpl->getVariable('eventInfo')->value['days_left'];?>
 </h3>
+  
+  <img src="<?php echo $_smarty_tpl->getVariable('CURHOST')->value;?>
+/upload/<?php echo $_smarty_tpl->getVariable('eventInfo')->value['id'];?>
+.jpg"
   
   <div id="event_details">
   <h3>Description</h3>

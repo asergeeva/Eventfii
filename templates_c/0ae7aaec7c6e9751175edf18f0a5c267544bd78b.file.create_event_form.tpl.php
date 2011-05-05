@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2011-05-03 09:09:51
+<?php /* Smarty version Smarty-3.0.7, created on 2011-05-05 08:44:49
          compiled from "templates/create_event_form.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:18385155584dbfc65f74b5d9-52633827%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:19669301154dc26381bb6d81-72759562%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '0ae7aaec7c6e9751175edf18f0a5c267544bd78b' => 
     array (
       0 => 'templates/create_event_form.tpl',
-      1 => 1304413784,
+      1 => 1304585073,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '18385155584dbfc65f74b5d9-52633827',
+  'nocache_hash' => '19669301154dc26381bb6d81-72759562',
   'function' => 
   array (
   ),
@@ -88,14 +88,19 @@ $_smarty_tpl->decodeProperties(array (
     </div>
   </div>
   <div class="event_field_pic">
-    <h2 class="event_form_section_header_radio">Upload picture</h2>
-		<input type="file" name="createEvent_picture" id="createEvent_picture" />
-  </div>
-  <div class="event_field_pic">
     <h2 class="event_form_section_header_radio">URL</h2>
 		<input type="text" name="createEvent_url" id="createEvent_url" disabled="disabled" value="<?php echo $_smarty_tpl->getVariable('CURHOST')->value;?>
 /event/<?php echo $_smarty_tpl->getVariable('maxEventId')->value;?>
 " />
+  </div>
+  <div class="event_field_pic">
+    <h2 class="event_form_section_header_radio">Upload picture</h2>
+    <div id="create-file-uploader">       
+        <noscript>          
+            <p>Please enable JavaScript to use file uploader.</p>
+            <!-- or put a simple form for upload here -->
+        </noscript>         
+    </div>
   </div>
   <a href="#" id="createEvent_submit" class="goButton">Go</a>
 </div>

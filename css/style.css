@@ -36,6 +36,10 @@ a {
 	font-size: 0px;
 }
 
+.upload_picture {
+	
+}
+
 table tr th {
 	text-align: left;
 }
@@ -49,9 +53,9 @@ table tr th {
 /* NAVIGATION */
 ul.top_nav {
 	list-style: none outside none;
-	margin-left: auto;
-	margin-right: auto;
 	width: 1024px;
+	float: right;
+	width: 25%;
 }
 
 ul.top_nav li {

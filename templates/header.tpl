@@ -5,3 +5,4 @@
 <title>Eventfii | {$title}</title>
 <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" />
 <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />
+<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/fileuploader.css" />

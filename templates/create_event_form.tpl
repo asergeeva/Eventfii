@@ -68,12 +68,17 @@
     </div>
   </div>
   <div class="event_field_pic">
-    <h2 class="event_form_section_header_radio">Upload picture</h2>
-		<input type="file" name="createEvent_picture" id="createEvent_picture" />
-  </div>
-  <div class="event_field_pic">
     <h2 class="event_form_section_header_radio">URL</h2>
 		<input type="text" name="createEvent_url" id="createEvent_url" disabled="disabled" value="{$CURHOST}/event/{$maxEventId}" />
+  </div>
+  <div class="event_field_pic">
+    <h2 class="event_form_section_header_radio">Upload picture</h2>
+    <div id="create-file-uploader">       
+        <noscript>          
+            <p>Please enable JavaScript to use file uploader.</p>
+            <!-- or put a simple form for upload here -->
+        </noscript>         
+    </div>
   </div>
   <a href="#" id="createEvent_submit" class="goButton">Go</a>
 </div>
