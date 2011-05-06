@@ -1,0 +1,14 @@
+/* NAVIGATION */
+ul.top_nav {
+	list-style: none outside none;
+	width: 900px;
+	float: right;
+}
+
+ul.top_nav li {
+	display: block;
+	width: 150px;
+	float: left;
+	margin-left: 25px;
+	margin-right: 25px;
+}

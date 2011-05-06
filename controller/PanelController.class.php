@@ -57,6 +57,7 @@ class PanelController {
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		
+		// Event profile page
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
 			$eventId = explode('/', $requestUri);
 			$eventId = $eventId[sizeof($eventId)-1];
@@ -77,6 +78,20 @@ class PanelController {
 				return;
 			}
 			$this->smarty->display('event_guest.tpl');
+			return;
+		}
+		
+		// User public profile page
+		if (preg_match("/user\/\d+/", $requestUri) > 0) {
+			$userId = explode('/', $requestUri);
+			$userId = $userId[sizeof($userId)-1];
+			
+			$this->assignCPEvents($userId);
+			if (isset($_SESSION['uid'])) {
+				$this->smarty->display('user_public_profile.tpl');
+				return;
+			}
+			$this->smarty->display('user_public_profile_guest.tpl');
 			return;
 		}
 		
