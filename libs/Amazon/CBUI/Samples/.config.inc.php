@@ -26,8 +26,8 @@
     * Access Key ID and Secret Acess Key ID, obtained from:
     * http://aws.amazon.com
     ***********************************************************************/
-    define('AWS_ACCESS_KEY_ID', '<Your aws access key>');
-    define('AWS_SECRET_ACCESS_KEY', '<Your aws secret key>');  
+    define('AWS_ACCESS_KEY_ID', 'AKIAIIL3QTICJPNAOJ5A');
+    define('AWS_SECRET_ACCESS_KEY', 'BJmeh36QQaiL3YB+iMXgk185kl5LI7X+yjYmU/Gj');  
 
  
    /************************************************************************ 

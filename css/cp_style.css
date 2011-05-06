@@ -4,6 +4,14 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+ 
+/* NAVIGATION */
+ul.top_nav {
+	list-style: none outside none;
+	width: 1024px;
+	float: right;
+	width: 25%;
+}
 
 /* CONTROL PANEL */
 #cp_container {

@@ -1,41 +1,45 @@
 <div id="event_info">
-  <h2>{$eventInfo['title']}</h2>
-  <h3>Days left: {$eventInfo['days_left']}</h3>
+  <h2 id="event_title">{$eventInfo['title']}</h2>
   
-  <img src="{$CURHOST}/upload/{$eventInfo['id']}.jpg"
-  
-  <div id="event_details">
-  <h3>Description</h3>
-  {$eventInfo['description']}
+  <div id="time_info">
+    <h3 id="event_dayleft">{$eventInfo['days_left']} days left</h3>
+    <div id="event_datetime">
+      <strong>When:</strong> {$eventInfo['event_datetime']}
+    </div>
   </div>
   
-  <div id="event_location">
-  <h3>Location</h3>
-  {$eventInfo['location_address']}
+  <div id="event_picture_container">
+  	<img src="{$CURHOST}/upload/{$eventInfo['id']}.jpg" id="event_picture" />
   </div>
   
-  <div id="event_datetime">
-  <h3>Date &amp; Time</h3>
-  {$eventInfo['event_datetime']}
-  </div>
-  
-  <div id="event_attendance">
-  <h3>Spots</h3>
-  {$curSignUp} / {$eventInfo['min_spot']}
-  </div>
-  
-  <div id="event_organizer">
-  <h3>Event Organizer</h3>
-  {$organizer['fname']} {$organizer['lname']}
-  </div>
-  
-  <div id="event_cost">
-  <h3>Cost</h3>
-  ${$eventInfo['cost']}
+  <div id="event_spots">
+  	{$curSignUp} / {$eventInfo['min_spot']} spots left
   </div>
   
   <div id="event_attending">
-  <h2>Attending?</h2>
-  <a href="#" id="event-{$eventId}"><img src="{$EP_IMG_PATH}/yes.png" class="ep_yes" id="attend_event_confirm" /></a>
+    <a href="#" id="event-{$eventId}"><img src="{$EP_IMG_PATH}/yes.png" class="ep_yes" id="attend_event_confirm" /></a>
+    <div id="event_cost_attend">${$eventInfo['cost']}/spot</div>
+  </div>
+  
+  <div id="event_metadata">
+    <div id="event_description">
+    {$eventInfo['description']}
+    </div>
+    
+    <div id="event_location">
+    at {$eventInfo['location_address']}
+    </div>
+        
+    <div id="event_cost">
+    ${$eventInfo['cost']} <span id="event_gets_price">gets you</span>
+    	<div id="event_gets">
+      {$eventInfo['gets']}
+      </div>
+    </div>
+    
+    <div id="event_organizer">
+    This event is organized by
+    {$organizer['fname']} {$organizer['lname']}
+    </div>
   </div>
 </div>

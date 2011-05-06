@@ -51,13 +51,6 @@ table tr th {
 }
 
 /* NAVIGATION */
-ul.top_nav {
-	list-style: none outside none;
-	width: 1024px;
-	float: right;
-	width: 25%;
-}
-
 ul.top_nav li {
 	display: block;
 	width: 150px;

@@ -180,6 +180,9 @@ class PanelController {
 				
 				$this->checkNewEvent($newEvent);
 				break;
+			case '/payment/success':
+				$this->smarty->display('payment_success.tpl');
+				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
 					$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);

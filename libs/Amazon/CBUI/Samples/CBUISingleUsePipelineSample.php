@@ -30,7 +30,7 @@ class CBUISingleUsePipelineSample {
         $pipeline = new Amazon_FPS_CBUISingleUsePipeline(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
 
         $pipeline->setMandatoryParameters("callerReferenceSingleUse",  
-                "http://www.mysite.com/call_back.jsp", "5");
+                "http://localhost/payment/success", "5");
         
         //optional parameters
         $pipeline->addParameter("currencyCode", "USD");
