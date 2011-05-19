@@ -1,5 +1,5 @@
 <?php
-require('db/DBConfig.class.php');
+require_once('db/DBConfig.class.php');
 
 class PanelController {
 	private $smarty;
@@ -15,14 +15,34 @@ class PanelController {
 	}
 	
 	private function assignCPEvents($uid) {
-		$createdEvents = $this->dbCon->getEventByEO($uid);
-		$attendingEvents = $this->dbCon->getEventAttendingBy($uid);
-		$userInfo = $this->dbCon->getUserInfo($uid);
-		
 		$this->smarty->assign('maxEventId', $this->dbCon->getMaxEventId());
 		
-		$this->smarty->assign('createdEvents', $createdEvents);
+		$this->assignCreatedEvents($uid);
+		$this->assignUserProfile($uid);
+		$this->assignAttendingEvents($uid);
+	}
+	
+	private function assignAttendingEvents($uid) {
+		$attendingEvents = $this->dbCon->getEventAttendingBy($uid);
+		
 		$this->smarty->assign('attendingEvents', $attendingEvents);
+	}
+	
+	private function assignCreatedEvents($uid) {
+		$createdEvents = $this->dbCon->getEventByEO($uid);
+		for ($i = 0; $i < sizeof($createdEvents); ++$i) {
+			if ($this->dbCon->getCurSignup($createdEvents[$i]['id']) == $createdEvents[$i]['min_spot']) {
+				$createdEvents[$i]['collect_button'] = "<img src='".CURHOST."/images/up/collect.png' onclick=\"CP_EVENT.collectPaymentEvent('collect-".$createdEvents[$i]['id']."')\" />";
+			}
+		}
+		$this->smarty->assign('createdEvents', $createdEvents);
+	}
+	
+	private function assignUserProfile($uid) {
+		$userInfo = $this->dbCon->getUserInfo($uid);
+		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
+		
+		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
 		$this->smarty->assign('userInfo', $userInfo);
 	}
 	
@@ -36,7 +56,7 @@ class PanelController {
 		}
 	}
 	
-	public function checkNewEvent($newEvent) {
+	public function checkNewEvent($newEvent, $loadCp) {
 		if (isset($newEvent)) {
 			$_SESSION['newEvent'] = json_encode($newEvent);
 		}
@@ -48,7 +68,12 @@ class PanelController {
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
-			$this->smarty->display('cp_container.tpl');
+			
+			if ($loadCp) {
+				$this->smarty->display('cp.tpl');
+			} else {
+				$this->smarty->display('cp_container.tpl');	
+			}
 		} else {
 			$this->smarty->display('login.tpl');
 		}
@@ -111,7 +136,7 @@ class PanelController {
 				$this->smarty->display('create_event_home.tpl');
 				break;
 			case '/event/create':
-				require('models/Event.class.php');
+				require_once('models/Event.class.php');
 				
 				$this->smarty->assign('eventTitle', $_REQUEST['eventTitle']);
 				$this->smarty->assign('eventId', $this->dbCon->getMaxEventId());
@@ -119,7 +144,7 @@ class PanelController {
 				$this->smarty->display('cp.tpl');
 				break;
 			case '/event/update':
-				require('models/Event.class.php');
+				require_once('models/Event.class.php');
 				$eventInfo = new Event($_SESSION['uid'],
 															 $_REQUEST['title'], 
 															 $_REQUEST['url'], 
@@ -140,8 +165,8 @@ class PanelController {
 				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
-				require('models/Event.class.php');
-				require('models/Location.class.php');
+				require_once('models/Event.class.php');
+				require_once('models/Location.class.php');
 				
 				$newEvent = new Event($_SESSION['uid'],
 															$_REQUEST['title'], 
@@ -158,17 +183,23 @@ class PanelController {
 															$_REQUEST['gets']);
 				
 				
-				$this->checkNewEvent($newEvent);
+				$this->checkNewEvent($newEvent, false);
 				break;
 			case '/event/image/upload':
-				require('models/FileUploader.class.php');
+				require_once('models/FileUploader.class.php');
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("jpg");
+				
+				// max file size in bytes
+				$sizeLimit = 10 * 1024 * 1024;
+				
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('upload/event/');
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/event/attend':
-				if ($this->dbCon->eventSignUp($_REQUEST['uid'], $_REQUEST['eid'])) {
-					$this->smarty->display('event_signup_success.tpl');
-					break;
-				}
-				$this->smarty->display('event_signup_failed.tpl');
+				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_REQUEST['eid']);
 				break;
 			case '/event/edit':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
@@ -192,11 +223,59 @@ class PanelController {
 				}
 				
 				$_SESSION['uid'] = $userId;
-				
-				$this->checkNewEvent($newEvent);
+				$this->checkNewEvent($newEvent, true);
 				break;
-			case '/payment/success':
-				$this->smarty->display('payment_success.tpl');
+			case '/user/profile/update':
+				$this->dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
+				$this->assignUserProfile($_SESSION['uid']);
+				
+				$this->smarty->display('user_profile.tpl');
+				break;
+			case '/event/payment/submit':
+				require_once('models/PaypalPreapproveReceipt.class.php');
+				
+				$paypalPreapprove = new PaypalPreapproveReceipt();
+				$paypalPreapprove->preapprove();
+				break;
+			case '/event/payment/success':
+				require_once('models/PaypalPreapproveDetails.class.php');
+
+			  if ($this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['attend_event']['id']) &&
+								isset($_SESSION['uid'])) {
+					$paypalPreapprove = new PaypalPreapproveDetails();
+					$paypalPreapprove->preapprove();
+					$this->dbCon->preapprovePayment($_SESSION['uid'],
+																					$_SESSION['attend_event']['id'], 
+																					$paypalPreapprove->preapprovalKey, 
+																					$paypalPreapprove->response->senderEmail);
+									
+					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+					$this->smarty->assign('userInfo', $userInfo);
+					
+					$this->smarty->display('payment_success.tpl');
+					break;
+				}
+				$this->smarty->display('payment_failed.tpl');
+				break;
+			case '/event/payment/failed':
+				$this->smarty->display('payment_failed.tpl');
+				break;
+			case '/payment/collect':
+				require_once('models/PaypalPayReceipt.class.php');
+				$paypalPay = new PaypalPayReceipt();
+				
+				$attendees = $this->dbCon->getAttendees($_REQUEST['eventId']);
+				
+				// TODO: NON-ATOMIC OPERATION
+				// PayPal doesn't provide an API to receive payments from multiple senders
+				// But it provides an API to send payments to multiple receivers
+				for ($i = 0; $i < sizeof($attendees); ++$i) {
+					$paypalPay->pay($attendees[$i]['pemail'], $_REQUEST['receiver_email'], 
+													$attendees[$i]['cost'], $attendees[$i]['pkey']);
+				}
+				$this->dbCon->updateCollected($_REQUEST['eventId']);
+				$this->assignCreatedEvents($_SESSION['uid']);
+				$this->smarty->display('event_created.tpl');
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
@@ -206,10 +285,10 @@ class PanelController {
 					if (isset($_SESSION['newEvent'])) {
 						$newEvent = json_decode($_SESSION['newEvent'], true);
 						$newEvent['organizer'] = $userId;
-						$this->checkNewEvent($newEvent);
+						$this->checkNewEvent($newEvent, false);
 						break;
 					}
-					$this->checkNewEvent(NULL);
+					$this->checkNewEvent(NULL, false);
 					break;
 				}
 				$this->checkHome();

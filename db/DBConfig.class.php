@@ -71,6 +71,15 @@ class DBConfig {
 		return $maxId['max_id'] + 1;
 	}
 	
+	public function getMaxRecipientTokenId() {
+		$GET_MAX_EFID = "SELECT MAX(e.id) AS max_id FROM ef_recipient_token e";
+		$maxId = $this->executeQuery($GET_MAX_EFID);
+		if (is_null($maxId['max_id'])) {
+			return 1;
+		}
+		return $maxId['max_id'] + 1;
+	}
+	
 	public function checkValidUser($email, $pass) {
 		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
@@ -92,8 +101,21 @@ class DBConfig {
 		$this->executeUpdateQuery($CREATE_NEW_USER);
 	}
 	
+	public function createUserToken($uid, $signature, $refundTokenId, $tokenId, $callerRef) {
+		$CREATE_USER_TOKEN = "INSERT INTO ef_recipient_token (uid, token_id, refund_token_id, ref, sig)
+														VALUES (".$uid.", '".$tokenId."', '".$refundTokenId."', '".$callerRef."', '".$signature."')";
+		$this->executeUpdateQuery($CREATE_USER_TOKEN);
+	}
+	
+	public function getUserTokenId($uid) {
+		$GET_USER_TOKEN = "SELECT * FROM ef_recipient_token e WHERE e.uid = ".$uid;
+		return $this->executeQuery($GET_USER_TOKEN);
+	}
+	
 	public function getCurSignup($eid) {
-		$GET_CUR_SIGNUP = "SELECT COUNT(*) AS cur_signups FROM ef_attendance a WHERE a.event_id = ".$eid;
+		$GET_CUR_SIGNUP = "SELECT COUNT(*) AS cur_signups, e.is_collected 
+													FROM ef_attendance a, ef_events e 
+											 WHERE a.event_id = e.id AND e.is_collected = 0 AND a.event_id = ".$eid;
 		$curSignUp = $this->executeQuery($GET_CUR_SIGNUP);
 		return $curSignUp['cur_signups'];
 	}
@@ -187,7 +209,7 @@ class DBConfig {
 	}
 	
 	public function getEventInfo($eid) {
-		$GET_EVENT = "SELECT DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
+		$GET_EVENT = "SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
 										e.created, e.organizer, e.title, e.url, e.min_spot, e.max_spot, 
 										e.location_address, e.event_datetime, e.event_deadline, 
 										e.description, e.cost, e.is_public, e.gets 
@@ -210,5 +232,38 @@ class DBConfig {
 			return true;
 		}
 		return false;
+	}
+	
+	public function preapprovePayment($uid, $eid, $pkey, $pemail) {
+		$PREAPPROVE_PAYMENT = "INSERT INTO ef_event_preapprovals (uid, eid, pkey, pemail) 
+		                          VALUES (".$uid.", '".$eid."', '".$pkey."', '".$pemail."')";
+		$this->executeUpdateQuery($PREAPPROVE_PAYMENT);
+	}
+	
+	public function getPaypalEmail($uid) {
+		$GET_PAYPAL_EMAIL = "SELECT * FROM ef_paypal_accounts e WHERE e.uid = ".$uid;
+		return $this->executeQuery($GET_PAYPAL_EMAIL);
+	}
+	
+	public function updatePaypalEmail($uid, $pemail) {
+		if ($this->getPaypalEmail($uid) > 0) {
+			$UPDATE_PAYPAL_EMAIL = "UPDATE ef_paypal_accounts e SET e.pemail = '".$pemail."' WHERE e.uid = ".$uid;
+			$this->executeUpdateQuery($UPDATE_PAYPAL_EMAIL);
+		} else {
+			$INSERT_PAYPAL_EMAIL = "INSERT INTO ef_paypal_accounts (uid, pemail) VALUES (".$uid.", '".$pemail."')";
+			$this->executeUpdateQuery($INSERT_PAYPAL_EMAIL);
+		}
+	}
+	
+	public function getAttendees($eid) {
+		$GET_ATTENDEES = "SELECT p.uid, p.eid, p.pkey, p.pemail, e.cost 
+													FROM ef_event_preapprovals p, ef_events e 
+											WHERE p.eid = e.id AND p.eid = ".$eid;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	public function updateCollected($eid) {
+		$UPDATE_COLLECTED = "UPDATE ef_events e SET e.is_collected = 1 WHERE e.id = ".$eid;
+		$this->executeUpdateQuery($UPDATE_COLLECTED);
 	}
 }

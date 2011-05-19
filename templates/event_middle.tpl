@@ -9,7 +9,7 @@
   </div>
   
   <div id="event_picture_container">
-  	<img src="{$CURHOST}/upload/{$eventInfo['id']}.jpg" id="event_picture" />
+  	<img src="{$CURHOST}/upload/event/{$eventInfo['id']}.jpg" id="event_picture" />
   </div>
   
   <div id="event_spots">
@@ -17,7 +17,12 @@
   </div>
   
   <div id="event_attending">
-    <a href="#" id="event-{$eventId}"><img src="{$EP_IMG_PATH}/yes.png" class="ep_yes" id="attend_event_confirm" /></a>
+ 		<form id="attend_event_form" name="attend_event_form" action="{$CURHOST}/event/payment/submit">
+    	<input type="hidden" name="maxTotalAmountOfAllPayments" value="{$eventInfo['cost']}" />
+    	<a href="#" id="event-{$eventId}">
+      	<img src="{$EP_IMG_PATH}/yes.png" class="ep_yes" id="attend_event_confirm" />
+      </a>
+    </form>
     <div id="event_cost_attend">${$eventInfo['cost']}/spot</div>
   </div>
   

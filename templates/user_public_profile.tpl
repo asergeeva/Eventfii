@@ -19,7 +19,7 @@
       </div>
       <div id="user_profile_container">
         <h2>Profile</h2>
-        {include file="user_profile.tpl"}
+        {include file="user_profile_pub.tpl"}
       </div>
     </div>
     <div id="footer"></div>

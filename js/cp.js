@@ -7,21 +7,6 @@
 $(document).ready(function() {
 	$("img[rel]").overlay();
 	CREATE_EVENT_FORM.init();
-	
-	var eventUrlDOM = $('#createEvent_url').val();
-	if (eventUrlDOM !== undefined) {
-		var eventUrlToken = eventUrlDOM.split('/'),
-				eid = eventUrlToken[eventUrlToken.length - 1];
-		
-		var uploader = new qq.FileUploader({
-			// pass the dom node (ex. $(selector)[0] for jQuery users)
-			element: $('#update-file-uploader')[0],
-			// path to server-side upload script
-			action: EFGLOBAL.baseUrl + '/event/image/upload',
-			// additional data
-			params: {eventId: eid}
-		});
-	}
 });
 
 var CP_EVENT = (function() {
@@ -56,6 +41,22 @@ var CP_EVENT = (function() {
 					$('#updateEvent_ispublic_no').attr('checked', 'checked');
 				}
 				$('#updateEvent_url').val(eventInfo.url);
+				
+				// Update image uploader init
+				var eventUrlDOM = $('#updateEvent_url').val();
+				if (eventUrlDOM !== undefined) {
+					var eventUrlToken = eventUrlDOM.split('/'),
+							eid = eventUrlToken[eventUrlToken.length - 1];
+					
+					var uploader = new qq.FileUploader({
+						// pass the dom node (ex. $(selector)[0] for jQuery users)
+						element: $('#update-file-uploader')[0],
+						// path to server-side upload script
+						action: EFGLOBAL.baseUrl + '/event/image/upload',
+						// additional data
+						params: {eventId: eid}
+					});
+				}
 			});
 		},
 		
@@ -86,6 +87,28 @@ var CP_EVENT = (function() {
 			$('#container').html(updatedContainer).ready(function() {
 				$("img[rel]").overlay();
 			});
+		},
+		
+		collectPaymentEvent: function(eid) {
+			$.post(EFGLOBAL.baseUrl + '/payment/collect', {
+				eventId: eid.split('-')[1],
+				receiver_email: $('#paypal_email').val()
+			}, this.collectPaymentEventCB);
+		},
+		
+		collectPaymentEventCB: function(createdEventContainer) {
+			$('#created_events').html(createdEventContainer);
+		},
+		
+		updateProfile: function(uid) {
+			$.post(EFGLOBAL.baseUrl + '/user/profile/update', {
+				paypal_email: $('#paypal_email').val()
+			}, this.updateProfileCB);
+			$('#user_profile').html(EFGLOBAL.ajaxLoader);
+		},
+		
+		updateProfileCB: function(profileContainer) {
+			$('#user_profile').html(profileContainer);
 		}
 	}
 })();

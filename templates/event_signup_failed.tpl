@@ -1,1 +1,0 @@
-<h2>You already signed up to this event!</h2>

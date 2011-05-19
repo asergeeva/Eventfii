@@ -27,9 +27,9 @@ var LOGIN_FORM = (function() {
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
-		userLogin: function(homeContainer) {
+		userLogin: function(cpContainer) {
 			$('body').attr('id', 'cp_body');
-			$('#container').html(homeContainer);
+			$('#container').html(cpContainer);
 			$("img[rel]").overlay();
 			CREATE_EVENT_FORM.init();
 		}

@@ -15,6 +15,5 @@
 <div id="user_profile_container">
 	<h2>Profile</h2>
   {include file="user_profile.tpl"}
-  
   <a href="#"><img src="{$UP_IMG_PATH}/startnew.png" id="create_new_event" rel="#create_event_form_overlay" /></a>
 </div>

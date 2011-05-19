@@ -11,7 +11,7 @@ $(document).ready(function() {
 				uid: $('#current_user').find('a').attr('id').split('-')[1],
 				eid: $('#attend_event_confirm').parent().attr('id').split('-')[1]
 			}, function(resultPage) {
-			$('#event_info').html(resultPage);
+			$('#attend_event_form').submit();
 		});
 	});
 });

@@ -29,3 +29,8 @@ $smarty->assign('UP_IMG_PATH', UP_IMG_PATH);
 
 $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
+
+define('PAYPAL_REDIRECT_URL', 'https://www.sandbox.paypal.com/webscr&cmd=');
+define('DEVELOPER_PORTAL', 'https://developer.paypal.com');
+define('DEVICE_ID', 'PayPal_Platform_PHP_SDK');
+define('APPLICATION_ID', 'APP-80W284485P519543T');

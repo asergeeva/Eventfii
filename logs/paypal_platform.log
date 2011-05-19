@@ -1,0 +1,1490 @@
+02:35:59 05/17/11 caller [info] #####SOAP#####
+02:35:59 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:36:00 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1815="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1815:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:36:00.678-07:00</timestamp><ack>Failure</ack><correlationId>e85c6f0b1fe6e</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:36:05 05/17/11 caller [info] #####SOAP#####
+02:36:05 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:36:05 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1829="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1829:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:36:05.390-07:00</timestamp><ack>Failure</ack><correlationId>499d090c20e6a</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:36:05 05/17/11 caller [info] #####SOAP#####
+02:36:05 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:36:05 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1816="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1816:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:36:05.882-07:00</timestamp><ack>Failure</ack><correlationId>dbb33fff212d1</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:36:14 05/17/11 caller [info] #####SOAP#####
+02:36:14 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:36:14 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1915="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1915:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:36:14.729-07:00</timestamp><ack>Failure</ack><correlationId>131d49f1235a0</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:36:14 05/17/11 caller [info] #####SOAP#####
+02:36:14 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:36:15 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1830="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1830:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:36:15.256-07:00</timestamp><ack>Failure</ack><correlationId>d3159e8b234e8</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:38:51 05/17/11 caller [info] #####SOAP#####
+02:38:51 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:38:51 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1834="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1834:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:38:51.551-07:00</timestamp><ack>Failure</ack><correlationId>df07116849785</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:38:51 05/17/11 caller [info] #####SOAP#####
+02:38:51 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:38:52 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1819="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1819:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:38:52.048-07:00</timestamp><ack>Failure</ack><correlationId>5c79c8bf49be5</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:40:29 05/17/11 caller [info] #####SOAP#####
+02:40:29 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:40:29 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1835="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1835:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:40:29.533-07:00</timestamp><ack>Failure</ack><correlationId>6ce3ced761653</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:40:29 05/17/11 caller [info] #####SOAP#####
+02:40:29 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:40:30 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1820="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1820:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:40:30.032-07:00</timestamp><ack>Failure</ack><correlationId>9c4cd2c261ab9</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:40:37 05/17/11 caller [info] #####SOAP#####
+02:40:37 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:40:37 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1919="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1919:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:40:37.497-07:00</timestamp><ack>Failure</ack><correlationId>c46ade5663805</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:41:40 05/17/11 caller [info] #####SOAP#####
+02:41:40 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:41:40 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1836="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1836:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:41:40.501-07:00</timestamp><ack>Failure</ack><correlationId>054dfc0472b98</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:41:40 05/17/11 caller [info] #####SOAP#####
+02:41:40 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:41:41 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1821="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1821:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:41:40.998-07:00</timestamp><ack>Failure</ack><correlationId>b03abe1b72fed</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:41:44 05/17/11 caller [info] #####SOAP#####
+02:41:44 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:41:45 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1920="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1920:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:41:45.303-07:00</timestamp><ack>Failure</ack><correlationId>316380b67411b</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:41:45 05/17/11 caller [info] #####SOAP#####
+02:41:45 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:41:45 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1921="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1921:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:41:45.678-07:00</timestamp><ack>Failure</ack><correlationId>d4f3dfa47429f</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:44:26 05/17/11 caller [info] #####SOAP#####
+02:44:26 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:44:26 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1924="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1924:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:44:26.641-07:00</timestamp><ack>Failure</ack><correlationId>63b6183a9b791</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+02:44:26 05/17/11 caller [info] #####SOAP#####
+02:44:26 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+02:44:27 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1842="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1842:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T19:44:27.128-07:00</timestamp><ack>Failure</ack><correlationId>81c2f9409b6bf</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:25:19 05/17/11 caller [info] #####SOAP#####
+06:25:19 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:25:19 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1955="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1955:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:25:19.721-07:00</timestamp><ack>Failure</ack><correlationId>9155623d3f71f</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:25:19 05/17/11 caller [info] #####SOAP#####
+06:25:19 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:25:20 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1860="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1860:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:25:20.174-07:00</timestamp><ack>Failure</ack><correlationId>d8bc08363f636</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:27:28 05/17/11 caller [info] #####SOAP#####
+06:27:28 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:27:28 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1848="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1848:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:27:28.632-07:00</timestamp><ack>Failure</ack><correlationId>ebdda3f25ee6d</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:27:28 05/17/11 caller [info] #####SOAP#####
+06:27:28 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:27:29 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1956="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1956:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:27:29.126-07:00</timestamp><ack>Failure</ack><correlationId>2e63a3925f0b3</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:27:43 05/17/11 caller [info] #####SOAP#####
+06:27:43 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:27:44 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1861="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1861:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:27:44.295-07:00</timestamp><ack>Failure</ack><correlationId>c74cca4962964</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:27:44 05/17/11 caller [info] #####SOAP#####
+06:27:44 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:27:44 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1862="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1862:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:27:44.817-07:00</timestamp><ack>Failure</ack><correlationId>f25097a662b54</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:31:57 05/17/11 caller [info] #####SOAP#####
+06:31:57 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:31:58 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1957="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1957:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:31:58.166-07:00</timestamp><ack>Failure</ack><correlationId>231aaef6a0be2</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:31:58 05/17/11 caller [info] #####SOAP#####
+06:31:58 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:31:58 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1863="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1863:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:31:58.698-07:00</timestamp><ack>Failure</ack><correlationId>cdc4d751a0b32</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:32:08 05/17/11 caller [info] #####SOAP#####
+06:32:08 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:32:09 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1958="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1958:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:32:09.298-07:00</timestamp><ack>Failure</ack><correlationId>b434d805a3763</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:32:09 05/17/11 caller [info] #####SOAP#####
+06:32:09 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:32:09 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1864="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1864:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:32:09.788-07:00</timestamp><ack>Failure</ack><correlationId>2a419d86a368b</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:35:33 05/17/11 caller [info] #####SOAP#####
+06:35:33 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:35:33 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1865="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1865:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:35:33.560-07:00</timestamp><ack>Failure</ack><correlationId>5aa2259ad52ae</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:35:33 05/17/11 caller [info] #####SOAP#####
+06:35:33 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:35:34 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1849="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1849:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:35:34.078-07:00</timestamp><ack>Failure</ack><correlationId>dafda15bd5719</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:38:57 05/17/11 caller [info] #####SOAP#####
+06:38:57 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:38:58 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1959="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1959:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:38:58.314-07:00</timestamp><ack>Failure</ack><correlationId>5ccfc4fa0753d</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:39:04 05/17/11 caller [info] #####SOAP#####
+06:39:04 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:39:05 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1850="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1850:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:39:05.227-07:00</timestamp><ack>Failure</ack><correlationId>cfe133f108fff</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:39:52 05/17/11 caller [info] #####SOAP#####
+06:39:52 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:39:52 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1960="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1960:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:39:52.710-07:00</timestamp><ack>Failure</ack><correlationId>e6a5d619149b7</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:39:54 05/17/11 caller [info] #####SOAP#####
+06:39:54 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:39:54 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1866="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1866:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:39:54.778-07:00</timestamp><ack>Failure</ack><correlationId>6edd775114f1f</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:40:13 05/17/11 caller [info] #####SOAP#####
+06:40:13 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>1971-01-01</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>1970-01-01</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:40:13 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1961="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1961:Server</faultcode><faultstring>The start date must be in the future</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:40:13.455-07:00</timestamp><ack>Failure</ack><correlationId>f651927f19ac7</correlationId><build>1867348</build></responseEnvelope><error><errorId>580024</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The start date must be in the future</message><parameter>startingDate</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+06:40:57 05/17/11 caller [info] #####SOAP#####
+06:40:57 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:40:58 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:40:58.047-07:00</timestamp><ack>Success</ack><correlationId>7fe5644924620</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-8NL781732X515971Y</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:41:02 05/17/11 caller [info] #####SOAP#####
+06:41:02 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:41:02 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:41:02.773-07:00</timestamp><ack>Success</ack><correlationId>7484ab6125af9</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-6BY664583U810542U</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:41:23 05/17/11 caller [info] #####SOAP#####
+06:41:23 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:41:24 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:41:24.160-07:00</timestamp><ack>Success</ack><correlationId>723bc23f2aeb0</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-17B01086016021631</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:41:24 05/17/11 caller [info] #####SOAP#####
+06:41:24 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:41:24 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:41:24.689-07:00</timestamp><ack>Success</ack><correlationId>a5bbabb12b110</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-7H8973830X545491R</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:50:11 05/17/11 caller [info] #####SOAP#####
+06:50:11 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:50:11 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:50:11.485-07:00</timestamp><ack>Success</ack><correlationId>bc4b0b05ab843</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-89C68471AE016392X</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:50:11 05/17/11 caller [info] #####SOAP#####
+06:50:11 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:50:12 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:50:11.997-07:00</timestamp><ack>Success</ack><correlationId>1db337eaabcb5</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-9CB06991V2325132A</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:55:09 05/17/11 caller [info] #####SOAP#####
+06:55:09 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:55:09 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:55:09.753-07:00</timestamp><ack>Success</ack><correlationId>5f86b963f483e</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-4B6772066K2070153</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:55:09 05/17/11 caller [info] #####SOAP#####
+06:55:09 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:55:10 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:55:10.239-07:00</timestamp><ack>Success</ack><correlationId>9edfd4f9f49e7</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-39T84580C90293347</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:58:05 05/17/11 caller [info] #####SOAP#####
+06:58:05 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:58:05 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:58:05.672-07:00</timestamp><ack>Success</ack><correlationId>548eb2211f4dd</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-0VL5138889271331S</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+06:58:05 05/17/11 caller [info] #####SOAP#####
+06:58:05 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+06:58:06 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-16T23:58:06.224-07:00</timestamp><ack>Success</ack><correlationId>868719f21f93f</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-7GX84630E56845924</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+07:01:35 05/17/11 caller [info] #####SOAP#####
+07:01:35 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+07:01:35 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T00:01:35.919-07:00</timestamp><ack>Success</ack><correlationId>41a585e252a30</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-4HH14467H8026994Y</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+07:04:20 05/17/11 caller [info] #####SOAP#####
+07:04:20 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+07:04:21 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T00:04:21.258-07:00</timestamp><ack>Success</ack><correlationId>a7f861057b275</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-5W7168109B377392K</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+07:06:14 05/17/11 caller [info] #####SOAP#####
+07:06:14 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+07:06:15 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T00:06:15.180-07:00</timestamp><ack>Success</ack><correlationId>1f11d04096fea</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-45449315NJ613620U</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+07:07:42 05/17/11 caller [info] #####SOAP#####
+07:07:42 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+07:07:42 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T00:07:42.871-07:00</timestamp><ack>Success</ack><correlationId>795fe78bac3f7</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-73632573389887243</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+17:00:38 05/17/11 caller [info] #####SOAP#####
+17:00:38 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+17:00:38 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T10:00:38.492-07:00</timestamp><ack>Success</ack><correlationId>20ea80409cf67</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-6AV18536320328136</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+17:01:03 05/17/11 caller [info] #####SOAP#####
+17:01:03 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-6AV18536320328136</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+17:01:03 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T10:01:03.535-07:00</timestamp><ack>Success</ack><correlationId>8ae75532a314d</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:38.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:38.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+19:59:34 05/17/11 caller [info] #####SOAP#####
+19:59:34 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+19:59:35 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T12:59:36.467-07:00</timestamp><ack>Success</ack><correlationId>78c0f3c9db061</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-9F724855M5894390L</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+20:02:16 05/17/11 caller [info] #####SOAP#####
+20:02:16 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-9F724855M5894390L</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+20:02:17 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T13:02:18.117-07:00</timestamp><ack>Success</ack><correlationId>a7de6feb025c8</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:36.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:36.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+20:36:29 05/17/11 caller [info] #####SOAP#####
+20:36:29 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+20:36:31 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T13:36:30.965-07:00</timestamp><ack>Success</ack><correlationId>772e7c78f7c53</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-14S29842PD8885339</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+20:42:04 05/17/11 caller [info] #####SOAP#####
+20:42:04 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+20:43:19 05/17/11 caller [info] response: 
+21:22:12 05/17/11 caller [info] #####SOAP#####
+21:22:12 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+21:22:15 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:22:16.168-07:00</timestamp><ack>Success</ack><correlationId>0dcfcec99611a</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-6KC38842MV470402A</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+21:23:14 05/17/11 caller [info] #####SOAP#####
+21:23:14 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-6KC38842MV470402A</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+21:23:15 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:23:16.848-07:00</timestamp><ack>Success</ack><correlationId>6dca0167a4dc5</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:16.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:16.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+21:30:17 05/17/11 caller [info] #####SOAP#####
+21:30:17 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+21:30:18 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:30:18.734-07:00</timestamp><ack>Success</ack><correlationId>3b98922e0bbc2</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-4PW7811433532361U</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+21:30:49 05/17/11 caller [info] #####SOAP#####
+21:30:49 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-4PW7811433532361U</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+21:30:52 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:30:50.640-07:00</timestamp><ack>Success</ack><correlationId>4f25f4d11382d</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:18.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:18.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+21:32:02 05/17/11 caller [info] #####SOAP#####
+21:32:02 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+21:32:03 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:32:03.164-07:00</timestamp><ack>Success</ack><correlationId>5bb2d67d255d1</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-98N21158G0763250L</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+21:32:29 05/17/11 caller [info] #####SOAP#####
+21:32:29 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-98N21158G0763250L</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+21:32:30 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:32:30.655-07:00</timestamp><ack>Success</ack><correlationId>13c24dfd2c119</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:03.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:03.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+21:33:55 05/17/11 caller [info] #####SOAP#####
+21:33:55 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <endingDate>2012-05-17</endingDate>
+    <returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl>
+    <startingDate>2011-05-17</startingDate>
+</PreapprovalRequest></soap:Body>
+</soap:Envelope>
+
+21:33:57 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:33:56.899-07:00</timestamp><ack>Success</ack><correlationId>4f7051744123d</correlationId><build>1867348</build></responseEnvelope><preapprovalKey>PA-35103029FX490030H</preapprovalKey></ns2:PreapprovalResponse></soapenv:Body></soapenv:Envelope>
+21:34:22 05/17/11 caller [info] #####SOAP#####
+21:34:22 05/17/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PreapprovalDetailsRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <preapprovalKey>PA-35103029FX490030H</preapprovalKey>
+</PreapprovalDetailsRequest></soap:Body>
+</soap:Envelope>
+
+21:34:25 05/17/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PreapprovalDetailsResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-17T14:34:23.605-07:00</timestamp><ack>Success</ack><correlationId>7385c55747a87</correlationId><build>1867348</build></responseEnvelope><approved>true</approved><cancelUrl>http://localhost:80/eventfii/event/payment/failed</cancelUrl><curPayments>0</curPayments><curPaymentsAmount>0.00</curPaymentsAmount><curPeriodAttempts>0</curPeriodAttempts><currencyCode>USD</currencyCode><dateOfMonth>0</dateOfMonth><dayOfWeek>NO_DAY_SPECIFIED</dayOfWeek><endingDate>2012-05-17T23:59:56.000-07:00</endingDate><paymentPeriod>NO_PERIOD_SPECIFIED</paymentPeriod><pinType>NOT_REQUIRED</pinType><returnUrl>http://localhost:80/eventfii/event/payment/success</returnUrl><senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail><startingDate>2011-05-17T00:00:56.000-07:00</startingDate><status>ACTIVE</status><displayMaxTotalAmount>false</displayMaxTotalAmount></ns2:PreapprovalDetailsResponse></soapenv:Body></soapenv:Envelope>
+07:51:17 05/18/11 caller [info] #####SOAP#####
+07:51:17 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+07:51:18 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2104="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2104:Server</faultcode><faultstring>Invalid request parameter: receiverList cannot be null</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T00:51:17.339-07:00</timestamp><ack>Failure</ack><correlationId>b0221b5f9553e</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>Invalid request parameter: receiverList cannot be null</message><parameter>receiverList</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+07:55:44 05/18/11 caller [info] #####SOAP#####
+07:55:44 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+07:55:45 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2002="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2002:Server</faultcode><faultstring>Invalid request parameter: receiverList cannot be null</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T00:55:44.563-07:00</timestamp><ack>Failure</ack><correlationId>dfa8e009d66ad</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>Invalid request parameter: receiverList cannot be null</message><parameter>receiverList</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+07:58:51 05/18/11 caller [info] #####SOAP#####
+07:58:51 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+07:58:52 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2003="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2003:Server</faultcode><faultstring>Invalid request parameter: receiverList cannot be null</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T00:58:52.039-07:00</timestamp><ack>Failure</ack><correlationId>97c0008d04304</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>Invalid request parameter: receiverList cannot be null</message><parameter>receiverList</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:03:00 05/18/11 caller [info] #####SOAP#####
+08:03:00 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:03:00 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2004="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2004:Server</faultcode><faultstring>Invalid request parameter: receiverList cannot be null</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:03:00.072-07:00</timestamp><ack>Failure</ack><correlationId>34eadbfa40c02</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>Invalid request parameter: receiverList cannot be null</message><parameter>receiverList</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:05:08 05/18/11 caller [info] #####SOAP#####
+08:05:08 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <receiverList>
+        <receiver>
+            <email>gradyf_1305615110_per@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:05:09 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2105="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2105:Server</faultcode><faultstring>The amount is invalid</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:05:08.537-07:00</timestamp><ack>Failure</ack><correlationId>ea28652f60472</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The amount is invalid</message><parameter>amount</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:06:17 05/18/11 caller [info] #####SOAP#####
+08:06:17 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <receiverList>
+        <receiver>
+            <email>gradyf_1305615110_per@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:06:18 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1984="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1984:Server</faultcode><faultstring>The amount is invalid</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:06:17.611-07:00</timestamp><ack>Failure</ack><correlationId>23759aae71209</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The amount is invalid</message><parameter>amount</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:08:06 05/18/11 caller [info] #####SOAP#####
+08:08:06 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <receiverList>
+        <receiver>
+            <email>gradyf_1305615110_per@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:08:07 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2005="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2005:Server</faultcode><faultstring>The amount is invalid</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:08:06.925-07:00</timestamp><ack>Failure</ack><correlationId>4dc306e18baed</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The amount is invalid</message><parameter>amount</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:09:00 05/18/11 caller [info] #####SOAP#####
+08:09:00 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <receiverList>
+        <receiver>
+            <email>gradyf_1305615110_per@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:09:01 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1985="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1985:Server</faultcode><faultstring>The amount is invalid</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:09:00.453-07:00</timestamp><ack>Failure</ack><correlationId>fd043d0c98e47</correlationId><build>1867348</build></responseEnvelope><error><errorId>580022</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The amount is invalid</message><parameter>amount</parameter><parameter>null</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:10:03 05/18/11 caller [info] #####SOAP#####
+08:10:03 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <preapprovalKey>PA-35103029FX490030H</preapprovalKey>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>gradyf_1305615110_per@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:10:04 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns2106="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns2106:Server</faultcode><faultstring>The sender and each receiver must have different accounts</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:10:03.799-07:00</timestamp><ack>Failure</ack><correlationId>3b40db6ba85f3</correlationId><build>1867348</build></responseEnvelope><error><errorId>579033</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>The sender and each receiver must have different accounts</message><parameter>gradyf_1305615110_per@laksmono.com</parameter><parameter>gradyf_1305615110_per@laksmono.com</parameter><parameter>1666641087075733794</parameter><parameter>1666641087075733794</parameter><parameter>Sender and receiver PayPal accounts must be unique.</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:18:37 05/18/11 caller [info] #####SOAP#####
+08:18:37 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <preapprovalKey>PA-35103029FX490030H</preapprovalKey>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+        </receiver>
+    </receiverList>
+    <senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:18:38 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault xmlns:axis2ns1986="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>axis2ns1986:Server</faultcode><faultstring>Invalid request: neither email nor phone is set receiverList.receiver(0)</faultstring><detail><ns3:FaultMessage xmlns:ns3="http://svcs.paypal.com/types/common" xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:18:37.760-07:00</timestamp><ack>Failure</ack><correlationId>b6fa674125dd2</correlationId><build>1867348</build></responseEnvelope><error><errorId>580001</errorId><domain>PLATFORM</domain><subdomain>Application</subdomain><severity>Error</severity><category>Application</category><message>Invalid request: neither email nor phone is set receiverList.receiver(0)</message><parameter>receiverList.receiver(0)</parameter></error></ns3:FaultMessage></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
+08:19:06 05/18/11 caller [info] #####SOAP#####
+08:19:06 05/18/11 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-1JE4291016473214C</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost:80/eventfii/payment/SetPay.php</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <preapprovalKey>PA-35103029FX490030H</preapprovalKey>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>gradyf_1305615151_biz@laksmono.com</email>
+        </receiver>
+    </receiverList>
+    <senderEmail>gradyf_1305615110_per@laksmono.com</senderEmail>
+    <returnUrl>http://localhost:80/eventfii/payment/PaymentDetails.php</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+08:19:09 05/18/11 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2011-05-18T01:19:09.135-07:00</timestamp><ack>Success</ack><correlationId>dd7ba3f32d022</correlationId><build>1867348</build></responseEnvelope><payKey>AP-3EN92483EG550994T</payKey><paymentExecStatus>COMPLETED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>

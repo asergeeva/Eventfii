@@ -1,4 +1,8 @@
 /* EVENT PROFILE PAGE */
+#event_info {
+	width: 600px;
+}
+
 #event_title {
 	font-size: 32px;
 	margin: 0px;
@@ -25,7 +29,7 @@
 #event_metadata {
 	clear:both;
 	background-color:#CCC;
-	width: 640px;
+	width: 600px;
 }
 
 #event_description {
@@ -44,6 +48,7 @@
 #event_spots {
 	font-size: 20px;
 	float: left;
+	margin-top: 8px;
 }
 
 #event_gets {
