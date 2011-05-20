@@ -5,6 +5,10 @@
 	font-family:Helvetica, "Trebuchet MS", Arial, sans-serif;
 }
 
+a {
+	color: #000;
+}
+
 body {
 	margin: 0px;
 	padding: 0px;

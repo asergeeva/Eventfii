@@ -298,6 +298,7 @@ class PanelController {
 				$this->smarty->display('home.tpl');
 				break;
 			default:
+				$this->smarty->assign('requestUri', $requestUri);
 				$this->smarty->display('error.tpl');
 				break;
 		}

@@ -7,7 +7,7 @@
     <div id="create_event_container">
       <form id="create_event_home" name="create_event_home" method="post" action="home">
       <input id="create_event_textarea" name="eventTitle" value="What are you planning?"></input>
-      <input type="image" name="event_submit_btn" id="event_submit_btn" src="images/biggobutton_03.png" />
+      <input type="image" name="event_submit_btn" id="event_submit_btn" src="images/fp/smallgo.png" />
       </form>
     </div>
   </div>

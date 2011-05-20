@@ -4,6 +4,28 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+ 
+var UPDATE_FILE_UPLOADER = (function() {
+	return {
+		init: function() {
+			var eventUrlDOM = $('#updateEvent_url').val();
+			if (eventUrlDOM !== undefined) {
+				var eventUrlToken = eventUrlDOM.split('/'),
+						eid = eventUrlToken[eventUrlToken.length - 1];
+				
+				var uploader = new qq.FileUploader({
+					// pass the dom node (ex. $(selector)[0] for jQuery users)
+					element: $('#update-file-uploader')[0],
+					// path to server-side upload script
+					action: EFGLOBAL.baseUrl + '/event/image/upload',
+					// additional data
+					params: {eventId: eid}
+				});
+			}
+		}
+	}
+})();
+
 $(document).ready(function() {
 	$("img[rel]").overlay();
 	CREATE_EVENT_FORM.init();
@@ -42,21 +64,7 @@ var CP_EVENT = (function() {
 				}
 				$('#updateEvent_url').val(eventInfo.url);
 				
-				// Update image uploader init
-				var eventUrlDOM = $('#updateEvent_url').val();
-				if (eventUrlDOM !== undefined) {
-					var eventUrlToken = eventUrlDOM.split('/'),
-							eid = eventUrlToken[eventUrlToken.length - 1];
-					
-					var uploader = new qq.FileUploader({
-						// pass the dom node (ex. $(selector)[0] for jQuery users)
-						element: $('#update-file-uploader')[0],
-						// path to server-side upload script
-						action: EFGLOBAL.baseUrl + '/event/image/upload',
-						// additional data
-						params: {eventId: eid}
-					});
-				}
+				UPDATE_FILE_UPLOADER.init();
 			});
 		},
 		

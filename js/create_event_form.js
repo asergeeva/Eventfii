@@ -4,21 +4,30 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-$(document).ready(function() {
-	var eventUrlDOM = $('#createEvent_url').val();
-	if (eventUrlDOM !== undefined) {
-		var eventUrlToken = eventUrlDOM.split('/'),
-				eid = eventUrlToken[eventUrlToken.length - 1];
-		
-		var uploader = new qq.FileUploader({
-			// pass the dom node (ex. $(selector)[0] for jQuery users)
-			element: $('#create-file-uploader')[0],
-			// path to server-side upload script
-			action: EFGLOBAL.baseUrl + '/event/image/upload',
-			// additional data
-			params: {eventId: eid}
-		});
+
+var CREATE_FILE_UPLOADER = (function() {
+	return {
+		init: function() {
+			var eventUrlDOM = $('#createEvent_url').val();
+			if (eventUrlDOM !== undefined) {
+				var eventUrlToken = eventUrlDOM.split('/'),
+						eid = eventUrlToken[eventUrlToken.length - 1];
+				
+				var uploader = new qq.FileUploader({
+					// pass the dom node (ex. $(selector)[0] for jQuery users)
+					element: $('#create-file-uploader')[0],
+					// path to server-side upload script
+					action: EFGLOBAL.baseUrl + '/event/image/upload',
+					// additional data
+					params: {eventId: eid}
+				});
+			}
+		}
 	}
+})();
+
+$(document).ready(function() {
+	CREATE_FILE_UPLOADER.init();
 });
  
 var CREATE_EVENT_FORM = (function() {
@@ -46,6 +55,7 @@ var CREATE_EVENT_FORM = (function() {
 			$('#createEvent_date').datepicker();
 			$('#createEvent_deadline').datepicker();
 			$('#createEvent_title').focus();
+			CREATE_FILE_UPLOADER.init();
 	 },
 	 
 	 createEventSubmit: function(loginForm) {

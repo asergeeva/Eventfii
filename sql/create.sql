@@ -15,7 +15,7 @@ CREATE TABLE ef_events (
   title             VARCHAR(1000) NOT NULL,
   url               VARCHAR(5000) NOT NULL,
   min_spot          INTEGER NOT NULL,
-  max_spot          INTEGER,
+  max_spot          INTEGER DEFAULT 0,
   location_address  VARCHAR(5000) NOT NULL,
   location_lat      DOUBLE,
   location_long     DOUBLE,
