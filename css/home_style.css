@@ -2,7 +2,8 @@
 ul.top_nav {
 	list-style: none outside none;
 	width: 1024px;
-	float: right;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* WELCOME */
@@ -77,6 +78,19 @@ ul.top_nav {
 	float: left;
 	clear: both;
 	margin-top: 100px;
+}
+
+/* NEW EVENTS */
+.new_events_container {
+	border: 1px solid #afafaf;
+	padding: 10px;
+	float: left;
+	margin: 5px;
+}
+
+.new_events_container h3 {
+	margin: 0px;
+	padding: 0px;
 }
 
 /* CREATE EVENT CONTAINER */

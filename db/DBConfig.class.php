@@ -266,4 +266,9 @@ class DBConfig {
 		$UPDATE_COLLECTED = "UPDATE ef_events e SET e.is_collected = 1 WHERE e.id = ".$eid;
 		$this->executeUpdateQuery($UPDATE_COLLECTED);
 	}
+	
+	public function getNewEvents() {
+		$GET_NEW_EVENTS = "SELECT * FROM ef_events ORDER BY event_datetime DESC LIMIT 3";
+		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
+	}
 }

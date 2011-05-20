@@ -52,6 +52,9 @@ class PanelController {
 			
 			$this->smarty->display('cp.tpl');
 		} else {
+			$newEvents = $this->dbCon->getNewEvents();
+
+			$this->smarty->assign('newEvents', $newEvents);
 			$this->smarty->display('home.tpl');
 		}
 	}

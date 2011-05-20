@@ -20,6 +20,14 @@
       </div>
       <div id="new_events">
         <h2>What's happening now?</h2>
+        {foreach name=events item=event from=$newEvents}
+        <div class="new_events_container">
+          <h3><a href="{$CURHOST}/event/{$event['id']}">{$event['title']}</a></h3>
+          <a href="{$CURHOST}/event/{$event['id']}">
+          	<img src="{$CURHOST}/upload/event/{$event['id']}.jpg" style="width:300px;height:200px;" />
+          </a>
+        </div>
+        {/foreach}
       </div>
     </div>
   </div>
