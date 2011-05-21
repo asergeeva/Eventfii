@@ -87,17 +87,32 @@ ul.top_nav {
 
 #event_created_container {
 	float: left;
-	width: 400px;
+	width: 340px;
+	border: 1px solid #AFAFAF;
+	margin: 5px;
+	padding: 10px;
 }
 
 #event_attended_container {
 	float: left;
-	width: 350px;
+	width: 340px;
+	border: 1px solid #AFAFAF;
+	margin: 5px;
+	padding: 10px;
+	padding: 10px;
 }
 
 #user_profile_container {
 	float: left;
 	width: 250px;
+	padding: 10px;
+}
+
+#event_created_container h2,
+#event_attended_container h2,
+#user_profile_container h2 {
+	margin: 0px;
+	padding: 0px;
 }
 
 #user_profile {

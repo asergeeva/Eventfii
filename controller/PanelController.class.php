@@ -40,10 +40,12 @@ class PanelController {
 	
 	private function assignUserProfile($uid) {
 		$userInfo = $this->dbCon->getUserInfo($uid);
+		$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
 		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
 		
 		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
 		$this->smarty->assign('userInfo', $userInfo);
+		$this->smarty->assign('currentUser', $currentUser);
 	}
 	
 	private function checkHome() {
@@ -93,6 +95,12 @@ class PanelController {
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
+			
+			if (isset($_SESSION['uid'])) {
+				$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
+				$this->smarty->assign('currentUser', $currentUser);
+			}
+			$eventInfo['description'] = stripslashes($eventInfo['description']);
 			
 			$this->smarty->assign('organizer', $organizer);
 			$this->smarty->assign('eventInfo', $eventInfo);
@@ -298,6 +306,9 @@ class PanelController {
 				break;
 			case '/logout':
 				session_unset();
+				$newEvents = $this->dbCon->getNewEvents();
+
+				$this->smarty->assign('newEvents', $newEvents);
 				$this->smarty->display('home.tpl');
 				break;
 			default:

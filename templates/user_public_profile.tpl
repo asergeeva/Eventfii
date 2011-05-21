@@ -10,7 +10,7 @@
     </div>
     <div id="middle">
       <div id="event_created_container">
-        <h2>Event created</h2>
+        <h2>Events created</h2>
         {include file="event_created_pub.tpl"}
       </div>
       <div id="event_attended_container">

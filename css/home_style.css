@@ -59,7 +59,8 @@ ul.top_nav {
 	background-repeat: no-repeat;
 	position: absolute;
 	margin-top: 85px;
-	margin-left: 180px;
+	margin-left: 150px;
+	padding-top: 25px;
 }
 
 #home_container #middle #logo_container {
@@ -69,8 +70,7 @@ ul.top_nav {
 
 #home_container #middle #steps_container {
 	width: 520px;
-	float: left;
-	margin-left: 480px;
+	float: right;
 	margin-top: 20px;
 }
 
@@ -101,9 +101,9 @@ ul.top_nav {
 
 #create_event_textarea {
 	width: 240px;
-	height: 30px;
-	font-size:14px;
-	margin-top: 13px;
+	height: 50px;
+	font-size: 20px;
+	margin-top: 3px;
 }
 
 #event_submit_btn {

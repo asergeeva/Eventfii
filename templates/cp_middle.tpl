@@ -5,7 +5,7 @@
 	{include file="update_event_form.tpl"}
 </div>
 <div id="event_created_container">
-	<h2>Event created</h2>
+	<h2>Events created</h2>
 	{include file="event_created.tpl"}
 </div>
 <div id="event_attended_container">
