@@ -40,12 +40,14 @@ class PanelController {
 	
 	private function assignUserProfile($uid) {
 		$userInfo = $this->dbCon->getUserInfo($uid);
-		$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
+		if (isset($_SESSION['uid'])) {
+			$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
+			$this->smarty->assign('currentUser', $currentUser);
+		}
 		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
 		
 		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
 		$this->smarty->assign('userInfo', $userInfo);
-		$this->smarty->assign('currentUser', $currentUser);
 	}
 	
 	private function checkHome() {
