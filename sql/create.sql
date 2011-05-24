@@ -6,7 +6,7 @@ CREATE TABLE ef_users (
   password  VARCHAR(5000) NOT NULL,
   about     VARCHAR(5000),
   verified  TINYINT(1) NOT NULL DEFAULT 0
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_events (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -26,24 +26,24 @@ CREATE TABLE ef_events (
   cost              FLOAT NOT NULL,
   is_public         TINYINT(1) NOT NULL DEFAULT 1,
   is_collected      TINYINT(1) NOT NULL DEFAULT 0
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_images (
   id        INTEGER PRIMARY KEY AUTO_INCREMENT,
   event_id  INTEGER NOT NULL REFERENCES ef_events(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_attendance (
   event_id          INTEGER NOT NULL REFERENCES ef_events(id),
   user_id           INTEGER NOT NULL REFERENCES ef_users(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
   created           TIMESTAMP NOT NULL,
   message           VARCHAR(160) NOT NULL,
   event_id          INTEGER NOT NULL REFERENCES ef_events(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_payments (
   id  INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE ef_event_payments (
   eid INTEGER NOT NULL REFERENCES ef_events(id),
   ref VARCHAR(5000) NOT NULL,
   sig VARCHAR(5000) NOT NULL
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_preapprovals (
   id     INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -59,9 +59,9 @@ CREATE TABLE ef_event_preapprovals (
   eid    INTEGER NOT NULL REFERENCES ef_events(id),
   pkey   VARCHAR(5000) NOT NULL,
   pemail VARCHAR(1000) NOT NULL
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE ef_paypal_accounts (
   uid    INTEGER NOT NULL REFERENCES ef_users(id),
   pemail VARCHAR(1000) NOT NULL
-);
+) ENGINE=InnoDB;
