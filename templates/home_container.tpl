@@ -14,9 +14,9 @@
   <div id="middle">
   	<div id="middle_container">
       <div id="steps_container">
-        <a href="#"><img src="images/icons_03.png" alt="Start with an idea and a goal" /></a>
-        <a href="#"><img src="images/icons_05.png" alt="Get people to join in" /></a>
-        <a href="#"><img src="images/icons_07.png" alt="Goal reached, event is on!" /></a>
+        <a href="#"><img src="{$IMG_PATH}/icons_03.png" alt="Start with an idea and a goal" /></a>
+        <a href="#"><img src="{$IMG_PATH}/icons_05.png" alt="Get people to join in" /></a>
+        <a href="#"><img src="{$IMG_PATH}/icons_07.png" alt="Goal reached, event is on!" /></a>
       </div>
       <div id="new_events">
         <h2>What's happening now?</h2>

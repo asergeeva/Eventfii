@@ -1,20 +1,23 @@
 <div id="login_container">
 	<div id="existing_user_login_form">
-    <h3>Existing</h3>
-    <table>
-        <tr>
-            <th>Email</th>
-            <td><input type="text" name="ef_login_email_exist" id="ef_login_email_exist" /></td>
-        </tr>
-        <tr>
-            <th>Password</th>
-            <td><input type="password" name="ef_login_pass_exist" id="ef_login_pass_exist" /></td>
-        </tr>
-        <tr>
-        	<th></th>
-            <td><button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button></td>
-        </tr>
-    </table>
+      <h3>Existing</h3>
+      <table id="regular_login">
+          <tr>
+              <th>Email</th>
+              <td><input type="text" name="ef_login_email_exist" id="ef_login_email_exist" /></td>
+          </tr>
+          <tr>
+              <th>Password</th>
+              <td><input type="password" name="ef_login_pass_exist" id="ef_login_pass_exist" /></td>
+          </tr>
+          <tr>
+            <th></th>
+              <td>
+              	<button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button>
+              	<fb:login-button>Login with Facebook</fb:login-button>
+              </td>
+          </tr>
+      </table>
     </div>
     
     <div id="new_user_login_form">

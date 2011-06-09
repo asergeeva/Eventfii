@@ -282,6 +282,7 @@ class PanelController {
 				// TODO: NON-ATOMIC OPERATION
 				// PayPal doesn't provide an API to receive payments from multiple senders
 				// But it provides an API to send payments to multiple receivers
+				// https://www.x.com/thread/52330?stqc=true
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$paypalPay->pay($attendees[$i]['pemail'], $_REQUEST['receiver_email'], 
 													$attendees[$i]['cost'], $attendees[$i]['pkey']);
