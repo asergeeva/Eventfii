@@ -3,7 +3,7 @@ CREATE TABLE ef_users (
   fname     VARCHAR(150) NOT NULL,
   lname     VARCHAR(150) NOT NULL,
   email     VARCHAR(1000) NOT NULL,
-  password  VARCHAR(5000) NOT NULL,
+  password  VARCHAR(5000),
   about     VARCHAR(5000),
   verified  TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
