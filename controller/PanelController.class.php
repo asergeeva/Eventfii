@@ -227,15 +227,15 @@ class PanelController {
 				print(json_encode($eventInfo));
 				break;
 			case '/user/create':
-				$this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);
-				$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
+				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
-					$newEvent['organizer'] = $userId;
+					$newEvent['organizer'] = $userInfo['id'];
 				}
 				
-				$_SESSION['uid'] = $userId;
+				
+				$_SESSION['uid'] = $userInfo['id'];
 				$this->checkNewEvent($newEvent, true);
 				break;
 			case '/user/profile/update':

@@ -27,6 +27,17 @@ var LOGIN_FORM = (function() {
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
+		fbUserLogin: function(userInfo) {
+			$.post(EFGLOBAL.baseUrl + '/user/create', {
+				isExist: false,
+				fname: userInfo.first_name,
+				lname: userInfo.last_name,
+				email: userInfo.email,
+				isFB: true
+			}, LOGIN_FORM.userLogin);
+			$('#middle').html(EFGLOBAL.ajaxLoader);
+		},
+		
 		userLogin: function(cpContainer) {
 			$('body').attr('id', 'cp_body');
 			$('#container').html(cpContainer);

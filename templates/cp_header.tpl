@@ -2,6 +2,6 @@
 <div id="profile_container">
 	<h3 id="current_user">Welcome, <a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">{$currentUser['fname']}</a></h3>
   <ul class="top_nav">
-  	<li><a href="{$CURHOST}/logout" id="signoff_link">Sign off</a></li>
+  	<li><a href="{$CURHOST}/logout" onclick="FB.logout()">Sign off</a></li>
   </ul>
 </div>

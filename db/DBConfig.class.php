@@ -95,10 +95,34 @@ class DBConfig {
 		return $userInfo;
 	}
 	
+	public function getUserInfoByEmail($email) {
+		$GET_USER_INFO = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
+		$userInfo = $this->executeQuery($GET_USER_INFO);
+		return $userInfo;
+	}
+	
+	public function isUserEmailExist($email) {
+		$GET_USER_EMAIL = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
+		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public function createNewUser($fname, $lname, $email, $pass) {
-		$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
-													VALUES ('".$fname."', '".$lname."', '".$email."', '".$pass."', 'I am ".$fname."')";
-		$this->executeUpdateQuery($CREATE_NEW_USER);
+		if (!$this->isUserEmailExist($email)) {
+			if (isset($pass)) {
+				$pass = "'".$pass."'";
+			} else {
+				// Facebook maintained the password of the user
+				// We store them as a NULL
+				$pass = "NULL";
+			}
+			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
+														VALUES ('".$fname."', '".$lname."', '".$email."', ".$pass.", 'I am ".$fname."')";
+			$this->executeUpdateQuery($CREATE_NEW_USER);
+		}
+		return $this->getUserInfoByEmail($email);
 	}
 	
 	public function createUserToken($uid, $signature, $refundTokenId, $tokenId, $callerRef) {
