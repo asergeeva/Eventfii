@@ -65,7 +65,7 @@ class Event {
 		$contents = fread($handle, filesize($csvFile));
 		
 		// MS EXCEL ON MAC USES SPACES AS DELIMETERS
-		$this->guests = array_map('trim', explode(" ", $contents));
+		$this->guests = array_map('trim', explode(",", $contents));
 		fclose($handle);
 	}
 }

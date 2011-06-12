@@ -77,9 +77,13 @@ class PanelController {
 				
 				// INVITE GUESTS USING EMAIL
 				$mailer = new EFMail();
+				$guestEmails = '';
+				print_r($newEvent['guests']);
+				return;
 				for ($i = 0; $i < sizeof($newEvent['guests']); ++$i) {
-					$mailer->sendEmail($newEvent['guests'][$i], $newEvent['title'], $newEvent['url']);
+					$guestEmails .= $newEvent['guests'][$i].',';
 				}
+				$mailer->sendEmail($guestEmails, $newEvent['title'], $newEvent['url']);
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
