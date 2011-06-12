@@ -35,6 +35,14 @@ a {
 	font-size: 0px;
 }
 
+.big_vertical_divisor {
+	font-size: 24px;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	clear: both;
+}
+
 .updateButton {
 	background-image: url('../images/updatebutton_03.png');
 	width: 131px;
@@ -64,4 +72,43 @@ ul.top_nav li {
 	float: left;
 	margin-left: 45px;
 	margin-right: 45px;
+}
+
+/* GUEST INVITE OVERLAY */
+.event_guest_invite_overlay {
+	/* must be initially hidden */
+	display:none;
+	
+	/* place overlay on top of other elements */
+	z-index:10000;
+	
+	/* styling */
+	background-color:#333;
+	
+	width:500px;	
+	min-height:200px;
+	border:1px solid #666;
+	
+	/* CSS3 styling for latest browsers */
+	-moz-box-shadow:0 0 90px 5px #000;
+	-webkit-box-shadow: 0 0 90px #000;	
+}
+
+.event_guest_invite_overlay .close {
+	background-image:url(../images/close.png);
+	position:absolute;
+	right:-15px;
+	top:-15px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
+}
+
+#event_invite_guest {
+	margin-left: 50px;
+	margin-bottom: 50px;
+}
+
+#invite_guest_submit {
+	margin-top: 20px;
 }

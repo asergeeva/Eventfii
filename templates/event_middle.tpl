@@ -25,6 +25,7 @@
     </form>
     <div id="event_cost_attend">${$eventInfo['cost']}/spot</div>
   </div>
+  <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=121330687952296&amp;xfbml=1"></script><fb:like href="{$eventInfo['url']}" send="true" width="450" show_faces="true" font="" id="fb-like-button"></fb:like>
   
   <div id="event_metadata">
     <div id="event_description">

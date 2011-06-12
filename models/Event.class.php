@@ -22,6 +22,8 @@ class Event {
 	
 	public $eid;
 	
+	public $guests = array();
+	
 	function __construct($organizer,
 											 $title,
 											 $url,
@@ -52,5 +54,18 @@ class Event {
 	
 	function __destruct() {
 		
+	}
+	
+	public function setGuests($guest_email) {
+		$this->guests = array_map('trim', explode(",", $guest_email));
+	}
+	
+	public function setGuestsFromCSV($csvFile) {
+		$handle = fopen($csvFile, "r");
+		$contents = fread($handle, filesize($csvFile));
+		
+		// MS EXCEL ON MAC USES SPACES AS DELIMETERS
+		$this->guests = array_map('trim', explode(" ", $contents));
+		fclose($handle);
 	}
 }

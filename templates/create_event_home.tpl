@@ -1,6 +1,6 @@
 {include file="header.tpl" title="Jumpstart your social life"}
-{include file="home_css.tpl"}
 {include file="cp_css.tpl"}
+{include file="home_css.tpl"}
 </head>
 
 <body>

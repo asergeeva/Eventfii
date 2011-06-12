@@ -70,8 +70,16 @@ class PanelController {
 		
 		if (isset($_SESSION['uid'])) {
 			if (isset($_SESSION['newEvent']) && isset($_SESSION['newEvent']['organizer'])) {
+				require_once('models/EFMail.class.php');
+				
 				$newEvent = json_decode($_SESSION['newEvent'], true);
 				$this->dbCon->createNewEvent($newEvent);
+				
+				// INVITE GUESTS USING EMAIL
+				$mailer = new EFMail();
+				for ($i = 0; $i < sizeof($newEvent['guests']); ++$i) {
+					$mailer->sendEmail($newEvent['guests'][$i], $newEvent['title'], $newEvent['url']);
+				}
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
@@ -195,13 +203,22 @@ class PanelController {
 															$_REQUEST['is_public'],
 															$_REQUEST['gets']);
 				
-				
+				$eid = explode('/', $_REQUEST['url']);
+				$eid = $eid[sizeof($eid) - 1];
+				$csvFile = 'upload/event/csv-'.$eid.'.csv';
+
+				if ($_REQUEST['guest_email'] != '') {
+					$newEvent->setGuests($_REQUEST['guest_email']);
+				} else if (file_exists($csvFile)) {
+					$newEvent->setGuestsFromCSV($csvFile);
+				}
+
 				$this->checkNewEvent($newEvent, false);
 				break;
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = array("jpg");
+				$allowedExtensions = array("jpg", "csv");
 				
 				// max file size in bytes
 				$sizeLimit = 10 * 1024 * 1024;
@@ -233,7 +250,6 @@ class PanelController {
 					$newEvent = json_decode($_SESSION['newEvent'], true);
 					$newEvent['organizer'] = $userInfo['id'];
 				}
-				
 				
 				$_SESSION['uid'] = $userInfo['id'];
 				$this->checkNewEvent($newEvent, true);
