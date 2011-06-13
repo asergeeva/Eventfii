@@ -39,10 +39,11 @@ var LOGIN_FORM = (function() {
 		},
 		
 		userLogin: function(cpContainer) {
-			$('body').attr('id', 'cp_body');
-			$('#container').html(cpContainer);
-			$("img[rel]").overlay();
-			CREATE_EVENT_FORM.init();
+			window.location = EFGLOBAL.baseUrl;
+			// $('body').attr('id', 'cp_body');
+			// $('#container').html(cpContainer);
+			// $("img[rel]").overlay();
+			// CREATE_EVENT_FORM.init();
 		}
 	}
 })();

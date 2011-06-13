@@ -4,6 +4,7 @@
 <div class="update_event_form_overlay" id="update_event_form_overlay">
 	{include file="update_event_form.tpl"}
 </div>
+{include file="event_invite_guest.tpl"}
 <div id="event_created_container">
 	<h2>Events created</h2>
 	{include file="event_created.tpl"}

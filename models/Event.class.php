@@ -61,11 +61,13 @@ class Event {
 	}
 	
 	public function setGuestsFromCSV($csvFile) {
-		$handle = fopen($csvFile, "r");
-		$contents = fread($handle, filesize($csvFile));
-		
-		// MS EXCEL ON MAC USES SPACES AS DELIMETERS
-		$this->guests = array_map('trim', explode(",", $contents));
-		fclose($handle);
+		if (($handle = fopen($csvFile, "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+				if (filter_var($data[2], FILTER_VALIDATE_EMAIL)) {
+					array_push($this->guests, $data[2]);
+				}
+			}
+			fclose($handle);
+		}	
 	}
 }

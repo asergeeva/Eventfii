@@ -8,6 +8,7 @@
   <div id="header">
 	{include file="home_header.tpl"}
   </div>
+  {include file="event_invite_guest.tpl"}
   <div id="middle">
   {include file="create_event_form.tpl"}
   </div>

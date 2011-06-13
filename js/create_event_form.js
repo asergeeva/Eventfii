@@ -79,6 +79,7 @@ var CREATE_EVENT_FORM = (function() {
 			
 			$('#invite_guest_submit').live('click', function() {
 				$('#event_guest_invite_overlay').find('a').trigger('click');
+				$('#create_new_event').trigger('click');
 			});
 	 },
 	 

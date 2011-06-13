@@ -1,7 +1,4 @@
 <div id="create_event_form">
-  <div class="event_guest_invite_overlay" id="event_guest_invite_overlay">
-    {include file="event_invite_guest.tpl"}
-  </div>
   <h3>Create Event</h3>
   <div id="left_event_form">
     <div class="event_field">
