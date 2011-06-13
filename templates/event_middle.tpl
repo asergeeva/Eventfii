@@ -17,12 +17,7 @@
   </div>
   
   <div id="event_attending">
- 		<form id="attend_event_form" name="attend_event_form" action="{$CURHOST}/event/payment/submit">
-    	<input type="hidden" name="maxTotalAmountOfAllPayments" value="{$eventInfo['cost']}" />
-    	<a href="#" id="event-{$eventId}">
-      	<img src="{$EP_IMG_PATH}/yes.png" class="ep_yes" id="attend_event_confirm" />
-      </a>
-    </form>
+  	{$yesButton}
     <div id="event_cost_attend">${$eventInfo['cost']}/spot</div>
   </div>
   <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=121330687952296&amp;xfbml=1"></script><fb:like href="{$eventInfo['url']}" send="true" width="450" show_faces="true" font="" id="fb-like-button"></fb:like>

@@ -39,8 +39,7 @@ var LOGIN_FORM = (function() {
 		},
 		
 		userLogin: function(status) {
-			console.log(status);
-			//window.location = EFGLOBAL.baseUrl;
+			window.location = EFGLOBAL.baseUrl;
 		}
 	}
 })();

@@ -119,15 +119,19 @@ class DBConfig {
 				$pass = "NULL";
 			}
 			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
-														VALUES ('".$fname."', '".$lname."', '".$email."', ".$pass.", 'I am ".$fname."')";
+														VALUES ('".mysql_real_escape_string($fname)."', 
+																    '".mysql_real_escape_string($lname)."', 
+																		'".mysql_real_escape_string($email)."', 
+																		 ".mysql_real_escape_string($pass).", 
+																		'I am ".mysql_real_escape_string($fname)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else {
 			$UPDATE_USER = "UPDATE ef_users SET 
-												fname = '".$fname."', 
-												lname = '".$lname."', 
-												password = '".$pass."', 
-												about = 'I am ".$fname."'
-											WHERE email = '".$email."'";
+												fname = '".mysql_real_escape_string($fname)."', 
+												lname = '".mysql_real_escape_string($lname)."', 
+												password = '".mysql_real_escape_string($pass)."', 
+												about = 'I am ".mysql_real_escape_string($fname)."'
+											WHERE email = '".mysql_real_escape_string($email)."'";
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
 		return $this->getUserInfoByEmail($email);

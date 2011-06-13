@@ -13,8 +13,9 @@ var EVENT = (function() {
 						uid: $('#current_user').find('a').attr('id').split('-')[1],
 						eid: $('#attend_event_confirm').parent().attr('id').split('-')[1]
 					}, function(resultPage) {
-					$('#attend_event_form').submit();
+					$('#event_attending').html(EFGLOBAL.attendSucceed);
 				});
+				$('#event_attending').html(EFGLOBAL.ajaxLoader);
 			});
 			
 			FB.Event.subscribe('message.send', function(response) {

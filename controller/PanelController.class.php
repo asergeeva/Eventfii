@@ -116,6 +116,7 @@ class PanelController {
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
+			$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 			
 			if (isset($_SESSION['uid'])) {
 				$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
@@ -127,6 +128,14 @@ class PanelController {
 			$this->smarty->assign('eventInfo', $eventInfo);
 			$this->smarty->assign('eventId', $eventId);
 			$this->smarty->assign('curSignUp', $curSignUp);
+			
+			if ($hasAttend) {
+				$this->smarty->assign('yesButton', '<h2>Already signed up!</h2>');
+			} else {
+				$this->smarty->assign('yesButton', '<a href="#" id="event-'.$eventId.'">
+																							<img src="'.EP_IMG_PATH.'/yes.png" class="ep_yes" id="attend_event_confirm" />
+																					  </a>');
+			}
 			
 			if (isset($_SESSION['uid'])) {
 				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
@@ -241,6 +250,7 @@ class PanelController {
 				break;
 			case '/event/attend':
 				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_REQUEST['eid']);
+				$this->dbCon->eventSignUp($_SESSION['uid'], $_REQUEST['eid']);
 				break;
 			case '/event/edit':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
