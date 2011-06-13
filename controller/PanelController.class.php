@@ -79,9 +79,13 @@ class PanelController {
 				$mailer = new EFMail();
 				$guestEmails = "";
 				$emailSize = sizeof($newEvent['guests']);
+
+				$eid = explode('/', $newEvent['url']);
+				$newEvent['eid'] = $eid[sizeof($eid) - 1];
+				
+				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
 				for ($i = 0; $i < $emailSize; ++$i) {
 					$guestEmails .= $newEvent['guests'][$i];
-					
 					if ($i < $emailSize - 1) {
 						$guestEmails .= ", ";
 					}

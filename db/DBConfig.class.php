@@ -121,6 +121,14 @@ class DBConfig {
 			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
 														VALUES ('".$fname."', '".$lname."', '".$email."', ".$pass.", 'I am ".$fname."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
+		} else {
+			$UPDATE_USER = "UPDATE ef_users SET 
+												fname = '".$fname."', 
+												lname = '".$lname."', 
+												password = '".$pass."', 
+												about = 'I am ".$fname."'
+											WHERE email = '".$email."'";
+			$this->executeUpdateQuery($UPDATE_USER);
 		}
 		return $this->getUserInfoByEmail($email);
 	}
@@ -294,5 +302,17 @@ class DBConfig {
 	public function getNewEvents() {
 		$GET_NEW_EVENTS = "SELECT * FROM ef_events ORDER BY event_datetime DESC LIMIT 3";
 		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
+	}
+	
+	public function storeGuests($guestEmails, $eid, $referrer) {
+		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
+			if (!$this->isUserEmailExist($guestEmails[$i])) {
+				$STORE_GUEST_EMAIL_USERS = "INSERT INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";
+				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
+			}
+			$userInfo = $this->getUserInfoByEmail($guestEmails[$i]);
+			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$userInfo['id'].")";
+			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
+		}
 	}
 }

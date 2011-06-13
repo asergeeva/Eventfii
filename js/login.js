@@ -38,12 +38,9 @@ var LOGIN_FORM = (function() {
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
-		userLogin: function(cpContainer) {
-			window.location = EFGLOBAL.baseUrl;
-			// $('body').attr('id', 'cp_body');
-			// $('#container').html(cpContainer);
-			// $("img[rel]").overlay();
-			// CREATE_EVENT_FORM.init();
+		userLogin: function(status) {
+			console.log(status);
+			//window.location = EFGLOBAL.baseUrl;
 		}
 	}
 })();

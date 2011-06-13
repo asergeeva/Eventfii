@@ -1,6 +1,6 @@
 <?php
 class EFMail {
-	private $from = "no-reply@eventfii.com";
+	private $FROM = "no-reply@eventfii.com";
 	
 	function __construct() {
 		
@@ -13,8 +13,8 @@ class EFMail {
 	public function sendEmail($to, $eventName, $eventUrl) {
 		$subject = 'You are invited to '.$eventName;
 		$message = 'Link: '.$eventUrl;
-		$headers = 'From: '.$this->from."\r\n" .
-							 'Reply-To: '.$this->from."\r\n" .
+		$headers = 'From: '.$this->FROM."\r\n".
+							 'Reply-To: '.$this->FROM."\r\n".
 							 'X-Mailer: PHP/'.phpversion();
 		
 		mail($to, $subject, $message, $headers);
