@@ -1,4 +1,10 @@
 <?php
+/*
+ * Author : Grady Laksmono
+ * Email : grady@eventfii.com
+ * All code (c) 2011 Eventfii Inc. 
+ * All rights reserved
+ */
 require_once('db/DBConfig.class.php');
 
 class PanelController {
@@ -30,11 +36,6 @@ class PanelController {
 	
 	private function assignCreatedEvents($uid) {
 		$createdEvents = $this->dbCon->getEventByEO($uid);
-		for ($i = 0; $i < sizeof($createdEvents); ++$i) {
-			if ($this->dbCon->getCurSignup($createdEvents[$i]['id']) == $createdEvents[$i]['min_spot']) {
-				$createdEvents[$i]['collect_button'] = "<img src='".CURHOST."/images/up/collect.png' onclick=\"CP_EVENT.collectPaymentEvent('collect-".$createdEvents[$i]['id']."')\" />";
-			}
-		}
 		$this->smarty->assign('createdEvents', $createdEvents);
 	}
 	
@@ -262,7 +263,28 @@ class PanelController {
 				$eventInfo['event_datetime'] = $eventDate." ".$eventTime;
 				$eventInfo['event_deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
 				
-				print(json_encode($eventInfo));
+				$isPublic = $eventInfo['is_public'];
+				$isPrivateRadio = '';
+				$isPublicRadio = '';
+				if ($isPublic == 1) {
+					$isPublicRadio = 'checked = "checked"';
+				} else {
+					$isPrivateRadio = 'checked = "checked"';
+				}
+				
+				$this->smarty->assign('isPublicRadio', $isPublicRadio);
+				$this->smarty->assign('isPrivateRadio', $isPrivateRadio);
+				
+				$this->smarty->assign('eventDate', $eventDate);
+				$this->smarty->assign('eventTime', $eventTime);
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->display('update_event_form.tpl');
+				break;
+			case '/event/manage':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->display('manage_event_form.tpl');
 				break;
 			case '/user/create':
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);

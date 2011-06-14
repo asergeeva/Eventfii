@@ -34,37 +34,44 @@ $(document).ready(function() {
 var CP_EVENT = (function() {
 	return {
 		init: function() {
-			$('#updateEvent_date').datepicker();
-			$('#updateEvent_deadline').datepicker();
-			$('#updateEvent_title').focus();
+			$('#update_event_manage').live('click', this.manageEvent);
+			$('#update_event_edit').live('click', this.editEvent);
 		},
 		
 		openUpdateEvent: function(eid) {
 			this.init();
-			$('#updateEvent_submit').live('click', this.updateEventSubmit);
+			this.manageEvent(eid.split('-')[1]);
+		},
+		
+		manageEvent: function(eid) {
+			if ($('#event_title').find('span').attr('id') === undefined) {
+				var eventUrl = $('#updateEvent_url').val().split('/');
+				eid = eventUrl[eventUrl.length - 1];
+			} else if (typeof eid === 'object') {
+				eid = $('#event_title').find('span').attr('id').split('-')[1];
+			}
+			$.get(EFGLOBAL.baseUrl + '/event/manage', {
+				eventId: eid
+			}, function(manageEventPage) {
+				$('#manage_event_container').html(manageEventPage);
+			});
+		},
+		
+		editEvent: function(eid) {
+			if (typeof eid === 'object') {
+				eid = $('#event_title').find('span').attr('id').split('-')[1];
+			}
 			
 			$.get(EFGLOBAL.baseUrl + '/event/edit', {
-				eventId: eid.split('-')[1]
-			}, function(eventInfo) {
-				eventInfo = eval('(' + eventInfo + ')');
-				$('#updateEvent_title').val(eventInfo.title);
-				$('#updateEvent_description').val(eventInfo.description);
-				$('#updateEvent_address').val(eventInfo.location_address);
-				$('#updateEvent_date').val(eventInfo.event_datetime.split(' ')[0]);
-				$('#updateEvent_time').val(eventInfo.event_datetime.split(' ')[1]);
-				$('#updateEvent_deadline').val(eventInfo.event_deadline);
-				$('#updateEvent_min_spots').val(eventInfo.min_spot);
-				$('#updateEvent_max_spots').val(eventInfo.max_spot);
-				$('#updateEvent_cost').val(eventInfo.cost);
-				$('#updateEvent_gets').val(eventInfo.gets);
-				if (eventInfo.is_public === "1") {
-					$('#updateEvent_ispublic_yes').attr('checked', 'checked');
-				} else {
-					$('#updateEvent_ispublic_no').attr('checked', 'checked');
-				}
-				$('#updateEvent_url').val(eventInfo.url);
-				
-				UPDATE_FILE_UPLOADER.init();
+				eventId: eid
+			}, function(editEventPage) {
+				$('#manage_event_container').html(editEventPage).ready(function() {
+					$('#updateEvent_date').datepicker();
+					$('#updateEvent_deadline').datepicker();
+					$('#updateEvent_title').focus();
+					$('#updateEvent_submit').live('click', CP_EVENT.updateEventSubmit);
+					UPDATE_FILE_UPLOADER.init();
+				});
 			});
 		},
 		

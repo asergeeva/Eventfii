@@ -1,4 +1,11 @@
 <?php
+/*
+ * Author : Grady Laksmono
+ * Email : grady@eventfii.com
+ * All code (c) 2011 Eventfii Inc. 
+ * All rights reserved
+ */
+ 
 class DBConfig {
 	private $DB_HOST = "127.0.0.1:3306";
 	private $DB_USER = "glaksmono";
