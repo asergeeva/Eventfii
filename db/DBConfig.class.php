@@ -155,9 +155,9 @@ class DBConfig {
 	}
 	
 	public function getCurSignup($eid) {
-		$GET_CUR_SIGNUP = "SELECT COUNT(*) AS cur_signups, e.is_collected 
+		$GET_CUR_SIGNUP = "SELECT COUNT(*) AS cur_signups
 													FROM ef_attendance a, ef_events e 
-											 WHERE a.event_id = e.id AND e.is_collected = 0 AND a.event_id = ".$eid;
+											 WHERE a.event_id = e.id AND a.event_id = ".$eid;
 		$curSignUp = $this->executeQuery($GET_CUR_SIGNUP);
 		return $curSignUp['cur_signups'];
 	}
@@ -177,18 +177,16 @@ class DBConfig {
 		$sqlDeadline = $this->dateToSql($newEvent["deadline"]);
 		
 		$CREATE_NEW_EVENT = "INSERT INTO ef_events (created, organizer, title, url, 
-														 min_spot, max_spot, location_address, 
-														 event_datetime, event_deadline, description, cost, is_public, gets) 
+														 goal, location_address, 
+														 event_datetime, event_deadline, description, is_public, gets) 
 												 VALUES (NOW(), ".mysql_real_escape_string($newEvent["organizer"]).", 
 												 							 '".mysql_real_escape_string($newEvent["title"])."', 
 																			 '".mysql_real_escape_string($newEvent["url"])."', 
-																			  ".mysql_real_escape_string($newEvent["min_spot"]).",
-																				".mysql_real_escape_string($newEvent["max_spot"]).", 
+																			  ".mysql_real_escape_string($newEvent["goal"]).",
 																			 '".mysql_real_escape_string($newEvent["address"])."',
 																			 '".mysql_real_escape_string($datetime)."',
 																			 '".mysql_real_escape_string($sqlDeadline)."',
 																			 '".mysql_real_escape_string($newEvent["description"])."',
-																			 	".mysql_real_escape_string($newEvent["cost"]).", 
 																			  ".mysql_real_escape_string($newEvent["is_public"]).",
 																			 '".mysql_real_escape_string($newEvent["gets"])."')";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
@@ -200,13 +198,11 @@ class DBConfig {
 		
 		$UPDATE_EVENT = "UPDATE ef_events e SET 
 												e.title = '".mysql_real_escape_string($eventInfo->title)."', 
-												e.min_spot = ".mysql_real_escape_string($eventInfo->min_spot).", 
-												e.max_spot = ".mysql_real_escape_string($eventInfo->max_spot).", 
+												e.goal = ".mysql_real_escape_string($eventInfo->goal).",
 												e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
 												e.event_datetime = '".mysql_real_escape_string($datetime)."', 
 												e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
-												e.description = '".mysql_real_escape_string($eventInfo->description)."', 
-												e.cost = ".mysql_real_escape_string($eventInfo->cost).", 
+												e.description = '".mysql_real_escape_string($eventInfo->description)."',
 												e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
 												e.gets = '".mysql_real_escape_string($eventInfo->gets)."' 
 										 WHERE e.id = ".mysql_real_escape_string($eventInfo->eid);
@@ -231,9 +227,9 @@ class DBConfig {
 	public function getEventByEO($uid) {
 		$GET_EVENTS = "SELECT * FROM
 										 (SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-											 e.created, e.title, e.url, e.min_spot, e.max_spot, 
+											 e.created, e.title, e.url, e.goal, 
 											 e.location_address, e.event_datetime, e.event_deadline, 
-											 e.description, e.cost, e.is_public 
+											 e.description, e.is_public 
 										 FROM ef_events e WHERE e.organizer = ".$uid.") el
 									 WHERE el.days_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
@@ -242,9 +238,9 @@ class DBConfig {
 	public function getEventAttendingBy($uid) {
 		$GET_EVENTS = "SELECT * FROM 
 											(SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-											 	e.created, e.title, e.url, e.min_spot, e.max_spot, 
+											 	e.created, e.title, e.url, e.goal, 
 											 	e.location_address, e.event_datetime, e.event_deadline, 
-											 	e.description, e.cost, e.is_public 
+											 	e.description, e.is_public 
 											FROM ef_attendance a, ef_events e WHERE a.event_id = e.id AND a.user_id = ".$uid.") el
 									WHERE el.days_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
@@ -252,9 +248,9 @@ class DBConfig {
 	
 	public function getEventInfo($eid) {
 		$GET_EVENT = "SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-										e.created, e.organizer, e.title, e.url, e.min_spot, e.max_spot, 
+										e.created, e.organizer, e.title, e.url, e.goal, 
 										e.location_address, e.event_datetime, e.event_deadline, 
-										e.description, e.cost, e.is_public, e.gets 
+										e.description, e.is_public, e.gets 
 									FROM ef_events e WHERE e.id = ".$eid;
 		return $this->executeQuery($GET_EVENT);
 	}
@@ -298,15 +294,10 @@ class DBConfig {
 	}
 	
 	public function getAttendees($eid) {
-		$GET_ATTENDEES = "SELECT p.uid, p.eid, p.pkey, p.pemail, e.cost 
+		$GET_ATTENDEES = "SELECT p.uid, p.eid, p.pkey, p.pemail, 
 													FROM ef_event_preapprovals p, ef_events e 
 											WHERE p.eid = e.id AND p.eid = ".$eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
-	}
-	
-	public function updateCollected($eid) {
-		$UPDATE_COLLECTED = "UPDATE ef_events e SET e.is_collected = 1 WHERE e.id = ".$eid;
-		$this->executeUpdateQuery($UPDATE_COLLECTED);
 	}
 	
 	public function getNewEvents() {

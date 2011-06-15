@@ -117,11 +117,20 @@ class PanelController {
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
-			$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 			
 			if (isset($_SESSION['uid'])) {
+				$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
+				
 				$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
 				$this->smarty->assign('currentUser', $currentUser);
+				
+				if ($hasAttend) {
+					$this->smarty->assign('yesButton', '<h2>Already signed up!</h2>');
+				} else {
+					$this->smarty->assign('yesButton', '<a href="#" id="event-'.$eventId.'">
+																								<img src="'.EP_IMG_PATH.'/yes.png" class="ep_yes" id="attend_event_confirm" />
+																							</a>');
+				}
 			}
 			$eventInfo['description'] = stripslashes($eventInfo['description']);
 			
@@ -129,14 +138,6 @@ class PanelController {
 			$this->smarty->assign('eventInfo', $eventInfo);
 			$this->smarty->assign('eventId', $eventId);
 			$this->smarty->assign('curSignUp', $curSignUp);
-			
-			if ($hasAttend) {
-				$this->smarty->assign('yesButton', '<h2>Already signed up!</h2>');
-			} else {
-				$this->smarty->assign('yesButton', '<a href="#" id="event-'.$eventId.'">
-																							<img src="'.EP_IMG_PATH.'/yes.png" class="ep_yes" id="attend_event_confirm" />
-																					  </a>');
-			}
 			
 			if (isset($_SESSION['uid'])) {
 				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
@@ -190,8 +191,7 @@ class PanelController {
 				$eventInfo = new Event($_SESSION['uid'],
 															 $_REQUEST['title'], 
 															 $_REQUEST['url'], 
-															 $_REQUEST['min_spot'],
-															 $_REQUEST['max_spot'], 
+															 $_REQUEST['goal'],
 															 $_REQUEST['address'], 
 															 $_REQUEST['date'],
 															 $_REQUEST['time'],
@@ -213,8 +213,7 @@ class PanelController {
 				$newEvent = new Event($_SESSION['uid'],
 															$_REQUEST['title'], 
 															$_REQUEST['url'], 
-															$_REQUEST['min_spot'],
-															$_REQUEST['max_spot'], 
+															$_REQUEST['goal'],
 															$_REQUEST['address'], 
 															$_REQUEST['date'],
 															$_REQUEST['time'],

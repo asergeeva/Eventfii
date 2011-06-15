@@ -14,8 +14,9 @@
 }
 
 #event_datetime {
-	font-size: 20px;
+	font-size: 16px;
 	float: right;
+	font-style: italic;
 }
 
 #event_picture_container {
@@ -48,7 +49,7 @@
 
 #event_spots {
 	float: left;
-	font-size: 30px;
+	font-size: 20px;
 	margin-top: 35px;
 }
 

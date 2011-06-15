@@ -9,8 +9,7 @@ class Event {
 	public $organizer;
 	public $title;
 	public $url;
-	public $min_spot;
-	public $max_spot;
+	public $goal;
 	public $address;
 	public $date;
 	public $deadline;
@@ -27,8 +26,7 @@ class Event {
 	function __construct($organizer,
 											 $title,
 											 $url,
-											 $min_spot,
-											 $max_spot,
+											 $goal,
 											 $address,
 											 $date,
 											 $time,
@@ -40,11 +38,10 @@ class Event {
 		$this->organizer = $organizer;
 		$this->title = $title;
 		$this->url = $url;
-		$this->min_spot = $min_spot;
-		$this->max_spot = $max_spot;
+		$this->goal = $goal;
 		$this->address = $address;
 		$this->date = $date;
-		$this->time = $time;
+		$this->time = $time.":00";
 		$this->deadline = $deadline;
 		$this->description = $description;
 		$this->cost = $cost;

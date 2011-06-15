@@ -15,8 +15,7 @@ CREATE TABLE ef_events (
   organizer         INTEGER NOT NULL REFERENCES ef_users(id),
   title             VARCHAR(1000) NOT NULL,
   url               VARCHAR(5000) NOT NULL,
-  min_spot          INTEGER NOT NULL,
-  max_spot          INTEGER DEFAULT 0,
+  goal              INTEGER NOT NULL,
   location_address  VARCHAR(5000) NOT NULL,
   location_lat      DOUBLE,
   location_long     DOUBLE,
@@ -24,9 +23,7 @@ CREATE TABLE ef_events (
   event_deadline    DATE NOT NULL,
   description       VARCHAR(5000),
   gets              VARCHAR(5000),
-  cost              FLOAT NOT NULL,
-  is_public         TINYINT(1) NOT NULL DEFAULT 1,
-  is_collected      TINYINT(1) NOT NULL DEFAULT 0
+  is_public         TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_images (

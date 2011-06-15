@@ -81,7 +81,7 @@
 	margin-bottom: 0px;
 }
  
-#event_datetime {
+#manage_event_form #event_datetime {
 	font-size: 16px;
 	float: left;
 	color: #CCC;

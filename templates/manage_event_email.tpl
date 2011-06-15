@@ -15,7 +15,7 @@
       <table>
         <tr>
           <th>To:</th>
-          <td> 
+          <td>
           <select>
           <option>All</option>
           </select>
