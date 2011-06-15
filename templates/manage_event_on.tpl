@@ -1,0 +1,21 @@
+<div id="manage_event_on">
+  <div class="event_score">
+    <h3 class="event_score_title">True RSVP</h3>
+    <h4 class="event_score_val">45</h4>
+  </div>
+  <div id="check_off_attendance" class="scroll">
+  <table>
+  	<tr>
+    	<th>Name</th>
+      <th>% Reliability</th>
+    </tr>
+  	{foreach name=attendees item=eventAttendee from=$eventAttendees}
+  	<tr>
+    	<td><input type="checkbox" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" /> {$eventAttendee['fname']} {$eventAttendee['lname']}</td>
+      <td>0</td>
+    </tr>
+  	{/foreach}
+  </table>
+  </div>
+  <a href="#manage_on"><img src="{$IMG_PATH}/email_03.png" id="email_settings" /></a>
+</div>
