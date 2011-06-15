@@ -36,34 +36,31 @@ var CP_EVENT = (function() {
 		init: function() {
 			$('#update_event_manage').live('click', this.manageEvent);
 			$('#update_event_edit').live('click', this.editEvent);
+			
+			$('#update_event_before').live('click', this.manageEvent);
+			$('#update_event_on').live('click', this.onEvent);
+			$('#update_event_after').live('click', this.afterEvent);
+			
+			$('#update_event_guest_invite').live('click', this.addGuest);
 		},
 		
 		openUpdateEvent: function(eid) {
+			$('#update_event_overlay_eventid').html(eid.split('-')[1]);
 			this.init();
-			this.manageEvent(eid.split('-')[1]);
+			this.manageEvent();
 		},
 		
-		manageEvent: function(eid) {
-			if ($('#event_title').find('span').attr('id') === undefined) {
-				var eventUrl = $('#updateEvent_url').val().split('/');
-				eid = eventUrl[eventUrl.length - 1];
-			} else if (typeof eid === 'object') {
-				eid = $('#event_title').find('span').attr('id').split('-')[1];
-			}
+		manageEvent: function() {
 			$.get(EFGLOBAL.baseUrl + '/event/manage', {
-				eventId: eid
+				eventId: $('#update_event_overlay_eventid').html()
 			}, function(manageEventPage) {
 				$('#manage_event_container').html(manageEventPage);
 			});
 		},
 		
-		editEvent: function(eid) {
-			if (typeof eid === 'object') {
-				eid = $('#event_title').find('span').attr('id').split('-')[1];
-			}
-			
+		editEvent: function() {
 			$.get(EFGLOBAL.baseUrl + '/event/edit', {
-				eventId: eid
+				eventId: $('#update_event_overlay_eventid').html()
 			}, function(editEventPage) {
 				$('#manage_event_container').html(editEventPage).ready(function() {
 					$('#updateEvent_date').datepicker();
@@ -72,6 +69,48 @@ var CP_EVENT = (function() {
 					$('#updateEvent_submit').live('click', CP_EVENT.updateEventSubmit);
 					UPDATE_FILE_UPLOADER.init();
 				});
+			});
+		},
+		
+		addGuest: function() {
+			$.get(EFGLOBAL.baseUrl + '/event/edit/guest', {
+				eventId: $('#update_event_overlay_eventid').html(),
+				prevPage: $('#update_event_guest_invite').parent().attr('href').substring(1)
+			}, function(addGuestPage) {
+				$('#manage_event_container').html(addGuestPage).ready(function() {
+					GUEST_INVITE_FILE_UPLOADER.init();
+					$('#invite_guest_update').live('click', function() {
+						if ($('#update_guest_prevpage').html() == 'manage') {
+							CP_EVENT.manageEvent();
+						} else if ($('#update_guest_prevpage').html() == 'update') {
+							CP_EVENT.editEvent();
+						}
+					});
+				});
+			});
+		},
+		
+		onEvent: function() {
+			$.get(EFGLOBAL.baseUrl + '/event/manage/on', {
+				eventId: $('#update_event_overlay_eventid').html()
+			}, function(manageEventOnPage) {
+				$('#manage_event_container').html(manageEventOnPage).ready(function() {
+					$('#email_settings').live('click', function() {
+						$.get(EFGLOBAL.baseUrl + '/event/email', function(emailSettingPage) {
+							$('#manage_event_container').html(emailSettingPage).ready(function() {
+								$('#manage_event_email_tabs').tabs();
+							});
+						});
+					});
+				});
+			});
+		},
+		
+		afterEvent: function() {
+			$.get(EFGLOBAL.baseUrl + '/event/manage/after', {
+				eventId: $('#update_event_overlay_eventid').html()
+			}, function(manageEventAfterPage) {
+				$('#manage_event_container').html(manageEventAfterPage);
 			});
 		},
 		

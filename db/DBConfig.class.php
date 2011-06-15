@@ -121,8 +121,7 @@ class DBConfig {
 			if (isset($pass)) {
 				$pass = "'".$pass."'";
 			} else {
-				// Facebook maintained the password of the user
-				// We store them as a NULL
+				// Facebook maintained the password of the user we store them as a NULL
 				$pass = "NULL";
 			}
 			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
@@ -325,5 +324,10 @@ class DBConfig {
 			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$userInfo['id'].")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
+	}
+	
+	public function getAttendeesByEvent($eid) {
+		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.event_id = ".$eid;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 }

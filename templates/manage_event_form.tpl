@@ -17,6 +17,7 @@
       <h4 class="event_score_val">50</h4>
     </div>
   </div>
+  <a href="#manage"><img src="{$EC_IMG_PATH}/addguests.png" id="update_event_guest_invite" /></a>
   <table id="total_rsvp">
   	<tr>
     	<th>Yes, I will absolutely be there</th>

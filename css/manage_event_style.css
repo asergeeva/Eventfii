@@ -26,6 +26,7 @@
 	margin-right: 0px;
 	float: left;
 	clear: both;
+	height: 100%;
 }
 
 #update_event_left_nav li {
@@ -48,7 +49,7 @@
 	/* styling */
 	background-color:#333;
 	
-	width:970px;	
+	width:910px;	
 	min-height:200px;
 	border:1px solid #666;
 	
@@ -87,6 +88,11 @@
 	font-style: italic;
 }
 
+/* GUEST INVITE */
+#event_invite_guest {
+	float: left;
+}
+
 /* EVENT SCORE */
 #event_score_container {
 	clear: both;
@@ -118,4 +124,52 @@ h4.event_score_val {
 
 #total_rsvp tr th {
 	padding-right: 50px;
+}
+
+#update_event_overlay_eventid {
+	visibility: hidden;
+}
+
+/* MANAGE EVENT ON */
+#manage_event_on {
+	float: left;
+	margin-left: 50px;
+	margin-top: 30px;
+}
+
+#check_off_attendance {
+	float: left;
+	clear: both;
+	margin-top: 20px;
+}
+
+div.scroll {
+	height: 200px;
+	width: 300px;
+	overflow: auto;
+	border: 1px solid #666;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+/* MANAGE EMAIL */
+#manage_event_email {
+	width: 80%;
+	float: left;
+	margin-top: 30px;
+	margin-left: 50px;
+}
+
+#reminder_message_text,
+#followup_message_text,
+#attendance_message_text {
+	width: 400px;
+	height: 200px;
+}
+
+/* MANAGE EVENT AFTER */
+#manage_event_after {
+	float: left;
+	margin-left: 50px;
+	margin-top: 30px;
 }

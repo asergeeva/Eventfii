@@ -280,11 +280,40 @@ class PanelController {
 				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->display('update_event_form.tpl');
 				break;
+			case '/event/edit/guest':
+				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$eventAttendeeEmails = "";
+				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
+					$eventAttendeeEmails .= $eventAttendees[$i]['email'];
+					if ($i < sizeof($eventAttendees) - 1) {
+						$eventAttendeeEmails .= ", ";
+					}
+				}
+				$this->smarty->assign('eventAttendeeEmails', $eventAttendeeEmails);
+				$this->smarty->assign('prevPage', $_REQUEST['prevPage']);
+				$this->smarty->display('event_invite_guest_update.tpl');
+				break;
 			case '/event/manage':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				
 				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->display('manage_event_form.tpl');
+				break;
+			case '/event/manage/on':
+				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
+				$this->smarty->assign('eventAttendees', $eventAttendees);
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->display('manage_event_on.tpl');
+				break;
+			case '/event/manage/after':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->display('manage_event_after.tpl');
+				break;
+			case '/event/email':
+				$this->smarty->display('manage_event_email.tpl');
 				break;
 			case '/user/create':
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);

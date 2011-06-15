@@ -2,6 +2,7 @@
 	{include file="create_event_form.tpl"}
 </div>
 <div class="update_event_form_overlay" id="update_event_form_overlay">
+	<span id="update_event_overlay_eventid"></span>
 	<ul id="update_event_top_nav">
   	<li><a href="#" id="update_event_before">Before Event</a></li>
     <li><a href="#" id="update_event_on">Day of Event</a></li>
@@ -15,7 +16,9 @@
 		{include file="manage_event_form.tpl"}
   </div>
 </div>
-{include file="event_invite_guest.tpl"}
+<div class="event_guest_invite_overlay" id="event_guest_invite_overlay">
+	{include file="event_invite_guest_create.tpl"}
+</div>
 <div id="event_created_container">
 	<h2>Events created</h2>
 	{include file="event_created.tpl"}

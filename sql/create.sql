@@ -1,11 +1,12 @@
 CREATE TABLE ef_users (
   id        INTEGER PRIMARY KEY AUTO_INCREMENT,
-  fname     VARCHAR(150) NOT NULL,
-  lname     VARCHAR(150) NOT NULL,
-  email     VARCHAR(1000) NOT NULL,
+  fname     VARCHAR(150),
+  lname     VARCHAR(150),
+  email     VARCHAR(500) NOT NULL UNIQUE,
   password  VARCHAR(5000),
   about     VARCHAR(5000),
-  verified  TINYINT(1) NOT NULL DEFAULT 0
+  verified  TINYINT(1) NOT NULL DEFAULT 0,
+  referrer  INTEGER REFERENCES ef_users(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_events (
@@ -34,14 +35,18 @@ CREATE TABLE ef_event_images (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_attendance (
-  event_id          INTEGER NOT NULL REFERENCES ef_events(id),
-  user_id           INTEGER NOT NULL REFERENCES ef_users(id)
+  eventfii.ef_users          INTEGER NOT NULL REFERENCES ef_events(id),
+  user_id           INTEGER NOT NULL REFERENCES ef_users(id),
+  is_attending      TINYINT(1) NOT NULL DEFAULT 0,
+  confidence        FLOAT
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
   created           TIMESTAMP NOT NULL,
-  message           VARCHAR(160) NOT NULL,
+  subject           VARCHAR(200) NOT NULL,
+  message           VARCHAR(5000) NOT NULL,
+  delivery_time     DATETIME NOT NULL,
   event_id          INTEGER NOT NULL REFERENCES ef_events(id)
 ) ENGINE=InnoDB;
 

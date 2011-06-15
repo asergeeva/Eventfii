@@ -80,6 +80,9 @@
         </noscript>         
     </div>
   </div>
+  <div class="event_guest">
+    <a href="#update"><img src="{$EC_IMG_PATH}/addguests.png" id="update_event_guest_invite" /></a>
+  </div>
   <a href="#" id="updateEvent_submit" class="updateButton">Update</a>
 </div>
 </div>
