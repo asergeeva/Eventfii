@@ -8,7 +8,7 @@
 var UPDATE_FILE_UPLOADER = (function() {
 	return {
 		init: function() {
-			var eventUrlDOM = $('#updateEvent_url').val();
+			var eventUrlDOM = $('#event_url_update').val();
 			if (eventUrlDOM !== undefined) {
 				var eventUrlToken = eventUrlDOM.split('/'),
 						eid = eventUrlToken[eventUrlToken.length - 1];
@@ -20,6 +20,27 @@ var UPDATE_FILE_UPLOADER = (function() {
 					action: EFGLOBAL.baseUrl + '/event/image/upload',
 					// additional data
 					params: {eventId: eid}
+				});
+			}
+		}
+	}
+})();
+
+var GUEST_INVITE_FILE_UPLOADER_UPDATE = (function() {
+	return {
+		init: function(curPage) {
+			var eventUrlDOM = $('#event_url_update').val();
+			if (eventUrlDOM !== undefined) {
+				var eventUrlToken = eventUrlDOM.split('/'),
+						eid = eventUrlToken[eventUrlToken.length - 1];
+				
+				var uploader = new qq.FileUploader({
+					// pass the dom node (ex. $(selector)[0] for jQuery users)
+					element: $('#guest-invite-file-uploader')[0],
+					// path to server-side upload script
+					action: EFGLOBAL.baseUrl + '/event/image/upload',
+					// additional data
+					params: {eventId: 'csv-'+ eid}
 				});
 			}
 		}
@@ -42,6 +63,7 @@ var CP_EVENT = (function() {
 			$('#update_event_after').live('click', this.afterEvent);
 			
 			$('#update_event_guest_invite').live('click', this.addGuest);
+			$('#email_settings').live('click', this.emailSettings);
 		},
 		
 		openUpdateEvent: function(eid) {
@@ -63,11 +85,11 @@ var CP_EVENT = (function() {
 				eventId: $('#update_event_overlay_eventid').html()
 			}, function(editEventPage) {
 				$('#manage_event_container').html(editEventPage).ready(function() {
-					$('#updateEvent_date').datepicker();
-					$('#updateEvent_deadline').datepicker();
-					$('#updateEvent_title').focus();
-					$('#updateEvent_submit').live('click', CP_EVENT.updateEventSubmit);
 					UPDATE_FILE_UPLOADER.init();
+					$('#event_date_update').datepicker();
+					$('#event_deadline_update').datepicker();
+					$('#event_title_update').focus();
+					$('#event_update').live('click', CP_EVENT.updateEventSubmit);
 				});
 			});
 		},
@@ -78,7 +100,7 @@ var CP_EVENT = (function() {
 				prevPage: $('#update_event_guest_invite').parent().attr('href').substring(1)
 			}, function(addGuestPage) {
 				$('#manage_event_container').html(addGuestPage).ready(function() {
-					GUEST_INVITE_FILE_UPLOADER.init();
+					GUEST_INVITE_FILE_UPLOADER_UPDATE.init();
 					$('#invite_guest_update').live('click', function() {
 						if ($('#update_guest_prevpage').html() == 'manage') {
 							CP_EVENT.manageEvent();
@@ -94,14 +116,14 @@ var CP_EVENT = (function() {
 			$.get(EFGLOBAL.baseUrl + '/event/manage/on', {
 				eventId: $('#update_event_overlay_eventid').html()
 			}, function(manageEventOnPage) {
-				$('#manage_event_container').html(manageEventOnPage).ready(function() {
-					$('#email_settings').live('click', function() {
-						$.get(EFGLOBAL.baseUrl + '/event/email', function(emailSettingPage) {
-							$('#manage_event_container').html(emailSettingPage).ready(function() {
-								$('#manage_event_email_tabs').tabs();
-							});
-						});
-					});
+				$('#manage_event_container').html(manageEventOnPage);
+			});
+		},
+		
+		emailSettings: function() {
+			$.get(EFGLOBAL.baseUrl + '/event/email', function(emailSettingPage) {
+				$('#manage_event_container').html(emailSettingPage).ready(function() {
+					$('#manage_event_email_tabs').tabs();
 				});
 			});
 		},
@@ -115,22 +137,20 @@ var CP_EVENT = (function() {
 		},
 		
 		updateEventSubmit: function() {
-			var urlToken = $('#updateEvent_url').val().split('/'),
+			var urlToken = $('#event_url_update').val().split('/'),
 					eid = urlToken[urlToken.length - 1];
 					
 			$.post(EFGLOBAL.baseUrl + '/event/update', {
-				title: 				$('#updateEvent_title').val(),
-				description:	$('#updateEvent_description').val(),
-				address: 			$('#updateEvent_address').val(),
-				date: 				$('#updateEvent_date').val(),
-				time:					$('#updateEvent_time').val(),
-				deadline: 		$('#updateEvent_deadline').val(),
-				goal:     		$('#updateEvent_goal').val(),
-				cost: 				$('#updateEvent_cost').val(),
-				gets: 				$('#updateEvent_gets').val(),
-				eo_bio: 			$('#updateEvent_bio').val(),
-				is_public: 		$('input:radio[name=updateEvent_ispublic]:checked').val(),
-				url:					$('#updateEvent_url').val(),
+				title: 				$('#event_title_update').val(),
+				description:	$('#event_description_update').val(),
+				address: 			$('#event_address_update').val(),
+				date: 				$('#event_date_update').val(),
+				time:					$('#event_time_update').val(),
+				deadline: 		$('#event_deadline_update').val(),
+				goal:     		$('#event_goal_update').val(),
+				gets: 				$('#event_gets_update').val(),
+				is_public: 		$('input:radio[name=event_ispublic_update]:checked').val(),
+				url:					$('#event_url_update').val(),
 				eventId:      eid
 			}, CP_EVENT.updateCP);
 			$('#update_event_form').html(EFGLOBAL.ajaxLoader);

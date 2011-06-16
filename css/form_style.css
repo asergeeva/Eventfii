@@ -7,11 +7,11 @@
 	margin-top: 150px;
 }
 
-#createEvent_picture {
+#event_picture_create {
 	margin-left: 10px;
 }
 
-#createEvent_url {
+#event_url_create {
 	margin-left: 10px;
 	width: 250px;
 }
@@ -53,11 +53,11 @@
 	margin-top: 13px;
 }
 
-#updateEvent_picture {
+#event_picture_update {
 	margin-left: 10px;
 }
 
-#updateEvent_url {
+#event_url_update {
 	margin-left: 10px;
 	width: 250px;
 }
@@ -107,11 +107,8 @@ h3.event_form_section_subheader {
 	font-weight: normal;
 }
 
-#createEvent_ispublic_yes, #createEvent_ispublic_no {
-	float: left;
-}
-
-#updateEvent_ispublic_yes, #updateEvent_ispublic_no {
+#event_ispublic_yes_create, #event_ispublic_no_create,
+#event_ispublic_yes_update, #event_ispublic_no_update {
 	float: left;
 }
 
@@ -133,12 +130,12 @@ h3.event_form_section_subheader_radio {
 	margin-left: 20px;
 }
 
-a#createEvent_submit {
+a#event_create {
 	float:right;
 	margin-right: 100px;
 }
 
-a#updateEvent_submit {
+a#event_update {
 	float:right;
 	margin-right: 100px;
 }

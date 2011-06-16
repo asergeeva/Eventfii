@@ -17,5 +17,4 @@
   	{/foreach}
   </table>
   </div>
-  <a href="#manage_on"><img src="{$IMG_PATH}/email_03.png" id="email_settings" /></a>
 </div>

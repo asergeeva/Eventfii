@@ -8,7 +8,7 @@
 var CREATE_FILE_UPLOADER = (function() {
 	return {
 		init: function() {
-			var eventUrlDOM = $('#createEvent_url').val();
+			var eventUrlDOM = $('#event_url_create').val();
 			if (eventUrlDOM !== undefined) {
 				var eventUrlToken = eventUrlDOM.split('/'),
 						eid = eventUrlToken[eventUrlToken.length - 1];
@@ -26,10 +26,10 @@ var CREATE_FILE_UPLOADER = (function() {
 	}
 })();
 
-var GUEST_INVITE_FILE_UPLOADER = (function() {
+var GUEST_INVITE_FILE_UPLOADER_CREATE = (function() {
 	return {
-		init: function() {
-			var eventUrlDOM = $('#createEvent_url').val();
+		init: function(curPage) {
+			var eventUrlDOM = $('#event_url_create').val();
 			if (eventUrlDOM !== undefined) {
 				var eventUrlToken = eventUrlDOM.split('/'),
 						eid = eventUrlToken[eventUrlToken.length - 1];
@@ -48,20 +48,18 @@ var GUEST_INVITE_FILE_UPLOADER = (function() {
 })();
  
 var CREATE_EVENT_FORM = (function() {
-	$('#createEvent_submit').live('click', function() {
+	$('#event_create').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/submit', {
-			title: 				$('#createEvent_title').val(),
-			description:	$('#createEvent_description').val(),
-			address: 			$('#createEvent_address').val(),
-			date: 				$('#createEvent_date').val(),
-			time:					$('#createEvent_time').val(),
-			deadline: 		$('#createEvent_deadline').val(),
-			goal:     		$('#createEvent_goal').val(),
-			cost: 				$('#createEvent_cost').val(),
-			gets: 				$('#createEvent_gets').val(),
-			is_public: 		$('input:radio[name=createEvent_ispublic]:checked').val(),
-			image:        $('#createEvent_picture').val(),
-			url:					$('#createEvent_url').val(),
+			title: 				$('#event_title_create').val(),
+			description:	$('#event_description_create').val(),
+			address: 			$('#event_address_create').val(),
+			date: 				$('#event_date_create').val(),
+			time:					$('#event_time_create').val(),
+			deadline: 		$('#event_deadline_create').val(),
+			goal:     		$('#event_goal_create').val(),
+			gets: 				$('#event_gets_create').val(),
+			is_public: 		$('input:radio[name=event_ispublic_create]:checked').val(),
+			url:					$('#event_url_create').val(),
 			guest_email:  $('#guest_email').val()
 		}, CREATE_EVENT_FORM.createEventSubmit);
 		$('#middle').html(EFGLOBAL.ajaxLoader);
@@ -69,11 +67,11 @@ var CREATE_EVENT_FORM = (function() {
  
  return {
 	 init: function() {
-			$('#createEvent_date').datepicker();
-			$('#createEvent_deadline').datepicker();
-			$('#createEvent_title').focus();
+			$('#event_date_create').datepicker();
+			$('#event_deadline_create').datepicker();
+			$('#event_title_create').focus();
 			CREATE_FILE_UPLOADER.init();
-			GUEST_INVITE_FILE_UPLOADER.init();
+			GUEST_INVITE_FILE_UPLOADER_CREATE.init();
 			$("img[rel]").overlay();
 			
 			$('#invite_guest_submit').live('click', function() {

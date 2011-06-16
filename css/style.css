@@ -104,6 +104,7 @@ ul.top_nav li {
 	width:35px;
 }
 
+/* EVENT GUEST */
 #event_invite_guest {
 	margin-left: 50px;
 	margin-bottom: 50px;
@@ -111,4 +112,9 @@ ul.top_nav li {
 
 #invite_guest_submit {
 	margin-top: 20px;
+}
+
+textarea#guest_email {
+	width: 250px;
+	height: 100px;
 }

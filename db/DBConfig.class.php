@@ -128,7 +128,7 @@ class DBConfig {
 														VALUES ('".mysql_real_escape_string($fname)."', 
 																    '".mysql_real_escape_string($lname)."', 
 																		'".mysql_real_escape_string($email)."', 
-																		 ".mysql_real_escape_string($pass).", 
+																		'".mysql_real_escape_string($pass)."', 
 																		'I am ".mysql_real_escape_string($fname)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else {
@@ -258,18 +258,19 @@ class DBConfig {
 	public function hasAttend($uid, $eid) {
 		$HAS_ATTEND = "SELECT * FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
 		if ($this->getRowNum($HAS_ATTEND) > 0) {
-			return true;
+			return $this->executeQuery($HAS_ATTEND);
 		}
-		return false;
+		return NULL;
 	}
 	
-	public function eventSignUp($uid, $eid) {
+	public function eventSignUp($uid, $eid, $conf) {
 		if (!$this->hasAttend($uid, $eid)) {
-			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$uid.")";
+			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
-			return true;
+		} else {
+			$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf." WHERE event_id = ".$eid." AND user_id = ".$uid;
+			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
-		return false;
 	}
 	
 	public function preapprovePayment($uid, $eid, $pkey, $pemail) {

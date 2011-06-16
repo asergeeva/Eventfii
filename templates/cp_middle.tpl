@@ -7,6 +7,7 @@
   	<li><a href="#" id="update_event_before">Before Event</a></li>
     <li><a href="#" id="update_event_on">Day of Event</a></li>
 		<li><a href="#" id="update_event_after">After Event</a></li>
+    <li><a href="#manage_on"><img src="{$IMG_PATH}/email_03.png" id="email_settings" /></a></li>
   </ul>
 	<ul id="update_event_left_nav">
   	<li><a href="#" id="update_event_manage">Manage</a></li>

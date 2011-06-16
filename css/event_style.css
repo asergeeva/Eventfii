@@ -95,3 +95,9 @@
 #fb-like-button {
 	margin-top: 20px;
 }
+
+#event_attending_response {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}

@@ -30,7 +30,6 @@ class PanelController {
 	
 	private function assignAttendingEvents($uid) {
 		$attendingEvents = $this->dbCon->getEventAttendingBy($uid);
-		
 		$this->smarty->assign('attendingEvents', $attendingEvents);
 	}
 	
@@ -106,6 +105,18 @@ class PanelController {
 		}
 	}
 	
+	public function checkGuests(&$eventInfo) {
+		$eid = explode('/', $_REQUEST['url']);
+		$eid = $eid[sizeof($eid) - 1];
+		$csvFile = 'upload/event/csv-'.$eid.'.csv';
+		
+		if ($_REQUEST['guest_email'] != '') {
+			$eventInfo->setGuests($_REQUEST['guest_email']);
+		} else if (file_exists($csvFile)) {
+			$eventInfo->setGuestsFromCSV($csvFile);
+		}
+	}
+	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		
@@ -118,19 +129,14 @@ class PanelController {
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
 			
+			$_SESSION['ceid'] = $eventId;
+			
 			if (isset($_SESSION['uid'])) {
 				$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 				
+				$this->smarty->assign('conf'.$hasAttend['confidence'], 'checked = "checked"');
 				$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
 				$this->smarty->assign('currentUser', $currentUser);
-				
-				if ($hasAttend) {
-					$this->smarty->assign('yesButton', '<h2>Already signed up!</h2>');
-				} else {
-					$this->smarty->assign('yesButton', '<a href="#" id="event-'.$eventId.'">
-																								<img src="'.EP_IMG_PATH.'/yes.png" class="ep_yes" id="attend_event_confirm" />
-																							</a>');
-				}
 			}
 			$eventInfo['description'] = stripslashes($eventInfo['description']);
 			
@@ -200,6 +206,8 @@ class PanelController {
 															 $_REQUEST['cost'],
 															 $_REQUEST['is_public'],
 															 $_REQUEST['gets']);
+				
+				$this->checkGuests($eventInfo);
 															
 				$eventInfo->eid = $_REQUEST['eventId'];
 				$this->dbCon->updateEvent($eventInfo);
@@ -223,15 +231,7 @@ class PanelController {
 															$_REQUEST['is_public'],
 															$_REQUEST['gets']);
 				
-				$eid = explode('/', $_REQUEST['url']);
-				$eid = $eid[sizeof($eid) - 1];
-				$csvFile = 'upload/event/csv-'.$eid.'.csv';
-
-				if ($_REQUEST['guest_email'] != '') {
-					$newEvent->setGuests($_REQUEST['guest_email']);
-				} else if (file_exists($csvFile)) {
-					$newEvent->setGuestsFromCSV($csvFile);
-				}
+				$this->checkGuests($newEvent);
 
 				$this->checkNewEvent($newEvent, false);
 				break;
@@ -249,30 +249,32 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/event/attend':
-				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_REQUEST['eid']);
-				$this->dbCon->eventSignUp($_SESSION['uid'], $_REQUEST['eid']);
+				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_SESSION['ceid']);
+				$this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['ceid'], $_REQUEST['conf']);
 				break;
 			case '/event/edit':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				
 				$eventDateTime = explode(" ", $eventInfo['event_datetime']);
 				$eventDate = $this->dbCon->dateToRegular($eventDateTime[0]);
-				$eventTime = $eventDateTime[1];
+				
+				$eventTime = explode(":", $eventDateTime[1]);
+				$eventTime = $eventTime[0].":".$eventTime[1];
 				
 				$eventInfo['event_datetime'] = $eventDate." ".$eventTime;
 				$eventInfo['event_deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
 				
 				$isPublic = $eventInfo['is_public'];
-				$isPrivateRadio = '';
-				$isPublicRadio = '';
+				$isEventPrivate = '';
+				$isEventPublic = '';
 				if ($isPublic == 1) {
-					$isPublicRadio = 'checked = "checked"';
+					$isEventPublic = 'checked = "checked"';
 				} else {
-					$isPrivateRadio = 'checked = "checked"';
+					$isEventPrivate = 'checked = "checked"';
 				}
 				
-				$this->smarty->assign('isPublicRadio', $isPublicRadio);
-				$this->smarty->assign('isPrivateRadio', $isPrivateRadio);
+				$this->smarty->assign('isEventPublic', $isEventPublic);
+				$this->smarty->assign('isEventPrivate', $isEventPrivate);
 				
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);

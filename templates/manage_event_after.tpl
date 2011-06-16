@@ -6,7 +6,7 @@
     </div>
     <div class="event_score">
       <h3 class="event_score_title">Your Goal</h3>
-      <h4 class="event_score_val">50</h4>
+      <h4 class="event_score_val">{$eventInfo['goal']}</h4>
     </div>
     <div class="event_score">
       <h3 class="event_score_title">Your Result</h3>
