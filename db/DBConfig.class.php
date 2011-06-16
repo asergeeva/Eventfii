@@ -319,7 +319,7 @@ class DBConfig {
 	}
 	
 	public function getAttendeesByEvent($eid) {
-		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.event_id = ".$eid;
+		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence IS NOT NULL AND a.event_id = ".$eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 }

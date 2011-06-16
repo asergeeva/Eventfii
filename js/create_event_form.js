@@ -28,7 +28,7 @@ var CREATE_FILE_UPLOADER = (function() {
 
 var GUEST_INVITE_FILE_UPLOADER_CREATE = (function() {
 	return {
-		init: function(curPage) {
+		init: function() {
 			var eventUrlDOM = $('#event_url_create').val();
 			if (eventUrlDOM !== undefined) {
 				var eventUrlToken = eventUrlDOM.split('/'),
@@ -36,7 +36,7 @@ var GUEST_INVITE_FILE_UPLOADER_CREATE = (function() {
 				
 				var uploader = new qq.FileUploader({
 					// pass the dom node (ex. $(selector)[0] for jQuery users)
-					element: $('#guest-invite-file-uploader')[0],
+					element: $('#guest-invite-file-uploader-create')[0],
 					// path to server-side upload script
 					action: EFGLOBAL.baseUrl + '/event/image/upload',
 					// additional data

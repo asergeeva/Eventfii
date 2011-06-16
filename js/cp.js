@@ -28,21 +28,15 @@ var UPDATE_FILE_UPLOADER = (function() {
 
 var GUEST_INVITE_FILE_UPLOADER_UPDATE = (function() {
 	return {
-		init: function(curPage) {
-			var eventUrlDOM = $('#event_url_update').val();
-			if (eventUrlDOM !== undefined) {
-				var eventUrlToken = eventUrlDOM.split('/'),
-						eid = eventUrlToken[eventUrlToken.length - 1];
-				
-				var uploader = new qq.FileUploader({
-					// pass the dom node (ex. $(selector)[0] for jQuery users)
-					element: $('#guest-invite-file-uploader')[0],
-					// path to server-side upload script
-					action: EFGLOBAL.baseUrl + '/event/image/upload',
-					// additional data
-					params: {eventId: 'csv-'+ eid}
-				});
-			}
+		init: function() {
+			var uploader = new qq.FileUploader({
+				// pass the dom node (ex. $(selector)[0] for jQuery users)
+				element: $('#guest-invite-file-uploader-update')[0],
+				// path to server-side upload script
+				action: EFGLOBAL.baseUrl + '/event/image/upload',
+				// additional data
+				params: {eventId: 'csv-'+ $('#update_event_overlay_eventid').html()}
+			});
 		}
 	}
 })();
@@ -124,6 +118,9 @@ var CP_EVENT = (function() {
 			$.get(EFGLOBAL.baseUrl + '/event/email', function(emailSettingPage) {
 				$('#manage_event_container').html(emailSettingPage).ready(function() {
 					$('#manage_event_email_tabs').tabs();
+					$('#reminder_auto_send_date').datepicker();
+					$('#followup_auto_send_date').datepicker();
+					$('#attendance_auto_send_date').datepicker();
 				});
 			});
 		},
