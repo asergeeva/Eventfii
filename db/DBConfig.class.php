@@ -322,4 +322,21 @@ class DBConfig {
 		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence IS NOT NULL AND a.event_id = ".$eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
+	
+	public function getNumAttendeesByConfidence($eid, $conf) {
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence = ".$conf." AND a.event_id = ".$eid;
+		return $this->executeQuery($GET_ATTENDEES);
+	}
+
+	public function getNumAttendeesNoResponse($eid) {
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence IS NULL AND a.event_id = ".$eid;
+		return $this->executeQuery($GET_ATTENDEES);
+	}
+	
+	// Event Result: the total number of attendees that got checked
+	// i.e. It is the number of guests who actually attended the event
+	public function getEventResult($eid) {
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.event_id = ".$eid." AND a.is_attending = 1";
+		return $this->executeQuery($GET_ATTENDEES);
+	}
 }

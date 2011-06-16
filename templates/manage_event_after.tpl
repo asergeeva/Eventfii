@@ -10,7 +10,7 @@
     </div>
     <div class="event_score">
       <h3 class="event_score_title">Your Result</h3>
-      <h4 class="event_score_val">45</h4>
+      <h4 class="event_score_val">{$eventResult}</h4>
     </div>
   </div>
 </div>

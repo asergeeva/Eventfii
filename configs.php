@@ -30,6 +30,12 @@ $smarty->assign('UP_IMG_PATH', UP_IMG_PATH);
 $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
 
+define('CONFOPT1', 90);
+define('CONFOPT2', 70);
+define('CONFOPT3', 50);
+define('CONFOPT4', 30);
+define('CONFOPT5', 10);
+
 define('PAYPAL_REDIRECT_URL', 'https://www.sandbox.paypal.com/webscr&cmd=');
 define('DEVELOPER_PORTAL', 'https://developer.paypal.com');
 define('DEVICE_ID', 'PayPal_Platform_PHP_SDK');

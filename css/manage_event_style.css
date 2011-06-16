@@ -131,13 +131,13 @@ h4.event_score_val {
 	visibility: hidden;
 }
 
-/* MANAGE EVENT ON */
-#manage_event_on {
+#manage_event_container {
 	float: left;
 	margin-left: 50px;
 	margin-top: 30px;
 }
 
+/* MANAGE EVENT ON */
 #check_off_attendance {
 	float: left;
 	clear: both;
@@ -170,9 +170,7 @@ div.scroll {
 
 /* MANAGE EVENT AFTER */
 #manage_event_after {
-	float: left;
-	margin-left: 50px;
-	margin-top: 30px;
+	margin-bottom: 50px;
 }
 
 /* GUEST FORM */

@@ -21,27 +21,27 @@
   <table id="total_rsvp">
   	<tr>
     	<th>Yes, I will absolutely be there</th>
-      <td>0</td>
+      <td>{$guestConf1}</td>
     </tr>
     <tr>
     	<th>I'm pretty sure I'll be there</th>
-      <td>0</td>
+      <td>{$guestConf2}</td>
     </tr>
     <tr>
     	<th>I will make it if I remember</th>
-      <td>0</td>
+      <td>{$guestConf3}</td>
     </tr>
     <tr>
     	<th>I will make it if I have nothing better to do</th>
-      <td>0</td>
+      <td>{$guestConf4}</td>
     </tr>
     <tr>
     	<th>Not attending, but show me as a supporter</th>
-      <td>0</td>
+      <td>{$guestConf5}</td>
     </tr>
     <tr>
     	<th>Not responded yet</th>
-      <td>0</td>
+      <td>{$guestNoResp}</td>
     </tr>
   </table>
 </div>
