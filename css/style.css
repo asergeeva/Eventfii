@@ -118,3 +118,8 @@ textarea#guest_email {
 	width: 250px;
 	height: 100px;
 }
+
+.succeed_text {
+	font-weight: bold;
+	font-size: 16px;
+}

@@ -319,24 +319,60 @@ class DBConfig {
 	}
 	
 	public function getAttendeesByEvent($eid) {
-		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence IS NOT NULL AND a.event_id = ".$eid;
+		$GET_ATTENDEES = "SELECT * FROM ef_attendance a, ef_users u 
+												WHERE a.user_id = u.id AND a.confidence IS NOT NULL AND a.event_id = ".$eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
 	public function getNumAttendeesByConfidence($eid, $conf) {
-		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence = ".$conf." AND a.event_id = ".$eid;
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u 
+												WHERE a.user_id = u.id AND a.confidence = ".$conf." AND a.event_id = ".$eid;
 		return $this->executeQuery($GET_ATTENDEES);
 	}
 
 	public function getNumAttendeesNoResponse($eid) {
-		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.confidence IS NULL AND a.event_id = ".$eid;
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u 
+												WHERE a.user_id = u.id AND a.confidence IS NULL AND a.event_id = ".$eid;
 		return $this->executeQuery($GET_ATTENDEES);
 	}
 	
 	// Event Result: the total number of attendees that got checked
 	// i.e. It is the number of guests who actually attended the event
 	public function getEventResult($eid) {
-		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u WHERE a.user_id = u.id AND a.event_id = ".$eid." AND a.is_attending = 1";
+		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u 
+												WHERE a.user_id = u.id AND a.event_id = ".$eid." AND a.is_attending = 1";
 		return $this->executeQuery($GET_ATTENDEES);
+	}
+	
+	public function checkInGuest($isAttend, $uid, $eid) {
+		$CHECKIN_GUEST = "UPDATE ef_attendance a SET a.is_attending = ".$isAttend." 
+												WHERE a.user_id = ".$uid." AND a.event_id = ".$eid."";
+		$this->executeUpdateQuery($CHECKIN_GUEST);
+	}
+	
+	// If the recipient_group IS NULL, the recipient is all attendees
+	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $type, $autoReminder) {
+		$deliveryTime = $deliveryTime.":00";
+		$SAVE_REMINDER = "INSERT INTO ef_event_messages (created, subject, message, delivery_time, event_id, type, is_activated) 
+												VALUES (NOW(), 
+												        '".mysql_real_escape_string($subject)."', 
+															  '".mysql_real_escape_string($msg)."', 
+																'".mysql_real_escape_string($deliveryDateTime)."', 
+																".$eid.",
+																".$type.",
+																".$autoReminder.")";
+		$this->executeUpdateQuery($SAVE_REMINDER);
+	}
+	
+	public function getEventEmail($eid, $type) {
+		$GET_EVENT_EMAIL = "SELECT * FROM ef_event_messages m WHERE m.event_id = ".$eid." 
+													AND m.type = ".$type." ORDER BY m.created DESC LIMIT 1";
+		return $this->executeQuery($GET_EVENT_EMAIL);
+	}
+	
+	public function setAutosend($eid, $type, $isActivated) {
+		$SET_AUTOSEND = "UPDATE ef_event_messages m SET m.is_activated = ".$isActivated.
+											" WHERE m.event_id = ".$eid." AND m.type = ".$type;
+		$this->executeUpdateQuery($SET_AUTOSEND);
 	}
 }

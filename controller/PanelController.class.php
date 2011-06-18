@@ -117,6 +117,21 @@ class PanelController {
 		}
 	}
 	
+	public function displayAttendeePage($eventId) {
+		$eventAttendees = $this->dbCon->getAttendeesByEvent($eventId);
+		$eventInfo = $this->dbCon->getEventInfo($eventId);
+		
+		for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
+			if ($eventAttendees[$i]['is_attending'] == 1) {
+				$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+			}
+		}
+		
+		$this->smarty->assign('eventAttendees', $eventAttendees);
+		$this->smarty->assign('eventInfo', $eventInfo);
+		$this->smarty->display('manage_event_on.tpl');
+	}
+	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		
@@ -314,12 +329,39 @@ class PanelController {
 				$this->smarty->display('manage_event_form.tpl');
 				break;
 			case '/event/manage/on':
-				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
-				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				$this->displayAttendeePage($_REQUEST['eventId']);
+				break;
+			case '/event/manage/email/save':
+				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
+				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
+				$autoReminder = 0;
+				if ($_REQUEST['autoReminder'] == 'true') {
+					$autoReminder = 1;
+				}
 				
-				$this->smarty->assign('eventAttendees', $eventAttendees);
-				$this->smarty->assign('eventInfo', $eventInfo);
-				$this->smarty->display('manage_event_on.tpl');
+				$this->dbCon->saveEmail($_REQUEST['eventId'], 
+															  $_REQUEST['reminderContent'],
+																$dateTime,
+																$_REQUEST['reminderSubject'],
+																$_REQUEST['type'],
+																$autoReminder);
+				break;
+			case '/event/manage/email/send':
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				$attendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$mailer->sendAutomatedEmail($eventInfo, 
+																	 $_REQUEST['reminderContent'],
+																	 $_REQUEST['reminderSubject'],
+																	 $attendees);
+				break;
+			case '/event/manage/email/autosend':
+				$isActivated = 0;
+				if ($_REQUEST['autoSend'] == 'true') {
+					$isActivated = 1;
+				}
+				$this->dbCon->setAutosend($_REQUEST['eventId'], $_REQUEST['type'], $isActivated);
 				break;
 			case '/event/manage/after':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
@@ -331,7 +373,30 @@ class PanelController {
 				$this->smarty->display('manage_event_after.tpl');
 				break;
 			case '/event/email':
+				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
+				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
+				
+				if ($eventReminder['is_activated'] == 1) {
+					$eventReminder['isAuto'] = 'checked = "checked"';
+				}
+				if ($eventFollowup['is_activated'] == 1) {
+					$eventFollowup['isAuto'] = 'checked = "checked"';
+				}
+				
+				$this->smarty->assign('eventReminder', $eventReminder);
+				$this->smarty->assign('eventFollowup', $eventFollowup);
+				
 				$this->smarty->display('manage_event_email.tpl');
+				break;
+			case '/event/checkin':
+				$isAttend = 1;
+				if ($_REQUEST['checkin'] == 'false') {
+					$isAttend = 0;
+				}
+				$this->dbCon->checkInGuest($isAttend, $_REQUEST['guestId'], $_REQUEST['eventId']);
+				break;
+			case '/event/print':
+				$this->displayAttendeePage($_REQUEST['eventId']);
 				break;
 			case '/user/create':
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);

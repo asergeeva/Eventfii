@@ -36,6 +36,9 @@ define('CONFOPT3', 50);
 define('CONFOPT4', 30);
 define('CONFOPT5', 10);
 
+define('EMAIL_REMINDER_TYPE', 0);
+define('EMAIL_FOLLOWUP_TYPE', 1);
+
 define('PAYPAL_REDIRECT_URL', 'https://www.sandbox.paypal.com/webscr&cmd=');
 define('DEVELOPER_PORTAL', 'https://developer.paypal.com');
 define('DEVICE_ID', 'PayPal_Platform_PHP_SDK');

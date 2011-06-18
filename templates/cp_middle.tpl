@@ -12,6 +12,7 @@
 	<ul id="update_event_left_nav">
   	<li><a href="#" id="update_event_manage">Manage</a></li>
     <li><a href="#" id="update_event_edit">Edit</a></li>
+    <li><a href="#" id="update_event_preview" target="_blank">Preview</a></li>
   </ul>
   <div id="manage_event_container">
 		{include file="manage_event_form.tpl"}
