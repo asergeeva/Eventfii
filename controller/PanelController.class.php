@@ -10,6 +10,7 @@ require_once('db/DBConfig.class.php');
 class PanelController {
 	private $smarty;
 	private $dbCon;
+	private $DEBUG = true;
 	
 	function __construct($smarty) {
 		$this->smarty = $smarty;
@@ -298,6 +299,7 @@ class PanelController {
 				break;
 			case '/event/edit/guest':
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				$eventAttendeeEmails = "";
 				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 					$eventAttendeeEmails .= $eventAttendees[$i]['email'];
@@ -305,9 +307,36 @@ class PanelController {
 						$eventAttendeeEmails .= ", ";
 					}
 				}
+				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->assign('eventAttendeeEmails', $eventAttendeeEmails);
 				$this->smarty->assign('prevPage', $_REQUEST['prevPage']);
 				$this->smarty->display('event_invite_guest_update.tpl');
+				break;
+			case '/event/edit/guest/inviter':
+				require_once('libs/OpenInviter/openinviter.php');
+				$inviter = new OpenInviter();
+				$oi_services = $inviter->getPlugins();
+				
+				if (isset($_REQUEST['oi_email']) && isset($_REQUEST['oi_pass'])) {
+					$inviter->startPlugin($_REQUEST['oi_provider']);
+					$internal = $inviter->getInternalError();
+					if ($internal && $this->DEBUG) {
+						print($internal);
+					}
+					$inviter->login($_REQUEST['oi_email'], $_REQUEST['oi_pass']);
+					
+					$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
+					$contactList = $inviter->getMyContacts();
+					
+					$this->smarty->assign('contactList', $contactList);
+					$this->smarty->display('event_add_guest_import_contact_list.tpl');
+				} else {
+					$this->smarty->assign('provider', $_REQUEST['provider']);
+					$this->smarty->display('event_add_guest_right.tpl');
+				}
+				break;
+			case '/event/edit/guest/save':
+				
 				break;
 			case '/event/manage':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);

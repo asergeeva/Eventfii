@@ -46,6 +46,26 @@ $(document).ready(function() {
 	CREATE_EVENT_FORM.init();
 });
 
+var OPENINVITER = (function() {
+	return {
+		init: function() {
+			$('#oi_import').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
+					oi_provider: $('#oi_provider').val(),
+					oi_email: $('#oi_email').val(),
+					oi_pass: $('#oi_pass').val()
+				}, function(contactListPage) {
+					$('#add_guest_right').html(contactListPage).ready(function() {
+						$('.selected_contact').live('click', function() {
+							$('#guest_email').val($('#guest_email').val() + ', ' + $(this).val());
+						});
+					});
+				});
+			});
+		}
+	}
+}());
+
 var CP_EVENT = (function() {
 	return {
 		init: function() {
@@ -98,11 +118,24 @@ var CP_EVENT = (function() {
 				$('#manage_event_container').html(addGuestPage).ready(function() {
 					GUEST_INVITE_FILE_UPLOADER_UPDATE.init();
 					$('#invite_guest_update').live('click', function() {
+						// TODO: Save the email addresses
 						if ($('#update_guest_prevpage').html() == 'manage') {
 							CP_EVENT.manageEvent();
 						} else if ($('#update_guest_prevpage').html() == 'update') {
 							CP_EVENT.editEvent();
 						}
+					});
+					
+					// EMAIL INVITER PROVIDER
+					$('.event_invite_oi').live('click', function() {
+						$('#update_event_form').html(EFGLOBAL.ajaxLoader);
+						$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
+							provider: this.href.split('#')[1]
+						}, function(providerLoginPage) {
+							$('#add_guest_right').html(providerLoginPage).ready(function() {
+								OPENINVITER.init();
+							});
+						});
 					});
 				});
 			});

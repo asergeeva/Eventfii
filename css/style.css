@@ -105,6 +105,15 @@ ul.top_nav li {
 }
 
 /* EVENT GUEST */
+#add_guest_left {
+	float: left;
+	margin-right: 20px;
+}
+
+#add_guest_right {
+	float: left;
+}
+
 #event_invite_guest {
 	margin-left: 50px;
 	margin-bottom: 50px;
@@ -122,4 +131,27 @@ textarea#guest_email {
 .succeed_text {
 	font-weight: bold;
 	font-size: 16px;
+}
+
+#event_invite_guest_fb {
+	margin-bottom: 20px;
+}
+
+#event_invite_guest_oi {
+	margin: 0px;
+	padding: 0px;
+}
+
+#add_guest_save_container {
+	clear: both;
+}
+
+#event_invite_guest_oi li {
+	list-style: none;
+	margin-right: 10px;
+	float: left;
+}
+
+#event_invite_guest_oi li a {
+	color: #FC0;
 }
