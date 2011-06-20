@@ -8,11 +8,13 @@
   <table>
   	<tr>
     	<th>Name</th>
+      <th>Email</th>
       <th>% Reliability</th>
     </tr>
   	{foreach name=attendees item=eventAttendee from=$eventAttendees}
   	<tr>
     	<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} /> {$eventAttendee['fname']} {$eventAttendee['lname']}</td>
+      <td>{$eventAttendee['email']}</td>
       <td>0</td>
     </tr>
   	{/foreach}
