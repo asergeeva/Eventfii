@@ -57,7 +57,9 @@ var OPENINVITER = (function() {
 				}, function(contactListPage) {
 					$('#add_guest_right').html(contactListPage).ready(function() {
 						$('.selected_contact').live('click', function() {
-							$('#guest_email').val($('#guest_email').val() + ', ' + $(this).val());
+							if ($(this).attr('checked') === true) {
+								$('#guest_email').val($('#guest_email').val() + ', ' + $(this).val());
+							}
 						});
 					});
 				});
