@@ -35,7 +35,7 @@ CREATE TABLE ef_attendance (
   event_id          INTEGER NOT NULL REFERENCES ef_events(id),
   user_id           INTEGER NOT NULL REFERENCES ef_users(id),
   is_attending      TINYINT(1) NOT NULL DEFAULT 0,
-  confidence        FLOAT,
+  confidence        FLOAT NOT NULL DEFAULT 5,
   CONSTRAINT pk_attendance PRIMARY KEY (event_id, user_id)
 ) ENGINE=InnoDB;
 
