@@ -309,11 +309,11 @@ class DBConfig {
 	public function storeGuests($guestEmails, $eid, $referrer) {
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
-				$STORE_GUEST_EMAIL_USERS = "INSERT INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";
+				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
 			$userInfo = $this->getUserInfoByEmail($guestEmails[$i]);
-			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$userInfo['id'].")";
+			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$userInfo['id'].")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}

@@ -118,7 +118,10 @@ var CP_EVENT = (function() {
 				$('#manage_event_container').html(addGuestPage).ready(function() {
 					GUEST_INVITE_FILE_UPLOADER_UPDATE.init();
 					$('#invite_guest_update').live('click', function() {
-						// TODO: Save the email addresses
+						$.post(EFGLOBAL.baseUrl + '/event/edit/guest/save', {
+							eventId: $('#update_event_overlay_eventid').html(),
+							guest_email: $('#guest_email').val()
+						});
 						if ($('#update_guest_prevpage').html() == 'manage') {
 							CP_EVENT.manageEvent();
 						} else if ($('#update_guest_prevpage').html() == 'update') {

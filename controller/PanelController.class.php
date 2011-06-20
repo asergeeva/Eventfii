@@ -336,7 +336,15 @@ class PanelController {
 				}
 				break;
 			case '/event/edit/guest/save':
+				require_once('models/EFMail.class.php');
 				
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
+				$mailer = new EFMail();
+				$mailer->sendEmail($_REQUEST['guest_email'], $eventInfo['title'], $eventInfo['url']);
+				
+				$guest_email = array_map('trim', explode(",", $_REQUEST['guest_email']));
+				$this->dbCon->storeGuests($guest_email, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);

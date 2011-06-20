@@ -32,10 +32,11 @@ CREATE TABLE ef_event_images (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_attendance (
-  eventfii.ef_users          INTEGER NOT NULL REFERENCES ef_events(id),
+  event_id          INTEGER NOT NULL REFERENCES ef_events(id),
   user_id           INTEGER NOT NULL REFERENCES ef_users(id),
   is_attending      TINYINT(1) NOT NULL DEFAULT 0,
-  confidence        FLOAT
+  confidence        FLOAT,
+  CONSTRAINT pk_attendance PRIMARY KEY (event_id, user_id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
@@ -44,7 +45,10 @@ CREATE TABLE ef_event_messages (
   subject           VARCHAR(200) NOT NULL,
   message           VARCHAR(5000) NOT NULL,
   delivery_time     DATETIME NOT NULL,
-  event_id          INTEGER NOT NULL REFERENCES ef_events(id)
+  event_id          INTEGER NOT NULL REFERENCES ef_events(id),
+  recipient_group   VARCHAR(500),
+  type              TINYINT NOT NULL,
+  is_activated      TINYINT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_payments (
