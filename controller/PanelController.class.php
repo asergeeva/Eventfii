@@ -347,13 +347,18 @@ class PanelController {
 				$this->dbCon->storeGuests($guest_email, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage':
+				require_once('models/EFCore.class.php');
+				$efCore = new EFCore();
+			
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				$numGuestConf1 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT1);
 				$numGuestConf2 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT2);
 				$numGuestConf3 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT3);
 				$numGuestConf4 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT4);
 				$numGuestConf5 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT5);
-				$numGuestNoResp = $this->dbCon->getNumAttendeesNoResponse($_REQUEST['eventId']);
+				$numGuestConf6 = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFOPT6);
+				
+				$numGuestNoResp = $this->dbCon->getNumAttendeesByConfidence($_REQUEST['eventId'], CONFELSE);
 				
 				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->assign('guestConf1', $numGuestConf1['guest_num']);
@@ -361,7 +366,11 @@ class PanelController {
 				$this->smarty->assign('guestConf3', $numGuestConf3['guest_num']);
 				$this->smarty->assign('guestConf4', $numGuestConf4['guest_num']);
 				$this->smarty->assign('guestConf5', $numGuestConf5['guest_num']);
+				$this->smarty->assign('guestConf6', $numGuestConf6['guest_num']);
 				$this->smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
+				
+				$this->smarty->assign('guestimate', $efCore->computeGuestimate($_REQUEST['eventId']));
+				$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($_REQUEST['eventId']));
 				
 				$this->smarty->display('manage_event_form.tpl');
 				break;
@@ -401,12 +410,17 @@ class PanelController {
 				$this->dbCon->setAutosend($_REQUEST['eventId'], $_REQUEST['type'], $isActivated);
 				break;
 			case '/event/manage/after':
+				require_once('models/EFCore.class.php');
+				$efCore = new EFCore();
+				
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				
 				$eventResult = $this->dbCon->getEventResult($_REQUEST['eventId']);
 				
 				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->assign('eventResult', $eventResult['guest_num']);
+				$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($_REQUEST['eventId']));
+				
 				$this->smarty->display('manage_event_after.tpl');
 				break;
 			case '/event/email':

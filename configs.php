@@ -31,10 +31,24 @@ $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
 
 define('CONFOPT1', 90);
-define('CONFOPT2', 70);
-define('CONFOPT3', 50);
-define('CONFOPT4', 30);
-define('CONFOPT5', 10);
+define('CONFOPT2', 65);
+define('CONFOPT3', 35);
+define('CONFOPT4', 15);
+define('CONFOPT5', 5);
+define('CONFOPT6', 1);
+define('CONFELSE', 5);
+
+// 0-20
+define('GUESTRANGE1MIN', 65);
+define('GUESTRANGE1MAX', 70);
+
+// 21-50
+define('GUESTRANGE2MIN', 45);
+define('GUESTRANGE2MAX', 60);
+
+// 51-X
+define('GUESTRANGE3MIN', 40);
+define('GUESTRANGE3MAX', 55);
 
 define('EMAIL_REMINDER_TYPE', 0);
 define('EMAIL_FOLLOWUP_TYPE', 1);

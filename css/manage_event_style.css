@@ -72,7 +72,7 @@
 /* MANAGE EVENT FORM */
 #manage_event_form {
 	float: left;
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-left: 50px;
 }
 
@@ -135,7 +135,7 @@ h4.event_score_val {
 #manage_event_on {
 	float: left;
 	margin-left: 50px;
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 #check_off_attendance {

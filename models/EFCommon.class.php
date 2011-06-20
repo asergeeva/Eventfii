@@ -42,4 +42,8 @@ class EFCommon {
 	  $retDAY = date('Y-m-d', mktime(0, 0, 0, date('m',$cd), date('d',$cd), date('Y',$cd) + $yr));
 	  return $retDAY;
 	}
+	
+	public function toPercent($intVal) {
+		return floatval($intVal) * 0.01;
+	}
 }

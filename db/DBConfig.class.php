@@ -294,6 +294,7 @@ class DBConfig {
 		}
 	}
 	
+	// DEPRECATED: Paypal
 	public function getAttendees($eid) {
 		$GET_ATTENDEES = "SELECT p.uid, p.eid, p.pkey, p.pemail, 
 													FROM ef_event_preapprovals p, ef_events e 
@@ -374,5 +375,10 @@ class DBConfig {
 		$SET_AUTOSEND = "UPDATE ef_event_messages m SET m.is_activated = ".$isActivated.
 											" WHERE m.event_id = ".$eid." AND m.type = ".$type;
 		$this->executeUpdateQuery($SET_AUTOSEND);
+	}
+	
+	public function getNumGuests($eid) {
+		$GET_NUM_GUESTS = "SELECT COUNT(*) AS num_guests FROM ef_users u, ef_attendance a WHERE u.id = a.user_id AND a.event_id = ".$eid;
+		return $this->executeQuery($GET_NUM_GUESTS);
 	}
 }
