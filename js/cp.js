@@ -59,10 +59,17 @@ var OPENINVITER = (function() {
 					$('#add_guest_right').html(contactListPage);
 				});
 			});
-			$('.selected_contact').live('click', function() {
-				if ($(this).attr('checked') === true) {
-					$('#guest_email').val($('#guest_email').val() + ', ' + $(this).val());
+			$('#add_import_contact_list').live('click', function() {
+				var selected_contacts = $('input:checkbox.selected_contact:checked'),
+						guest_email = '',
+						i = 0;
+				for (i = 0; i < selected_contacts.length; ++i) {
+					guest_email += selected_contacts[i].value;
+					if (i < selected_contacts.length - 1) {
+						guest_email += ',';
+					}
 				}
+				$('#guest_email').val(guest_email);
 			});
 		}
 	}

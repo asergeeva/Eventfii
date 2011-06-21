@@ -12,6 +12,6 @@
     <li><a href="#yahoo" class="event_invite_oi">Yahoo!</a></li>
   </ul>
   <h3 class="event_form_section_subheader">Separated by comma</h3>
-  <textarea name="guest_email" id="guest_email">{$eventAttendeeEmails}</textarea>
+  <textarea name="guest_email" id="guest_email"></textarea>
 </div>
 <div class="big_vertical_divisor">OR</div>

@@ -78,20 +78,12 @@ class PanelController {
 				
 				// INVITE GUESTS USING EMAIL
 				$mailer = new EFMail();
-				$guestEmails = "";
-				$emailSize = sizeof($newEvent['guests']);
 
 				$eid = explode('/', $newEvent['url']);
 				$newEvent['eid'] = $eid[sizeof($eid) - 1];
 				
 				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-				for ($i = 0; $i < $emailSize; ++$i) {
-					$guestEmails .= $newEvent['guests'][$i];
-					if ($i < $emailSize - 1) {
-						$guestEmails .= ", ";
-					}
-				}
-				$mailer->sendEmail($guestEmails, $newEvent['title'], $newEvent['url']);
+				$mailer->sendEmail($newEvent['guests'], $newEvent['title'], $newEvent['url']);
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
@@ -107,7 +99,7 @@ class PanelController {
 	}
 	
 	public function checkGuests(&$eventInfo) {
-		$eid = explode('/', $_REQUEST['url']);
+		$eid = explode('/', $eventInfo->url);
 		$eid = $eid[sizeof($eid) - 1];
 		$csvFile = 'upload/event/csv-'.$eid.'.csv';
 		
@@ -264,7 +256,7 @@ class PanelController {
 				$sizeLimit = 10 * 1024 * 1024;
 				
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/event/');
+				$result = $uploader->handleUpload('upload/event/', TRUE);
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
@@ -304,15 +296,8 @@ class PanelController {
 			case '/event/edit/guest':
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
-				$eventAttendeeEmails = "";
-				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
-					$eventAttendeeEmails .= $eventAttendees[$i]['email'];
-					if ($i < sizeof($eventAttendees) - 1) {
-						$eventAttendeeEmails .= ", ";
-					}
-				}
+	
 				$this->smarty->assign('eventInfo', $eventInfo);
-				$this->smarty->assign('eventAttendeeEmails', $eventAttendeeEmails);
 				$this->smarty->assign('prevPage', $_REQUEST['prevPage']);
 				$this->smarty->display('event_invite_guest_update.tpl');
 				break;
@@ -340,15 +325,28 @@ class PanelController {
 				}
 				break;
 			case '/event/edit/guest/save':
+				require_once('models/Event.class.php');
 				require_once('models/EFMail.class.php');
 				
-				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				$eventInfoDB = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				$eventInfo = new Event($_SESSION['uid'],
+															 $eventInfoDB['title'], 
+															 $eventInfoDB['url'], 
+															 $eventInfoDB['goal'],
+															 $eventInfoDB['address'], 
+															 $eventInfoDB['date'],
+															 $eventInfoDB['time'],
+															 $eventInfoDB['deadline'],
+															 $eventInfoDB['description'], 
+															 $eventInfoDB['cost'],
+															 $eventInfoDB['is_public'],
+															 $eventInfoDB['gets']);
+
+				$this->checkGuests($eventInfo);
 				
 				$mailer = new EFMail();
-				$mailer->sendEmail($_REQUEST['guest_email'], $eventInfo['title'], $eventInfo['url']);
-				
-				$guest_email = array_map('trim', explode(",", $_REQUEST['guest_email']));
-				$this->dbCon->storeGuests($guest_email, $_REQUEST['eventId'], $_SESSION['uid']);
+				$mailer->sendEmail($eventInfo->guests, $eventInfo->title, $eventInfo->url);
+				$this->dbCon->storeGuests($eventInfo->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage':
 				require_once('models/EFCore.class.php');

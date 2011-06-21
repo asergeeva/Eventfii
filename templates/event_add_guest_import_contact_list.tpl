@@ -12,5 +12,10 @@
     <td>{$name}</td>
   </tr>
   {/foreach}
+  <tr>
+  	<td></td>
+    <td><button id="add_import_contact_list">Add</button></td>
+    <td></td>
+  </tr>
 </table>
 </div>

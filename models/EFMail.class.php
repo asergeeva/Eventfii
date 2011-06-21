@@ -23,7 +23,9 @@ class EFMail {
 		$subject = 'You are invited to '.$eventName;
 		$message = 'Link: '.$eventUrl;
 		
-		MailgunMessage::send_text($this->FROM, $to, $subject, $message);
+		for ($i = 0; $i < sizeof($to); ++$i) {
+			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
+		}
 	}
 	
 	/**

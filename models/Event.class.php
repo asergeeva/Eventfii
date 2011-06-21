@@ -60,8 +60,10 @@ class Event {
 	public function setGuestsFromCSV($csvFile) {
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
-				if (filter_var($data[2], FILTER_VALIDATE_EMAIL)) {
-					array_push($this->guests, $data[2]);
+				for ($i = 0; $i < sizeof($data); ++$i) {
+					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+						array_push($this->guests, $data[$i]);
+					}
 				}
 			}
 			fclose($handle);
