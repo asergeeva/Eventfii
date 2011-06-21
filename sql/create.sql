@@ -6,7 +6,12 @@ CREATE TABLE ef_users (
   password  VARCHAR(5000),
   about     VARCHAR(5000),
   verified  TINYINT(1) NOT NULL DEFAULT 0,
-  referrer  INTEGER REFERENCES ef_users(id)
+  referrer  INTEGER REFERENCES ef_users(id),
+  phone     VARCHAR(500),
+  phone2    VARCHAR(500),
+  phone3    VARCHAR(500),
+  phone4    VARCHAR(500),
+  phone5    VARCHAR(500)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_events (

@@ -5,3 +5,4 @@ DROP TABLE ef_event_payments;
 DROP TABLE ef_event_preapprovals;
 DROP TABLE ef_events;
 DROP TABLE ef_users;
+DROP TABLE ef_paypal_accounts;
