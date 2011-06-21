@@ -5,11 +5,14 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+ 
+require_once('libs/Mailgun/Mailgun.php');
+
 class EFMail {
 	private $FROM = "no-reply@eventfii.com";
 	
 	function __construct() {
-		
+		mailgun_init('key-afy6amxoo2fnj$u@mc');
 	}
 	
 	function __destruct() {
@@ -19,11 +22,8 @@ class EFMail {
 	public function sendEmail($to, $eventName, $eventUrl) {
 		$subject = 'You are invited to '.$eventName;
 		$message = 'Link: '.$eventUrl;
-		$headers = 'From: '.$this->FROM."\r\n".
-							 'Reply-To: '.$this->FROM."\r\n".
-							 'X-Mailer: PHP/'.phpversion();
 		
-		mail($to, $subject, $message, $headers);
+		MailgunMessage::send_text($this->FROM, $to, $subject, $message);
 	}
 	
 	/**
@@ -33,11 +33,8 @@ class EFMail {
 	public function sendAutomatedEmail($eventInfo, $content, $subject, $attendees) {
 		$message =  $content."\r\n".
 								"Link: ".$eventInfo['url'];
-		$headers = 'From: '.$this->FROM."\r\n".
-							 'Reply-To: '.$this->FROM."\r\n".
-							 'X-Mailer: PHP/'.phpversion();
 		for ($i = 0; $i < sizeof($attendees); ++$i) {
-			mail($attendees[$i]['email'], $subject, $message, $headers);
+			MailgunMessage::send_text($this->FROM, $attendees[$i]['email'], $subject, $message);
 		}
 	}
 }

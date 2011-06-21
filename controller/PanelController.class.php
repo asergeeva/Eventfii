@@ -119,6 +119,9 @@ class PanelController {
 	}
 	
 	public function displayAttendeePage($eventId) {
+		require_once('models/EFCore.class.php');
+		$efCore = new EFCore();
+				
 		$eventAttendees = $this->dbCon->getAttendeesByEvent($eventId);
 		$eventInfo = $this->dbCon->getEventInfo($eventId);
 		
@@ -128,6 +131,7 @@ class PanelController {
 			}
 		}
 		
+		$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
 		$this->smarty->assign('eventAttendees', $eventAttendees);
 		$this->smarty->assign('eventInfo', $eventInfo);
 		$this->smarty->display('manage_event_on.tpl');

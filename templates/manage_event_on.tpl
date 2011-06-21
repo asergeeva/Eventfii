@@ -1,7 +1,7 @@
 <div id="manage_event_on">
   <div class="event_score">
     <h3 class="event_score_title">True RSVP</h3>
-    <h4 class="event_score_val">45</h4>
+    <h4 class="event_score_val">{$trsvpVal}</h4>
   </div>
   <a href="#"><img src="{$IMG_PATH}/print_03.png" id="print_guest" /></a>
   <div id="check_off_attendance" class="scroll">

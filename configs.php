@@ -34,7 +34,7 @@ define('CONFOPT1', 90);
 define('CONFOPT2', 65);
 define('CONFOPT3', 35);
 define('CONFOPT4', 15);
-define('CONFOPT5', 5);
+define('CONFOPT5', 4);
 define('CONFOPT6', 1);
 define('CONFELSE', 5);
 
