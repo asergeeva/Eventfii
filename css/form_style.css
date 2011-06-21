@@ -105,6 +105,7 @@ h3.event_form_section_subheader {
 	font-size: 14px;
 	color: #999;
 	font-weight: normal;
+	clear: both;
 }
 
 #event_ispublic_yes_create, #event_ispublic_no_create,
