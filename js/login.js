@@ -22,6 +22,7 @@ var LOGIN_FORM = (function() {
 				fname: $('#ef_fname_new').val(),
 				lname: $('#ef_lname_new').val(),
 				email: $('#ef_login_email_new').val(),
+				phone: $('#ef_login_phone_new').val(),
 				pass: hex_md5($('#ef_login_pass_new').val())
 			}, LOGIN_FORM.userLogin);
 			$('#middle').html(EFGLOBAL.ajaxLoader);

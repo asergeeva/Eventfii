@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta property="fb:app_id" content="123284527755183" />
+<meta property="fb:admins" content="1164166702" />
 <title>Eventfii | {$title}</title>
 <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" />
 <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />

@@ -116,7 +116,7 @@ class DBConfig {
 		return true;
 	}
 	
-	public function createNewUser($fname, $lname, $email, $pass) {
+	public function createNewUser($fname, $lname, $email, $phone, $pass) {
 		if (!$this->isUserEmailExist($email)) {
 			if (isset($pass)) {
 				$pass = "'".mysql_real_escape_string($pass)."'";
@@ -124,10 +124,11 @@ class DBConfig {
 				// Facebook maintained the password of the user we store them as a NULL
 				$pass = "NULL";
 			}
-			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, password, about) 
+			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, phone, password, about) 
 														VALUES ('".mysql_real_escape_string($fname)."', 
 																    '".mysql_real_escape_string($lname)."', 
-																		'".mysql_real_escape_string($email)."', 
+																		'".mysql_real_escape_string($email)."',
+																		'".mysql_real_escape_string($phone)."', 
 																		 ".$pass.", 
 																		'I am ".mysql_real_escape_string($fname)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
@@ -135,6 +136,7 @@ class DBConfig {
 			$UPDATE_USER = "UPDATE ef_users SET 
 												fname = '".mysql_real_escape_string($fname)."', 
 												lname = '".mysql_real_escape_string($lname)."', 
+												email = '".mysql_real_escape_string($phone)."', 
 												password = '".mysql_real_escape_string($pass)."', 
 												about = 'I am ".mysql_real_escape_string($fname)."'
 											WHERE email = '".mysql_real_escape_string($email)."'";

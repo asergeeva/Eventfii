@@ -452,7 +452,11 @@ class PanelController {
 				$this->displayAttendeePage($_REQUEST['eventId']);
 				break;
 			case '/user/create':
-				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['pass']);
+				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], 
+																								$_REQUEST['lname'], 
+																								$_REQUEST['email'], 
+																								$_REQUEST['phone'], 
+																								$_REQUEST['pass']);
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
@@ -532,7 +536,7 @@ class PanelController {
 				$this->checkHome();
 				break;
 			case '/logout':
-				session_unset();
+				session_destroy();
 				$newEvents = $this->dbCon->getNewEvents();
 
 				$this->smarty->assign('newEvents', $newEvents);
