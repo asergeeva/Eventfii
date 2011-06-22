@@ -14,6 +14,12 @@ CREATE TABLE ef_users (
   phone5    VARCHAR(500)
 ) ENGINE=InnoDB;
 
+CREATE TABLE ef_friendship (
+  uid INTEGER REFERENCES ef_users(id),
+  fid INTEGER REFERENCES ef_users(id),
+  CONSTRAINT pk_friendship PRIMARY KEY (uid, fid)
+) ENGINE=InnoDB;
+
 CREATE TABLE ef_events (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
   created           TIMESTAMP NOT NULL,
