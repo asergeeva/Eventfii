@@ -19,6 +19,11 @@ class EFMail {
 		
 	}
 	
+	/**
+	 * $to Array  list of email addresses
+	 * $eventName String title of the event
+	 * $eventUrl String url of the event
+	 */
 	public function sendEmail($to, $eventName, $eventUrl) {
 		$subject = 'You are invited to '.$eventName;
 		$message = 'Link: '.$eventUrl;
@@ -26,6 +31,13 @@ class EFMail {
 		for ($i = 0; $i < sizeof($to); ++$i) {
 			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
 		}
+	}
+	
+	public function sendReminder($to, $eventName, $eventUrl) {
+		$subject = 'Reminder for '.$eventName;
+		$message = 'Link: '.$eventUrl;
+		
+		MailgunMessage::send_text($this->FROM, $to, $subject, $message);
 	}
 	
 	/**
