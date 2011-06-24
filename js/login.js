@@ -7,6 +7,10 @@
  
 var LOGIN_FORM = (function() {
 	return {
+		init: function() {
+			FBCON.getLoginStatus();
+		},
+		
 		existingUserLogin: function() {
 			$.post(EFGLOBAL.baseUrl + '/login', {
 					isExist: true,

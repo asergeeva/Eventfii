@@ -14,7 +14,9 @@ var FBCON = (function() {
 				cookie : true, // enable cookies to allow the server to access the session
 				xfbml  : true  // parse XFBML
 			});
-			
+		},
+		
+		getLoginStatus: function() {
 			FB.getLoginStatus(function(response) {
 				if (response.session) {
 					FBCON.onlogin();

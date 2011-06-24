@@ -108,7 +108,16 @@ class DBConfig {
 		return $userInfo;
 	}
 	
+	public function getReferenceEmail($hashKey) {
+		$GET_REF_EMAIL = "SELECT * FROM ef_event_invites i WHERE i.hash_key = '".$hashKey."'";
+		$invitedEmail = $this->executeQuery($GET_REF_EMAIL);
+		return $invitedEmail['email_to'];
+	}
+	
 	public function isUserEmailExist($email) {
+		if (isset($_SESSION['ref'])) {
+			$email = $this->getReferenceEmail($_SESSION['ref']);
+		}
 		$GET_USER_EMAIL = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
@@ -132,11 +141,34 @@ class DBConfig {
 																		 ".$pass.", 
 																		'I am ".mysql_real_escape_string($fname)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
+		} else if (isset($_SESSION['ref'])) {
+			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
+			$userInfo = $this->getUserInfoByEmail($refEmail);
+			
+			// Check which attribute in the DB that is NULL
+			$emailAttr = 'email5';
+			if ($userInfo['email2'] == '') {
+				$emailAttr = 'email2';
+			} else if ($userInfo['email3'] == '') {
+				$emailAttr = 'email3';
+			} else if ($userInfo['email4'] == '') {
+				$emailAttr = 'email4';
+			}
+			
+			$UPDATE_USER = "UPDATE ef_users SET
+												fname = '".mysql_real_escape_string($fname)."', 
+												lname = '".mysql_real_escape_string($lname)."',
+												".$emailAttr." = '".mysql_real_escape_string($email)."',
+												about = 'I am ".mysql_real_escape_string($fname)."'
+											WHERE email = '".$refEmail."'";
+											
+			$email = $refEmail;
+			$this->executeUpdateQuery($UPDATE_USER);
 		} else {
 			$UPDATE_USER = "UPDATE ef_users SET 
 												fname = '".mysql_real_escape_string($fname)."', 
 												lname = '".mysql_real_escape_string($lname)."', 
-												email = '".mysql_real_escape_string($phone)."', 
+												phone = '".mysql_real_escape_string($phone)."', 
 												password = '".mysql_real_escape_string($pass)."', 
 												about = 'I am ".mysql_real_escape_string($fname)."'
 											WHERE email = '".mysql_real_escape_string($email)."'";

@@ -17,5 +17,4 @@
   </div>
 </div>
 {include file="global_js.tpl"}
-</body>
 {include file="footer.tpl"}

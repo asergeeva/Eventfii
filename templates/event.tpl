@@ -9,5 +9,4 @@
 </div>
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/event.js"></script>
-</body>
 {include file="footer.tpl"}

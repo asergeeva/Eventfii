@@ -83,7 +83,7 @@ class PanelController {
 				$newEvent['eid'] = $eid[sizeof($eid) - 1];
 				
 				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-				$mailer->sendEmail($newEvent['guests'], $newEvent['title'], $newEvent['url']);
+				$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
@@ -132,10 +132,18 @@ class PanelController {
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		
+		// Check for email invite reference
+		if (isset($_REQUEST['ref'])) {
+			$_SESSION['ref'] = $_REQUEST['ref'];
+		}
+		
 		// Event profile page
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
 			$eventId = explode('/', $requestUri);
 			$eventId = $eventId[sizeof($eventId)-1];
+			
+			$eventId = explode('?', $eventId);
+			$eventId = $eventId[0];
 			
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
@@ -341,11 +349,12 @@ class PanelController {
 															 $eventInfoDB['cost'],
 															 $eventInfoDB['is_public'],
 															 $eventInfoDB['gets']);
-
+				$eventInfo->eid = $_REQUEST['eventId'];
+				
 				$this->checkGuests($eventInfo);
 				
 				$mailer = new EFMail();
-				$mailer->sendEmail($eventInfo->guests, $eventInfo->title, $eventInfo->url);
+				$mailer->sendEmail($eventInfo->guests, $eventInfo->eid, $eventInfo->title, $eventInfo->url);
 				$this->dbCon->storeGuests($eventInfo->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage':
@@ -522,7 +531,9 @@ class PanelController {
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
 					$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-					$_SESSION['uid'] = $userId;
+					if (isset($userId)) {
+						$_SESSION['uid'] = $userId;
+					}
 					
 					if (isset($_SESSION['newEvent'])) {
 						$newEvent = json_decode($_SESSION['newEvent'], true);
@@ -536,6 +547,7 @@ class PanelController {
 				$this->checkHome();
 				break;
 			case '/logout':
+				session_unset();
 				session_destroy();
 				$newEvents = $this->dbCon->getNewEvents();
 

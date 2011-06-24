@@ -8,10 +8,15 @@ CREATE TABLE ef_users (
   verified  TINYINT(1) NOT NULL DEFAULT 0,
   referrer  INTEGER REFERENCES ef_users(id),
   phone     VARCHAR(500),
-  phone2    VARCHAR(500),
-  phone3    VARCHAR(500),
-  phone4    VARCHAR(500),
-  phone5    VARCHAR(500)
+  email2    VARCHAR(500),
+  email3    VARCHAR(500),
+  email4    VARCHAR(500),
+  email5    VARCHAR(500)
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_event_invites (
+  hash_key VARCHAR(500) PRIMARY KEY,
+  email_to VARCHAR(500) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_friendship (

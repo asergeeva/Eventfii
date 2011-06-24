@@ -4,5 +4,7 @@ DROP TABLE ef_event_images;
 DROP TABLE ef_event_payments;
 DROP TABLE ef_event_preapprovals;
 DROP TABLE ef_events;
+DROP TABLE ef_friendship;
 DROP TABLE ef_users;
 DROP TABLE ef_paypal_accounts;
+DROP TABLE ef_event_invites;

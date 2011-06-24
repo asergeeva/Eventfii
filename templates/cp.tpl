@@ -9,6 +9,5 @@
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/create_event_form.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/cp.js"></script>
-
-</body>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
 {include file="footer.tpl"}
