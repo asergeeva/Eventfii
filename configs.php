@@ -16,6 +16,12 @@ define('EC_IMG_PATH', CURHOST.'/images/ec');
 define('FP_IMG_PATH', CURHOST.'/images/fp');
 define('UP_IMG_PATH', CURHOST.'/images/up');
 
+define('IMG_UPLOAD_PATH', '/upload/event/images');
+define('CSV_UPLOAD_PATH', '/upload/event/csv');
+
+define('IMG_UPLOAD', CURHOST.IMG_UPLOAD_PATH);
+define('CSV_UPLOAD', CURHOST.CSV_UPLOAD_PATH);
+
 define('JS_PATH', CURHOST.'/js');
 define('CSS_PATH', CURHOST.'/css');
 
@@ -26,6 +32,9 @@ $smarty->assign('EP_IMG_PATH', EP_IMG_PATH);
 $smarty->assign('EC_IMG_PATH', EC_IMG_PATH);
 $smarty->assign('FP_IMG_PATH', FP_IMG_PATH);
 $smarty->assign('UP_IMG_PATH', UP_IMG_PATH);
+
+$smarty->assign('IMG_UPLOAD', IMG_UPLOAD);
+$smarty->assign('CSV_UPLOAD', CSV_UPLOAD);
 
 $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);

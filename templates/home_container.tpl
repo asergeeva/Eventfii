@@ -24,7 +24,7 @@
         <div class="new_events_container">
           <h3><a href="{$CURHOST}/event/{$event['id']}">{$event['title']}</a></h3>
           <a href="{$CURHOST}/event/{$event['id']}">
-          	<img src="{$CURHOST}/upload/event/{$event['id']}.jpg" style="width:300px;height:200px;" />
+          	<img src="{$IMG_UPLOAD}/{$event['id']}.jpg" style="width:300px;height:200px;" />
           </a>
         </div>
         {/foreach}

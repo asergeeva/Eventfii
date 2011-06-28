@@ -4,43 +4,6 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
- 
-var UPDATE_FILE_UPLOADER = (function() {
-	return {
-		init: function() {
-			var eventUrlDOM = $('#event_url_update').val();
-			if (eventUrlDOM !== undefined) {
-				var eventUrlToken = eventUrlDOM.split('/'),
-						eid = eventUrlToken[eventUrlToken.length - 1];
-				
-				var uploader = new qq.FileUploader({
-					// pass the dom node (ex. $(selector)[0] for jQuery users)
-					element: $('#update-file-uploader')[0],
-					// path to server-side upload script
-					action: EFGLOBAL.baseUrl + '/event/image/upload',
-					// additional data
-					params: {eventId: eid}
-				});
-			}
-		}
-	}
-})();
-
-var GUEST_INVITE_FILE_UPLOADER_UPDATE = (function() {
-	return {
-		init: function() {
-			var uploader = new qq.FileUploader({
-				// pass the dom node (ex. $(selector)[0] for jQuery users)
-				element: $('#guest-invite-file-uploader-update')[0],
-				// path to server-side upload script
-				action: EFGLOBAL.baseUrl + '/event/image/upload',
-				// additional data
-				params: {eventId: 'csv-'+ $('#update_event_overlay_eventid').html()}
-			});
-		}
-	}
-})();
-
 $(document).ready(function() {
 	$("img[rel]").overlay();
 	CREATE_EVENT_FORM.init();
@@ -231,7 +194,7 @@ var CP_EVENT = (function() {
 				eventId: $('#update_event_overlay_eventid').html()
 			}, function(editEventPage) {
 				$('#manage_event_container').html(editEventPage).ready(function() {
-					UPDATE_FILE_UPLOADER.init();
+					IMAGE_UPLOADER.init($('#update_event_overlay_eventid').html(), 'update-file-uploader');
 					$('#event_date_update').datepicker();
 					$('#event_deadline_update').datepicker();
 					$('#event_title_update').focus();
@@ -245,7 +208,7 @@ var CP_EVENT = (function() {
 				prevPage: $('#update_event_guest_invite').parent().attr('href').substring(1)
 			}, function(addGuestPage) {
 				$('#manage_event_container').html(addGuestPage).ready(function() {
-					GUEST_INVITE_FILE_UPLOADER_UPDATE.init();
+					CSV_UPLOADER.init($('#update_event_overlay_eventid').html(), 'guest-invite-file-uploader-update');
 				});
 			});
 		},

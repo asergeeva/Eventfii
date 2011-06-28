@@ -155,3 +155,8 @@ textarea#guest_email {
 #event_invite_guest_oi li a {
 	color: #FC0;
 }
+
+/* CREATE EVENT FORM */
+#create_event_eventid {
+	visibility: hidden;
+}

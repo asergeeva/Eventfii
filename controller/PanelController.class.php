@@ -101,7 +101,7 @@ class PanelController {
 	public function checkGuests(&$eventInfo) {
 		$eid = explode('/', $eventInfo->url);
 		$eid = $eid[sizeof($eid) - 1];
-		$csvFile = 'upload/event/csv-'.$eid.'.csv';
+		$csvFile = CSV_UPLOAD_PATH.'csv-'.$eid.'.csv';
 		
 		if ($_REQUEST['guest_email'] != '') {
 			$eventInfo->setGuests($_REQUEST['guest_email']);
@@ -258,13 +258,26 @@ class PanelController {
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = array("jpg", "csv");
+				$allowedExtensions = array("jpg");
 				
 				// max file size in bytes
 				$sizeLimit = 10 * 1024 * 1024;
 				
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/event/', TRUE);
+				$result = $uploader->handleUpload('upload/event/images/', TRUE);
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				break;
+			case '/event/csv/upload':
+				require_once('models/FileUploader.class.php');
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("csv");
+				
+				// max file size in bytes
+				$sizeLimit = 10 * 1024 * 1024;
+				
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('upload/event/csv/', TRUE);
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;

@@ -8,7 +8,7 @@
 </div>
 
 <div id="event_picture_container">
-  <img src="{$CURHOST}/upload/event/{$eventInfo['id']}.jpg" id="event_picture" />
+  <img src="{$IMG_UPLOAD}/{$eventInfo['id']}.jpg" id="event_picture" />
 </div>
 
 <div id="event_spots">

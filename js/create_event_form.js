@@ -4,49 +4,6 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-
-var CREATE_FILE_UPLOADER = (function() {
-	return {
-		init: function() {
-			var eventUrlDOM = $('#event_url_create').val();
-			if (eventUrlDOM !== undefined) {
-				var eventUrlToken = eventUrlDOM.split('/'),
-						eid = eventUrlToken[eventUrlToken.length - 1];
-				
-				var uploader = new qq.FileUploader({
-					// pass the dom node (ex. $(selector)[0] for jQuery users)
-					element: $('#create-file-uploader')[0],
-					// path to server-side upload script
-					action: EFGLOBAL.baseUrl + '/event/image/upload',
-					// additional data
-					params: {eventId: eid}
-				});
-			}
-		}
-	}
-})();
-
-var GUEST_INVITE_FILE_UPLOADER_CREATE = (function() {
-	return {
-		init: function() {
-			var eventUrlDOM = $('#event_url_create').val();
-			if (eventUrlDOM !== undefined) {
-				var eventUrlToken = eventUrlDOM.split('/'),
-						eid = eventUrlToken[eventUrlToken.length - 1];
-				
-				var uploader = new qq.FileUploader({
-					// pass the dom node (ex. $(selector)[0] for jQuery users)
-					element: $('#guest-invite-file-uploader-create')[0],
-					// path to server-side upload script
-					action: EFGLOBAL.baseUrl + '/event/image/upload',
-					// additional data
-					params: {eventId: 'csv-'+ eid}
-				});
-			}
-		}
-	}
-})();
- 
 var CREATE_EVENT_FORM = (function() {
 	$('#event_create').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/submit', {
@@ -70,8 +27,8 @@ var CREATE_EVENT_FORM = (function() {
 			$('#event_date_create').datepicker();
 			$('#event_deadline_create').datepicker();
 			$('#event_title_create').focus();
-			CREATE_FILE_UPLOADER.init();
-			GUEST_INVITE_FILE_UPLOADER_CREATE.init();
+			IMAGE_UPLOADER.init($('#create_event_eventid').html(), 'create-file-uploader');
+			CSV_UPLOADER.init($('#create_event_eventid').html(), 'guest-invite-file-uploader-create');
 			$("img[rel]").overlay();
 			
 			$('#invite_guest_submit').live('click', function() {
@@ -89,6 +46,5 @@ var CREATE_EVENT_FORM = (function() {
 })();
 
 $(document).ready(function() {
-	CREATE_FILE_UPLOADER.init();
 	CREATE_EVENT_FORM.init();
 });

@@ -1,4 +1,5 @@
 <div id="create_event_form">
+	<span id="create_event_eventid">{$maxEventId}</span>
   <h3>Create Event</h3>
   <div id="left_event_form">
     <div class="event_field">
