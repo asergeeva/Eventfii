@@ -44,6 +44,33 @@
     <textarea name="event_gets_update" id="event_gets_update">{$eventInfo['gets']}</textarea>
   </div>
   <div class="event_field">
+    <h2 class="event_form_section_header">Event type</h2>
+    <select id="event_type_update">
+      <optgroup label="Personal">
+        <option value="1" {$eventType['t1']}>Birthday</option>
+        <option value="2" {$eventType['t2']}>Other party</option>
+        <option value="3" {$eventType['t3']}>Dinner</option>
+        <option value="4" {$eventType['t4']}>Social gathering</option>
+        <option value="5" {$eventType['t5']}>Shared travel/trip</option>
+        <option value="6" {$eventType['t6']}>Wedding related</option>
+      </optgroup>
+      <optgroup label="Educational">
+        <option value="7" {$eventType['t7']}>Club meetup</option>
+        <option value="8" {$eventType['t8']}>Educational event</option>
+        <option value="9" {$eventType['t9']}>Recruiting/career</option>
+        <option value="10" {$eventType['t10']}>School-sponsored event</option>
+        <option value="11" {$eventType['t11']}>Greek</option>
+      </optgroup>
+      <optgroup label="Professional">
+        <option value="12" {$eventType['t12']}>Fund raiser</option>
+        <option value="13" {$eventType['t13']}>Professional event/networking</option>
+        <option value="14" {$eventType['t14']}>Meeting</option>
+        <option value="15" {$eventType['t15']}>Club</option>
+        <option value="16" {$eventType['t16']}>Conference</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="event_field">
     <input type="radio" name="event_ispublic_update" id="event_ispublic_yes_update" {$isEventPublic} value="1" />
     Anyone can sign up &amp; invite others
   </div>

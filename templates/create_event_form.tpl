@@ -45,6 +45,33 @@
       <textarea name="event_gets_create" id="event_gets_create"></textarea>
     </div>
     <div class="event_field">
+      <h2 class="event_form_section_header">Event type</h2>
+      <select id="event_type_create">
+        <optgroup label="Personal">
+          <option value="1">Birthday</option>
+          <option value="2">Other party</option>
+          <option value="3">Dinner</option>
+          <option value="4">Social gathering</option>
+          <option value="5">Shared travel/trip</option>
+          <option value="6">Wedding related</option>
+        </optgroup>
+        <optgroup label="Educational">
+          <option value="7">Club meetup</option>
+          <option value="8">Educational event</option>
+          <option value="9">Recruiting/career</option>
+          <option value="10">School-sponsored event</option>
+          <option value="11">Greek</option>
+        </optgroup>
+        <optgroup label="Professional">
+          <option value="12">Fund raiser</option>
+          <option value="13">Professional event/networking</option>
+          <option value="14">Meeting</option>
+          <option value="15">Club</option>
+          <option value="16">Conference</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="event_field">
       <input type="radio" name="event_ispublic_create" id="event_ispublic_yes_create" checked="checked" value="1" />
       Anyone can sign up &amp; invite others
     </div>

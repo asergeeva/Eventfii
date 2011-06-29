@@ -102,7 +102,6 @@ class PanelController {
 		$eid = explode('/', $eventInfo->url);
 		$eid = $eid[sizeof($eid) - 1];
 		$csvFile = CSV_UPLOAD_PATH.'/'.$eid.'.csv';
-		print("FOO: ".$csvFile);
 		
 		if ($_REQUEST['guest_email'] != '') {
 			$eventInfo->setGuests($_REQUEST['guest_email']);
@@ -226,7 +225,8 @@ class PanelController {
 															 $_REQUEST['description'], 
 															 $_REQUEST['cost'],
 															 $_REQUEST['is_public'],
-															 $_REQUEST['gets']);
+															 $_REQUEST['gets'],
+															 $_REQUEST['type']);
 				
 				$this->checkGuests($eventInfo);
 															
@@ -250,7 +250,8 @@ class PanelController {
 															$_REQUEST['description'], 
 															$_REQUEST['cost'],
 															$_REQUEST['is_public'],
-															$_REQUEST['gets']);
+															$_REQUEST['gets'],
+															$_REQUEST['type']);
 				
 				$this->checkGuests($newEvent);
 
@@ -307,9 +308,31 @@ class PanelController {
 					$isEventPrivate = 'checked = "checked"';
 				}
 				
+				// Event type presentation
+				$eventType = array(
+					't1' => "",
+					't2' => "",
+					't3' => "",
+					't4' => "",
+					't5' => "",
+					't6' => "",
+					't7' => "",
+					't8' => "",
+					't9' => "",
+					't10' => "",
+					't11' => "",
+					't12' => "",
+					't13' => "",
+					't14' => "",
+					't15' => "",
+					't16' => ""
+				);
+				$eventType['t'.$eventInfo['type']] = 'selected = "selected"';
+				
 				$this->smarty->assign('isEventPublic', $isEventPublic);
 				$this->smarty->assign('isEventPrivate', $isEventPrivate);
 				
+				$this->smarty->assign('eventType', $eventType);
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);
 				$this->smarty->assign('eventInfo', $eventInfo);

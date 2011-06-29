@@ -225,7 +225,7 @@ class DBConfig {
 		
 		$CREATE_NEW_EVENT = "INSERT INTO ef_events (created, organizer, title, url, 
 														 goal, location_address, 
-														 event_datetime, event_deadline, description, is_public, gets) 
+														 event_datetime, event_deadline, description, is_public, gets, type) 
 												 VALUES (NOW(), ".mysql_real_escape_string($newEvent["organizer"]).", 
 												 							 '".mysql_real_escape_string($newEvent["title"])."', 
 																			 '".mysql_real_escape_string($newEvent["url"])."', 
@@ -235,7 +235,8 @@ class DBConfig {
 																			 '".mysql_real_escape_string($sqlDeadline)."',
 																			 '".mysql_real_escape_string($newEvent["description"])."',
 																			  ".mysql_real_escape_string($newEvent["is_public"]).",
-																			 '".mysql_real_escape_string($newEvent["gets"])."')";
+																			 '".mysql_real_escape_string($newEvent["gets"])."',
+																			  ".$newEvent["type"].")";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
@@ -251,7 +252,8 @@ class DBConfig {
 												e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
 												e.description = '".mysql_real_escape_string($eventInfo->description)."',
 												e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
-												e.gets = '".mysql_real_escape_string($eventInfo->gets)."' 
+												e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
+												e.type = ".$eventInfo->type." 
 										 WHERE e.id = ".mysql_real_escape_string($eventInfo->eid);
 		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
@@ -297,7 +299,7 @@ class DBConfig {
 		$GET_EVENT = "SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
 										e.created, e.organizer, e.title, e.url, e.goal, 
 										e.location_address, e.event_datetime, e.event_deadline, 
-										e.description, e.is_public, e.gets 
+										e.description, e.is_public, e.gets, e.type
 									FROM ef_events e WHERE e.id = ".$eid;
 		return $this->executeQuery($GET_EVENT);
 	}

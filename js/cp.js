@@ -255,6 +255,7 @@ var CP_EVENT = (function() {
 				deadline: 		$('#event_deadline_update').val(),
 				goal:     		$('#event_goal_update').val(),
 				gets: 				$('#event_gets_update').val(),
+				type:					$('#event_type_update option:selected').val(),
 				is_public: 		$('input:radio[name=event_ispublic_update]:checked').val(),
 				url:					$('#event_url_update').val(),
 				eventId:      eid

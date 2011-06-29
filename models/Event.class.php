@@ -18,6 +18,7 @@ class Event {
 	public $cost;
 	public $is_public;
 	public $gets;
+	public $type;
 	
 	public $eid;
 	
@@ -34,7 +35,8 @@ class Event {
 											 $description,
 											 $cost,
 											 $is_public,
-											 $gets) {
+											 $gets,
+											 $type) {
 		$this->organizer = $organizer;
 		$this->title = $title;
 		$this->url = $url;
@@ -47,6 +49,7 @@ class Event {
 		$this->cost = $cost;
 		$this->is_public = $is_public;
 		$this->gets = $gets;
+		$this->type = $type;
 	}
 	
 	function __destruct() {
