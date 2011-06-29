@@ -9,7 +9,10 @@
   <div id="header">
 	{include file="home_header.tpl"}
   </div>
-	{include file="login_form.tpl"}
+	<div id="login_forgot">
+    <h3>Reset Password</h3>
+    <h4>Password has successfully been reset</h4>
+  </div>
 </div>
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>

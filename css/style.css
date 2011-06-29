@@ -59,10 +59,18 @@ table tr th {
 	text-align: left;
 }
 
-#login_container {
+#header {
+	margin-top: 10px;
+}
+
+/* LOGIN */
+#login_container,
+#login_forgot {
 	width: 1024px;
 	margin-left: auto;
 	margin-right: auto;
+	clear: both;
+	padding-top: 5px;
 }
 
 /* NAVIGATION */

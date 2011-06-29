@@ -430,4 +430,33 @@ class DBConfig {
 		$GET_NUM_GUESTS = "SELECT COUNT(*) AS num_guests FROM ef_users u, ef_attendance a WHERE u.id = a.user_id AND a.event_id = ".$eid;
 		return $this->executeQuery($GET_NUM_GUESTS);
 	}
+	
+	public function requestPasswordReset($hash_key, $email) {
+		$CHECK_VALID_EMAIL = "SELECT * FROM ef_users u WHERE u.email = '".$email."'";
+		if ($this->getRowNum($CHECK_VALID_EMAIL) == 0) {
+			return false;
+		}
+		$REQUEST_PASS_RESET = "INSERT INTO ef_password_reset (hash_key, email) VALUES ('".$hash_key."', '".$email."')";
+		$this->executeUpdateQuery($REQUEST_PASS_RESET);
+		return true;
+	}
+	
+	public function isValidPassResetRequest($hash_key) {
+		$IS_VALID_PASS_RESET_REQUEST = "SELECT * FROM ef_password_reset r WHERE r.hash_key = '".$hash_key."'";
+		if ($this->getRowNum($IS_VALID_PASS_RESET_REQUEST) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	public function resetPasswordByEmail($newPass, $hash_key) {
+		$GET_RESET_EMAIL = "SELECT * FROM ef_password_reset r WHERE r.hash_key = '".$hash_key."'";
+		$refInfo = $this->executeQuery($GET_RESET_EMAIL);
+		
+		$UPDATE_USER_PASS = "UPDATE ef_users u SET u.password = '".md5($newPass)."' WHERE u.email = '".$refInfo['email']."'";
+		$this->executeUpdateQuery($UPDATE_USER_PASS);
+		
+		$UPDATE_RESET_TIME = "UPDATE ef_password_reset r SET r.treset = NOW() WHERE r.hash_key = '".$hash_key."'";
+		$this->executeUpdateQuery($UPDATE_RESET_TIME);
+	}
 }

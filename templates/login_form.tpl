@@ -11,6 +11,10 @@
               <td><input type="password" name="ef_login_pass_exist" id="ef_login_pass_exist" /></td>
           </tr>
           <tr>
+          	<th></th>
+            <td><a href="{$CURHOST}/login/forgot">Forgot your password?</a></td>
+          </tr>
+          <tr>
             <th></th>
               <td>
               	<button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button>

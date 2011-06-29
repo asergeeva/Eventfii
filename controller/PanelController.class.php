@@ -583,6 +583,40 @@ class PanelController {
 				}
 				$this->checkHome();
 				break;
+			case '/login/reset':
+				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
+					$this->smarty->assign('ref', $_REQUEST['ref']);
+					$this->smarty->display('login_reset.tpl');
+				} else {
+					$this->smarty->display('login_reset_invalid.tpl');
+				}
+				break;
+			case '/login/reset/submit':
+				if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
+					$this->dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
+					$this->smarty->display('login_reset_confirmed.tpl');
+				} else {
+					$this->smarty->assign('ref', $_REQUEST['ref']);
+					$this->smarty->assign('errorMsg', 'New password is not confirmed');
+					$this->smarty->display('login_reset.tpl');
+				}
+				break;
+			case '/login/forgot':
+				$this->smarty->display('login_forgot.tpl');
+				break;
+			case '/login/forgot/submit':
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();
+				
+				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
+				
+				if ($this->dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
+					$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
+					$this->smarty->display('login_forgot_confirmed.tpl');
+				} else {
+					$this->smarty->display('login_forgot_invalid.tpl');
+				}
+				break;
 			case '/logout':
 				session_unset();
 				session_destroy();

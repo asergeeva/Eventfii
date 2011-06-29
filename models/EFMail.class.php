@@ -58,4 +58,11 @@ class EFMail {
 			MailgunMessage::send_text($this->FROM, $attendees[$i]['email'], $subject, $message);
 		}
 	}
+	
+	public function sendResetPassLink($uriPath, $hash_key, $email) {
+		$subject = "Reset Password";
+		
+		$message = "To reset password: ".CURHOST.$uriPath."?ref=".$hash_key;
+		MailgunMessage::send_text($this->FROM, $email, $subject, $message);
+	}
 }
