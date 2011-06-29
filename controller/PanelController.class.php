@@ -101,7 +101,8 @@ class PanelController {
 	public function checkGuests(&$eventInfo) {
 		$eid = explode('/', $eventInfo->url);
 		$eid = $eid[sizeof($eid) - 1];
-		$csvFile = CSV_UPLOAD_PATH.'csv-'.$eid.'.csv';
+		$csvFile = CSV_UPLOAD_PATH.'/'.$eid.'.csv';
+		print("FOO: ".$csvFile);
 		
 		if ($_REQUEST['guest_email'] != '') {
 			$eventInfo->setGuests($_REQUEST['guest_email']);

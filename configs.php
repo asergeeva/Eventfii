@@ -16,11 +16,11 @@ define('EC_IMG_PATH', CURHOST.'/images/ec');
 define('FP_IMG_PATH', CURHOST.'/images/fp');
 define('UP_IMG_PATH', CURHOST.'/images/up');
 
-define('IMG_UPLOAD_PATH', '/upload/event/images');
-define('CSV_UPLOAD_PATH', '/upload/event/csv');
+define('IMG_UPLOAD_PATH', 'upload/event/images');
+define('CSV_UPLOAD_PATH', 'upload/event/csv');
 
-define('IMG_UPLOAD', CURHOST.IMG_UPLOAD_PATH);
-define('CSV_UPLOAD', CURHOST.CSV_UPLOAD_PATH);
+define('IMG_UPLOAD', CURHOST.'/'.IMG_UPLOAD_PATH);
+define('CSV_UPLOAD', CURHOST.'/'.CSV_UPLOAD_PATH);
 
 define('JS_PATH', CURHOST.'/js');
 define('CSS_PATH', CURHOST.'/css');

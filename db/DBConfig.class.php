@@ -145,14 +145,27 @@ class DBConfig {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
 			$userInfo = $this->getUserInfoByEmail($refEmail);
 			
+			$emailAttr = 'email1';
+			// check if the email is the same as the previous one
+			if ($userInfo['email1'] == $email) {
+				$emailAttr = 'email1';
+			} else if ($userInfo['email2'] == $email) {
+				$emailAttr = 'email2';
+			} else if ($userInfo['email3'] == $email) {
+				$emailAttr = 'email3';
+			} else if ($userInfo['email4'] == $email) {
+				$emailAttr = 'email4';
+			} else if ($userInfo['email5'] == $email) {
+				$emailAttr = 'email5';
 			// Check which attribute in the DB that is NULL
-			$emailAttr = 'email5';
-			if ($userInfo['email2'] == '') {
+			} else if ($userInfo['email2'] == '') {
 				$emailAttr = 'email2';
 			} else if ($userInfo['email3'] == '') {
 				$emailAttr = 'email3';
 			} else if ($userInfo['email4'] == '') {
 				$emailAttr = 'email4';
+			} else if ($userInfo['email5'] == '') {
+				$emailAttr = 'email5';
 			}
 			
 			$UPDATE_USER = "UPDATE ef_users SET
