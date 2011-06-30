@@ -14,3 +14,6 @@
     </div>
   </div>
 </div>
+<div id="event_comments">
+  <fb:comments href="{$eventInfo['url']}" num_posts="2" width="600"></fb:comments>
+</div>
