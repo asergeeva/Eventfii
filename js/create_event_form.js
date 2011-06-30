@@ -39,7 +39,7 @@ var CREATE_EVENT_FORM = (function() {
 	 },
 	 
 	 createEventSubmit: function(loginForm) {
-			$('#container').html(loginForm).ready(function() {
+			$('#middle').html(loginForm).ready(function() {
 				$("img[rel]").overlay();
 			});
 	 }

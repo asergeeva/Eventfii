@@ -69,32 +69,37 @@ class PanelController {
 			$_SESSION['newEvent'] = json_encode($newEvent);
 		}
 		
-		if (isset($_SESSION['uid'])) {
-			if (isset($_SESSION['newEvent']) && isset($_SESSION['newEvent']['organizer'])) {
-				require_once('models/EFMail.class.php');
-				
-				$newEvent = json_decode($_SESSION['newEvent'], true);
-				$this->dbCon->createNewEvent($newEvent);
-				
-				// INVITE GUESTS USING EMAIL
-				$mailer = new EFMail();
-
-				$eid = explode('/', $newEvent['url']);
-				$newEvent['eid'] = $eid[sizeof($eid) - 1];
-				
-				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-				$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
-			}
-			
-			$this->assignCPEvents($_SESSION['uid']);
-			
-			if ($loadCp) {
-				$this->smarty->display('cp.tpl');
-			} else {
-				$this->smarty->display('cp_container.tpl');	
-			}
+		// Make sure that address is not empty
+		if ($newEvent->address == "") {
+			$this->smarty->display('create_event_form.tpl');
 		} else {
-			$this->smarty->display('login.tpl');
+			if (isset($_SESSION['uid'])) {
+				if (isset($_SESSION['newEvent']) && isset($_SESSION['newEvent']['organizer'])) {
+					require_once('models/EFMail.class.php');
+					
+					$newEvent = json_decode($_SESSION['newEvent'], true);
+					$this->dbCon->createNewEvent($newEvent);
+					
+					// INVITE GUESTS USING EMAIL
+					$mailer = new EFMail();
+	
+					$eid = explode('/', $newEvent['url']);
+					$newEvent['eid'] = $eid[sizeof($eid) - 1];
+					
+					$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
+					$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
+				}
+				
+				$this->assignCPEvents($_SESSION['uid']);
+				
+				if ($loadCp) {
+					$this->smarty->display('cp.tpl');
+				} else {
+					$this->smarty->display('cp_container.tpl');	
+				}
+			} else {
+				$this->smarty->display('login_form.tpl');
+			}
 		}
 	}
 	
