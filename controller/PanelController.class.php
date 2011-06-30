@@ -70,7 +70,7 @@ class PanelController {
 		}
 		
 		// Make sure that address is not empty
-		if ($newEvent->address == "") {
+		if (!isset($_SESSION['uid']) && $newEvent->address == "") {
 			$this->smarty->display('create_event_form.tpl');
 		} else {
 			if (isset($_SESSION['uid'])) {
