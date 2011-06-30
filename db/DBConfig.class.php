@@ -317,7 +317,7 @@ class DBConfig {
 			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
-			$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf." WHERE event_id = ".$eid." AND user_id = ".$uid;
+			$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf.", is_attending = 1 WHERE event_id = ".$eid." AND user_id = ".$uid;
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
 	}
@@ -458,5 +458,13 @@ class DBConfig {
 		
 		$UPDATE_RESET_TIME = "UPDATE ef_password_reset r SET r.treset = NOW() WHERE r.hash_key = '".$hash_key."'";
 		$this->executeUpdateQuery($UPDATE_RESET_TIME);
+	}
+	
+	public function isInvited($uid, $eid) {
+		$IS_INVITED = "SELECT * FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.event_id = ".$eid;
+		if ($this->getRowNum($IS_INVITED) == 0) {
+			return false;
+		}
+		return true;
 	}
 }

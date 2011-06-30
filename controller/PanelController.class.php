@@ -166,12 +166,21 @@ class PanelController {
 			$this->smarty->assign('curSignUp', $curSignUp);
 			
 			if (isset($_SESSION['uid'])) {
-				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-				$this->smarty->assign('userInfo', $userInfo);
-				$this->smarty->display('event.tpl');
+				if (intval($eventInfo['is_public']) == 1 || $this->dbCon->isInvited($_SESSION['uid'], $eventId)) {
+					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+					$this->smarty->assign('userInfo', $userInfo);
+					$this->smarty->display('event.tpl');
+				} else {
+					$this->smarty->display('event_private.tpl');
+				}
 				return;
 			}
-			$this->smarty->display('event_guest.tpl');
+			
+			if (intval($eventInfo['is_public']) == 1) {
+				$this->smarty->display('event_guest.tpl');
+			} else {
+				$this->smarty->display('event_guest_private.tpl');
+			}
 			return;
 		}
 		
