@@ -275,12 +275,12 @@ class DBConfig {
 	
 	public function getEventByEO($uid) {
 		$GET_EVENTS = "SELECT * FROM
-										 (SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
+										 (SELECT e.id, TIMEDIFF(e.event_datetime, NOW()) AS time_left,
 											 e.created, e.title, e.url, e.goal, 
 											 e.location_address, e.event_datetime, e.event_deadline, 
 											 e.description, e.is_public 
 										 FROM ef_events e WHERE e.organizer = ".$uid.") el
-									 WHERE el.days_left > 0 ORDER BY el.days_left ASC";
+									 WHERE el.time_left > 0 ORDER BY el.time_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -352,7 +352,7 @@ class DBConfig {
 	}
 	
 	public function getNewEvents() {
-		$GET_NEW_EVENTS = "SELECT * FROM ef_events ORDER BY event_datetime DESC LIMIT 3";
+		$GET_NEW_EVENTS = "SELECT * FROM ef_events WHERE is_public = 1 ORDER BY event_datetime DESC LIMIT 3";
 		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
 	}
 	

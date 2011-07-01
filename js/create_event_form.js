@@ -29,18 +29,26 @@ var CREATE_EVENT_FORM = (function() {
 	});
  
  return {
-	 init: function() {
-			$('#event_date_create').datepicker();
-			$('#event_deadline_create').datepicker();
-			$('#event_title_create').focus();
-			IMAGE_UPLOADER.init($('#create_event_eventid').html(), 'create-file-uploader');
-			CSV_UPLOADER.init($('#create_event_eventid').html(), 'guest-invite-file-uploader-create');
+	init: function() {
+		  if ($('#event_date_create') !== undefined &&
+		 	 	  $('#event_deadline_create') !== undefined &&
+				  $('#event_title_create') !== undefined) {
+						
+				$('#event_date_create').datepicker();
+				$('#event_deadline_create').datepicker();
+				$('#event_title_create').focus();
+			}
+			
+			if ($('#create_event_eventid').length > 0) {
+				IMAGE_UPLOADER.init($('#create_event_eventid').html(), 'create-file-uploader');
+				CSV_UPLOADER.init($('#create_event_eventid').html(), 'guest-invite-file-uploader-create');
+			}
+			
 			$("img[rel]").overlay();
 	 },
 	 
 	 createEventSubmit: function(loginForm) {
 			$('#middle').html(loginForm).ready(function() {
-				$("img[rel]").overlay();
 				CREATE_EVENT_FORM.init();
 			});
 	 }

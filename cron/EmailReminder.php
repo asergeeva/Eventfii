@@ -5,8 +5,8 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('libs/Mailgun/Mailgun.php');
 require_once('db/DBConfig.class.php');
+require_once('models/EFMail.class.php');
 
 class EmailReminder {
 	private $dbCon;
@@ -32,7 +32,7 @@ class EmailReminder {
 			$this->mailer->sendReminder($messages['email'], $messages['title'], $messages['url']);
 			print("Sent reminder email to ".$messages['email']." for event_id = ".$messages['event_id']);
 		}
-		print("-- Cron job for sending reminders COMPLETED --");
+		print("-- Cron job for sending Email reminders COMPLETED --");
 	}
 }
 

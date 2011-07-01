@@ -10,7 +10,7 @@ var EFGLOBAL = (function() {
 		baseUrl: 'http://localhost/eventfii',
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>',
-		emailReminderType: 0,
-		emailFollowupType: 1
+		emailReminderType: 1,
+		emailFollowupType: 2
 	}
 }());

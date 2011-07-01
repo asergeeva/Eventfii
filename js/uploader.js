@@ -9,11 +9,13 @@ var IMAGE_UPLOADER = (function() {
 	
 	return {
 		init: function(eid, uploaderId) {
-			_uploader = new qq.FileUploader({
-				element: $('#' + uploaderId)[0],
-				action: EFGLOBAL.baseUrl + '/event/image/upload',
-				params: {eventId: eid}
-			});
+			if ($('#' + uploaderId) !== undefined) {
+				_uploader = new qq.FileUploader({
+					element: $('#' + uploaderId)[0],
+					action: EFGLOBAL.baseUrl + '/event/image/upload',
+					params: {eventId: eid}
+				});
+			}
 		}
 	}
 })();
@@ -23,11 +25,13 @@ var CSV_UPLOADER = (function() {
 	
 	return {
 		init: function(eid, uploaderId) {
-			_uploader = new qq.FileUploader({
-				element: $('#' + uploaderId)[0],
-				action: EFGLOBAL.baseUrl + '/event/csv/upload',
-				params: {eventId: eid}
-			});
+			if ($('#' + uploaderId) !== undefined) {
+				_uploader = new qq.FileUploader({
+					element: $('#' + uploaderId)[0],
+					action: EFGLOBAL.baseUrl + '/event/csv/upload',
+					params: {eventId: eid}
+				});
+			}
 		}
 	}
 })();

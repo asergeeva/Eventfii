@@ -582,17 +582,17 @@ class PanelController {
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
 					$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-					if (isset($userId)) {
-						$_SESSION['uid'] = $userId;
-					}
 					
-					if (isset($_SESSION['newEvent'])) {
+					if (isset($_SESSION['newEvent']) && isset($userId)) {
+						$_SESSION['uid'] = $userId;
+						
 						$newEvent = json_decode($_SESSION['newEvent'], true);
 						$newEvent['organizer'] = $userId;
+						
 						$this->checkNewEvent($newEvent, false);
 						break;
 					}
-					$this->checkNewEvent(NULL, false);
+					$this->smarty->display('login.tpl');
 					break;
 				}
 				$this->checkHome();
