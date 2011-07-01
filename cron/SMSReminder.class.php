@@ -21,7 +21,7 @@ class SMSReminder {
 		
 	}
 	
-	public function sendReminder() {
+	public function sendReminders() {
 		$GET_ATTENDEES = "SELECT * FROM ef_events e, ef_attendance a, ef_users u WHERE 
 																							e.id = a.event_id AND a.user_id = u.id AND 
 																							u.phone IS NOT NULL AND 
