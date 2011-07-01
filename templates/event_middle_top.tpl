@@ -12,5 +12,6 @@
 </div>
 
 <div id="event_spots">
-  {$curSignUp} people is attending
+  {$curSignUp} people is attending<br />
+  {$twitterHash}
 </div>

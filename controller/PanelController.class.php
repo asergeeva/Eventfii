@@ -144,6 +144,9 @@ class PanelController {
 		
 		// Event profile page
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
+			require_once('models/EFTwitter.class.php');
+			$twitter = new EFTwitter();
+			
 			$eventId = explode('/', $requestUri);
 			$eventId = $eventId[sizeof($eventId)-1];
 			
@@ -169,6 +172,7 @@ class PanelController {
 			$this->smarty->assign('eventInfo', $eventInfo);
 			$this->smarty->assign('eventId', $eventId);
 			$this->smarty->assign('curSignUp', $curSignUp);
+			$this->smarty->assign('twitterHash', $twitter->getTwitterHash($eventId));
 			
 			if (isset($_SESSION['uid'])) {
 				if (intval($eventInfo['is_public']) == 1 || $this->dbCon->isInvited($_SESSION['uid'], $eventId)) {
