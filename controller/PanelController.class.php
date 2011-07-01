@@ -95,7 +95,7 @@ class PanelController {
 				if ($loadCp) {
 					$this->smarty->display('cp.tpl');
 				} else {
-					$this->smarty->display('cp_container.tpl');	
+					$this->smarty->display('cp_middle.tpl');	
 				}
 			} else {
 				$this->smarty->display('login_form.tpl');
@@ -582,10 +582,11 @@ class PanelController {
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
 					$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-					
-					if (isset($_SESSION['newEvent']) && isset($userId)) {
+					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;
-						
+					}
+					
+					if (isset($_SESSION['newEvent'])) {
 						$newEvent = json_decode($_SESSION['newEvent'], true);
 						$newEvent['organizer'] = $userId;
 						

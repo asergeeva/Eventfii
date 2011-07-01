@@ -42,7 +42,7 @@
       <tr>
         <th>Cell #</th>
         <td><input type="text" name="ef_login_phone_new" id="ef_login_phone_new" />
-        		XXX-XXX-XXXX</td>
+        		(e.g. +14158675309)</td>
       </tr>
       <tr>
         <th>Password</th>
