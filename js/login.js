@@ -16,18 +16,23 @@ var LOGIN_FORM = (function() {
 					isExist: true,
 					email: $('#ef_login_email_exist').val(),
 					pass: hex_md5($('#ef_login_pass_exist').val())
-			}, LOGIN_FORM.userLogin);
+			}, LOGIN_FORM.userLogin1);
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
 		newUserLogin: function() {
+		var passval="";
+		if($('#ef_login_pass_new').val().length>=6)
+					 passval=hex_md5($('#ef_login_pass_new').val());
+				else
+					passval=$('#ef_login_pass_new').val();
 			$.post(EFGLOBAL.baseUrl + '/user/create', {
 				isExist: false,
 				fname: $('#ef_fname_new').val(),
 				lname: $('#ef_lname_new').val(),
 				email: $('#ef_login_email_new').val(),
 				phone: $('#ef_login_phone_new').val(),
-				pass: hex_md5($('#ef_login_pass_new').val())
+				pass: passval
 			}, LOGIN_FORM.userLogin);
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
@@ -43,8 +48,14 @@ var LOGIN_FORM = (function() {
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
+		userLogin1: function(status) {
+	//	$('#container').html(status);
+	window.location = EFGLOBAL.baseUrl;
+		},
+		
 		userLogin: function(status) {
-			window.location = EFGLOBAL.baseUrl;
+		$('#container').html(status);
+	//window.location = EFGLOBAL.baseUrl;
 		}
 	}
 })();
