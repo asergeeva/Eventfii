@@ -1,0 +1,1 @@
+DROP TABLE ef_admin_users;

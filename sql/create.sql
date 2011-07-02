@@ -37,6 +37,7 @@ CREATE TABLE ef_events (
   location_long     DOUBLE,
   event_datetime    DATETIME NOT NULL,
   event_deadline    DATE NOT NULL,
+  type              INTEGER NOT NULL REFERENCES ef_event_type(tid),
   description       VARCHAR(5000),
   gets              VARCHAR(5000),
   is_public         TINYINT(1) NOT NULL DEFAULT 1
@@ -67,6 +68,11 @@ CREATE TABLE ef_event_messages (
   is_activated      TINYINT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
+CREATE TABLE ef_messages_type (
+  id    INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name  VARCHAR(500) NOT NULL
+) ENGINE=InnoDB;
+
 CREATE TABLE ef_event_payments (
   id  INTEGER PRIMARY KEY AUTO_INCREMENT,
   uid INTEGER NOT NULL REFERENCES ef_users(id),
@@ -86,4 +92,16 @@ CREATE TABLE ef_event_preapprovals (
 CREATE TABLE ef_paypal_accounts (
   uid    INTEGER NOT NULL REFERENCES ef_users(id),
   pemail VARCHAR(1000) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_event_type (
+  tid  INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(500) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_password_reset (
+  hash_key VARCHAR(500) PRIMARY KEY,
+  trequest TIMESTAMP NOT NULL DEFAULT NOW(),
+  treset   TIMESTAMP,
+  email    VARCHAR(500) NOT NULL REFERENCES ef_users(email)
 ) ENGINE=InnoDB;
