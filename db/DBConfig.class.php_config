@@ -8,10 +8,10 @@
  
 class DBConfig {
 	private $DB_HOST = "127.0.0.1:3306";
-	private $DB_USER = "root";
-	private $DB_PASS = "";
+	private $DB_USER = "glaksmono";
+	private $DB_PASS = "12345";
 	
-	private $DB_NAME = "tripcp";
+	private $DB_NAME = "eventfii";
 	
 	private $DEBUG = true;
 	
@@ -209,13 +209,6 @@ class DBConfig {
 		return $curSignUp['cur_signups'];
 	}
 	
-	public function emailExistsCheck($email) {
-		$GET_EMAIL_ID = "SELECT email AS email_id FROM ef_users WHERE email = '$email'";
-		$emailExists = $this->executeQuery($GET_EMAIL_ID);
-		return $emailExists['email_id'];
-	}
-	
-	
 	public function dateToSql($date) {
 		$dateElem = explode("/", $date);
 		return $dateElem[2]."-".$dateElem["0"]."-".$dateElem[1];
@@ -232,7 +225,7 @@ class DBConfig {
 		
 		$CREATE_NEW_EVENT = "INSERT INTO ef_events (created, organizer, title, url, 
 														 goal, location_address, 
-														 event_datetime, event_deadline, description, is_public, gets, type,location_lat,location_long) 
+														 event_datetime, event_deadline, description, is_public, gets, type) 
 												 VALUES (NOW(), ".mysql_real_escape_string($newEvent["organizer"]).", 
 												 							 '".mysql_real_escape_string($newEvent["title"])."', 
 																			 '".mysql_real_escape_string($newEvent["url"])."', 
@@ -243,11 +236,7 @@ class DBConfig {
 																			 '".mysql_real_escape_string($newEvent["description"])."',
 																			  ".mysql_real_escape_string($newEvent["is_public"]).",
 																			 '".mysql_real_escape_string($newEvent["gets"])."',
-																			  ".$newEvent["type"].",
-																			  ".mysql_real_escape_string($newEvent["location_lat"]).",
-																			  ".mysql_real_escape_string($newEvent["location_long"]).")";
-																			  
-																			//  die($CREATE_NEW_EVENT);
+																			  ".$newEvent["type"].")";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
@@ -264,8 +253,6 @@ class DBConfig {
 												e.description = '".mysql_real_escape_string($eventInfo->description)."',
 												e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
 												e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
-												e.location_lat=".mysql_real_escape_string($eventInfo->lat).",
-												e.location_long=".mysql_real_escape_string($eventInfo->lng).",
 												e.type = ".$eventInfo->type." 
 										 WHERE e.id = ".mysql_real_escape_string($eventInfo->eid);
 		$this->executeUpdateQuery($UPDATE_EVENT);
@@ -288,12 +275,12 @@ class DBConfig {
 	
 	public function getEventByEO($uid) {
 		$GET_EVENTS = "SELECT * FROM
-									(SELECT e.id, TIMEDIFF(e.event_datetime, NOW()) AS time_left,
+										 (SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
 											 e.created, e.title, e.url, e.goal, 
 											 e.location_address, e.event_datetime, e.event_deadline, 
 											 e.description, e.is_public 
 										 FROM ef_events e WHERE e.organizer = ".$uid.") el
-									 	WHERE el.time_left > 0 ORDER BY el.time_left ASC";
+									 WHERE el.days_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -330,8 +317,7 @@ class DBConfig {
 			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
-						$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf.", is_attending = 1 WHERE event_id = ".$eid." AND user_id = ".$uid;
-
+			$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf.", is_attending = 1 WHERE event_id = ".$eid." AND user_id = ".$uid;
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
 	}
@@ -366,7 +352,7 @@ class DBConfig {
 	}
 	
 	public function getNewEvents() {
-		$GET_NEW_EVENTS = "SELECT * FROM ef_events WHERE is_public = 1 ORDER BY event_datetime DESC LIMIT 3";
+		$GET_NEW_EVENTS = "SELECT * FROM ef_events ORDER BY event_datetime DESC LIMIT 3";
 		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
 	}
 	
@@ -474,12 +460,11 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_RESET_TIME);
 	}
 	
-		public function isInvited($uid, $eid) {
+	public function isInvited($uid, $eid) {
 		$IS_INVITED = "SELECT * FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.event_id = ".$eid;
 		if ($this->getRowNum($IS_INVITED) == 0) {
 			return false;
 		}
 		return true;
 	}
-
 }
