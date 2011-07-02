@@ -369,7 +369,7 @@ return $retVal;
 						$this->smarty->display('cp_middle.tpl');
 				}
 			} else {
-				$this->smarty->display('login_form.tpl');
+				$this->smarty->display('login.tpl');
 				//nn $this->smarty->display('login_form.tpl');
 			}
 	}
