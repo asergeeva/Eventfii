@@ -64,20 +64,290 @@ class PanelController {
 		}
 	}
 	
-	public function checkNewEvent($newEvent, $loadCp) {
-		if (isset($newEvent)) {
-			$_SESSION['newEvent'] = json_encode($newEvent);
+	////////////////////
+	
+	public function check_address($addr)
+	{
+	$a = urlencode($addr);
+	$retVal=array();
+	$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
+   $ch = curl_init($geocodeURL);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   $result = curl_exec($ch);
+   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+   curl_close($ch);
+   if ($httpCode == 200) {
+      $geocode = json_decode($result);
+      $lat = $geocode->results[0]->geometry->location->lat;
+      $lng = $geocode->results[0]->geometry->location->lng; 
+      $formatted_address = $geocode->results[0]->formatted_address;
+      $geo_status = $geocode->status;
+      $location_type = $geocode->results[0]->geometry->location_type;
+      $retVal['location_type']=$location_type;
+      $retVal['lat']=$lat;
+      $retVal['lng']=$lng;	
+   } else {
+     $retVal['location_type']="error";
+     $retVal['lat']=$lat;
+     $retVal['lng']=$lng;
+	
+   }
+return $retVal;
+}
+
+	
+	/////////////////////
+	public function validate_address($addr)
+	{
+//	die("5");
+			$flag=1;
+			if($addr == "")
+			{
+			$this->smarty->assign('error_address', "Please enter an address");
+			$flag=2;
+		//	return $flag;
+			}
+			$retArr=$this->check_address($addr);
+			if($retArr['location_type']!="ROOFTOP")
+			{
+				$this->smarty->assign('error_address', "Address entered is invalid");
+				$flag=2;
+			//	die($flag);
+				//return $flag;
+			}	
+			$res=filter_var($addr, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s-,*]*$/")));
+		if(!($res))
+			{
+			$this->smarty->assign('error_address', "Address can only contain spaces,  A-Z, 0-9 or -*,@&");
+			$flag=2;
+			}
+		//die("manu=$addr=$flag");
+		return $flag;
+	}
+	
+	public function validate_title($title)
+	{
+	$flag=1;
+		if(strlen($title)<5)
+			{
+			$this->smarty->assign('error_title', "Please enter a title which is atleast 5 characters in length");
+			$flag=2;
+			//return 2;
+			}
+		$res=filter_var($title, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]*$/")));
+		if(!($res))
+			{
+			$this->smarty->assign('error_title', "Title can only contain spaces, characters A-Z or numbers 0-9");
+			$flag=2;
+			}
+	return $flag;
+	}
+	
+	
+	public function validate_desc($desc)
+	{
+	$flag=1;
+	if(strlen($desc)<25)
+			{
+			$this->smarty->assign('error_desc', "Please enter a description of atleast 25 characters.");
+			$flag=2;
+			}
+	$res=filter_var($desc, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]*$/")));
+		if(!($res))
+			{
+			$this->smarty->assign('error_desc', "Description can only contain spaces,  A-Z or  0-9");
+			$flag=2;
+			}
+	return $flag;
+	}
+	
+	
+	public function validate_tm($tm)
+	{
+	$flag=1;
+	$res=filter_var($tm, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^(20|21|22|23|[01]\d|\d)(([:][0-5]\d){1,2})$/")));
+		if(!($res))
+			{
+			$this->smarty->assign('error_tm', "Please enter a time in hh:mm format.");
+			$flag=2;
+			}
+	return $flag;
+	}
+	
+	
+	public function validate_date($dt)
+	{
+		  $flag=1;
+		  $a_date = explode('/', $dt); 
+		  $month = $a_date[0];
+          $day = $a_date[1];
+          $year = $a_date[2]; 
+			if(!checkdate($month,$day,$year))
+				{
+				$this->smarty->assign('error_dt', "Please enter a valid date in mm/dd/yyyy format");
+				$flag=2;
+				}
+			$check = mktime(0, 0, 0, $month, $day, $year);
+			$today = mktime(0, 0, 0, date("m"), date("d"), date("y"));
+			   if($check < $today)
+				{
+					$this->smarty->assign('error_dt', "Event date should be a date in the future.");
+					$flag=2;
+				}
+		return $flag;
+	}
+	
+	public function validate_ddt($ddt,$dt)
+	{
+		  $flag=1;
+		  $a_date = explode('/', $ddt); 
+		  $month = $a_date[0];
+          $day = $a_date[1];
+          $year = $a_date[2]; 
+		  
+		  $e_date = explode('/', $dt); 
+		  $evtMonth = $e_date[0];
+          $evtDay = $e_date[1];
+          $evtYear = $e_date[2]; 
+		  
+			if(!checkdate($month,$day,$year))
+				{
+				$this->smarty->assign('error_ddt', "Please enter a valid date in mm/dd/yyyy format");
+				$flag=2;
+				}
+			$check = mktime(0, 0, 0, $month, $day, $year);
+			$today = mktime(0, 0, 0, date("m"), date("d"), date("y"));
+			   if($check < $today)
+				{
+					$this->smarty->assign('error_ddt', "Deadline date should be a date in the future.");
+					$flag=2;
+				}
+			$evt_check = mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear);
+				if($evt_check < $check)
+				{
+					$this->smarty->assign('error_ddt', "Deadline date cannot be greater than the event date.");
+					$flag=2;
+				}
+		return $flag;
+	}
+	
+	public function validate_goal($goal)
+	{
+	$int_options = array(
+			"options"=>array
+							(
+							"min_range"=>1,
+							"max_range"=>1000000
+							)
+						);
+
+		if(!filter_var($goal, FILTER_VALIDATE_INT, $int_options))
+		{
+			$this->smarty->assign('error_goal', "Please enter a attendance goal between 1 and 1000000.");
+			$flag=2;
+			return $flag;
 		}
+		else
+		{
+			$flag=1;
+			return $flag;
+		}
+	}
+	
+	public function validate_is_pub($isPub)
+	{
+		if($isPub!=0 || $isPub!=1)
+		{
+			$this->smarty->assign('error_is_pub', "Please Select the invite type.");
+			$flag=2;
+		}
+			
+	}
+	
+	public function checkNewEvent($newEvent, $loadCp) {
+		if (isset($newEvent) && $newEvent!=NULL) {
+		if(is_array($newEvent)){
+		$r=0;
+		}
+		else{
+		$_SESSION['newEvent'] = json_encode($newEvent);
+		$addr=$newEvent->address;
+		$goal=$newEvent->goal;
+		$title=$newEvent->title;
+		$dt=$newEvent->date;
+		$ddt=$newEvent->deadline;
+		$isPub=$newEvent->is_public;
+		$tm=$newEvent->time;
+		$description=$newEvent->description;
+		$aval=$this->validate_address($addr);
+		$tval=$this->validate_title($title);
+		$desc=$this->validate_desc($description);
+		$gval=$this->validate_goal($goal);
+		$dval=$this->validate_date($dt);
+		$ddval=$this->validate_ddt($ddt,$dt);
+		$tmval=$this->validate_tm($tm);
+		$isPubVal=$this->validate_is_pub($isPub);
 		
-		// Make sure that address is not empty
-		if (!isset($_SESSION['uid']) && $newEvent->address == "") {
-			$this->smarty->display('create_event_form.tpl');
-		} else {
+			if($isPubVal==2)
+						{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+						}
+		
+		
+		if($tmval==2)
+						{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+						}
+			if($ddval==2)
+						{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+						}
+			if($dval==2)
+						{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+						}
+			if($aval==2)
+						{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+						}
+			if($tval==2)
+					{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+					}
+			if($desc==2)
+					{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+					}	
+			if($gval==2)
+					{
+							$this->smarty->display('create_event_form.tpl');
+							return;
+					}	
+				}
+			
+		}
 			if (isset($_SESSION['uid'])) {
-				if (isset($_SESSION['newEvent']) && isset($_SESSION['newEvent']['organizer'])) {
+				if (isset($_SESSION['newEvent'])) {
 					require_once('models/EFMail.class.php');
-					
-					$newEvent = json_decode($_SESSION['newEvent'], true);
+					if(is_array($newEvent))
+						{
+										$r=0;
+						}
+						else
+						{
+							$newEvent = json_decode($_SESSION['newEvent'], true);
+						}
+					$addrss=$newEvent['address'];
+					$addr=$this->check_address($addrss);	
+					$newEvent['location_lat']=$addr['lat'];
+					$newEvent['location_long']=$addr['lng'];	
 					$this->dbCon->createNewEvent($newEvent);
 					
 					// INVITE GUESTS USING EMAIL
@@ -95,12 +365,13 @@ class PanelController {
 				if ($loadCp) {
 					$this->smarty->display('cp.tpl');
 				} else {
-					$this->smarty->display('cp_middle.tpl');	
+					//mm $this->smarty->display('cp_container.tpl');
+						$this->smarty->display('cp_middle.tpl');
 				}
 			} else {
-				$this->smarty->display('login_form.tpl');
+				$this->smarty->display('login.tpl');
+				//nn $this->smarty->display('login_form.tpl');
 			}
-		}
 	}
 	
 	public function checkGuests(&$eventInfo) {
@@ -114,6 +385,103 @@ class PanelController {
 			$eventInfo->setGuestsFromCSV($csvFile);
 		}
 	}
+	
+	//checkUserCreationForm
+	public function checkUserCreationForm($req)
+	{
+	$flag=1;
+	$fname=$req['fname'];
+	$lname=$req['lname'];
+	$email=$req['email'];
+	$phone=$req['phone'];
+	$pass=$req['pass'];
+
+	$f_name_val=$this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
+	$l_name_val=$this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
+	$email_val=$this->valEmail($email,"user_create_email","Email entered is invalid.");
+	$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
+	$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
+	$email_exists=$this->dbCon->emailExistsCheck($email);
+	if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2)
+	{
+		$flag=2;
+	}
+	if(strlen($email_exists)>0)
+		{
+		$flag=2;
+		$this->smarty->assign("user_create_email","Email Id has been already registered once in the system.");
+		}
+	if(strlen($pass)<6)
+	{
+	//die($pass);
+		$flag=2;
+		$this->smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
+	}
+		
+		//die($pass);
+	return $flag;
+	}
+	
+	
+	public function validateSaveEmail($req)
+	{
+	$msg="<br>";
+	$flag=0;
+	$dt=$req['date'];
+		  $a_date = explode('/', $dt);
+		  $month = $a_date[0];
+          $day = $a_date[1];
+          $year = $a_date[2]; 
+			if(!checkdate($month,$day,$year))
+				{
+				$msg.="Please enter a date in mm/dd/yyyy format. <br>";
+				$flag=1;
+				}
+		
+		
+		
+		$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9]*$/")));
+		if(!($res))
+		{
+				$flag=1;
+				$msg.="Subject can only contain characters A-Z or numbers 0-9 <br>";
+		}
+		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9']*$/")));
+		if(!($res))
+		{
+				$flag=1;
+				$msg.="Content can only contain characters A-Z or numbers 0-9 <br>";
+		}
+
+			if($flag==0)
+				$msg="Success";
+			
+			return $msg;
+	}
+	
+	public function valEmail($email,$tmp_var,$msg)
+	{
+	$flag=1;
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			$this->smarty->assign($tmp_var,$msg);
+			$flag=2;
+		}
+	return $flag;
+	}
+	
+	public function valUsingRegExp($val,$regex,$tmp_var,$msg)
+	{
+	$flag=1;
+		$res=filter_var($val, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>$regex)));
+		if(!($res))
+			{
+			$this->smarty->assign($tmp_var,$msg);
+			$flag=2;
+			}
+	return $flag;
+	}
+	
 	
 	public function displayAttendeePage($eventId) {
 		require_once('models/EFCore.class.php');
@@ -146,7 +514,7 @@ class PanelController {
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
 			require_once('models/EFTwitter.class.php');
 			$twitter = new EFTwitter();
-			
+
 			$eventId = explode('/', $requestUri);
 			$eventId = $eventId[sizeof($eventId)-1];
 			
@@ -173,6 +541,7 @@ class PanelController {
 			$this->smarty->assign('eventId', $eventId);
 			$this->smarty->assign('curSignUp', $curSignUp);
 			$this->smarty->assign('twitterHash', $twitter->getTwitterHash($eventId));
+
 			
 			if (isset($_SESSION['uid'])) {
 				if (intval($eventInfo['is_public']) == 1 || $this->dbCon->isInvited($_SESSION['uid'], $eventId)) {
@@ -247,8 +616,81 @@ class PanelController {
 															 $_REQUEST['type']);
 				
 				$this->checkGuests($eventInfo);
-															
-				$eventInfo->eid = $_REQUEST['eventId'];
+				
+				if($_REQUEST['eventId']!=-1)
+				{
+					$eventInfo->eid = $_REQUEST['eventId'];
+					$_SESSION['eventId']=$_REQUEST['eventId'];
+				}
+				else
+				{
+					$eventInfo->eid = $_SESSION['eventId'];
+				}	
+				//$_SESSION['eventId']=$_REQUEST['eventId'];
+				//print_r($_SESSION);
+				//die();
+				//////////////////////////////////////////
+				
+			
+		$addr=$eventInfo->address;
+		$goal=$eventInfo->goal;
+		$title=$eventInfo->title;
+		$dt=$eventInfo->date;
+		$ddt=$eventInfo->deadline;
+		$description=$eventInfo->description;
+		$aval=$this->validate_address($addr);
+		$tval=$this->validate_title($title);
+		$desc=$this->validate_desc($description);
+		$gval=$this->validate_goal($goal);
+		$dval=$this->validate_date($dt);
+		$ddval=$this->validate_ddt($ddt,$dt);
+		
+			if($ddval==2)
+						{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+						}
+			if($dval==2)
+						{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+						}
+			if($aval==2)
+						{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+						}
+			if($tval==2)
+					{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+					}
+			if($desc==2)
+					{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+					}	
+			if($gval==2)
+					{
+							$this->smarty->display('update_event_form_errors.tpl');
+							return;
+					}
+				
+				
+			$addrss=$eventInfo->address;
+			$addr=$this->check_address($addrss);	
+			$eventInfo->lat=$addr['lat'];
+			$eventInfo->lng=$addr['lng'];		
+				
+				
+				
+				
+				
+				////////////////////////////////////////////
+				//if($eventInfo->eid <=0)
+				//$eventInfo->eid = $_SESSION['eventId'];
+				//print_r($_SESSION);
+				//die();
 				$this->dbCon->updateEvent($eventInfo);
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
@@ -271,9 +713,14 @@ class PanelController {
 															$_REQUEST['gets'],
 															$_REQUEST['type']);
 				
+			
+				
 				$this->checkGuests($newEvent);
 
+			
+				
 				$this->checkNewEvent($newEvent, false);
+				
 				break;
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
@@ -444,11 +891,22 @@ class PanelController {
 				$this->displayAttendeePage($_REQUEST['eventId']);
 				break;
 			case '/event/manage/email/save':
+			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
+				}
+				
+				$req['content']=$_REQUEST['reminderContent'];
+				$req['subject']=$_REQUEST['reminderSubject'];
+				$req['type']=$_REQUEST['type'];
+				$req['date']=$_REQUEST['reminderDate'];
+				$retval=$this->validateSaveEmail($req);
+				if($retval!="Success")
+				{
+					die($retval);
 				}
 				
 				$this->dbCon->saveEmail($_REQUEST['eventId'], 
@@ -457,16 +915,27 @@ class PanelController {
 																$_REQUEST['reminderSubject'],
 																$_REQUEST['type'],
 																$autoReminder);
+				echo("Success");
 				break;
 			case '/event/manage/email/send':
 				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				$attendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$req['content']=$_REQUEST['reminderContent'];
+				$req['subject']=$_REQUEST['reminderSubject'];
+				$req['type']=$_REQUEST['type'];
+				$req['date']=$_REQUEST['reminderDate'];
+				$retval=$this->validateSaveEmail($req);
+				if($retval!="Success")
+				{
+					die($retval);
+				}
 				$mailer->sendAutomatedEmail($eventInfo, 
 																	 $_REQUEST['reminderContent'],
 																	 $_REQUEST['reminderSubject'],
 																	 $attendees);
+				echo("Success");
 				break;
 			case '/event/manage/email/autosend':
 				$isActivated = 0;
@@ -516,6 +985,19 @@ class PanelController {
 				$this->displayAttendeePage($_REQUEST['eventId']);
 				break;
 			case '/user/create':
+				$req['fname']=$_REQUEST['fname'];
+				$req['lname']=$_REQUEST['lname'];
+				$req['email']=$_REQUEST['email'];
+				$req['phone']=$_REQUEST['phone'];
+				$req['pass']=$_REQUEST['pass'];
+				$retVal=$this->checkUserCreationForm($req);
+				//die($retVal);
+				if($retVal==2)
+					{
+					$this->smarty->display('login.tpl');
+					return;
+					
+					}
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], 
 																								$_REQUEST['lname'], 
 																								$_REQUEST['email'], 
@@ -585,19 +1067,21 @@ class PanelController {
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
-					$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
+					if(isset($_REQUEST['email']) && isset($_REQUEST['pass']))
+					{
+						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
+					}
 					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;
 					}
-					
-					if (isset($_SESSION['newEvent'])) {
+					if (isset($_SESSION['newEvent']))  {
 						$newEvent = json_decode($_SESSION['newEvent'], true);
 						$newEvent['organizer'] = $userId;
-						
 						$this->checkNewEvent($newEvent, false);
 						break;
 					}
-					$this->smarty->display('login.tpl');
+				    $this->smarty->display('login.tpl');
+					//mm $this->checkNewEvent(NULL, false);
 					break;
 				}
 				$this->checkHome();

@@ -123,8 +123,11 @@ var CP_EVENT = (function() {
 					reminderSubject: $('#reminder_message_subject').val(),
 					reminderContent: $('#reminder_message_text').val(),
 					type: EFGLOBAL.emailReminderType
-				}, function() {
+				}, function(retval) {
+				if(retval=="Success")
 					$('#reminder_status').html(EFGLOBAL.isSucceed);
+				else
+					$('#reminder_status').html(retval);
 				});
 			});
 			$('#send_reminder').live('click', function() {
@@ -137,8 +140,11 @@ var CP_EVENT = (function() {
 					reminderRecipient: $('#reminder_recipient option:selected').val(),
 					reminderSubject: $('#reminder_message_subject').val(),
 					reminderContent: $('#reminder_message_text').val()
-				}, function() {
+				}, function(retval) {
+					if(retval=="Success")
 					$('#reminder_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#reminder_status').html(retval);
 				});
 			});
 			
@@ -154,8 +160,11 @@ var CP_EVENT = (function() {
 					reminderSubject: $('#followup_message_subject').val(),
 					reminderContent: $('#followup_message_text').val(),
 					type: EFGLOBAL.emailFollowupType
-				}, function() {
+				}, function(retval) {
+					if(retval=="Success")
 					$('#followup_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#followup_status').html(retval);
 				});
 			});
 			$('#send_followup').live('click', function() {
@@ -168,8 +177,11 @@ var CP_EVENT = (function() {
 					reminderRecipient: $('#followup_recipient option:selected').val(),
 					reminderSubject: $('#followup_message_subject').val(),
 					reminderContent: $('#followup_message_text').val()
-				}, function() {
+				}, function(retval) {
+					if(retval=="Success")
 					$('#followup_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#followup_status').html(retval);
 				});
 			});
 		},
@@ -245,6 +257,9 @@ var CP_EVENT = (function() {
 		updateEventSubmit: function() {
 			var urlToken = $('#event_url_update').val().split('/'),
 					eid = urlToken[urlToken.length - 1];
+				if(eid.length<=0)
+					eid=-1;
+				//alert(eid);
 					
 			$.post(EFGLOBAL.baseUrl + '/event/update', {
 				title: 				$('#event_title_update').val(),
