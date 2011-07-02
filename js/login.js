@@ -16,7 +16,7 @@ var LOGIN_FORM = (function() {
 					isExist: true,
 					email: $('#ef_login_email_exist').val(),
 					pass: hex_md5($('#ef_login_pass_exist').val())
-			}, LOGIN_FORM.userLogin1);
+			}, LOGIN_FORM.loginRedirect);
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
@@ -48,7 +48,7 @@ var LOGIN_FORM = (function() {
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
-		userLogin1: function(status) {
+		loginRedirect: function(status) {
 	//	$('#container').html(status);
 	window.location = EFGLOBAL.baseUrl;
 		},
