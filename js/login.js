@@ -23,11 +23,12 @@ var LOGIN_FORM = (function() {
 		},
 		
 		newUserLogin: function() {
-		var passval="";
-		if($('#ef_login_pass_new').val().length>=6)
-					 passval=hex_md5($('#ef_login_pass_new').val());
-				else
+			var passval="";
+			if($('#ef_login_pass_new').val().length>=6) {
+					passval=hex_md5($('#ef_login_pass_new').val());
+			} else {
 					passval=$('#ef_login_pass_new').val();
+			}
 			$.post(EFGLOBAL.baseUrl + '/user/create', {
 				isExist: false,
 				fname: $('#ef_fname_new').val(),
@@ -52,11 +53,12 @@ var LOGIN_FORM = (function() {
 		
 		loginRedirect: function(status) {
 	//	$('#container').html(status);
-	window.location = EFGLOBAL.baseUrl;
+			window.location = EFGLOBAL.baseUrl;
 		},
 		
+		// TODO: Need a new way of validating using variables instead of templates
 		userLogin: function(status) {
-		$('#container').html(status);
+			window.location = EFGLOBAL.baseUrl;
 	//window.location = EFGLOBAL.baseUrl;
 		}
 	}

@@ -394,6 +394,7 @@ return $retVal;
 		$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
 		$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
 		$email_exists=$this->dbCon->emailExistsCheck($email);
+		
 		if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2) {
 			$flag=2;
 		}
