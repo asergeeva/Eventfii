@@ -1,9 +1,6 @@
 {include file="header.tpl" title="Jumpstart your social life"}
-{include file="cp_css.tpl"}
-<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/event_style.css" />
-</head>
 
-<body id="cp_body">
+<body>
 {include file="cp_header.tpl"}
 {include file="manage_header.tpl"}
 <div id="private">

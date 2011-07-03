@@ -1,6 +1,6 @@
 {include file="header.tpl" title="Jumpstart your social life"}
 
-<body id="cp_body">
+<body>
 {include file="cp_header.tpl"}
 <div id="section-header">
 	<h1>Welcome, {$currentUser['fname']}!</h1>
