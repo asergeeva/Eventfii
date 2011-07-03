@@ -680,13 +680,10 @@ return $retVal;
 				
 				$this->checkGuests($eventInfo);
 				
-				if($_REQUEST['eventId']!=-1)
-				{
+				if($_REQUEST['eventId']!=-1) {
 					$eventInfo->eid = $_REQUEST['eventId'];
 					$_SESSION['eventId']=$_REQUEST['eventId'];
-				}
-				else
-				{
+				} else {
 					$eventInfo->eid = $_SESSION['eventId'];
 				}	
 				//$_SESSION['eventId']=$_REQUEST['eventId'];
@@ -695,60 +692,49 @@ return $retVal;
 				//////////////////////////////////////////
 				
 			
-		$addr=$eventInfo->address;
-		$goal=$eventInfo->goal;
-		$title=$eventInfo->title;
-		$dt=$eventInfo->date;
-		$ddt=$eventInfo->deadline;
-		$description=$eventInfo->description;
-		$aval=$this->validate_address($addr);
-		$tval=$this->validate_title($title);
-		$desc=$this->validate_desc($description);
-		$gval=$this->validate_goal($goal);
-		$dval=$this->validate_date($dt);
-		$ddval=$this->validate_ddt($ddt,$dt);
-		
-			if($ddval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($dval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($aval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($tval==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-			if($desc==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}	
-			if($gval==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-				
-				
-			$addrss=$eventInfo->address;
-			$addr=$this->check_address($addrss);	
-			$eventInfo->lat=$addr['lat'];
-			$eventInfo->lng=$addr['lng'];		
-				
-				
-				
-				
-				
+				$addr=$eventInfo->address;
+				$goal=$eventInfo->goal;
+				$title=$eventInfo->title;
+				$dt=$eventInfo->date;
+				$ddt=$eventInfo->deadline;
+				$description=$eventInfo->description;
+				$aval=$this->validate_address($addr);
+				$tval=$this->validate_title($title);
+				$desc=$this->validate_desc($description);
+				$gval=$this->validate_goal($goal);
+				$dval=$this->validate_date($dt);
+				$ddval=$this->validate_ddt($ddt,$dt);
+			
+				if($ddval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($dval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($aval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($tval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($desc==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}	
+				if($gval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+					
+				$addrss=$eventInfo->address;
+				$addr=$this->check_address($addrss);	
+				$eventInfo->lat=$addr['lat'];
+				$eventInfo->lng=$addr['lng'];		
+
 				////////////////////////////////////////////
 				//if($eventInfo->eid <=0)
 				//$eventInfo->eid = $_SESSION['eventId'];
@@ -990,12 +976,10 @@ return $retVal;
 				$req['pass']=$_REQUEST['pass'];
 				$retVal=$this->checkUserCreationForm($req);
 				//die($retVal);
-				if($retVal==2)
-					{
-					$this->smarty->display('login.tpl');
+				if($retVal==2) {
+					$this->smarty->display('login_form.tpl');
 					return;
-					
-					}
+				}
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], 
 																								$_REQUEST['lname'], 
 																								$_REQUEST['email'], 
