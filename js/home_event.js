@@ -6,7 +6,7 @@
  */
  
 $(document).ready(function() {
-	var TXT_INIT = 'What are you planning?';
+	var TXT_INIT = $('input#create_event_textarea').val();
 	$('input#create_event_textarea').focus(function() {
 		if ($('input#create_event_textarea').val() === TXT_INIT) {
   			$('input#create_event_textarea').val('');

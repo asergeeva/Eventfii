@@ -1,8 +1,7 @@
-<div id="current_events">
+<ul class="details">
 {foreach name=events item=event from=$createdEvents}
-  <div class="event_created_item">
-  	<a href="{$event['url']}" class="event_created_item_title"><h3>{$event['title']}</h3></a>
-    <p>{$event['days_left']} days left</p>
-  </div>
+  <li>
+    <a href="event/{$event['id']}" class="event-name">{$event['title']}</a>
+  </li>
 {/foreach}
-</div>
+</ul>

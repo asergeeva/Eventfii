@@ -14,6 +14,6 @@
   <div id="add_guest_right"></div>
   <div id="add_guest_save_container">
     <span id="update_guest_prevpage">{$prevPage}</span>
-    <a href="#"><img src="{$EC_IMG_PATH}/save.png" id="invite_guest_update" /></a>
+    <a href="#"><img src="{$IMG_PATH}/save.png" id="invite_guest_update" /></a>
   </div>
 </div>

@@ -17,7 +17,6 @@ class Event {
 	public $description;
 	public $cost;
 	public $is_public;
-	public $gets;
 	public $type;
 	public $lat;
 	public $lng;
@@ -37,7 +36,6 @@ class Event {
 											 $description,
 											 $cost,
 											 $is_public,
-											 $gets,
 											 $type,
 											 $lat,
 											 $lng) {

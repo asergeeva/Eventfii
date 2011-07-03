@@ -13,6 +13,6 @@
   </div>
   <div id="add_guest_right"></div>
   <div id="add_guest_save_container">
-  	<a href="#"><img src="{$EC_IMG_PATH}/save.png" id="invite_guest_submit" /></a>
+  	<a href="#"><img src="{$IMG_PATH}/save.png" id="invite_guest_submit" /></a>
   </div>
 </div>

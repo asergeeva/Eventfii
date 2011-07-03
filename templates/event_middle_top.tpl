@@ -1,5 +1,5 @@
 <h2 id="event_title">{$eventInfo['title']}</h2>
-
+<span id="event_id">{$eventInfo['id']}</span>
 <div id="time_info">
   <h3 id="event_dayleft">{$eventInfo['days_left']} days left</h3>
   <div id="event_datetime">

@@ -1,7 +1,7 @@
 {include file="header.tpl" title="Jumpstart your social life"}
 
 <body>
-{include file="home_header.tpl"}
+{include file="cp_header.tpl"}
 <div id="container">
   {include file="create_event_form.tpl"}
 </div>

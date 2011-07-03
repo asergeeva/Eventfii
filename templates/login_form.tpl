@@ -1,62 +1,37 @@
 <div id="login_container">
-	<div id="existing_user_login_form">
-      <h3>Existing</h3>
-      <table id="regular_login">
-          <tr>
-              <th>Email</th>
-              <td><input type="text" name="ef_login_email_exist" id="ef_login_email_exist" /></td>
-          </tr>
-          <tr>
-              <th>Password</th>
-              <td><input type="password" name="ef_login_pass_exist" id="ef_login_pass_exist" /></td>
-          </tr>
-          <tr>
-          	<th></th>
-            <td><a href="{$CURHOST}/login/forgot">Forgot your password?</a></td>
-          </tr>
-          <tr>
-            <th></th>
-              <td>
-              	<button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button>
+	<div class="section section-login">
+		<section class="block" id="login_container">
+			<h1 class="block-title">Login</h1>
+			<p class="facebook-text"><a href="#">Facebook login makes signing up 75% faster!</a></p>
+			<fieldset id="existing_user_login_form">
+				<p class="message">Log in</p>
+				<label for="ef_login_email_exist"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email_exist" id="ef_login_email_exist" /></label>
+				<label for="ef_login_pass_exist"><span>Password</span> <input type="password" class="inputbox" name="ef_login_pass_exist" id="ef_login_pass_exist" /></label>
+				<p class="forgot-password"><a href="#">Forgot Password</a></p>
+				<div class="submit-buttons">
+					<a href="#" onclick="LOGIN_FORM.existingUserLogin()" class="btn-med" id="ef_login_btn"><span>Sign In</span></a>
+					<!--
+					<button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button> 
               	<fb:login-button perms="email,publish_stream,create_event" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button>
-              </td>
-          </tr>
-      </table>
-    </div>
-    
-    <div id="new_user_login_form">
-    <h3>New User</h3>
-    <table>
-			<tr>
-        <th>First name</th>
-        <td><input type="text" name="ef_fname" id="ef_fname_new" value="{$smarty.post.fname}" /></td>
-		<td><p><span style="color:red; top:0px; font-weight:bold;">{$user_create_fname}</span></p></td>
-      </tr>
-      <tr>
-        <th>Last name</th>
-        <td><input type="text" name="ef_lname" id="ef_lname_new" value="{$smarty.post.lname}" /></td>
-		<td><p><span style="color:red; top:0px; font-weight:bold;">{$user_create_lname}</span></p></td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td><input type="text" name="ef_login_email" id="ef_login_email_new" value="{$smarty.post.email}" /></td>
-		<td><p><span style="color:red; top:0px; font-weight:bold;">{$user_create_email}</span></p></td>
-      </tr>
-      <tr>
-        <th>Cell #</th>
-        <td><input type="text" name="ef_login_phone_new" id="ef_login_phone_new" value="{$smarty.post.phone}" />
-        		XXX-XXX-XXXX</td>
-		<td><p><span style="color:red; top:0px; font-weight:bold;">{$user_create_phone}</span></p></td>
-      </tr>
-      <tr>
-        <th>Password</th>
-        <td><input type="password" name="ef_login_pass" id="ef_login_pass_new" value="{$smarty.post.pass}" /></td>
-		<td><p><span style="color:red; top:0px; font-weight:bold;">{$user_create_pass}</span></p></td>
-      </tr>
-      <tr>
-        <th></th>
-        <td><button name="ef_create_user_btn" id="ef_create_user_btn" value="submit" onclick="LOGIN_FORM.newUserLogin()">Create</button></td>
-      </tr>
-    </table>
-    </div>
+					-->
+				</div>
+			</fieldset>
+			<fieldset id="new_user_login_form">
+				<p class="message">Create New Account</p>
+				<label for="ef_login_email_new"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email" id="ef_login_email_new" /></label>
+				<label for="ef_login_pass_new"><span>Password</span> <input type="password" class="inputbox" name="ef_login_pass_new" id="ef_login_pass_new" /></label>
+				<label for="ef_fname_new"><span>First Name</span> <input type="text" class="inputbox" name="ef_fname" id="ef_fname_new" /></label>
+				<label for="ef_lname_new"><span>Last Name</span> <input type="text" class="inputbox" name="ef_lname" id="ef_lname_new" /></label>
+				<label for="ef_login_phone_new"><span>Cell Phone #</span> <input type="text" class="inputbox" name="ef_login_phone" id="ef_login_phone_new" /> <p>So you can easily receive event updates through texts!</p></label>
+				<!-- Not included in old template: Zip code -->
+				<label for="zipcode"><span>Zip Code</span> <input type="text" class="inputbox" name="zipcode" id="zipcode" /> <p>So we can tell you how close to your events you are.</p></label>
+				<div class="submit-buttons">
+					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>
+					<!--
+					<button name="ef_create_user_btn" id="ef_create_user_btn" value="submit" onclick="LOGIN_FORM.newUserLogin()">Create</button>
+					-->
+				</div>
+			</fieldset>
+		</section>
+	</div>
 </div>

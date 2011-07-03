@@ -20,8 +20,8 @@ var CREATE_EVENT_FORM = (function() {
 			url:					$('#event_url_create').val(),
 			guest_email:  $('#guest_email').val()
 		}, CREATE_EVENT_FORM.createEventSubmit);
-		$('#middle').html(EFGLOBAL.ajaxLoader);
- });
+		$('#container').html(EFGLOBAL.ajaxLoader);
+	});
  
 	$('#invite_guest_submit').live('click', function() {
 		$('#event_guest_invite_overlay').find('a').trigger('click');
@@ -29,7 +29,7 @@ var CREATE_EVENT_FORM = (function() {
 	});
  
  return {
-	init: function() {
+		init: function() {
 		  if ($('#event_date_create') !== undefined &&
 		 	 	  $('#event_deadline_create') !== undefined &&
 				  $('#event_title_create') !== undefined) {
@@ -44,11 +44,23 @@ var CREATE_EVENT_FORM = (function() {
 				CSV_UPLOADER.init($('#create_event_eventid').html(), 'guest-invite-file-uploader-create');
 			}
 			
+			// OPENINVITER EMAIL PROVIDER
+			OPENINVITER.init();
+			$('.event_invite_oi').live('click', function() {
+				$('#update_event_form').html(EFGLOBAL.ajaxLoader);
+				$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
+					provider: this.href.split('#')[1]
+				}, function(providerLoginPage) {
+					$('#add_guest_right').html(providerLoginPage);
+				});
+			});
+			
+			$("a[rel]").overlay();
 			$("img[rel]").overlay();
 	 },
 	 
 	 createEventSubmit: function(loginForm) {
-			$('#middle').html(loginForm).ready(function() {
+			$('#container').html(loginForm).ready(function() {
 				CREATE_EVENT_FORM.init();
 			});
 	 }

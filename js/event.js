@@ -10,8 +10,7 @@ var EVENT = (function() {
 		init: function() {
 			$('.event_attending_response').live('click', function() {
 				$.post(EFGLOBAL.baseUrl + '/event/attend', {
-						uid: $('#current_user').find('a').attr('id').split('-')[1],
-						eid: $('#event_attending_response').parent().attr('id').split('-')[1],
+						eid: $('#event_id').html(),
 						conf: $('input:radio[name=event_attending_response]:checked').val()
 					}, function(resultPage) {
 					$('#response_stat_msg').html(EFGLOBAL.attendSucceed);
