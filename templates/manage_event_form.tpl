@@ -53,7 +53,7 @@
       </div>
       <aside class="section-extra">
         <ul>
-          <li><a href="#manage" class="btn" id="update_event_guest_invite"><span>Invite More Guests</span></a></li>
+          <li><a href="#manage" class="btn" id="update_event_guest_invite" rel="#event_guest_invite_overlay"><span>Invite More Guests</span></a></li>
           <li><a href="#" class="btn"><span>See RSVP List</span></a></li>
         </ul>
       </aside>

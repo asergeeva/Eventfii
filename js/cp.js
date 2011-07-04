@@ -4,12 +4,6 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-$(document).ready(function() {
-	$("a[rel]").overlay();
-	CREATE_EVENT_FORM.init();
-	CP_EVENT.init();
-});
-
 var CP_EVENT = (function() {
 	return {
 		init: function() {
@@ -50,17 +44,6 @@ var CP_EVENT = (function() {
 					$('#event_date_update').datepicker();
 					$('#event_deadline_update').datepicker();
 					$('#event_title_update').focus();
-				});
-			});
-		},
-		
-		addGuest: function() {
-			$.get(EFGLOBAL.baseUrl + '/event/edit/guest', {
-				eventId: $('#manage_event_id').html(),
-				prevPage: $('#update_event_guest_invite').attr('href').split('#')[1]
-			}, function(addGuestPage) {
-				$('#private').html(addGuestPage).ready(function() {
-					CSV_UPLOADER.init($('#manage_event_id').html(), 'guest-invite-file-uploader-update');
 				});
 			});
 		},

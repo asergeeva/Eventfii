@@ -1,7 +1,4 @@
 <div id="create_event_form">
-<div class="event_guest_invite_overlay" id="event_guest_invite_overlay">
-  	{include file="event_invite_guest_create.tpl"}
-</div>
 <span id="create_event_eventid">{$maxEventId}</span>
 	<!-- BEGIN Add Guest Section
 	<div class="event_guest">
