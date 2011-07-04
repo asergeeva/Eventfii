@@ -1,5 +1,4 @@
 <div id="event_info">
-  {include file="event_middle_top.tpl"}
   <div id="event_attending">
   	<ul id="event_attending_response">
   		<li><input type="radio" class="event_attending_response" name="event_attending_response" value="90" {$conf90} /> Yes, I will absolutely be there</li>
