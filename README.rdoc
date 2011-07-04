@@ -9,6 +9,8 @@
 * Setup permission for Smarty ./templates_c folder
     mkdir templates_c
     sudo chown -R nobody:nobody templates_c
+* Setup OpenInviter
+    sudo chown -R nobody:nobody ./libs/OpenInviter/openinviter_stats.sqlite
 
 === Configuration
 * ./.htaccess
