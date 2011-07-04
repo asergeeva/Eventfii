@@ -8,5 +8,6 @@
 </div>
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/create_event_form.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/manage.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/cp.js"></script>
 {include file="footer.tpl"}

@@ -4,10 +4,10 @@
 	<p class="event-date">{$eventInfo['event_datetime']}</p>
 	<nav class="section-nav">
 		<ul>
-			<li class="section-current"><a href="#" id="update_event_before">Before Event</a></li>
-			<li><a href="#" id="update_event_on">Day of Event</a></li>
-			<li><a href="#" id="update_event_after">After Event</a></li>
-			<li><a href="#" id="email_settings">E-Mail Options</a></li>
+			<li class="section-current"><a href="#" id="update_event_before" class="manage_top_nav">Before Event</a></li>
+			<li><a href="#" id="update_event_on" class="manage_top_nav">Day of Event</a></li>
+			<li><a href="#" id="update_event_after" class="manage_top_nav">After Event</a></li>
+			<li><a href="#" id="email_settings" class="manage_top_nav">E-Mail Options</a></li>
 		</ul>
 	</nav>
 </div>

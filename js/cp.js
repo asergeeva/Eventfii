@@ -7,7 +7,17 @@
 var CP_EVENT = (function() {
 	return {
 		init: function() {
-
+			$('#update_event_manage').live('click', this.manageEvent);
+			$('#update_event_edit').live('click', this.editEvent);
+			
+			$('#update_event_before').live('click', this.beforeEvent);
+			$('#update_event_on').live('click', this.onEvent);
+			$('#update_event_after').live('click', this.afterEvent);
+		
+			$('#email_settings').live('click', this.emailSettings);
+			$('#fb-logout').live('click', function() {
+				FB.logout();
+			});
 		},
 		
 		openUpdateEvent: function(eid) {
@@ -75,30 +85,6 @@ var CP_EVENT = (function() {
 			});
 		},
 		
-		updateEventSubmit: function() {
-			var urlToken = $('#event_url_update').val().split('/'),
-					eid = urlToken[urlToken.length - 1];
-				if(eid.length<=0)
-					eid=-1;
-				//alert(eid);
-					
-			$.post(EFGLOBAL.baseUrl + '/event/update', {
-				title: 				$('#event_title_update').val(),
-				description:	$('#event_description_update').val(),
-				address: 			$('#event_address_update').val(),
-				date: 				$('#event_date_update').val(),
-				time:					$('#event_time_update').val(),
-				deadline: 		$('#event_deadline_update').val(),
-				goal:     		$('#event_goal_update').val(),
-				gets: 				$('#event_gets_update').val(),
-				type:					$('#event_type_update option:selected').val(),
-				is_public: 		$('input:radio[name=event_ispublic_update]:checked').val(),
-				url:					$('#event_url_update').val(),
-				eventId:      eid
-			}, CP_EVENT.updateCP);
-			$('#update_event_form').html(EFGLOBAL.ajaxLoader);
-		}, 
-		
 		updateCP: function(updatedContainer) {
 			$('#container').html(updatedContainer).ready(function() {
 				$("a[rel]").overlay();
@@ -129,18 +115,6 @@ var CP_EVENT = (function() {
 	}
 	
 	// INITIALIZATIONS
-	$('#update_event_manage').live('click', this.manageEvent);
-	$('#update_event_edit').live('click', this.editEvent);
-	
-	$('#update_event_before').live('click', this.beforeEvent);
-	$('#update_event_on').live('click', this.onEvent);
-	$('#update_event_after').live('click', this.afterEvent);
-
-	$('#email_settings').live('click', this.emailSettings);
-	$('#fb-logout').live('click', function() {
-		FB.logout();
-	});
-	
 	// SAVE BUTTON
 	$('#invite_guest_update').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/edit/guest/save', {
@@ -276,4 +250,5 @@ $(document).ready(function() {
 	$("a[rel]").overlay();
 	CREATE_EVENT_FORM.init();
 	CP_EVENT.init();
+	MANAGE_EVENT.init();
 });
