@@ -19,12 +19,23 @@
 			<fieldset id="new_user_login_form">
 				<p class="message">Create New Account</p>
 				<label for="ef_login_email_new"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email" id="ef_login_email_new" /></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_email}</span></p>
+				
 				<label for="ef_login_pass_new"><span>Password</span> <input type="password" class="inputbox" name="ef_login_pass_new" id="ef_login_pass_new" /></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_pass}</span></p>
+				
 				<label for="ef_fname_new"><span>First Name</span> <input type="text" class="inputbox" name="ef_fname" id="ef_fname_new" /></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_fname}</span></p>
+				
 				<label for="ef_lname_new"><span>Last Name</span> <input type="text" class="inputbox" name="ef_lname" id="ef_lname_new" /></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_lname}</span></p>
+				
 				<label for="ef_login_phone_new"><span>Cell Phone #</span> <input type="text" class="inputbox" name="ef_login_phone" id="ef_login_phone_new" /> <p>So you can easily receive event updates through texts!</p></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_phone}</span></p>
 				<!-- Not included in old template: Zip code -->
+				
 				<label for="zipcode"><span>Zip Code</span> <input type="text" class="inputbox" name="zipcode" id="zipcode" /> <p>So we can tell you how close to your events you are.</p></label>
+				
 				<div class="submit-buttons">
 					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>
 					<!--
