@@ -4,10 +4,156 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+$(document).ready(function() {
+	$("a[rel]").overlay();
+	CREATE_EVENT_FORM.init();
+	CP_EVENT.init();
+});
+
 var CP_EVENT = (function() {
 	return {
 		init: function() {
-
+			$('#update_event_manage').live('click', this.manageEvent);
+			$('#update_event_edit').live('click', this.editEvent);
+			
+			$('#update_event_before').live('click', this.beforeEvent);
+			$('#update_event_on').live('click', this.onEvent);
+			$('#update_event_after').live('click', this.afterEvent);
+			
+			$('#update_event_guest_invite').live('click', this.addGuest);
+			$('#email_settings').live('click', this.emailSettings);
+			
+			// EDIT EVENT
+			$('#event_update').live('click', this.updateEventSubmit);
+			
+			// SAVE BUTTON
+			$('#invite_guest_update').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/edit/guest/save', {
+					eventId: $('#manage_event_id').html(),
+					guest_email: $('#guest_email').val()
+				});
+				if ($('#update_guest_prevpage').html() == 'manage') {
+					CP_EVENT.manageEvent();
+				} else if ($('#update_guest_prevpage').html() == 'update') {
+					CP_EVENT.editEvent();
+				}
+			});
+			
+			// OPENINVITER EMAIL PROVIDER
+			OPENINVITER.init();
+			$('.event_invite_oi').live('click', function() {
+				$('#update_event_form').html(EFGLOBAL.ajaxLoader);
+				$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
+					provider: this.href.split('#')[1]
+				}, function(providerLoginPage) {
+					$('#add_guest_right').html(providerLoginPage);
+				});
+			});
+			
+			
+			// ON EVENT
+			$('.event_attendee_cb').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/checkin', {
+					checkin: this.checked,
+					guestId: $(this).val().split('_')[1],
+					eventId: $(this).val().split('_')[2]
+				});
+			});
+			$('#print_guest').live('click', function() {
+				window.open(EFGLOBAL.baseUrl + '/event/print?eventId=' + $('#manage_event_id').html(), 'Print');
+			});
+			
+			// EMAIL SETTINGS
+			// AUTO-SEND CHECKBOX
+			$('#reminder_auto_send_cb').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/autosend', {
+					eventId: $('#manage_event_id').html(),
+					autoSend: $('#reminder_auto_send_cb').attr('checked'),
+					type: EFGLOBAL.emailReminderType
+				});
+			});
+			
+			$('#followup_auto_send_cb').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/autosend', {
+					eventId: $('#manage_event_id').html(),
+					autoSend: $('#followup_auto_send_cb').attr('checked'),
+					type: EFGLOBAL.emailFollowupType
+				});
+			});
+			
+			// REMINDER
+			$('#save_reminder').live('click', function() {
+				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/save', {
+					eventId: $('#manage_event_id').html(),
+					autoReminder: $('#reminder_auto_send_cb').attr('checked'),
+					reminderDate: $('#reminder_auto_send_date').val(),
+					reminderTime: $('#reminder_auto_send_time option:selected').val(),
+					reminderRecipient: $('#reminder_recipient option:selected').val(),
+					reminderSubject: $('#reminder_message_subject').val(),
+					reminderContent: $('#reminder_message_text').val(),
+					type: EFGLOBAL.emailReminderType
+				}, function(retval) {
+				if(retval=="Success")
+					$('#reminder_status').html(EFGLOBAL.isSucceed);
+				else
+					$('#reminder_status').html(retval);
+				});
+			});
+			$('#send_reminder').live('click', function() {
+				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/send', {
+					eventId: $('#manage_event_id').html(),
+					autoReminder: $('#reminder_auto_send_cb').attr('checked'),
+					reminderDate: $('#reminder_auto_send_date').val(),
+					reminderTime: $('#reminder_auto_send_time option:selected').val(),
+					reminderRecipient: $('#reminder_recipient option:selected').val(),
+					reminderSubject: $('#reminder_message_subject').val(),
+					reminderContent: $('#reminder_message_text').val()
+				}, function(retval) {
+					if(retval=="Success")
+					$('#reminder_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#reminder_status').html(retval);
+				});
+			});
+			
+			// FOLLOW-UP
+			$('#save_followup').live('click', function() {
+				$('#followup_status').html(EFGLOBAL.ajaxLoader);
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/save', {
+					eventId: $('#manage_event_id').html(),
+					autoReminder: $('#followup_auto_send_cb').attr('checked'),
+					reminderDate: $('#followup_auto_send_date').val(),
+					reminderTime: $('#followup_auto_send_time option:selected').val(),
+					reminderRecipient: $('#followup_recipient option:selected').val(),
+					reminderSubject: $('#followup_message_subject').val(),
+					reminderContent: $('#followup_message_text').val(),
+					type: EFGLOBAL.emailFollowupType
+				}, function(retval) {
+					if(retval=="Success")
+					$('#followup_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#followup_status').html(retval);
+				});
+			});
+			$('#send_followup').live('click', function() {
+				$('#followup_status').html(EFGLOBAL.ajaxLoader);
+				$.post(EFGLOBAL.baseUrl + '/event/manage/email/send', {
+					eventId: $('#manage_event_id').html(),
+					autoReminder: $('#followup_auto_send_cb').attr('checked'),
+					reminderDate: $('#followup_auto_send_date').val(),
+					reminderTime: $('#followup_auto_send_time option:selected').val(),
+					reminderRecipient: $('#followup_recipient option:selected').val(),
+					reminderSubject: $('#followup_message_subject').val(),
+					reminderContent: $('#followup_message_text').val()
+				}, function(retval) {
+					if(retval=="Success")
+					$('#followup_status').html(EFGLOBAL.isSucceed);
+					else
+					$('#followup_status').html(retval);
+				});
+			});
 		},
 		
 		openUpdateEvent: function(eid) {
@@ -34,6 +180,17 @@ var CP_EVENT = (function() {
 					$('#event_date_update').datepicker();
 					$('#event_deadline_update').datepicker();
 					$('#event_title_update').focus();
+				});
+			});
+		},
+		
+		addGuest: function() {
+			$.get(EFGLOBAL.baseUrl + '/event/edit/guest', {
+				eventId: $('#manage_event_id').html(),
+				prevPage: $('#update_event_guest_invite').attr('href').split('#')[1]
+			}, function(addGuestPage) {
+				$('#private').html(addGuestPage).ready(function() {
+					CSV_UPLOADER.init($('#manage_event_id').html(), 'guest-invite-file-uploader-update');
 				});
 			});
 		},
@@ -127,153 +284,4 @@ var CP_EVENT = (function() {
 			$('#user_profile').html(profileContainer);
 		}
 	}
-	
-	// INITIALIZATIONS
-	$('#update_event_manage').live('click', this.manageEvent);
-	$('#update_event_edit').live('click', this.editEvent);
-	
-	$('#update_event_before').live('click', this.beforeEvent);
-	$('#update_event_on').live('click', this.onEvent);
-	$('#update_event_after').live('click', this.afterEvent);
-
-	$('#email_settings').live('click', this.emailSettings);
-	$('#fb-logout').live('click', function() {
-		FB.logout();
-	});
-	
-	// SAVE BUTTON
-	$('#invite_guest_update').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/event/edit/guest/save', {
-			eventId: $('#manage_event_id').html(),
-			guest_email: $('#guest_email').val()
-		});
-		if ($('#update_guest_prevpage').html() == 'manage') {
-			this.manageEvent();
-		} else if ($('#update_guest_prevpage').html() == 'update') {
-			this.editEvent();
-		}
-	});
-	
-	// OPENINVITER EMAIL PROVIDER
-	OPENINVITER.init();
-	$('.event_invite_oi').live('click', function() {
-		$('#update_event_form').html(EFGLOBAL.ajaxLoader);
-		$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
-			provider: this.href.split('#')[1]
-		}, function(providerLoginPage) {
-			$('#add_guest_right').html(providerLoginPage);
-		});
-	});
-	
-	
-	// ON EVENT
-	$('.event_attendee_cb').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/event/checkin', {
-			checkin: this.checked,
-			guestId: $(this).val().split('_')[1],
-			eventId: $(this).val().split('_')[2]
-		});
-	});
-	$('#print_guest').live('click', function() {
-		window.open(EFGLOBAL.baseUrl + '/event/print?eventId=' + $('#manage_event_id').html(), 'Print');
-	});
-	
-	// EMAIL SETTINGS
-	// AUTO-SEND CHECKBOX
-	$('#reminder_auto_send_cb').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/autosend', {
-			eventId: $('#manage_event_id').html(),
-			autoSend: $('#reminder_auto_send_cb').attr('checked'),
-			type: EFGLOBAL.emailReminderType
-		});
-	});
-	
-	$('#followup_auto_send_cb').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/autosend', {
-			eventId: $('#manage_event_id').html(),
-			autoSend: $('#followup_auto_send_cb').attr('checked'),
-			type: EFGLOBAL.emailFollowupType
-		});
-	});
-	
-	// REMINDER
-	$('#save_reminder').live('click', function() {
-		$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/save', {
-			eventId: $('#manage_event_id').html(),
-			autoReminder: $('#reminder_auto_send_cb').attr('checked'),
-			reminderDate: $('#reminder_auto_send_date').val(),
-			reminderTime: $('#reminder_auto_send_time option:selected').val(),
-			reminderRecipient: $('#reminder_recipient option:selected').val(),
-			reminderSubject: $('#reminder_message_subject').val(),
-			reminderContent: $('#reminder_message_text').val(),
-			type: EFGLOBAL.emailReminderType
-		}, function(retval) {
-		if(retval=="Success")
-			$('#reminder_status').html(EFGLOBAL.isSucceed);
-		else
-			$('#reminder_status').html(retval);
-		});
-	});
-	$('#send_reminder').live('click', function() {
-		$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/send', {
-			eventId: $('#manage_event_id').html(),
-			autoReminder: $('#reminder_auto_send_cb').attr('checked'),
-			reminderDate: $('#reminder_auto_send_date').val(),
-			reminderTime: $('#reminder_auto_send_time option:selected').val(),
-			reminderRecipient: $('#reminder_recipient option:selected').val(),
-			reminderSubject: $('#reminder_message_subject').val(),
-			reminderContent: $('#reminder_message_text').val()
-		}, function(retval) {
-			if(retval=="Success")
-			$('#reminder_status').html(EFGLOBAL.isSucceed);
-			else
-			$('#reminder_status').html(retval);
-		});
-	});
-	
-	// FOLLOW-UP
-	$('#save_followup').live('click', function() {
-		$('#followup_status').html(EFGLOBAL.ajaxLoader);
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/save', {
-			eventId: $('#manage_event_id').html(),
-			autoReminder: $('#followup_auto_send_cb').attr('checked'),
-			reminderDate: $('#followup_auto_send_date').val(),
-			reminderTime: $('#followup_auto_send_time option:selected').val(),
-			reminderRecipient: $('#followup_recipient option:selected').val(),
-			reminderSubject: $('#followup_message_subject').val(),
-			reminderContent: $('#followup_message_text').val(),
-			type: EFGLOBAL.emailFollowupType
-		}, function(retval) {
-			if(retval=="Success")
-			$('#followup_status').html(EFGLOBAL.isSucceed);
-			else
-			$('#followup_status').html(retval);
-		});
-	});
-	$('#send_followup').live('click', function() {
-		$('#followup_status').html(EFGLOBAL.ajaxLoader);
-		$.post(EFGLOBAL.baseUrl + '/event/manage/email/send', {
-			eventId: $('#manage_event_id').html(),
-			autoReminder: $('#followup_auto_send_cb').attr('checked'),
-			reminderDate: $('#followup_auto_send_date').val(),
-			reminderTime: $('#followup_auto_send_time option:selected').val(),
-			reminderRecipient: $('#followup_recipient option:selected').val(),
-			reminderSubject: $('#followup_message_subject').val(),
-			reminderContent: $('#followup_message_text').val()
-		}, function(retval) {
-			if(retval=="Success")
-			$('#followup_status').html(EFGLOBAL.isSucceed);
-			else
-			$('#followup_status').html(retval);
-		});
-	});
 })();
-
-$(document).ready(function() {
-	$("img[rel]").overlay();
-	$("a[rel]").overlay();
-	CREATE_EVENT_FORM.init();
-	CP_EVENT.init();
-});

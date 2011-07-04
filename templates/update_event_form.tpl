@@ -72,7 +72,7 @@
 					<dd><input type="text" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" /></dd>
           <dt>
             <div class="event_guest">
-              <a href="#update"><img src="{$IMG_PATH}/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
+              <a href="#edit"><img src="{$IMG_PATH}/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
             </div>
           </dt>
 				</dl>

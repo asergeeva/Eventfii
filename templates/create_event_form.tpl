@@ -1,4 +1,7 @@
 <div id="create_event_form">
+<div class="event_guest_invite_overlay" id="event_guest_invite_overlay">
+  	{include file="event_invite_guest_create.tpl"}
+</div>
 <span id="create_event_eventid">{$maxEventId}</span>
 	<!-- BEGIN Add Guest Section
 	<div class="event_guest">
@@ -117,12 +120,13 @@
 			<dd><input type="text" name="event_url_create" id="event_url_create" disabled="disabled" value="{$CURHOST}/event/{$maxEventId}" /></dd>
       <dt>
         <div class="event_guest">
-          <a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
+          <a href="#update"><img src="{$EC_IMG_PATH}/addguests.png" id="update_event_guest_invite" /></a>
         </div>
       </dt>
 		</dl>
 		<div class="submit-buttons">
 			<p class="btn-large"><input type="submit" value="Begin" id="event_create" /></p>
+			<p><div class="error_message" id="success"></div></p></dd>
 		</div>
 	</fieldset>
 </div>
