@@ -988,6 +988,21 @@ return $retVal;
 			case '/event/print':
 				$this->displayAttendeePage($_REQUEST['eventId']);
 				break;
+			case '/user/fb/create':
+				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], 
+																								$_REQUEST['lname'], 
+																								$_REQUEST['email'], 
+																								$_REQUEST['phone'], 
+																								$_REQUEST['pass']);
+				
+				if (isset($_SESSION['newEvent'])) {	
+					$newEvent = json_decode($_SESSION['newEvent'], true);
+					$newEvent['organizer'] = $userInfo['id'];
+				}
+				
+				$_SESSION['uid'] = $userInfo['id'];
+				$this->checkNewEvent($newEvent, true);
+				break;
 			case '/user/create':
 				$req['fname']=$_REQUEST['fname'];
 				$req['lname']=$_REQUEST['lname'];
