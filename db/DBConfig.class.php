@@ -127,7 +127,7 @@ class DBConfig {
 	
 	public function createNewUser($fname, $lname, $email, $phone, $pass) {
 		if (!$this->isUserEmailExist($email)) {
-			if (isset($pass)) {
+			if (isset($pass) && trim($pass) != '') {
 				$pass = "'".mysql_real_escape_string($pass)."'";
 			} else {
 				// Facebook maintained the password of the user we store them as a NULL
