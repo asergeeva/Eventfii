@@ -19,30 +19,30 @@
 				<span>Name of Event</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_title_create" value="{$smarty.post.title|escape:'htmlall'}" id="event_title_create" />
-      		<p><span class="error_message">{$error_title|escape:'htmlall'}</span></p></dd>
+      		<p><div class="error_message" id="titleErr"></div></p></dd>
 			<dt>
 				<label for="event_description_create">Brief Description</label> 
 				<span>What is your event about?</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_description_create" id="event_description_create" value="{$smarty.post.description|escape:'htmlall'}" />
-      		<p><span class="error_message">{$error_desc|escape:'htmlall'}</span></p></dd>
+      		<p><div class="error_message" id="descErr"></div></p></dd>
 			<dt>
 				<label for="event_address_create">Where</label> 
 				<span>Ex: 1234 Maple St, Los Angeles, CA 90007</span></dt>
 			<dd><input type="text" class="inputbox" name="event_address_create" id="event_address_create" value="{$smarty.post.address|escape:'htmlall'}" />
-      		<p><span class="error_message">{$error_address|escape:'htmlall'}</span></p></dd>
+      		<p><div class="error_message" id="addrErr"></div></p></dd>
 			<dt>
 				<label for="event_date_create">When</label> 
 				<span>Ex: 05/14/2011 (MM/DD/YYYY)</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_date_create" id="event_date_create" value="{$smarty.post.date}" />
-      		<p><span class="error_message">{$error_dt}</span></p></dd>
+      		<p><div class="error_message" id="dtErr"></div></p></dd>
 			<dt>
 				<label for="event_time_create">What Time</label> 
 				<span>Ex: 21:00 (HH:MM)</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_time_create" id="event_time_create" value="{$smarty.post.time|escape:'htmlall'}" />
-      		<p><span class="error_message">{$error_tm}</span></p></dd>
+      		<p><div class="error_message" id="timeErr"></div></p></dd>
 		</dl>
 		<dl class="column">
 			<dt>
@@ -50,13 +50,13 @@
 				<span>In # of Attendees</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_goal_create" id="event_goal_create" value="{$smarty.post.goal|escape:'htmlall'}" />
-      		<p><span class="error_message">{$error_goal|escape:'htmlall'}</span></p></dd>
+      		<p><div class="error_message" id="goalErr"></div></p></dd>
 			<dt>
 				<label for="event_deadline_create">Deadline to sign up</label> 
 				<span>Last day for anyone to reserve a spot</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_deadline_create" id="event_deadline_create" value="{$smarty.post.deadline}" />
-      		<p><span class="error_message">{$error_ddt}</span></p></dd>
+      		<p><div class="error_message" id="deadlineErr"></div></p></dd>
 			<dt>
 				<label for="event_type_create">Event Type</label> 
 				<span></span>
@@ -99,6 +99,7 @@
 					<input type="radio" name="event_ispublic_create" value="0" {if $smarty.post.is_public eq '0'}checked="checked"{/if} id="event_is_public_no_create" /> 
 					<span>Only people you invite can attend</span>
 				</label>
+				<p><div class="error_message" id="pubErr"></div></p>
 			</dd>
 			<dt>
 				<label for="event-media">Upload Picture</label> 

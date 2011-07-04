@@ -3,7 +3,6 @@
 		<section class="block" id="login_container">
 			<h1 class="block-title">Login</h1>
 			<p class="facebook-text"><a href="#">Facebook login makes signing up 75% faster!</a></p>
-      <p><fb:login-button>Login with Facebook</fb:login-button></p>
 			<fieldset id="existing_user_login_form">
 				<p class="message">Log in</p>
 				<label for="ef_login_email_exist"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email_exist" id="ef_login_email_exist" /></label>
