@@ -10,6 +10,12 @@ var EDIT_FORM = (function() {
 			$("a[rel]").overlay();
 		},
 		
+		updateCP: function(updatedContainer) {
+			$('#container').html(updatedContainer).ready(function() {
+				$("a[rel]").overlay();
+			});
+		},
+		
 		updateEventSubmit: function() {
 			var urlToken = $('#event_url_update').val().split('/'),
 					eid = urlToken[urlToken.length - 1];
@@ -30,7 +36,7 @@ var EDIT_FORM = (function() {
 				is_public: 		$('input:radio[name=event_ispublic_update]:checked').val(),
 				url:					$('#event_url_update').val(),
 				eventId:      eid
-			}, CP_EVENT.updateCP);
+			}, this.updateCP);
 			$('#update_event_form').html(EFGLOBAL.ajaxLoader);
 		}, 
 	}
