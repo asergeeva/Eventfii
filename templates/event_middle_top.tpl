@@ -2,7 +2,7 @@
 <header id="section-header">
 	<h1 id="event-{$eventInfo['id']}">{$eventInfo['title']}</h1>
 	<p class="event-date">{$eventInfo['event_datetime']}</p>
-	<!-- 
+	<!-- Not in design
 		<h3 id="event_dayleft">{$eventInfo['days_left']} days left</h3>
 		<div id="event_picture_container">
 			<img src="{$IMG_UPLOAD}/{$eventInfo['id']}.jpg" id="event_picture" />
