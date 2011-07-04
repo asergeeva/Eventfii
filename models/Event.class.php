@@ -37,8 +37,8 @@ class Event {
 											 $cost,
 											 $is_public,
 											 $type,
-											 $lat=0,
-											 $lng=0) {
+											 $lat,
+											 $lng) {
 		$this->organizer = $organizer;
 		$this->title = $title;
 		$this->url = $url;
