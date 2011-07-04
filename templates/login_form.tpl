@@ -7,7 +7,7 @@
 				<p class="message">Log in</p>
 				<label for="ef_login_email_exist"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email_exist" id="ef_login_email_exist" /></label>
 				<label for="ef_login_pass_exist"><span>Password</span> <input type="password" class="inputbox" name="ef_login_pass_exist" id="ef_login_pass_exist" /></label>
-				<p class="forgot-password"><a href="#">Forgot Password</a></p>
+				<p class="forgot-password"><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
 				<div class="submit-buttons">
 					<a href="#" onclick="LOGIN_FORM.existingUserLogin()" class="btn-med" id="ef_login_btn"><span>Sign In</span></a>
 					<!--
