@@ -682,7 +682,7 @@ return $retVal;
 															 $_REQUEST['description'], 
 															 $_REQUEST['cost'],
 															 $_REQUEST['is_public'],
-															 $_REQUEST['type']);
+															 $_REQUEST['type'],0,0);
 				
 				$this->checkGuests($eventInfo);
 				
@@ -874,7 +874,7 @@ return $retVal;
 															 $eventInfoDB['description'], 
 															 $eventInfoDB['cost'],
 															 $eventInfoDB['is_public'],
-															 $eventInfoDB['gets']);
+															 $eventInfoDB['gets'],0,0);
 				$eventInfo->eid = $_REQUEST['eventId'];
 				
 				$this->checkGuests($eventInfo);
