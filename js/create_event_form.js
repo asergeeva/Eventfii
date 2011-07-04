@@ -27,6 +27,17 @@ var CREATE_EVENT_FORM = (function() {
 		$('#event_guest_invite_overlay').find('a').trigger('click');
 		$('#create_new_event').trigger('click');
 	});
+	
+	// OPENINVITER EMAIL PROVIDER
+	OPENINVITER.init();
+	$('.event_invite_oi').live('click', function() {
+		$('#update_event_form').html(EFGLOBAL.ajaxLoader);
+		$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
+			provider: this.href.split('#')[1]
+		}, function(providerLoginPage) {
+			$('#add_guest_right').html(providerLoginPage);
+		});
+	});
  
  return {
 		init: function() {
@@ -43,17 +54,6 @@ var CREATE_EVENT_FORM = (function() {
 				IMAGE_UPLOADER.init($('#create_event_eventid').html(), 'create-file-uploader');
 				CSV_UPLOADER.init($('#create_event_eventid').html(), 'guest-invite-file-uploader-create');
 			}
-			
-			// OPENINVITER EMAIL PROVIDER
-			OPENINVITER.init();
-			$('.event_invite_oi').live('click', function() {
-				$('#update_event_form').html(EFGLOBAL.ajaxLoader);
-				$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
-					provider: this.href.split('#')[1]
-				}, function(providerLoginPage) {
-					$('#add_guest_right').html(providerLoginPage);
-				});
-			});
 			
 			$("a[rel]").overlay();
 			$("img[rel]").overlay();
