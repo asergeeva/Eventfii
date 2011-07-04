@@ -85,12 +85,6 @@ var CP_EVENT = (function() {
 			});
 		},
 		
-		updateCP: function(updatedContainer) {
-			$('#container').html(updatedContainer).ready(function() {
-				$("a[rel]").overlay();
-			});
-		},
-		
 		collectPaymentEvent: function(eid) {
 			$.post(EFGLOBAL.baseUrl + '/payment/collect', {
 				eventId: eid.split('-')[1],

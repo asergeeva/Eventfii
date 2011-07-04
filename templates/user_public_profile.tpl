@@ -1,11 +1,9 @@
 {include file="header.tpl" title="Jumpstart your social life"}
-{include file="cp_css.tpl"}
-</head>
 
 <body id="cp_body">
 {include file="cp_header.tpl"}
 <header id="section-header">
-	<h1>Anna Sergeeva</h1>
+	<h1>{$userInfo['fname']} {$userInfo['lname']}</h1>
 </header>
 <div id="container">
   <div class="section">
