@@ -1,4 +1,4 @@
-var EDIT_FORM = (function() {		
+var EDIT_FORM = (function() {
 	return {
 		init: function() {
 			$('#event_update').live('click', this.updateEventSubmit);

@@ -1,6 +1,5 @@
 {include file="header.tpl" title="Jumpstart your social life"}
 {include file="cp_css.tpl"}
-<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/event_style.css" />
 <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/guest_style.css" />
 </head>
 
@@ -11,7 +10,18 @@
     {include file="cp_header_guest.tpl"}
     </div>
     <div id="middle">
-    <h2>Guest cannot see this event</h2>
+      <div id="event_created_container">
+        <h2>Event created</h2>
+        {include file="event_created_pub.tpl"}
+      </div>
+      <div id="event_attended_container">
+        <h2>Events attending</h2>
+        {include file="event_attending.tpl"}
+      </div>
+      <div id="user_profile_container">
+        <h2>Profile</h2>
+        {include file="user_profile_pub.tpl"}
+      </div>
     </div>
     <div id="footer"></div>
   </div>
