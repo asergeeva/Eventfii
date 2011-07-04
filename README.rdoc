@@ -45,7 +45,7 @@ PATH should be the folder in which the files are in. The value should be the sam
 
 baseUrl should be the full absolute path URL of where the project is located. For example, in this case, the project is in htdocs/eventfii folder.
 
-== Workflow
+=== Workflow
 * Setup GIT: http://help.github.com/mac-set-up-git/
 
 * Clone the project
@@ -64,4 +64,4 @@ baseUrl should be the full absolute path URL of where the project is located. Fo
 
 Each time rsync is executed, files and folders are going to be sync'ed.
 
-[[!NOTE: ALWAYS rsync after you do "git pull"]]
+=== !NOTE: ALWAYS rsync after you do "git pull"
