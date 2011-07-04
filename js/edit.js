@@ -36,7 +36,7 @@ var EDIT_FORM = (function() {
 				is_public: 		$('input:radio[name=event_ispublic_update]:checked').val(),
 				url:					$('#event_url_update').val(),
 				eventId:      eid
-			}, this.updateCP);
+			}, EDIT_FORM.updateCP);
 			$('#update_event_form').html(EFGLOBAL.ajaxLoader);
 		}, 
 	}
