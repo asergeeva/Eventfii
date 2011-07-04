@@ -1,16 +1,10 @@
 {include file="header.tpl" title="Jumpstart your social life"}
-{include file="cp_css.tpl"}
-{include file="home_css.tpl"}
-<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/login_style.css" />
-</head>
 
 <body>
+{include file="home_header.tpl"}
 <div id="fb-root"></div>
 <div id="container">
-  <div id="header">
-	{include file="home_header.tpl"}
-  </div>
-	<div id="login_forgot">
+	<div id="login_container">
     <h3>Reset Password</h3>
     <form id="login_forgot_form" action="{$CURHOST}/login/reset/submit"  method="post">
     <input type="hidden" name="login_forgot_ref" value="{$ref}" />
@@ -32,10 +26,7 @@
     </tr>
     </table>
     </form>
-  </div>
+	</div>
 </div>
 {include file="global_js.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
 {include file="footer.tpl"}

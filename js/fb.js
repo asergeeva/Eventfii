@@ -9,7 +9,7 @@ var FBCON = (function() {
 	return {
 		init: function() {
 			FB.init({
-				appId  : '114335368653053',
+				appId  : '122732554481304',
 				status : true, // check login status
 				cookie : true, // enable cookies to allow the server to access the session
 				xfbml  : true  // parse XFBML

@@ -14,7 +14,6 @@ var CREATE_EVENT_FORM = (function() {
 			time:					$('#event_time_create').val(),
 			deadline: 		$('#event_deadline_create').val(),
 			goal:     		$('#event_goal_create').val(),
-			gets: 				$('#event_gets_create').val(),
 			type:					$('#event_type_create option:selected').val(),
 			is_public: 		$('input:radio[name=event_ispublic_create]:checked').val(),
 			url:					$('#event_url_create').val(),

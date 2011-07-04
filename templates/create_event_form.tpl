@@ -117,7 +117,7 @@
 			<dd><input type="text" name="event_url_create" id="event_url_create" disabled="disabled" value="{$CURHOST}/event/{$maxEventId}" /></dd>
       <dt>
         <div class="event_guest">
-          <a href="#update"><img src="{$EC_IMG_PATH}/addguests.png" id="update_event_guest_invite" /></a>
+          <a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
         </div>
       </dt>
 		</dl>

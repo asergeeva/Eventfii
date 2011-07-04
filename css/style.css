@@ -288,9 +288,13 @@ input.inputbox {
 .section {
 	float: left;
 	width: 220px;
+	overflow: hidden;
 	margin: 0 0 0 20px; }
 .section-primary { width: 380px; }
 .section-email { width: 620px; }
+.section-event {
+	width: 540px;
+	margin: 0; }
 .section-login, .section-addinfo { 
 	float: none;
 	width: 400px;
@@ -563,6 +567,56 @@ section.block {
 	border-right: 1px solid #b5b5b5;
 	display: block;
 	clear: left; }
+
+/* Profile */
+.info-about span { display: block; }
+.message a { color: #3399cc; }
+
+/* Event */
+.section-event .column {
+	float: left;
+	width: 50%;
+	padding: 0 0 10px;
+	display: inline; }
+.section-event .column img { margin: 0 auto; display: block; }
+.block ul.thumbs {
+	margin: 0;
+	padding: 20px 0 10px 16px; }
+.block .thumbs li {
+	float: left;
+	height: 70px;
+	margin: 0 10px 10px; }
+.block ul.rsvp {
+	width: 134px;
+	margin: 0 auto;
+	padding: 20px 0 18px; }
+.block .rsvp li { margin: 0 0 2px; }
+.block .rsvp li a {
+	background: url(../images/btn_rsvp_left.gif) 0 0 no-repeat;
+	text-decoration: none;
+	font-size: 12px;
+	color: #fff;
+	text-align: center;
+	width: 128px; /* 134 - 6 */
+	height: 26px;
+	padding: 0 0 0 6px;
+	display: block; }
+.block .rsvp li a:hover { background-position: 0 100%; }
+.block .rsvp li a span {
+	background: url(../images/btn_rsvp_right.gif) 100% 0 no-repeat;
+	float: left;
+	width: 122px; /* 128 - 6 */
+	height: 21px; /* 26 - 5 */
+	padding: 5px 6px 0 0;
+	display: block; }
+.block .rsvp li a:hover span { background-position: 100% 100%; }
+footer p.event-flag {
+	text-align: right;
+	margin: 0 60px 0 0;
+	clear: both; }
+.event-flag a {
+	color: #3399cc;
+	font-size: 11px; }
 
 /*----- Footer ----------*/
 #container footer { color: #fff; }
