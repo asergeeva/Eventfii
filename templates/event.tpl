@@ -5,6 +5,7 @@
 
 <body id="cp_body">
 {include file="cp_header.tpl"}
+{include file="event_middle_top.tpl}
 <div id="container">
   {include file="event_middle.tpl"}
 </div>
