@@ -1,1 +1,0 @@
-<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/home_style.css" id="home_style" />

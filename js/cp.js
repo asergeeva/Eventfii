@@ -128,6 +128,7 @@ var CP_EVENT = (function() {
 		}
 	}
 	
+	// INITIALIZATIONS
 	$('#update_event_manage').live('click', this.manageEvent);
 	$('#update_event_edit').live('click', this.editEvent);
 	
@@ -136,6 +137,9 @@ var CP_EVENT = (function() {
 	$('#update_event_after').live('click', this.afterEvent);
 
 	$('#email_settings').live('click', this.emailSettings);
+	$('#fb-logout').live('click', function() {
+		FB.logout();
+	});
 	
 	// SAVE BUTTON
 	$('#invite_guest_update').live('click', function() {
