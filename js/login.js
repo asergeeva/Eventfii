@@ -40,13 +40,13 @@ var LOGIN_FORM = (function() {
 		},
 		
 		fbUserLogin: function(userInfo) {
-			$.post(EFGLOBAL.baseUrl + '/user/create', {
+			$.post(EFGLOBAL.baseUrl + '/user/fb/create', {
 				isExist: false,
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,
 				email: userInfo.email,
 				isFB: true
-			}, LOGIN_FORM.userLogin);
+			}, LOGIN_FORM.loginRedirect);
 			$('#middle').html(EFGLOBAL.ajaxLoader);
 		},
 		
