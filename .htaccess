@@ -3,8 +3,4 @@ RewriteBase /eventfii
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
-<<<<<<< HEAD
-AddHandler php5-script .php.
-=======
 AddHandler php5-script .php
->>>>>>> 8245391e1af80d0abfc6991a7e142b97f4e47015
