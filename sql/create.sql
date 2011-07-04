@@ -8,7 +8,6 @@ CREATE TABLE ef_users (
   verified  TINYINT(1) NOT NULL DEFAULT 0,
   referrer  INTEGER REFERENCES ef_users(id),
   phone     VARCHAR(500),
-  zip       CHAR(5),
   email2    VARCHAR(500),
   email3    VARCHAR(500),
   email4    VARCHAR(500),
