@@ -1,4 +1,4 @@
-{include file="header.tpl" title="Jumpstart your social life"}
+{include file="header.tpl"}
 
 <body id="cp_body">
 <div id="container">

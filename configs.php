@@ -66,3 +66,9 @@ define('PAYPAL_REDIRECT_URL', 'https://www.sandbox.paypal.com/webscr&cmd=');
 define('DEVELOPER_PORTAL', 'https://developer.paypal.com');
 define('DEVICE_ID', 'PayPal_Platform_PHP_SDK');
 define('APPLICATION_ID', 'APP-80W284485P519543T');
+
+define('WTITLE', 'trueRSVP');
+define('WSLOGAN', 'What\'s your number?');
+
+$smarty->assign('WTITLE', WTITLE);
+$smarty->assign('WSLOGAN', WSLOGAN);
