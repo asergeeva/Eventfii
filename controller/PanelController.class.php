@@ -182,8 +182,8 @@ return $retVal;
 				$this->smarty->assign('error_dt', "Please enter a valid date in mm/dd/yyyy format");
 				$flag=2;
 				}
-			$check = @mktime(0, 0, 0, $month, $day, $year);
-			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"));
+			$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
 			   if($check < $today)
 				{
 					$this->smarty->assign('error_dt', "Event date should be a date in the future.");
@@ -210,14 +210,14 @@ return $retVal;
 				$this->smarty->assign('error_ddt', "Please enter a valid date in mm/dd/yyyy format");
 				$flag=2;
 				}
-			$check = @mktime(0, 0, 0, $month, $day, $year);
-			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"));
+			$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
 			   if($check < $today)
 				{
 					$this->smarty->assign('error_ddt', "Deadline date should be a date in the future.");
 					$flag=2;
 				}
-			$evt_check = @mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear);
+			$evt_check = @mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear,-1);
 				if($evt_check < $check)
 				{
 					$this->smarty->assign('error_ddt', "Deadline date cannot be greater than the event date.");

@@ -103,7 +103,7 @@ var CREATE_EVENT_FORM = (function() {
 					
 				if($errArr[2]==2)
 					$('#deadlineErr').html("Please enter a valid date in mm/dd/yyyy format.");
-				else if($errArr[3]==3)
+				else if($errArr[2]==3)
 					$('#deadlineErr').html("Deadline date cannot be greater than the event date.");
 				else
 					$('#deadlineErr').html("");
