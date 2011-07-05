@@ -44,3 +44,24 @@ PATH should be the folder in which the files are in. The value should be the sam
     baseUrl: 'http://localhost/eventfii'
 
 baseUrl should be the full absolute path URL of where the project is located. For example, in this case, the project is in htdocs/eventfii folder.
+
+=== Workflow
+* Setup GIT: http://help.github.com/mac-set-up-git/
+
+* Clone the project
+    git clone git@github.com:asergeeva/Eventfii.git
+
+* Create an alias for a command on .bash_profile
+    cd ~/
+    touch .bash_profile
+    alias rsync='rsync -r /Users/glaksmono/Eventfii/* /Applications/XAMPP/htdocs/eventfii'
+
+* Create the folder on htdocs
+    sudo mkdir /Applications/XAMPP/htdocs/eventfii
+
+* Rsync the files
+    rsync
+
+Each time rsync is executed, files and folders are going to be sync'ed.
+
+=== !NOTE: ALWAYS rsync after you do "git pull"
