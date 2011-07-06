@@ -5,7 +5,7 @@
 	<meta name="Author" content="trueRSVP" />
 	<meta property="fb:app_id" content="123284527755183" />
 	<meta property="fb:admins" content="1164166702" />
-	<title>Eventfii | {$title}</title>
+	<title>{$WTITLE} | {$WSLOGAN}</title>
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/fileuploader.css" />

@@ -1,6 +1,6 @@
-{include file="header.tpl" title="Jumpstart your social life"}
+{include file="header.tpl"}
 
-<body id="cp_body">
+<body>
 {include file="cp_header.tpl"}
 {include file="event_middle_top.tpl"}
 <div id="container">
