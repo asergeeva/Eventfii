@@ -1,4 +1,3 @@
-
 <header id="section-header">
 	<h1 id="event-{$eventInfo['id']}">{$eventInfo['title']}</h1>
 	<p class="event-date">{$eventInfo['event_datetime']}</p>

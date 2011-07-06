@@ -427,8 +427,9 @@ section.block {
 	padding: 0 22px 38px 126px;
 	margin: 15px auto 0; }
 .block p.facebook-text a { color: #666; }
-.block img.info-pic {
-	margin: 10px auto;
+.block .info-pic {
+	margin: 10px 0;
+	text-align: center;
 	display: block; }
 .block fieldset {
 	margin: 0;
@@ -538,9 +539,7 @@ section.block {
 	padding: 10px 10px 10px 0; }
 .block .details a.btn-small { 
 	float: right;
-	margin: -3px 0 0;
-	visibility: hidden; }
-.block .details li:hover a.btn-small { visibility: visible; }
+	margin: -3px 0 0; }
 
 /* Table */
 .block dl.table {
@@ -587,32 +586,36 @@ section.block {
 	height: 70px;
 	margin: 0 10px 10px; }
 .block ul.rsvp {
-	width: 168px;
+	width: 180px;
 	margin: 0 auto;
 	padding: 20px 0 18px; }
-.block .rsvp li { margin: 0 0 2px; }
-.block .rsvp li a {
+.block .rsvp li {
 	background: url(../images/btn_rsvp_left.gif) 0 0 no-repeat;
+	position: relative;
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 10px;
 	color: #fff;
-	text-align: center;
 	width: 174px; /* 180 - 6 */
 	height: 26px;
+	margin: 0 0 2px;
 	padding: 0 0 0 6px;
+	cursor: pointer;
 	display: block; }
-.block .rsvp li a:hover { background-position: 0 100%; }
-.block .rsvp li a span {
+.block .rsvp li:hover { background-position: 0 100%; }
+.block .rsvp li label {
 	background: url(../images/btn_rsvp_right.gif) 100% 0 no-repeat;
 	float: left;
-	width: 168px; /* 174 - 6 */
-	height: 21px; /* 26 - 5 */
-	padding: 5px 6px 0 0;
+	text-align: center;
+	width: 154px; /* 174 - 6 - 6 - 8 */
+	height: 20px; /* 26 - 6 */
+	padding: 6px 6px 0 8px;
+	cursor: pointer;
 	display: block; }
-.block .rsvp li a:hover span { background-position: 100% 100%; }
-.block .rsvp li a span input { 
-	margin: 0 3px 0 0;
-	display: inline-block; }
+.block .rsvp li:hover label { background-position: 100% 100%; }
+.block .rsvp li label input {
+	position: absolute;
+	top: 7px;
+	left: 5px; }
 footer p.event-flag {
 	text-align: right;
 	margin: 0 60px 0 0;

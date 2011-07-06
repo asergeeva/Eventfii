@@ -16,24 +16,24 @@
 			</div>
 			<div class="column">
 				<p id="event_location">{$eventInfo['location_address']}</p>
-				<img src="images/map.jpg" alt="Map" />
+				<img src="../images/map.jpg" alt="Map" />
 			</div>
 		</section>
 		<section class="block">
 			<h1 class="block-title">Who's coming</h1>
 			<ul class="thumbs">
-				<li><a href="#"><img src="images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_4.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_4.jpg" alt="User" /></a></li
-				<li><a href="#"><img src="images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="images/thumb_4.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
+				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
 			</ul>
 		</section>
 	</div>
