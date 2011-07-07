@@ -749,3 +749,11 @@ div.error_message {
 	font-weight:bold;
 	font-size:13px;
 }
+.sortable {width:100%; margin:10px 30px 5px}
+.sortable th {font-weight: bold;text-align:left;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;}
+.sortable th h3 {font-size:1px; padding:6px 8px 8px}
+.sortable td {padding:4px 6px 6px}
+.sortable .head h3 {cursor:pointer}
+.sortable .desc h3 {cursor:pointer}
+.sortable .asc h3 {cursor:pointer}
+

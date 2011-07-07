@@ -33,8 +33,16 @@
 <script src="http://cf.kampyle.com/k_button.js" type="text/javascript"></script>
 <script src="http://cf.kampyle.com/k_push.js" type="text/javascript"></script>
 <!--End Kampyle Feedback Form Button-->
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
+<script>
+	$(function() {
+		var addresspicker = $( "#addresspicker" ).addresspicker();
+		});
+	</script>
+<script type="text/javascript" src="{$JS_PATH}/script.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.ui.addresspicker.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" language="javascript" src="http://connect.facebook.net/en_US/all.js"></script>

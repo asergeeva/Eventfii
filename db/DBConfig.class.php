@@ -125,21 +125,26 @@ class DBConfig {
 		return true;
 	}
 	
-	public function createNewUser($fname, $lname, $email, $phone, $pass) {
+	public function createNewUser($fname, $lname, $email, $phone, $pass, $zip) {
 		if (!$this->isUserEmailExist($email)) {
-			if (isset($pass) && trim($pass) != '') {
+			if (isset($pass)) {
 				$pass = "'".mysql_real_escape_string($pass)."'";
 			} else {
 				// Facebook maintained the password of the user we store them as a NULL
 				$pass = "NULL";
 			}
-			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, phone, password, about) 
+			if (!isset($zip) || strlen($zip)<=0)
+			{
+				$zip="NULL";
+			}
+			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, phone, password, about, zip) 
 														VALUES ('".mysql_real_escape_string($fname)."', 
 																    '".mysql_real_escape_string($lname)."', 
 																		'".mysql_real_escape_string($email)."',
 																		'".mysql_real_escape_string($phone)."', 
 																		 ".$pass.", 
-																		'I am ".mysql_real_escape_string($fname)."')";
+																		'I am ".mysql_real_escape_string($fname)."'
+																		,".mysql_real_escape_string($zip).")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else if (isset($_SESSION['ref'])) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);

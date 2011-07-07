@@ -9,11 +9,12 @@ var CREATE_EVENT_FORM = (function() {
 		$.post(EFGLOBAL.baseUrl + '/event/submit', {
 			title: 				$('#event_title_create').val(),
 			description:	$('#event_description_create').val(),
-			address: 			$('#event_address_create').val(),
+			address: 			$('#addresspicker').val(),
 			date: 				$('#event_date_create').val(),
 			time:					$('#event_time_create').val(),
 			deadline: 		$('#event_deadline_create').val(),
 			goal:     		$('#event_goal_create').val(),
+			gets: 				$('#event_gets_create').val(),
 			type:					$('#event_type_create option:selected').val(),
 			is_public: 		$('input:radio[name=event_ispublic_create]:checked').val(),
 			url:					$('#event_url_create').val(),
@@ -96,19 +97,27 @@ var CREATE_EVENT_FORM = (function() {
 				else
 					$('#timeErr').html("");
 					
+				if($errArr[8]==1)
+					$('#eventErr').html("Please select an event type.");
+				else
+					$('#eventErr').html("");	
+					
+					
 				if($errArr[7]==1)
 					$('#goalErr').html("Please enter an attendance goal between 1 and 1000000.");
 				else
 					$('#goalErr').html("");
 					
+					
+					//alert($errArr[2]);
 				if($errArr[2]==2)
 					$('#deadlineErr').html("Please enter a valid date in mm/dd/yyyy format.");
 				else if($errArr[2]==3)
 					$('#deadlineErr').html("Deadline date cannot be greater than the event date.");
 				else
 					$('#deadlineErr').html("");
-			
-			if(loginForm.length>16)
+			//alert(loginForm);
+			if(loginForm.length>18)
 			{
 				if($('div#create_event_form_overlay').length > 0)
 					{
