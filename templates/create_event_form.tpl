@@ -77,7 +77,7 @@
 					  <option value="11" {if $smarty.post.type eq '11'}selected{/if}>Greek</option> 
 					</optgroup> 
 					<optgroup label="Professional"> 
-					  <option value="12" {if $smarty.post.type eq '12'}selected{/if}>Fund raiser</option> 
+					  <option value="12" {if $smarty.post.type eq '12'}selected{/if}>Fundraiser</option> 
 					  <option value="13" {if $smarty.post.type eq '13'}selected{/if}>Professional event/networking</option> 
 					  <option value="14" {if $smarty.post.type eq '14'}selected{/if}>Meeting</option> 
 					  <option value="15" {if $smarty.post.type eq '15'}selected{/if}>Club</option> 
