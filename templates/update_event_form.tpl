@@ -46,7 +46,7 @@
           <option value="11" {$eventType['t11']}>Greek</option>
         </optgroup>
         <optgroup label="Professional">
-          <option value="12" {$eventType['t12']}>Fund raiser</option>
+          <option value="12" {$eventType['t12']}>Fundraiser</option>
           <option value="13" {$eventType['t13']}>Professional event/networking</option>
           <option value="14" {$eventType['t14']}>Meeting</option>
           <option value="15" {$eventType['t15']}>Club</option>
