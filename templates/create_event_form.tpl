@@ -26,7 +26,7 @@
 			<dt>
 				<label for="event_address_create">Where</label> 
 				<span>Ex: 1234 Maple St, Los Angeles, CA 90007</span></dt>
-			<dd><input type="text" class="inputbox" name="event_address_create" id="event_address_create" value="{$smarty.post.address|escape:'htmlall'}" />
+				<dd><input type="text" class="inputbox" name="event_address_create" id="addresspicker" value="{$smarty.post.address|escape:'htmlall'}" />
       		<p><div class="error_message" id="addrErr"></div></p></dd>
 			<dt>
 				<label for="event_date_create">When</label> 
@@ -60,6 +60,7 @@
 			</dt>
 			<dd>
 				<select id="event_type_create"> 
+					<option value="0">Please Select</option> 
 					<optgroup label="Personal"> 
 					  <option value="1" {if $smarty.post.type eq '1'}selected{/if}>Birthday</option> 
 					  <option value="2" {if $smarty.post.type eq '2'}selected{/if}>Other party</option> 
@@ -83,7 +84,7 @@
 					  <option value="16" {if $smarty.post.type eq '16'}selected{/if}>Conference</option> 
 					</optgroup> 
 				</select>
-			</dd>
+				<p><div class="error_message" id="eventErr"></div></p></dd>
 			<dt>
 				<label for="event-perms-1">Event Permissions</label>
 			</dt>
@@ -114,7 +115,7 @@
       	</div>
       </dd>
 			<dt><label for="event_url_create">URL</label></dt>
-			<dd><input type="text" name="event_url_create" id="event_url_create" disabled="disabled" value="{$CURHOST}/event/{$maxEventId}" /></dd>
+			<dd><input type="text" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" /></dd>
       <dt>
         <div class="event_guest">
           <a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>

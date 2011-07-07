@@ -34,6 +34,7 @@ var LOGIN_FORM = (function() {
 				lname: $('#ef_lname_new').val(),
 				email: $('#ef_login_email_new').val(),
 				phone: $('#ef_login_phone_new').val(),
+				zipcode: $('#zipcode').val(),
 				pass: passval
 			}, LOGIN_FORM.userLogin);
 			$('#middle').html(EFGLOBAL.ajaxLoader);

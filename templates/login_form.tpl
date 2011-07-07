@@ -35,7 +35,9 @@
 				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_phone}</span></p>
 				
 				<!-- Not included in old template: Zip code -->
-				<label for="zipcode"><span>Zip Code</span> <input type="text" class="inputbox" name="zipcode" id="zipcode" /> <p>So we can tell you how close to your events you are.</p></label>
+				<label for="zipcode"><span>Zip Code</span> <input type="text" class="inputbox" name="zipcode" id="zipcode" value="{$smarty.post.zipcode}" /> <p>So we can tell you how close to your events you are.</p></label>
+				<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_zipcode}</span></p>
+
 				
 				<div class="submit-buttons">
 					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>

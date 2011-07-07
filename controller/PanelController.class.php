@@ -95,6 +95,15 @@ class PanelController {
 return $retVal;
 }
 
+	public function validate_event_type($val)
+	{
+		$flag=1;
+		if($val<=0)
+			$flag=0;
+		return $flag;
+	}
+	
+	
 	
 	/////////////////////
 	public function validate_address($addr)
@@ -108,11 +117,11 @@ return $retVal;
 		//	return $flag;
 			}
 			$retArr=$this->check_address($addr);
-			if($retArr['location_type']!="ROOFTOP")
+			if(!($retArr['location_type']=="RANGE_INTERPOLATED" || $retArr['location_type']=="ROOFTOP"))
 			{
 				$this->smarty->assign('error_address', "Address entered is invalid");
 				$flag=2;
-			//	die($flag);
+				//die($addr."=".$retArr['location_type']);
 				//return $flag;
 			}	
 			$res=filter_var($addr, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s-,*]*$/")));
@@ -265,6 +274,7 @@ return $retVal;
 			if(is_array($newEvent)) {
 				$r=0;
 			} else {
+			//	die("here");
 				$_SESSION['newEvent'] = json_encode($newEvent);
 				$addr=$newEvent->address;
 				$goal=$newEvent->goal;
@@ -273,6 +283,7 @@ return $retVal;
 				$ddt=$newEvent->deadline;
 				$isPub=$newEvent->is_public;
 				$tm=$newEvent->time;
+				$typ=$newEvent->type;
 				$description=$newEvent->description;
 				$aval=$this->validate_address($addr);
 				$tval=$this->validate_title($title);
@@ -281,6 +292,7 @@ return $retVal;
 				$dval=$this->validate_date($dt);
 				$ddval=$this->validate_ddt($ddt,$dt);
 				$tmval=$this->validate_tm($tm);
+				$evtType=$this->validate_event_type($typ);
 				$isPubVal=$this->validate_is_pub($isPub);
 				$err="";
 				
@@ -325,7 +337,12 @@ return $retVal;
 				else
 					$err.="0,";
 					
-				if($err!="0,0,0,0,0,0,0,0,")
+				if($evtType==0)
+					$err.="1,";
+				else
+					$err.="0,";
+					
+				if($err!="0,0,0,0,0,0,0,0,0,")
 					die($err);
 				//else
 				//	echo($err);
@@ -393,14 +410,18 @@ return $retVal;
 		$email=$req['email'];
 		$phone=$req['phone'];
 		$pass=$req['pass'];
-	
+		$zip=$req['zip'];
+		
+		if(strlen($zip)>0)
+		$zipcode_val=$this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
+		
 		$f_name_val=$this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
 		$l_name_val=$this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
 		$email_val=$this->valEmail($email,"user_create_email","Email entered is invalid.");
 		$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
 		$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
 		$email_exists=$this->dbCon->emailExistsCheck($email);
-		if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2) {
+		if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2||$zipcode_val==2) {
 			$flag=2;
 		}
 		
@@ -765,9 +786,9 @@ return $retVal;
 				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
+			//die("here");
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
-				
 				$addr=$this->check_address($_REQUEST['address']);	
 				
 				$newEvent = new Event($_SESSION['uid'],
@@ -990,10 +1011,10 @@ return $retVal;
 				break;
 			case '/user/fb/create':
 				$userInfo = $this->dbCon->createNewUser($_REQUEST['fname'], 
-																								$_REQUEST['lname'], 
-																								$_REQUEST['email'], 
-																								$_REQUEST['phone'], 
-																								$_REQUEST['pass']);
+														$_REQUEST['lname'], 
+														$_REQUEST['email'], 
+														$_REQUEST['phone'], 
+														$_REQUEST['pass']);
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
@@ -1003,12 +1024,14 @@ return $retVal;
 				$_SESSION['uid'] = $userInfo['id'];
 				$this->checkNewEvent($newEvent, true);
 				break;
+
 			case '/user/create':
 				$req['fname']=$_REQUEST['fname'];
 				$req['lname']=$_REQUEST['lname'];
 				$req['email']=$_REQUEST['email'];
 				$req['phone']=$_REQUEST['phone'];
 				$req['pass']=$_REQUEST['pass'];
+				$req['zip']=$_REQUEST['zipcode'];
 				$retVal=$this->checkUserCreationForm($req);
 				//die($retVal);
 				if($retVal==2)
@@ -1021,7 +1044,8 @@ return $retVal;
 																								$_REQUEST['lname'], 
 																								$_REQUEST['email'], 
 																								$_REQUEST['phone'], 
-																								$_REQUEST['pass']);
+																								$_REQUEST['pass'],
+																								$_REQUEST['zipcode']);
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
