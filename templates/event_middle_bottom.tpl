@@ -12,7 +12,6 @@
 				  </div>
 				</div>
 				-->
-				<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=121330687952296&amp;xfbml=1"></script><fb:like href="{$eventInfo['url']}" send="true" width="450" show_faces="true" font="" id="fb-like-button"></fb:like>
 			</div>
 			<div class="column">
 				<p id="event_location">{$eventInfo['location_address']}</p>

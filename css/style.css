@@ -618,7 +618,7 @@ section.block {
 	left: 5px; }
 footer p.event-flag {
 	text-align: right;
-	margin: 0 60px 0 0;
+	margin: -25px 60px 0 0;
 	clear: both; }
 .event-flag a {
 	color: #3399cc;

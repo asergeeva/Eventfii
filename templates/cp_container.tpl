@@ -1,7 +1,7 @@
 <div class="section">
   <section class="block">
     <h1 class="block-title">Personal Profile</h1>
-    <a href="#" class="info-pic"><img src="{$IMG_PATH}/user.jpg" alt="Anna" /></a>
+    <a href="#" class="info-pic"><img src="{$IMG_PATH}/default_thumb.jpg" alt="Anna" /></a>
     <p><a href="#" class="btn-small"><span>Update</span></a></p>
     <p class="info-about">We love to organize events!</p>
     <p class="info-website">www.truersvp.com</p>
