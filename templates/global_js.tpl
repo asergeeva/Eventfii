@@ -41,6 +41,7 @@
 		var addresspicker = $( "#addresspicker" ).addresspicker();
 		});
 	</script>
+<script type="text/javascript" src="{$JS_PATH}/script.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.ui.addresspicker.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
