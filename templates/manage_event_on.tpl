@@ -21,6 +21,7 @@
 		<table cellpadding="0" cellspacing="0" border="0" id="table" class="sortable">
 		  <thead>
 			<tr>
+				<td class="nosort"><input type="checkbox" class="checkAll" value="checkall" /></td>
 				<th>Name</th>
 				<th>Certainty</th>
 			</tr>
@@ -28,15 +29,18 @@
 		  <tbody>
 		  {foreach name=attendees item=eventAttendee from=$eventAttendees}
 			<tr>
+				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
 				<td>{$eventAttendee['lname']}</td>
 				<td>90%</td>
 			</tr>
 			{/foreach}
 			<tr>
+				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
 				<td>abc</td>
 				<td>80%</td>
 			</tr>
 			<tr>
+				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
 				<td>def</td>
 				<td>70%</td>
 			</tr>
@@ -65,4 +69,19 @@
 	sorter.currentid = "currentpage";
 	sorter.limitid = "pagelimit";
 	sorter.init("table",1);
+</script>
+<script>
+$(".checkAll").click(function() {
+	if("checkall" === $(this).val() && $(this).attr('checked',true))
+	{   
+      $(".event_attendee_cb").attr('checked', true);  
+       $(this).val("uncheckall"); //change button text  
+	}    
+	else if("uncheckall" === $(this).val() && $(this).attr('checked',false))
+ 	{         
+	$(".event_attendee_cb").attr('checked', false);   
+      	$(this).val("checkall"); //change button text    
+	}
+}
+);
 </script>
