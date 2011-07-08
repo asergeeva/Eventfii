@@ -144,7 +144,13 @@ return $retVal;
 			//return 2;
 			}*/
 		$res=filter_var($title, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{5,100}$/")));
-		if(!($res))
+		//die(strtolower($title));
+		if(strtolower($title)=="i'm planning...")
+			{
+			$this->smarty->assign('error_title', "Please enter an event title.");
+			$flag=3;
+			}
+		if(!($res) && $flag==1)
 			{
 			$this->smarty->assign('error_title', "Title can only contain spaces, characters A-Z or numbers 0-9");
 			$flag=2;
@@ -325,8 +331,8 @@ return $retVal;
 				else
 					$err.="0,";
 				
-				if ($tval==2) 
-					$err.="1,";
+				if ($tval==2 || $tval==3) 
+					$err.="$tval,";
 				else
 					$err.="0,";
 
@@ -753,7 +759,7 @@ return $retVal;
 							$this->smarty->display('update_event_form_errors.tpl');
 							return;
 						}
-			if($tval==2)
+			if($tval==2 || $tval==3)
 					{
 							$this->smarty->display('update_event_form_errors.tpl');
 							return;

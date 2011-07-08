@@ -63,8 +63,10 @@ var CREATE_EVENT_FORM = (function() {
 			//alert(loginForm);
 			$errArr=loginForm.split(",");
 				//alert(loginForm);
-				if($errArr[5]==1)
+				if($errArr[5]==2)
 					$('#titleErr').html("Title can only contain spaces, characters A-Z or numbers 0-9 and can be of length between 5 and 100.");
+				else if($errArr[5]==3)
+					$('#titleErr').html("Please enter an event title");
 				else
 					$('#titleErr').html("");
 					
