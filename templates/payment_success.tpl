@@ -1,6 +1,6 @@
 {include file="header.tpl"}
-
 <body id="cp_body">
+
 <div id="container">
   <div id="cp_container">
     <div id="header">
@@ -12,5 +12,9 @@
     <div id="footer"></div>
   </div>
 </div>
-{include file="global_js.tpl"}
 {include file="footer.tpl"}
+
+{include file="global_js.tpl"}
+
+</body>
+</html>

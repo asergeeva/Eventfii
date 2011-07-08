@@ -26,8 +26,3 @@
 		</ul>
 	</div>
 </footer>
-
-{include file="global_js.tpl"}
-
-</body>
-</html>
