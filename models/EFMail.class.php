@@ -10,7 +10,7 @@ require_once('libs/Mailgun/Mailgun.php');
 require_once('db/DBConfig.class.php');
 
 class EFMail {
-	private $FROM = "no-reply@truersvp.com";
+	private $FROM = "hello@truersvp.com";
 	private $dbCon;
 	
 	function __construct() {
