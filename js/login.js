@@ -53,7 +53,15 @@ var LOGIN_FORM = (function() {
 		
 		loginRedirect: function(status) {
 	//	$('#container').html(status);
-	window.location = EFGLOBAL.baseUrl;
+		if(status!=1)
+			{
+			window.location = EFGLOBAL.baseUrl;
+			}
+		else{
+			//alert("invalid login credentials entered");
+			$('#invalid_credentials').html("Please enter valid login credentials.");
+			}
+			//alert("invalid login credentials entered");
 		},
 		
 		userLogin: function(status) {

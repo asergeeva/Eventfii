@@ -1121,6 +1121,11 @@ return $retVal;
 					if(isset($_REQUEST['email']) && isset($_REQUEST['pass']))
 					{
 						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
+						if(!isset($userId))
+							{
+								echo("1"); //login failed
+								break;
+							}
 					}
 					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;

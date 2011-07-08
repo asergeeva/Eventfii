@@ -6,6 +6,7 @@
       <p><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>
 			<fieldset id="existing_user_login_form">
 				<p class="message">Log in</p>
+				<p class="message"><span style="color:red; top:0px; font-weight:bold;" id="invalid_credentials"></span></p>
 				<label for="ef_login_email_exist"><span>Email</span> <input type="text" class="inputbox" name="ef_login_email_exist" id="ef_login_email_exist" /></label>
 				<label for="ef_login_pass_exist"><span>Password</span> <input type="password" class="inputbox" name="ef_login_pass_exist" id="ef_login_pass_exist" /></label>
 				<p class="forgot-password"><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
