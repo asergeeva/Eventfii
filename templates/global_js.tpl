@@ -1,31 +1,3 @@
-<footer id="page-footer">
-	<div class="page-nav">
-		<ul>
-			<li>
-				<span>Company</span>
-				<ul>
-					<li><a href="#">Privacy Policy</a></li>
-					<li><a href="#">Terms of Service</a></li>
-				</ul>
-			</li>
-			<li>
-				<span>Contact Us</span>
-				<ul>
-					<li><a href="#">E-mail</a></li>
-				</ul>
-			</li>
-			<li>
-				<span>Learn</span>
-				<ul>
-					<li><a href="#">FAQ</a></li>
-					<li><a href="#">Team</a></li>
-					<li><a href="#">About Us</a></li>
-					<li><a href="#">Blog</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-</footer>
 <!--Start Kampyle Feedback Form Button-->
 <div id='k_close_button' class='k_float kc_bottom_sl kc_right'></div><div><a href='http://www.kampyle.com/feedback_form/ff-feedback-form.php?site_code=9047143&amp;lang=en&amp;form_id=66970'  target='kampyleWindow' id='kampylink' class='k_float k_bottom_sl k_right' onclick="javascript:k_button.open_ff('site_code=9047143&amp;lang=en&amp;form_id=66970');return false;"><img src="http://cf.kampyle.com/buttons/en/blue/en-blue-band-low-right.gif" alt="Feedback Form" border="0"/></a></div>
 <div id='k_slogan' class='k_float k_bottom k_right'>
