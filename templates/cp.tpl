@@ -1,6 +1,6 @@
 {include file="header.tpl"}
-
 <body id="cp_body">
+
 {include file="cp_header.tpl"}
 <div id="section-header">
 	<h1>Welcome, {$currentUser['fname']}!</h1>
@@ -13,8 +13,12 @@
 		</div>
 	</div>
 </div>
+{include file="footer.tpl"}
+
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/create_event_form.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/manage.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/cp.js"></script>
-{include file="footer.tpl"}
+
+</body>
+</html>

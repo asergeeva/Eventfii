@@ -1,6 +1,6 @@
 {include file="header.tpl"}
-
 <body>
+
 {include file="home_header.tpl"}
 <div id="container">
 	<div class="start">
@@ -29,6 +29,10 @@
 		</div>
 	</div>
 </div>
+{include file="footer.tpl"}
+
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/home_event.js"></script>
-{include file="footer.tpl"}
+
+</body>
+</html>

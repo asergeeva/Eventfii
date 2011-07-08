@@ -1,26 +1,35 @@
-/* Stylesheet */
-
-/* HTML5 */
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display: block; }
-
-* { 
-	margin: 0; 
-	padding: 0; }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, input, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+table {	border-collapse: collapse; border-spacing: 0; }
 	
 body { 
 	background: #fff url(../images/body_bg.gif) 0 0 repeat-x;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-weight: 300;
 	font-size: 16px; }
+a { text-decoration: none; } 
+a:hover { text-decoration: underline; }	
+
+/* Global Styles
+-------------------------*/
+.message { text-align: center; }
+.error { color: red; }
+	
+/* Forms and Buttons
+-------------------------*/
+
+/*----- Input ----------*/
 input, textarea { 
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-	font-weight: 300; }
+	font-weight: 300;
+	font-size: 16px; }
+.submit-buttons { clear: both; }
+	
+/*----- Buttons ----------*/
 
-a { text-decoration: none; } 
-a:hover { text-decoration: underline; }
-ul, ol { list-style: none; }
-
-/* Buttons */
+/* Create New Event Button */
 .btn { 
 	background: url(../images/btn_left.png) 0 0 no-repeat;
 	color: #fff;
@@ -50,6 +59,7 @@ ul, ol { list-style: none; }
 	padding: 0 13px 4px 0; }
 .btn:hover span, .btn:hover input { background-position: 100% 100%; }
 
+/* Manage / Edit Button */
 a.btn-small {
 	background: url(../images/btn_small_left.png) 0 0 no-repeat;
 	text-decoration: none;
@@ -67,7 +77,8 @@ a.btn-small span {
 	height: 20px; /* 23 - 3 */
 	padding: 3px 7px 0 0;
 	display: block; }
-
+	
+/* Smaller Form Submit Button */
 .btn-med {
 	background: url(../images/btn_med_left.png) 0 0 no-repeat;
 	text-decoration: none;
@@ -87,10 +98,12 @@ a.btn-small span {
 	cursor: pointer;
 	display: block; }
 .btn-med input {
+	width: 52px;
 	height: 30px;
 	padding: 0 7px 0 0;
 	border: 0; }
-
+	
+/* Larger Form Submit Button */
 .btn-large {
 	background: url(../images/btn_large_left.png) 0 0 no-repeat;
 	text-decoration: none;
@@ -110,13 +123,8 @@ a.btn-small span {
 	padding: 0 10px 2px 0;
 	cursor: pointer;
 	display: block; }
-
 	
-
 /* Inputs and Forms */
-#launch form { 
-	float: left;
-	width: 100%; }
 input.inputbox {
 	background: #fff;
 	float: left;
@@ -134,30 +142,18 @@ input.inputbox {
 	height: 24px;
 	clear: none; }
 
-/* Icons */
-.icon {
-	background: none 0 0 no-repeat;
-	width: 32px;
-	height: 32px;
-	vertical-align: middle;
-	text-indent: -10000px;
-	display: inline-block; }
-.icon-twitter { background-image: url(../images/icon_twitter.png); }
-.icon-facebook { background-image: url(../images/icon_facebook.png); }
-.icon-stumbleupon { background-image: url(../images/icon_stumbleupon.png); }
-.icon-google { background-image: url(../images/icon_google.png); }
-.icon-delicious { background-image: url(../images/icon_delicious.png); }
-.icon-reddit { background-image: url(../images/icon_reddit.png); }
-
-/* Header
+/* Globals
 -------------------------*/
+
+/*----- Header ----------*/
 #header { 
 	background: #0099cc;
+	font-size: 24px;
 	width: 940px;
 	height: 77px;
 	margin: 0 auto; }
 
-/*----- Logo ----------*/
+/* Logo */
 #header h1#logo { 
 	background: url(../images/logo.gif) 0 0 no-repeat;
 	float: left;
@@ -167,9 +163,8 @@ input.inputbox {
 	height: 48px;
 	text-indent: -10000px;
 	display: block; }
-
-/*----- Links ----------*/
-#header { font-size: 24px; }
+	
+/* Links */
 #header aside {
 	float: right;
 	margin: 30px 0 0; }
@@ -178,8 +173,60 @@ input.inputbox {
 	margin: 0 0 0 14px; }
 #header li a { color: #fff; }
 
-/* Section Header
+/*----- Footer ----------*/
+#page-footer { 
+	background: #3399cc;
+	position: relative;
+	padding: 15px;
+	overflow: hidden;
+	display: block; 
+	clear: both; }
+#page-footer .page-nav {
+	position: relative;
+	left: 50%; }
+#page-footer ul { 
+	position: relative;
+	float: left;
+	margin: 0 0 0 -120px;
+	overflow: auto; }
+#page-footer ul li { 
+	float: left;
+	margin: 0 30px 0 0; }
+#page-footer ul li span {
+	font-size: 14px; 
+	color: #333;
+	margin: 0 0 5px;
+	display: block; }
+#page-footer ul li ul { 
+	width: 100px;
+	margin: 0; }
+#page-footer ul li ul li { 
+	float: none; 
+	margin: 0;
+	display: block; }
+#page-footer ul li ul li a { 
+	font-size: 12px;
+	color: #fff;
+	margin: 0;
+	padding: 0 3px 3px 0;
+	display: block; }
+
+/* Section Globals
 -------------------------*/
+#container { 
+	width: 820px; /* 940 - 120 */ 
+	margin: 0 auto;
+	padding: 5px 60px 25px;
+	overflow: hidden; }
+
+/* Control Panel */
+#private { 
+	background: url(../images/wrapper_bg.gif); 
+	border-bottom: 1px solid #8c8d8c; }
+#private #main {  background: url(../images/main_bg.gif) 0 100% repeat-x; }
+#private #container { padding: 30px 60px 10px; }
+
+/*----- Section Header ----------*/
 #section-header {
 	color: #666;
 	width: 940px;
@@ -192,8 +239,7 @@ input.inputbox {
 	font-weight: normal;
 	margin: 37px 0 0;
 	display: block; } 
-#section-header .event-date,
-#section-header h2 {
+#section-header .event-date, #section-header h2 {
 	float: left;
 	font-size: 18px;
 	font-weight: normal;
@@ -214,20 +260,38 @@ input.inputbox {
 .section-nav li:hover a { color: #0099cc; }
 .section-nav li.section-current a { cursor: default; }
 
-/* Main
--------------------------*/
-#private { 
-	background: url(../images/wrapper_bg.gif); 
-	border-bottom: 1px solid #8c8d8c; }
-#private main {  background: url(../images/main_bg.gif) 0 100% repeat-x; }
-#container { 
-	width: 820px; /* 940 - 120 */ 
-	margin: 0 auto;
-	padding: 5px 60px 25px;
-	overflow: hidden; }
-#private #container { padding: 30px 60px 10px; }
+/*----- Section Columns ----------*/
+.section {
+	float: left;
+	width: 220px;
+	overflow: hidden;
+	margin: 0 0 0 20px; }
+.section-primary { width: 380px; }
+.section-email { width: 620px; }
+.section-event {
+	width: 540px;
+	margin: 0; }
+.section-login, .section-addinfo { 
+	float: none;
+	width: 400px;
+	margin: 0 auto; }
+.section-contacts { 
+	float: none;
+	width: 600px; 
+	margin: 0 auto; }
+.section-attendees {
+	float: none;
+	width: 330px;
+	margin: 20px auto 0; }
 
-/*----- Front Page ----------*/
+/* Side Columns */
+aside.section-extra { 
+	float: left;
+	width: 140px;
+	margin: 0 0 0 20px; }
+
+/* Front Page
+-------------------------*/
 .start { 
 	text-align: center;
 	padding: 10px 0;
@@ -242,9 +306,7 @@ input.inputbox {
 	font-size: 20px;
 	font-weight: normal;
 	display: block; }
-.start fieldset {
-	border: 0;
-	display: inline; }
+.start fieldset { display: inline; }
 .start fieldset p {
 	float: left;
 	margin: 8px 0 0 5px; }
@@ -284,35 +346,8 @@ input.inputbox {
 	height: 301px; /* 315 - 14 */
 	padding: 14px 0 0; }
 
-/*----- Section Columns ----------*/
-.section {
-	float: left;
-	width: 220px;
-	overflow: hidden;
-	margin: 0 0 0 20px; }
-.section-primary { width: 380px; }
-.section-email { width: 620px; }
-.section-event {
-	width: 540px;
-	margin: 0; }
-.section-login, .section-addinfo { 
-	float: none;
-	width: 400px;
-	margin: 0 auto; }
-.section-contacts { 
-	float: none;
-	width: 600px; 
-	margin: 0 auto; }
-.section-attendees {
-	float: none;
-	width: 330px;
-	margin: 20px auto 0; }
-
-/* Side Columns */
-aside.section-extra { 
-	float: left;
-	width: 140px;
-	margin: 0 0 0 20px; }
+/* Control Panel
+-------------------------*/
 
 /*----- Section Navigation ----------*/
 nav.event-options { 
@@ -390,8 +425,7 @@ nav.event-options {
 	margin: 13px 0; }
 .section-form .submit-buttons {
 	float: right;
-	margin: -57px 35px 0 0;
-	clear: both; }
+	margin: -57px 35px 0 0; }
 
 /*----- Blocks ----------*/
 section.block {
@@ -400,13 +434,15 @@ section.block {
 	margin: 0 0 25px;
 	border: 1px solid #acacac;
 	overflow: hidden; }
-.block .block-title {
+.block h1.block-title {
 	background: url(../images/block_bg.gif) 0 0 repeat-x;
 	font-weight: normal;
 	font-size: 17px;
 	text-align: center;	
 	height: 27px; /* 33 - 6 */
 	padding: 6px 0 0; }
+
+/* Inner Block Area */
 .block p { 
 	font-size: 11px;
 	margin: 10px 20px; }
@@ -431,6 +467,8 @@ section.block {
 	margin: 10px 0;
 	text-align: center;
 	display: block; }
+	
+/* Forms */
 .block fieldset {
 	margin: 0;
 	padding: 20px 80px;
@@ -445,15 +483,14 @@ section.block {
 	margin: 0;
 	padding: 0 0 10px;
 	clear: both; }
-.section-login .block fieldset p.message { text-align: center; }
+.section-login .block fieldset p.btn-med { padding: 0 0 0 6px; }
 .section-login .block fieldset p.forgot-password { 
 	text-align: right;
 	margin: 0 20px 0 0; }
 .section-login .block fieldset .forgot-password a { color: #448ccb; }
 .section-login .block fieldset .submit-buttons {
 	float: right;
-	margin: 0 20px 0 0;
-	clear: both; }
+	margin: 0 20px 0 0; }
 .block fieldset label {
 	float: left;
 	width: 100%;
@@ -488,13 +525,13 @@ section.block {
 	padding: 15px 10px; }
 #email .submit-buttons {
 	float: left;
-	width: 100%;
-	clear: both; }
+	width: 100%; }
 #email .submit-buttons .btn {
 	float: left;
 	width: 130px; }
 #email .submit-buttons .btn-submit { float: right; }
 
+/* Lists */
 .block ul.list {
 	font-size: 11px;
 	list-style: none;
@@ -614,58 +651,37 @@ section.block {
 .block .rsvp li:hover label { background-position: 100% 100%; }
 .block .rsvp li label input {
 	position: absolute;
-	top: 7px;
+	top: 5px;
 	left: 5px; }
-footer p.event-flag {
-	text-align: right;
-	margin: -25px 60px 0 0;
+footer.event-extra {
+	margin: 0 60px -25px 0;
 	clear: both; }
-.event-flag a {
-	color: #3399cc;
+.event-extra p { 
+	text-align: right;
 	font-size: 11px; }
+.event-extra a { color: #3399cc; }
 
 /*----- Footer ----------*/
 #container footer { color: #fff; }
 
-/* Footer
+/* Misc
 -------------------------*/
-#page-footer { 
-	background: #3399cc;
-	position: relative;
-	padding: 15px;
-	overflow: hidden;
-	display: block; 
-	clear: both; }
-#page-footer .page-nav {
-	position: relative;
-	left: 50%; }
-#page-footer ul { 
-	position: relative;
-	float: left;
-	margin: 0 0 0 -120px;
-	overflow: auto; }
-#page-footer ul li { 
-	float: left;
-	margin: 0 30px 0 0; }
-#page-footer ul li span {
-	font-size: 14px; 
-	color: #333;
-	margin: 0 0 5px;
-	display: block; }
-#page-footer ul li ul { 
-	width: 100px;
-	margin: 0; }
-#page-footer ul li ul li { 
-	float: none; 
-	margin: 0;
-	display: block; }
-#page-footer ul li ul li a { 
-	font-size: 12px;
-	color: #fff;
-	margin: 0;
-	padding: 0 3px 3px 0;
-	display: block; }
+.icon {
+	background: none 0 0 no-repeat;
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+	text-indent: -10000px;
+	display: inline-block; }
+.icon-twitter { background-image: url(../images/icon_twitter.png); }
+.icon-facebook { background-image: url(../images/icon_facebook.png); }
+.icon-stumbleupon { background-image: url(../images/icon_stumbleupon.png); }
+.icon-google { background-image: url(../images/icon_google.png); }
+.icon-delicious { background-image: url(../images/icon_delicious.png); }
+.icon-reddit { background-image: url(../images/icon_reddit.png); }
 	
+/* Extra
+-------------------------*/
 /* OVERLAY */ 	
 /* CREATE EVENT OVERLAY */
 .create_event_form_overlay {
