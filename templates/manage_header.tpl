@@ -4,7 +4,7 @@
 </div>
 <div id="section-header">
 	<h1 class="event-title">{$eventInfo['title']}</h1>
-	<p class="event-date">{$eventInfo['event_datetime']}</p>
+	<p class="event-date">{date("F j, Y, g:i A", strtotime($eventInfo['event_datetime']))}</p>
 	<nav class="section-nav">
 		<ul>
 			<li class="section-current"><a href="#" id="update_event_before" class="manage_top_nav">Before Event</a></li>
