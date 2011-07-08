@@ -23,3 +23,24 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/mixpanel.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/anytimec.js"></script>
+<script type="text/javascript">
+AnyTime.picker(
+"#event_hour_create",
+      { format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
+ $("#event_time_create").AnyTime_picker(
+      { 
+	  format: "%I:%i %p", labelTitle: "What Time",
+      labelHour: "Hour", labelMinute: "Minute"
+	  }
+));
+AnyTime.picker(
+"#event_hour_update",
+      { format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
+ $("#event_time_update").AnyTime_picker(
+      { 
+	  format: "%I:%i %p", labelTitle: "What Time",
+      labelHour: "Hour", labelMinute: "Minute"
+	  }
+));
+</script>

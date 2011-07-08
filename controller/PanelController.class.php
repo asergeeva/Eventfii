@@ -169,12 +169,13 @@ return $retVal;
 	public function validate_tm($tm)
 	{
 	$flag=1;
-	$res=filter_var($tm, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^(20|21|22|23|[01]\d|\d)(([:][0-5]\d){1,2})$/")));
+	$res=filter_var($tm, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/")));
 		if(!($res))
 			{
-			$this->smarty->assign('error_tm', "Please enter a time in hh:mm format.");
+			$this->smarty->assign('error_tm', "Please enter a time in 12 hour clock (12:30 PM) format.");
 			$flag=2;
 			}
+			//die($tm);
 	return $flag;
 	}
 	
@@ -275,7 +276,6 @@ return $retVal;
 				$r=0;
 			} else {
 			//	die("here");
-				$_SESSION['newEvent'] = json_encode($newEvent);
 				$addr=$newEvent->address;
 				$goal=$newEvent->goal;
 				$title=$newEvent->title;
@@ -292,8 +292,11 @@ return $retVal;
 				$dval=$this->validate_date($dt);
 				$ddval=$this->validate_ddt($ddt,$dt);
 				$tmval=$this->validate_tm($tm);
+				$newEvent->time=date("H:i:s", strtotime($tm));
+				//die($newEvent->time);
 				$evtType=$this->validate_event_type($typ);
 				$isPubVal=$this->validate_is_pub($isPub);
+				$_SESSION['newEvent'] = json_encode($newEvent);
 				$err="";
 				
 				if ($isPubVal==2) 
@@ -773,7 +776,7 @@ return $retVal;
 			$eventInfo->lng=$addr['lng'];		
 				
 				
-				
+				$eventInfo->time=date("H:i:s", strtotime($_REQUEST['time']));
 				
 				
 				////////////////////////////////////////////
@@ -790,7 +793,6 @@ return $retVal;
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
 				$addr=$this->check_address($_REQUEST['address']);	
-				
 				$newEvent = new Event($_SESSION['uid'],
 															$_REQUEST['title'], 
 															$_REQUEST['url'], 

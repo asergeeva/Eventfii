@@ -93,7 +93,7 @@ var CREATE_EVENT_FORM = (function() {
 					$('#dtErr').html("");
 					
 				if($errArr[1]==1)
-					$('#timeErr').html("Please enter a time in hh:mm format.");
+					$('#timeErr').html("Please enter a time in 12 hour clock format");
 				else
 					$('#timeErr').html("");
 					

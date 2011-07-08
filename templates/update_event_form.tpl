@@ -16,8 +16,8 @@
     <dd><input type="text" class="inputbox" name="event_address_update" value="{$eventInfo['location_address']}" id="event_address_update" /></dd>
     <dt><label for="event_date_update">When</label> <span>Ex: May 14, 2011</span></dt>
     <dd><input type="text" class="inputbox" name="event_date_update" value="{$eventDate}" id="event_date_update" /></dd>
-    <dt><label for="event_time_update">What Time</label> <span>Ex: 5:00 pm</span></dt>
-    <dd><input type="text" class="inputbox" name="event_time_update" value="{$eventTime}" id="event_time_update" /></dd>
+    <dt><label for="event_time_update">What Time</label> <span>Ex: 12:30 PM</span></dt>
+    <dd><input type="text" class="inputbox" name="event_time_update" value="{date("g:i A", strtotime(eventTime))}" id="event_time_update" /></dd>
   </dl>
   <dl class="column">
     <dt><label for="event_goal_update">Attandance Goal</label> <span>In # of Attendees</span></dt>
