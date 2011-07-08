@@ -7,6 +7,7 @@
 	<meta property="fb:admins" content="1164166702" />
 	<title>{$WTITLE} | {$WSLOGAN}</title>
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/anytimec.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/fileuploader.css" />
 	
@@ -41,5 +42,7 @@
 	}
 	</script>
 	<!--End Kampyle Exit-Popup Code-->
-	
+	<style type="text/css">
+	.AnyTime-pkr { z-index: 999999 }
+	</style>
 </head>

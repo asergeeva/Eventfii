@@ -36,7 +36,7 @@
       		<p><div class="error_message" id="dtErr"></div></p></dd>
 			<dt>
 				<label for="event_time_create">What Time</label> 
-				<span>Ex: 21:00 (HH:MM)</span>
+				<span>Ex: 12:30 PM (12 hour clock)</span>
 			</dt>
 			<dd><input type="text" class="inputbox" name="event_time_create" id="event_time_create" value="{$smarty.post.time|escape:'htmlall'}" />
       		<p><div class="error_message" id="timeErr"></div></p></dd>

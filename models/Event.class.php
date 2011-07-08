@@ -45,7 +45,7 @@ class Event {
 		$this->goal = $goal;
 		$this->address = $address;
 		$this->date = $date;
-		$this->time = $time.":00";
+		$this->time = $time;
 		$this->deadline = $deadline;
 		$this->description = $description;
 		$this->cost = $cost;
