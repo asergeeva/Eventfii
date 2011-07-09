@@ -26,6 +26,6 @@ class EFTwitter {
 	 */
 	public function getTwitterHash($eid) {
 		$eventInfo = $this->dbCon->getEventInfo($eid);
-		return $this->PREFIX.hexdec((string)$eventInfo['id']);
+		return $this->PREFIX.$eventInfo['id'];
 	}
 }
