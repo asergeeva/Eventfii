@@ -15,7 +15,11 @@
 			</div>
 			<div class="column">
 				<p id="event_location">{$eventInfo['location_address']}</p>
-				<img src="../images/map.jpg" alt="Map" />
+				
+				
+			</div>
+			<div style="position:relative;left:50px;">
+			<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$eventInfo['location_address']|urlencode}&amp;hnear={$eventInfo['location_address']|urlencode}&amp;hl=en&amp;sll={$eventInfo['location_lat']},{$eventInfo['location_long']}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed"></iframe>
 			</div>
 		</section>
 		<section class="block">

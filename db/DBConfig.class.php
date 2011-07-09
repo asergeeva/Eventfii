@@ -317,7 +317,7 @@ class DBConfig {
 		$GET_EVENT = "SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
 										e.created, e.organizer, e.title, e.url, e.goal, 
 										e.location_address, e.event_datetime, e.event_deadline, 
-										e.description, e.is_public, e.gets, e.type
+										e.description, e.is_public, e.gets, e.type,e.location_lat,e.location_long
 									FROM ef_events e WHERE e.id = ".$eid;
 		return $this->executeQuery($GET_EVENT);
 	}
