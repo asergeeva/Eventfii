@@ -2,6 +2,7 @@
 		<section class="block" id="event_metadata">
 			<h1 class="block-title">Find out more</h1>
 			<div class="column">
+      	<p>{$twitterHash}</p>
 				<p id="event_description">{$eventInfo['description']}</p>
 				<!-- Not in design
 				<div id="event_cost">
