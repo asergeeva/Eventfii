@@ -821,6 +821,7 @@ return $retVal;
 				$this->checkNewEvent($newEvent, false);
 				
 				break;
+				
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
@@ -1035,7 +1036,21 @@ return $retVal;
 				$_SESSION['uid'] = $userInfo['id'];
 				$this->checkNewEvent($newEvent, true);
 				break;
-
+			case '/user/image/upload':
+				require_once('models/FileUploader.class.php');
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("jpg");
+				
+				// max file size in bytes
+				$sizeLimit = 2 * 1024 * 1024;
+				
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('upload/user/', TRUE);
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				
+				$this->dbCon->saveUserPic();
+				break;
 			case '/user/create':
 				$req['fname']=$_REQUEST['fname'];
 				$req['lname']=$_REQUEST['lname'];
