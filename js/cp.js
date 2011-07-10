@@ -240,6 +240,8 @@ var CP_EVENT = (function() {
 })();
 
 $(document).ready(function() {
+	//IMAGE_UPLOADER.init($('#create_event_eventid').html());
+	USER_IMAGE_UPLOADER.init();
 	$("img[rel]").overlay();
 	$("a[rel]").overlay();
 	CREATE_EVENT_FORM.init();

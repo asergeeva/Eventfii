@@ -128,6 +128,10 @@ class qqFileUploader {
         //$filename = $pathinfo['filename'];
         $filename = $_REQUEST['eventId'];
 				//$filename = md5(uniqid());
+		if(!isset($filename))
+			$filename=$_SESSION['uid'];
+				
+				
         $ext = $pathinfo['extension'];
 
         if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
