@@ -32,28 +32,6 @@
 				  </noscript>         
 			  </div>
 			</div>
-			<div class="section section-attendees"> 
-				<section class="block"> 
-					<h1 class="block-title">Attendees</h1> 
-					<ul class="list"> 
-						<li class="list-head"><span>Name</span> <em>trueRSVP Score</em></li> 
-						<li><span>John Smith</span>	<em>90%</em></li> 
-						<li><span>Jane Joe</span> <em>87%</em></li> 
-						<li><span>John Smith</span>	<em>85%</em></li> 
-						<li><span>Jane Joe</span> <em>80%</em></li> 
-						<li><span>John Smith</span>	<em>70%</em></li> 
-						<li><span>Jane Joe</span> <em>67%</em></li> 
-						<li><span>John Smith</span>	<em>60%</em></li> 
-						<li><span>Jane Joe</span> <em>57%</em></li> 
-						<li><span>John Smith</span>	<em>50%</em></li> 
-						<li><span>Jane Joe</span> <em>40%</em></li> 
-						<li><span>John Smith</span>	<em>40%</em></li> 
-						<li><span>Jane Joe</span> <em>40%</em></li> 
-						<li><span>John Smith</span>	<em>40%</em></li> 
-						<li><span>Jane Joe</span> <em>40%</em></li> 
-					</ul> 
-				</section> 
-			</div> 
 		</section>
 	</div>
 
