@@ -1,8 +1,8 @@
 <nav class="event-options">
   <ol>
-    <li class="optn"><a href="manage?eventId={$eventInfo['id']}">Manage</a></li>
-    <li class="optn optn-current"><a href="edit?eventId={$eventInfo['id']}">Edit</a></li>
-    <li class="optn"><a href="event/{$eventInfo['id']}" target="_blank">Preview</a></li>
+    <li class="optn"><a href="manage?eventId={$id}">Manage</a></li>
+    <li class="optn optn-current"><a href="edit?eventId={$id}">Edit</a></li>
+    <li class="optn"><a href="event/{$id}" target="_blank">Preview</a></li>
   </ol>
 </nav>
 <fieldset class="section-form">
@@ -63,17 +63,17 @@
     </dd>
     <dt><label for="event_ispublic_update">Event Permissions</label></dt>
     <dd><label for="event_ispublic_yes_update"><input type="radio" name="event_ispublic_update" id="event_ispublic_yes_update" {if $smarty.post.is_public eq '1'}checked="checked"{/if} value="1" /> <span>Anyone can sign up and invite others</span></label> <label for="event_ispublic_no_update"><input type="radio" name="event_ispublic_update" id="event_ispublic_no_update" {if $smarty.post.is_public eq '0'}checked="checked"{/if} value="0" /> <span>Only people you invite can attend</span></label></dd>
-    <dt><label for="event-media">Upload Picture</label> <span>Link or Browse</span></dt>
+    <!-- dt><label for="event-media">Upload Picture</label> <span>Link or Browse</span></dt -->
     <dd class="media">
-      <div id="update-file-uploader">       
+      <div id="update-file-uploader" style="display:none;">       
           <noscript>          
               <p>Please enable JavaScript to use file uploader.</p>
               <!-- or put a simple form for upload here -->
           </noscript>         
       </div>
     </dd>
-    <dt><label for="event_url_update">URL</label></dt>
-    <dd><input type="text" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" /></dd>
+    <!-- dt><label for="event_url_update">URL</label></dt -->
+    <dd><input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$id}" /></dd>
     <dt>
       <div class="event_guest">
         <a href="#"><img src="{$IMG_PATH}/addguests.png" id="event_guest_invite" rel="#event_guest_invite_overlay" /></a>
