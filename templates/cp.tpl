@@ -5,6 +5,7 @@
 <div id="section-header">
 	<h1>Welcome, {$currentUser['fname']}!</h1>
 	<h2><a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
+	<span id="usersid" style="display:none;">{$currentUser['id']}</span>
 </div>
 <div id="private">
 	<div id="main">

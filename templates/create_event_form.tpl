@@ -99,23 +99,14 @@
 				</label>
 				<p><div class="error_message" id="pubErr"></div></p>
 			</dd>
-			<dt>
-				<label for="event-media">Upload Picture</label> 
-				<span>Link or Browse</span>
-			</dt>
- 			<!--
-			<input type="text" name="event_url_create" id="event_url_create" disabled="disabled" value="{$CURHOST}/event/{$maxEventId}" />
-			-->
-			<dd class="media">
-      	<div id="create-file-uploader">       
+	
+			<dd class="media"><div id="create-file-uploader" style="display:none;">       
           <noscript>          
               <p>Please enable JavaScript to use file uploader.</p>
               <!-- or put a simple form for upload here -->
           </noscript>         
       	</div>
       </dd>
-			<dt><label for="event_url_create">URL</label></dt>
-			<dd><input type="text" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" /></dd>
       <dt>
         <div class="event_guest">
           <a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>

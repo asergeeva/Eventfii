@@ -719,10 +719,13 @@ return $retVal;
 				if($_REQUEST['eventId']!=-1)
 				{
 					$eventInfo->eid = $_REQUEST['eventId'];
+					$this->smarty->assign('id', $_REQUEST['eventId']);
 					$_SESSION['eventId']=$_REQUEST['eventId'];
 				}
 				else
 				{
+					$this->smarty->assign('id', $_SESSION['eventId']);
+					//$eventInfo['id']= $_SESSION['eventId'];
 					$eventInfo->eid = $_SESSION['eventId'];
 				}	
 				//$_SESSION['eventId']=$_REQUEST['eventId'];
