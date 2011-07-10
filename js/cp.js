@@ -14,7 +14,7 @@ var CP_EVENT = (function() {
 			$('#update_event_on').live('click', this.onEvent);
 			$('#update_event_after').live('click', this.afterEvent);
 		
-			$('#email_settings').live('click', this.emailSettings);
+			$('#email_settings_top').live('click', this.emailSettings);
 			$('#fb-logout').live('click', function() {
 				FB.logout();
 			});
@@ -57,6 +57,9 @@ var CP_EVENT = (function() {
 		},
 		
 		onEvent: function() {
+			$('#email_settings_bottom').live('click', function() {
+				$('#email_settings_top').trigger('click');
+			});
 			$.get(EFGLOBAL.baseUrl + '/event/manage/on', {
 				eventId: $('#manage_event_id').html()
 			}, function(manageEventOnPage) {
