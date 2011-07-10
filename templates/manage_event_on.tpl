@@ -51,7 +51,7 @@
     <aside class="section-extra">
       <ul>
         <li><a href="#" class="btn"><span>Send Reminder Email</span></a></li>
-        <li><a href="#" class="btn"><span>Print Attendance List</span></a></li>
+        <li><a href="{$CURHOST}/event/print?eventId={$eventInfo['id']}" target="_blank" class="btn"><span>Print Attendance List</span></a></li>
       </ul>
     </aside>
   </div>
