@@ -26,7 +26,7 @@ var USER_IMAGE_UPLOADER = (function() {
 	return {
 		init: function() {
 			if ($('#user_image').length>0) {
-			alert("here");
+			//alert("here");
 				_uploader = new qq.FileUploader({
 					element: $('#user_image')[0],
 					action: EFGLOBAL.baseUrl + '/user/image/upload',
