@@ -22,28 +22,18 @@
 		  <thead>
 			<tr>
 				<td class="nosort"><input type="checkbox" class="checkAll" value="checkall" /></td>
-				<th>Name</th>
-				<th>Certainty</th>
+				<th>First name</th>
+        <th>Last name</th>
 			</tr>
 		  </thead>
 		  <tbody>
 		  {foreach name=attendees item=eventAttendee from=$eventAttendees}
 			<tr>
 				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
+				<td>{$eventAttendee['fname']}</td>
 				<td>{$eventAttendee['lname']}</td>
-				<td>90%</td>
 			</tr>
 			{/foreach}
-			<tr>
-				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
-				<td>abc</td>
-				<td>80%</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></td>
-				<td>def</td>
-				<td>70%</td>
-			</tr>
 		  </tbody>
 		</table> 
       </section>
