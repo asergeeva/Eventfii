@@ -1,7 +1,8 @@
 <div class="section">
   <section class="block">
     <h1 class="block-title">Personal Profile</h1>
-    <a href="#" class="info-pic"><img id="user_pic" src="{$IMG_PATH}/default_thumb.jpg" alt="Anna" /></a>
+	 <a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}?type=large" width="150px" height="150px" /></a>
+   
     <!-- p><a href="#" class="btn-small"><span>Update</span></a></p -->
 	<p><div id="user_image" style="position:relative; left:20px;"></p>       
     <noscript>          

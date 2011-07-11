@@ -131,6 +131,13 @@ class DBConfig {
 		$SAVE_USER_PIC="update ef_users set pic='$uid.jpg' where id=$uid";
 		$this->executeUpdateQuery($SAVE_USER_PIC);
 	}
+		public function getUserPic($uid)
+	{
+		//$uid=$_SESSION['uid'];
+		$GET_USER_PIC="select pic from ef_users where id=$uid";
+		$usrPic=$this->executeQuery($GET_USER_PIC);
+		return $usrPic['pic'];
+	}
 	
 	public function createNewUser($fname, $lname, $email, $phone, $pass, $zip) {
 		if (!$this->isUserEmailExist($email)) {

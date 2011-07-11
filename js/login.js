@@ -46,6 +46,7 @@ var LOGIN_FORM = (function() {
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,
 				email: userInfo.email,
+				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture',
 				isFB: true
 			}, LOGIN_FORM.loginRedirect);
 			$('#middle').html(EFGLOBAL.ajaxLoader);

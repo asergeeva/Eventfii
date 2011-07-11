@@ -1028,13 +1028,27 @@ return $retVal;
 														$_REQUEST['phone'], 
 														$_REQUEST['pass']);
 				
+				  $usrPic=$this->dbCon->getUserPic($userInfo['id']);
+				  if(!isset($usrPic) || $usrPic=="")
+				  {
+				    $uppic=$_REQUEST['pic'];
+				    $this->smarty->assign('userProfilePic', $uppic);
+				    $_SESSION['userProfilePic']=$uppic;
+				  }
+				  else
+				  {
+				    $_SESSION['userProfilePic']="upload/user/".$usrPic;
+				  }
+				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
 					$newEvent['organizer'] = $userInfo['id'];
 				}
 				
 				$_SESSION['uid'] = $userInfo['id'];
+				
 				$this->checkNewEvent($newEvent, true);
+				
 				break;
 			case '/user/image/upload':
 				require_once('models/FileUploader.class.php');
@@ -1072,6 +1086,7 @@ return $retVal;
 																								$_REQUEST['phone'], 
 																								$_REQUEST['pass'],
 																								$_REQUEST['zipcode']);
+				$_SESSION['userProfilePic']="upload/user/default_thumb.jpg";											
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
@@ -1147,13 +1162,21 @@ return $retVal;
 					}
 					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;
+						$usrPic=$this->dbCon->getUserPic($userId);
+						if(isset($usrPic) && $usrPic!="")
+						  $_SESSION['userProfilePic']="upload/user/".$usrPic;
+						else
+						  $_SESSION['userProfilePic']="upload/user/default_thumb.jpg";
 					}
+					
 					if (isset($_SESSION['newEvent']))  {
 						$newEvent = json_decode($_SESSION['newEvent'], true);
 						$newEvent['organizer'] = $userId;
 						$this->checkNewEvent($newEvent, false);
 						break;
 					}
+					
+					
 				    $this->smarty->display('login.tpl');
 					//mm $this->checkNewEvent(NULL, false);
 					break;
