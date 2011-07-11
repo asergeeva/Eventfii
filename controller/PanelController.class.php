@@ -1087,7 +1087,7 @@ return $retVal;
 																								$_REQUEST['phone'], 
 																								$_REQUEST['pass'],
 																								$_REQUEST['zipcode']);
-				$_SESSION['userProfilePic']="upload/user/default_thumb.jpg";											
+				$_SESSION['userProfilePic']="images/default_thumb.jpg";											
 				
 				if (isset($_SESSION['newEvent'])) {	
 					$newEvent = json_decode($_SESSION['newEvent'], true);
@@ -1167,7 +1167,7 @@ return $retVal;
 						if(isset($usrPic) && $usrPic!="")
 						  $_SESSION['userProfilePic']="upload/user/".$usrPic;
 						else
-						  $_SESSION['userProfilePic']="upload/user/default_thumb.jpg";
+						  $_SESSION['userProfilePic']="images/default_thumb.jpg";
 					}
 					
 					if (isset($_SESSION['newEvent']))  {

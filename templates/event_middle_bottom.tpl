@@ -28,7 +28,7 @@
 			<ul class="thumbs">
 			{foreach from=$attending key=k item=v}
 				{if $v['pic']==''}
-					<li><a href="{$CURHOST}/user/{$v['user_id']}"><img src="{$CURHOST}/upload/user/default_thumb.jpg" width=50px height=50px /></a><br />{$v['lname']}</li>
+					<li><a href="{$CURHOST}/user/{$v['user_id']}"><img src="{$CURHOST}/images/default_thumb.jpg" width=50px height=50px /></a><br />{$v['lname']}</li>
 				{else}
 				<li><a href="{$CURHOST}/user/{$v['user_id']}"><img src="{$CURHOST}/upload/user/{$v['pic']}" width=50px height=50px /></a><br />{$v['lname']}</li>
 				{/if}
