@@ -12,6 +12,7 @@ CREATE TABLE ef_users (
   email3    VARCHAR(500),
   email4    VARCHAR(500),
   email5    VARCHAR(500),
+  zip		VARCHAR(15),
   pic		VARCHAR(200)
 ) ENGINE=InnoDB;
 
