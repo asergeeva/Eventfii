@@ -621,7 +621,8 @@ return $retVal;
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
-			
+			$attending=$this->dbCon->getAttendeesByEvent($eventId);
+			$this->smarty->assign("attending",$attending);
 			$_SESSION['ceid'] = $eventId;
 			
 			if (isset($_SESSION['uid'])) {

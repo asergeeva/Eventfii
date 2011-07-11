@@ -26,18 +26,13 @@
 		<section class="block">
 			<h1 class="block-title">Who's coming</h1>
 			<ul class="thumbs">
-				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_1.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_2.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_3.jpg" alt="User" /></a></li>
-				<li><a href="#"><img src="../images/thumb_4.jpg" alt="User" /></a></li>
+			{foreach from=$attending key=k item=v}
+				{if $v['pic']==''}
+					<li><a href="{$CURHOST}/user/{$v['user_id']}"><img src="{$CURHOST}/upload/user/default_thumb.jpg" width=50px height=50px /></a><br />{$v['lname']}</li>
+				{else}
+				<li><a href="{$CURHOST}/user/{$v['user_id']}"><img src="{$CURHOST}/upload/user/{$v['pic']}" width=50px height=50px /></a><br />{$v['lname']}</li>
+				{/if}
+			{/foreach}
 			</ul>
 		</section>
 	</div>
