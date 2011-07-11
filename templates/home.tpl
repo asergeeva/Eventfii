@@ -8,7 +8,7 @@
 		<h2>Make every event a success</h2>
 		<form id="create_event_home" name="create_event_home" method="post" action="home">
     	<fieldset>
-			<input id="create_event_textarea" name="title" value="I'm planning..." class="inputbox" />
+			<input id="create_event_textarea" name="title" value="I'm planning" class="inputbox" />
       <p class="btn-med"><input id="event_submit_btn" type="submit" value="Do it!" name=""></p>
       </fieldset>
     </form>
