@@ -60,7 +60,8 @@ $.widget( "ui.addresspicker", {
 	  this.element.autocomplete({
 			source: $.proxy(this._geocode, this),  
 			focus:  $.proxy(this._focusAddress, this),
-			select: $.proxy(this._selectAddress, this)
+			select: $.proxy(this._selectAddress, this),
+			delay: 1000
 		});
 		
 		this.lat      = $(this.options.elements.lat);
