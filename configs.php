@@ -47,6 +47,13 @@ define('CONFOPT5', 4);
 define('CONFOPT6', 1);
 define('CONFELSE', 5);
 
+$smarty->assign('CONFOPT1', CONFOPT1);
+$smarty->assign('CONFOPT2', CONFOPT2);
+$smarty->assign('CONFOPT3', CONFOPT3);
+$smarty->assign('CONFOPT4', CONFOPT4);
+$smarty->assign('CONFOPT5', CONFOPT5);
+$smarty->assign('CONFOPT6', CONFOPT6);
+
 // 0-20
 define('GUESTRANGE1MIN', 65);
 define('GUESTRANGE1MAX', 70);
