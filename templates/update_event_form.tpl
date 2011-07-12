@@ -66,7 +66,7 @@
       </div>
     </dd>
 	<input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" />
-   
+    <input type="hidden" name="invite_guest_click_counter" id="invite_guest_click_counter" disabled="disabled" value="0" />
     <dt>
       <div class="event_guest">
         <a href="#edit"><img src="{$IMG_PATH}/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a>

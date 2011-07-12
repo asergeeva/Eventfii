@@ -24,9 +24,19 @@ var CREATE_EVENT_FORM = (function() {
 	});
  
 	$('#invite_guest_submit').live('click', function() {
-		$('#event_guest_invite_overlay').find('a').trigger('click');
 		if($('.btn-update').length==0)
+			{
 			$('#create_new_event').trigger('click');
+			}
+		else if($('.btn-update').length>0 && $('#invite_guest_click_counter').val()=='1')
+			{
+		$('#invite_guest_click_counter').val('0');
+			}
+		else
+			{
+		$('#create_new_event').trigger('click');
+			}
+		$('#event_guest_invite_overlay').find('a').trigger('click');
 	});
  
  return {
