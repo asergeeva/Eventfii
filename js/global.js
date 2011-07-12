@@ -8,6 +8,7 @@ var EFGLOBAL = (function() {
 	return {
 		ajaxLoader: '<img src="images/ajax-loader.gif" alt="loading" class="ajax-loader" />',
 		baseUrl: 'http://localhost/eventfii',
+		fbAppId: '215532001821574',
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>',
 		emailReminderType: 1,
