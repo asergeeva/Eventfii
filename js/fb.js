@@ -6,16 +6,14 @@
  */
 
 var FBCON = (function() {
-	return {
-		init: function() {
-			FB.init({
-				appId  : '122732554481304',
-				status : true, // check login status
-				cookie : true, // enable cookies to allow the server to access the session
-				xfbml  : true  // parse XFBML
-			});
-		},
-		
+	FB.init({
+		appId  : EFGLOBAL.fbAppId,
+		status : true, // check login status
+		cookie : true, // enable cookies to allow the server to access the session
+		xfbml  : true  // parse XFBML
+	});
+	
+	return {		
 		getLoginStatus: function() {
 			FB.getLoginStatus(function(response) {
 				if (response.session) {
@@ -33,5 +31,3 @@ var FBCON = (function() {
 		}
 	}
 })();
-
-FBCON.init();

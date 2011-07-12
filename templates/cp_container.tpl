@@ -1,7 +1,11 @@
 <div class="section">
   <section class="block">
     <h1 class="block-title">Personal Profile</h1>
-	 <a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}?type=large" width="150px" height="150px" /></a>
+    {if $userInfo['pic'] eq ''}
+      <a href="#" class="info-pic"><img class="info-pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+    {else}
+      <a href="#" class="info-pic"><img class="info-pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+    {/if}
    
     <!-- p><a href="#" class="btn-small"><span>Update</span></a></p -->
 	<p><div id="user_image" style="position:relative; left:20px;"></p>       

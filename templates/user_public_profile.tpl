@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 
-<body id="cp_body">
+<body>
 {include file="cp_header.tpl"}
 <header id="section-header">
 	<h1>{$userInfo['fname']} {$userInfo['lname']}</h1>
