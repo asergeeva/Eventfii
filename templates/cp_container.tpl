@@ -2,11 +2,11 @@
   <section class="block">
     <h1 class="block-title">Personal Profile</h1>
     {if $userInfo['pic'] eq '' && $smarty.session.userProfilePic eq ''}
-      <a href="#" class="info-pic"><img class="info-pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+      <a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
     {elseif $userInfo['pic'] ne ''}
-      <a href="#" class="info-pic"><img class="info-pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+      <a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
 	 {elseif $smarty.session.userProfilePic ne ''}
-		<a href="#" class="info-pic"><img class="info-pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+		<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
     {/if}
    
     <!-- p><a href="#" class="btn-small"><span>Update</span></a></p -->
