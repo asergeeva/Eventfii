@@ -1,15 +1,17 @@
 {include file="header.tpl"}
-
 <body>
+
 {include file="cp_header.tpl"}
 {include file="manage_header.tpl"}
-<div id="private">
-	<div id="main">
-		<div id="container">	
+	<section id="main">
+		<header class="block">
+			<p class="message">Make changes to your event here.</p>
+		</header>
 		{include file="update_event_form.tpl"}
-    </div>
-	</div>
+	</section>
 </div>
+{include file="footer.tpl"}
+
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
@@ -17,4 +19,6 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/create_event_form.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/manage.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/cp.js"></script>
-{include file="footer.tpl"}
+
+</body>
+</html>

@@ -621,7 +621,7 @@ return $retVal;
 			$eventInfo = $this->dbCon->getEventInfo($eventId);
 			$organizer = $this->dbCon->getUserInfo($eventInfo['organizer']);
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
-			$attending=$this->dbCon->getAttendeesByEvent($eventId);
+			$attending = $this->dbCon->getAttendeesByEvent($eventId);
 			$this->smarty->assign("attending",$attending);
 			$_SESSION['ceid'] = $eventId;
 			
@@ -640,7 +640,6 @@ return $retVal;
 			$this->smarty->assign('curSignUp', $curSignUp);
 			$this->smarty->assign('twitterHash', $twitter->getTwitterHash($eventId));
 
-			
 			if (isset($_SESSION['uid'])) {
 				if (intval($eventInfo['is_public']) == 1 || $this->dbCon->isInvited($_SESSION['uid'], $eventId)) {
 					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
@@ -702,29 +701,25 @@ return $retVal;
 				break;
 			case '/event/update':
 				require_once('models/Event.class.php');
-				$eventInfo = new Event($_SESSION['uid'],
-															 $_REQUEST['title'], 
-															 $_REQUEST['url'], 
-															 $_REQUEST['goal'],
-															 $_REQUEST['address'], 
-															 $_REQUEST['date'],
-															 $_REQUEST['time'],
-															 $_REQUEST['deadline'],
-															 $_REQUEST['description'], 
-															 $_REQUEST['cost'],
-															 $_REQUEST['is_public'],
-															 $_REQUEST['type'],0,0);
-				
+				$eventInfo = new Event( $_SESSION['uid'],
+							 $_REQUEST['title'], 
+							 $_REQUEST['url'], 
+							 $_REQUEST['goal'],
+							 $_REQUEST['address'], 
+							 $_REQUEST['date'],
+							 $_REQUEST['time'],
+							 $_REQUEST['deadline'],
+							 $_REQUEST['description'], 
+							 $_REQUEST['cost'],
+							 $_REQUEST['is_public'],
+							 $_REQUEST['type'], 0, 0 );
 				$this->checkGuests($eventInfo);
 				
-				if($_REQUEST['eventId']!=-1)
-				{
+				if ( $_REQUEST['eventId'] != -1 ) {
 					$eventInfo->eid = $_REQUEST['eventId'];
 					$this->smarty->assign('id', $_REQUEST['eventId']);
 					$_SESSION['eventId']=$_REQUEST['eventId'];
-				}
-				else
-				{
+				} else {
 					$this->smarty->assign('id', $_SESSION['eventId']);
 					//$eventInfo['id']= $_SESSION['eventId'];
 					$eventInfo->eid = $_SESSION['eventId'];
@@ -733,61 +728,49 @@ return $retVal;
 				//print_r($_SESSION);
 				//die();
 				//////////////////////////////////////////
-				
-			
-		$addr=$eventInfo->address;
-		$goal=$eventInfo->goal;
-		$title=$eventInfo->title;
-		$dt=$eventInfo->date;
-		$ddt=$eventInfo->deadline;
-		$description=$eventInfo->description;
-		$aval=$this->validate_address($addr);
-		$tval=$this->validate_title($title);
-		$desc=$this->validate_desc($description);
-		$gval=$this->validate_goal($goal);
-		$dval=$this->validate_date($dt);
-		$ddval=$this->validate_ddt($ddt,$dt);
-		
-			if($ddval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($dval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($aval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($tval==2 || $tval==3)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-			if($desc==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}	
-			if($gval==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-				
-				
-			$addrss=$eventInfo->address;
-			$addr=$this->check_address($addrss);	
-			$eventInfo->lat=$addr['lat'];
-			$eventInfo->lng=$addr['lng'];		
-				
-				
+				$addr = $eventInfo->address;
+				$goal = $eventInfo->goal;
+				$title = $eventInfo->title;
+				$dt = $eventInfo->date;
+				$ddt = $eventInfo->deadline;
+				$description = $eventInfo->description;
+				$aval = $this->validate_address($addr);
+				$tval = $this->validate_title($title);
+				$desc = $this->validate_desc($description);
+				$gval = $this->validate_goal($goal);
+				$dval = $this->validate_date($dt);
+				$ddval = $this->validate_ddt($ddt,$dt);
+
+				if( $ddval == 2 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if ( $dval == 2 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if ( $aval == 2 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if ( $tval == 2 || $tval == 3 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if ( $desc == 2 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if ( $gval == 2 ) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+
+				$addrss = $eventInfo->address;
+				$addr = $this->check_address($addrss);	
+				$eventInfo->lat = $addr['lat'];
+				$eventInfo->lng = $addr['lng'];		
 				$eventInfo->time=date("H:i:s", strtotime($_REQUEST['time']));
-				
 				
 				////////////////////////////////////////////
 				//if($eventInfo->eid <=0)
@@ -802,27 +785,25 @@ return $retVal;
 			//die("here");
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
-				$addr=$this->check_address($_REQUEST['address']);	
+				$addr = $this->check_address($_REQUEST['address']);	
 				$newEvent = new Event($_SESSION['uid'],
-															$_REQUEST['title'], 
-															$_REQUEST['url'], 
-															$_REQUEST['goal'],
-															$_REQUEST['address'], 
-															$_REQUEST['date'],
-															$_REQUEST['time'],
-															$_REQUEST['deadline'],
-															$_REQUEST['description'], 
-															$_REQUEST['cost'],
-															$_REQUEST['is_public'],
-															$_REQUEST['type'],
-															$addr['lat'],
-															$addr['lng']);
+							$_REQUEST['title'], 
+							$_REQUEST['url'], 
+							$_REQUEST['goal'],
+							$_REQUEST['address'], 
+							$_REQUEST['date'],
+							$_REQUEST['time'],
+							$_REQUEST['deadline'],
+							$_REQUEST['description'], 
+							$_REQUEST['cost'],
+							$_REQUEST['is_public'],
+							$_REQUEST['type'],
+							$addr['lat'],
+							$addr['lng']);
 
 				$this->checkGuests($newEvent);
 				$this->checkNewEvent($newEvent, false);
-				
 				break;
-				
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
@@ -855,6 +836,8 @@ return $retVal;
 				break;
 			case '/event/edit':
 				$this->assignEditEventVars($_REQUEST['eventId']);
+				$page['edit'] = ' class="current"';
+				$this->smarty->assign('page', $page);
 				$this->smarty->display('update_event_cp.tpl');
 				break;
 			case '/event/edit/save':
@@ -898,17 +881,17 @@ return $retVal;
 				
 				$eventInfoDB = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				$eventInfo = new Event($_SESSION['uid'],
-															 $eventInfoDB['title'], 
-															 $eventInfoDB['url'], 
-															 $eventInfoDB['goal'],
-															 $eventInfoDB['address'], 
-															 $eventInfoDB['date'],
-															 $eventInfoDB['time'],
-															 $eventInfoDB['deadline'],
-															 $eventInfoDB['description'], 
-															 $eventInfoDB['cost'],
-															 $eventInfoDB['is_public'],
-															 $eventInfoDB['gets'],0,0);
+							 $eventInfoDB['title'], 
+							 $eventInfoDB['url'], 
+							 $eventInfoDB['goal'],
+							 $eventInfoDB['address'], 
+							 $eventInfoDB['date'],
+							 $eventInfoDB['time'],
+							 $eventInfoDB['deadline'],
+							 $eventInfoDB['description'], 
+							 $eventInfoDB['cost'],
+							 $eventInfoDB['is_public'],
+							 $eventInfoDB['gets'],0,0);
 				$eventInfo->eid = $_REQUEST['eventId'];
 				
 				$this->checkGuests($eventInfo);
@@ -919,6 +902,8 @@ return $retVal;
 				break;
 			case '/event/manage':
 				$this->assignManageVars($_REQUEST['eventId']);
+				$page['manage'] = ' class="current"';
+				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage.tpl');
 				break;
 			case '/event/manage/before':
@@ -947,12 +932,7 @@ return $retVal;
 					die($retval);
 				}
 				
-				$this->dbCon->saveEmail($_REQUEST['eventId'], 
-															  $_REQUEST['reminderContent'],
-																$dateTime,
-																$_REQUEST['reminderSubject'],
-																$_REQUEST['type'],
-																$autoReminder);
+				$this->dbCon->saveEmail($_REQUEST['eventId'], $_REQUEST['reminderContent'], $dateTime, $_REQUEST['reminderSubject'], $_REQUEST['type'], $autoReminder);
 				echo("Success");
 				break;
 			case '/event/manage/email/send':
@@ -969,10 +949,7 @@ return $retVal;
 				{
 					die($retval);
 				}
-				$mailer->sendAutomatedEmail($eventInfo, 
-																	 $_REQUEST['reminderContent'],
-																	 $_REQUEST['reminderSubject'],
-																	 $attendees);
+				$mailer->sendAutomatedEmail($eventInfo, $_REQUEST['reminderContent'], $_REQUEST['reminderSubject'], $attendees);
 				echo("Success");
 				break;
 			case '/event/manage/email/autosend':
@@ -997,6 +974,8 @@ return $retVal;
 				$this->smarty->display('manage_event_after.tpl');
 				break;
 			case '/event/email':
+				$this->assignManageVars($_REQUEST['eventId']);
+				
 				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
 				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
 				
@@ -1009,7 +988,9 @@ return $retVal;
 				
 				$this->smarty->assign('eventReminder', $eventReminder);
 				$this->smarty->assign('eventFollowup', $eventFollowup);
-				
+				$page['manage'] = ' class="current"';
+				$page['email'] = ' class="current"';
+				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage_event_email.tpl');
 				break;
 			case '/event/checkin':

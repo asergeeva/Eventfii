@@ -1,4 +1,4 @@
-<footer id="page-footer">
+<!--footer id="page-footer">
 	<div class="page-nav">
 		<ul>
 			<li>
@@ -25,4 +25,4 @@
 			</li>
 		</ul>
 	</div>
-</footer>
+</footer-->

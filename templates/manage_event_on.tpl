@@ -1,4 +1,16 @@
-<div id="main">
+<section class="block" id="cp-attendees">
+					<header class="block-collapsable-title">
+						<h1>Attendee List</h1>
+					</header>
+					<ul class="list"> 					
+						<li class="list-head"><strong>Name</strong> <em>Certainty</em> <span>Showed Up?</span></li>
+						{foreach name=attendees item=eventAttendee from=$eventAttendees}
+						<li><label for="attendee_{$eventAttendee['id']}_{$eventInfo['id']}"><strong>{$eventAttendee['fname']} {$eventAttendee['lname']}</strong> <em>90%</em> <span><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} name="selecteditems" /></span></label></li>
+						{/foreach}
+					</ul>
+				</section>
+
+<!--div id="main">
   <div id="container">
     <aside class="section-extra">
       <section class="block">
@@ -12,12 +24,12 @@
     <div class="section section-primary">
       <section class="block">
         <h1 class="block-title">Attendees</h1>
-        <!--ul class="list">
+        --ul class="list">
           <li class="list-head"><span>Name</span> <em>Certainty</em></li>
           {foreach name=attendees item=eventAttendee from=$eventAttendees}
           <li><input type="checkbox" class="event_attendee_cb" id="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" value="attendee_{$eventAttendee['id']}_{$eventInfo['id']}" {$eventAttendee['checkedIn']} /><span>{$eventAttendee['fname']} {$eventAttendee['lname']}</span>	<em>90%</em></li>
           {/foreach}
-        </ul-->
+        </ul--
 		<table cellpadding="0" cellspacing="0" border="0" id="table" class="sortable">
 		  <thead>
 			<tr>
@@ -74,4 +86,4 @@ $(".checkAll").click(function() {
 	}
 }
 );
-</script>
+</script-->

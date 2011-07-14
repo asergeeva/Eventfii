@@ -2,9 +2,9 @@
 <body>
 
 {include file="cp_header.tpl"}
-{include file="event_middle_top.tpl"}
 <div id="container">
-  {include file="event_middle.tpl"}
+	{include file="event_middle_top.tpl"}
+	{include file="event_middle.tpl"}
 </div>
 {include file="footer.tpl"}
 

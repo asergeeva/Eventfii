@@ -3,8 +3,9 @@
 
 {include file="cp_header.tpl"}
 {include file="manage_header.tpl"}
-<div id="private">
-	{include file="manage_event_form.tpl"}
+	<section id="main">
+		{include file="manage_event_form.tpl"}
+	</section>
 </div>
 {include file="footer.tpl"}
 

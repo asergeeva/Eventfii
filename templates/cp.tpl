@@ -2,17 +2,13 @@
 <body id="cp_body">
 
 {include file="cp_header.tpl"}
-<div id="section-header">
-	<h1>Welcome, {$currentUser['fname']}!</h1>
-	<h2><a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
-	<span id="usersid" style="display:none;">{$currentUser['id']}</span>
-</div>
-<div id="private">
-	<div id="main">
-		<div id="container">
-		{include file="cp_container.tpl"}
-		</div>
-	</div>
+<div id="container">
+	<header id="header">
+		<h1>Welcome, {$currentUser['fname']}!</h1>
+	</header>
+	<!--h2><a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
+	<span id="usersid" style="display:none;">{$currentUser['id']}</span-->
+	{include file="cp_container.tpl"}
 </div>
 {include file="footer.tpl"}
 

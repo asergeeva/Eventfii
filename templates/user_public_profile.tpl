@@ -1,26 +1,23 @@
 {include file="header.tpl"}
-
 <body>
+
 {include file="cp_header.tpl"}
-<header id="section-header">
-	<h1>{$userInfo['fname']} {$userInfo['lname']}</h1>
-</header>
 <div id="container">
-  <div class="section">
-    {include file="user_profile_pub.tpl"}
-  </div>
-  <div class="section">
-    <section class="block">
-      <h1 class="block-title">Events Attended</h1>
-      {include file="event_attending.tpl"}
-    </section>
-  </div>
-  <div class="section">
-    <section class="block">
-      <h1 class="block-title">Events Hosted</h1>
-      {include file="event_created_pub.tpl"}
-    </section>
-  </div>
+	<header id="header">
+		<h1>Meet {$userInfo['fname']} {$userInfo['lname']}!</h1>
+	</header>
+	<section id="main">
+		<div class="content">
+			{include file="event_created_pub.tpl"}
+			{include file="event_attending.tpl"}
+		</div>
+		<aside class="extra">
+			{include file="user_profile_pub.tpl"}
+		</aside>
+	</section>
 </div>
-{include file="global_js.tpl"}
 {include file="footer.tpl"}
+
+{include file="global_js.tpl"}
+</body>
+</html>
