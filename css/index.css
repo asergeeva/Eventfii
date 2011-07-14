@@ -101,20 +101,20 @@ a:hover { text-decoration: underline; }
 	font-size: 18px;
 	text-align: center; }
 ul.info-pics {
-	background: url(../images/info_bg.gif) 3px 0 no-repeat;
-	width: 760px;
-	height: 170px;
+	background: url(../images/info_index_bg.gif) 0 0 no-repeat;
+	width: 912px;
+	height: 204px;
 	margin: 20px auto 0;
 	display: block; }
 ul.info-pics li {
+	float: left;
 	color: #808080;
 	text-align: center;
-	font-size: 9px;
-	float: left;
-	width: 178px; /* 184 - 12 */
-	height: 32px; /* 170 - 138 */
+	font-size: 11px;
+	width: 209px; /* 228 - 19 */ 
+	height: 39px; /* 204 - 165 */
 	margin: 0 3px 0;
-	padding: 138px 3px 0; }
+	padding: 165px 10px 0 3px; }
 
 /*----- Site Map ----------*/
 footer#site-map {
