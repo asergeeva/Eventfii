@@ -2,7 +2,6 @@
 <body>
 
 {include file="home_header.tpl"}
-<div id="fb-root"></div>
 <div id="container">
 	{include file="login_form.tpl"}
 </div>
