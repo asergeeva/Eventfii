@@ -7,11 +7,11 @@
  */
  
 class DBConfig {
-	private $DB_HOST = "127.0.0.1:3306";
-	private $DB_USER = "glaksmono";
-	private $DB_PASS = "12345";
+	private $DB_HOST = "127.0.0.1";
+	private $DB_USER = "root";
+	private $DB_PASS = "";
 	
-	private $DB_NAME = "eventfii";
+	private $DB_NAME = "tripcp";
 	
 	private $DEBUG = true;
 	
@@ -131,6 +131,14 @@ class DBConfig {
 		$SAVE_USER_PIC="update ef_users set pic='$uid.jpg' where id=$uid";
 		$this->executeUpdateQuery($SAVE_USER_PIC);
 	}
+	
+	public function updateUserProfileDtls($email,$zip,$cell)
+	{
+		$uid=$_SESSION['uid'];
+		$UPDATE_USER_PROFILE="update ef_users set zip='$zip',email='$email',phone='$cell' where id=$uid";
+		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
+	}
+	
 		public function getUserPic($uid)
 	{
 		//$uid=$_SESSION['uid'];
@@ -366,6 +374,13 @@ class DBConfig {
 		return $this->executeQuery($GET_PAYPAL_EMAIL);
 	}
 	
+	public function updateuserStatus($status) {
+		$uid=$_SESSION['uid'];
+		$UPDATE_USER_STATUS = "UPDATE ef_users e SET e.about = '".$status."' WHERE e.id = ".$uid;
+		$this->executeUpdateQuery($UPDATE_USER_STATUS);
+	}
+	
+	
 	public function updatePaypalEmail($uid, $pemail) {
 		if ($this->getPaypalEmail($uid) > 0) {
 			$UPDATE_PAYPAL_EMAIL = "UPDATE ef_paypal_accounts e SET e.pemail = '".$pemail."' WHERE e.uid = ".$uid;
@@ -390,6 +405,11 @@ class DBConfig {
 	}
 	
 	public function storeGuests($guestEmails, $eid, $referrer) {
+	//echo("event id=".$eid);
+	//die();
+	if($eid=="")
+		$eid=$this->getMaxEventId();
+		
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
 				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";

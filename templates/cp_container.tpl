@@ -5,19 +5,26 @@
 		<aside class="extra">
 			<section class="block" id="user-pic">
 				<p class="user-img">
-					{if $userInfo['pic'] eq '' && $smarty.session.userProfilePic eq ''}
-						<img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" />
-					{elseif $userInfo['pic'] ne ''}
-						<img id="user_pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" />
-					{elseif $smarty.session.userProfilePic ne ''}
-						<img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" />
-					{/if}
+				  {if $userInfo['pic'] eq '' && $smarty.session.userProfilePic eq ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+				  {elseif $userInfo['pic'] ne ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+				  {elseif $smarty.session.userProfilePic ne ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+				  {/if}
 				</p>
-				<footer class="buttons-edit"><a href="#"><span>Upload</span></a></footer>
+				<footer class="buttons-edit"><div id="user_image">    
+				<noscript>          
+				  <p>Please enable JavaScript to use file uploader.</p>
+				  <!-- or put a simple form for upload here -->
+				</noscript> 
+				</div>
+			  </footer>
+				<footer class="buttons-edit"><a href="#" id="uploadPic"><span>Upload</span></a></footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info">Say something witty about yourself here!</p>
-				<footer class="buttons-edit"><a href="#"><span>Edit</span></a></footer>
+				<div class="edit" id="div_2" style="position:relative; left:10px; font-size:13px;">{$userInfo['about']}</div>
+				<footer class="buttons-edit"><p><a href="#" class="btn-small" id="editBtn"><span>Edit</span></a></p></footer>
 			</section>
 			<!--
 			<div id="user_image" style="position:relative; left:20px;"></p>       
@@ -27,17 +34,22 @@
 			</noscript>         
 			</div>
 			-->
-			<section class="block" id="user-pic">
+		  <section class="block" id="user-pic">
 				<fieldset>
+				<div id="email_err"></div>
 					<label for="user-email">
 						<span>Email</span> 
-						<input type="text" class="inputbox autowidth" name="user-email" id="user-email" value="sergeeva@usc.edu" />
+						<input type="text" class="inputbox autowidth" name="email" id="email" value="{$userInfo['email']}" />
 					</label>
-					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="user-cell" id="user-cell" value="303-886-1808" /></label>
-					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="user-zip" id="user-zip" value="90007" maxlength="5" /></label>
+					<div id="cell_err"></div>
+					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="cell" id="cell" value="{$userInfo['phone']}" /></label>
+					<div id="zip_err"></div>
+					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="zip" id="zip" value="{$userInfo['zip']}" maxlength="5" /></label>
+					<div id="update_success"></div>
 				</fieldset>
-				<footer class="buttons-edit"><a href="#"><span>update</span></a></footer>
-			</section>
+				<footer class="buttons-edit"><a href="#" id="dtls_update"><span>update</span></a></footer>
+   </section>
+			<!----- -->
 		</aside>
 		<div class"content">
 			{include file="event_created.tpl"}
