@@ -653,12 +653,14 @@ class PanelController {
 				$this->smarty->display('create_event_home.tpl');
 				break;
 			case '/cp/event/create':
+				$this->smarty->assign('maxEventId', $this->dbCon->getMaxEventId());
 				$this->smarty->display('create_event_cp.tpl');
 				break;
 			case '/event/create':
 				require_once('models/Event.class.php');
 				
 				$this->smarty->assign('eventTitle', $_REQUEST['eventTitle']);
+				$this->smarty->assign('maxEventId', $this->dbCon->getMaxEventId());
 				$this->smarty->assign('eventId', $this->dbCon->getMaxEventId());
 				$this->smarty->assign('domain', CURHOST);
 				$this->smarty->display('cp.tpl');
@@ -745,6 +747,22 @@ class PanelController {
 				//$eventInfo->eid = $_SESSION['eventId'];
 				//print_r($_SESSION);
 				//die();
+
+				 //  print_r($_REQUEST);
+				 //die();
+				 //echo("here");
+				 //print_r($eventInfo->guests);
+				 //die();
+				 $this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
+				 //if(isset($_REQUEST['guest_email']))
+				 //{
+				 //  die("here12345");
+				 require_once('models/EFMail.class.php');
+				 $mailer = new EFMail();  
+				 // die("here007");
+				 $mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
+				 //}
+
 				$this->dbCon->updateEvent($eventInfo);
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
@@ -1050,11 +1068,41 @@ class PanelController {
 				$_SESSION['uid'] = $userInfo['id'];
 				$this->checkNewEvent($newEvent, true);
 				break;
+			case '/user/status/update':
+				$this->dbCon->updateUserStatus($_REQUEST['value']);
+				echo($_REQUEST['value']);	
+				break;
 			case '/user/profile/update':
 				$this->dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
 				$this->assignUserProfile($_SESSION['uid']);
 				
 				$this->smarty->display('user_profile.tpl');
+				break;
+			case '/user/profile-dtls/update':
+				//manu m
+				$email = $_POST['email'];
+				$zip = $_POST['zip'];
+				$cell = $_POST['cell'];
+				$res = "";
+				if( ! filter_var($email, FILTER_VALIDATE_EMAIL) )
+					$res = $res."1,";
+				else
+					$res = $res."0,";
+				if( ! (filter_var($zip, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\d{5}(-\d{4})?$/")))) )
+					$res = $res."1,";
+				else
+					$res=$res."0,";
+				if( !(filter_var($cell, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/")))) )
+					$res = $res."1,";
+				else
+					$res = $res."0,";
+
+				if( $res == "0,0,0," ) {
+					$this->dbCon->updateUserProfileDtls($email,$zip,$cell);
+					echo $res;
+				} else {
+					echo $res;
+				}
 				break;
 			case '/event/payment/submit':
 				require_once('models/PaypalPreapproveReceipt.class.php');
