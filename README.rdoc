@@ -1,67 +1,34 @@
-== Setting up the project
-=== Requirements
+== Requirements
 * Install XAMPP 1.7.3 (http://www.apachefriends.org/en/xampp.html)
   [MySQL 5.1.4.4]
   [PHP 5.3.1]
+
+== Setting up the project
 * Create a MySQL database
+    $DB_NAME = "eventfii";
+    $DB_USER = "glaksmono";
+    $DB_PASS = "12345";
 * Run the ./sql/create.sql to initialize the database tables
 * Run the ./sql/insert.sql to populate the database with dependency data
-* Setup permission for Smarty ./templates_c folder
+* Go to XAMPP htdocs folder
+    cd /Applications/XAMPP/htdocs
+* Checking out the project
+    git clone git@github.com:asergeeva/Eventfii.git
+  There will be Eventfii folder within your htdocs folder
+* Setup the project permission
+    sudo chown -R {yourusername}:staff Eventfii/
+	Where {yourusername} is the username of your UNIX machine. Do this to find out:
+	  whoami
+* Go to the project folder in the htdocs that you just cloned
+    cd Eventfii
+* Setup permission for Smarty [templates_c] folder
     mkdir templates_c
     sudo chown -R nobody:nobody templates_c
 * Setup OpenInviter
-    sudo chown -R nobody:nobody ./libs/OpenInviter/openinviter_stats.sqlite
-
-=== Configuration
-* ./.htaccess
-
-    RewriteEngine On
-    RewriteBase /eventfii
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
-    AddHandler php5-script .php
-
-RewriteBase parameter should be the folder in which the files are in. For example, in this case, the project is in htdocs/eventfii folder.
-
-* ./configs.php
-
-    define('PATH', '/eventfii');
-    define('CURHOST', 'http://localhost'.PATH);
-
-PATH should be the folder in which the files are in. The value should be the same as the one that was specified on the .htacesss
-
-* ./db/DBConfig.class.php
-
-    private $DB_HOST = "127.0.0.1:3306";
-    private $DB_USER = "glaksmono";
-    private $DB_PASS = "12345";
-	
-    private $DB_NAME = "eventfii";
-
-* ./js/global.js
-
-    baseUrl: 'http://localhost/eventfii'
-
-baseUrl should be the full absolute path URL of where the project is located. For example, in this case, the project is in htdocs/eventfii folder.
-
-=== Workflow
-* Setup GIT: http://help.github.com/mac-set-up-git/
-
-* Clone the project
-    git clone git@github.com:asergeeva/Eventfii.git
-
-* Create an alias for a command on .bash_profile
-    cd ~/
-    touch .bash_profile
-    alias rsync='rsync -r /Users/glaksmono/Eventfii/* /Applications/XAMPP/htdocs/eventfii'
-
-* Create the folder on htdocs
-    sudo mkdir /Applications/XAMPP/htdocs/eventfii
-
-* Rsync the files
-    rsync
-
-Each time rsync is executed, files and folders are going to be sync'ed.
-
-=== !NOTE: ALWAYS rsync after you do "git pull"
+    sudo chown -R nobody:nobody libs/OpenInviter/openinviter_stats.sqlite
+		
+== Coding style
+=== Braces
+   if ($condition) {     while ($condition) {
+      ...                   ...
+   }                     }
