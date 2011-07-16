@@ -133,12 +133,10 @@ header#page-header {
 -------------------------*/
 #container {
 	width: 820px;
-	margin: 100px auto 0; }
+	margin: 40px auto 0; }
 
 /*----- Header ----------*/
-#header {
-	height: 55px;
-	margin: -55px 0 0; }
+#header { height: 55px; }
 #header h1 {
 	float: left;
 	font-size: 24px; }
@@ -423,6 +421,16 @@ p.user-img {
 	width: 100%;
 	margin: 4px 0; }
 
+/*----- Network ----------*/
+ul.network li a {
+	background: none 0 0 no-repeat;
+	height: 17px;
+	margin: 10px 0;
+	padding: 0 0 0 30px;
+	display: block; }
+.network li a.icon-facebook { background-image: url(../images/icon_facebook.gif); }
+.network li a.icon-twitter { background-image: url(../images/icon_twitter.gif); }
+
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
@@ -436,13 +444,12 @@ p.user-img {
 	font-size: 11px;
 	text-align: center;
 	margin: 0 0 5px; }
-#main .navigation .block li.current, #main .navigation .block li:hover { background: #ff9933; }
+#main .navigation .block li:hover { background: #ff9933; }
 #main .navigation .block li a {
 	text-decoration: none;
 	height: 22px; /* 30 - 8 */
 	padding: 8px 0 0;
 	display: block; }
-#main .navigation .block li.current a { color: #fff; }
 
 /* Buttons
 -------------------------*/
@@ -452,6 +459,8 @@ p.user-img {
 .buttons-edit {
 	text-align: right;
 	margin: 10px 0 0; }
+.follow {
+	text-align: center; }
 
 /* Footer
 -------------------------*/
