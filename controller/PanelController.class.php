@@ -683,6 +683,7 @@ class PanelController {
 					0, 
 					0 
 				);
+
 				$this->checkGuests($eventInfo);
 				
 				if ( $_REQUEST['eventId'] != -1 ) {
@@ -741,7 +742,7 @@ class PanelController {
 				$eventInfo->lat = $addr['lat'];
 				$eventInfo->lng = $addr['lng'];		
 				$eventInfo->time=date("H:i:s", strtotime($_REQUEST['time']));
-				
+
 				////////////////////////////////////////////
 				//if($eventInfo->eid <=0)
 				//$eventInfo->eid = $_SESSION['eventId'];
@@ -762,13 +763,11 @@ class PanelController {
 				 // die("here007");
 				 $mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
 				 //}
-
 				$this->dbCon->updateEvent($eventInfo);
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
-			//die("here");
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
 				$addr = $this->check_address($_REQUEST['address']);	
