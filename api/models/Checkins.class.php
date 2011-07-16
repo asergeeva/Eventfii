@@ -6,7 +6,7 @@
  * All rights reserved
  */
 
-class CheckInsAPI {
+class Checkins {
 	function __construct() {
 		
 	}

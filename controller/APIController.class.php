@@ -6,7 +6,6 @@
  * All rights reserved
  */
 require_once('../db/DBConfig.class.php');
-require_once('../api/CheckInsAPI.class.php');
 
 class APIController {
 	private $smarty;
@@ -24,11 +23,17 @@ class APIController {
 	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
-		print($requestUri);
+		$requestUri = explode('/', $requestUri);
+		$requestUri = $requestUri[2];
+		
 		switch ($requestUri) {
 			case 'checkins':
+				require_once('../api/models/Checkins.class.php');
+				print('Do something!');
 				break;
 			default:
+				$this->smarty->assign('requestUri', $requestUri);
+				$this->smarty->display('error.tpl');
 				break;
 		}
 	}
