@@ -88,8 +88,8 @@
 									</noscript>         
 								</div>
 							</dd>
-							<dt><label for="event_url_update">URL</label></dt>
-							<dd><input type="text" class="inputbox autowidth" name="event_url_update" id="event_url_update" disabled="disabled" value="http://localhost/eventfii/event/1" /></dd>
+							<!-- dt><label for="event_url_update">URL</label></dt>
+							<dd><input type="text" class="inputbox autowidth" name="event_url_update" id="event_url_update" disabled="disabled" value="http://localhost/eventfii/event/1" /></dd-->
 							<dt>
 								<div class="event_guest">
 									<a href="#edit"><img src="http://localhost/eventfii/images/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a>

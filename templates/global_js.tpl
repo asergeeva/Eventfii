@@ -13,6 +13,9 @@
 		var addresspicker = $( "#addresspicker" ).addresspicker();
 		});
 	</script>
+	
+
+
 <script type="text/javascript" src="{$JS_PATH}/script.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.ui.addresspicker.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
@@ -44,4 +47,16 @@ AnyTime.picker(
       labelHour: "Hour", labelMinute: "Minute"
 	  }
 ));
+</script>
+
+<script>
+  $(document).ready(function() {
+ if($('#progress_bar').length>0)
+	{
+	var cnt=$('#rsvp').text();
+	var goal=$('#goal').text();
+	var per=Math.ceil((cnt/goal)*100);
+    $("#progress_bar").progressbar({ value: parseInt(per) });
+	}
+  });
 </script>

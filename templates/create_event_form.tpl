@@ -115,13 +115,14 @@
 						</noscript>         
 					</div>
 				</dd>
-				<dt>
+				<!--dt>
 					<label for="event_url_create">URL</label>
 				</dt>
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="http://localhost/eventfii/event/2" />
-				</dd>
+					<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="http://localhost/eventfii/event/2" />
+				</dd-->
 			</dl>
+			<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" />
 			<footer class="buttons-submit">
 				<!--a href="#"><span>Add Guests</span></a-->
 				<a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>

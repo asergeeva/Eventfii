@@ -4,6 +4,7 @@
 		<p><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>  
 		<p class="message-small">or</p> 
 		<label for="ef_login_email_exist">
+		<div id="invalid_credentials"></div>
 			<strong>Email</strong> 
 			<div>
 				<input type="text" class="inputbox autowidth" name="ef_login_email_exist" id="ef_login_email_exist" />
