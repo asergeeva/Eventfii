@@ -8,6 +8,7 @@
 	</header>
 	<!--h2><a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
 	<span id="usersid" style="display:none;">{$currentUser['id']}</span-->
+	<span id="usersid" style="display:none;">{$currentUser['id']}</span>
 	{include file="cp_container.tpl"}
 </div>
 {include file="footer.tpl"}

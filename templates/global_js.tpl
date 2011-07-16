@@ -24,6 +24,7 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/mixpanel.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/anytimec.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/jquery.jeditable.mini.js"></script>
 <script type="text/javascript">
 AnyTime.picker(
 "#event_hour_create",
