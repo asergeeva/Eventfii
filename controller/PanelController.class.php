@@ -671,7 +671,6 @@ class PanelController {
 				break;
 			case '/event/update':
 				require_once('models/Event.class.php');
-<<<<<<< HEAD
 				$eventInfo = new Event($_SESSION['uid'],
 															 $_REQUEST['title'], 
 															 $_REQUEST['url'], 
@@ -684,25 +683,6 @@ class PanelController {
 															 $_REQUEST['cost'],
 															 $_REQUEST['is_public'],
 															 $_REQUEST['type'],0,0);
-				
-=======
-				$eventInfo = new Event(
-					$_SESSION['uid'],
-					$_REQUEST['title'], 
-					$_REQUEST['url'], 
-					$_REQUEST['goal'],
-					$_REQUEST['address'], 
-					$_REQUEST['date'],
-					$_REQUEST['time'],
-					$_REQUEST['deadline'],
-					$_REQUEST['description'], 
-					$_REQUEST['cost'],
-					$_REQUEST['is_public'],
-					$_REQUEST['type'], 
-					0, 
-					0 
-				);
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 				$this->checkGuests($eventInfo);
 				
 				if($_REQUEST['eventId']!=-1)
@@ -776,57 +756,17 @@ class PanelController {
 				
 				$eventInfo->time=date("H:i:s", strtotime($_REQUEST['time']));
 				
-				
-				////////////////////////////////////////////
-				//if($eventInfo->eid <=0)
-				//$eventInfo->eid = $_SESSION['eventId'];
-				//print_r($_SESSION);
-				//die();
-<<<<<<< HEAD
-				
-			//	print_r($_REQUEST);
-				//die();
-				//echo("here");
-				//print_r($eventInfo->guests);
-				//die();
-				
 				$this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
-				//if(isset($_REQUEST['guest_email']))
-				//{
-				//  die("here12345");
 				require_once('models/EFMail.class.php');
 				  $mailer = new EFMail();	
-				 // die("here007");
 				  $mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
-				//}
-				
-=======
-
-				 //  print_r($_REQUEST);
-				 //die();
-				 //echo("here");
-				 //print_r($eventInfo->guests);
-				 //die();
-				 $this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
-				 //if(isset($_REQUEST['guest_email']))
-				 //{
-				 //  die("here12345");
-				 require_once('models/EFMail.class.php');
-				 $mailer = new EFMail();  
-				 // die("here007");
-				 $mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
-				 //}
-
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 				$this->dbCon->updateEvent($eventInfo);
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
-			//die("here");
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
-<<<<<<< HEAD
 				$addr=$this->check_address($_REQUEST['address']);	
 				$newEvent = new Event($_SESSION['uid'],
 															$_REQUEST['title'], 
@@ -842,25 +782,6 @@ class PanelController {
 															$_REQUEST['type'],
 															$addr['lat'],
 															$addr['lng']);
-=======
-				$addr = $this->check_address($_REQUEST['address']);	
-				$newEvent = new Event(
-					$_SESSION['uid'],
-					$_REQUEST['title'], 
-					$_REQUEST['url'], 
-					$_REQUEST['goal'],
-					$_REQUEST['address'], 
-					$_REQUEST['date'],
-					$_REQUEST['time'],
-					$_REQUEST['deadline'],
-					$_REQUEST['description'], 
-					$_REQUEST['cost'],
-					$_REQUEST['is_public'],
-					$_REQUEST['type'],
-					$addr['lat'],
-					$addr['lng']
-				);
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 
 				$this->checkGuests($newEvent);
 				$this->checkNewEvent($newEvent, false);
@@ -943,7 +864,6 @@ class PanelController {
 				require_once('models/EFMail.class.php');
 				
 				$eventInfoDB = $this->dbCon->getEventInfo($_REQUEST['eventId']);
-<<<<<<< HEAD
 				$eventInfo = new Event($_SESSION['uid'],
 															 $eventInfoDB['title'], 
 															 $eventInfoDB['url'], 
@@ -956,24 +876,6 @@ class PanelController {
 															 $eventInfoDB['cost'],
 															 $eventInfoDB['is_public'],
 															 $eventInfoDB['gets'],0,0);
-=======
-				$eventInfo = new Event(
-					$_SESSION['uid'],
-					$eventInfoDB['title'], 
-					$eventInfoDB['url'], 
-					$eventInfoDB['goal'],
-					$eventInfoDB['address'], 
-					$eventInfoDB['date'],
-					$eventInfoDB['time'],
-					$eventInfoDB['deadline'],
-					$eventInfoDB['description'], 
-					$eventInfoDB['cost'],
-					$eventInfoDB['is_public'],
-					$eventInfoDB['gets'],
-					0,
-					0
-				);
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 				$eventInfo->eid = $_REQUEST['eventId'];
 				
 				$this->checkGuests($eventInfo);
@@ -1170,11 +1072,7 @@ class PanelController {
 				break;
 			case '/user/status/update':
 				$this->dbCon->updateUserStatus($_REQUEST['value']);
-<<<<<<< HEAD
 				echo($_REQUEST['value']);
-=======
-				echo($_REQUEST['value']);	
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 				break;
 			case '/user/profile/update':
 				$this->dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
@@ -1182,7 +1080,6 @@ class PanelController {
 				$this->smarty->display('user_profile.tpl');
 				break;
 			case '/user/profile-dtls/update':
-<<<<<<< HEAD
 			//manu m
 			$email=$_POST['email'];
 			$zip=$_POST['zip'];
@@ -1208,30 +1105,6 @@ class PanelController {
 				}
 				else
 				{
-=======
-				//manu m
-				$email = $_POST['email'];
-				$zip = $_POST['zip'];
-				$cell = $_POST['cell'];
-				$res = "";
-				if( ! filter_var($email, FILTER_VALIDATE_EMAIL) )
-					$res = $res."1,";
-				else
-					$res = $res."0,";
-				if( ! (filter_var($zip, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\d{5}(-\d{4})?$/")))) )
-					$res = $res."1,";
-				else
-					$res=$res."0,";
-				if( !(filter_var($cell, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/")))) )
-					$res = $res."1,";
-				else
-					$res = $res."0,";
-
-				if( $res == "0,0,0," ) {
-					$this->dbCon->updateUserProfileDtls($email,$zip,$cell);
-					echo $res;
-				} else {
->>>>>>> 03b9ea01c8ac57cef15ad47a0e510ce4435897e5
 					echo $res;
 				}
 				break;
