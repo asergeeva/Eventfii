@@ -7,7 +7,7 @@
 * Create a MySQL database
     $DB_NAME = "eventfii";
     $DB_USER = "glaksmono";
-	  $DB_PASS = "12345";
+    $DB_PASS = "12345";
 * Run the ./sql/create.sql to initialize the database tables
 * Run the ./sql/insert.sql to populate the database with dependency data
 * Go to XAMPP htdocs folder
