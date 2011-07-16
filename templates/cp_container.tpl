@@ -5,14 +5,8 @@
 		<aside class="extra">
 			<section class="block" id="user-pic">
 				<p class="user-img">
-				  {if $userInfo['pic'] eq '' && $smarty.session.userProfilePic eq ''}
-					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
-				  {elseif $userInfo['pic'] ne ''}
-					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
-				  {elseif $smarty.session.userProfilePic ne ''}
-					<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
-				  {/if}
-				</p>
+        	<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+        </p>
 				<footer class="buttons-edit"><div id="user_image">    
 				<noscript>          
 				  <p>Please enable JavaScript to use file uploader.</p>
