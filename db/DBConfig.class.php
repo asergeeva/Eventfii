@@ -7,11 +7,11 @@
  */
  
 class DBConfig {
-	private $DB_HOST = "127.0.0.1";
-	private $DB_USER = "root";
-	private $DB_PASS = "";
+	private $DB_HOST = "127.0.0.1:3306";
+ 	private $DB_USER = "glaksmono";
+ 	private $DB_PASS = "12345";
 	
-	private $DB_NAME = "tripcp";
+	private $DB_NAME = "eventfii";
 	
 	private $DEBUG = true;
 	
