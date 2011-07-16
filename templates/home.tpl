@@ -1,5 +1,6 @@
-{include file="home_header.tpl"}
+{include file="index_header.tpl"}
 <body>
+
 <div id="container">
 	<header>
 		<p><a href="login">Log In/Create New Account</a></p>
@@ -27,7 +28,7 @@
 		</ul>
 	</footer>
 </div>
-{include file="home-footer.tpl"}
+{include file="home_footer.tpl"}
 
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/home_event.js"></script>
