@@ -7,7 +7,7 @@ $smarty->setCompileDir('templates_c');
 $smarty->setCacheDir('cache');
 $smarty->setConfigDir('configs');
 
-define('PATH', '/eventfii');
+define('PATH', '/Eventfii');
 define('CURHOST', 'http://localhost'.PATH);
 
 define('IMG_PATH', CURHOST.'/images');

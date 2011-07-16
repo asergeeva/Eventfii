@@ -1,4 +1,4 @@
-{include file="home-header.tpl"}
+{include file="home_header.tpl"}
 <body>
 <div id="container">
 	<header>
