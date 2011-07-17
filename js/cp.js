@@ -149,11 +149,6 @@ var CP_EVENT = (function() {
 		window.open(EFGLOBAL.baseUrl + '/event/print?eventId=' + $('#manage_event_id').html(), 'Print');
 	});
 	
-	
-	
-	
-	
-	
 	// EMAIL SETTINGS
 	// AUTO-SEND CHECKBOX
 	$('#reminder_auto_send_cb').live('click', function() {
@@ -248,7 +243,6 @@ var CP_EVENT = (function() {
 })();
 
 $(document).ready(function() {
-	//IMAGE_UPLOADER.init($('#create_event_eventid').html());
 	USER_IMAGE_UPLOADER.init();
 	$("img[rel]").overlay();
 	$("a[rel]").overlay();
@@ -257,37 +251,30 @@ $(document).ready(function() {
 	MANAGE_EVENT.init();
 	
 	$('#editBtn').click(function(){
-	$('.edit').click();
-	$('#editBtn').hide();
-		});
+		$('.edit').click();
+		$('#editBtn').hide();
+	});
 	
-	///////////////////////////////////
 	$('.edit').click(function(){$('#editBtn').hide();});
 	$('.edit').editable('user/status/update', {
-		 type:'textarea',
-         indicator : 'Saving...',
-         tooltip   : 'Click to edit...',
-		 style: 'border-style: inset; border-width: 2px',
-		 onblur: 'submit',
-		 callback : function(value, settings) {
-			$('#editBtn').show();
-			$('#div_2').html(value);
-			$('#div_2').css('left','25px');
-		 }
-     });
+			type:'textarea',
+			indicator : 'Saving...',
+			tooltip   : 'Click to edit...',
+			style: 'border-style: inset; border-width: 2px',
+			onblur: 'submit',
+			callback : function(value, settings) {
+				$('#editBtn').show();
+				$('#div_2').html(value);
+				$('#div_2').css('left','25px');
+			}
+	});
     
-	
-	////////////////////////////
-	$('#dtls_update').live('click', function()
-		{
-		   $.post(EFGLOBAL.baseUrl + '/user/profile-dtls/update',{
-					email: $('#email').val(),
-					cell: $('#cell').val(),
-					zip: $('#zip').val()
-		},
-	function(returnCodes) 
-	{
-	//alert(returnCodes);
+	$('#dtls_update').live('click', function() {
+			$.post(EFGLOBAL.baseUrl + '/user/profile-dtls/update',{
+			email: $('#email').val(),
+			cell: $('#cell').val(),
+			zip: $('#zip').val()
+	}, function(returnCodes) {
 			var errCodes = returnCodes.split(',');
 			if(errCodes[0]=='1')
 				$('#email_err').html('Please enter a valid email address');
@@ -303,13 +290,10 @@ $(document).ready(function() {
 				$('#zip_err').html('');
 			if(errCodes[1]=='0' && errCodes[0]=='0' && errCodes[2]=='0')
 				$('#update_success').html('Updated!');
-	});
+		});
 	});	
 	
-	$('#uploadPic').live('click',function(){
-		//alert("here");
+	$('#uploadPic').live('click',function() {
 		$("input[name=file]").click();
 	});
-	
-	
 });
