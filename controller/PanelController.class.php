@@ -64,216 +64,169 @@ class PanelController {
 		}
 	}
 	
-	////////////////////
-	
-	public function check_address($addr)
-	{
-	$a = urlencode($addr);
-	$retVal=array();
-	$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
-   $ch = curl_init($geocodeURL);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-   $result = curl_exec($ch);
-   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-   curl_close($ch);
-   if ($httpCode == 200) {
-      $geocode = json_decode($result);
-      $lat = $geocode->results[0]->geometry->location->lat;
-      $lng = $geocode->results[0]->geometry->location->lng; 
-      $formatted_address = $geocode->results[0]->formatted_address;
-      $geo_status = $geocode->status;
-      $location_type = $geocode->results[0]->geometry->location_type;
-      $retVal['location_type']=$location_type;
-      $retVal['lat']=$lat;
-      $retVal['lng']=$lng;	
-   } else {
-     $retVal['location_type']="error";
-     $retVal['lat']=$lat;
-     $retVal['lng']=$lng;
-	
-   }
-return $retVal;
-}
+	public function check_address($addr) {
+		$a = urlencode($addr);
+		$retVal=array();
+		$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
+		$ch = curl_init($geocodeURL);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		if ($httpCode == 200) {
+			$geocode = json_decode($result);
+			$lat = $geocode->results[0]->geometry->location->lat;
+			$lng = $geocode->results[0]->geometry->location->lng; 
+			$formatted_address = $geocode->results[0]->formatted_address;
+			$geo_status = $geocode->status;
+			$location_type = $geocode->results[0]->geometry->location_type;
+			$retVal['location_type']=$location_type;
+			$retVal['lat']=$lat;
+			$retVal['lng']=$lng;	
+		} else {
+		 $retVal['location_type']="error";
+		 $retVal['lat']=$lat;
+		 $retVal['lng']=$lng;
+		}
+		return $retVal;
+	}
 
-	public function validate_event_type($val)
-	{
+	public function validate_event_type($val) {
 		$flag=1;
 		if($val<=0)
 			$flag=0;
 		return $flag;
 	}
-	
-	
-	
-	/////////////////////
-	public function validate_address($addr)
-	{
-//	die("5");
-			$flag=1;
-			if($addr == "")
-			{
+
+	public function validate_address($addr) {
+		$flag=1;
+		if($addr == "") {
 			$this->smarty->assign('error_address', "Please enter an address");
 			$flag=2;
-		//	return $flag;
-			}
-			$retArr=$this->check_address($addr);
-			if(!($retArr['location_type']=="RANGE_INTERPOLATED" || $retArr['location_type']=="ROOFTOP"))
-			{
-				$this->smarty->assign('error_address', "Address entered is invalid");
-				$flag=2;
-				//die($addr."=".$retArr['location_type']);
-				//return $flag;
-			}	
-			$res=filter_var($addr, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s-,*]*$/")));
-		if(!($res))
-			{
+		}
+		$retArr=$this->check_address($addr);
+		if(!($retArr['location_type']=="RANGE_INTERPOLATED" || $retArr['location_type']=="ROOFTOP")) {
+			$this->smarty->assign('error_address', "Address entered is invalid");
+			$flag=2;
+		}	
+		$res=filter_var($addr, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s-,*]*$/")));
+		if(!($res)) {
 			$this->smarty->assign('error_address', "Address can only contain spaces,  A-Z, 0-9 or -*,@&");
 			$flag=2;
-			}
-		//die("manu=$addr=$flag");
+		}
 		return $flag;
 	}
 	
-	public function validate_title($title)
-	{
-	$flag=1;
-	/*	if(strlen($title)<5)
-			{
-			$this->smarty->assign('error_title', "Please enter a title which is atleast 5 characters in length");
-			$flag=2;
-			//return 2;
-			}*/
+	public function validate_title($title) {
+		$flag=1;
 		$res=filter_var($title, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{5,100}$/")));
-		//die(strtolower($title));
-		if(strtolower($title)=="i'm planning...")
-			{
+		if(strtolower($title)=="i'm planning...") {
 			$this->smarty->assign('error_title', "Please enter an event title.");
 			$flag=3;
-			}
-		if(!($res) && $flag==1)
-			{
+		}
+		if(!($res) && $flag==1) {
 			$this->smarty->assign('error_title', "Title can only contain spaces, characters A-Z or numbers 0-9");
 			$flag=2;
-			}
-	return $flag;
+		}
+		return $flag;
 	}
 	
 	
-	public function validate_desc($desc)
-	{
-	$flag=1;
-	$res=filter_var($desc, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{25,500}$/")));
-		if(!($res))
-			{
+	public function validate_desc($desc) {
+		$flag=1;
+		$res=filter_var($desc, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{25,500}$/")));
+		if(!($res)) {
 			$this->smarty->assign('error_desc', "Description can only contain spaces,  A-Z or  0-9");
 			$flag=2;
-			}
-	return $flag;
+		}
+		return $flag;
 	}
 	
 	
-	public function validate_tm($tm)
-	{
-	$flag=1;
-	$res=filter_var($tm, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/")));
-		if(!($res))
-			{
+	public function validate_tm($tm) {
+		$flag=1;
+		$res=filter_var($tm, FILTER_VALIDATE_REGEXP,
+										array("options"=>array(
+												"regexp"=>"/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/"
+											)
+										));
+		if(!($res)) {
 			$this->smarty->assign('error_tm', "Please enter a time in 12 hour clock (12:30 PM) format.");
 			$flag=2;
-			}
-			//die($tm);
-	return $flag;
-	}
-	
-	
-	public function validate_date($dt)
-	{
-		  $flag=1;
-		  $a_date = explode('/', $dt); 
-		  $month = $a_date[0];
-          $day = $a_date[1];
-          $year = $a_date[2]; 
-			if(!@checkdate($month,$day,$year))
-				{
-				$this->smarty->assign('error_dt', "Please enter a valid date in mm/dd/yyyy format");
-				$flag=2;
-				}
-			$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
-			   if($check < $today)
-				{
-					$this->smarty->assign('error_dt', "Event date should be a date in the future.");
-					$flag=3;
-				}
+		}
 		return $flag;
 	}
-	
-	public function validate_ddt($ddt,$dt)
-	{
-		  $flag=1;
-		  $a_date = explode('/', $ddt); 
-		  $month = $a_date[0];
-          $day = $a_date[1];
-          $year = $a_date[2]; 
-		  
-		  $e_date = explode('/', $dt); 
-		  $evtMonth = $e_date[0];
-          $evtDay = $e_date[1];
-          $evtYear = $e_date[2]; 
-		  
-			if(!@checkdate($month,$day,$year))
-				{
-				$this->smarty->assign('error_ddt', "Please enter a valid date in mm/dd/yyyy format");
-				$flag=2;
-				}
-			$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-			$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
-			   if($check < $today)
-				{
-					$this->smarty->assign('error_ddt', "Deadline date should be a date in the future.");
-					$flag=2;
-				}
-			$evt_check = @mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear,-1);
-				if($evt_check < $check)
-				{
-					$this->smarty->assign('error_ddt', "Deadline date cannot be greater than the event date.");
-					$flag=3;
-				}
-		return $flag;
-	}
-	
-	public function validate_goal($goal)
-	{
-	$int_options = array(
-			"options"=>array
-							(
-							"min_range"=>1,
-							"max_range"=>1000000
-							)
-						);
 
-		if(!filter_var($goal, FILTER_VALIDATE_INT, $int_options))
-		{
+	public function validate_date($dt) {
+		$flag=1;
+		$a_date = explode('/', $dt); 
+		$month = $a_date[0];
+		$day = $a_date[1];
+		$year = $a_date[2]; 
+		if(!@checkdate($month,$day,$year)) {
+			$this->smarty->assign('error_dt', "Please enter a valid date in mm/dd/yyyy format");
+			$flag=2;
+		}
+		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
+		if($check < $today) {
+			$this->smarty->assign('error_dt', "Event date should be a date in the future.");
+			$flag=3;
+		}
+		return $flag;
+	}
+	
+	public function validate_ddt($ddt,$dt) {
+		$flag=1;
+		$a_date = explode('/', $ddt); 
+		$month = $a_date[0];
+		$day = $a_date[1];
+		$year = $a_date[2]; 
+		
+		$e_date = explode('/', $dt); 
+		$evtMonth = $e_date[0];
+		$evtDay = $e_date[1];
+		$evtYear = $e_date[2]; 
+		
+		if(!@checkdate($month,$day,$year)) {
+			$this->smarty->assign('error_ddt', "Please enter a valid date in mm/dd/yyyy format");
+			$flag=2;
+		}
+		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
+		if($check < $today) {
+			$this->smarty->assign('error_ddt', "Deadline date should be a date in the future.");
+			$flag=2;
+		}
+		$evt_check = @mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear,-1);
+		if($evt_check < $check) {
+			$this->smarty->assign('error_ddt', "Deadline date cannot be greater than the event date.");
+			$flag=3;
+		}
+		return $flag;
+	}
+	
+	public function validate_goal($goal) {
+		$int_options = array("options" => array("min_range"=>1,
+																			      "max_range"=>1000000));
+		
+		if(!filter_var($goal, FILTER_VALIDATE_INT, $int_options)) {
 			$this->smarty->assign('error_goal', "Please enter a attendance goal between 1 and 1000000.");
 			$flag=2;
 			return $flag;
-		}
-		else
-		{
+		} else {
 			$flag=1;
 			return $flag;
 		}
 	}
 	
-	public function validate_is_pub($isPub)
-	{
-	$flag=1;
-		if(!($isPub==0 || $isPub==1))
-		{
+	public function validate_is_pub($isPub) {
+		$flag=1;
+		if(!($isPub==0 || $isPub==1)) {
 			$this->smarty->assign('error_is_pub', "Please Select the invite type.");
 			$flag=2;
 		}
-	return $flag;	
+		return $flag;	
 	}
 	
 	public function checkNewEvent($newEvent, $loadCp) {
@@ -281,7 +234,6 @@ return $retVal;
 			if(is_array($newEvent)) {
 				$r=0;
 			} else {
-			//	die("here");
 				$addr=$newEvent->address;
 				$goal=$newEvent->goal;
 				$title=$newEvent->title;
@@ -299,7 +251,6 @@ return $retVal;
 				$ddval=$this->validate_ddt($ddt,$dt);
 				$tmval=$this->validate_tm($tm);
 				$newEvent->time=date("H:i:s", strtotime($tm));
-				//die($newEvent->time);
 				$evtType=$this->validate_event_type($typ);
 				$isPubVal=$this->validate_is_pub($isPub);
 				$_SESSION['newEvent'] = json_encode($newEvent);
@@ -314,12 +265,12 @@ return $retVal;
 					$err.="1,";
 				else
 					$err.="0,";
-
+				
 				if ($ddval==2 || $ddval==3) 
 					$err.="$ddval,";
 				else
 					$err.="0,";
-
+				
 				
 				if ($dval==2 || $dval==3) 
 					$err.="$dval,";
@@ -335,7 +286,7 @@ return $retVal;
 					$err.="$tval,";
 				else
 					$err.="0,";
-
+				
 				if ($desc==2) 
 					$err.="1,";
 				else
@@ -353,13 +304,8 @@ return $retVal;
 					
 				if($err!="0,0,0,0,0,0,0,0,0,")
 					die($err);
-				//else
-				//	echo($err);
-				
-				
-					
-				}
 			}
+		}
 		
 		if (isset($_SESSION['uid'])) {
 			if (isset($_SESSION['newEvent'])) {
@@ -374,18 +320,13 @@ return $retVal;
 				$newEvent['location_lat']=$addr['lat'];
 				$newEvent['location_long']=$addr['lng'];	
 				$this->dbCon->createNewEvent($newEvent);
-				
+			
 				// INVITE GUESTS USING EMAIL
 				$mailer = new EFMail();
-
 				$eid = explode('/', $newEvent['url']);
 				$newEvent['eid'] = $eid[sizeof($eid) - 1];
-				
-				
 				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-				
 				$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
-
 			}
 			
 			$this->assignCPEvents($_SESSION['uid']);
@@ -393,12 +334,10 @@ return $retVal;
 			if ($loadCp) {
 				$this->smarty->display('cp.tpl');
 			} else {
-				//mm $this->smarty->display('cp_container.tpl');
 				$this->smarty->display('cp_middle.tpl');
 			}
 		} else {
 			$this->smarty->display('login.tpl');
-			//nn $this->smarty->display('login_form.tpl');
 		}
 	}
 	
@@ -425,30 +364,46 @@ return $retVal;
 		$zip=$req['zip'];
 		
 		if(strlen($zip)>0)
-		$zipcode_val=$this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
+		$zipcode_val=$this->valUsingRegExp($zip,
+																				"/^\d{5}(-\d{4})?$/",
+																				"user_create_zipcode",
+																				"Please enter a valid zip code.");
 		
-		$f_name_val=$this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
-		$l_name_val=$this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
-		$email_val=$this->valEmail($email,"user_create_email","Email entered is invalid.");
-		$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
-		$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
+		$f_name_val=$this->valUsingRegExp($fname,
+																			"/^[A-Za-z0-9']*$/",
+																			"user_create_fname",
+																			"First name can only contain A-Z 0-9 '");
+		$l_name_val=$this->valUsingRegExp($lname,
+																			"/^[A-Za-z0-9']*$/",
+																			"user_create_lname",
+																			"Last name can only contain A-Z 0-9 '");
+		$email_val=$this->valEmail($email,
+															"user_create_email",
+															"Email entered is invalid.");
+		$ph_val=$this->valUsingRegExp($phone,
+																	"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",
+																	"user_create_phone",
+																	"Phone number is not in valid format");
+		$pass_val=$this->valUsingRegExp($pass,
+																		"/^[A-Za-z0-9]*$/",
+																		"user_create_pass",
+																		"Password can only contain A-Z 0-9");
 		$email_exists=$this->dbCon->emailExistsCheck($email);
-		if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2||$zipcode_val==2) {
+		if($f_name_val==2||$l_name_val==2||$email_val==2||
+			 $pass_val==2||$ph_val==2||$zipcode_val==2) {
 			$flag=2;
 		}
 		
 		if(strlen($email_exists)>0) {
 			$flag=2;
-			$this->smarty->assign("user_create_email","Email Id has been already registered once in the system.");
+			$this->smarty->assign("user_create_email", "Email Id has been already registered once in the system.");
 		}
 		
 		if(strlen($pass)<6) {
-			//die($pass);
 			$flag=2;
 			$this->smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
-			
-		//die($pass);
+
 		return $flag;
 	}
 	
@@ -722,106 +677,71 @@ return $retVal;
 				
 				$this->checkGuests($eventInfo);
 				
-				if($_REQUEST['eventId']!=-1)
-				{
+				if($_REQUEST['eventId']!=-1) {
 					$eventInfo->eid = $_REQUEST['eventId'];
 					$this->smarty->assign('id', $_REQUEST['eventId']);
 					$_SESSION['eventId']=$_REQUEST['eventId'];
-				}
-				else
-				{
+				} else {
 					$this->smarty->assign('id', $_SESSION['eventId']);
-					//$eventInfo['id']= $_SESSION['eventId'];
 					$eventInfo->eid = $_SESSION['eventId'];
+				}
+				
+				$addr=$eventInfo->address;
+				$goal=$eventInfo->goal;
+				$title=$eventInfo->title;
+				$dt=$eventInfo->date;
+				$ddt=$eventInfo->deadline;
+				$description=$eventInfo->description;
+				$aval=$this->validate_address($addr);
+				$tval=$this->validate_title($title);
+				$desc=$this->validate_desc($description);
+				$gval=$this->validate_goal($goal);
+				$dval=$this->validate_date($dt);
+				$ddval=$this->validate_ddt($ddt,$dt);
+				
+				if($ddval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($dval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($aval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($tval==2 || $tval==3) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+				if($desc==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
 				}	
-				//$_SESSION['eventId']=$_REQUEST['eventId'];
-				//print_r($_SESSION);
-				//die();
-				//////////////////////////////////////////
-				
+				if($gval==2) {
+					$this->smarty->display('update_event_form_errors.tpl');
+					return;
+				}
+
+				$addrss=$eventInfo->address;
+				$addr=$this->check_address($addrss);	
+				$eventInfo->lat=$addr['lat'];
+				$eventInfo->lng=$addr['lng'];		
 			
-		$addr=$eventInfo->address;
-		$goal=$eventInfo->goal;
-		$title=$eventInfo->title;
-		$dt=$eventInfo->date;
-		$ddt=$eventInfo->deadline;
-		$description=$eventInfo->description;
-		$aval=$this->validate_address($addr);
-		$tval=$this->validate_title($title);
-		$desc=$this->validate_desc($description);
-		$gval=$this->validate_goal($goal);
-		$dval=$this->validate_date($dt);
-		$ddval=$this->validate_ddt($ddt,$dt);
-		
-			if($ddval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($dval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($aval==2)
-						{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-						}
-			if($tval==2 || $tval==3)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-			if($desc==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}	
-			if($gval==2)
-					{
-							$this->smarty->display('update_event_form_errors.tpl');
-							return;
-					}
-				
-				
-			$addrss=$eventInfo->address;
-			$addr=$this->check_address($addrss);	
-			$eventInfo->lat=$addr['lat'];
-			$eventInfo->lng=$addr['lng'];		
-				
-				
 				$eventInfo->time=date("H:i:s", strtotime($_REQUEST['time']));
-				
-				
-				////////////////////////////////////////////
-				//if($eventInfo->eid <=0)
-				//$eventInfo->eid = $_SESSION['eventId'];
-				//print_r($_SESSION);
-				//die();
-				
-			//	print_r($_REQUEST);
-				//die();
-				//echo("here");
-				//print_r($eventInfo->guests);
-				//die();
-				
+
 				$this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
-				//if(isset($_REQUEST['guest_email']))
-				//{
-				//  die("here12345");
+				
 				require_once('models/EFMail.class.php');
-				  $mailer = new EFMail();	
-				 // die("here007");
-				  $mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
-				//}
+				$mailer = new EFMail();
+				$mailer->sendEmail($eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url']);
 				
 				$this->dbCon->updateEvent($eventInfo);
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
 				break;
 			case '/event/submit':
-			//die("here");
 				require_once('models/Event.class.php');
 				require_once('models/Location.class.php');
 				$addr=$this->check_address($_REQUEST['address']);	
@@ -1146,31 +1066,27 @@ return $retVal;
 				$this->smarty->display('user_profile.tpl');
 				break;
 			case '/user/profile-dtls/update':
-			//manu m
-			$email=$_POST['email'];
-			$zip=$_POST['zip'];
-			$cell=$_POST['cell'];
+				$email=$_POST['email'];
+				$zip=$_POST['zip'];
+				$cell=$_POST['cell'];
 				$res="";
 				if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 					$res=$res."1,";
 				else
 					$res=$res."0,";
-				if(!(filter_var($zip, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\d{5}(-\d{4})?$/")))))
+				if(!(filter_var($zip, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\d{5}(-\d{4})?$/")))))
 					$res=$res."1,";
 				else
 					$res=$res."0,";
-				if(!(filter_var($cell, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/")))))
+				if(!(filter_var($cell, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/")))))
 					$res=$res."1,";
 				else
 					$res=$res."0,";
 		
-				if($res=="0,0,0,")
-				{
+				if($res=="0,0,0,") {
 					$this->dbCon->updateUserProfileDtls($email,$zip,$cell);
 					echo $res;
-				}
-				else
-				{
+				} else {
 					echo $res;
 				}
 				break;
@@ -1223,14 +1139,12 @@ return $retVal;
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
-					if(isset($_REQUEST['email']) && isset($_REQUEST['pass']))
-					{
+					if (isset($_REQUEST['email']) && isset($_REQUEST['pass'])) {
 						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-						if(!isset($userId))
-							{
+						if(!isset($userId)) {
 								echo("1"); //login failed
 								break;
-							}	
+						}	
 					}
 					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;
@@ -1247,10 +1161,8 @@ return $retVal;
 						$this->checkNewEvent($newEvent, false);
 						break;
 					}
-					
-					
-				    $this->smarty->display('login.tpl');
-					//mm $this->checkNewEvent(NULL, false);
+
+				  $this->smarty->display('login.tpl');
 					break;
 				}
 				$this->checkHome();
