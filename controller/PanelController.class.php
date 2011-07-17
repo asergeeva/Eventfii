@@ -862,13 +862,13 @@ class PanelController {
 				$this->dbCon->storeGuests($eventInfo->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage':
-			$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
-			for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
-				if ($eventAttendees[$i]['is_attending'] == 1) {
-				$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
+					if ($eventAttendees[$i]['is_attending'] == 1) {
+					$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+					}
 				}
-			}
-		$this->smarty->assign('eventAttendees', $eventAttendees);
+				$this->smarty->assign('eventAttendees', $eventAttendees);
 				$this->assignManageVars($_REQUEST['eventId']);
 				$page['manage'] = ' class="current"';
 				$this->smarty->assign('page', $page);
