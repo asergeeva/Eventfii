@@ -19,11 +19,11 @@ class EFSMS {
 	
 	private $client;
 	
-	function __construct() {
+	public function __construct() {
 		$this->client = new TwilioRestClient($this->AccountSid, $this->AuthToken);
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

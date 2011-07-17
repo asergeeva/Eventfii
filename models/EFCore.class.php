@@ -12,12 +12,12 @@ class EFCore {
 	private $dbCon;
 	private $efCom;
 	
-	function __construct() {
+	public function __construct() {
 		$this->dbCon = new DBConfig();	
 		$this->efCom = new EFCommon();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

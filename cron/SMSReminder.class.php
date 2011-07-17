@@ -12,12 +12,12 @@ class SMSReminder {
 	private $dbCon;
 	private $sms;
 	
-	function __construct() {
+	public function __construct() {
 		$this->dbCon = new DBConfig();
 		$this->sms = new EFSMS();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

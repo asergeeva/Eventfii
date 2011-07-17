@@ -24,7 +24,7 @@ class EFCommon {
 		'12' => 'December'
 	);
 	
-	function __construct() {
+	public function __construct() {
 		$this->currDate = getdate();
 		$this->startDate = $this->currDate['year'].'-'.$this->currDate['mon'].'-'.$this->currDate['mday'];
 		$this->startDate = strtotime($this->startDate);
@@ -33,7 +33,7 @@ class EFCommon {
 		$this->endDate = $this->add_date($this->startDate, 1);
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

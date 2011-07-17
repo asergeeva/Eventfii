@@ -3,11 +3,11 @@ require_once('EFCommon.class.php');
 require_once('libs/Paypal/AdaptivePayments.php');
 
 class PaypalPreapproveReceipt {
-	function __construct() {
+	public function __construct() {
 		
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

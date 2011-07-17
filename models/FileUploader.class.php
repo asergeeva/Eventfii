@@ -8,7 +8,7 @@ class qqUploadedFileXhr {
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
-    function save($path) {    
+    public function save($path) {    
         $input = fopen("php://input", "r");
         $temp = tmpfile();
         $realSize = stream_copy_to_stream($input, $temp);
@@ -25,10 +25,10 @@ class qqUploadedFileXhr {
         
         return true;
     }
-    function getName() {
+    public function getName() {
         return $_GET['qqfile'];
     }
-    function getSize() {
+    public function getSize() {
         if (isset($_SERVER["CONTENT_LENGTH"])){
             return (int)$_SERVER["CONTENT_LENGTH"];            
         } else {

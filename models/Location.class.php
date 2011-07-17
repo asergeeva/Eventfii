@@ -12,13 +12,13 @@ class Location {
 	public $lat = 0;
 	public $long = 0;
 	
-	function __construct($address, $city, $state) {
+	public function __construct($address, $city, $state) {
 		$this->address = $address;
 		$this->city = $city;
 		$this->state = $state;
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 }

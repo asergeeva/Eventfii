@@ -12,12 +12,12 @@ class PanelController {
 	private $dbCon;
 	private $DEBUG = true;
 	
-	function __construct($smarty) {
+	public function __construct($smarty) {
 		$this->smarty = $smarty;
 		$this->dbCon = new DBConfig();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

@@ -15,11 +15,11 @@ class DBConfig {
 	
 	private $DEBUG = true;
 	
-	function __construct() {
+	public function __construct() {
 		$this->openCon();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	
