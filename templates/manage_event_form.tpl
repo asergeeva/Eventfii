@@ -5,7 +5,7 @@
 			<nav class="block" id="cp-nav">
 				<ul>
 					<li{$page["addguests"]}><a href="#manage" id="update_event_guest_invite" rel="#event_guest_invite_overlay"><span>Add More Guests</span></a></li>
-					<li{$page["email"]}><a href="email?eventId={$eventInfo['id']}" id="email_settings_top"><span>E-mail current guests</span></a></li>
+					<li{$page["email"]}><a href="email/reminder?eventId={$eventInfo['id']}" id="email_settings_top"><span>E-mail current guests</span></a></li>
 					<li{$page["text"]}><a href="text.html"><span>Sent text to guests</span></a></li>
 				</ul>
 			</nav>
