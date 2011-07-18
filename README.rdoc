@@ -37,5 +37,5 @@
    if ($condition)      if ($condition) {
       print('foo');         print('foo');
    else                 } else {
-	    print('bar');         print('bar');
-			                  }
+      print('bar');         print('bar');
+                        }
