@@ -1,6 +1,4 @@
 {include file="header.tpl"}
-
-<body>
 {include file="cp_header.tpl"}
 <div id="container">
   {include file="create_event_form.tpl"}

@@ -1,6 +1,4 @@
 {include file="header.tpl"}
-<body id="cp_body">
-
 {include file="cp_header.tpl"}
 {include file="manage_header.tpl"}
 	<section id="main">

@@ -1,4 +1,4 @@
-<section class="block" id="events-attended">
+			<section class="block" id="events-attended">
 				<header class="block-collapsable-title">
 					<h1>I'm attending...</h1>
 				</header>

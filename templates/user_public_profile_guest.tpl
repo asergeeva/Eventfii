@@ -1,6 +1,4 @@
 {include file="header.tpl"}
-
-<body>
 {include file="home_header.tpl"}
 <header id="section-header">
 	<h1>{$userInfo['fname']} {$userInfo['lname']}</h1>
