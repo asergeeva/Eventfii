@@ -16,7 +16,6 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/edit.js"></script>
 </body>
 </html>
