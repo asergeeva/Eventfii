@@ -6,7 +6,7 @@
 			<li><a href="share.html">Share</a></li>
 			<li><a href="method.html">Method</a></li>
 			<li><a href="{$CURHOST}/logout" onclick="FB.logout()">Log out</a></li>
-			<li><a href="{$CURHOST}/home" class="btn"><span>Create New Event</span></a></li>
+			<li><a href="{$CURHOST}/cp/event/create" class="btn"><span>Create New Event</span></a></li>
 		</ul>
 	</aside>
 </header>
