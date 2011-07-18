@@ -3,9 +3,7 @@
 				<header class="block-title">
 					<h1>Comments</h1>
 				</header>
-				<!--
-				<fb:comments href="{$eventInfo['url']}" num_posts="2" width="496"></fb:comments>
-				-->
+				<fb:comments href="{$CURHOST}/event/{$eventInfo['id']}" num_posts="2" width="496"></fb:comments>
 			</section>
 		</div>
 		<aside class="extra">
@@ -17,11 +15,11 @@
 				<fieldset>
 					<ol class="rsvp-list" id="event_attending_response">
 						<li><label for="event_attending_response_1"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT1}" {$conf90} id="event_attending_response_1" /> <em>Yes, I will absolutely be there</em></label></li>
-						<li><label for="event_attending_response_2"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT2}" {$conf70} id="event_attending_response_2" /> <em>I'm pretty sure I will be there</em></label></li>
-						<li><label for="event_attending_response_3"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT3}" {$conf50} id="event_attending_response_3" /> <em>I'll make it if my schedule doesn't change</em></label></li>
-						<li><label for="event_attending_response_4"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT4}" {$conf30} id="event_attending_response_4" /> <em>I probably won't be able to make it</em></label></li>
-						<li><label for="event_attending_response_5"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT5}" {$conf10} id="event_attending_response_5" /> <em>No, but show me as a supporter</em></label></li>
-						<li><label for="event_attending_response_6"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT6}" {$conf10} id="event_attending_response_6" /> <em>No, I'm not interested</em></label></li>
+						<li><label for="event_attending_response_2"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT2}" {$conf65} id="event_attending_response_2" /> <em>I'm pretty sure I will be there</em></label></li>
+						<li><label for="event_attending_response_3"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT3}" {$conf35} id="event_attending_response_3" /> <em>I'll make it if my schedule doesn't change</em></label></li>
+						<li><label for="event_attending_response_4"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT4}" {$conf15} id="event_attending_response_4" /> <em>I probably won't be able to make it</em></label></li>
+						<li><label for="event_attending_response_5"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT5}" {$conf4} id="event_attending_response_5" /> <em>No, but show me as a supporter</em></label></li>
+						<li><label for="event_attending_response_6"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT6}" {$conf1} id="event_attending_response_6" /> <em>No, I'm not interested</em></label></li>
 					</ol>
 				</fieldset>
 				<div id="response_stat_msg"></div>

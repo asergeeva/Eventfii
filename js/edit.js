@@ -16,9 +16,9 @@ var EDIT_FORM = (function() {
 			});
 		},
 		
-			onInviteClick: function() {
+		onInviteClick: function() {
 			$('#invite_guest_click_counter').val('1');
-			},
+		},
 		
 		updateEventSubmit: function() {
 			var urlToken = $('#event_url_update').val().split('/'),
