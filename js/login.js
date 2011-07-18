@@ -23,11 +23,13 @@ var LOGIN_FORM = (function() {
 		},
 		
 		newUserLogin: function() {
-		var passval="";
-		if($('#ef_login_pass_new').val().length>=6)
-					 passval=hex_md5($('#ef_login_pass_new').val());
-				else
-					passval=$('#ef_login_pass_new').val();
+			var passval="";
+			if ($('#ef_login_pass_new').val().length>=6) {
+				passval=hex_md5($('#ef_login_pass_new').val());
+			} else {
+				passval=$('#ef_login_pass_new').val();
+			}
+			
 			$.post(EFGLOBAL.baseUrl + '/user/create', {
 				isExist: false,
 				fname: $('#ef_fname_new').val(),
@@ -53,23 +55,17 @@ var LOGIN_FORM = (function() {
 		},
 		
 		loginRedirect: function(status) {
-	//	$('#container').html(status);
-		if(status!=1)
-			{
-			window.location = EFGLOBAL.baseUrl;
+			if(status!=1) {
+				window.location = EFGLOBAL.baseUrl;
+			} else {
+				$('#invalid_credentials').html("Please enter valid login credentials.");
 			}
-		else{
-			//alert("invalid login credentials entered");
-			$('#invalid_credentials').html("Please enter valid login credentials.");
-			}
-			//alert("invalid login credentials entered");
 		},
 		
 		userLogin: function(status) {
-		$('body').html(status).ready(function() {
+			$('body').html(status).ready(function() {
 					CREATE_EVENT_FORM.init();
-				});
-	//window.location = EFGLOBAL.baseUrl;
+			});
 		}
 	}
 })();

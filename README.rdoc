@@ -32,3 +32,5 @@
    if ($condition) {     while ($condition) {
       ...                   ...
    }                     }
+	 
+=== ALWAYS USE SQUARE BRACKETS
