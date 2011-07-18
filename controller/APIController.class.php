@@ -5,7 +5,7 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('../db/DBConfig.class.php');
+require_once('../db/DBAPI.class.php');
 
 class APIController {
 	private $smarty;
@@ -14,7 +14,7 @@ class APIController {
 	
 	public function __construct($smarty) {
 		$this->smarty = $smarty;
-		$this->dbCon = new DBConfig();
+		$this->dbCon = new DBAPI();
 	}
 	
 	public function __destruct() {
