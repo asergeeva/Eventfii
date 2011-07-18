@@ -5,7 +5,7 @@
 		<aside class="extra">
 			<section class="block" id="user-pic">
 				<p class="user-img">
-        	<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
+        	<a href="#" class="info-pic"><img id="user_pic" src="{$userImage}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
         </p>
 				<footer class="buttons-edit">
         <div id="user_image">    

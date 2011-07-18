@@ -51,10 +51,20 @@ class PanelController {
 		$this->smarty->assign('userInfo', $userInfo);
 	}
 	
+	private function assignUserImage($userId) {
+		if (file_exists('upload/user/'.$userId.'.png')) {
+			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.png');
+		}	else if (file_exists('upload/user/'.$userId.'.jpg')) {
+			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.jpg');
+		} else {
+			$this->smarty->assign('userImage', CURHOST.'/images/default_thumb.jpg');
+		}
+	}
+	
 	private function checkHome() {
 		if (isset($_SESSION['uid'])) {
 			$this->assignCPEvents($_SESSION['uid']);
-			
+			$this->assignUserImage($_SESSION['uid']);
 			$this->smarty->display('cp.tpl');
 		} else {
 			$newEvents = $this->dbCon->getNewEvents();
@@ -972,11 +982,10 @@ class PanelController {
 				$this->smarty->assign('eventReminder', $eventReminder);
 				$this->smarty->assign('eventFollowup', $eventFollowup);
 				
-			    $page['manage'] = ' class="current"';
+			  $page['manage'] = ' class="current"';
 				$page['email'] = ' class="current"';
 				$this->smarty->assign('page', $page);
 
-				
 				$this->smarty->display('manage_event_email.tpl');
 				break;
 			case '/event/checkin':

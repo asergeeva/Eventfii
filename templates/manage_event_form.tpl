@@ -1,5 +1,5 @@
 		<header class="block">
-			<p class="message"><em>20</em> days left until the event. Get excited!</p>
+			<p class="message"><em>{$eventInfo['days_left']}</em> days left until the event. Get excited!</p>
 		</header>
 		<div class="navigation">
 			<nav class="block" id="cp-nav">
@@ -78,7 +78,7 @@
 				
 				
 				<footer class="links-extra">
-					<p><a href="{$CURHOST}/event/print?eventId={$eventInfo['id']}" target="_blank">Print Attendance List</a</p> 
+					<p><a href="{$CURHOST}/event/print?eventId={$eventInfo['id']}" target="_blank">Print Attendance List</a></p> 
 				</footer>
 			</section>
 		</div>
