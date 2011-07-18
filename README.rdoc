@@ -33,7 +33,7 @@
       ...                   ...
    }                     }
 	 
-[Bad]                 [Good]
+   // Bad               // Good
    if ($condition)      if ($condition) {
       print('foo');         print('foo');
    else                 } else {
