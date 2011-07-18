@@ -7,7 +7,8 @@
 				<p class="user-img">
         	<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" width="200px" height="150px" /></a>
         </p>
-				<footer class="buttons-edit"><div id="user_image">    
+				<footer class="buttons-edit">
+        <div id="user_image">    
 				<noscript>          
 				  <p>Please enable JavaScript to use file uploader.</p>
 				  <!-- or put a simple form for upload here -->

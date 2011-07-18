@@ -42,11 +42,6 @@ var CREATE_EVENT_FORM = ( function() {
 				$('#event_title_create').focus();
 			}
 			
-			if ($('#create_event_eventid').length > 0) {
-				IMAGE_UPLOADER.init( $('#create_event_eventid').html(), 'create-file-uploader' );
-				CSV_UPLOADER.init( $('#create_event_eventid').html(), 'guest-invite-file-uploader-create' );
-			}
-			
 			// OPENINVITER EMAIL PROVIDER
 			OPENINVITER.init();
 			$('.event_invite_oi').live('click', function() {

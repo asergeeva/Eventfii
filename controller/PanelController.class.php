@@ -479,6 +479,10 @@ class PanelController {
 		$this->smarty->display('manage_event_on.tpl');
 	}
 	
+	/**
+	 * Assign guest confidence, guestimate, and trueRSVP numbers to Smarty
+	 * @param    $eventId    the event identifier 
+	 */
 	public function assignManageVars($eventId) {
 		require_once('models/EFCore.class.php');
 		$efCore = new EFCore();
@@ -557,6 +561,10 @@ class PanelController {
 		$this->smarty->assign('eventInfo', $eventInfo);
 	}
 	
+	/**
+	 * Initialize MVC View
+	 * @param     $requestUri     requested URI
+	 */
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		
@@ -864,8 +872,8 @@ class PanelController {
 			case '/event/manage':
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
 				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
-					if ($eventAttendees[$i]['is_attending'] == 1) {
-					$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+						if ($eventAttendees[$i]['is_attending'] == 1) {
+						$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
 					}
 				}
 				$this->smarty->assign('eventAttendees', $eventAttendees);

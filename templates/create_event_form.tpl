@@ -103,31 +103,16 @@
 					</label>
 					<p><div class="error_message" id="pubErr"></div></p>
 				</dd>
-				<dt>
-					<label for="event-media">Upload Picture</label>
-					<em>Link or Browse</em>
-				</dt>
-				<dd class="media">
-					<div id="create-file-uploader" style="display:none;">       
-						<noscript>          
-							<p>Please enable JavaScript to use file uploader.</p>
-							<!-- or put a simple form for upload here -->
-						</noscript>         
-					</div>
-				</dd>
-				<!--dt>
-					<label for="event_url_create">URL</label>
-				</dt>
-				<dd>
-					<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="http://localhost/eventfii/event/2" />
-				</dd-->
-			</dl>
-			<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" />
-			<footer class="buttons-submit">
-				<!--a href="#"><span>Add Guests</span></a-->
-				<a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
-				<p class="btn-large"><input type="submit" value="Begin" id="event_create" /></p> 
-				<p class="message-error" id="success"></p>
-			</footer> 
-		</fieldset>
-	</div>
+        <dt>
+          <div class="event_guest"><a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a></div>
+        </dt>
+        <dd>
+          <input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" />
+          <footer class="buttons-submit">
+            <p class="btn-large"><input type="submit" value="Begin" id="event_create" /></p> 
+            <p class="message-error" id="success"></p>
+          </footer> 
+        </dd>
+		</dl>
+	</fieldset>
+</div>
