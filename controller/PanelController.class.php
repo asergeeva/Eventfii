@@ -968,6 +968,8 @@ class PanelController {
 				$this->smarty->display('manage_event_after.tpl');
 				break;
 			case '/event/email/reminder':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+			
 				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
 				if ($eventReminder['is_activated'] == 1) {
 					$eventReminder['isAuto'] = 'checked = "checked"';
@@ -976,6 +978,7 @@ class PanelController {
 					$eventFollowup['isAuto'] = 'checked = "checked"';
 				}
 				
+				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->assign('emailInfo', $eventReminder);
 				
 			  $page['manage'] = ' class="current"';
@@ -985,8 +988,11 @@ class PanelController {
 				$this->smarty->display('manage_event_email.tpl');
 				break;
 			case '/event/email/followup':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
 				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
 				
+				$this->smarty->assign('eventInfo', $eventInfo);
 				$this->smarty->assign('emailInfo', $eventFollowup);
 				
 				$page['manage'] = ' class="current"';
