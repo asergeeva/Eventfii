@@ -1324,10 +1324,7 @@ class PanelController {
 				}
 				session_unset();
 				session_destroy();
-				$newEvents = $this->dbCon->getNewEvents();
-
-				$this->smarty->assign('newEvents', $newEvents);
-				$this->smarty->display('home.tpl');
+				$this->smarty->display('index.tpl');
 				break;
 			default:
 				$this->smarty->assign('requestUri', $requestUri);
