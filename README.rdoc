@@ -28,6 +28,8 @@
     sudo chown -R nobody:nobody libs/OpenInviter/openinviter_stats.sqlite
 		
 == Coding style
+* 2 spaces for tab indentation
+
 === Braces
    if ($condition) {     while ($condition) {
       ...                   ...
