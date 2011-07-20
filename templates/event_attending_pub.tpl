@@ -8,8 +8,8 @@
 				{foreach name=events item=event from=$attendingEvents}
 					<li><a href="{$CURHOST}/event/{$event['id']}"><h2>{$event['title']}</h2> <span>update RSVP</span></a></li>
 				{/foreach}
-				{else}
-					<p class="message">You haven't RSVP'd to any events yet.</p>
-				 {/if}
 				</ul>
+				{else}
+					<p class="message">{$userInfo['fname']} isn't attending any public events.</p>
+				 {/if}
 			</section>

@@ -1,22 +1,19 @@
-{include file="header.tpl"}
-<body id="cp_body">
+{include file="head.tpl"}
+<body>
 
-{include file="cp_header.tpl"}
+{include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		<h1>Welcome, {$currentUser['fname']}!</h1>
+		<h1>Welcome, {$userInfo['fname']}!</h1>
+		<h2><a href="{$CURHOST}/user/{$userInfo['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
+	<span id="user-id" style="display:none;">{$userInfo['id']}</span>
 	</header>
-	<!--h2><a href="{$CURHOST}/user/{$currentUser['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
-	<span id="usersid" style="display:none;">{$currentUser['id']}</span-->
-	<span id="usersid" style="display:none;">{$currentUser['id']}</span>
 	{include file="cp_container.tpl"}
 </div>
 {include file="footer.tpl"}
 
-{include file="global_js.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/create_event_form.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/manage.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/cp.js"></script>
+{include file="js_global.tpl"}
+{include file="js_cp.tpl"}
 
 </body>
 </html>

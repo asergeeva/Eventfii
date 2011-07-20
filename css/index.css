@@ -82,8 +82,9 @@ a:hover { text-decoration: underline; }
 	text-align: center;
 	font-size: 24px;
 	color: #fff;
-	width: 779px;
+	width: 912px;
 	margin: 20px auto; }
+#container fieldset p { width: 779px; }
 #container p span { 
 	font-weight: bold;
 	color: #ffcc66; }

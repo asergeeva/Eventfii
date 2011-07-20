@@ -17,7 +17,7 @@
 			</div>
 		</label> 
 		<footer class="links-extra">
-			<p><a href="#">Forgot Password</a></p>
+			<p><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
 		</footer>
 		<footer class="buttons-submit"> 
 			<a href="#" onclick="LOGIN_FORM.existingUserLogin()" class="btn-med" id="ef_login_btn"><span>Log In</span></a> 
