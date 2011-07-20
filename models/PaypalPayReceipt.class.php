@@ -2,11 +2,11 @@
 require_once('libs/Paypal/AdaptivePayments.php');
 
 class PaypalPayReceipt {
-	function __construct() {
+	public function __construct() {
 		
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

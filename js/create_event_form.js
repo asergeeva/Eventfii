@@ -7,20 +7,20 @@
 var CREATE_EVENT_FORM = ( function() {
 	$('#event_create').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/submit', {
-			title: 				$('#event_title_create').val(),
-			description:			$('#event_description_create').val(),
-			address: 			$('#addresspicker').val(),
-			date: 				$('#event_date_create').val(),
-			time:				$('#event_time_create').val(),
+			title:          $('#event_title_create').val(),
+			description:	  $('#event_description_create').val(),
+			address: 			  $('#addresspicker').val(),
+			date: 				  $('#event_date_create').val(),
+			time:				    $('#event_time_create').val(),
 			deadline: 			$('#event_deadline_create').val(),
 			goal:     			$('#event_goal_create').val(),
-			gets: 				$('#event_gets_create').val(),
-			type:				$('#event_type_create option:selected').val(),
+			gets: 				  $('#event_gets_create').val(),
+			type:				    $('#event_type_create option:selected').val(),
 			is_public: 			$('input:radio[name=event_ispublic_create]:checked').val(),
-			url:					$('#event_url_create').val(),
-			guest_email:  		$('#guest_email').val()
+			url:					  $('#event_url_create').val(),
+			guest_email:    $('#guest_email').val()
 		}, CREATE_EVENT_FORM.createEventSubmit);
-		//$('#container').html(EFGLOBAL.ajaxLoader);
+		$('#container').html(EFGLOBAL.ajaxLoader);
 	});
  
 	$('#invite_guest_submit').live('click', function() {
@@ -36,15 +36,12 @@ var CREATE_EVENT_FORM = ( function() {
  
 	return {
 		init: function() {
-			if ( $('#event_date_create') !== undefined && $('#event_deadline_create') !== undefined && $('#event_title_create') !== undefined ) {
+			if ( $('#event_date_create') !== undefined && 
+					 $('#event_deadline_create') !== undefined && 
+					 $('#event_title_create') !== undefined ) {
 				$('#event_date_create').datepicker();
 				$('#event_deadline_create').datepicker();
 				$('#event_title_create').focus();
-			}
-			
-			if ($('#create_event_eventid').length > 0) {
-				IMAGE_UPLOADER.init( $('#create_event_eventid').html(), 'create-file-uploader' );
-				CSV_UPLOADER.init( $('#create_event_eventid').html(), 'guest-invite-file-uploader-create' );
 			}
 			
 			// OPENINVITER EMAIL PROVIDER
@@ -63,9 +60,7 @@ var CREATE_EVENT_FORM = ( function() {
 	 },
 	 
 	 createEventSubmit: function(loginForm) {
-			//alert(loginForm);
 			$errArr=loginForm.split(",");
-				//alert(loginForm);
 				if ( $errArr[5] == 2 )
 					$('#titleErr').html("Title can only contain spaces, characters A-Z or numbers 0-9 and can be of length between 5 and 100.");
 				else if ( $errArr[5] == 3 )
@@ -111,7 +106,6 @@ var CREATE_EVENT_FORM = ( function() {
 				else
 					$('#goalErr').html("");
 					
-					//alert($errArr[2]);
 				if ( $errArr[2] == 2 )
 					$('#deadlineErr').html("Please enter a valid date in mm/dd/yyyy format.");
 				else if ( $errArr[2] == 3 )
@@ -119,26 +113,9 @@ var CREATE_EVENT_FORM = ( function() {
 				else
 					$('#deadlineErr').html("");
 					
-				//alert(loginForm);
 				if ( loginForm.length > 18 ) {
-					if ( $('div#create_event_form_overlay').length > 0 ) {
-						$('#success').html("Event Created!!");
-					} else {
-						$('body').html(loginForm).ready( function() {
-							CREATE_EVENT_FORM.init();
-						});
-					}
+					window.location = EFGLOBAL.baseUrl;
 				}
-				
-				//	alert(loginForm.length);
-				/*	if(loginForm.length>16)
-					{
-					//alert(loginForm);
-					$('body').html(loginForm).ready(function() {
-						CREATE_EVENT_FORM.init();
-					});
-					}
-				*/
 			}
 		}
 	}

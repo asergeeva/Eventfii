@@ -1,6 +1,4 @@
 {include file="index_header.tpl"}
-<body>
-
 <div id="container">
 	<header>
 		<p><a href="login">Log In/Create New Account</a></p>

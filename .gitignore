@@ -1,3 +1,5 @@
 templates_c/
-upload/
+upload/user/
+upload/event/images/
+upload/event/csv/
 logs/

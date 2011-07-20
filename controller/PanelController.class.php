@@ -82,7 +82,6 @@ class PanelController {
 			$error['address'] = "Address can only contain spaces, A-Z, 0-9 or -*,@&";
 			$flag=2;
 		}
-		//die("manu=$addr=$flag");
 		$this->smarty->append('error', $error, true);
 		return $flag;
 	}
@@ -98,7 +97,6 @@ class PanelController {
 				)
 			)
 		);
-		//die(strtolower($title));
 		if( strtolower( $title ) == "i'm planning...") {
 			$error['title'] = "Please enter an event title.";
 			$flag = 3;
@@ -129,7 +127,6 @@ class PanelController {
 			$error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
 			$flag = 2;
 		}
-		//die($tm);
 		$this->smarty->append('error', $error, true);
 		return $flag;
 	}
@@ -160,7 +157,6 @@ class PanelController {
 		$month = $a_date[0];
 		$day = $a_date[1];
 		$year = $a_date[2]; 
-
 		$e_date = explode('/', $dt); 
 		$evtMonth = $e_date[0];
 		$evtDay = $e_date[1];
@@ -236,7 +232,6 @@ class PanelController {
 				$ddval = $this->validate_ddt($ddt,$dt);
 				$tmval = $this->validate_tm($tm);
 				$newEvent->time=date("H:i:s", strtotime($tm));
-				//die($newEvent->time);
 				$evtType = $this->validate_event_type($typ);
 				$isPubVal = $this->validate_is_pub($isPub);
 				$_SESSION['newEvent'] = json_encode($newEvent);
@@ -260,7 +255,7 @@ class PanelController {
 
 				if ( $dval == 2 || $dval == 3 )
 					$err .= "$dval,";
-				else
+			else
 					$err .= "0,";
 
 				if ( $aval == 2 )
@@ -312,10 +307,9 @@ class PanelController {
 				$newEvent['location_lat'] = $addr['lat'];
 				$newEvent['location_long'] = $addr['lng'];	
 				$this->dbCon->createNewEvent($newEvent);
-
+				
 				// INVITE GUESTS USING EMAIL
 				$mailer = new EFMail();
-
 				$eid = explode('/', $newEvent['url']);
 				$newEvent['eid'] = $eid[sizeof($eid) - 1];
 
@@ -332,7 +326,6 @@ class PanelController {
 			$this->smarty->display('create.tpl');
 		} else {
 			$this->smarty->display('login.tpl');
-			//nn $this->smarty->display('login_form.tpl');
 		}
 	}
 
@@ -359,30 +352,29 @@ class PanelController {
 		$zip=$req['zip'];
 
 		if(strlen($zip)>0)
-		$zipcode_val=$this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
+			$zipcode_val=$this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
 
 		$f_name_val=$this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
 		$l_name_val=$this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
 		$email_val=$this->valEmail($email,"user_create_email","Email entered is invalid.");
 		$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
 		$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
+
 		$email_exists=$this->dbCon->emailExistsCheck($email);
-		if($f_name_val==2||$l_name_val==2||$email_val==2||$pass_val==2||$ph_val==2||$zipcode_val==2) {
+		if($f_name_val==2||$l_name_val==2||$email_val==2||
+			 $pass_val==2||$ph_val==2||$zipcode_val==2) {
 			$flag=2;
 		}
 
 		if(strlen($email_exists)>0) {
 			$flag=2;
-			$this->smarty->assign("user_create_email","Email Id has been already registered once in the system.");
+			$this->smarty->assign("user_create_email", "Email Id has been already registered once in the system.");
 		}
 
 		if(strlen($pass)<6) {
-			//die($pass);
 			$flag=2;
 			$this->smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
-
-		//die($pass);
 		return $flag;
 	}
 
@@ -441,13 +433,22 @@ class PanelController {
 	////////////////
 	// End Validate
 
+	private function assignUserImage($userId) {
+		if (file_exists('upload/user/'.$userId.'.png')) {
+			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.png');
+		}	else if (file_exists('upload/user/'.$userId.'.jpg')) {
+			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.jpg');
+		} else {
+			$this->smarty->assign('userImage', CURHOST.'/images/default_thumb.jpg');
+		}
+	}
+	
 	private function checkHome() {
 		if (isset($_SESSION['uid'])) {
 			$this->assignCPEvents($_SESSION['uid']);
+			$this->assignUserImage($_SESSION['uid']);
 			$this->smarty->display('cp.tpl');
 		} else {
-			// $newEvents = $this->dbCon->getNewEvents();
-			// $this->smarty->assign('newEvents', $newEvents);
 			$this->smarty->display('index.tpl');
 		}
 	}
@@ -515,7 +516,7 @@ class PanelController {
 		$this->smarty->assign('eventInfo', $eventInfo);
 		$this->smarty->display('manage_event_on.tpl');
 	}
-
+	
 	public function assignManageVars($eventId) {
 		require_once('models/EFCore.class.php');
 		$efCore = new EFCore();
@@ -893,6 +894,14 @@ class PanelController {
 				$this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['ceid'], $_REQUEST['conf']);
 				break;
 			case '/event/manage':
+				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
+					if ($eventAttendees[$i]['is_attending'] == 1) {
+						$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+					}
+				}
+				$this->smarty->assign('eventAttendees', $eventAttendees);
+				
 				$this->assignManageVars($_REQUEST['eventId']);
 				$page['manage'] = ' class="current"';
 				$this->smarty->assign('page', $page);
@@ -980,6 +989,40 @@ class PanelController {
 				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage_email.tpl');
 				break;
+			case '/event/email/reminder':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
+				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
+				if ($eventReminder['is_activated'] == 1) {
+					$eventReminder['isAuto'] = 'checked = "checked"';
+				}
+				if ($eventFollowup['is_activated'] == 1) {
+					$eventFollowup['isAuto'] = 'checked = "checked"';
+				}
+				
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->assign('emailInfo', $eventReminder);
+				
+				$page['manage'] = ' class="current"';
+				$page['email'] = ' class="current"';
+				$this->smarty->assign('page', $page);
+				
+				$this->smarty->display('manage_event_email.tpl');
+				break;
+			case '/event/email/followup':
+				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
+				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
+				
+				$this->smarty->assign('eventInfo', $eventInfo);
+				$this->smarty->assign('emailInfo', $eventFollowup);
+				
+				$page['manage'] = ' class="current"';
+				$page['email'] = ' class="current"';
+				$this->smarty->assign('page', $page);
+				
+				$this->smarty->display('manage_event_email.tpl');
+				break;
 			case '/event/manage/email/save':			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
@@ -1025,8 +1068,7 @@ class PanelController {
 				break;
 			case '/event/manage/text':
 				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
-				$this->smarty->assign('eventInfo', $eventInfo);
-				
+				$this->smarty->assign('eventInfo', $eventInfo);				
 				$page['manage'] = ' class="current"';
 				$page['text'] = ' class="current"';
 				$this->smarty->assign('page', $page);
@@ -1140,7 +1182,6 @@ class PanelController {
 				$this->smarty->display('user_profile.tpl');
 				break;
 			case '/user/profile-dtls/update':
-				//manu m
 				$email = $_POST['email'];
 				$zip = $_POST['zip'];
 				$cell = $_POST['cell'];
@@ -1215,14 +1256,12 @@ class PanelController {
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
-					if(isset($_REQUEST['email']) && isset($_REQUEST['pass']))
-					{
+					if (isset($_REQUEST['email']) && isset($_REQUEST['pass'])) {
 						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-						if(!isset($userId))
-							{
+						if(!isset($userId)) {
 								echo("1"); //login failed
 								break;
-							}
+						}
 					}
 					if (isset($userId)) {
 						$_SESSION['uid'] = $userId;
@@ -1239,7 +1278,6 @@ class PanelController {
 						$this->checkNewEvent($newEvent, false);
 						break;
 					}
-
 				    $this->smarty->display('login.tpl');
 					break;
 				}

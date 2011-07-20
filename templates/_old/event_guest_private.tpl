@@ -1,6 +1,4 @@
 {include file="header.tpl"}
-
-<body id="cp_body">
 <div id="container">
   <div id="cp_container">
     <div id="header">

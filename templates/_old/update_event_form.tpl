@@ -77,30 +77,16 @@
 								</label>
 							</dd>
 							<dt>
-								<label for="event-media">Upload Picture</label> 
-								<em>Link or Browse</em>
-							</dt> 
-							<dd class="media">
-								<div id="update-file-uploader" style="display:none;">       
-									<noscript>          
-										<p>Please enable JavaScript to use file uploader.</p>
-										<!-- or put a simple form for upload here -->
-									</noscript>         
-								</div>
-							</dd>
-							<!-- dt><label for="event_url_update">URL</label></dt>
-							<dd><input type="text" class="inputbox autowidth" name="event_url_update" id="event_url_update" disabled="disabled" value="http://localhost/eventfii/event/1" /></dd-->
-							<dt>
-								<div class="event_guest">
-									<a href="#edit"><img src="http://localhost/eventfii/images/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a>
-								</div>
+								<div class="event_guest"><a href="#edit"><img src="{$IMG_PATH}/addguests.png" id="update_event_guest_invite" rel="#event_guest_invite_overlay" /></a></div>
 							</dt>
-						</dl> 
-						<div class="buttons-submit">
-							<input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" />
-							<input type="hidden" name="invite_guest_click_counter" id="invite_guest_click_counter" disabled="disabled" value="0" />
-							<input type="submit" class="btn-update" id="event_update" value="Update" /> 
-						</div>
+              <dd>
+                <div class="buttons-submit">
+                  <input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" />
+                  <input type="hidden" name="invite_guest_click_counter" id="invite_guest_click_counter" disabled="disabled" value="0" />
+                  <input type="submit" class="btn-update" id="event_update" value="Update" /> 
+                </div>
+              </dd>
+						</dl>
 				</fieldset>
 			</section>
 		</div>

@@ -5,30 +5,35 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('../db/DBConfig.class.php');
-require_once('../api/CheckInsAPI.class.php');
+require_once('../db/DBAPI.class.php');
 
 class APIController {
 	private $smarty;
 	private $dbCon;
 	private $DEBUG = true;
 	
-	function __construct($smarty) {
+	public function __construct($smarty) {
 		$this->smarty = $smarty;
-		$this->dbCon = new DBConfig();
+		$this->dbCon = new DBAPI();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
-		print($requestUri);
+		$requestUri = explode('/', $requestUri);
+		$requestUri = $requestUri[2];
+		
 		switch ($requestUri) {
 			case 'checkins':
+				require_once('../api/models/Checkins.class.php');
+				print('Do something!');
 				break;
 			default:
+				$this->smarty->assign('requestUri', $requestUri);
+				$this->smarty->display('error.tpl');
 				break;
 		}
 	}

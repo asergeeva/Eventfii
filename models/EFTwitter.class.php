@@ -11,11 +11,11 @@ class EFTwitter {
 	private $dbCon;
 	private $PREFIX = "#truersvp";
 	
-	function __construct() {
+	public function __construct() {
 		$this->dbCon = new DBConfig();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

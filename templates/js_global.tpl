@@ -8,55 +8,8 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
-<script>
-	$(function() {
-		var addresspicker = $( "#addresspicker" ).addresspicker();
-		});
-	</script>
-	
-
-
-<script type="text/javascript" src="{$JS_PATH}/script.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.ui.addresspicker.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" language="javascript" src="http://connect.facebook.net/en_US/all.js"></script>
 <script type="text/javascript" language="javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/global.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/mixpanel.min.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
-<script type="text/javascript" src="{$JS_PATH}/anytimec.js"></script>
-<script type="text/javascript" src="{$JS_PATH}/jquery.jeditable.mini.js"></script>
-<script type="text/javascript">
-AnyTime.picker(
-"#event_hour_create",
-      { format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
- $("#event_time_create").AnyTime_picker(
-      { 
-	  format: "%I:%i %p", labelTitle: "What Time",
-      labelHour: "Hour", labelMinute: "Minute"
-	  }
-));
-AnyTime.picker(
-"#event_hour_update",
-      { format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
- $("#event_time_update").AnyTime_picker(
-      { 
-	  format: "%I:%i %p", labelTitle: "What Time",
-      labelHour: "Hour", labelMinute: "Minute"
-	  }
-));
-</script>
-
-<script>
-  $(document).ready(function() {
- if($('#progress_bar').length>0)
-	{
-	var cnt=$('#rsvp').text();
-	var goal=$('#goal').text();
-	var per=Math.ceil((cnt/goal)*100);
-    $("#progress_bar").progressbar({ value: parseInt(per) });
-	}
-  });
-</script>

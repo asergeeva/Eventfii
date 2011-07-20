@@ -5,13 +5,14 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+require_once('DBConfig.class.php');
 
-class CheckInsAPI {
-	function __construct() {
-		
+class DBAPI extends DBConfig {
+	public function __construct() {
+	
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 }

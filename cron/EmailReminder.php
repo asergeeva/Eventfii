@@ -12,12 +12,12 @@ class EmailReminder {
 	private $dbCon;
 	private $mailer;
 		
-	function __construct() {
+	public function __construct() {
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

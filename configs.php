@@ -11,10 +11,6 @@ define('PATH', '/Eventfii');
 define('CURHOST', 'http://localhost'.PATH);
 
 define('IMG_PATH', CURHOST.'/images');
-define('EP_IMG_PATH', CURHOST.'/images/ep');
-define('EC_IMG_PATH', CURHOST.'/images/ec');
-define('FP_IMG_PATH', CURHOST.'/images/fp');
-define('UP_IMG_PATH', CURHOST.'/images/up');
 
 define('IMG_UPLOAD_PATH', 'upload/event/images');
 define('CSV_UPLOAD_PATH', 'upload/event/csv');

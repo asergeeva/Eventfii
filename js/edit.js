@@ -3,7 +3,6 @@ var EDIT_FORM = (function() {
 		init: function() {
 			$('#event_update').live('click', this.updateEventSubmit);
 			$('#update_event_guest_invite').live('click', this.onInviteClick);
-			IMAGE_UPLOADER.init($('#manage_event_id').html(), 'update-file-uploader');
 			$('#event_date_update').datepicker();
 			$('#event_deadline_update').datepicker();
 			$('#event_title_update').focus();
@@ -17,9 +16,9 @@ var EDIT_FORM = (function() {
 			});
 		},
 		
-			onInviteClick: function() {
+		onInviteClick: function() {
 			$('#invite_guest_click_counter').val('1');
-			},
+		},
 		
 		updateEventSubmit: function() {
 			var urlToken = $('#event_url_update').val().split('/'),

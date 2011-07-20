@@ -25,7 +25,7 @@ class Event {
 	
 	public $guests = array();
 	
-	function __construct($organizer,
+	public function __construct($organizer,
 											 $title,
 											 $url,
 											 $goal,
@@ -56,7 +56,7 @@ class Event {
 		$this->lng = $lng;
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	

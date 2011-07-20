@@ -13,12 +13,12 @@ class EFMail {
 	private $FROM = "hello@truersvp.com";
 	private $dbCon;
 	
-	function __construct() {
+	public function __construct() {
 		mailgun_init('key-afy6amxoo2fnj$u@mc');
 		$this->dbCon = new DBConfig();
 	}
 	
-	function __destruct() {
+	public function __destruct() {
 		
 	}
 	
