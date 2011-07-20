@@ -46,7 +46,7 @@
 			</dl> 
 			<dl class="column"> 
 				<dt>
-					<label for="event_goal_create">Attandance Goal</label> 
+					<label for="event_goal_create">Attendance Goal</label> 
 					<em>In # of Attendees</em>
 				</dt>
 				<dd>

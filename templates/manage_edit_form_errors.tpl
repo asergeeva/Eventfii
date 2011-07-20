@@ -25,7 +25,7 @@
         <p><span class="error_message">{$error_tm}</span></p></dd>
   </dl>
   <dl class="column">
-    <dt><label for="event_goal_update">Attandance Goal</label> <span>In # of Attendees</span></dt>
+    <dt><label for="event_goal_update">Attendance Goal</label> <span>In # of Attendees</span></dt>
     <dd><input type="text" class="inputbox" name="event_goal_update" value="{$smarty.post.goal|escape:'htmlall'}" id="event_goal_update" />
         <p><span class="error_message">{$error_goal|escape:'htmlall'}</span></p></dd>
     <dt><label for="event_deadline_update">Deadline to sign up</label> <span>Last day for anyone to reserve a spot</span></dt>

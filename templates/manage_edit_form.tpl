@@ -31,7 +31,7 @@
 						</dl> 
 						<dl class="column"> 
 							<dt>
-								<label for="event_goal_update">Attandance Goal</label> 
+								<label for="event_goal_update">Attendance Goal</label> 
 								<em>In # of Attendees</em>
 							</dt>
 							<dd><input type="text" class="inputbox autowidth" name="event_goal_update" value="{$eventInfo['goal']}" id="event_goal_update" /></dd>
