@@ -4,7 +4,11 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
+		{if $step1}
 		<h1>Create a New Event</h1>
+		{else if $step2}
+		<h1>Event 
+		{/if}
 	</header>
 	<section id="main"> 
 		<aside class="navigation">
@@ -13,8 +17,8 @@
 					<h1>Steps</h1>
 				</header>
 				<ol>
-					<li{$step1}><a href="#"><span>Add event information</span></a></li>
-					<li{$step2}><a href="#"><span>Add guests</span></a></li>
+					<li{$step1}><a href="{$CURHOST}/create"><span>Add event information</span></a></li>
+					<li{$step2}><a href="{$CURHOST}/create/guests"><span>Add guests</span></a></li>
 					<li><a href="#"><span>trueRSVP</span></a></li>
 				</ol>
 			</nav>
@@ -25,9 +29,14 @@
 		<div class="content">
 			<section class="block">
 				{if $step1}
+				{if $error}
+				<header class="block">
+					<p class="message">Please fix the errors below before continuing.</p>
+				</header>
+				{/if}
 				{include file="create_form.tpl"}
 				{else if $step2}
-				{include file="create_guest.tpl"}					
+				{include file="create_guest.tpl"}
 				{else if $step3}
 				Done!	
 				{/if}

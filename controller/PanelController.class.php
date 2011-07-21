@@ -27,13 +27,14 @@ class PanelController {
 
 	public function check_address($addr) {
 		$a = urlencode($addr);
-		$retVal=array();
+		$retVal = array();
 		$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
 		$ch = curl_init($geocodeURL);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$result = curl_exec($ch);
-		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		$result = curl_exec( $ch );
+		$httpCode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+		curl_close( $ch );
+		
 		if ($httpCode == 200) {
 			$geocode = json_decode($result);
 			$lat = $geocode->results[0]->geometry->location->lat;
@@ -42,12 +43,12 @@ class PanelController {
 			$geo_status = $geocode->status;
 			$location_type = $geocode->results[0]->geometry->location_type;
 			$retVal['location_type']=$location_type;
-			$retVal['lat']=$lat;
-			$retVal['lng']=$lng;	
+			$retVal['lat'] = $lat;
+			$retVal['lng'] = $lng;	
 		} else {
 			$retVal['location_type']="error";
-			$retVal['lat']=$lat;
-			$retVal['lng']=$lng;
+			// $retVal['lat'] = $lat;
+			// $retVal['lng'] = $lng;
 		}
 		return $retVal;
 	}
@@ -285,7 +286,7 @@ class PanelController {
 
 				if ( $err != "0,0,0,0,0,0,0,0,0," ) {
 					// die($err);
-					$this->smarty->assign('step1', true);
+					$this->smarty->assign('step1', ' class="current"');
 					$this->smarty->display('create.tpl');
 					return;
 				}
@@ -322,7 +323,7 @@ class PanelController {
 			header("Location: http://localhost/Eventfii/create/guests");
 			exit;
 
-			$this->smarty->assign('step2', true);
+			$this->smarty->assign('step2', ' class="current"');
 			$this->smarty->display('create.tpl');
 		} else {
 			$this->smarty->display('login.tpl');
@@ -739,31 +740,25 @@ class PanelController {
 				break;
 			case '/create':
 				if ( ! isset($_POST['submit']) ) {
-					if ( ! isset($_SESSION['uid']) ) {
-						$this->smarty->assign('step2', ' class="current"');
-						$this->smarty->display('create.tpl');
-					} else {
-						$this->smarty->assign('step1', true);
-						$this->smarty->assign('error', $error);
-						$this->smarty->display('create.tpl');
-					}
+					$this->smarty->assign('step1', ' class="current"');
+					$this->smarty->display('create.tpl');
 				} else {
 					require_once('models/Event.class.php');
 					require_once('models/Location.class.php');
-					$addr = $this->check_address($_REQUEST['address']);	
+					$addr = $this->check_address($_POST['address']);	
 					$newEvent = new Event(
 						$_SESSION['uid'],
-						$_REQUEST['title'], 
-						$_REQUEST['url'], 
-						$_REQUEST['goal'],
-						$_REQUEST['address'], 
-						$_REQUEST['date'],
-						$_REQUEST['time'],
-						$_REQUEST['deadline'],
-						$_REQUEST['description'], 
-						$_REQUEST['cost'],
-						$_REQUEST['is_public'],
-						$_REQUEST['type'],
+						$_POST['title'], 
+						$_POST['url'], 
+						$_POST['goal'],
+						$_POST['address'], 
+						$_POST['date'],
+						$_POST['time'],
+						$_POST['deadline'],
+						$_POST['description'], 
+						$_POST['cost'],
+						$_POST['is_public'],
+						$_POST['type'],
 						$addr['lat'],
 						$addr['lng']
 					);
@@ -773,7 +768,8 @@ class PanelController {
 				}
 				break;
 			case '/create/guests':
-				$this->smarty->assign('step2', true);
+				$_SESSION['new_eid'];
+				$this->smarty->assign('step2', ' class="current"');
 				$this->smarty->display('create.tpl');
 				break;
 			case '/event/update':
