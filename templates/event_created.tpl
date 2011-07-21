@@ -11,8 +11,5 @@
 				</ul>
 				{else}
 				<p class="message">Create your first event!</p>
-				{/if}
-				<footer class="buttons-create">
-					<a href="create"><span>New Event</span></a>
-				</footer> 
+				{/if} 
 			</section>

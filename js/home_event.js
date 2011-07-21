@@ -6,16 +6,26 @@
  */
  
 $(document).ready(function() {
-	var TXT_INIT = $('input#create_event_textarea').val();
-	$('input#create_event_textarea').focus(function() {
-		if ($('input#create_event_textarea').val() === TXT_INIT) {
-  			$('input#create_event_textarea').val('');
+	var title_init = $("#title").val();
+	var goal_init = $("#goal").val();
+
+	$("input[type=text]").focus(function() {
+		if ( $(this).val() == title_init ) {
+			$("#title").val('');
+			return;
+		}
+		if ( $(this).val() == goal_init ) {
+			$("#goal").val('');
+			return;
 		}
 	});
-	
-	$('input#create_event_textarea').focusout(function() {
-		if ($('input#create_event_textarea').val() === '') {
-  			$('input#create_event_textarea').val(TXT_INIT);
+
+	$("input[type=text]").focusout(function() {
+		if ( $("#title").val() == '' ) {
+			$("#title").val(title_init);
+		}
+		if ( $("#goal").val() == '' ) {
+			$("#goal").val(goal_init);
 		}
 	});
 });
