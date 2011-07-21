@@ -1,33 +1,16 @@
-{include file="header.tpl"}
-<body id="cp_body">
+{include file="head.tpl"}
+<body>
 
-{include file="cp_header.tpl"}
-{include file="manage_header.tpl"}
+{include file="header.tpl"}
+<div id="container">
+	{include file="manage_header.tpl"}
 	<section id="main">
 		<header class="block">
 			<p class="message">Send Email reminders and followups here</p>
 		</header>
-		<div class="navigation">
-			<nav class="block" id="cp-nav">
-				<ul>
-					<li{$page["addguests"]}><a href="addguests.html"><span>Add more guests</span></a></li>
-					<li{$page["email"]}><a href="email?eventId={$eventInfo['id']}"><span>E-mail current guests</span></a></li>
-					<li{$page["text"]}><a href="text.html"><span>Sent text to guests</span></a></li>
-				</ul>
-			</nav>
-			<footer class="links-extra">
-				<p><a href="cp.html">Back to home</a></p>
-			</footer>
-		</div>
+		{include file="manage_nav.tpl"}
 		<div class="content">
-			<section class="block" id="cp-text">
-				<nav class="horizontal-nav">
-					<ul>
-						<li><a href="#">Reminder</a></li>
-						<li><a href="#">Follow-Up</a></li>
-						<li><a href="#">Custom</a></li>
-					</ul>
-				</nav>
+			<section class="block" id="manage-email">
 				<fieldset>
 					<label for="send-automatically">
 						<strong></strong>
@@ -67,7 +50,8 @@ I would like to remind you that [Event name] that’s happening on [Time]. Pleas
 </div>
 {include file="footer.tpl"}
 
-{include file="global_js.tpl"}
+{include file="js_global.tpl"}
+{include file="js_manage.tpl"}
 
 </body>
 </html>

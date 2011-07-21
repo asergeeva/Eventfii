@@ -17,6 +17,6 @@
 					<li>President of USG</li>
 				</ul>
 				<footer class="link-extra">
-					<p><a href="#">Send Anna a message</a></p>
+					<p><a href="#">Send {$organizer['fname']} a message</a></p>
 				</footer>
 			</section>

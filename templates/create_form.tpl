@@ -1,4 +1,5 @@
-<div class="form" id="create_event_form">
+<div class="form" id="event_create">
+		<form method="post" action="{$CURHOST}/create">
 		<fieldset>
 			<legend>Create Event</legend> 
 			<dl class="column"> 
@@ -7,64 +8,64 @@
 					<em>Name of Event</em>
 				</dt> 
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_title_create" value="{$smarty.post.title|escape:'htmlall'}" id="event_title_create" /> 
-		  			<p class="message-error" id="titleErr"></p>
+					<input type="text" class="inputbox autowidth" name="title" value="{$smarty.post.title|escape:'htmlall'}" id="event_title_create" /> 
+		  			<p class="message-error" id="titleErr">{$error.title}</p>
 		  		</dd> 
 				<dt>
 					<label for="event_description_create">Brief Description</label> 
 					<em>What is your event about?</em>
 				</dt> 
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_description_create" id="event_description_create" value="{$smarty.post.description|escape:'htmlall'}" /> 
-		  			<p class="message-error" id="descErr"></p>
+					<input type="text" class="inputbox autowidth" name="description" id="event_description_create" value="{$smarty.post.description|escape:'htmlall'}" /> 
+		  			<p class="message-error" id="descErr">{$error['desc']}</p>
 		  		</dd>
 				<dt>
 					<label for="addresspicker">Where</label> 
 					<em>Ex: 1234 Maple St, Los Angeles, CA 90007</em>
 				</dt> 
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_address_create" id="addresspicker" value="{$smarty.post.address|escape:'htmlall'}" /> 
-		  			<p class="message-error" id="addrErr"></p>
+					<input type="text" class="inputbox autowidth" name="address" id="event_address_create" value="{$smarty.post.address|escape:'htmlall'}" /> 
+		  			<p class="message-error" id="addrErr">{$error['address']}</p>
 		  		</dd>
 				<dt>
 					<label for="event_date_create">When</label> 
 					<em>Ex: 05/14/2011 (MM/DD/YYYY)</em>
 				</dt> 
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_date_create" id="event_date_create" value="{$smarty.post.date}" /> 
-		  			<p class="message-error" id="dtErr"></p>
+					<input type="text" class="inputbox autowidth" name="date" id="event_date_create" value="{$smarty.post.date}" /> 
+		  			<p class="message-error" id="dtErr">{$error['date']}</p>
 		  		</dd>
 				<dt>
 					<label for="event_time_create">What Time</label> 
 					<em>Ex: 12:30 PM (12 hour clock)</em>
 				</dt> 
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_time_create" id="event_time_create" value="{$smarty.post.time|escape:'htmlall'}" /> 
-		  			<p class="message-error" id="timeErr"></p>
+					<input type="text" class="inputbox autowidth" name="time" id="event_time_create" value="{$smarty.post.time|escape:'htmlall'}" /> 
+		  			<p class="message-error" id="timeErr">{$error['time']}</p>
 		  		</dd>
 			</dl> 
 			<dl class="column"> 
 				<dt>
-					<label for="event_goal_create">Attandance Goal</label> 
+					<label for="event_goal_create">Attendance Goal</label> 
 					<em>In # of Attendees</em>
 				</dt>
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_goal_create" id="event_goal_create" value="{$smarty.post.goal|escape:'htmlall'}" /> 
-		  			<p class="message-error" id="goalErr"></p>
+					<input type="text" class="inputbox autowidth" name="goal" id="event_goal_create" value="{$smarty.post.goal|escape:'htmlall'}" /> 
+		  			<p class="message-error" id="goalErr">{$error['goal']}</p>
 		  		</dd>
 				<dt>
 					<label for="event_deadline_create">Deadline to sign up</label> 
 					<em>Last day for anyone to reserve a spot</em>
 				</dt>
 				<dd>
-					<input type="text" class="inputbox autowidth" name="event_deadline_create" id="event_deadline_create" value="{$smarty.post.deadline}" /> 
-		  			<p class="message-error" id="deadlineErr"></p>
+					<input type="text" class="inputbox autowidth" name="deadline" id="event_deadline_create" value="{$smarty.post.deadline}" /> 
+		  			<p class="message-error" id="deadlineErr">{$error['deadline']}</p>
 		  		</dd>
 				<dt> 
 					<label for="event_type_create">Event Type</label>
 				</dt>
 				<dd>
-					<select id="event_type_create"> 
+					<select name="type" id="event_type_create"> 
 						<option value="0">Please Select</option> 
 							<optgroup label="Personal"> 
 							<option value="1" {if $smarty.post.type eq '1'}selected{/if}>Birthday</option> 
@@ -89,30 +90,44 @@
 							<option value="16" {if $smarty.post.type eq '16'}selected{/if}>Conference</option> 
 						</optgroup> 
 					</select>
-					<p class="message-error" id="eventErr"></p>
+					<p class="message-error" id="eventErr">{$error['type']}</p>
 				</dd>
 				<dt>
 					<label for="event-perms-1">Event Permissions</label>
 				</dt>
 				<dd>
 					<label for="event_is_public_yes_create">
-						<p><input type="radio" name="event_ispublic_create" value="1" checked="checked" {if $smarty.post.is_public eq '1'}checked="checked"{/if} id="event_is_public_yes_create" /> Anyone can sign up and invite others</p>
+						<p><input type="radio" name="is_public" value="1" checked="checked" {if $smarty.post.is_public eq '1'}checked="checked"{/if} id="event_is_public_yes_create" /> Anyone can sign up and invite others</p>
 					</label> 
 					<label for="event_is_public_no_create">
-						<p><input type="radio" name="event_ispublic_create" value="0" {if $smarty.post.is_public eq '0'}checked="checked"{/if} id="event_is_public_no_create" /> Only people you invite can attend</p>
+						<p><input type="radio" name="is_public" value="0" {if $smarty.post.is_public eq '0'}checked="checked"{/if} id="event_is_public_no_create" /> Only people you invite can attend</p>
 					</label>
-					<p><div class="error_message" id="pubErr"></div></p>
+					<p class="message-error" id="pubErr">{$error['pub']}</p>
 				</dd>
-        <dt>
-          <div class="event_guest"><a href="#create"><img src="{$IMG_PATH}/addguests.png" id="create_event_guest_invite" rel="#event_guest_invite_overlay" /></a></div>
-        </dt>
-        <dd>
-          <input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="{$CURHOST}/event/{$maxEventId}" />
-          <footer class="buttons-submit">
-            <p class="btn-large"><input type="submit" value="Begin" id="event_create" /></p> 
-            <p class="message-error" id="success"></p>
-          </footer> 
-        </dd>
-		</dl>
-	</fieldset>
-</div>
+				<dt>
+					<label for="event-media">Upload Picture</label>
+					<em>Link or Browse</em>
+				</dt>
+				<dd class="media">
+					<div id="create-file-uploader" style="display:none;">       
+						<noscript>          
+							<p>Please enable JavaScript to use file uploader.</p>
+							<!-- or put a simple form for upload here -->
+						</noscript>         
+					</div>
+				</dd>
+				<!--dt>
+					<label for="event_url_create">URL</label>
+				</dt>
+				<dd>
+					<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="http://localhost/eventfii/event/2" />
+				</dd-->
+			</dl>
+			<footer class="buttons-submit">
+				<input type="hidden" name="submit" value="1" />
+				<p><input type="submit" value="Begin" id="event_create" /></p> 
+				<p class="message-error" id="success"></p>
+			</footer> 
+		</fieldset>
+		</form>
+	</div>

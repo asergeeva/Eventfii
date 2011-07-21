@@ -5,6 +5,13 @@ var MANAGE_EVENT = ( function() {
 				$('.section-current').removeAttr('class');
 				$(this).parent().attr('class', 'section-current');
 			});
+			
+		  $("img[rel]").overlay();
+			$("a[rel]").overlay();
 		}
 	}
 })();
+
+$(document).ready(function() {
+	MANAGE_EVENT.init();
+});

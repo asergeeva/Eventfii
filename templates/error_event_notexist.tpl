@@ -4,7 +4,8 @@
 {include file="header.tpl"}
 <div id="container">
 	<div class="error">
-		<h1>Uh oh! The page you requested does not exist.</h1>
+		<h1>Sorry, the event you are trying to view does not exist.</h1>
+		<p>Think you're seeing this message in error? <a href="{$CURHOST}/contact">Let us know!</a></p>
 	</div>
 </div>
 {include file="footer.tpl"}

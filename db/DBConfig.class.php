@@ -50,6 +50,28 @@ class DBConfig {
 		return $resultArr;
 	}
 	
+	/* executeValidQuery
+	 * Executes a query
+	 *
+	 * @param $query | The query to be run on the db
+	 * @return $results | Return valid results
+	 * @return false | If invalid query
+	 */
+	public function executeValidQuery($query) {
+		$dbLink = $this->openCon();
+		$dbResult = mysql_query($query);
+		
+		// Check if query is valid
+		if ( ! $dbResult && $this->DEBUG ) {
+			$result = false;
+		} else {
+			$result = mysql_fetch_array($dbResult, MYSQL_ASSOC);
+			mysql_free_result($dbResult);
+		}
+		
+		return $result;
+	}
+	
 	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
 	  $dbResult = mysql_query($query);
@@ -61,11 +83,10 @@ class DBConfig {
 	
 	public function getQueryResult($query) {
 		$dbLink = $this->openCon();
-	  $dbResult = mysql_query($query);
-	  if (!$dbResult && $this->DEBUG) {
-			print($query . "<br />");
-		  die('Invalid query: ' . mysql_error());
-	  }
+		$dbResult = mysql_query($query);
+		if ( ! $dbResult && $this->DEBUG ) {
+			return 0;
+		}
 		return $dbResult;
 	}
 	
@@ -97,8 +118,8 @@ class DBConfig {
 	}
 	
 	public function getUserInfo($uid) {
-		$GET_USER_INFO = "SELECT * FROM ef_users e WHERE e.id = ".$uid;
-		$userInfo = $this->executeQuery($GET_USER_INFO);
+		$GET_USER_INFO = "SELECT * FROM ef_users e WHERE e.id = " . $uid;
+		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
 	
@@ -160,13 +181,13 @@ class DBConfig {
 				$zip="NULL";
 			}
 			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, phone, password, about, zip) 
-														VALUES ('".mysql_real_escape_string($fname)."', 
-																    '".mysql_real_escape_string($lname)."', 
-																		'".mysql_real_escape_string($email)."',
-																		'".mysql_real_escape_string($phone)."', 
-																		 ".$pass.", 
-																		'I am ".mysql_real_escape_string($fname)."'
-																		,".mysql_real_escape_string($zip).")";
+								VALUES		('" . mysql_real_escape_string($fname) . "', 
+											'" . mysql_real_escape_string($lname) . "', 
+											'" . mysql_real_escape_string($email) . "', 
+											'" . mysql_real_escape_string($phone) . "', 
+											" . $pass . ", 
+											'', 
+											" . mysql_real_escape_string($zip) . ")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else if (isset($_SESSION['ref'])) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
@@ -195,23 +216,23 @@ class DBConfig {
 				$emailAttr = 'email5';
 			}
 			
-			$UPDATE_USER = "UPDATE ef_users SET
-												fname = '".mysql_real_escape_string($fname)."', 
-												lname = '".mysql_real_escape_string($lname)."',
-												".$emailAttr." = '".mysql_real_escape_string($email)."',
-												about = 'I am ".mysql_real_escape_string($fname)."'
-											WHERE email = '".$refEmail."'";
+			$UPDATE_USER = "UPDATE	ef_users SET
+									fname = '" . mysql_real_escape_string($fname) . "', 
+									lname = '" . mysql_real_escape_string($lname) . "',
+									" . $emailAttr . " = '" . mysql_real_escape_string($email) . "',
+									about = 'I am " . mysql_real_escape_string($fname) . "'
+							WHERE	email = '" . $refEmail . "'";
 											
 			$email = $refEmail;
 			$this->executeUpdateQuery($UPDATE_USER);
 		} else {
-			$UPDATE_USER = "UPDATE ef_users SET 
-												fname = '".mysql_real_escape_string($fname)."', 
-												lname = '".mysql_real_escape_string($lname)."', 
-												phone = '".mysql_real_escape_string($phone)."', 
-												password = '".mysql_real_escape_string($pass)."', 
-												about = 'I am ".mysql_real_escape_string($fname)."'
-											WHERE email = '".mysql_real_escape_string($email)."'";
+			$UPDATE_USER = "UPDATE	ef_users SET 
+									fname = '" . mysql_real_escape_string($fname) . "', 
+									lname = '" . mysql_real_escape_string($lname) . "', 
+									phone = '" . mysql_real_escape_string($phone) . "', 
+									password = '" . mysql_real_escape_string($pass) . "', 
+									about = 'I am " . mysql_real_escape_string($fname) . "'
+							WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
 		return $this->getUserInfoByEmail($email);
@@ -229,9 +250,10 @@ class DBConfig {
 	}
 	
 	public function getCurSignup($eid) {
-		$GET_CUR_SIGNUP = "SELECT COUNT(*) AS cur_signups
-													FROM ef_attendance a, ef_events e 
-											 WHERE a.event_id = e.id AND a.event_id = ".$eid;
+		$GET_CUR_SIGNUP = "	SELECT COUNT(*) AS cur_signups
+							FROM ef_attendance a, ef_events e 
+							WHERE a.event_id = e.id AND a.event_id = " . $eid;
+		
 		$curSignUp = $this->executeQuery($GET_CUR_SIGNUP);
 		return $curSignUp['cur_signups'];
 	}
@@ -257,24 +279,36 @@ class DBConfig {
 		$datetime = $this->dateToSql($newEvent["date"])." ".$newEvent["time"];
 		$sqlDeadline = $this->dateToSql($newEvent["deadline"]);
 		
-		$CREATE_NEW_EVENT = "INSERT INTO ef_events (created, organizer, title, url, 
-														 goal, location_address, 
-														 event_datetime, event_deadline, description, is_public, gets, type,location_lat,location_long) 
-												 VALUES (NOW(), ".mysql_real_escape_string($newEvent["organizer"]).", 
-												 							 '".mysql_real_escape_string($newEvent["title"])."', 
-																			 '".mysql_real_escape_string($newEvent["url"])."', 
-																			  ".mysql_real_escape_string($newEvent["goal"]).",
-																			 '".mysql_real_escape_string($newEvent["address"])."',
-																			 '".mysql_real_escape_string($datetime)."',
-																			 '".mysql_real_escape_string($sqlDeadline)."',
-																			 '".mysql_real_escape_string($newEvent["description"])."',
-																			  ".mysql_real_escape_string($newEvent["is_public"]).",
-																			 '".mysql_real_escape_string($newEvent["gets"])."',
-																			  ".$newEvent["type"].",
-																			  ".mysql_real_escape_string($newEvent["location_lat"]).",
-																			  ".mysql_real_escape_string($newEvent["location_long"]).")";
-																			  
-																			//  die($CREATE_NEW_EVENT);
+		$CREATE_NEW_EVENT = "	INSERT INTO ef_events (
+											created, 
+											organizer, 
+											title, 
+											url, 
+											goal, 
+											location_address, 
+											event_datetime, 
+											event_deadline, 
+											description, 
+											is_public, 
+											gets, 
+											type,
+											location_lat,
+											location_long) 
+								VALUES		(NOW(), 
+											" . mysql_real_escape_string($newEvent["organizer"]) . ", 
+											'" . mysql_real_escape_string($newEvent["title"]) . "', 
+											'" . mysql_real_escape_string($newEvent["url"]) . "', 
+											" . mysql_real_escape_string($newEvent["goal"]) . ",
+											'" . mysql_real_escape_string($newEvent["address"]) . "',
+											'" . mysql_real_escape_string($datetime) . "',
+											'" . mysql_real_escape_string($sqlDeadline) . "',
+											'" . mysql_real_escape_string($newEvent["description"]) . "',
+											" . mysql_real_escape_string($newEvent["is_public"]) . ",
+											'" . mysql_real_escape_string($newEvent["gets"]) . "',
+											" . $newEvent["type"] . ",
+											" . mysql_real_escape_string($newEvent["location_lat"]) . ",
+											" . mysql_real_escape_string($newEvent["location_long"]) . ")";
+		
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
@@ -282,19 +316,19 @@ class DBConfig {
 		$datetime = $this->dateToSql($eventInfo->date)." ".$eventInfo->time;
 		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
-		$UPDATE_EVENT = "UPDATE ef_events e SET 
-												e.title = '".mysql_real_escape_string($eventInfo->title)."', 
-												e.goal = ".mysql_real_escape_string($eventInfo->goal).",
-												e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
-												e.event_datetime = '".mysql_real_escape_string($datetime)."', 
-												e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
-												e.description = '".mysql_real_escape_string($eventInfo->description)."',
-												e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
-												e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
-												e.location_lat=".mysql_real_escape_string($eventInfo->lat).",
-												e.location_long=".mysql_real_escape_string($eventInfo->lng).",
-												e.type = ".$eventInfo->type." 
-										 WHERE e.id = ".mysql_real_escape_string($eventInfo->eid);
+		$UPDATE_EVENT = "	UPDATE	ef_events e 
+							SET		e.title = '".mysql_real_escape_string($eventInfo->title)."', 
+									e.goal = ".mysql_real_escape_string($eventInfo->goal).",
+									e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
+									e.event_datetime = '".mysql_real_escape_string($datetime)."', 
+									e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
+									e.description = '".mysql_real_escape_string($eventInfo->description)."',
+									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
+									e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
+									e.location_lat=".mysql_real_escape_string($eventInfo->lat).",
+									e.location_long=".mysql_real_escape_string($eventInfo->lng).",
+									e.type = ".$eventInfo->type." 
+							WHERE	e.id = ".mysql_real_escape_string($eventInfo->eid);
 		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
 	
@@ -314,13 +348,30 @@ class DBConfig {
 	}
 	
 	public function getEventByEO($uid) {
-		$GET_EVENTS = "SELECT * FROM
-									(SELECT e.id, TIMEDIFF(e.event_datetime, NOW()) AS time_left,
-											 e.created, e.title, e.url, e.goal, 
-											 e.location_address, e.event_datetime, e.event_deadline, 
-											 e.description, e.is_public 
-										 FROM ef_events e WHERE e.organizer = ".$uid.") el
-									 	WHERE el.time_left > 0 ORDER BY el.time_left ASC";
+		$GET_EVENTS = "	SELECT	* 
+						FROM	
+						(
+							SELECT		e.id, 
+							TIMEDIFF
+							(
+										e.event_datetime, 
+										NOW()
+							) 
+							AS			time_left,
+										e.created, 
+										e.title, 
+										e.url, 
+										e.goal, 
+										e.location_address, 
+										e.event_datetime, 
+										e.event_deadline, 
+										e.description, 
+										e.is_public 
+							FROM		ef_events e 
+							WHERE		e.organizer = " . $uid . "
+						) el
+						WHERE			el.time_left > 0 
+						ORDER BY		el.time_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -336,18 +387,34 @@ class DBConfig {
 	}
 	
 	public function getEventInfo($eid) {
-		$GET_EVENT = "SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-										e.created, e.organizer, e.title, e.url, e.goal, 
-										e.location_address, e.event_datetime, e.event_deadline, 
-										e.description, e.is_public, e.gets, e.type,e.location_lat,e.location_long
-									FROM ef_events e WHERE e.id = ".$eid;
-		return $this->executeQuery($GET_EVENT);
+		$GET_EVENT = "	SELECT e.id, 
+						DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
+						e.created,
+						e.organizer, 
+						e.title, 
+						e.url,
+						e.goal, 
+						e.location_address, 
+						e.event_datetime, 
+						e.event_deadline, 
+						e.description, 
+						e.is_public, 
+						e.gets, 
+						e.type,
+						e.location_lat,
+						e.location_long
+						FROM ef_events e 
+						WHERE e.id = " . $eid;
+		return $this->executeValidQuery($GET_EVENT);
 	}
 	
 	public function hasAttend($uid, $eid) {
-		$HAS_ATTEND = "SELECT * FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
+		$HAS_ATTEND = "	SELECT	* 
+						FROM	ef_attendance a 
+						WHERE	a.event_id = " . $eid . " 
+						AND		a.user_id = " . $uid;
 		if ($this->getRowNum($HAS_ATTEND) > 0) {
-			return $this->executeQuery($HAS_ATTEND);
+			return $this->executeValidQuery($HAS_ATTEND);
 		}
 		return NULL;
 	}
@@ -456,14 +523,26 @@ class DBConfig {
 	// If the recipient_group IS NULL, the recipient is all attendees
 	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $type, $autoReminder) {
 		$deliveryTime = $deliveryTime.":00";
-		$SAVE_REMINDER = "INSERT INTO ef_event_messages (created, subject, message, delivery_time, event_id, type, is_activated) 
-												VALUES (NOW(), 
-												        '".mysql_real_escape_string($subject)."', 
-															  '".mysql_real_escape_string($msg)."', 
-																'".mysql_real_escape_string($deliveryDateTime)."', 
-																".$eid.",
-																".$type.",
-																".$autoReminder.")";
+		$SAVE_REMINDER = "
+		INSERT INTO	ef_event_messages 
+					(
+						created, 
+						subject, 
+						message, 
+						delivery_time, 
+						event_id, 
+						type, 
+						is_activated
+					) 
+		VALUES		(
+						NOW(), 
+						'" . mysql_real_escape_string($subject) . "', 
+						'" . mysql_real_escape_string($msg) . "', 
+						'" . mysql_real_escape_string($deliveryDateTime) . "', 
+						" . $eid.",
+						" . $type.",
+						" . $autoReminder."
+					)";
 		$this->executeUpdateQuery($SAVE_REMINDER);
 	}
 	
@@ -513,8 +592,11 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_RESET_TIME);
 	}
 	
-		public function isInvited($uid, $eid) {
-		$IS_INVITED = "SELECT * FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.event_id = ".$eid;
+	public function isInvited($uid, $eid) {
+		$IS_INVITED = "	SELECT	* 
+						FROM	ef_attendance a 
+						WHERE	a.user_id = " .	$uid . " 
+						AND		a.event_id = " . $eid;
 		if ($this->getRowNum($IS_INVITED) == 0) {
 			return false;
 		}

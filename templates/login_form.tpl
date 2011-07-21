@@ -1,3 +1,4 @@
+<div class="form">
 <fieldset id="existing_user_login_form" class="two-col">
 		<p class="message">Facebook login makes signing up 75% faster!</p> 
 		<div id="fb-root"></div>
@@ -17,7 +18,7 @@
 			</div>
 		</label> 
 		<footer class="links-extra">
-			<p><a href="#">Forgot Password</a></p>
+			<p><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
 		</footer>
 		<footer class="buttons-submit"> 
 			<a href="#" onclick="LOGIN_FORM.existingUserLogin()" class="btn-med" id="ef_login_btn"><span>Log In</span></a> 
@@ -80,3 +81,4 @@
 			--> 
 		</footer> 
 	</fieldset>
+</div>

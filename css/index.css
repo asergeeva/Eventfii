@@ -61,13 +61,12 @@ a:hover { text-decoration: underline; }
 	padding: 12px 0; }
 #container fieldset input.inputbox, #container fieldset input.inputbox-small {
 	font-size: 13px;
+	text-align: center;
 	width: 203px;
 	height: 38px;
 	padding: 0 4px;
 	border: 1px solid #b5b5b5; }
-#container fieldset input.inputbox-small { 
-	text-align: center;
-	width: 72px; }
+#container fieldset input.inputbox-small { width: 72px; }
 #container fieldset input.submit {
 	background: url(../images/btn_doit.gif) 0 0 no-repeat;
 	font-size: 0;
@@ -82,8 +81,9 @@ a:hover { text-decoration: underline; }
 	text-align: center;
 	font-size: 24px;
 	color: #fff;
-	width: 779px;
+	width: 912px;
 	margin: 20px auto; }
+#container fieldset p { width: 779px; }
 #container p span { 
 	font-weight: bold;
 	color: #ffcc66; }

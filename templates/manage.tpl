@@ -1,15 +1,15 @@
-{include file="header.tpl"}
-<body id="cp_body">
+{include file="head.tpl"}
+<body>
 
-{include file="cp_header.tpl"}
-{include file="manage_header.tpl"}
+{include file="header.tpl"}
+<div id="container">
+	{include file="manage_header.tpl"}
 	<section id="main">
-		{include file="manage_event_form.tpl"}
+		{include file="manage_main.tpl"}
 	</section>
 </div>
-{include file="footer.tpl"}
-
 {include file="global_js.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/manage.js"></script>
+
 </body>
 </html>
