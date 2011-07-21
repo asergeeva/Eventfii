@@ -1,3 +1,4 @@
+<div class="form">
 <fieldset id="existing_user_login_form" class="two-col">
 		<p class="message">Facebook login makes signing up 75% faster!</p> 
 		<div id="fb-root"></div>
@@ -80,3 +81,4 @@
 			--> 
 		</footer> 
 	</fieldset>
+</div>

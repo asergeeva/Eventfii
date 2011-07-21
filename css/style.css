@@ -33,6 +33,7 @@ figure figcaption { margin: 0 0 10px; }
 /*----- Forms ----------*/
 #settings fieldset {
 	padding: 0 10px 10px; }
+.form { overflow: auto; }
 fieldset.two-col {
 	float: left;
 	width: 41%;
@@ -584,30 +585,34 @@ footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
 	margin: 0 15px 0 0; }
-
-/* CREATE GUEST EVENT OVERLAY */
-.event_guest_invite_overlay {
-	/* must be initially hidden */
-	display:none;
-	/* place overlay on top of other elements */
-	z-index:10000;
-	/* styling */
-	background-color:#FFFFFF;
-	width:800px;  
-	min-height:200px;
-	border:1px solid #666;
-	/* CSS3 styling for latest browsers */
-	-moz-box-shadow:0 0 90px 5px #000;
-	-webkit-box-shadow: 0 0 90px #000;  
-}
-
-.event_guest_invite_overlay .close {
-	background-image:url(../images/close.png);
-	position:absolute;
-	right:-15px;
-	top:-15px;
-	cursor:pointer;
-	height:35px;
-	width:35px;
-}
-/* OVERLAY END*/
+    
+/*----- Site Map ----------*/
+footer#site-map {
+	background: url(../images/index_footer_bg.png) 0 0 repeat-x;
+	color: #fff;
+	height: 129px; /* 162 - 33 */
+	margin: 0;
+	padding: 33px 0 0; }
+#site-map ul { 
+	width: 760px;
+	margin: 0 auto; }
+#site-map ul li { 
+	float: left;
+	margin: 0 30px 0 0; }
+#site-map ul li span {
+	font-size: 14px;
+	margin: 0 0 10px;
+	display: block; }
+#site-map ul li ul { 
+	width: 100px;
+	margin: 0; }
+#site-map ul li ul li { 
+	float: none; 
+	margin: 0;
+	display: block; }
+#site-map ul li ul li a { 
+	font-size: 12px;
+	color: #666666;
+	margin: 0;
+	padding: 0 3px 3px 0;
+	display: block; }

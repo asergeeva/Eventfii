@@ -7,7 +7,7 @@
 	<h2>a new RSVP system based on reputation</h2>
 	<form id="create_event_home" name="create_event_home" method="post" action="create">
 		<fieldset>
-			<p>I'm planning <input type="text" class="inputbox" name="title" /> and I want <input class="inputbox-small" type="text" name="goal" /> people to come. <input class="submit" type="submit" /></p>
+			<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come. <input class="submit" type="submit" /></p>
 		</fieldset>
 	</form>
 	<p>We factor in your attendees' reliability to give you an <span>accurate prediction</span> of how many people are actually going to show up to your event.</p>
