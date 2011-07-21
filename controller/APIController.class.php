@@ -10,6 +10,7 @@ require_once('../db/DBAPI.class.php');
 class APIController {
 	private $smarty;
 	private $dbCon;
+	private $result;
 	private $DEBUG = true;
 	
 	public function __construct($smarty) {
@@ -27,6 +28,30 @@ class APIController {
 		$requestUri = $requestUri[2];
 		
 		switch ($requestUri) {
+			case 'login':
+				if(!isset($_SESSION['uid']))
+				{
+					if(isset($_REQUEST['email']) && isset($_REQUEST['password']))
+					{
+						$result = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['password']);
+						if(!isset($result))
+						{
+							echo 'status_loginFailed';
+						}
+						else
+						{
+							$_SESSION['uid'] = $result;
+						}
+					}
+				}
+				if(isset($_SESSION['uid']))
+				{
+					echo 'status_loginSuccess';
+				}
+				break;
+			case 'getUserInfo':
+				echo json_encode($this->dbCon->getUserInfo($_SESSION['uid']));
+				break;
 			case 'checkins':
 				require_once('../api/models/Checkins.class.php');
 				print('Do something!');
