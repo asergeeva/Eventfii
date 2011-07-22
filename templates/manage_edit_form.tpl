@@ -1,5 +1,6 @@
 <div class="form" id="create_event_form">
 			<section class="block">
+				<form method="post" action="{$CURHOST}/event/edit">
 				<fieldset>
 					<legend>Edit Event</legend>
 						<dl class="column"> 		
@@ -44,36 +45,36 @@
 							<dd>
 								<select id="event_type_update">
 									<optgroup label="Personal">
-										<option value="1" {$eventType['t1']}>Birthday</option>
-										<option value="2" {$eventType['t2']}>Other party</option>
-										<option value="3" {$eventType['t3']}>Dinner</option>
-										<option value="4" {$eventType['t4']}>Social gathering</option>
-										<option value="5" {$eventType['t5']}>Shared travel/trip</option>
-										<option value="6" {$eventType['t6']}>Wedding related</option>
+										<option value="1"{$eventType['t1']}>Birthday</option>
+										<option value="2"{$eventType['t2']}>Other party</option>
+										<option value="3"{$eventType['t3']}>Dinner</option>
+										<option value="4"{$eventType['t4']}>Social gathering</option>
+										<option value="5"{$eventType['t5']}>Shared travel/trip</option>
+										<option value="6"{$eventType['t6']}>Wedding related</option>
 									</optgroup>
 										<optgroup label="Educational">
-										<option value="7" {$eventType['t7']}>Club meetup</option>
-										<option value="8" {$eventType['t8']}>Educational event</option>
-										<option value="9" {$eventType['t9']}>Recruiting/career</option>
-										<option value="10" {$eventType['t10']}>School-sponsored event</option>
-										<option value="11" {$eventType['t11']}>Greek</option>
+										<option value="7"{$eventType['t7']}>Club meetup</option>
+										<option value="8"{$eventType['t8']}>Educational event</option>
+										<option value="9"{$eventType['t9']}>Recruiting/career</option>
+										<option value="10"{$eventType['t10']}>School-sponsored event</option>
+										<option value="11"{$eventType['t11']}>Greek</option>
 									</optgroup>
 										<optgroup label="Professional">
-										<option value="12" {$eventType['t12']}>Fundraiser</option>
-										<option value="13" {$eventType['t13']}>Professional event/networking</option>
-										<option value="14" {$eventType['t14']}>Meeting</option>
-										<option value="15" {$eventType['t15']}>Club</option>
-										<option value="16" {$eventType['t16']}>Conference</option>
+										<option value="12"{$eventType['t12']}>Fundraiser</option>
+										<option value="13"{$eventType['t13']}>Professional event/networking</option>
+										<option value="14"{$eventType['t14']}>Meeting</option>
+										<option value="15"{$eventType['t15']}>Club</option>
+										<option value="16"{$eventType['t16']}>Conference</option>
 									</optgroup>
 								</select>
 							</dd> 
 							<dt><label for="event_ispublic_update">Event Permissions</label></dt>
 							<dd>
 								<label for="event_ispublic_yes_update">
-									<p><input type="radio" name="event_ispublic_update" id="event_ispublic_yes_update" {$isEventPublic} value="1" /> Anyone can sign up and invite others</p>
+									<p><input type="radio" name="event_ispublic_update" id="event_ispublic_yes_update"{$isEventPublic} value="1" /> Anyone can sign up and invite others</p>
 								</label> 
 								<label for="event_ispublic_no_update">
-									<p><input type="radio" name="event_ispublic_update" id="event_ispublic_no_update" {$isEventPrivate} value="0" /> Only people you invite can attend</p>
+									<p><input type="radio" name="event_ispublic_update" id="event_ispublic_no_update"{$isEventPrivate}value="0" /> Only people you invite can attend</p>
 								</label>
 							</dd>
 							<dt>
@@ -97,10 +98,11 @@
 							</dt>
 						</dl> 
 						<footer class="buttons-submit">
-							<input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" />
-							<input type="hidden" name="invite_guest_click_counter" id="invite_guest_click_counter" disabled="disabled" value="0" />
+							<!--input type="hidden" name="event_url_update" id="event_url_update" disabled="disabled" value="{$CURHOST}/event/{$eventInfo['id']}" /-->
+							<input type="hidden" name="submit" value="1" />
 							<input type="submit" id="event_update" value="Update" /> 
 						</footer>
 				</fieldset>
+				</form>
 			</section>
 		</div>
