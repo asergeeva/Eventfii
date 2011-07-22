@@ -3,3 +3,4 @@ upload/user/
 upload/event/images/
 upload/event/csv/
 logs/
+.DS_Store
