@@ -223,8 +223,8 @@ class PanelController {
 	 * @return false | Infomration is bad
 	 */
 	public function validateEventInfo ( $newEvent ) {
-
 		// Check for errors
+		require_once('models/Event.class.php');
 		$error = $newEvent->get_errors();
 		$is_valid = ( $error === false ) ? true : false;
 
@@ -250,7 +250,7 @@ class PanelController {
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['uid']) ) {
-			header("Location: http://localhost/Eventfii/login?redirect=create");
+			header("Location: " . CURHOST . "/login?redirect=create");
 			exit;
 		} 
 
@@ -260,7 +260,7 @@ class PanelController {
 		// $_SESSION['prev_eid']
 		
 		unset($_SESSION['newEvent']);
-		header("Location: http://localhost/Eventfii/create/guests");
+		header("Location: " . CURHOST . "/create/guests");
 		exit;
 	}
 
@@ -649,35 +649,12 @@ class PanelController {
 		$eventInfo['event_datetime'] = $eventDate." ".$eventTime;
 		$eventInfo['event_deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
 
-		$isPublic = $eventInfo['is_public'];
-		$isEventPrivate = '';
-		$isEventPublic = '';
-		if ($isPublic == 1) {
-			$isEventPublic = 'checked = "checked"';
-		} else {
-			$isEventPrivate = 'checked = "checked"';
-		}
+		$isEventPublic = ($eventInfo['is_public'] == 1) ? ' checked = "checked"' : "";
+		$isEventPrivate = ($eventInfo['is_public'] == 0 ) ? ' checked="checked"' : "";
 
 		// Event type presentation
-		$eventType = array(
-			't1' => "",
-			't2' => "",
-			't3' => "",
-			't4' => "",
-			't5' => "",
-			't6' => "",
-			't7' => "",
-			't8' => "",
-			't9' => "",
-			't10' => "",
-			't11' => "",
-			't12' => "",
-			't13' => "",
-			't14' => "",
-			't15' => "",
-			't16' => ""
-		);
-		$eventType['t'.$eventInfo['type']] = 'selected = "selected"';
+		$eventType = array( 't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10', 't11', 't12', 't13', 't14', 't15', 't16' );
+		$eventType['t'.$eventInfo['type']] = ' selected="selected"';
 
 		$this->smarty->assign('isEventPublic', $isEventPublic);
 		$this->smarty->assign('isEventPrivate', $isEventPrivate);
@@ -831,7 +808,7 @@ class PanelController {
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/create':
-				// Check to see if the user has submit the form yet				
+				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					require_once('models/Event.class.php');
 
@@ -1195,6 +1172,107 @@ class PanelController {
 			case '/event/print':
 				$this->displayAttendeePage( $_REQUEST['eventId'] );
 				break;
+			case '/login':
+				if (!isset($_SESSION['uid'])) {
+					if (isset($_REQUEST['email']) && isset($_REQUEST['pass'])) {
+						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
+						if(!isset($userId)) {
+								echo("1"); //login failed
+								break;
+						}
+					}
+					if (isset($userId)) {
+						$_SESSION['uid'] = $userId;
+						$usrPic=$this->dbCon->getUserPic($userId);
+						if(isset($usrPic) && $usrPic!="")
+						  $_SESSION['userProfilePic']="upload/user/".$usrPic;
+						else
+						  $_SESSION['userProfilePic']="images/default_thumb.jpg";
+					}
+
+					/*
+					if (isset($_SESSION['newEvent']))  {
+						$newEvent = json_decode($_SESSION['newEvent'], true);
+						$newEvent['organizer'] = $userId;
+						$this->checkNewEvent($newEvent, false);
+						break;
+					}
+					*/
+				    $this->smarty->display('login.tpl');
+					break;
+				}
+				$this->checkHome();
+				break;
+			case '/login/reset':
+				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
+					$this->smarty->assign('ref', $_REQUEST['ref']);
+					$this->smarty->display('login_reset.tpl');
+				} else {
+					$this->smarty->display('login_reset_invalid.tpl');
+				}
+				break;
+			case '/login/reset/submit':
+				if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
+					$this->dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
+					$this->smarty->display('login_reset_confirmed.tpl');
+				} else {
+					$this->smarty->assign('ref', $_REQUEST['ref']);
+					$this->smarty->assign('errorMsg', 'New password is not confirmed');
+					$this->smarty->display('login_reset.tpl');
+				}
+				break;
+			case '/login/forgot':
+				$this->smarty->display('login_forgot.tpl');
+				break;
+			case '/login/forgot/submit':
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();
+
+				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
+
+				if ($this->dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
+					$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
+					$this->smarty->display('login_forgot_confirmed.tpl');
+				} else {
+					$this->smarty->display('login_forgot_invalid.tpl');
+				}
+				break;
+			case '/user/create':
+				$req['fname'] = $_REQUEST['fname'];
+				$req['lname'] = $_REQUEST['lname'];
+				$req['email'] = $_REQUEST['email'];
+				$req['phone'] = $_REQUEST['phone'];
+				$req['pass'] = $_REQUEST['pass'];
+				$req['zip'] = $_REQUEST['zipcode'];
+				$retVal = $this->checkUserCreationForm($req);
+				
+				if( $retVal == 2 ) {
+					$this->smarty->display('login.tpl');
+					break;
+				}
+
+				// Create the new user
+				$userInfo = $this->dbCon->createNewUser(
+					$_REQUEST['fname'], 
+					$_REQUEST['lname'], 
+					$_REQUEST['email'], 
+					$_REQUEST['phone'], 
+					$_REQUEST['pass'],
+					$_REQUEST['zipcode']
+				);
+
+				// Assign user's SESSION variables
+				$_SESSION['uid'] = $userInfo['id'];
+				$_SESSION['userProfilePic']="images/default_thumb.jpg";
+
+				/*
+				if ( isset( $_SESSION['newEvent'] ) ) {	
+					$newEvent = json_decode( $_SESSION['newEvent'], true );
+					$newEvent['organizer'] = $userInfo['id'];
+				}
+				$this->checkNewEvent($newEvent, true);
+				*/				
+				break;
 			case '/user/fb/create':
 				$userInfo = $this->dbCon->createNewUser(
 					$_REQUEST['fname'], 
@@ -1204,8 +1282,10 @@ class PanelController {
 					$_REQUEST['pass']
 				);
 
-				$usrPic=$this->dbCon->getUserPic($userInfo['id']);
+				$usrPic  = $this->dbCon->getUserPic($userInfo['id']);
 
+				// How would they have added a picture of they
+				// just registered?
 				if( ! isset( $usrPic ) || $usrPic == "" ) {
 					$uppic = $_REQUEST['pic'];
 					$this->smarty->assign('userProfilePic', $uppic);
@@ -1214,14 +1294,15 @@ class PanelController {
 					$_SESSION['userProfilePic']="upload/user/".$usrPic;
 				}
 
+				$_SESSION['uid'] = $userInfo['id'];
+
+				/* Requires login before creating now
+				 *
 				if ( isset( $_SESSION['newEvent'] ) ) {	
 					$newEvent = json_decode( $_SESSION['newEvent'], true );
 					$newEvent['organizer'] = $userInfo['id'];
-				}
-
-				$_SESSION['uid'] = $userInfo['id'];
-
-				$this->checkNewEvent($newEvent, true);
+					$this->checkNewEvent($newEvent, true);
+				} */
 
 				break;
 			case '/user/image/upload':
@@ -1239,37 +1320,6 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 
 				$this->dbCon->saveUserPic();
-				break;
-			case '/user/create':
-				$req['fname'] = $_REQUEST['fname'];
-				$req['lname'] = $_REQUEST['lname'];
-				$req['email'] = $_REQUEST['email'];
-				$req['phone'] = $_REQUEST['phone'];
-				$req['pass'] = $_REQUEST['pass'];
-				$req['zip'] = $_REQUEST['zipcode'];
-				$retVal = $this->checkUserCreationForm($req);
-				//die($retVal);
-				if( $retVal == 2 ) {
-					$this->smarty->display('login.tpl');
-					return;
-				}
-				$userInfo = $this->dbCon->createNewUser(
-					$_REQUEST['fname'], 
-					$_REQUEST['lname'], 
-					$_REQUEST['email'], 
-					$_REQUEST['phone'], 
-					$_REQUEST['pass'],
-					$_REQUEST['zipcode']
-				);
-				$_SESSION['userProfilePic']="images/default_thumb.jpg";											
-
-				if ( isset( $_SESSION['newEvent'] ) ) {	
-					$newEvent = json_decode( $_SESSION['newEvent'], true );
-					$newEvent['organizer'] = $userInfo['id'];
-				}
-
-				$_SESSION['uid'] = $userInfo['id'];
-				$this->checkNewEvent($newEvent, true);
 				break;
 			case '/user/status/update':
 				$this->dbCon->updateUserStatus($_REQUEST['value']);
@@ -1353,69 +1403,6 @@ class PanelController {
 				$this->dbCon->updateCollected($_REQUEST['eventId']);
 				$this->assignCreatedEvents($_SESSION['uid']);
 				$this->smarty->display('event_created.tpl');
-				break;
-			case '/login':
-				if (!isset($_SESSION['uid'])) {
-					if (isset($_REQUEST['email']) && isset($_REQUEST['pass'])) {
-						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-						if(!isset($userId)) {
-								echo("1"); //login failed
-								break;
-						}
-					}
-					if (isset($userId)) {
-						$_SESSION['uid'] = $userId;
-						$usrPic=$this->dbCon->getUserPic($userId);
-						if(isset($usrPic) && $usrPic!="")
-						  $_SESSION['userProfilePic']="upload/user/".$usrPic;
-						else
-						  $_SESSION['userProfilePic']="images/default_thumb.jpg";
-					}
-
-					if (isset($_SESSION['newEvent']))  {
-						$newEvent = json_decode($_SESSION['newEvent'], true);
-						$newEvent['organizer'] = $userId;
-						$this->checkNewEvent($newEvent, false);
-						break;
-					}
-				    $this->smarty->display('login.tpl');
-					break;
-				}
-				$this->checkHome();
-				break;
-			case '/login/reset':
-				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
-					$this->smarty->assign('ref', $_REQUEST['ref']);
-					$this->smarty->display('login_reset.tpl');
-				} else {
-					$this->smarty->display('login_reset_invalid.tpl');
-				}
-				break;
-			case '/login/reset/submit':
-				if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
-					$this->dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
-					$this->smarty->display('login_reset_confirmed.tpl');
-				} else {
-					$this->smarty->assign('ref', $_REQUEST['ref']);
-					$this->smarty->assign('errorMsg', 'New password is not confirmed');
-					$this->smarty->display('login_reset.tpl');
-				}
-				break;
-			case '/login/forgot':
-				$this->smarty->display('login_forgot.tpl');
-				break;
-			case '/login/forgot/submit':
-				require_once('models/EFMail.class.php');
-				$mailer = new EFMail();
-
-				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
-
-				if ($this->dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
-					$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
-					$this->smarty->display('login_forgot_confirmed.tpl');
-				} else {
-					$this->smarty->display('login_forgot_invalid.tpl');
-				}
 				break;
 			case '/logout':
 				if ( ! isset($_SESSION['uid']) ) {

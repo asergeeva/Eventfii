@@ -12,8 +12,8 @@ class Event {
 	public $goal;
 	public $address;
 	public $date;
-	public $deadline;
 	public $time;
+	public $deadline;
 	public $description;
 	public $cost;
 	public $is_public;
@@ -37,7 +37,7 @@ class Event {
 		$this->description = $description;
 		$this->cost = $cost;
 		$this->is_public = $is_public;
-		$this->gets = $gets;
+		// $this->gets = $gets;
 		$this->type = $type;
 		$this->location_lat = $location_lat;
 		$this->location_long = $location_long;
@@ -56,7 +56,7 @@ class Event {
 	 */
 	public function get_errors() {
 		// Reset
-		$numErrors = 0;
+		$this->numErrors = 0;
 		unset($this->error);
 	
 		// Check for errors
