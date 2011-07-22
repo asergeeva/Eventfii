@@ -74,11 +74,11 @@ class DBConfig {
 	
 	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
-	  $dbResult = mysql_query($query);
-	  if (!$dbResult && $this->DEBUG) {
+		$dbResult = mysql_query($query);
+		if (!$dbResult && $this->DEBUG) {
 			print($query . "<br />");
-		  die('Invalid query: ' . mysql_error());
-	  }
+			die('Invalid query: ' . mysql_error());
+		}
 	}
 	
 	public function getQueryResult($query) {
@@ -276,38 +276,39 @@ class DBConfig {
 	}
 	
 	public function createNewEvent($newEvent) {
-		$datetime = $this->dateToSql($newEvent["date"])." ".$newEvent["time"];
-		$sqlDeadline = $this->dateToSql($newEvent["deadline"]);
+		$datetime = $this->dateToSql($newEvent->date)." ".$newEvent->time;
+		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
-		$CREATE_NEW_EVENT = "	INSERT INTO ef_events (
-											created, 
-											organizer, 
-											title, 
-											url, 
-											goal, 
-											location_address, 
-											event_datetime, 
-											event_deadline, 
-											description, 
-											is_public, 
-											gets, 
-											type,
-											location_lat,
-											location_long) 
-								VALUES		(NOW(), 
-											" . mysql_real_escape_string($newEvent["organizer"]) . ", 
-											'" . mysql_real_escape_string($newEvent["title"]) . "', 
-											'" . mysql_real_escape_string($newEvent["url"]) . "', 
-											" . mysql_real_escape_string($newEvent["goal"]) . ",
-											'" . mysql_real_escape_string($newEvent["address"]) . "',
-											'" . mysql_real_escape_string($datetime) . "',
-											'" . mysql_real_escape_string($sqlDeadline) . "',
-											'" . mysql_real_escape_string($newEvent["description"]) . "',
-											" . mysql_real_escape_string($newEvent["is_public"]) . ",
-											'" . mysql_real_escape_string($newEvent["gets"]) . "',
-											" . $newEvent["type"] . ",
-											" . mysql_real_escape_string($newEvent["location_lat"]) . ",
-											" . mysql_real_escape_string($newEvent["location_long"]) . ")";
+		$CREATE_NEW_EVENT = "
+			INSERT INTO ef_events (	created, 
+									organizer, 
+									title, 
+									url, 
+									goal, 
+									location_address, 
+									event_datetime, 
+									event_deadline, 
+									description, 
+									is_public, 
+									gets, 
+									type,
+									location_lat,
+									location_long) 
+			VALUES (		NOW(), 
+						'" . mysql_real_escape_string($newEvent->organizer) . "',
+						'" . mysql_real_escape_string($newEvent->title) . "', 
+						'" . mysql_real_escape_string($newEvent->url) . "', 
+						" . mysql_real_escape_string($newEvent->goal) . ",
+						'" . mysql_real_escape_string($newEvent->address) . "',
+						'" . mysql_real_escape_string($datetime) . "',
+						'" . mysql_real_escape_string($sqlDeadline) . "',
+						'" . mysql_real_escape_string($newEvent->description) . "',	
+						" . $newEvent->is_public . ",
+						'" . $newEvent->gets . "',
+						" . $newEvent->type . ",
+						" . mysql_real_escape_string($newEvent->location_lat) . ",
+						" . mysql_real_escape_string($newEvent->location_long) . ")
+		";
 		
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}

@@ -116,12 +116,6 @@
 						</noscript>         
 					</div>
 				</dd>
-				<!--dt>
-					<label for="event_url_create">URL</label>
-				</dt>
-				<dd>
-					<input type="hidden" class="inputbox autowidth" name="event_url_create" id="event_url_create" readonly="readonly" value="http://localhost/eventfii/event/2" />
-				</dd-->
 			</dl>
 			<footer class="buttons-submit">
 				<input type="hidden" name="submit" value="1" />

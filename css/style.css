@@ -487,8 +487,10 @@ ul.network li a {
 	font-size: 11px;
 	margin: 0 0 5px; }
 #main .navigation .block ol li { text-align: left; }
+#main .navigation .block li span { font-size: 11px; }
+#cp-nav ol li { padding: 8px 0 8px 8px; }
 #main .navigation .block li.current,
-#main .navigation .block li:hover { 
+#main .navigation .block li a:hover { 
 	background: #ff9933;
 	color: #fff; }
 #main .navigation .block li a {
@@ -497,8 +499,8 @@ ul.network li a {
 	padding: 8px 0 0;
 	display: block; }
 #main .navigation .block ol li a { padding: 8px 0 0 8px; }
-#main .navigation .block li.current a span,
-#main .navigation .block li:hover a span { color: #fff; }
+#main .navigation .block li.current span,
+#main .navigation .block li a:hover span { color: #fff; }
 #main .navigation .block ol li a span { font-size: 11px; }
 
 /* Error Pages
