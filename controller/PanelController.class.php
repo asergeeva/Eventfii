@@ -24,6 +24,7 @@ class PanelController {
 
 	////////////////////
 	// Validation
+	// Obsolete but keeping until dependency is removed
 
 	public function check_address($addr) {
 		$a = urlencode($addr);
@@ -109,10 +110,10 @@ class PanelController {
 		$this->smarty->append('error', $error, true);
 		return $flag;
 	}
-
+	
 	public function validate_desc($desc) {
 		$flag = 1;
-		$res=filter_var($desc, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{25,500}$/")));
+		$res = filter_var($desc, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{10,500}$/")));
 		if(!($res)) {
 			$error['desc'] = "Description can only contain spaces, A-Z or 0-9";
 			$flag=2;
@@ -211,90 +212,180 @@ class PanelController {
 		return $flag;	
 	}
 
+	///////////////
+	// End Validation
+
+	/* validateEventInfo
+	 * Makes sure event info is valid
+	 *
+	 * @param $newEvent | The event object
+	 * @return true | The information is valid
+	 * @return false | Infomration is bad
+	 */
+	public function validateEventInfo ( $newEvent ) {
+
+		// Check for errors
+		$error = $newEvent->get_errors();
+		$is_valid = ( $error === false ) ? true : false;
+
+		// If there are errors
+		if ( ! $is_valid ) {
+			$this->smarty->assign('error', $error);
+			$_SESSION['newEvent'] = $newEvent;
+			return false;
+		} 
+
+		// Looks like it's valid ;)
+		return true;
+	}
+
+	/* makeNewEvent
+	 * Adds the event to the database, then switches to step 2
+	 *
+	 * @param $newEvent | The VALIDATED event object
+	 * @return true | The information is valid
+	 * @return false | Infomration is bad
+	 */
+	public function makeNewEvent( $newEvent ) {
+		// Make sure user is logged in before they can
+		// create the event
+		if ( ! isset($_SESSION['uid']) ) {
+			header("Location: http://localhost/Eventfii/login?redirect=create");
+			exit;
+		} 
+
+		$this->dbCon->createNewEvent($newEvent);
+
+		$_SESSION['prev_eid'] = $_SESSION['newEvent']->title;
+		// $_SESSION['prev_eid']
+		
+		unset($_SESSION['newEvent']);
+		header("Location: http://localhost/Eventfii/create/guests");
+		exit;
+	}
+
+	/*	MAIL FOR GUESTS
+		require_once('models/EFMail.class.php');
+		if ( is_array($newEvent) ) {
+			$r = 0;
+		} else {
+			$newEvent = json_decode($_SESSION['newEvent'], true);
+		}
+		$addrss = $newEvent['address'];
+		$addr = $this->check_address($addrss);	
+		$newEvent['location_lat'] = $addr['lat'];
+		$newEvent['location_long'] = $addr['lng'];	
+		$this->dbCon->createNewEvent($newEvent);
+		
+		// INVITE GUESTS USING EMAIL
+		$mailer = new EFMail();
+		$eid = explode('/', $newEvent['url']);
+		$newEvent['eid'] = $eid[sizeof($eid) - 1];
+
+		$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
+		$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
+	*/
+
+	/* function checkNewEvent
+	 * Checks to see if the given event object
+	 * is valid.
+	 *
+	 * @param $newEvent | The new event
+	 * @param $loadCP | 
+	 */
 	public function checkNewEvent($newEvent, $loadCp) {
 		if ( isset($newEvent) && $newEvent != NULL ) {
-			if( is_array($newEvent) ) {
-				$r = 0;
-			} else {
-				$addr = $newEvent->address;
-				$goal = $newEvent->goal;
-				$title = $newEvent->title;
-				$dt = $newEvent->date;
-				$ddt = $newEvent->deadline;
-				$isPub = $newEvent->is_public;
-				$tm = $newEvent->time;
-				$typ = $newEvent->type;
-				$description = $newEvent->description;
-				$aval = $this->validate_address($addr);
-				$tval = $this->validate_title($title);
-				$desc = $this->validate_desc($description);
-				$gval = $this->validate_goal($goal);
-				$dval = $this->validate_date($dt);
-				$ddval = $this->validate_ddt($ddt,$dt);
-				$tmval = $this->validate_tm($tm);
-				$newEvent->time=date("H:i:s", strtotime($tm));
-				$evtType = $this->validate_event_type($typ);
-				$isPubVal = $this->validate_is_pub($isPub);
-				$_SESSION['newEvent'] = json_encode($newEvent);
-				$err = "";
+			$addr = $newEvent->address;
+			$goal = $newEvent->goal;
+			$title = $newEvent->title;
+			$dt = $newEvent->date;
+			$ddt = $newEvent->deadline;
+			$isPub = $newEvent->is_public;
+			$tm = $newEvent->time;
+			$typ = $newEvent->type;
+			$description = $newEvent->description;
+			$aval = $this->validate_address($addr);
+			$tval = $this->validate_title($title);
+			$desc = $this->validate_desc($description);
+			$gval = $this->validate_goal($goal);
+			$dval = $this->validate_date($dt);
+			$ddval = $this->validate_ddt($ddt,$dt);
+			$tmval = $this->validate_tm($tm);
+			$newEvent->time = date("H:i:s", strtotime($tm));
+			$evtType = $this->validate_event_type($typ);
+			$isPubVal = $this->validate_is_pub($isPub);
+			// $_SESSION['newEvent'] = json_encode($newEvent);
 
-				if ( $isPubVal == 2 )
-					$err .= "1,";
-				else
-					$err .= "0,";
-				
-				if ( $tmval == 2 )
-					$err .= "1,";
-				else
-					$err .= "0,";
+			// Save the current event
+			$_SESSION['newEvent'] = $newEvent;
 
-				if ( $ddval == 2 || $ddval == 3 )
-					$err .= "$ddval,";
-				else
-					$err .= "0,";
+			// die("here");
 
+			// Validation error checks
+			// Note: Need to either implement AJAX solution,
+			// or 
+			$err = "";
 
-				if ( $dval == 2 || $dval == 3 )
-					$err .= "$dval,";
+			if ( $isPubVal == 2 )
+				$err .= "1,";
 			else
-					$err .= "0,";
+				$err .= "0,";
+			
+			if ( $tmval == 2 )
+				$err .= "1,";
+			else
+				$err .= "0,";
 
-				if ( $aval == 2 )
-					$err .= "1,";
-				else
-					$err .= "0,";
+			if ( $ddval == 2 || $ddval == 3 )
+				$err .= "$ddval,";
+			else
+				$err .= "0,";
 
-				if ( $tval == 2 || $tval == 3 )
-					$err .= "$tval,";
-				else
-					$err .= "0,";
 
-				if ( $desc == 2 )
-					$err .= "1,";
-				else
-					$err .= "0,";
+			if ( $dval == 2 || $dval == 3 )
+				$err .= "$dval,";
+			else
+				$err .= "0,";
 
-				if ( $gval == 2 )
-					$err .= "1,";
-				else
-					$err .= "0,";
+			if ( $aval == 2 )
+				$err .= "1,";
+			else
+				$err .= "0,";
 
-				if ( $evtType == 0 )
-					$err .= "1,";
-				else
-					$err .= "0,";
+			if ( $tval == 2 || $tval == 3 )
+				$err .= "$tval,";
+			else
+				$err .= "0,";
 
-				if ( $err != "0,0,0,0,0,0,0,0,0," ) {
-					// die($err);
-					$this->smarty->assign('step1', ' class="current"');
-					$this->smarty->display('create.tpl');
-					return;
-				}
-				//else
-				//	echo($err);
+			if ( $desc == 2 )
+				$err .= "1,";
+			else
+				$err .= "0,";
+
+			if ( $gval == 2 )
+				$err .= "1,";
+			else
+				$err .= "0,";
+
+			if ( $evtType == 0 )
+				$err .= "1,";
+			else
+				$err .= "0,";
+
+			if ( $err != "0,0,0,0,0,0,0,0,0," ) {
+				// die($err);
+				$this->smarty->assign('step1', ' class="current"');
+				$this->smarty->display('create.tpl');
+				return;
 			}
+		} else {
+			$this->smarty->assign('step1', ' class="current"');
+			$this->smarty-display('create.tpl');
+			return;
 		}
 
+		// Make sure user is logged in before they can
+		// create the event
 		if (isset($_SESSION['uid'])) {
 			if (isset($_SESSION['newEvent'])) {
 				require_once('models/EFMail.class.php');
@@ -326,6 +417,7 @@ class PanelController {
 			$this->smarty->assign('step2', ' class="current"');
 			$this->smarty->display('create.tpl');
 		} else {
+			$this->smarty->assign('error', "Please log in or create an account before you make a new event.");
 			$this->smarty->display('login.tpl');
 		}
 	}
@@ -739,13 +831,11 @@ class PanelController {
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/create':
-				if ( ! isset($_POST['submit']) ) {
-					$this->smarty->assign('step1', ' class="current"');
-					$this->smarty->display('create.tpl');
-				} else {
+				// Check to see if the user has submit the form yet				
+				if ( isset($_POST['submit']) ) {
 					require_once('models/Event.class.php');
-					require_once('models/Location.class.php');
-					$addr = $this->check_address($_POST['address']);	
+
+					// Create an event object with the text from the form
 					$newEvent = new Event(
 						$_SESSION['uid'],
 						$_POST['title'], 
@@ -759,16 +849,30 @@ class PanelController {
 						$_POST['cost'],
 						$_POST['is_public'],
 						$_POST['type'],
-						$addr['lat'],
-						$addr['lng']
+						'',
+						''
 					);
-
-					// $this->checkGuests($newEvent);
-					$this->checkNewEvent($newEvent, false);
+				} else {
+					// Check to see if they were working on the event before
+					if( isset($_SESSION['newEvent']) ) {
+						$newEvent = $_SESSION['newEvent'];
+					} else {
+						$this->smarty->assign('step1', ' class="current"');
+						$this->smarty->display('create.tpl');
+						break;
+					}
+				}
+				
+				// Check to see if the new event is valid.
+				if ( $this->validateEventInfo( $newEvent ) === false ) {
+					$this->smarty->assign('step1', ' class="current"');
+					$this->smarty->display('create.tpl');
+				// Make sure user is logged in before they create the event
+				} else {
+					$this->makeNewEvent( $newEvent );
 				}
 				break;
 			case '/create/guests':
-				$_SESSION['new_eid'];
 				$this->smarty->assign('step2', ' class="current"');
 				$this->smarty->display('create.tpl');
 				break;

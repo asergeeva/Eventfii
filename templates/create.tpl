@@ -7,7 +7,7 @@
 		{if $step1}
 		<h1>Create a New Event</h1>
 		{else if $step2}
-		<h1>Event 
+		<h1>Add guests to your event</h1>
 		{/if}
 	</header>
 	<section id="main"> 
@@ -17,13 +17,13 @@
 					<h1>Steps</h1>
 				</header>
 				<ol>
-					<li{$step1}><a href="{$CURHOST}/create"><span>Add event information</span></a></li>
-					<li{$step2}><a href="{$CURHOST}/create/guests"><span>Add guests</span></a></li>
-					<li><a href="#"><span>trueRSVP</span></a></li>
+					<li{$step1}><span>Add event information</span></li>
+					<li{$step2}><span>Add guests</span></li>
+					<li><span>trueRSVP</span></li>
 				</ol>
 			</nav>
 			<footer class="links-extra">
-				<p><a href="cp.html">Back to home</a></p>
+				<p><a href="{$CURHOST}">Back to home</a></p>
 			</footer>
 		</aside>
 		<div class="content">
