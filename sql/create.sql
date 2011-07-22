@@ -13,7 +13,8 @@ CREATE TABLE ef_users (
   email4    VARCHAR(500),
   email5    VARCHAR(500),
   zip		VARCHAR(15),
-  pic		VARCHAR(200)
+  pic		VARCHAR(200),
+  twitter 	VARCHAR(20)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (

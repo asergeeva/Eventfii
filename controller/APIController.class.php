@@ -56,6 +56,10 @@ class APIController {
 				require_once('../api/models/Checkins.class.php');
 				print('Do something!');
 				break;
+			case 'setProfile':
+				$this->dbCon->updateUserProfileDtls($_REQUEST['email'], $_REQUEST['zip'], $_REQUEST['cell']);
+				echo('status_updateCompleted');
+				break;
 			default:
 				$this->smarty->assign('requestUri', $requestUri);
 				$this->smarty->display('error.tpl');
