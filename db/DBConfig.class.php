@@ -7,7 +7,7 @@
  */
  
 class DBConfig {
-	private $DB_HOST = "localhost";
+	private $DB_HOST = "127.0.0.1:3306";
 	private $DB_USER = "glaksmono";
 	private $DB_PASS = "12345";
 	
