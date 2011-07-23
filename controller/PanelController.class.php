@@ -222,7 +222,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	public function validateEventInfo ( $newEvent ) {
+	public function validateEventInfo ( &$newEvent ) {
 		// Check for errors
 		require_once('models/Event.class.php');
 		$error = $newEvent->get_errors();
@@ -231,12 +231,30 @@ class PanelController {
 		// If there are errors
 		if ( ! $is_valid ) {
 			$this->smarty->assign('error', $error);
-			$_SESSION['newEvent'] = $newEvent;
 			return false;
 		} 
 
 		// Looks like it's valid ;)
 		return true;
+	}
+
+	/* saveEventFields
+
+	 */
+	public function saveEventFields( $newEvent ) {
+
+		// Save the current fields
+		$event_field['title'] = $newEvent->get_title();
+		$event_field['description'] = $newEvent->get_description();
+		$event_field['address'] = $newEvent->get_address();
+		$event_field['date'] = $newEvent->get_date();
+		$event_field['time'] = $newEvent->get_time();
+		$event_field['goal'] = $newEvent->get_goal();
+		$event_field['deadline'] = $newEvent->get_deadline();
+		$event_field['type'] = $newEvent->get_type();
+		$event_field['permissions'] = $newEvent->get_permissions();
+		
+		return $event_field;
 	}
 
 	/* makeNewEvent
@@ -808,9 +826,10 @@ class PanelController {
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/create':
+				require_once('models/Event.class.php');
+			
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
-					require_once('models/Event.class.php');
 
 					// Create an event object with the text from the form
 					$newEvent = new Event(
@@ -829,22 +848,23 @@ class PanelController {
 						'',
 						''
 					);
-				} else {
-					// Check to see if they were working on the event before
-					if( isset($_SESSION['newEvent']) ) {
-						$newEvent = $_SESSION['newEvent'];
-					} else {
-						$this->smarty->assign('step1', ' class="current"');
-						$this->smarty->display('create.tpl');
-						break;
-					}
-				}
-				
-				// Check to see if the new event is valid.
-				if ( $this->validateEventInfo( $newEvent ) === false ) {
+				// See if it's their first time on the field
+				} else if ( ! isset($_SESSION['newEvent']) ) {
 					$this->smarty->assign('step1', ' class="current"');
 					$this->smarty->display('create.tpl');
-				// Make sure user is logged in before they create the event
+					break;
+				// Check to see if they were working on the event before
+				} else {
+					$newEvent = unserialize($_SESSION['newEvent']);
+				}				
+
+				// Check to see if the new event is valid.
+				if ( $this->validateEventInfo( $newEvent ) === false ) {
+					$_SESSION['newEvent'] = serialize($newEvent);
+					$event_field = $this->saveEventFields( $newEvent );
+					$this->smarty->assign('event_field', $event_field);
+					$this->smarty->assign('step1', ' class="current"');
+					$this->smarty->display('create.tpl');
 				} else {
 					$this->makeNewEvent( $newEvent );
 				}

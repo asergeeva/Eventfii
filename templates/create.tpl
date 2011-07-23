@@ -22,6 +22,12 @@
 					<li><span>trueRSVP</span></li>
 				</ol>
 			</nav>
+			<nav class="block">
+				<header class="block-title">
+					<h1>Known Bugs</h1>
+				</header>
+				<p></p>
+			</nav>
 			<footer class="links-extra">
 				<p><a href="{$CURHOST}">Back to home</a></p>
 			</footer>

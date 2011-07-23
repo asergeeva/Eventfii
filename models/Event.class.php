@@ -47,6 +47,18 @@ class Event {
 		
 	}
 
+	// Accessor methods
+	
+	public function get_title() { return $this->title; }
+	public function get_description() { return $this->description; }
+	public function get_address() { return $this->address; }
+	public function get_date() { return $this->date; }
+	public function get_time() { return $this->time; }
+	public function get_goal() { return $this->goal; }
+	public function get_deadline() { return $this->deadline; }
+	public function get_type() { return $this->type; }
+	public function get_permissions() { return $this->is_public; }
+
 	/* function get_errors
 	 * Function that makes sure that all event fields
 	 * are filled and valid.
@@ -177,7 +189,7 @@ class Event {
 			$geocode = json_decode($result);
 			$this->location_lat = $geocode->results[0]->geometry->location->lat;
 			$this->location_long = $geocode->results[0]->geometry->location->lng; 
-			$this->address = $geocode->results[0]->formatted_address;
+			$formatted_address = $geocode->results[0]->formatted_address;
 			$geo_status = $geocode->status;
 			$location_type = $geocode->results[0]->geometry->location_type;
 		} else {
@@ -189,6 +201,8 @@ class Event {
 		if ( ! ( $location_type == "RANGE_INTERPOLATED" || $location_type == "ROOFTOP" ) ) {
 			$this->error['address'] = "Address entered is invalid";
 			$this->numErrors++;
+		} else {
+			$this->address = $formatted_address;
 		}
 	}
 

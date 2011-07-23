@@ -595,7 +595,7 @@ class DBConfig {
 	
 	public function isInvited($uid, $eid) {
 		$IS_INVITED = "	SELECT	* 
-						FROM	ef_attendance a 
+						FROM		ef_attendance a 
 						WHERE	a.user_id = " .	$uid . " 
 						AND		a.event_id = " . $eid;
 		if ($this->getRowNum($IS_INVITED) == 0) {
