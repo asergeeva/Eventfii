@@ -52,13 +52,15 @@ class APIController {
 			case 'getUserInfo':
 				echo json_encode($this->dbCon->getUserInfo($_SESSION['uid']));
 				break;
+			case 'getAttendingEvents':
+				echo json_encode($this->dbCon->getEventAttendingBy($_SESSION['uid']));
+				break;
 			case 'checkins':
 				require_once('../api/models/Checkins.class.php');
 				print('Do something!');
 				break;
 			case 'setProfile':
-				$this->dbCon->updateUserProfileDtls($_REQUEST['email'], $_REQUEST['zip'], $_REQUEST['cell']);
-				echo('status_updateCompleted');
+				echo $this->dbCon->updateUserProfileMobile($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['cell'],$_REQUEST['twitter']);
 				break;
 			default:
 				$this->smarty->assign('requestUri', $requestUri);
