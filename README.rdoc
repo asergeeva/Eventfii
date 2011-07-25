@@ -40,5 +40,5 @@
       print('bar');         print('bar');
                         }
 												
-   // Bad                                                 // Good
-	 $badString = "Some string " . $str . " is here";       $goodString = "Some string ".$str." is here";
+   // Bad               // Good
+	 $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
