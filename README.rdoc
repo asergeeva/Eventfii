@@ -41,4 +41,4 @@
                         }
 												
    // Bad               // Good
-	 $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
+   $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
