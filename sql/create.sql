@@ -12,9 +12,12 @@ CREATE TABLE ef_users (
   email3    VARCHAR(500),
   email4    VARCHAR(500),
   email5    VARCHAR(500),
-  zip		VARCHAR(15),
-  pic		VARCHAR(200),
-  twitter 	VARCHAR(20)
+  zip		    VARCHAR(15),
+  pic		    VARCHAR(200),
+  twitter 	VARCHAR(20), 
+  notif_opt1 TINYINT(1) DEFAULT 1,
+  notif_opt2 TINYINT(1) DEFAULT 1,
+  notif_opt3 TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (

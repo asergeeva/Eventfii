@@ -22,7 +22,7 @@
 				<footer class="buttons-extra"><a href="#"><span>Upload</span></a></footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info">Say something witty about yourself here!</p>
+				<p class="user-info">{$userInfo['about']}</p>
 				<footer class="buttons-extra"><a href="#"><span>Edit</span></a></footer>
 			</section>
 			<footer class="link-home">
@@ -37,18 +37,18 @@
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 
-						<input type="text" class="inputbox autowidth" name="user-fname" id="fname" value="Anna" />
+						<input type="text" class="inputbox autowidth" name="user-fname" id="fname" value="{$userInfo['fname']}" />
 					</label>
 					<label for="lname">
 						<span>Last Name</span> 
-						<input type="text" class="inputbox autowidth" name="user-lname" id="lname" value="Anna" />
+						<input type="text" class="inputbox autowidth" name="user-lname" id="lname" value="{$userInfo['lname']}" />
 					</label>
 					<label for="email">
 						<span>Email</span> 
-						<input type="text" class="inputbox autowidth" name="user-email" id="email" value="sergeeva@usc.edu" />
+						<input type="text" class="inputbox autowidth" name="user-email" id="email" value="{$userInfo['email']}" />
 					</label>
-					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="user-cell" id="user-cell" value="303-886-1808" /></label>
-					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="user-zip" id="user-zip" value="90007" maxlength="5" /></label>
+					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="user-cell" id="user-cell" value="{$userInfo['phone']}" /></label>
+					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="user-zip" id="user-zip" value="{$userInfo['zip']}" maxlength="5" /></label>
 				</fieldset>
 				<header class="block-title">
 					<h1>Account Info</h1>
@@ -56,7 +56,7 @@
 				<fieldset>
 					<label for="twitter" class="autowidth">
 						<span>Twitter Handle</span> 
-						<input type="text" class="inputbox autowidth" name="user-email" id="email" value="sergeeva@usc.edu" />
+						<input type="text" class="inputbox autowidth" name="user-twitter" id="twitter" value="{$userInfo['twitter']}" />
 					</label>
 					<label for="fbconnect" class="autowidth">
 						<span>Connect your facebook</span> 
@@ -68,13 +68,13 @@
 				</header>
 				<fieldset>
 					<label for="features" class="fullwidth">
-						<input type="checkbox" name="email-feature" id="features" /> <em>Tell me about new features every month</em>
+						<input type="checkbox" name="email-feature" id="features" {if $userInfo['notif_opt1'] eq '1'}checked="checked"{/if} /> <em>Tell me about new features every month</em>
 					</label>
 					<label for="updates" class="fullwidth">
-						<input type="checkbox" name="email-updates" id="updates" /> <em>Send me daily updates about my event when I’m the host</em>
+						<input type="checkbox" name="email-updates" id="updates" {if $userInfo['notif_opt2'] eq '1'}checked="checked"{/if} /> <em>Send me daily updates about my event when I’m the host</em>
 					</label>
 					<label for="attend" class="fullwidth">
-						<input type="checkbox" name="email-updates" id="attend" /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
+						<input type="checkbox" name="email-updates" id="attend" {if $userInfo['notif_opt3'] eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
 					</label>
 				</fieldset>
 				<header class="block-title">
@@ -95,7 +95,8 @@
 					</label>
 				</fieldset>
 				<footer class="buttons-extra">
-					<a href="cp.html"><span>Save All</span></a>
+					<a href="#" id="save_settings"><span>Save All</span></a>
+          <span id="save_loading_img"></span>
 				</footer>
 			</section>
 		</div>
@@ -104,6 +105,7 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
-
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
 </body>
 </html>

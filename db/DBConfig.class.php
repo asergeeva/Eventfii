@@ -168,6 +168,23 @@ class DBConfig {
 		return $usrPic['pic'];
 	}
 	
+	public function updateUserInfo($fname, $lname, $email, $phone, $zip, $twitter, 
+																 $about, $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1) {
+		$UPDATE_USER = "UPDATE	ef_users SET 
+								fname = '" . mysql_real_escape_string($fname) . "', 
+								lname = '" . mysql_real_escape_string($lname) . "',
+								email = '".mysql_real_escape_string($email)."', 
+								phone = '" . mysql_real_escape_string($phone) . "',
+								zip = '" . mysql_real_escape_string($zip) . "',
+								twitter = '" . mysql_real_escape_string($twitter) . "',
+								about = 'I am " . mysql_real_escape_string($fname) . "',
+								notif_opt1 = ".$notif_opt1.",
+								notif_opt2 = ".$notif_opt2.",
+								notif_opt3 = ".$notif_opt3."
+						WHERE	id = '" . $_SESSION['uid'] . "'";
+		$this->executeUpdateQuery($UPDATE_USER);
+	}
+	
 	public function createNewUser($fname, $lname, $email, $phone, $pass, $zip) {
 		if (!$this->isUserEmailExist($email)) {
 			if (isset($pass)) {
@@ -562,6 +579,21 @@ class DBConfig {
 	public function getNumGuests($eid) {
 		$GET_NUM_GUESTS = "SELECT COUNT(*) AS num_guests FROM ef_users u, ef_attendance a WHERE u.id = a.user_id AND a.event_id = ".$eid;
 		return $this->executeQuery($GET_NUM_GUESTS);
+	}
+	
+	public function resetPassword($oldPass, $newPass, $confPass) {
+		$userPass = $this->getUserPass();
+		if ($oldPass == $userPass['password'] && $newPass == $confPass) {
+			$RESET_PASSWORD = "UPDATE ef_users SET password = '".$newPass."' WHERE id = ".$_SESSION['uid'];
+			$this->executeUpdateQuery($RESET_PASSWORD);
+			return true;
+		}
+		return false;
+	}
+	
+	public function getUserPass() {
+		$GET_USER_PASS = "SELECT password FROM ef_users WHERE id = ".$_SESSION['uid'];
+		return $this->executeQuery($GET_USER_PASS);
 	}
 	
 	public function requestPasswordReset($hash_key, $email) {

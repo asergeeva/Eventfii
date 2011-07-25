@@ -13,12 +13,12 @@ class PanelController {
 	private $dbCon;
 	private $DEBUG = true;
 
-	function __construct($smarty) {
+	public function __construct($smarty) {
 		$this->smarty = $smarty;
 		$this->dbCon = new DBConfig();
 	}
 
-	function __destruct() {
+	public function __destruct() {
 
 	}
 
@@ -823,7 +823,24 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
+			  $userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+				
+				$this->smarty->assign('userInfo', $userInfo);	
 				$this->smarty->display('settings.tpl');
+				break;
+			case '/settings/save':
+				$this->dbCon->updateUserInfo($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], 
+																		 $_REQUEST['phone'], $_REQUEST['zip'], $_REQUEST['twitter'], 
+																     $_REQUEST['about'], $_REQUEST['features'], $_REQUEST['updates'], 
+																		 $_REQUEST['attend']);
+				
+				if ($_REQUEST['curpass'] != '' &&
+						$_REQUEST['newpass'] != '' &&
+						$_REQUEST['confpass'] != '') {
+					$this->dbCon->resetPassword(md5($_REQUEST['curpass']), 
+																			md5($_REQUEST['newpass']), 
+																			md5($_REQUEST['confpass']));
+				}
 				break;
 			case '/create':
 				require_once('models/Event.class.php');
@@ -1395,7 +1412,7 @@ class PanelController {
 						$paypalPreapprove->response->senderEmail
 					);
 
-				  	$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+				  $userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
 					$this->smarty->assign('userInfo', $userInfo);
 
 					$this->smarty->display('payment_success.tpl');
