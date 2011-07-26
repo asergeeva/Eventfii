@@ -25,7 +25,7 @@ class Event {
 	private $error;
 	private $numErrors;
 	
-	public function __construct(	$organizer, $title, $url, $goal, $address, $date, $time, $deadline, $description, $cost, $is_public, $type, $location_lat, $location_long ) {
+	public function __construct( $organizer, $title, $url, $goal, $address, $date, $time, $deadline, $description, $cost, $is_public, $type, $location_lat, $location_long ) {
 		$this->organizer = $organizer;
 		$this->title = $title;
 		$this->url = $url;
@@ -58,6 +58,9 @@ class Event {
 	public function get_deadline() { return $this->deadline; }
 	public function get_type() { return $this->type; }
 	public function get_permissions() { return $this->is_public; }
+	public function get_lat() { return $this->location_lat; }
+	public function get_long() { return $this->location_long; }
+	
 
 	/* function get_errors
 	 * Function that makes sure that all event fields
@@ -193,7 +196,7 @@ class Event {
 			$geo_status = $geocode->status;
 			$location_type = $geocode->results[0]->geometry->location_type;
 		} else {
-			$event_address['location_type']="error";
+			$event_address['location_type'] = "error";
 			$this->location_lat = "";
 			$this->location_long = "";
 		}
@@ -347,7 +350,7 @@ class Event {
 	 *  - Value is either 0 or 1
 	 */
 	 private function check_permissions() {
-		 if ( ! ( $this->is_public == 0 || $this->is_public == 1 ) ) {
+		 if ( !isset ( $this->is_public ) || ( $this->is_public != 0 && $this->is_public != 1 ) ) {
 			$this->error['pub'] = "Please Select the invite type.";
 			$this->numErrors++;
 		}

@@ -213,7 +213,7 @@ class PanelController {
 	}
 
 	///////////////
-	// End Validation
+	// End depreciated Validation
 
 	/* validateEventInfo
 	 * Makes sure event info is valid
@@ -224,7 +224,6 @@ class PanelController {
 	 */
 	public function validateEventInfo ( &$newEvent ) {
 		// Check for errors
-		require_once('models/Event.class.php');
 		$error = $newEvent->get_errors();
 		$is_valid = ( $error === false ) ? true : false;
 
@@ -239,7 +238,11 @@ class PanelController {
 	}
 
 	/* saveEventFields
-
+     * Stores the current values for the new event
+     * in an array that can be assigned in SMARTY
+     * 
+     * @param $newEvent | The event being saved
+     * @return $event_field | The array of event information
 	 */
 	public function saveEventFields( $newEvent ) {
 
@@ -253,8 +256,10 @@ class PanelController {
 		$event_field['deadline'] = $newEvent->get_deadline();
 		$event_field['type'] = $newEvent->get_type();
 		$event_field['permissions'] = $newEvent->get_permissions();
+		$event_field['location_lat'] = $newEvent->get_lat();
+		$event_field['location_long'] = $newEvent->get_long();
 		
-		return $event_field;
+		$this->smarty->assign('event_field', $event_field);
 	}
 
 	/* makeNewEvent
@@ -280,6 +285,16 @@ class PanelController {
 		unset($_SESSION['newEvent']);
 		header("Location: " . CURHOST . "/create/guests");
 		exit;
+	}
+	
+	/* saveEvent
+	 * Updates the event information in the databse
+	 *
+	 * @param $event | The VALIDATED event object
+	 */
+	public function saveEvent( $event ) {		
+		$this->dbCon->updateEvent( $event );
+		$this->smarty->assign("saved", true);
 	}
 
 	/*	MAIL FOR GUESTS
@@ -655,32 +670,30 @@ class PanelController {
 		$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
 	}
 
-	public function assignEditEventVars($eventId) {
+	/* buildEvent
+	 * Returns an Event Object given an Event ID
+	 *
+	 * @param $eventId | The event ID
+	 * @return $event | The event object
+	 */
+	public function buildEvent($eventId) {
 		$eventInfo = $this->dbCon->getEventInfo($eventId);
-
+		
 		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
-		$eventDate = $this->dbCon->dateToRegular($eventDateTime[0]);
-
+		
+		$eventInfo['date'] = $this->dbCon->dateToRegular($eventDateTime[0]);
+        $eventInfo['event_deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
+		
 		$eventTime = explode(":", $eventDateTime[1]);
-		$eventTime = $eventTime[0].":".$eventTime[1];
-
-		$eventInfo['event_datetime'] = $eventDate." ".$eventTime;
-		$eventInfo['event_deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
-
-		$isEventPublic = ($eventInfo['is_public'] == 1) ? ' checked = "checked"' : "";
-		$isEventPrivate = ($eventInfo['is_public'] == 0 ) ? ' checked="checked"' : "";
-
-		// Event type presentation
-		$eventType = array( 't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10', 't11', 't12', 't13', 't14', 't15', 't16' );
-		$eventType['t'.$eventInfo['type']] = ' selected="selected"';
-
-		$this->smarty->assign('isEventPublic', $isEventPublic);
-		$this->smarty->assign('isEventPrivate', $isEventPrivate);
-
-		$this->smarty->assign('eventType', $eventType);
-		$this->smarty->assign('eventDate', $eventDate);
-		$this->smarty->assign('eventTime', $eventTime);
+		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
+		
 		$this->smarty->assign('eventInfo', $eventInfo);
+		
+		require_once('models/Event.class.php');
+		$event = new Event( $_SESSION['uid'], $eventInfo['title'], $eventInfo['url'], $eventInfo['goal'], $eventInfo['location_address'], $eventInfo['date'], $eventInfo['time'], $eventInfo['event_deadline'], $eventInfo['description'], $eventInfo['cost'], $eventInfo['is_public'], $eventInfo['type'], $eventInfo['location_lat'], $eventInfo['location_long'] );
+		$event->eid = $eventId;
+		
+		return $event;
 	}
 
 	/* function getEventIdByUri
@@ -789,6 +802,19 @@ class PanelController {
 			}
 			return;
 		} // END /event
+        
+        // Quick check for permissions for editing events
+        if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
+			if ( ! isset ( $_SESSION['uid'] ) ) {
+				header("Location: " . CURHOST . "/login");
+				exit;
+            } else if ( ! isset ( $_GET['eventId'] ) ) {
+				$this->smarty->display('error.tpl');
+				return;
+			} else {
+				$eventId = $_GET['eventId'];
+			}
+        }
 		
 		// User public profile page
 		if (preg_match("/user\/\d+/", $requestUri) > 0) {
@@ -847,24 +873,8 @@ class PanelController {
 			
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
-
 					// Create an event object with the text from the form
-					$newEvent = new Event(
-						$_SESSION['uid'],
-						$_POST['title'], 
-						$_POST['url'], 
-						$_POST['goal'],
-						$_POST['address'], 
-						$_POST['date'],
-						$_POST['time'],
-						$_POST['deadline'],
-						$_POST['description'], 
-						$_POST['cost'],
-						$_POST['is_public'],
-						$_POST['type'],
-						'',
-						''
-					);
+					$newEvent = new Event( $_SESSION['uid'], $_POST['title'], $_POST['url'], $_POST['goal'], $_POST['address'], $_POST['date'], $_POST['time'], $_POST['deadline'], $_POST['description'], $_POST['cost'], $_POST['is_public'], $_POST['type'], '', '' );
 				// See if it's their first time on the field
 				} else if ( ! isset($_SESSION['newEvent']) ) {
 					$this->smarty->assign('step1', ' class="current"');
@@ -877,9 +887,12 @@ class PanelController {
 
 				// Check to see if the new event is valid.
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
+                    // Save the current information for the next visit
 					$_SESSION['newEvent'] = serialize($newEvent);
-					$event_field = $this->saveEventFields( $newEvent );
-					$this->smarty->assign('event_field', $event_field);
+                    
+                    // Prepare the current values for display on the template
+					$this->saveEventFields( $newEvent );
+                    
 					$this->smarty->assign('step1', ' class="current"');
 					$this->smarty->display('create.tpl');
 				} else {
@@ -890,6 +903,7 @@ class PanelController {
 				$this->smarty->assign('step2', ' class="current"');
 				$this->smarty->display('create.tpl');
 				break;
+            /* Depreciated without JS
 			case '/event/update':
 				require_once('models/Event.class.php');
 				$eventInfo = new Event(
@@ -977,6 +991,7 @@ class PanelController {
 				$this->assignCPEvents($_SESSION['uid']);
 				$this->smarty->display('cp_container.tpl');
 				break;
+            */
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
@@ -1007,7 +1022,18 @@ class PanelController {
 				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_SESSION['ceid']);
 				$this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['ceid'], $_REQUEST['conf']);
 				break;
-			case '/event/manage':
+            case '/event/checkin':
+				$isAttend = 1;
+				if ($_REQUEST['checkin'] == 'false') {
+					$isAttend = 0;
+				}
+				$this->dbCon->checkInGuest( $isAttend, $_REQUEST['guestId'], $_REQUEST['eventId'] );
+				break;
+			case '/event/print':
+				$this->displayAttendeePage( $_REQUEST['eventId'] );
+				break;
+			case '/event/manage':                
+                // Check the functionality of this, might be obsolete
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
 				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 					if ($eventAttendees[$i]['is_attending'] == 1) {
@@ -1016,10 +1042,36 @@ class PanelController {
 				}
 				$this->smarty->assign('eventAttendees', $eventAttendees);
 				
-				$this->assignManageVars($_REQUEST['eventId']);
+				$this->assignManageVars( $_GET['eventId'] );
 				$page['manage'] = ' class="current"';
 				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage.tpl');
+				break;
+            case '/event/manage/edit':
+                $page['edit'] = ' class="current"';
+                $this->smarty->assign('page', $page);
+				
+				if ( ! isset ($_POST['submit']) ) {
+					// $eventInfo = $this->dbCon->getEventInfo($_GET['eventId']);
+					$editEvent = $this->buildEvent($_GET['eventId']);
+					$this->saveEventFields( $editEvent );
+					$this->smarty->display('manage_edit.tpl');
+					break;
+				}
+				
+				// Fill in event information
+				require_once('models/Event.class.php');
+				$editEvent = new Event( $_SESSION['uid'], $_POST['title'], $_POST['url'], $_POST['goal'], $_POST['address'], $_POST['date'], $_POST['time'], $_POST['deadline'], $_POST['description'], $_POST['cost'], $_POST['is_public'], $_POST['type'], $_POST['location_lat'], $_POST['location_long'] );
+                $editEvent->eid = $_GET['eventId'];
+				
+                // Check to see if the new event information is valid.
+				if ( $this->validateEventInfo( $editEvent ) === true ) {
+					$this->saveEvent( $editEvent );
+				}
+				
+				$this->saveEventFields( $editEvent );
+				$this->smarty->display('manage_edit.tpl');
+                
 				break;
 			case '/event/manage/guests':
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
@@ -1188,26 +1240,6 @@ class PanelController {
 				$this->smarty->assign('page', $page);
 				
 				$this->smarty->display('manage_text.tpl');
-				break;
-			case '/event/edit':
-				$this->assignEditEventVars($_REQUEST['eventId']);
-				$page['edit'] = ' class="current"';
-				$this->smarty->assign('page', $page);
-				$this->smarty->display('manage_edit.tpl');
-				break;
-			case '/event/edit/save':
-				$this->assignEditEventVars($_REQUEST['eventId']);
-				$this->smarty->display('update_event_form.tpl');
-				break;
-			case '/event/checkin':
-				$isAttend = 1;
-				if ($_REQUEST['checkin'] == 'false') {
-					$isAttend = 0;
-				}
-				$this->dbCon->checkInGuest( $isAttend, $_REQUEST['guestId'], $_REQUEST['eventId'] );
-				break;
-			case '/event/print':
-				$this->displayAttendeePage( $_REQUEST['eventId'] );
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {

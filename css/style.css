@@ -9,10 +9,10 @@ aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
 /* Styles
--------------------------*/
+ -------------------------*/
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
-	font-family: Verdana;
+	font: 1.2em/1.75em Georgia, "Times New Roman", Times, serif;
 	color: #333;
 	font-size: 11px; }
 a { 
@@ -47,6 +47,7 @@ fieldset .column {
 fieldset dt { margin: 0; }
 fieldset dd { margin: 4px 0 20px; }
 fieldset dt label {
+	font-family: Arial;
 	font-size: 18px;
 	color: #464646;
 	padding: 0;
@@ -116,7 +117,7 @@ select.timebox { width: 119px; }
 input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
 
 /* Page Header
--------------------------*/
+ -------------------------*/
 header#page-header {
 	background: #2799d8;
 	color: #fff;
@@ -141,16 +142,17 @@ header#page-header {
 #page-header aside {
 	font-size: 13px;
 	float: right;
-	margin: 35px 0 0; }
+	margin: 38px 0 0; }
 #page-header ul li {
 	float: left;
+	text-transform: uppercase;
 	margin: 0 0 0 7px; }
 #page-header li a { 
 	color: #fff;
 	margin: 0 7px 0 0; }
 
 /* Container
--------------------------*/
+ -------------------------*/
 #container {
 	width: 820px;
 	margin: 40px auto 0; }
@@ -159,13 +161,14 @@ header#page-header {
 #header { height: 55px; }
 #header h1 {
 	float: left;
+	font-family: Arial;
 	font-size: 24px; }
 #header h2, #header p { 
 	float: left;
 	font-size: 14px;
 	margin: 2px 0 0;
 	clear: left; }
-	
+
 /* Navigation */
 #header nav {
 	float: right; }
@@ -173,6 +176,7 @@ header#page-header {
 	margin: 25px 20px 0 0; }
 #header nav li {
 	background: #fff;
+	text-transform: uppercase;
 	float: left;
 	height: 30px;
 	margin: 0 30px 0 0;
@@ -215,7 +219,7 @@ header#page-header {
 	padding: 138px 3px 0; }
 
 /* Main
--------------------------*/
+ -------------------------*/
 #main {
 	background: #e8e8e8;
 	width: 800px; /* 820 - 20 */
@@ -256,19 +260,21 @@ header#page-header {
 /* Title */
 .block .block-title {
 	font-size: 16px;
+	font-family: Arial;
 	border-bottom: 1px solid #ccc;
 	margin: 0 -5px 3px; }
 .block .block-collapsable-title {
 	background: #3399cc;
 	color: #fff;
 	font-size: 16px;
+	font-family: Arial;
 	height: 27px; /* 33 - 6 */
 	margin: -15px -15px 7px;
 	padding: 10px 0 0 20px; }
 .block .block-title h1 { padding: 0 0 6px 5px; }
 
 /* Primary Sections
--------------------------*/
+ -------------------------*/
 #main .content {
 	float: left;
 	width: 610px;
@@ -324,11 +330,13 @@ header#page-header {
 	width: 100%;
 	display: block; }
 .event-list li h2 { float: left; }
-.event-list li a.event-manage, .event-list li span { 
+.event-list li a.event-manage, 
+.event-list li span { 
 	float: right;
 	width: auto;
 	display: inline; }
-.event-list li a.event-manage:hover, .event-list li a:hover span { text-decoration: underline; }
+.event-list li a.event-manage:hover, 
+.event-list li a:hover span { text-decoration: underline; }
 
 /*----- Email Options ----------*/
 .block ol {
@@ -356,6 +364,7 @@ header#page-header {
 .list li.list-head {
 	background: none;
 	font-weight: bold;
+	font-family: Arial;
 	margin: 0 0 10px;
 	cursor: default; }
 .list li strong {
@@ -416,11 +425,43 @@ ol.rsvp-list { margin: 0; }
 	clear: left; }
 .table dt.list-head { 
 	font-weight: bold;
+	font-family: Arial;
 	margin: 0 0 10px; }
 .table dd {
 	float: right;
 	text-align: center; }
 
+/*----- Contacts List ----------*/
+.contacts-list { margin: 8px 0 0; }
+.contacts-list li {
+	float: left;
+	width: 164px; /* 176 - 8 - 4 */
+	margin: 0 2px 4px;
+	padding: 4px;
+	border: 1px solid #cacaca;
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+	border-radius: 4px; }
+.contacts-list li:hover { 
+	background: #3399cc;
+	color: #fff;
+	cursor: pointer; }
+.contacts-list li img {
+	display: inline;
+	float: left;
+	margin: 0 4px 0 0; 
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+	border-radius: 4px; }
+.contacts-list li h3 { 
+	font-size: 12px;
+	line-height: 1;
+	margin: 0 0 2px; }
+.contacts-list li.v1 h3 { font-size: 14px; }
+.contacts-list li:hover h3 {  }
+.contacts-list li p { 
+	font-family: Arial;	
+	line-height: 1; }
 
 /*----- User Thumbnails ----------*/
 .thumbs {
@@ -442,7 +483,7 @@ ol.rsvp-list { margin: 0; }
 	border: 1px solid #999; }
 
 /* Secondary Sections
--------------------------*/
+ -------------------------*/
 #main .extra {
 	float: left;
 	width: 190px; }
@@ -472,6 +513,7 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
+	font-family: Arial;
 	width: 190px; }
 #main .navigation .block { padding: 8px; }
 #main .navigation .block a { color: #3399cc; }
@@ -495,8 +537,8 @@ ul.network li a {
 	color: #fff; }
 #main .navigation .block li a {
 	text-decoration: none;
-	height: 22px; /* 30 - 8 */
-	padding: 8px 0 0;
+	height: 24px; /* 30 - 6 */
+	padding: 6px 0 0;
 	display: block; }
 #main .navigation .block ol li a { padding: 8px 0 0 8px; }
 #main .navigation .block li.current span,
@@ -504,7 +546,7 @@ ul.network li a {
 #main .navigation .block ol li a span { font-size: 11px; }
 
 /* Error Pages
--------------------------*/
+ -------------------------*/
 .error {
 	background: url(../images/error.gif) 50% 0 no-repeat;
 	font-size: 18px;
@@ -513,7 +555,7 @@ ul.network li a {
 	padding: 160px 0 0; }
 
 /* Buttons
--------------------------*/
+ -------------------------*/
 .link-home {
 	text-align: center; }
 .link-extra {
@@ -536,19 +578,20 @@ ul.network li a {
 	text-transform: lowercase;
 	text-decoration: none;
 	color: #fff;
+	font-family: Arial;
 	height: 24px;
 	padding: 0 0 0 6px;
 	display: inline-block; }
 .buttons a:hover { background-position: 0 100%; }
 .buttons a span {
 	background: url(../images/btn_small_right.png) 100% 0 no-repeat;
-	height: 19px; /* 24 - 5 */
-	padding: 5px 11px 0 4px;
+	height: 21px; /* 24 - 3 */
+	padding: 3px 11px 0 4px;
 	display: block; }
 .buttons a:hover span { background-position: 100% 100%; }
 
 /* Popup
--------------------------*/
+ -------------------------*/
 #popup-container {
 	position: absolute;
 	top: 140px;
@@ -565,6 +608,7 @@ ul.network li a {
 	overflow: visible; }
 #popup-close {
 	position: absolute;
+	font-family: Arial;
 	top: -25px;
 	right: -25px; }
 #popup-close a {
@@ -574,24 +618,26 @@ ul.network li a {
 	font-size: 30px;
 	color: #fff;
 	width: 50px;
-	height: 43px; /* 50 - 7 */
-	padding: 6px 0 0;
+	height: 35px; /* 50 - 15 */
+	padding: 15px 0 0;
 	-moz-border-radius: 25px; 
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
 	display: block; }
 
 /* Footer
--------------------------*/
+ -------------------------*/
 footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
 	margin: 0 15px 0 0; }
-    
+
 /*----- Site Map ----------*/
 footer#site-map {
 	background: url(../images/index_footer_bg.png) 0 0 repeat-x;
+	font-family: Arial;
 	color: #fff;
+	line-height: 1;
 	height: 129px; /* 162 - 33 */
 	margin: 0;
 	padding: 33px 0 0; }

@@ -160,8 +160,7 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 	}
 	
-		public function getUserPic($uid)
-	{
+	public function getUserPic($uid) {
 		//$uid=$_SESSION['uid'];
 		$GET_USER_PIC="select pic from ef_users where id=$uid";
 		$usrPic=$this->executeQuery($GET_USER_PIC);
@@ -343,8 +342,8 @@ class DBConfig {
 									e.description = '".mysql_real_escape_string($eventInfo->description)."',
 									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
 									e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
-									e.location_lat=".mysql_real_escape_string($eventInfo->lat).",
-									e.location_long=".mysql_real_escape_string($eventInfo->lng).",
+									e.location_lat=".mysql_real_escape_string($eventInfo->location_lat).",
+									e.location_long=".mysql_real_escape_string($eventInfo->location_long).",
 									e.type = ".$eventInfo->type." 
 							WHERE	e.id = ".mysql_real_escape_string($eventInfo->eid);
 		$this->executeUpdateQuery($UPDATE_EVENT);
