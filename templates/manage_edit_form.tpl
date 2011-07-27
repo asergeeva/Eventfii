@@ -101,18 +101,6 @@
 								</label>
                                 <p class="message-error" id="pubErr">{$error['pub']}</p>
 							</dd>
-							<dt>
-								<label for="event-media">Upload Picture</label> 
-								<em>Link or Browse</em>
-							</dt> 
-							<dd class="media">
-								<div id="update-file-uploader" style="display:none;">       
-									<noscript>          
-										<p>Please enable JavaScript to use file uploader.</p>
-										<!-- or put a simple form for upload here -->
-									</noscript>         
-								</div>
-							</dd>
 						</dl> 
 						<footer class="buttons-submit">
 							<input type="hidden" name="location_lat" value="$event_field.location_lat" />

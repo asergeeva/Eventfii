@@ -88,6 +88,8 @@ class Event {
 		// Return if there are any errors
 		if ( $this->numErrors == 0 )
 			return false;
+		else if ( $this->numErrors == 9 )
+			return true;
 		else
 			return $this->error;
 	}

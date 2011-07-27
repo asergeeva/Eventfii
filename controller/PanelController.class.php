@@ -229,7 +229,8 @@ class PanelController {
 
 		// If there are errors
 		if ( ! $is_valid ) {
-			$this->smarty->assign('error', $error);
+			if ( $error !== true )
+				$this->smarty->assign('error', $error);
 			return false;
 		} 
 
@@ -803,6 +804,19 @@ class PanelController {
 			}
 			return;
 		} // END /event
+		
+		// Quick check for permissions for editing events
+		if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
+			if ( ! isset ( $_SESSION['uid'] ) ) {
+				header("Location: " . CURHOST . "/login");
+				exit;
+			} else if ( ! isset ( $_GET['eventId'] ) ) {
+				$this->smarty->display('error.tpl');
+				return;
+			} else {
+				$eventId = $_GET['eventId'];
+			}
+		}
 		
 		// User public profile page
 		if (preg_match("/user\/\d+/", $requestUri) > 0) {

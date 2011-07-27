@@ -104,22 +104,9 @@
 					</label>
 					<p class="message-error" id="pubErr">{$error['pub']}</p>
 				</dd>
-				<dt>
-					<label for="event-media">Upload Picture</label>
-					<em>Link or Browse</em>
-				</dt>
-				<dd class="media">
-					<div id="create-file-uploader" style="display:none;">       
-						<noscript>          
-							<p>Please enable JavaScript to use file uploader.</p>
-							<!-- or put a simple form for upload here -->
-						</noscript>         
-					</div>
-				</dd>
 			</dl>
 			<footer class="buttons-submit">
 				<p><input type="submit" name="submit" value="Begin" id="event_create" /></p> 
-				<p class="message-error" id="success"></p>
 			</footer> 
 		</fieldset>
 		</form>
