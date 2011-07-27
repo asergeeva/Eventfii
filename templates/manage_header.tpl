@@ -1,5 +1,5 @@
 <header id="header">
-		<h1>{$event_field['title']}</h1>
+		<h1>{$eventInfo['title']}</h1>
 		<span id="event-id" style="display: none">{$smarty.get.eventId}</span>
 		<nav>
 			<ul>

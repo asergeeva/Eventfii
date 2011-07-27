@@ -12,7 +12,7 @@ ol, ul { list-style: none; }
  -------------------------*/
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
-	font: 1.2em/1.75em Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	color: #333;
 	font-size: 11px; }
 a { 
@@ -455,13 +455,10 @@ ol.rsvp-list { margin: 0; }
 	border-radius: 4px; }
 .contacts-list li h3 { 
 	font-size: 12px;
-	line-height: 1;
 	margin: 0 0 2px; }
 .contacts-list li.v1 h3 { font-size: 14px; }
 .contacts-list li:hover h3 {  }
-.contacts-list li p { 
-	font-family: Arial;	
-	line-height: 1; }
+.contacts-list li p { font-family: Arial; }
 
 /*----- User Thumbnails ----------*/
 .thumbs {
@@ -637,7 +634,6 @@ footer#site-map {
 	background: url(../images/index_footer_bg.png) 0 0 repeat-x;
 	font-family: Arial;
 	color: #fff;
-	line-height: 1;
 	height: 129px; /* 162 - 33 */
 	margin: 0;
 	padding: 33px 0 0; }

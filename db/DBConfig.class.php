@@ -292,7 +292,7 @@ class DBConfig {
 	}
 	
 	public function createNewEvent($newEvent) {
-		$datetime = $this->dateToSql($newEvent->date)." ".$newEvent->time;
+		$datetime = $this->dateToSql($newEvent->date) . " " . $newEvent->time;
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
 		$CREATE_NEW_EVENT = "
@@ -403,26 +403,31 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
+	/* getEventInfo
+	 * Grabs information about an event with the given
+	 * event ID from the Database.
+	 */
 	public function getEventInfo($eid) {
-		$GET_EVENT = "	SELECT e.id, 
-						DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-						e.created,
-						e.organizer, 
-						e.title, 
-						e.url,
-						e.goal, 
-						e.location_address, 
-						e.event_datetime, 
-						e.event_deadline, 
-						e.description, 
-						e.is_public, 
-						e.gets, 
-						e.type,
-						e.location_lat,
-						e.location_long
-						FROM ef_events e 
-						WHERE e.id = " . $eid;
-		return $this->executeValidQuery($GET_EVENT);
+		$GET_EVENT = "	SELECT	id, 
+								DATEDIFF (
+									event_deadline, 
+									CURDATE()
+								) AS days_left,
+								created,
+								organizer, 
+								title, 
+								goal, 
+								location_address, 
+								event_datetime, 
+								event_deadline, 
+								description, 
+								is_public, 
+								type,
+								location_lat,
+								location_long
+						FROM	ef_events
+						WHERE	id = " . $eid;
+		return $this->executeValidQuery( $GET_EVENT );
 	}
 	
 	public function hasAttend($uid, $eid) {

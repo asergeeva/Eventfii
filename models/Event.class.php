@@ -6,6 +6,7 @@
  * All rights reserved
  */
 class Event {
+	public $eid;
 	public $organizer;
 	public $title;
 	public $url;
@@ -15,33 +16,62 @@ class Event {
 	public $time;
 	public $deadline;
 	public $description;
-	public $cost;
 	public $is_public;
 	public $type;
 	public $location_lat;
 	public $location_long;
-	public $eid;
 	public $guests = array();
 	private $error;
 	private $numErrors;
 	
-	public function __construct( $organizer, $title, $url, $goal, $address, $date, $time, $deadline, $description, $cost, $is_public, $type, $location_lat, $location_long ) {
+	function __construct( $eventInfo ) {
+		if ( ! isset( $eventInfo ) ) {
+			$this->organizer = $_SESSION['uid'];
+			$this->title = $_POST['title'];
+			$this->url = $_POST['url']; 
+			$this->goal = $_POST['goal'];
+			$this->address = $_POST['address'];
+			$this->date = $_POST['date'];
+			$this->time = $_POST['time'];
+			$this->deadline = $_POST['deadline'];
+			$this->description = $_POST['description'];
+			$this->is_public = $_POST['is_public'];
+			$this->type = $_POST['type'];
+			$this->location_lat = $_POST['location_lat'];
+			$this->location_long = $_POST['location_long'];
+		} else {
+			$this->eid = $eventInfo['id'];
+			$this->organizer = $eventInfo['organizer'];
+			$this->title = $eventInfo['title'];
+			$this->goal = $eventInfo['goal'];
+			$this->address = $eventInfo['address'];
+			$this->date = $eventInfo['date'];
+			$this->time = $eventInfo['time'];
+			$this->deadline = $eventInfo['deadline'];
+			$this->description = $eventInfo['description'];
+			$this->is_public = $eventInfo['is_public'];
+			$this->type = $eventInfo['type'];
+			$this->location_lat = $eventInfo['location_lat'];
+			$this->location_long = $eventInfo['location_long'];
+		}
+	}
+	
+	/* Depreciated
+	function __construct( $organizer, $title, $url, $goal, $address, $date, $time, $deadline, $description, $is_public, $type, $location_lat, $location_long ) {
 		$this->organizer = $organizer;
 		$this->title = $title;
-		$this->url = $url;
 		$this->goal = $goal;
 		$this->address = $address;
 		$this->date = $date;
 		$this->time = $time;
 		$this->deadline = $deadline;
 		$this->description = $description;
-		$this->cost = $cost;
 		$this->is_public = $is_public;
-		// $this->gets = $gets;
 		$this->type = $type;
 		$this->location_lat = $location_lat;
 		$this->location_long = $location_long;
 	}
+	 */
 	
 	public function __destruct() {
 		
