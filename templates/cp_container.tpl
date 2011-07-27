@@ -14,11 +14,11 @@
 				  {/if}
 				</p>
 				<footer class="buttons buttons-extra">
-					<a href="#"><span>Upload</span></a>
+					<a href="#" id="user_image"><span>Upload</span></a>
 				</footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info">{$userInfo['about']}</p>
+				<p class="user-info edit">{$userInfo['about']}</p>
 				<footer class="buttons buttons-extra">
 					<p><a href="#"><span>Edit</span></a></p>
 				</footer>

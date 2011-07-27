@@ -4,7 +4,7 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		<h1>Welcome, Anna!</h1>
+		<h1>Welcome, {$userInfo['fname']}!</h1>
 		<nav>
 			<ul>
 				<li class="current"><a href="{$CURHOST}"><span>Home</span></a></li>
@@ -18,8 +18,16 @@
 		</header>
 		<aside class="extra">
 			<section class="block" id="user-pic">
-				<p class="user-img"><img src="images/user.jpg" alt="User" /></p>
-				<footer class="buttons-extra"><a href="#"><span>Upload</span></a></footer>
+					<p class="user-img">
+				  {if $userInfo['pic'] eq '' && $smarty.session.userProfilePic eq ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" /></a>
+				  {elseif $userInfo['pic'] ne ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" /></a>
+				  {elseif $smarty.session.userProfilePic ne ''}
+					<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" /></a>
+				  {/if}
+				</p>
+				<footer class="buttons-extra"><a href="#" id="user_image"><span>Upload</span></a></footer>
 			</section>
 			<section class="block" id="user-desc">
 				<p class="user-info">{$userInfo['about']}</p>
@@ -106,6 +114,7 @@
 
 {include file="js_global.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
 </body>
 </html>
