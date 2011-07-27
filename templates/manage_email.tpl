@@ -18,7 +18,7 @@
 							<input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on 
               <input type="text" class="inputbox datebox" id="send-automatically" /> at 
               <select class="timebox" id="automatic_email_send_time">
-              	<option>10:00 AM</option>
+              	<option>10:00</option>
               </select>
 						</div>
 					</label>

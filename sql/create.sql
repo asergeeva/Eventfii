@@ -71,7 +71,7 @@ CREATE TABLE ef_attendance (
 CREATE TABLE ef_event_messages (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
   created           TIMESTAMP NOT NULL,
-  subject           VARCHAR(200) NOT NULL,
+  subject           VARCHAR(200),
   message           VARCHAR(5000) NOT NULL,
   delivery_time     DATETIME NOT NULL,
   event_id          INTEGER NOT NULL REFERENCES ef_events(id),

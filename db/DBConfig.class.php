@@ -563,6 +563,29 @@ class DBConfig {
 		$this->executeUpdateQuery($SAVE_REMINDER);
 	}
 	
+	public function saveText($eid, $msg, $deliveryDateTime, $type, $autoReminder) {
+		$deliveryTime = $deliveryTime.":00";
+		$SAVE_REMINDER = "
+		INSERT INTO	ef_event_messages 
+					(
+						created, 
+						message, 
+						delivery_time, 
+						event_id, 
+						type, 
+						is_activated
+					) 
+		VALUES		(
+						NOW(),
+						'" . mysql_real_escape_string($msg) . "', 
+						'" . mysql_real_escape_string($deliveryDateTime) . "', 
+						" . $eid.",
+						" . $type.",
+						" . $autoReminder."
+					)";
+		$this->executeUpdateQuery($SAVE_REMINDER);
+	}
+	
 	public function getEventEmail($eid, $type) {
 		$GET_EVENT_EMAIL = "SELECT * FROM ef_event_messages m WHERE m.event_id = ".$eid." 
 													AND m.type = ".$type." ORDER BY m.created DESC LIMIT 1";

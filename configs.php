@@ -62,8 +62,9 @@ define('GUESTRANGE2MAX', 60);
 define('GUESTRANGE3MIN', 40);
 define('GUESTRANGE3MAX', 55);
 
-define('EMAIL_REMINDER_TYPE', 0);
-define('EMAIL_FOLLOWUP_TYPE', 1);
+define('EMAIL_REMINDER_TYPE', 1);
+define('EMAIL_FOLLOWUP_TYPE', 2);
+define('SMS_REMINDER_TYPE', 3);
 
 define('PAYPAL_REDIRECT_URL', 'https://www.sandbox.paypal.com/webscr&cmd=');
 define('DEVELOPER_PORTAL', 'https://developer.paypal.com');

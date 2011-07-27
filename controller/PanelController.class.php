@@ -1191,16 +1191,21 @@ class PanelController {
 					$autoReminder = 1;
 				}
 
-				$req['content'] = $_REQUEST['reminderContent'];
-				$req['subject'] = $_REQUEST['reminderSubject'];
-				$req['type'] = $_REQUEST['type'];
-				$req['date'] = $_REQUEST['reminderDate'];
-				$retval = $this->validateSaveEmail($req);
-				if( $retval != "Success" ) {
-					die($retval);
-				}
+				// TODO: more meaningful error messages
+				//$req['content'] = $_REQUEST['reminderContent'];
+				//$req['subject'] = $_REQUEST['reminderSubject'];
+				//$req['date'] = $_REQUEST['reminderDate'];
+				//$retval = $this->validateSaveEmail($req);
+				//if( $retval != "Success" ) {
+				//	die($retval);
+				//}
 
-				$this->dbCon->saveEmail($_REQUEST['eventId'], $_REQUEST['reminderContent'], $dateTime, $_REQUEST['reminderSubject'], $_REQUEST['type'], $autoReminder);
+				$this->dbCon->saveEmail($_SESSION['manageEvent']['id'], 
+															  $_REQUEST['reminderContent'], 
+																$dateTime, 
+																$_REQUEST['reminderSubject'], 
+																EMAIL_REMINDER_TYPE, 
+																$autoReminder);
 				echo("Success");
 				break;
 			case '/event/manage/email/send':
@@ -1247,6 +1252,19 @@ class PanelController {
 				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
 				$sms->sendSMSReminder($attendees, $_SESSION['manageEvent']['id']);
 				print("Success");
+				break;
+			case '/event/manage/text/save':
+				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
+				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
+				$autoReminder = 0;
+				if ($_REQUEST['autoReminder'] == 'true') {
+					$autoReminder = 1;
+				}
+				$this->dbCon->saveText($_SESSION['manageEvent']['id'], 
+															 $_REQUEST['reminderContent'], 
+															 $dateTime, 
+															 SMS_REMINDER_TYPE, 
+															 $autoReminder);
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {
