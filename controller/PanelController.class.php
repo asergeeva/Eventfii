@@ -22,199 +22,6 @@ class PanelController {
 
 	}
 
-	////////////////////
-	// Validation
-	// Obsolete but keeping until dependency is removed
-
-	public function check_address($addr) {
-		$a = urlencode($addr);
-		$retVal = array();
-		$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
-		$ch = curl_init($geocodeURL);
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		$result = curl_exec( $ch );
-		$httpCode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		curl_close( $ch );
-		
-		if ($httpCode == 200) {
-			$geocode = json_decode($result);
-			$lat = $geocode->results[0]->geometry->location->lat;
-			$lng = $geocode->results[0]->geometry->location->lng; 
-			$formatted_address = $geocode->results[0]->formatted_address;
-			$geo_status = $geocode->status;
-			$location_type = $geocode->results[0]->geometry->location_type;
-			$retVal['location_type']=$location_type;
-			$retVal['lat'] = $lat;
-			$retVal['lng'] = $lng;	
-		} else {
-			$retVal['location_type']="error";
-			// $retVal['lat'] = $lat;
-			// $retVal['lng'] = $lng;
-		}
-		return $retVal;
-	}
-
-	public function validate_event_type( $val ) {
-		$flag = 1;
-		if ( $val <= 0 ) {
-			$error['type'] = "Please select an event type";
-			$flag = 0;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_address($addr) {
-		//	die("5");
-		$flag = 1;
-		if ( $addr == "" ) {
-			$error['address'] = "Please enter an address";
-			$flag = 2;
-			//	return $flag;
-		}
-		$retArr = $this->check_address($addr);
-		if( ! ( $retArr['location_type']=="RANGE_INTERPOLATED" || $retArr['location_type']=="ROOFTOP" ) ) {
-			$error['address'] = "Address entered is invalid";
-			$flag = 2;
-			//die($addr."=".$retArr['location_type']);
-			//return $flag;
-		}	
-		$res = filter_var($addr, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9\s-,*]*$/")));
-		if(!($res)) {
-			$error['address'] = "Address can only contain spaces, A-Z, 0-9 or -*,@&";
-			$flag=2;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_title($title) {
-		$flag = 1;
-		$res = filter_var(
-			$title, 
-			FILTER_VALIDATE_REGEXP,
-			array(
-				"options" => array(
-					"regexp" => "/^[A-Za-z0-9\s]{5,100}$/"
-				)
-			)
-		);
-		if( strtolower( $title ) == "i'm planning...") {
-			$error['title'] = "Please enter an event title.";
-			$flag = 3;
-		}
-		if( !($res) && $flag == 1 ) {
-			$error['title'] = "Title can only contain spaces, characters A-Z or numbers 0-9";
-			$flag = 2;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-	
-	public function validate_desc($desc) {
-		$flag = 1;
-		$res = filter_var($desc, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[A-Za-z0-9\s]{10,500}$/")));
-		if(!($res)) {
-			$error['desc'] = "Description can only contain spaces, A-Z or 0-9";
-			$flag=2;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_tm($tm) {
-		$flag = 1;
-		$res = filter_var($tm, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/")));
-		if( !($res) ) {
-			$error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
-			$flag = 2;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_date($dt) {
-		$flag = 1;
-		$a_date = explode('/', $dt); 
-		$month = $a_date[0];
-		$day = $a_date[1];
-		$year = $a_date[2]; 
-		if( !@checkdate($month,$day,$year) ) {
-			$error['date'] = "Please enter a valid date in mm/dd/yyyy format";
-			$flag = 2;
-		}
-		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
-		if( $check < $today ) {
-			$error['date'] = "Event date should be a date in the future.";
-			$flag=3;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_ddt($ddt,$dt) {
-		$flag = 1;
-		$a_date = explode('/', $ddt); 
-		$month = $a_date[0];
-		$day = $a_date[1];
-		$year = $a_date[2]; 
-		$e_date = explode('/', $dt); 
-		$evtMonth = $e_date[0];
-		$evtDay = $e_date[1];
-		$evtYear = $e_date[2]; 
-
-		if( !@checkdate($month,$day,$year) ) {
-			$error['deadline'] = "Please enter a valid date in mm/dd/yyyy format";
-			$flag = 2;
-		}
-		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"),-1);
-		if ( $check < $today ) {
-			$error['deadline'] = "Deadline date should be a date in the future.";
-			$flag = 2;
-		}
-		$evt_check = @mktime(0, 0, 0, $evtMonth, $evtDay, $evtYear,-1);
-		if( $evt_check < $check ) {
-			$error['deadline'] = "Deadline date cannot be greater than the event date.";
-			$flag = 3;
-		}
-		$this->smarty->append('error', $error, true);
-		return $flag;
-	}
-
-	public function validate_goal($goal) {
-		$int_options = array(
-			"options" => array(
-				"min_range" => 1,
-				"max_range" => 1000000
-			)
-		);
-
-		if( ! filter_var($goal, FILTER_VALIDATE_INT, $int_options) ) {
-			$error['goal'] = "Please enter a attendance goal between 1 and 1000000.";
-			$this->smarty->append('error', $error, true);
-			$flag = 2;
-			return $flag;
-		} else {
-			$flag = 1;
-			return $flag;
-		}
-	}
-
-	public function validate_is_pub($isPub) {
-		$flag = 1;
-		if ( ! ( $isPub == 0 || $isPub == 1 ) ) {
-			$error['pub'] = "Please Select the invite type.";
-			$this->smarty->append('error', $error, true);
-			$flag = 2;
-		}
-		return $flag;	
-	}
-
-	///////////////
-	// End depreciated Validation
-
 	/* validateEventInfo
 	 * Makes sure event info is valid
 	 *
@@ -319,142 +126,32 @@ class PanelController {
 		$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
 		$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 	*/
-
-	/* function checkNewEvent
-	 * Checks to see if the given event object
-	 * is valid.
-	 *
-	 * @param $newEvent | The new event
-	 * @param $loadCP | 
-	 */
-	public function checkNewEvent($newEvent, $loadCp) {
-		if ( isset($newEvent) && $newEvent != NULL ) {
-			$addr = $newEvent->address;
-			$goal = $newEvent->goal;
-			$title = $newEvent->title;
-			$dt = $newEvent->date;
-			$ddt = $newEvent->deadline;
-			$isPub = $newEvent->is_public;
-			$tm = $newEvent->time;
-			$typ = $newEvent->type;
-			$description = $newEvent->description;
-			$aval = $this->validate_address($addr);
-			$tval = $this->validate_title($title);
-			$desc = $this->validate_desc($description);
-			$gval = $this->validate_goal($goal);
-			$dval = $this->validate_date($dt);
-			$ddval = $this->validate_ddt($ddt,$dt);
-			$tmval = $this->validate_tm($tm);
-			$newEvent->time = date("H:i:s", strtotime($tm));
-			$evtType = $this->validate_event_type($typ);
-			$isPubVal = $this->validate_is_pub($isPub);
-			// $_SESSION['newEvent'] = json_encode($newEvent);
-
-			// Save the current event
-			$_SESSION['newEvent'] = $newEvent;
-
-			// die("here");
-
-			// Validation error checks
-			// Note: Need to either implement AJAX solution,
-			// or 
-			$err = "";
-
-			if ( $isPubVal == 2 )
-				$err .= "1,";
-			else
-				$err .= "0,";
+	
+	/* Potentailly reusable
+	// Make sure user is logged in before they can
+	// create the event
+	if (isset($_SESSION['uid'])) {
+		if (isset($_SESSION['newEvent'])) {
+			require_once('models/EFMail.class.php');
+			if ( is_array($newEvent) ) {
+				$r = 0;
+			} else {
+				$newEvent = json_decode($_SESSION['newEvent'], true);
+			}
+			$addrss = $newEvent['address'];
+			$addr = $this->check_address($addrss);	
+			$newEvent['location_lat'] = $addr['lat'];
+			$newEvent['location_long'] = $addr['lng'];	
+			$this->dbCon->createNewEvent($newEvent);
 			
-			if ( $tmval == 2 )
-				$err .= "1,";
-			else
-				$err .= "0,";
-
-			if ( $ddval == 2 || $ddval == 3 )
-				$err .= "$ddval,";
-			else
-				$err .= "0,";
-
-
-			if ( $dval == 2 || $dval == 3 )
-				$err .= "$dval,";
-			else
-				$err .= "0,";
-
-			if ( $aval == 2 )
-				$err .= "1,";
-			else
-				$err .= "0,";
-
-			if ( $tval == 2 || $tval == 3 )
-				$err .= "$tval,";
-			else
-				$err .= "0,";
-
-			if ( $desc == 2 )
-				$err .= "1,";
-			else
-				$err .= "0,";
-
-			if ( $gval == 2 )
-				$err .= "1,";
-			else
-				$err .= "0,";
-
-			if ( $evtType == 0 )
-				$err .= "1,";
-			else
-				$err .= "0,";
-
-			if ( $err != "0,0,0,0,0,0,0,0,0," ) {
-				// die($err);
-				$this->smarty->assign('step1', ' class="current"');
-				$this->smarty->display('create.tpl');
-				return;
-			}
-		} else {
-			$this->smarty->assign('step1', ' class="current"');
-			$this->smarty-display('create.tpl');
-			return;
-		}
-
-		// Make sure user is logged in before they can
-		// create the event
-		if (isset($_SESSION['uid'])) {
-			if (isset($_SESSION['newEvent'])) {
-				require_once('models/EFMail.class.php');
-				if ( is_array($newEvent) ) {
-					$r = 0;
-				} else {
-					$newEvent = json_decode($_SESSION['newEvent'], true);
-				}
-				$addrss = $newEvent['address'];
-				$addr = $this->check_address($addrss);	
-				$newEvent['location_lat'] = $addr['lat'];
-				$newEvent['location_long'] = $addr['lng'];	
-				$this->dbCon->createNewEvent($newEvent);
-				
-				// INVITE GUESTS USING EMAIL
-				$mailer = new EFMail();
-				$eid = explode('/', $newEvent['url']);
-				$newEvent['eid'] = $eid[sizeof($eid) - 1];
-
-				$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-				$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
-			}
-
-			$this->assignCPEvents($_SESSION['uid']);
-
-			header("Location: http://localhost/Eventfii/create/guests");
-			exit;
-
-			$this->smarty->assign('step2', ' class="current"');
-			$this->smarty->display('create.tpl');
-		} else {
-			$this->smarty->assign('error', "Please log in or create an account before you make a new event.");
-			$this->smarty->display('login.tpl');
-		}
-	}
+			// INVITE GUESTS USING EMAIL
+			$mailer = new EFMail();
+			$eid = explode('/', $newEvent['url']);
+			$newEvent['eid'] = $eid[sizeof($eid) - 1];
+			
+			$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
+			$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
+		} */
 
 	public function checkGuests(&$eventInfo) {
 		$eid = explode('/', $eventInfo->url);
@@ -505,7 +202,8 @@ class PanelController {
 		return $flag;
 	}
 
-
+	// BEGIN OLD FUNCTIONS
+	//////////////////////
 	public function validateSaveEmail($req) {
 		$msg="<br>";
 		$flag=0;
@@ -558,7 +256,7 @@ class PanelController {
 	}
 
 	////////////////
-	// End Validate
+	// End OLD FUNCTIONS
 
 	private function assignUserImage($userId) {
 		if (file_exists('upload/user/'.$userId.'.png')) {
