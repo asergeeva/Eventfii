@@ -246,9 +246,7 @@ $(document).ready(function() {
 	USER_IMAGE_UPLOADER.init();
 	$("img[rel]").overlay();
 	$("a[rel]").overlay();
-	CREATE_EVENT_FORM.init();
 	CP_EVENT.init();
-	MANAGE_EVENT.init();
 	
 	$('#editBtn').click(function(){
 		$('.edit').click();

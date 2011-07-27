@@ -49,6 +49,12 @@ CREATE TABLE ef_events (
   is_public         TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
+CREATE TABLE ef_addressbook (
+  user_id    INTEGER NOT NULL REFERENCES ef_users(id),
+  contact_id INTEGER NOT NULL REFERENCES ef_users(id),
+  CONSTRAINT pk_attendance PRIMARY KEY (user_id, contact_id)
+) ENGINE=InnoDB;
+
 CREATE TABLE ef_event_images (
   id        INTEGER PRIMARY KEY AUTO_INCREMENT,
   event_id  INTEGER NOT NULL REFERENCES ef_events(id)
