@@ -772,7 +772,8 @@ class PanelController {
 			}
 			
 			// Make sure user is allowed to view the event
-			if ( intval($eventInfo['is_public']) == 1 || ( isset( $_SESSION['uid'] ) && $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) ) ) {
+			if ( intval($eventInfo['is_public']) == 1 || ( isset( $_SESSION['uid'] ) && 
+					 $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) ) ) {
 				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
 				$this->smarty->assign('userInfo', $userInfo);
 				
@@ -802,19 +803,6 @@ class PanelController {
 			}
 			return;
 		} // END /event
-        
-        // Quick check for permissions for editing events
-        if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
-			if ( ! isset ( $_SESSION['uid'] ) ) {
-				header("Location: " . CURHOST . "/login");
-				exit;
-            } else if ( ! isset ( $_GET['eventId'] ) ) {
-				$this->smarty->display('error.tpl');
-				return;
-			} else {
-				$eventId = $_GET['eventId'];
-			}
-        }
 		
 		// User public profile page
 		if (preg_match("/user\/\d+/", $requestUri) > 0) {
@@ -1033,7 +1021,7 @@ class PanelController {
 				$this->displayAttendeePage( $_REQUEST['eventId'] );
 				break;
 			case '/event/manage':                
-                // Check the functionality of this, might be obsolete
+        // Check the functionality of this, might be obsolete
 				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
 				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 					if ($eventAttendees[$i]['is_attending'] == 1) {
@@ -1044,10 +1032,13 @@ class PanelController {
 				
 				$this->assignManageVars( $_GET['eventId'] );
 				$page['manage'] = ' class="current"';
+				
+				$_SESSION['manageEvent'] = $this->dbCon->getEventInfo($_REQUEST['eventId']);
+				
 				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage.tpl');
 				break;
-            case '/event/manage/edit':
+			case '/event/manage/edit':
                 $page['edit'] = ' class="current"';
                 $this->smarty->assign('page', $page);
 				
@@ -1137,7 +1128,7 @@ class PanelController {
 				break;
 			case '/event/manage/email':
 				$this->assignManageVars($_REQUEST['eventId']);
-
+				
 				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
 				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
 
@@ -1152,6 +1143,9 @@ class PanelController {
 				$this->smarty->assign('eventFollowup', $eventFollowup);
 				$page['manage'] = ' class="current"';
 				$page['email'] = ' class="current"';
+				
+				
+				
 				$this->smarty->assign('page', $page);
 				$this->smarty->display('manage_email.tpl');
 				break;
@@ -1212,17 +1206,22 @@ class PanelController {
 			case '/event/manage/email/send':
 				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
-				$eventInfo = $this->dbCon->getEventInfo($_REQUEST['eventId']);
-				$attendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
+				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['subject'] = $_REQUEST['reminderSubject'];
 				$req['type'] = $_REQUEST['type'];
 				$req['date'] = $_REQUEST['reminderDate'];
-				$retval = $this->validateSaveEmail($req);
-				if( $retval != "Success" ) {
-					die($retval);
-				}
-				$mailer->sendAutomatedEmail($eventInfo, $_REQUEST['reminderContent'], $_REQUEST['reminderSubject'], $attendees);
+				
+				// BUGGY, NEED BETTER ERROR MESSAGE
+				//$retval = $this->validateSaveEmail($req);
+				// if( $retval != "Success" ) {
+				//	die($retval);
+				//}
+	
+				$mailer->sendAutomatedEmail($_SESSION['manageEvent'], 
+																		$_REQUEST['reminderContent'], 
+																		$_REQUEST['reminderSubject'], 
+																		$attendees);
 				echo("Success");
 				break;
 			case '/event/manage/email/autosend':
@@ -1240,6 +1239,14 @@ class PanelController {
 				$this->smarty->assign('page', $page);
 				
 				$this->smarty->display('manage_text.tpl');
+				break;
+			case '/event/manage/text/send':
+				require_once('models/EFSMS.class.php');
+				$sms = new EFSMS();
+				
+				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
+				$sms->sendSMSReminder($attendees, $_SESSION['manageEvent']['id']);
+				print("Success");
 				break;
 			case '/login':
 				if (!isset($_SESSION['uid'])) {

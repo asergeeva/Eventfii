@@ -15,13 +15,17 @@
 					<label for="send-automatically">
 						<strong></strong>
 						<div>
-							<input type="checkbox" name="automatically" /> Send automatically on <input type="text" class="inputbox datebox" id="send-automatically" /> at <select class="timebox"></select>
+							<input type="checkbox" name="automatically" id="automatic_text_send_cb" /> Send automatically on 
+              <input type="text" class="inputbox datebox" id="send-automatically" /> at 
+              <select class="timebox" id="automatic_text_send_time">
+              	<option>10:00 AM</option>
+              </select>
 						</div>
 					</label>
 					<label for="text-to">
 						<strong>To:</strong>
 						<div>
-							<select class="autowidth" id="email-to">
+							<select class="autowidth" id="text-to">
 								<option>All Attendees</option>
 							</select>
 						</div>
@@ -35,7 +39,8 @@
 					</label>
 				</fieldset>
 				<footer class="buttons-submit">
-					<a href="#"><span>Update</span></a> <a href="#"><span>Send Now</span></a>
+					<a href="#" id="update_text_reminder"><span>Update</span></a>
+          <a href="#"	id="send_text_reminder"><span>Send Now</span></a>
 				</footer>
 			</section>
 		</div>

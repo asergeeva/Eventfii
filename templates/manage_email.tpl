@@ -15,13 +15,19 @@
 					<label for="send-automatically">
 						<strong></strong>
 						<div>
-							<input type="checkbox" name="automatically" /> Send automatically on <input type="text" class="inputbox datebox" id="send-automatically" /> at <select class="timebox"></select>
+							<input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on 
+              <input type="text" class="inputbox datebox" id="send-automatically" /> at 
+              <select class="timebox" id="automatic_email_send_time">
+              	<option>10:00 AM</option>
+              </select>
 						</div>
 					</label>
 					<label for="mail_to">
 						<strong>To:</strong>
 						<div>
-							<input type="text" class="inputbox autowidth" name="mail_to" value="All Attendees" id="mail_to" />
+							<select class="autowidth" id="email-to">
+								<option>All Attendees</option>
+							</select>
 						</div>
 					</label>
 					<label for="subject">
@@ -42,7 +48,9 @@ I would like to remind you that [Event name] that’s happening on [Time]. Pleas
 					</label>
 				</fieldset>
 				<footer class="buttons-submit">
-					<a href="#"><span>Update</span></a> <a href="#"><span>Send Now</span></a>
+					<a href="#" id="update_email_reminder"><span>Update</span></a> 
+          <a href="#" id="send_email_reminder"><span>Send Now</span></a>
+          <span id="reminder_status"></span>
 				</footer>
 			</section>
 		</div>

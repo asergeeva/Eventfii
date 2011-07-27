@@ -60,12 +60,6 @@ var LOGIN_FORM = (function() {
 			} else {
 				$('#invalid_credentials').html("Please enter valid login credentials.");
 			}
-		},
-		
-		userLogin: function(status) {
-			$('body').html(status).ready(function() {
-					CREATE_EVENT_FORM.init();
-			});
 		}
 	}
 })();
