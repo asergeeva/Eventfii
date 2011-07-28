@@ -8,7 +8,7 @@
 var EVENT = (function() {
 	return {
 		init: function() {
-			$('.event_attending_response').live('click', function() {
+			$('#event_attending_response input:enabled').live('click', function() {
 				$.post(EFGLOBAL.baseUrl + '/event/attend', {
 						eid: $('#event_id').html(),
 						conf: $('input:radio[name=event_attending_response]:checked').val()
@@ -27,4 +27,10 @@ var EVENT = (function() {
 
 $(document).ready(function() {
 	EVENT.init();
+	$("#event_attending_response input:disabled").parent("label").click( function() {
+		$("#popup-container").fadeIn(500);
+	});
+	$("#popup-close a").click( function() {
+		$("#popup-container").fadeOut(500);
+	});
 });

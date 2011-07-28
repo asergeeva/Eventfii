@@ -34,6 +34,9 @@ figure figcaption { margin: 0 0 10px; }
 #settings fieldset {
 	padding: 0 10px 10px; }
 .form { overflow: auto; }
+.form p.fb-login {
+	margin: 10px 0 0;
+	text-align: center; }
 fieldset.two-col {
 	float: left;
 	width: 41%;
@@ -617,14 +620,14 @@ a:hover .button em { background-position: 100% 100%; }
 	position: absolute;
 	top: 140px;
 	left: 50%;
-	width: 618px;
+	width: 638px;
 	display: none; }
 #popup {
 	background: #fff;
 	float: left;
 	position: relative;
-	width: 538px; /* 618 - 80 */
-	margin: 0 0 0 -309px;
+	width: 558px; /* 638 - 80 */
+	margin: 0 0 0 -319px;
 	padding: 20px 40px;
 	overflow: visible; }
 #popup-close {
@@ -639,8 +642,8 @@ a:hover .button em { background-position: 100% 100%; }
 	font-size: 30px;
 	color: #fff;
 	width: 50px;
-	height: 35px; /* 50 - 15 */
-	padding: 15px 0 0;
+	height: 41px; /* 50 - 9 */
+	padding: 9px 0 0;
 	-moz-border-radius: 25px; 
 	-webkit-border-radius: 25px;
 	border-radius: 25px;

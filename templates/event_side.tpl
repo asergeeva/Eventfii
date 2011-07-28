@@ -6,12 +6,12 @@
 				<p class="rsvp-message"><em>{$eventInfo['days_left']}</em> days left to RSVP</p>
 				<fieldset>				
 					<ol class="rsvp-list" id="event_attending_response">
-						<li><label for="event_attending_response_1"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT1}" {$conf90} id="event_attending_response_1" /> <em>Yes, I'll absolutely be there</em></label></li>
-						<li><label for="event_attending_response_2"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT2}" {$conf65} id="event_attending_response_2" /> <em>I'm pretty sure I'll be there</em></label></li>
-						<li><label for="event_attending_response_3"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT3}" {$conf35} id="event_attending_response_3" /> <em>I'll go unless my plans change</em></label></li>
-						<li><label for="event_attending_response_4"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT4}" {$conf15} id="event_attending_response_4" /> <em>I probably can't go</em></label></li>
-						<li><label for="event_attending_response_5"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT5}" {$conf4} id="event_attending_response_5" /> <em>No, but I'm a supporter</em></label></li>
-						<li><label for="event_attending_response_6"><input type="radio" class="event_attending_response" name="event_attending_response" value="{$CONFOPT6}" {$conf1} id="event_attending_response_6" /> <em>No, I'm not interested</em></label></li>
+						<li><label for="event_attending_response_1"><input type="radio" name="event_attending_response" value="{$CONFOPT1}" {$conf90} id="event_attending_response_1" {$disabled}/> <em>Yes, I'll absolutely be there</em></label></li>
+						<li><label for="event_attending_response_2"><input type="radio" name="event_attending_response" value="{$CONFOPT2}" {$conf65} id="event_attending_response_2" {$disabled}/> <em>I'm pretty sure I'll be there</em></label></li>
+						<li><label for="event_attending_response_3"><input type="radio" name="event_attending_response" value="{$CONFOPT3}" {$conf35} id="event_attending_response_3" {$disabled}/> <em>I'll go unless my plans change</em></label></li>
+						<li><label for="event_attending_response_4"><input type="radio" name="event_attending_response" value="{$CONFOPT4}" {$conf15} id="event_attending_response_4" {$disabled}/> <em>I probably can't go</em></label></li>
+						<li><label for="event_attending_response_5"><input type="radio" name="event_attending_response" value="{$CONFOPT5}" {$conf4} id="event_attending_response_5" {$disabled}/> <em>No, but I'm a supporter</em></label></li>
+						<li><label for="event_attending_response_6"><input type="radio" name="event_attending_response" value="{$CONFOPT6}" {$conf1} id="event_attending_response_6" {$disabled}/> <em>No, I'm not interested</em></label></li>
 					</ol>
 				</fieldset>
 				<div id="response_stat_msg"></div>

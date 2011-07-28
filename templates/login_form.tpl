@@ -2,7 +2,7 @@
 <fieldset id="existing_user_login_form" class="two-col">
 		<p class="message">Facebook login makes signing up 75% faster!</p> 
 		<div id="fb-root"></div>
-		<p><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>  
+		<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>  
 		<p class="message-small">or</p> 
 		<label for="ef_login_email_exist">
 		<div id="invalid_credentials"></div>
@@ -20,7 +20,7 @@
 		<footer class="links-extra">
 			<p><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
 		</footer>
-		<footer class="buttons-submit"> 
+		<footer class="buttons buttons-submit"> 
 			<a href="#" onclick="LOGIN_FORM.existingUserLogin()" class="btn-med" id="ef_login_btn"><span>Log In</span></a> 
 			<!--
 			<button name="ef_login_btn" id="ef_login_btn" value="login" onclick="LOGIN_FORM.existingUserLogin()">Login</button> 
@@ -74,7 +74,7 @@
 			<p>So we can tell you how close to your events you are.</p>
 			<p><span style="color:red; top:0px; font-weight:bold;">{$user_create_zipcode}</span></p>
 		</label>
-		<footer class="buttons-submit"> 
+		<footer class="buttons buttons-submit"> 
 			<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a> 
 			<!--
 			<button name="ef_create_user_btn" id="ef_create_user_btn" value="submit" onclick="LOGIN_FORM.newUserLogin()">Create</button>

@@ -466,37 +466,31 @@ class PanelController {
 				$this->smarty->display( 'error_event_notexist.tpl' );
 				return;
 			}
+			$this->smarty->assign('eventInfo', $eventInfo);
+			
+			$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+			$this->smarty->assign('userInfo', $userInfo);
+			
+			$curSignUp = $this->dbCon->getCurSignup($eventId);
+			$this->smarty->assign( 'curSignUp', $curSignUp );
+			
+			$attending = $this->dbCon->getAttendeesByEvent($eventId);
+			$this->smarty->assign( 'attending', $attending );
 			
 			// Make sure user is allowed to view the event
-			if ( intval($eventInfo['is_public']) == 1 || ( isset( $_SESSION['uid'] ) && 
-					 $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) ) ) {
-				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-				$this->smarty->assign('userInfo', $userInfo);
+			if ( intval($eventInfo['is_public']) == 1 || ( isset( $_SESSION['uid'] ) && $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) ) ) {
 				
-				$eventInfo['description'] = stripslashes($eventInfo['description']);
-				$this->smarty->assign( 'eventInfo', $eventInfo );
-				
-				$organizerId = $eventInfo['organizer'];
-				$organizerInfo = $this->dbCon->getUserInfo($organizerId);
-				
-				
-				$this->smarty->assign( 'organizer', $organizerInfo );
-				
-				$curSignUp = $this->dbCon->getCurSignup($eventId);
-				$this->smarty->assign( 'curSignUp', $curSignUp );
-				
-				$attending = $this->dbCon->getAttendeesByEvent($eventId);
-				$this->smarty->assign( 'attending', $attending );
+				if ( ! isset ( $_SESSION['uid']) ) {
+					$this->smarty->assign('disabled', 'disabled="disabled" ');
+				}
 				
 				// See if the user has responded
 				$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 				
 				$this->smarty->assign( 'conf' . $hasAttend['confidence'],  'checked = "checked"' );
-
-				$this->smarty->display('event.tpl');
-			} else {
-				$this->smarty->display('error_event_private.tpl');
 			}
+			
+			$this->smarty->display('event.tpl');
 			return;
 		} // END /event
 		
