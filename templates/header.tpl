@@ -10,7 +10,7 @@
 			{else}
 			<li><a href="{$CURHOST}/login">Sign Up/Log In</a></li>
 			{/if}
-			<li><a href="{$CURHOST}/create" class="btn"><span>Create New Event</span></a></li>
+			<li class="buttons"><a href="{$CURHOST}/create" class="btn"><span>Create New Event</span></a></li>
 		</ul>
 	</aside>
 </header>

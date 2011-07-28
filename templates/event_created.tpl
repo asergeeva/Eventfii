@@ -10,7 +10,7 @@
 							<h2>{$event['title']}</h2>
 						</a> 
 						<a href="{$CURHOST}/event/manage?eventId={$event['id']}" class="event-manage">
-							<span><em>Manage</em>
+							<span class="button"><em>Manage</em>
 </span>
 						</a>
 					</li>

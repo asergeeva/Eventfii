@@ -60,8 +60,13 @@
 				<header class="block-title">
 					<h1>Comments</h1>
 				</header>
-				<!--
-				<fb:comments href="{$eventInfo['url']}" num_posts="2" width="496"></fb:comments>
+				<div id="fb-root"></div>
+				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+				<fb:comments href="{$CURHOST}/event/{$eventInfo['eid']}"></fb:comments>
+				<!-- Consider adding to header:
+					 Ability for users to receive notifications when their event gets comments
+
+				<meta property="fb:admins" content="{*YOUR_USER_ID*}">
 				-->
 			</section>
 		</div>

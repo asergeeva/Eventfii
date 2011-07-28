@@ -114,6 +114,7 @@ class PanelController {
 		}
 		
 		$this->dbCon->createNewEvent($newEvent);
+		
 
 		// $_SESSION['prev_eid'] = $_SESSION['newEvent']->title;
 		// $_SESSION['prev_eid']

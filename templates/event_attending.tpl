@@ -9,7 +9,7 @@
 					<li>
 						<a href="{$CURHOST}/event/{$event['id']}">
 							<h2>{$event['title']}</h2> 
-							<span><em>update RSVP</em></span>
+							<span class="button"><em>update RSVP</em></span>
 						</a>
 					</li>
 				{/foreach}

@@ -442,8 +442,8 @@ class DBConfig {
 	}
 	
 	public function eventSignUp($uid, $eid, $conf) {
-		if (!$this->hasAttend($uid, $eid)) {
-			$SIGN_UP_EVENT = "INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
+		if ( ! $this->hasAttend($uid, $eid) ) {
+			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
 						$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf.", is_attending = 1 WHERE event_id = ".$eid." AND user_id = ".$uid;
@@ -488,17 +488,13 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
+	/* Depreciated
 	public function getNewEvents() {
 		$GET_NEW_EVENTS = "SELECT * FROM ef_events WHERE is_public = 1 ORDER BY event_datetime DESC LIMIT 3";
 		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
-	}
+	} */
 	
 	public function storeGuests($guestEmails, $eid, $referrer) {
-	//echo("event id=".$eid);
-	//die();
-	if($eid=="")
-		$eid=$this->getMaxEventId();
-		
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
 				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";

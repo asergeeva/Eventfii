@@ -27,11 +27,15 @@
 					<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.userProfilePic}" alt="{$userInfo['fname']} {$userInfo['lname']}" /></a>
 				  {/if}
 				</p>
-				<footer class="buttons-extra"><a href="#" id="user_image"><span>Upload</span></a></footer>
+				<footer class="buttons buttons-extra">
+					<p><a href="#" id="user_image"><span>Upload</span></a></p>
+				</footer>
 			</section>
 			<section class="block" id="user-desc">
 				<p class="user-info">{$userInfo['about']}</p>
-				<footer class="buttons-extra"><a href="#"><span>Edit</span></a></footer>
+				<footer class="buttons buttons-extra">
+					<p><a href="#"><span>Edit</span></a></p>
+				</footer>
 			</section>
 			<footer class="link-home">
 				<a href="{$CURHOST}">Back to Home</a>
@@ -40,8 +44,9 @@
 		<div class="content">
 			<section class="block" id="settings">
 				<header class="block-title">
-						<h1>Account Info</h1>
-					</header>
+					<h1>Account Info</h1>
+				</header>
+				<form method="post" action="{$CURHOST}/settings/save">
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 
@@ -102,10 +107,11 @@
 						<input type="password" class="inputbox autowidth" name="user-confpass" id="password-confirm" />
 					</label>
 				</fieldset>
-				<footer class="buttons-extra">
-					<a href="#" id="save_settings"><span>Save All</span></a>
-          <span id="save_loading_img"></span>
+				<footer class="buttons buttons-extra">
+					<p><a href="#" id="save_settings"><span>Save All</span></a></p>
+          			<span id="save_loading_img"></span>
 				</footer>
+				</form>
 			</section>
 		</div>
 	</section>

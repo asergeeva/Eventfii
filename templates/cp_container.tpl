@@ -14,7 +14,7 @@
 				  {/if}
 				</p>
 				<footer class="buttons buttons-extra">
-					<a href="#" id="user_image"><span>Upload</span></a>
+					<p><a href="#" id="user_image"><span>Upload</span></a></p>
 				</footer>
 			</section>
 			<section class="block" id="user-desc">

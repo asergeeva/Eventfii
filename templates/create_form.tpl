@@ -105,7 +105,7 @@
 					<p class="message-error" id="pubErr">{$error['pub']}</p>
 				</dd>
 			</dl>
-			<footer class="buttons-submit">
+			<footer class="buttons buttons-submit">
 				<p><input type="submit" name="submit" value="Begin" id="event_create" /></p> 
 			</footer> 
 		</fieldset>
