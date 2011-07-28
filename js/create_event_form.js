@@ -4,9 +4,11 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-var CREATE_EVENT_FORM = ( function() {
-	$('#event_create').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/event/submit', {
+var CREATE_EVENT_FORM = (function() {
+	/*
+	$('#event_create_submit').live('click', function() {
+		$('#event_create').html(EFGLOBAL.ajaxLoader);
+		$.post(EFGLOBAL.baseUrl + '/event/create', {
 			title:          $('#event_title_create').val(),
 			description:	  $('#event_description_create').val(),
 			address: 			  $('#addresspicker').val(),
@@ -14,14 +16,12 @@ var CREATE_EVENT_FORM = ( function() {
 			time:				    $('#event_time_create').val(),
 			deadline: 			$('#event_deadline_create').val(),
 			goal:     			$('#event_goal_create').val(),
-			gets: 				  $('#event_gets_create').val(),
 			type:				    $('#event_type_create option:selected').val(),
 			is_public: 			$('input:radio[name=event_ispublic_create]:checked').val(),
-			url:					  $('#event_url_create').val(),
-			guest_email:    $('#guest_email').val()
+			url:					  $('#event_url_create').val()
 		}, CREATE_EVENT_FORM.createEventSubmit);
 		$('#container').html(EFGLOBAL.ajaxLoader);
-	});
+	});*/
  
 	$('#invite_guest_submit').live('click', function() {
 		if( $('.btn-update').length == 0 ) {
@@ -36,15 +36,14 @@ var CREATE_EVENT_FORM = ( function() {
  
 	return {
 		init: function() {
-			if ( $('#event_date_create') !== undefined && 
-					 $('#event_deadline_create') !== undefined && 
-					 $('#event_title_create') !== undefined ) {
-				$('#event_date_create').datepicker();
-				$('#event_deadline_create').datepicker();
-				$('#event_title_create').focus();
+			$('#event_date_create').datepicker();
+			$('#event_deadline_create').datepicker();
+			$('#event_title_create').focus();
+			if ($('#csv_upload') !== undefined && $('#eventid').length > 0) {
+				CSV_UPLOADER.init($('#eventid').html(), 'csv_upload');
 			}
-			
 			// OPENINVITER EMAIL PROVIDER
+			/*
 			OPENINVITER.init();
 			$('.event_invite_oi').live('click', function() {
 				$('#update_event_form').html(EFGLOBAL.ajaxLoader);
@@ -57,6 +56,7 @@ var CREATE_EVENT_FORM = ( function() {
 			
 			$("a[rel]").overlay();
 			$("img[rel]").overlay();
+			*/
 	 },
 	 
 	 createEventSubmit: function(loginForm) {
@@ -114,7 +114,7 @@ var CREATE_EVENT_FORM = ( function() {
 					$('#deadlineErr').html("");
 					
 				if ( loginForm.length > 18 ) {
-					window.location = EFGLOBAL.baseUrl;
+					//window.location = EFGLOBAL.baseUrl;
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 <div class="form" id="event_create">
-		<form method="post" action="{$CURHOST}/create">
+		<form method="post" action="{$CURHOST}/event/create">
 		<fieldset>
 			<legend>Create Event</legend> 
 			<dl class="column"> 

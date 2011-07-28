@@ -21,19 +21,19 @@ define('CSV_UPLOAD', CURHOST.'/'.CSV_UPLOAD_PATH);
 define('JS_PATH', CURHOST.'/js');
 define('CSS_PATH', CURHOST.'/css');
 
+define('EVENT_URL', CURHOST.'/event');
+
 $smarty->assign('CURHOST', CURHOST);
 
 $smarty->assign('IMG_PATH', IMG_PATH);
-$smarty->assign('EP_IMG_PATH', EP_IMG_PATH);
-$smarty->assign('EC_IMG_PATH', EC_IMG_PATH);
-$smarty->assign('FP_IMG_PATH', FP_IMG_PATH);
-$smarty->assign('UP_IMG_PATH', UP_IMG_PATH);
 
 $smarty->assign('IMG_UPLOAD', IMG_UPLOAD);
 $smarty->assign('CSV_UPLOAD', CSV_UPLOAD);
 
 $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
+
+$smarty->assign('EVENT_URL', EVENT_URL);
 
 define('CONFOPT1', 90);
 define('CONFOPT2', 65);

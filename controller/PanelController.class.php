@@ -181,13 +181,11 @@ class PanelController {
 		} */
 
 	public function checkGuests(&$eventInfo) {
-		$eid = explode('/', $eventInfo->url);
-		$eid = $eid[sizeof($eid) - 1];
-		$csvFile = CSV_UPLOAD_PATH.'/'.$eid.'.csv';
-
+		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
 		if ($_REQUEST['guest_email'] != '') {
 			$eventInfo->setGuests($_REQUEST['guest_email']);
-		} else if (file_exists($csvFile)) {
+		}
+		if (file_exists($csvFile)) {
 			$eventInfo->setGuestsFromCSV($csvFile);
 		}
 	}
@@ -567,7 +565,7 @@ class PanelController {
 																			md5($_REQUEST['confpass']));
 				}
 				break;
-			case '/create':
+			case '/event/create':
 				require_once('models/Event.class.php');
 			
 				//
@@ -578,7 +576,7 @@ class PanelController {
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					// Create an event object with the text from the form
-					$newEvent = new Event();
+					$newEvent = new Event(NULL);
 				// See if it's their first time on the field
 				} else if ( ! isset($_SESSION['newEvent']) ) {
 					$this->smarty->assign('step1', ' class="current"');
@@ -591,10 +589,10 @@ class PanelController {
 
 				// Check to see if the new event is valid.
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
-                    // Save the current information for the next visit
+					// Save the current information for the next visit
 					$_SESSION['newEvent'] = serialize($newEvent);
                     
-                    // Prepare the current values for display on the template
+					// Prepare the current values for display on the template
 					$this->saveEventFields( $newEvent );
                     
 					$this->smarty->assign('step1', ' class="current"');
@@ -604,27 +602,19 @@ class PanelController {
 				}
 				break;
 			case '/create/guests':
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();
 				$this->smarty->assign('step2', ' class="current"');
 				
-				$event = $this->buildEvent( $_SESSION['new_eid'] );
-				
-				/* 
-				$this->checkGuests($event);
-				
-				$this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
-				
-				require_once('models/EFMail.class.php');
-				$mailer = new EFMail();  
-				// die("here007");
-				$mailer->sendEmail( $eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url'] );
-				
-				 */
-				 
-				if ( isset($_POST['submit']) ) {
+				$event = $this->buildEvent($_SESSION['new_eid']);
+				if (isset($_POST['submit'])) {
+					$this->checkGuests($event);
+					$mailer->sendEmail($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
 					header("Location: " . CURHOST . "/create/trueRSVP");
 					exit;
 				}
 				
+				$this->smarty->assign('eventInfo', $event);
 				$this->smarty->display('create.tpl');
 				break;
 			case '/create/trueRSVP':

@@ -4,22 +4,6 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-var IMAGE_UPLOADER = (function() {
-	var _uploader;
-	
-	return {
-		init: function(eid, uploaderId) {
-			if ($('#' + uploaderId) !== undefined) {
-				_uploader = new qq.FileUploader({
-					element: $('#' + uploaderId)[0],
-					action: EFGLOBAL.baseUrl + '/event/image/upload',
-					params: {eventId: eid}
-				});
-			}
-		}
-	}
-})();
-
 var USER_IMAGE_UPLOADER = (function() {
 	var _uploader;
 	
