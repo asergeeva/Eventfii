@@ -115,9 +115,7 @@ class PanelController {
 		
 		$this->dbCon->createNewEvent($newEvent);
 		
-
-		// $_SESSION['prev_eid'] = $_SESSION['newEvent']->title;
-		// $_SESSION['prev_eid']
+		$_SESSION['new_eid'] = $this->dbCon->getMaxEventId();
 		
 		unset($_SESSION['newEvent']);
 		header("Location: " . CURHOST . "/create/guests");
@@ -572,6 +570,11 @@ class PanelController {
 			case '/create':
 				require_once('models/Event.class.php');
 			
+				//
+				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
+				// Needs to be implemented
+				//
+				
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					// Create an event object with the text from the form
@@ -603,100 +606,31 @@ class PanelController {
 			case '/create/guests':
 				$this->smarty->assign('step2', ' class="current"');
 				
-				/* Stuff will be added here shortly... */
+				$event = $this->buildEvent( $_SESSION['new_eid'] );
+				
+				/* 
+				$this->checkGuests($event);
+				
+				$this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
+				
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();  
+				// die("here007");
+				$mailer->sendEmail( $eventInfo->guests, $_REQUEST['eventId'], $_REQUEST['title'], $_REQUEST['url'] );
+				
+				 */
+				 
+				if ( isset($_POST['submit']) ) {
+					header("Location: " . CURHOST . "/create/trueRSVP");
+					exit;
+				}
 				
 				$this->smarty->display('create.tpl');
 				break;
-            /* Depreciated without JS
-			   Please save until I can salvage some of the code - Wex
-			case '/event/update':
-				require_once('models/Event.class.php');
-				$eventInfo = new Event(
-					$_SESSION['uid'],
-					$_REQUEST['title'], 
-					$_REQUEST['url'], 
-					$_REQUEST['goal'],
-					$_REQUEST['address'], 
-					$_REQUEST['date'],
-					$_REQUEST['time'],
-					$_REQUEST['deadline'],
-					$_REQUEST['description'], 
-					$_REQUEST['cost'],
-					$_REQUEST['is_public'],
-					$_REQUEST['type'], 
-					0, 
-					0 
-				);
-
-				$this->checkGuests($eventInfo);
-
-				if ( $_REQUEST['eventId'] != -1 ) {
-					$eventInfo->eid = $_REQUEST['eventId'];
-					$this->smarty->assign('id', $_REQUEST['eventId']);
-					$_SESSION['eventId'] = $_REQUEST['eventId'];
-				} else {
-					$this->smarty->assign('id', $_SESSION['eventId']);
-					// $eventInfo['id']= $_SESSION['eventId'];
-					$eventInfo->eid = $_SESSION['eventId'];
-				}
-				//$_SESSION['eventId']=$_REQUEST['eventId'];
-				//print_r($_SESSION);
-				//die();
-				//////////////////////////////////////////
-				$addr = $eventInfo->address;
-				$goal = $eventInfo->goal;
-				$title = $eventInfo->title;
-				$dt = $eventInfo->date;
-				$ddt = $eventInfo->deadline;
-				$description = $eventInfo->description;
-				$aval = $this->validate_address($addr);
-				$tval = $this->validate_title($title);
-				$desc = $this->validate_desc($description);
-				$gval = $this->validate_goal($goal);
-				$dval = $this->validate_date($dt);
-				$ddval = $this->validate_ddt($ddt,$dt);
-
-				if( $ddval == 2 || $dval == 2 || $aval == 2 || $tval == 2 || $tval == 3 || $desc == 2 || $gval == 2 ) {
-					$this->smarty->display('manage_edit_form_errors.tpl');
-					return;
-				}
-
-				$addrss = $eventInfo->address;
-				$addr = $this->check_address($addrss);	
-				$eventInfo->lat = $addr['lat'];
-				$eventInfo->lng = $addr['lng'];		
-				$eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
-
-				////////////////////////////////////////////
-				//if($eventInfo->eid <=0)
-				//$eventInfo->eid = $_SESSION['eventId'];
-				//print_r($_SESSION);
-				//die();
-
-				 //  print_r($_REQUEST);
-				 //die();
-				 //echo("here");
-				 //print_r($eventInfo->guests);
-				 //die();
-				 $this->dbCon->storeGuests($eventInfo->guests, $eventInfo->eid, $_SESSION['uid']);
-				 //if(isset($_REQUEST['guest_email']))
-				 //{
-				 //  die("here12345");
-				 require_once('models/EFMail.class.php');
-				 $mailer = new EFMail();  
-				 // die("here007");
-				 $mailer->sendEmail(
-					$eventInfo->guests, 
-					$_REQUEST['eventId'], 
-					$_REQUEST['title'], 
-					$_REQUEST['url']
-				);
-				 //}
-				$this->dbCon->updateEvent($eventInfo);
-				$this->assignCPEvents($_SESSION['uid']);
-				$this->smarty->display('cp_container.tpl');
+			case '/create/trueRSVP':
+				$this->smarty->assign('step3', ' class="current"');
+				$this->smarty->display('create.tpl');
 				break;
-            */
 			case '/event/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")

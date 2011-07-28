@@ -39,11 +39,11 @@ class DBConfig {
 	
 	public function executeQuery($query) {
 		$dbLink = $this->openCon();
-	  $dbResult = mysql_query($query);
-	  if (!$dbResult && $this->DEBUG) {
+		$dbResult = mysql_query($query);
+		if (!$dbResult && $this->DEBUG) {
 			print($query . "<br />");
-		  die('Invalid query: ' . mysql_error());
-	  }
+			die('Invalid query: ' . mysql_error());
+		}
 		$resultArr = mysql_fetch_array($dbResult, MYSQL_ASSOC);
 		mysql_free_result($dbResult);
 		
@@ -91,12 +91,16 @@ class DBConfig {
 	}
 	
 	public function getMaxEventId() {
-		$GET_MAX_EFID = "SELECT MAX(e.id) AS max_id FROM ef_events e";
+		$GET_MAX_EFID = "	SELECT	MAX(e.id) AS max_id 
+							FROM 	ef_events e
+							WHERE	e.organizer = " . $_SESSION['uid'];
+		
 		$maxId = $this->executeQuery($GET_MAX_EFID);
-		if (is_null($maxId['max_id'])) {
+		
+		if ( is_null($maxId['max_id']) ) {
 			return 1;
 		}
-		return $maxId['max_id'] + 1;
+		return $maxId['max_id'];
 	}
 	
 	public function getMaxRecipientTokenId() {

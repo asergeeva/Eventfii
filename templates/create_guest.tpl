@@ -1,6 +1,7 @@
 				<header class="block-title">
 					<h1>Add Guests</h1>
 				</header>
+				<form method="post" action="{$CURHOST}/create/guests">
 				<fieldset>
 					<ol>
 						<li><span>Facebook</span></li>
@@ -14,6 +15,7 @@
 						<li><span>Upload a CSV file</span></li>
 					</ol>
 				</fieldset>
-				<footer class="buttons-submit">
-					<a href="#"><span>Done</span></a>
+				<footer class="buttons buttons-submit">
+					<p><input type="submit" name="submit" value="Done" /></p>
 				</footer>
+				</form>

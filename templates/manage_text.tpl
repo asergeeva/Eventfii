@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		<header class="block">
-			<p class="message">Send Email reminders and followups here</p>
+			<p class="message">Send your guests updates through Text Messages here.</p>
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">

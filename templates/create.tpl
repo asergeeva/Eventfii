@@ -19,14 +19,8 @@
 				<ol>
 					<li{$step1}><span>Add event information</span></li>
 					<li{$step2}><span>Add guests</span></li>
-					<li><span>trueRSVP</span></li>
+					<li{$step3}><span>trueRSVP</span></li>
 				</ol>
-			</nav>
-			<nav class="block">
-				<header class="block-title">
-					<h1>Known Bugs</h1>
-				</header>
-				<p></p>
 			</nav>
 			<footer class="links-extra">
 				<p><a href="{$CURHOST}">Back to home</a></p>
@@ -44,7 +38,10 @@
 				{else if $step2}
 				{include file="create_guest.tpl"}
 				{else if $step3}
-				Done!	
+				<header class="block">
+					<p class="message">Event created successfully.</p>
+				</header>
+				<a href="{$CURHOST}">Click here to return to your control panel</a>
 				{/if}
 			</section>
 		</div>
