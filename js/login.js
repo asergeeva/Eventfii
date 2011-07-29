@@ -6,8 +6,6 @@
  */
  
 var LOGIN_FORM = (function() {
-	
-	
 	return {
 		init: function() {
 			FBCON.getLoginStatus();

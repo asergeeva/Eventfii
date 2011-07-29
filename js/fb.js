@@ -26,7 +26,10 @@ var FBCON = (function() {
 		
 		onlogin: function() {
 			FB.api('/me', function(userInfo) {
-				LOGIN_FORM.fbUserLogin(userInfo);
+				console.log(userInfo);
+				if (typeof userInfo.error == 'undefined') {
+					LOGIN_FORM.fbUserLogin(userInfo);
+				}
 			});
 		}
 	}
