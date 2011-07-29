@@ -181,10 +181,13 @@ class PanelController {
 		} */
 
 	public function checkGuests(&$eventInfo) {
-		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
-		if ($_REQUEST['guest_email'] != '') {
-			$eventInfo->setGuests($_REQUEST['guest_email']);
+	
+		// text area check
+		if ($_REQUEST['emails'] != '') {
+			$eventInfo->setGuests($_REQUEST['emails']);
 		}
+		// CSV file check
+		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
 		if (file_exists($csvFile)) {
 			$eventInfo->setGuestsFromCSV($csvFile);
 		}
@@ -430,6 +433,16 @@ class PanelController {
 		return $userId;
 	}
 	
+	// Check if there's a new event session
+	// create that event if the session exist
+	private function checkCreateEventSession() {
+		if (isset($_SESSION['newEvent'])) {
+			$newEvent = unserialize($_SESSION['newEvent']);
+			$newEvent->organizer = $_SESSION['uid'];
+			$this->makeNewEvent( $newEvent );
+		}
+	}
+	
 	private function getRedirectUrl() {
 		switch ($_GET['redirect']) {
 			case 'event':
@@ -603,7 +616,6 @@ class PanelController {
 				break;
 			case '/event/create':
 				require_once('models/Event.class.php');
-			
 				//
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
@@ -615,19 +627,27 @@ class PanelController {
 					$newEvent = new Event(NULL);
 				// See if it's their first time on the field
 				} else if ( ! isset($_SESSION['newEvent']) ) {
+					if (isset($_POST['title'])) {
+						$event_field['title'] = $_POST['title'];
+					}
+					if (isset($_POST['goal'])) {
+						$event_field['goal'] = $_POST['goal'];
+					}
+				
+					$this->smarty->assign('event_field', $event_field);
 					$this->smarty->assign('step1', ' class="current"');
 					$this->smarty->display('create.tpl');
 					break;
 				// Check to see if they were working on the event before
 				} else {
 					$newEvent = unserialize($_SESSION['newEvent']);
-				}				
+				}
 
 				// Check to see if the new event is valid.
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
 					// Save the current information for the next visit
 					$_SESSION['newEvent'] = serialize($newEvent);
-                    
+          
 					// Prepare the current values for display on the template
 					$this->saveEventFields( $newEvent );
                     
@@ -795,8 +815,7 @@ class PanelController {
 				
 				$this->buildEvent( $_GET['eventId'] );
 				
-				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
-				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_FOLLOWUP_TYPE);
+				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
 
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = 'checked = "checked"';
@@ -838,7 +857,7 @@ class PanelController {
 				
 				$event = $this->buildEvent( $_GET['eventId'] );
 				
-				$eventFollowup = $this->dbCon->getEventEmail($_GET['eventId'], EMAIL_FOLLOWUP_TYPE);
+				$eventFollowup = $this->dbCon->getEventEmail($_GET['eventId'], EMAIL_REMINDER_TYPE);
 				$this->smarty->assign('emailInfo', $eventFollowup);
 				
 				$this->smarty->display('manage_event_email.tpl');
@@ -922,6 +941,8 @@ class PanelController {
 															 $autoReminder);
 				break;
 			case '/login':
+				require_once('models/Event.class.php');
+				
 				// if the user already logged in
 				if ( ! isset($_SESSION['uid']) ) {
 					$this->smarty->assign('redirect', $params);
@@ -939,6 +960,9 @@ class PanelController {
 						} else {
 							echo 0;
 						}
+						
+						// if there's new event when login using facebook
+						$this->checkCreateEventSession();
 						
 						break;
 					// if the user submit the login form
@@ -966,6 +990,8 @@ class PanelController {
 						}
 						
 						$_SESSION['uid'] = $userId;
+						// if there's new event session when logging in
+						$this->checkCreateEventSession();
 						
 						// Success, log in
 						header("Location: " . $this->getRedirectUrl());
@@ -988,10 +1014,17 @@ class PanelController {
 						}
 						
 						// Create the new user
-						$userInfo = $this->dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], $_POST['pass'], $_POST['zipcode'] );
-						
+						$userInfo = $this->dbCon->createNewUser( $_POST['fname'], 
+																										 $_POST['lname'], 
+																										 $_POST['email'], 
+																										 $_POST['phone'], 
+																										 md5($_POST['pass']), 
+																										 $_POST['zipcode'] );
 						// Assign user's SESSION variables
 						$_SESSION['uid'] = $userInfo['id'];
+						// if there's new event session when registering
+						$this->checkCreateEventSession();
+						
 						// $_SESSION['userProfilePic'] = "images/default_thumb.jpg";
 					} else {
 						$this->smarty->display('login.tpl');
@@ -1000,7 +1033,7 @@ class PanelController {
 				}
 				
 				if ( isset ( $params ) ) {
-					header("Location: " . getRedirectUrl());
+					header("Location: " . $this->getRedirectUrl());
 					exit;
 				}
 				

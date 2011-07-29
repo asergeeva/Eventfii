@@ -33,7 +33,7 @@ class EFMail {
 		for ($i = 0; $i < sizeof($to); ++$i) {
 			$hash_key = md5($to[$i].$eventId);
 			$message = "Link: ".$eventUrl."?ref=".$hash_key;
-			$RECORD_HASH_KEY = "INSERT INTO ef_event_invites (hash_key, email_to)
+			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to)
 														VALUES ('".$hash_key."', '".$to[$i]."')";
 			$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);

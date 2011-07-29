@@ -334,7 +334,6 @@ class DBConfig {
 									event_deadline, 
 									description, 
 									is_public, 
-									gets, 
 									type,
 									location_lat,
 									location_long) 
@@ -348,7 +347,6 @@ class DBConfig {
 						'" . mysql_real_escape_string($sqlDeadline) . "',
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . $newEvent->is_public . ",
-						'" . $newEvent->gets . "',
 						" . $newEvent->type . ",
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ")
@@ -369,7 +367,6 @@ class DBConfig {
 									e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
 									e.description = '".mysql_real_escape_string($eventInfo->description)."',
 									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
-									e.gets = '".mysql_real_escape_string($eventInfo->gets)."',
 									e.location_lat=".mysql_real_escape_string($eventInfo->location_lat).",
 									e.location_long=".mysql_real_escape_string($eventInfo->location_long).",
 									e.type = ".$eventInfo->type." 

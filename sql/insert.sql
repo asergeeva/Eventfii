@@ -5,8 +5,7 @@ INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('An
 INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Scott', 'Sangster', 'scott@truersvp.com', MD5('sangster'), 'I am Scott', 1);
 
 -- Message types --
-INSERT INTO ef_messages_type (name) VALUES ('Email reminder');
-INSERT INTO ef_messages_type (name) VALUES ('Email follow up');
+INSERT INTO ef_messages_type (name) VALUES ('Email');
 INSERT INTO ef_messages_type (name) VALUES ('SMS');
 
 -- Event types --

@@ -389,7 +389,11 @@ class Event {
 	}
 		
 	public function setGuests($guest_email) {
-		$this->guests = array_map('trim', explode(",", $guest_email));
+		if (filter_var($guest_email, FILTER_VALIDATE_EMAIL)) {
+			array_push($this->guests, $guest_email);
+		} else {
+			$this->guests = array_map('trim', explode(",", $guest_email));
+		}
 	}
 	
 	public function setGuestsFromCSV($csvFile) {
