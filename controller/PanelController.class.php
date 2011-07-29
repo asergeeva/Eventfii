@@ -443,7 +443,7 @@ class PanelController {
 				}
 				break;
 			default:
-				$url = $CURHOST;
+				$url = CURHOST;
 		}
 		
 		return $url;
@@ -915,11 +915,15 @@ class PanelController {
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
-				$this->dbCon->saveText($_SESSION['manageEvent']['id'], $_REQUEST['reminderContent'], $dateTime, SMS_REMINDER_TYPE, $autoReminder);
+				$this->dbCon->saveText($_SESSION['manageEvent']['id'], 
+															 $_REQUEST['reminderContent'], 
+															 $dateTime, 
+															 SMS_REMINDER_TYPE, 
+															 $autoReminder);
 				break;
 			case '/login':
+				// if the user already logged in
 				if ( ! isset($_SESSION['uid']) ) {
-					
 					$this->smarty->assign('redirect', $params);
 					
 					if ( $_POST['isFB'] ) {
@@ -936,7 +940,8 @@ class PanelController {
 							echo 0;
 						}
 						
-						break;						
+						break;
+					// if the user submit the login form
 					} else if ( isset( $_POST['login'] ) ) {
 						if ( ! isset( $_POST['email'] ) ) {
 							// User didn't enter e-mail

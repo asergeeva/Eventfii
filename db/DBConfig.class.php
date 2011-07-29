@@ -112,12 +112,11 @@ class DBConfig {
 		return $maxId['max_id'] + 1;
 	}
 	
-	// TODO: CHANGE TO SELECT id instead of SELECT *
 	public function checkValidUser($email, $pass) {
 		$CHECK_VALID_USER = "	SELECT	* 
 								FROM 	ef_users
 								WHERE 	email = '".$email."' 
-								AND 	password = '".$pass."'";
+								AND 	password = '".md5($pass)."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
 		if (isset($userInfo['id'])) {
 			return $userInfo['id'];
