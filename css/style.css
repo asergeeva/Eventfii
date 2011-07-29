@@ -614,13 +614,13 @@ a:hover .button em { background-position: 100% 100%; }
 
 /* Popup
  -------------------------*/
-#popup-container {
+.popup-container {
 	position: absolute;
 	top: 140px;
 	left: 50%;
 	width: 738px;
 	display: none; }
-#popup {
+.popup {
 	background: #fff;
 	float: left;
 	position: relative;
@@ -628,12 +628,12 @@ a:hover .button em { background-position: 100% 100%; }
 	margin: 0 0 0 -369px;
 	padding: 20px 10px;
 	overflow: visible; }
-#popup-close {
+.popup-close {
 	position: absolute;
 	font-family: Arial;
 	top: -25px;
 	right: -25px; }
-#popup-close a {
+.popup-close a {
 	background: #3399cc;
 	text-align: center;
 	text-decoration: none;

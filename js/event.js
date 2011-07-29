@@ -10,9 +10,11 @@ var EVENT = (function() {
 		init: function() {
 			$('#event_attending_response input:enabled').live('click', function() {
 				$.post(EFGLOBAL.baseUrl + '/event/attend', {
-						eid: $('#event_id').html(),
+						eid: $('#event-id').html(),
 						conf: $('input:radio[name=event_attending_response]:checked').val()
-					}, function(resultPage) {
+				}, function(resultPage) {
+					$('#event_attending_response li').removeClass();
+					$('#event_attending_response input:checked').parent('li').addClass('selected');
 					$('#response_stat_msg').html(EFGLOBAL.attendSucceed);
 				});
 				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
@@ -28,9 +30,9 @@ var EVENT = (function() {
 $(document).ready(function() {
 	EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
-		$("#popup-container").fadeIn(500);
+		$("#log-in").fadeIn(500);
 	});
-	$("#popup-close a").click( function() {
-		$("#popup-container").fadeOut(500);
+	$("#login .popup-close a").click( function() {
+		$("#login .popup-container").fadeOut(500);
 	});
 });

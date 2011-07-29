@@ -16,22 +16,14 @@
 		{include file="event_side.tpl"}
 	</section>
 </div>
-<div id="popup-container"> 
-	<div id="popup" class="block"> 
-	<p class="message">Sign up or log in to trueRSVP to RSVP to <a href="{$CURHOST}/event/{$eventInfo['id']}">{$eventInfo['title']}</a>. <strong>Click <a href="{$CURHOST}/method">here</a> to find out why trueRSVP can help make your next event a success.</strong></p> 
-	{include file="login_form.tpl"}
-	<p id="popup-close"><a href="#">X</a></p> 
-	</div> 
-</div> 
 {include file="footer.tpl"}
-<div id="popup-container">
-	<div id="popup" class="block">
+<div class="popup-container" id="log-in">
+	<div class="popup" class="block">
 		<p class="message">Log in or Sign up for trueRSVP to RSVP to <a href="{$CURHOST}/event/{$eventInfo['id']}">{$eventInfo['title']}</a>. <strong>Click <a href="{$CURHOST}/method">here</a> to find out why trueRSVP can help make your next event a success.</strong></p>
 		{include file="login_form.tpl"}
-		<p id="popup-close"><a href="#">X</a></p>
+		<p class="popup-close"><a href="#">X</a></p>
 	</div>
 </div>
-
 
 {include file="js_global.tpl"}
 {include file="js_event.tpl"}

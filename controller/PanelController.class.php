@@ -702,8 +702,8 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/event/attend':
-				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_SESSION['ceid']);
-				$this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['ceid'], $_REQUEST['conf']);
+				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_POST['eid']);
+				$this->dbCon->eventSignUp($_SESSION['uid'], $_POST['eid'], $_POST['conf']);
 				break;
             case '/event/checkin':
 				$isAttend = 1;
@@ -730,8 +730,6 @@ class PanelController {
 				$this->smarty->assign('eventAttendees', $eventAttendees);
 				
 				$this->assignManageVars( $_GET['eventId'] );
-				
-				// $_SESSION['manageEvent'] = $this->dbCon->getEventInfo($_REQUEST['eventId']);
 				
 				$this->smarty->display('manage.tpl');
 				break;

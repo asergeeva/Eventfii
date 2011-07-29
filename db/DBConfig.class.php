@@ -391,40 +391,42 @@ class DBConfig {
 	
 	public function getEventByEO($uid) {
 		$GET_EVENTS = "	SELECT	* 
-						FROM	
-						(
-							SELECT		e.id, 
-							TIMEDIFF
-							(
-										e.event_datetime, 
-										NOW()
-							) 
-							AS			time_left,
-										e.created, 
-										e.title, 
-										e.url, 
-										e.goal, 
-										e.location_address, 
-										e.event_datetime, 
-										e.event_deadline, 
-										e.description, 
-										e.is_public 
-							FROM		ef_events e 
-							WHERE		e.organizer = " . $uid . "
+						FROM (
+							SELECT	e.id, 
+									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+									e.created, 
+									e.title, 
+									e.url, 
+									e.goal, 
+									e.location_address, 
+									e.event_datetime, 
+									e.event_deadline, 
+									e.description, 
+									e.is_public 
+							FROM	ef_events e 
+							WHERE	e.organizer = " . $uid . "
 						) el
-						WHERE			el.time_left > 0 
-						ORDER BY		el.time_left ASC";
+						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
 	public function getEventAttendingBy($uid) {
-		$GET_EVENTS = "SELECT * FROM 
-											(SELECT e.id, DATEDIFF(e.event_deadline, CURDATE()) AS days_left,
-											 	e.created, e.title, e.url, e.goal, 
-											 	e.location_address, e.event_datetime, e.event_deadline, 
-											 	e.description, e.is_public 
-											FROM ef_attendance a, ef_events e WHERE a.event_id = e.id AND a.user_id = ".$uid.") el
-									WHERE el.days_left > 0 ORDER BY el.days_left ASC";
+		$GET_EVENTS = "	SELECT	* 
+						FROM (
+								SELECT 	e.id, 
+										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
+										e.created, 
+										e.title, 
+										e.goal, 
+										e.location_address, 
+										e.event_datetime, 
+										e.event_deadline, 
+										e.description, e.is_public 
+								FROM 	ef_attendance a, 
+										ef_events e 
+								WHERE 	a.event_id = e.id AND a.user_id = ".$uid."
+						) el
+						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -434,10 +436,8 @@ class DBConfig {
 	 */
 	public function getEventInfo($eid) {
 		$GET_EVENT = "	SELECT	id, 
-								DATEDIFF (
-									event_deadline, 
-									CURDATE()
-								) AS days_left,
+								DATEDIFF ( event_deadline, CURDATE() ) AS rsvp_days_left,
+								DATEDIFF ( event_datetime, CURDATE() ) AS days_left,
 								created,
 								organizer, 
 								title, 
@@ -468,10 +468,19 @@ class DBConfig {
 	
 	public function eventSignUp($uid, $eid, $conf) {
 		if ( ! $this->hasAttend($uid, $eid) ) {
-			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) VALUES (".$eid.", ".$uid.", ".$conf.")";
+			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) 
+								VALUES(
+									" . $eid . ", 
+									" . $uid . ", 
+									" . $conf . "
+								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
-						$UPDATE_SIGN_UP = "UPDATE ef_attendance SET confidence = ".$conf.", is_attending = 1 WHERE event_id = ".$eid." AND user_id = ".$uid;
+			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
+								SET 	confidence = " . $conf . ", 
+										is_attending = 1 
+								WHERE 	event_id = " . $eid . " 
+								AND 	user_id = " . $uid;
 
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}

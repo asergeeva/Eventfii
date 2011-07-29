@@ -1,5 +1,5 @@
 <header class="block">
-			<p class="message"><em>20</em> days left until the event. Get excited!</p>
+			<p class="message"><em>{$eventInfo['days_left']}</em> days left until the event. Get excited!</p>
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
