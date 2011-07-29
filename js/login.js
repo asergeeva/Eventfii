@@ -19,7 +19,7 @@ var LOGIN_FORM = (function() {
 					email: $('#ef_login_email_exist').val(),
 					pass: hex_md5($('#ef_login_pass_exist').val())
 			}, LOGIN_FORM.loginRedirect);
-			$('#middle').html(EFGLOBAL.ajaxLoader);
+			$('#container').html(EFGLOBAL.ajaxLoader);
 		},
 		
 		newUserLogin: function() {
@@ -39,11 +39,11 @@ var LOGIN_FORM = (function() {
 				zipcode: $('#zipcode').val(),
 				pass: passval
 			}, LOGIN_FORM.userLogin);
-			$('#middle').html(EFGLOBAL.ajaxLoader);
+			$('#container').html(EFGLOBAL.ajaxLoader);
 		},
 		
 		fbUserLogin: function(userInfo) {
-			$.post(EFGLOBAL.baseUrl + '/user/fb/create', {
+			$.post(EFGLOBAL.baseUrl + '/login', {
 				isExist: false,
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,
@@ -51,14 +51,17 @@ var LOGIN_FORM = (function() {
 				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture',
 				isFB: true
 			}, LOGIN_FORM.loginRedirect);
-			$('#middle').html(EFGLOBAL.ajaxLoader);
+			$('#container').html(EFGLOBAL.ajaxLoader);
 		},
 		
 		loginRedirect: function(status) {
-			if(status!=1) {
+			if( status == 1 ) {
 				window.location = EFGLOBAL.baseUrl;
-			} else {
+			} else if ( status == 0 ) {
+				window.location = EFGLOBAL.baseUrl + '/login';
 				$('#invalid_credentials').html("Please enter valid login credentials.");
+			} else {
+				window.location = EFGLOBAL.baseUrl + '/login' + status;
 			}
 		}
 	}

@@ -28,7 +28,7 @@ class PanelController {
 	 * @param $eventId | The event ID
 	 * @return $event | The event object
 	 */
-	public function buildEvent($eventId) {
+	private function buildEvent($eventId) {
 		$eventInfo = $this->dbCon->getEventInfo($eventId);
 		
 		$eventInfo['address'] = $eventInfo['location_address'];
@@ -56,7 +56,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	public function validateEventInfo ( &$newEvent ) {
+	private function validateEventInfo ( &$newEvent ) {
 		// Check for errors
 		$error = $newEvent->get_errors();
 		$is_valid = ( $error === false ) ? true : false;
@@ -79,7 +79,7 @@ class PanelController {
      * @param $newEvent | The event being saved
      * @return $event_field | The array of event information
 	 */
-	public function saveEventFields( $newEvent ) {
+	private function saveEventFields( $newEvent ) {
 
 		// Save the current fields
 		$event_field['title'] = $newEvent->get_title();
@@ -104,7 +104,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	public function makeNewEvent( $newEvent ) {
+	private function makeNewEvent( $newEvent ) {
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['uid']) ) {
@@ -127,7 +127,7 @@ class PanelController {
 	 *
 	 * @param $event | The VALIDATED event object
 	 */
-	public function saveEvent( $event ) {		
+	private function saveEvent( $event ) {		
 		$this->dbCon->updateEvent( $event );
 		$this->smarty->assign("saved", true);
 	}
@@ -192,39 +192,40 @@ class PanelController {
 
 	//checkUserCreationForm
 	public function checkUserCreationForm($req) {
-		$flag=1;
-		$fname=$req['fname'];
-		$lname=$req['lname'];
-		$email=$req['email'];
-		$phone=$req['phone'];
-		$pass=$req['pass'];
-		$zip=$req['zip'];
+		$flag = 1;
+		$fname = $req['fname'];
+		$lname = $req['lname'];
+		$email = $req['email'];
+		$phone = $req['phone'];
+		$pass = $req['pass'];
+		$zip = $req['zip'];
 
-		if(strlen($zip)>0)
-			$zipcode_val=$this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
+		if( strlen($zip) > 0 )
+			$zipcode_val = $this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
 
-		$f_name_val=$this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
-		$l_name_val=$this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
-		$email_val=$this->valEmail($email,"user_create_email","Email entered is invalid.");
-		$ph_val=$this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
-		$pass_val=$this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
+		$f_name_val = $this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
+		$l_name_val = $this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
+		$email_val = $this->valEmail($email,"user_create_email","Email entered is invalid.");
+		$ph_val = $this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
+		$pass_val = $this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
 
 		$email_exists=$this->dbCon->emailExistsCheck($email);
-		if($f_name_val==2||$l_name_val==2||$email_val==2||
-			 $pass_val==2||$ph_val==2||$zipcode_val==2) {
-			$flag=2;
+		if( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $pass_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
+			$flag = 2;
 		}
 
-		if(strlen($email_exists)>0) {
+		if( strlen($email_exists) > 0 ) {
 			$flag=2;
-			$this->smarty->assign("user_create_email", "Email Id has been already registered once in the system.");
+			$this->smarty->assign("user_create_email", "Email has been already registered once in the system.");
 		}
 
-		if(strlen($pass)<6) {
+		if( strlen($pass) < 6 ) {
 			$flag=2;
 			$this->smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
-		return $flag;
+		
+		// Flag = 2, error = true, else, error = false
+		return ( $flag == 2 ) ? true : false;
 	}
 
 	// BEGIN OLD FUNCTIONS
@@ -283,6 +284,7 @@ class PanelController {
 	////////////////
 	// End OLD FUNCTIONS
 
+	// Need to add for Facebook Picture
 	private function assignUserImage($userId) {
 		if (file_exists('upload/user/'.$userId.'.png')) {
 			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.png');
@@ -428,6 +430,25 @@ class PanelController {
 		return $userId;
 	}
 	
+	private function getRedirectUrl() {
+		switch ($_GET['redirect']) {
+			case 'event':
+				if ( $_GET['eventId'] ) {
+					$url = $CURHOST . "/event/" . $_GET['eventId'];
+				}
+				break;
+			case 'manage':
+				if ( $_GET['eventId'] ) {
+					$url = $CURHOST . "/event/manage?eventId=" . $_GET['eventId'];
+				}
+				break;
+			default:
+				$url = $CURHOST;
+		}
+		
+		return $url;
+	}
+	
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.
@@ -487,7 +508,21 @@ class PanelController {
 				// See if the user has responded
 				$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 				
-				$this->smarty->assign( 'conf' . $hasAttend['confidence'],  'checked = "checked"' );
+				$this->smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
+				$this->smarty->assign('select' . $hasAttend['confidence'], '  class="selected"');
+
+				if ( ! isset( $_SESSION['uid'] ) ) {
+					$this->smarty->assign('disabled', ' disabled="disabled"');
+				}
+				
+				$this->smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
+				$this->smarty->display('event.tpl');
+			} else {
+				if ( ! isset( $_SESSION['uid'] ) ) {
+					header("Location: " . CURHOST . "/login?redirect=event&eventId=" . $eventId);
+				} else {
+					$this->smarty->display('error_event_private.tpl');
+				}
 			}
 			
 			$this->smarty->display('event.tpl');
@@ -496,15 +531,19 @@ class PanelController {
 		
 		// Quick check for permissions for editing events
 		if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
-			if ( ! isset ( $_SESSION['uid'] ) ) {
-				header("Location: " . CURHOST . "/login");
-				exit;
-			} else if ( ! isset ( $_GET['eventId'] ) ) {
+			if ( ! isset ( $_GET['eventId'] ) ) {
 				$this->smarty->display('error.tpl');
 				return;
-			} else {
-				$eventId = $_GET['eventId'];
 			}
+			$eventId = $_GET['eventId'];
+			if ( ! isset ( $_SESSION['uid'] ) ) {
+				if ( $eventId ) {
+					header("Location: " . CURHOST . "/login?redirect=manage&eventId=" . $eid);
+				} else {
+					header("Location: " . CURHOST . "/login");
+				}
+				exit;
+			} 
 		}
 		
 		// User public profile page
@@ -523,10 +562,13 @@ class PanelController {
 		// Remove GET parameters
 		$getParamStartPos = strpos($requestUri, '?');
 		if ($getParamStartPos) {
-			$requestUri = substr($requestUri, 0, $getParamStartPos);
+			$page = substr($requestUri, 0, $getParamStartPos);
+			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
+		} else {
+			$page = $requestUri;
 		}
 
-		switch ($requestUri) {
+		switch ($page) {
 			case '/':
 				$this->checkHome();
 				break;
@@ -873,43 +915,93 @@ class PanelController {
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
-				$this->dbCon->saveText($_SESSION['manageEvent']['id'], 
-															 $_REQUEST['reminderContent'], 
-															 $dateTime, 
-															 SMS_REMINDER_TYPE, 
-															 $autoReminder);
+				$this->dbCon->saveText($_SESSION['manageEvent']['id'], $_REQUEST['reminderContent'], $dateTime, SMS_REMINDER_TYPE, $autoReminder);
 				break;
 			case '/login':
-				if (!isset($_SESSION['uid'])) {
-					if (isset($_REQUEST['email']) && isset($_REQUEST['pass'])) {
-						$userId = $this->dbCon->checkValidUser($_REQUEST['email'], $_REQUEST['pass']);
-						if(!isset($userId)) {
-								echo("1"); //login failed
-								break;
+				if ( ! isset($_SESSION['uid']) ) {
+					
+					$this->smarty->assign('redirect', $params);
+					
+					if ( $_POST['isFB'] ) {
+						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'] );
+						
+						if ( $userInfo ) {
+							$_SESSION['uid'] = $userInfo['id'];
+							if ( isset ($params) ) {
+								echo $params;
+							} else {
+								echo 1;
+							}
+						} else {
+							echo 0;
 						}
-					}
-					if (isset($userId)) {
+						
+						break;						
+					} else if ( isset( $_POST['login'] ) ) {
+						if ( ! isset( $_POST['email'] ) ) {
+							// User didn't enter e-mail
+							$this->smarty->assign('user_login_email', "Please enter an e-mail");
+							$this->smarty->display("login.tpl");
+							break;
+						}
+						if ( ! isset( $_POST['pass'] ) ) {
+							// User didn't enter password
+							$this->smarty->assign('user_login_password', "Please enter a password");
+							$this->smarty>display("login.tpl");
+							break;
+						} 
+						
+						$userId = $this->dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
+						
+						if ( ! isset( $userId ) ) {
+							// Invalid e-mail/password combination
+							$this->smarty->assign('user_login_email', "Invalid e-mail or password");
+							$this->smarty->display("login.tpl");
+							break;
+						}
+						
 						$_SESSION['uid'] = $userId;
-						$usrPic=$this->dbCon->getUserPic($userId);
-						if(isset($usrPic) && $usrPic!="")
-						  $_SESSION['userProfilePic']="upload/user/".$usrPic;
-						else
-						  $_SESSION['userProfilePic']="images/default_thumb.jpg";
-					}
-
-					/*
-					if (isset($_SESSION['newEvent']))  {
-						$newEvent = json_decode($_SESSION['newEvent'], true);
-						$newEvent['organizer'] = $userId;
-						$this->checkNewEvent($newEvent, false);
+						
+						// Success, log in
+						header("Location: " . $this->getRedirectUrl());
+						exit;
+					
+					/* User used trueRSVP register */
+					} else if ( isset ( $_POST['register'] ) ) {
+						$req['fname'] = $_POST['fname'];
+						$req['lname'] = $_POST['lname'];
+						$req['email'] = $_POST['email'];
+						$req['phone'] = $_POST['phone'];
+						$req['pass'] = $_POST['pass'];
+						$req['zip'] = $_POST['zipcode'];
+						$errors = $this->checkUserCreationForm($req);
+						
+						// Check if any errors
+						if( $errors ) {
+							$this->smarty->display('login.tpl');
+							break;
+						}
+						
+						// Create the new user
+						$userInfo = $this->dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], $_POST['pass'], $_POST['zipcode'] );
+						
+						// Assign user's SESSION variables
+						$_SESSION['uid'] = $userInfo['id'];
+						// $_SESSION['userProfilePic'] = "images/default_thumb.jpg";
+					} else {
+						$this->smarty->display('login.tpl');
 						break;
 					}
-					*/
-				    $this->smarty->display('login.tpl');
-					break;
 				}
-				$this->checkHome();
-				break;
+				
+				if ( isset ( $params ) ) {
+					header("Location: " . getRedirectUrl());
+					exit;
+				}
+				
+				// Logged in user doesn't need to log in!
+				header("Location: " . CURHOST);
+				exit;
 			case '/login/reset':
 				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
 					$this->smarty->assign('ref', $_REQUEST['ref']);
@@ -944,6 +1036,7 @@ class PanelController {
 					$this->smarty->display('login_forgot_invalid.tpl');
 				}
 				break;
+			/* Moved to /login
 			case '/user/create':
 				$req['fname'] = $_REQUEST['fname'];
 				$req['lname'] = $_REQUEST['lname'];
@@ -978,7 +1071,7 @@ class PanelController {
 					$newEvent['organizer'] = $userInfo['id'];
 				}
 				$this->checkNewEvent($newEvent, true);
-				*/				
+				* /				
 				break;
 			case '/user/fb/create':
 				$userInfo = $this->dbCon->createNewUser(
@@ -1009,9 +1102,8 @@ class PanelController {
 					$newEvent = json_decode( $_SESSION['newEvent'], true );
 					$newEvent['organizer'] = $userInfo['id'];
 					$this->checkNewEvent($newEvent, true);
-				} */
-
-				break;
+				} * /
+				break; */
 			case '/user/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
@@ -1121,7 +1213,7 @@ class PanelController {
 				$this->smarty->display('index.tpl');
 				break;
 			default:
-				$this->smarty->assign('requestUri', $requestUri);
+				$this->smarty->assign('requestUri', $page);
 				$this->smarty->display('error.tpl');
 				break;
 		}

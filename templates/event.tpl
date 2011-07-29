@@ -24,9 +24,19 @@
 	</div> 
 </div> 
 {include file="footer.tpl"}
+<div id="popup-container">
+	<div id="popup" class="block">
+		<p class="message">Log in or Sign up for trueRSVP to RSVP to <a href="{$CURHOST}/event/{$eventInfo['id']}">{$eventInfo['title']}</a>. <strong>Click <a href="{$CURHOST}/method">here</a> to find out why trueRSVP can help make your next event a success.</strong></p>
+		{include file="login_form.tpl"}
+		<p id="popup-close"><a href="#">X</a></p>
+	</div>
+</div>
+
 
 {include file="js_global.tpl"}
 {include file="js_event.tpl"}
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
 
 </body>
 </html>

@@ -112,8 +112,12 @@ class DBConfig {
 		return $maxId['max_id'] + 1;
 	}
 	
+	// TODO: CHANGE TO SELECT id instead of SELECT *
 	public function checkValidUser($email, $pass) {
-		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
+		$CHECK_VALID_USER = "	SELECT	* 
+								FROM 	ef_users
+								WHERE 	email = '".$email."' 
+								AND 	password = '".$pass."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
 		if (isset($userInfo['id'])) {
 			return $userInfo['id'];
@@ -127,8 +131,10 @@ class DBConfig {
 		return $userInfo;
 	}
 	
-	public function getUserInfoByEmail($email) {
-		$GET_USER_INFO = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
+	public function getUserInfoByEmail( $email ) {
+		$GET_USER_INFO = "	SELECT	* 
+							FROM 	ef_users 
+							WHERE 	email = '".$email."'";
 		$userInfo = $this->executeQuery($GET_USER_INFO);
 		return $userInfo;
 	}
@@ -189,8 +195,8 @@ class DBConfig {
 	}
 	
 	public function createNewUser($fname, $lname, $email, $phone, $pass, $zip) {
-		if (!$this->isUserEmailExist($email)) {
-			if (isset($pass)) {
+		if ( ! $this->isUserEmailExist($email) ) {
+			if ( isset( $pass ) ) {
 				$pass = "'".mysql_real_escape_string($pass)."'";
 			} else {
 				// Facebook maintained the password of the user we store them as a NULL
@@ -200,8 +206,8 @@ class DBConfig {
 			{
 				$zip="NULL";
 			}
-			$CREATE_NEW_USER = "INSERT INTO ef_users (fname, lname, email, phone, password, about, zip) 
-								VALUES		('" . mysql_real_escape_string($fname) . "', 
+			$CREATE_NEW_USER = "INSERT INTO ef_users(fname, lname, email, phone, password, about, zip) 
+								VALUES(		'" . mysql_real_escape_string($fname) . "', 
 											'" . mysql_real_escape_string($lname) . "', 
 											'" . mysql_real_escape_string($email) . "', 
 											'" . mysql_real_escape_string($phone) . "', 
@@ -209,7 +215,7 @@ class DBConfig {
 											'', 
 											" . mysql_real_escape_string($zip) . ")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
-		} else if (isset($_SESSION['ref'])) {
+		} else if ( isset($_SESSION['ref']) ) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
 			$userInfo = $this->getUserInfoByEmail($refEmail);
 			
@@ -240,21 +246,40 @@ class DBConfig {
 									fname = '" . mysql_real_escape_string($fname) . "', 
 									lname = '" . mysql_real_escape_string($lname) . "',
 									" . $emailAttr . " = '" . mysql_real_escape_string($email) . "',
-									about = 'I am " . mysql_real_escape_string($fname) . "'
+									about = ''
 							WHERE	email = '" . $refEmail . "'";
 											
 			$email = $refEmail;
 			$this->executeUpdateQuery($UPDATE_USER);
+		} 
+		
+		return $this->getUserInfoByEmail($email);
+	}
+	
+	/* facebookConnect
+	 * Used to log in through facebook.
+	 *
+	 * NOTE: ACCOUNT WILL BE LOST IF FB USER CHANGES E-MAIL ADDRESS.
+	 * FB ID SHOULD BE USED INSTEAD OF E-MAIL FOR WHERE CLAUSE
+	 *
+	 * @param $fname | First Name
+	 * @param $lname | Last Name
+	 * @param $email | Email Address
+	 * @return $userInfo | Array containing user information 
+	 */
+	public function facebookConnect( $fname, $lname, $email ) {
+		if ( ! $this->isUserEmailExist($email) ) {
+			// If the user is new, create their account
+			$this->createNewUser( $fname, $lname, $email, '', NULL, '' );
 		} else {
-			$UPDATE_USER = "UPDATE	ef_users SET 
-									fname = '" . mysql_real_escape_string($fname) . "', 
-									lname = '" . mysql_real_escape_string($lname) . "', 
-									phone = '" . mysql_real_escape_string($phone) . "', 
-									password = '" . mysql_real_escape_string($pass) . "', 
-									about = 'I am " . mysql_real_escape_string($fname) . "'
-							WHERE	email = '" . mysql_real_escape_string($email) . "'";
+			// Check to see that current users info is up to date
+			$UPDATE_USER = "	UPDATE	ef_users 
+								SET 	fname = '" . mysql_real_escape_string($fname) . "',
+										lname = '" . mysql_real_escape_string($lname) . "' 
+								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
+		
 		return $this->getUserInfoByEmail($email);
 	}
 	
