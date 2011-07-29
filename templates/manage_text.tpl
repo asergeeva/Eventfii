@@ -38,9 +38,9 @@
 						<p class="counter">Character Count: <em>135</em></p>
 					</label>
 				</fieldset>
-				<footer class="buttons-submit">
+				<footer class="buttons buttons-submit">
 					<a href="#" id="update_text_reminder"><span>Update</span></a>
-          <a href="#"	id="send_text_reminder"><span>Send Now</span></a>
+					<a href="#" id="send_text_reminder"><span>Send Now</span></a>
 				</footer>
 			</section>
 		</div>

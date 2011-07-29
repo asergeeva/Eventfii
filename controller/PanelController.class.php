@@ -573,13 +573,13 @@ class PanelController {
 		// Remove GET parameters
 		$getParamStartPos = strpos($requestUri, '?');
 		if ($getParamStartPos) {
-			$page = substr($requestUri, 0, $getParamStartPos);
+			$current_page = substr($requestUri, 0, $getParamStartPos);
 			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
 		} else {
-			$page = $requestUri;
+			$current_page = $requestUri;
 		}
 
-		switch ($page) {
+		switch ($current_page) {
 			case '/':
 				$this->checkHome();
 				break;
@@ -808,7 +808,7 @@ class PanelController {
 				$page['manage'] = ' class="current"';
 				$page['email'] = ' class="current"';
 				$this->smarty->assign('page', $page);
-				
+
 				$this->buildEvent( $_GET['eventId'] );
 				
 				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);

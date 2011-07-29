@@ -47,10 +47,10 @@ I would like to remind you that [Event name] that’s happening on [Time]. Pleas
 						</div>
 					</label>
 				</fieldset>
-				<footer class="buttons-submit">
+				<footer class="buttons buttons-submit">
 					<a href="#" id="update_email_reminder"><span>Update</span></a> 
-          <a href="#" id="send_email_reminder"><span>Send Now</span></a>
-          <span id="reminder_status"></span>
+					<a href="#" id="send_email_reminder"><span>Send Now</span></a>
+					<span id="reminder_status"></span>
 				</footer>
 			</section>
 		</div>
