@@ -470,13 +470,13 @@ ol.rsvp-list { margin: 0; }
 /*----- User Thumbnails ----------*/
 .thumbs {
 	margin: 0;
-	padding: 0 0 0 5px;
+	padding: 0;
 	overflow: hidden; }
 .thumbs li {
 	float: left;
 	width: 73px;
-	height: 76px;
-	margin: 10px 5px;
+	height: 80px;
+	margin: 5px 10px;
 	overflow: hidden; }
 .thumbs li a { display: block; }
 .thumbs li a:hover figcaption { text-decoration: underline; }
@@ -541,8 +541,8 @@ ul.network li a {
 	color: #fff; }
 #main .navigation .block li a {
 	text-decoration: none;
-	height: 24px; /* 30 - 6 */
-	padding: 6px 0 0;
+	height: 21px; /* 30 - 9 */
+	padding: 9px 0 0;
 	display: block; }
 #main .navigation .block ol li a { padding: 8px 0 0 8px; }
 #main .navigation .block li.current span,

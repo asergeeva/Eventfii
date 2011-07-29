@@ -1,10 +1,6 @@
 <section class="block" id="user-pic">
 				<p class="user-img">
-				{if $userInfo['pic'] eq ''}
-					<img class="info-pic" src="{$CURHOST}/images/default_thumb.jpg" alt="{$userInfo['fname']} {$userInfo['lname']}" />
-				{else}
-					<img class="info-pic" src="{$CURHOST}/upload/user/{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" />
-				{/if}
+					<img class="info-pic" src="{$userInfo['pic']}" width="96px" height="96px" alt="{$userInfo['fname']} {$userInfo['lname']}" />
 				</p>
-				<p class="user-info">Very witty personal statement...</p>
+				<p class="user-info">{$userInfo['about']}</p>
 			</section>

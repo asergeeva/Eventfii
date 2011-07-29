@@ -288,20 +288,19 @@ class PanelController {
 	// End OLD FUNCTIONS
 
 	// Need to add for Facebook Picture
-	private function assignUserImage($userId) {
-		if (file_exists('upload/user/'.$userId.'.png')) {
-			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.png');
-		}	else if (file_exists('upload/user/'.$userId.'.jpg')) {
-			$this->smarty->assign('userImage', CURHOST.'/upload/user/'.$userId.'.jpg');
+	private function getUserImage($userId) {
+		if ( file_exists('upload/user/' . $userId . '.png') ) {
+			return CURHOST . '/upload/user/' . $userId . '.png';
+		} else if ( file_exists('upload/user/' . $userId . '.jpg') ) {
+			return CURHOST . '/upload/user/' . $userId . '.jpg';
 		} else {
-			$this->smarty->assign('userImage', CURHOST.'/images/default_thumb.jpg');
+			return CURHOST . '/images/default_thumb.jpg';
 		}
 	}
 	
 	private function checkHome() {
 		if (isset($_SESSION['uid'])) {
 			$this->assignCPEvents($_SESSION['uid']);
-			$this->assignUserImage($_SESSION['uid']);
 			$this->smarty->display('cp.tpl');
 		} else {
 			$this->smarty->display('index.tpl');
@@ -320,18 +319,15 @@ class PanelController {
 	}
 
 	private function assignUserProfile($uid) {
-		/* if (isset($_SESSION['uid'])) {
-			$currentUser = $this->dbCon->getUserInfo($_SESSION['uid']);
-			$this->smarty->assign('currentUser', $currentUser);
-		} */
-		
 		$userInfo = $this->dbCon->getUserInfo($uid);
-		if ( ! $userInfo )
+		if ( ! $userInfo ) {
 			return false;
+		}
+								  
+		$userInfo['pic'] = $this->getUserImage($uid);
+		$this->smarty->assign('userInfo', $userInfo);
 		
 		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
-
-		$this->smarty->assign('userInfo', $userInfo);
 		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
 		return true;
 	}
@@ -491,7 +487,6 @@ class PanelController {
 				return;
 			}
 			
-			$_SESSION['ceid'] = $eventId;
 			$this->smarty->assign( 'eventId', $eventId );
 			
 			// Fetch event information from the database
@@ -501,14 +496,19 @@ class PanelController {
 				return;
 			}
 			$this->smarty->assign('eventInfo', $eventInfo);
-			
-			$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-			$this->smarty->assign('userInfo', $userInfo);
+			 
+			$organizerId = $eventInfo['organizer'];
+			$organizerInfo = $this->dbCon->getUserInfo($organizerId);
+			$organizerInfo['pic'] = $this->getUserImage($eventInfo['organizer']);
+			$this->smarty->assign( 'organizer', $organizerInfo );
 			
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
 			$this->smarty->assign( 'curSignUp', $curSignUp );
 			
 			$attending = $this->dbCon->getAttendeesByEvent($eventId);
+			foreach( $attending as &$user ) {
+				$user['pic'] = $this->getUserImage($user['id']);
+			}
 			$this->smarty->assign( 'attending', $attending );
 			
 			// Make sure user is allowed to view the event
@@ -522,7 +522,7 @@ class PanelController {
 				$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
 				
 				$this->smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-				$this->smarty->assign('select' . $hasAttend['confidence'], '  class="selected"');
+				$this->smarty->assign('select' . $hasAttend['confidence'], ' class="selected"');
 
 				if ( ! isset( $_SESSION['uid'] ) ) {
 					$this->smarty->assign('disabled', ' disabled="disabled"');
@@ -537,8 +537,6 @@ class PanelController {
 					$this->smarty->display('error_event_private.tpl');
 				}
 			}
-			
-			$this->smarty->display('event.tpl');
 			return;
 		} // END /event
 		
@@ -1074,74 +1072,6 @@ class PanelController {
 					$this->smarty->display('login_forgot_invalid.tpl');
 				}
 				break;
-			/* Moved to /login
-			case '/user/create':
-				$req['fname'] = $_REQUEST['fname'];
-				$req['lname'] = $_REQUEST['lname'];
-				$req['email'] = $_REQUEST['email'];
-				$req['phone'] = $_REQUEST['phone'];
-				$req['pass'] = $_REQUEST['pass'];
-				$req['zip'] = $_REQUEST['zipcode'];
-				$retVal = $this->checkUserCreationForm($req);
-				
-				if( $retVal == 2 ) {
-					$this->smarty->display('login.tpl');
-					break;
-				}
-
-				// Create the new user
-				$userInfo = $this->dbCon->createNewUser(
-					$_REQUEST['fname'], 
-					$_REQUEST['lname'], 
-					$_REQUEST['email'], 
-					$_REQUEST['phone'], 
-					$_REQUEST['pass'],
-					$_REQUEST['zipcode']
-				);
-
-				// Assign user's SESSION variables
-				$_SESSION['uid'] = $userInfo['id'];
-				$_SESSION['userProfilePic']="images/default_thumb.jpg";
-
-				/*
-				if ( isset( $_SESSION['newEvent'] ) ) {	
-					$newEvent = json_decode( $_SESSION['newEvent'], true );
-					$newEvent['organizer'] = $userInfo['id'];
-				}
-				$this->checkNewEvent($newEvent, true);
-				* /				
-				break;
-			case '/user/fb/create':
-				$userInfo = $this->dbCon->createNewUser(
-					$_REQUEST['fname'], 
-					$_REQUEST['lname'], 
-					$_REQUEST['email'], 
-					$_REQUEST['phone'], 
-					$_REQUEST['pass']
-				);
-
-				$usrPic  = $this->dbCon->getUserPic($userInfo['id']);
-
-				// How would they have added a picture of they
-				// just registered?
-				if( ! isset( $usrPic ) || $usrPic == "" ) {
-					$uppic = $_REQUEST['pic'];
-					$this->smarty->assign('userProfilePic', $uppic);
-					$_SESSION['userProfilePic']=$uppic;
-				} else {
-					$_SESSION['userProfilePic']="upload/user/".$usrPic;
-				}
-
-				$_SESSION['uid'] = $userInfo['id'];
-
-				/* Requires login before creating now
-				 *
-				if ( isset( $_SESSION['newEvent'] ) ) {	
-					$newEvent = json_decode( $_SESSION['newEvent'], true );
-					$newEvent['organizer'] = $userInfo['id'];
-					$this->checkNewEvent($newEvent, true);
-				} * /
-				break; */
 			case '/user/image/upload':
 				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")

@@ -41,11 +41,7 @@
 						<li>
 							<figure>
 								<a href="{$CURHOST}/user/{$v['user_id']}">
-								{if $v['pic']==''}
-									<img src="{$CURHOST}/images/default_thumb.jpg" />
-								{else}
-									<img src="{$CURHOST}/upload/user/{$v['pic']}" />
-								{/if}
+									<img src="{$v['pic']}" width="64px" height="64px" alt="{$v['fname']} {$v['lname']}" />
 									<figcaption>{$v['fname']} {$v['lname']}</figcaption>
 								</a>
 							</figure>
