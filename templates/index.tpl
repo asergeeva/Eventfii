@@ -5,7 +5,7 @@
 	</header>
 	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
 	<h2>a new RSVP system based on reputation</h2>
-	<form id="create_event_home" name="create_event_home" method="post" action="create">
+	<form id="create_event_home" name="create_event_home" method="post" action="event/create">
 		<fieldset>
 			<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come. <input class="submit" type="submit" /></p>
 		</fieldset>
