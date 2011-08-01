@@ -10,8 +10,6 @@ var EFGLOBAL = (function() {
 		baseUrl: 'http://localhost/Eventfii',
 		fbAppId: '122732554481304',
 		attendSucceed: '<h2>Success!</h2>',
-		isSucceed: '<span class="succeed_text">Success</span>',
-		emailReminderType: 1,
-		emailFollowupType: 2
+		isSucceed: '<span class="succeed_text">Success</span>'
 	}
 }());

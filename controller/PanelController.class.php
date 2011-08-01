@@ -725,6 +725,8 @@ class PanelController {
 						$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
 					}
 				}
+				
+				$_SESSION['manage_event'] = serialize($event);
 				$this->smarty->assign('eventAttendees', $eventAttendees);
 				
 				$this->assignManageVars( $_GET['eventId'] );
@@ -807,58 +809,36 @@ class PanelController {
 				$page['email'] = ' class="current"';
 				$this->smarty->assign('page', $page);
 
-				$this->buildEvent( $_GET['eventId'] );
+				$event = $this->buildEvent( $_GET['eventId'] );
 				
-				$eventFollowup = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
-
+				$eventReminder = $this->dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = 'checked = "checked"';
 				}
-				if ( $eventFollowup['is_activated'] == 1 ) {
-					$eventFollowup['isAuto'] = 'checked = "checked"';
-				}
-
-				$this->smarty->assign('eventReminder', $eventReminder);
-				$this->smarty->assign('eventFollowup', $eventFollowup);
 				
+				$eventDatetime = explode(" ", $eventReminder['delivery_time']);
+				$eventDate = $this->dbCon->dateToRegular($eventDatetime[0]);
+				$eventTime = $this->dbCon->timeToRegular($eventDatetime[1]);
+				
+				$eventTimeMid = explode(" ", $eventTime);
+				
+				$eventTime = $eventTimeMid[0];
+				$eventTimeMid = $eventTimeMid[1];
+				
+				$this->smarty->assign('eventDate', $eventDate);
+				$this->smarty->assign('eventTime', $eventTime);
+	
+				$this->smarty->assign('eventTimeMid', $eventTimeMid);
+				
+				$this->smarty->assign('eventReminder', $eventReminder);
 				$this->smarty->display('manage_email.tpl');
 				break;
-			case '/event/email/reminder':
-				$page['manage'] = ' class="current"';
-				$page['email'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+			case '/event/email/save':
+				require_once('models/Event.class.php');
+				$event = unserialize($_SESSION['manage_event']);
 				
-				$event = $this->buildEvent( $_GET['eventId'] );
-				
-				$eventReminder = $this->dbCon->getEventEmail($_REQUEST['eventId'], EMAIL_REMINDER_TYPE);
-				
-				if ($eventReminder['is_activated'] == 1) {
-					$eventReminder['isAuto'] = 'checked = "checked"';
-				}
-				// depreciated?
-				if ($eventFollowup['is_activated'] == 1) {
-					$eventFollowup['isAuto'] = 'checked = "checked"';
-				}
-				
-				$this->smarty->assign('emailInfo', $eventReminder);
-				
-				$this->smarty->display('manage_event_email.tpl');
-				break;
-			case '/event/email/followup':
-				$page['manage'] = ' class="current"';
-				$page['email'] = ' class="current"';
-				$this->smarty->assign('page', $page);
-				
-				$event = $this->buildEvent( $_GET['eventId'] );
-				
-				$eventFollowup = $this->dbCon->getEventEmail($_GET['eventId'], EMAIL_REMINDER_TYPE);
-				$this->smarty->assign('emailInfo', $eventFollowup);
-				
-				$this->smarty->display('manage_event_email.tpl');
-				break;
-			case '/event/manage/email/save':			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
-				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
+				$dateTime = $sqlDate." ".$this->dbCon->timeToSql($_REQUEST['reminderTime']." ".$_REQUEST['reminderTimeMid']).":00";
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
@@ -872,11 +852,16 @@ class PanelController {
 				//if( $retval != "Success" ) {
 				//	die($retval);
 				//}
-
-				$this->dbCon->saveEmail( $_SESSION['manageEvent']['id'], $_REQUEST['reminderContent'], $dateTime, $_REQUEST['reminderSubject'], EMAIL_REMINDER_TYPE, $autoReminder);
+				
+				$this->dbCon->saveEmail( $event->eid, 
+																	$_REQUEST['reminderContent'], 
+																	$dateTime, 
+																	$_REQUEST['reminderSubject'], 
+																	EMAIL_REMINDER_TYPE, 
+																	$autoReminder);
 				echo("Success");
 				break;
-			case '/event/manage/email/send':
+			case '/event/email/send':
 				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
 				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
@@ -897,12 +882,27 @@ class PanelController {
 																		$attendees);
 				echo("Success");
 				break;
-			case '/event/manage/email/autosend':
+			case '/event/email/autosend':
+				require_once('models/Event.class.php');
+				$event = unserialize($_SESSION['manage_event']);
+				
 				$isActivated = 0;
 				if ($_REQUEST['autoSend'] == 'true') {
 					$isActivated = 1;
 				}
-				$this->dbCon->setAutosend($_REQUEST['eventId'], $_REQUEST['type'], $isActivated);
+
+				$this->dbCon->setAutosend($event->eid, EMAIL_REMINDER_TYPE, $isActivated);
+				break;
+			case '/event/text/autosend':
+				require_once('models/Event.class.php');
+				$event = unserialize($_SESSION['manage_event']);
+				
+				$isActivated = 0;
+				if ($_REQUEST['autoSend'] == 'true') {
+					$isActivated = 1;
+				}
+
+				$this->dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/manage/text':
 				$page['manage'] = ' class="current"';
@@ -911,9 +911,29 @@ class PanelController {
 				
 				$event = $this->buildEvent( $_GET['eventId'] );
 				
+				$eventReminder = $this->dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
+				if ( $eventReminder['is_activated'] == 1 ) {
+					$eventReminder['isAuto'] = 'checked = "checked"';
+				}
+				
+				$eventDatetime = explode(" ", $eventReminder['delivery_time']);
+				$eventDate = $this->dbCon->dateToRegular($eventDatetime[0]);
+				$eventTime = $this->dbCon->timeToRegular($eventDatetime[1]);
+				
+				$eventTimeMid = explode(" ", $eventTime);
+				
+				$eventTime = $eventTimeMid[0];
+				$eventTimeMid = $eventTimeMid[1];
+				
+				$this->smarty->assign('eventDate', $eventDate);
+				$this->smarty->assign('eventTime', $eventTime);
+	
+				$this->smarty->assign('eventTimeMid', $eventTimeMid);
+				
+				$this->smarty->assign('eventReminder', $eventReminder);
 				$this->smarty->display('manage_text.tpl');
 				break;
-			case '/event/manage/text/send':
+			case '/event/text/send':
 				require_once('models/EFSMS.class.php');
 				$sms = new EFSMS();
 				
@@ -921,18 +941,22 @@ class PanelController {
 				$sms->sendSMSReminder($attendees, $_SESSION['manageEvent']['id']);
 				print("Success");
 				break;
-			case '/event/manage/text/save':
+			case '/event/text/save':
+				require_once('models/Event.class.php');
+				$event = unserialize($_SESSION['manage_event']);
+			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
-				$dateTime = $sqlDate." ".$_REQUEST['reminderTime'].":00";
+				$dateTime = $sqlDate." ".$this->dbCon->timeToSql($_REQUEST['reminderTime']." ".$_REQUEST['reminderTimeMid']).":00";
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
-				$this->dbCon->saveText($_SESSION['manageEvent']['id'], 
+				$this->dbCon->saveText($event->eid, 
 															 $_REQUEST['reminderContent'], 
 															 $dateTime, 
 															 SMS_REMINDER_TYPE, 
 															 $autoReminder);
+				echo("Success");
 				break;
 			case '/login':
 				require_once('models/Event.class.php');

@@ -7,6 +7,7 @@
  */
 require_once('../db/DBAPI.class.php');
 require_once('../models/EFCore.class.php');
+
 class APIController {
 	private $smarty;
 	private $dbCon;

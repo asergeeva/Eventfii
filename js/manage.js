@@ -1,35 +1,32 @@
 var MANAGE_EVENT = ( function() {
 	return {
 		init: function() {
-			$('#cp-nav ul li').live('click', function() {
-				$('.section-current').removeAttr('class');
-				$(this).parent().attr('class', 'section-current');
-			});
-			
-		  $("img[rel]").overlay();
-			$("a[rel]").overlay();
+			$('#send-automatically').datepicker();
 			
 			// EMAIL SETTINGS
 			// AUTO-SEND CHECKBOX
-			$('#send-automatically').live('click', function() {
-				$.post(EFGLOBAL.baseUrl + '/event/manage/email/autosend', {
-					eventId: $('#manage_event_id').html(),
-					autoSend: $('#reminder_auto_send_cb').attr('checked'),
-					type: EFGLOBAL.emailReminderType
+			$('#automatic_email_send_cb').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/email/autosend', {
+					autoSend: $('#automatic_email_send_cb').attr('checked')
+				});
+			});
+			$('#automatic_text_send_cb').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/text/autosend', {
+					autoSend: $('#automatic_text_send_cb').attr('checked')
 				});
 			});
 			
 			// EMAIL
 			$('#update_email_reminder').live('click', function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-				$.post(EFGLOBAL.baseUrl + '/event/manage/email/save', {
+				$.post(EFGLOBAL.baseUrl + '/event/email/save', {
 					autoReminder: $('#automatic_send_cb').attr('checked'),
 					reminderDate: $('#send-automatically').val(),
 					reminderTime: $('#automatic_email_send_time option:selected').val(),
+					reminderTimeMid: $('#automatic_email_send_timeframe option:selected').val(),
 					reminderRecipient: $('#email-to option:selected').val(),
 					reminderSubject: $('#subject').val(),
-					reminderContent: $('#message').val(),
-					type: EFGLOBAL.emailReminderType
+					reminderContent: $('#message').val()
 				}, function(retval) {
 				if(retval=="Success")
 					$('#reminder_status').html(EFGLOBAL.isSucceed);
@@ -39,10 +36,11 @@ var MANAGE_EVENT = ( function() {
 			});
 			$('#send_email_reminder').live('click', function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-				$.post(EFGLOBAL.baseUrl + '/event/manage/email/send', {
+				$.post(EFGLOBAL.baseUrl + '/event/email/send', {
 					autoReminder: $('#automatic_send_cb').attr('checked'),
 					reminderDate: $('#send-automatically').val(),
 					reminderTime: $('#automatic_email_send_time option:selected').val(),
+					reminderTimeMid: $('#automatic_email_send_timeframe option:selected').val(),
 					reminderRecipient: $('#email-to option:selected').val(),
 					reminderSubject: $('#subject').val(),
 					reminderContent: $('#message').val()
@@ -57,10 +55,11 @@ var MANAGE_EVENT = ( function() {
 			// EMAIL
 			$('#update_text_reminder').live('click', function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-				$.post(EFGLOBAL.baseUrl + '/event/manage/text/save', {
+				$.post(EFGLOBAL.baseUrl + '/event/text/save', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
 					reminderDate: $('#send-automatically').val(),
 					reminderTime: $('#automatic_text_send_time option:selected').val(),
+					reminderTimeMid: $('#automatic_text_send_timeframe option:selected').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val()
 				}, function(retval) {
@@ -72,10 +71,11 @@ var MANAGE_EVENT = ( function() {
 			});
 			$('#send_text_reminder').live('click', function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
-				$.post(EFGLOBAL.baseUrl + '/event/manage/text/send', {
+				$.post(EFGLOBAL.baseUrl + '/event/text/send', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
 					reminderDate: $('#send-automatically').val(),
 					reminderTime: $('#automatic_text_send_time option:selected').val(),
+					reminderTimeMid: $('#automatic_text_send_timeframe option:selected').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val()
 				}, function(retval) {

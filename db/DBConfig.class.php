@@ -319,6 +319,119 @@ class DBConfig {
 		return $dateElem[1]."/".$dateElem["2"]."/".$dateElem[0];
 	}
 	
+	public function timeToSql($time) {
+		$time = explode(" ", $time);
+		if ($time[1] == "PM") {
+			switch ($time[0]) {
+				case '01:00':
+					$time = '13:00';
+					break;
+				case '02:00':
+					$time = '14:00';
+					break;
+				case '03:00':
+					$time = '15:00';
+					break;
+				case '04:00':
+					$time = '16:00';
+					break;
+				case '05:00':
+					$time = '17:00';
+					break;
+				case '06:00':
+					$time = '18:00';
+					break;
+				case '07:00':
+					$time = '19:00';
+					break;
+				case '08:00':
+					$time = '20:00';
+					break;
+				case '09:00':
+					$time = '21:00';
+					break;
+				case '10:00':
+					$time = '22:00';
+					break;
+				case '11:00':
+					$time = '23:00';
+					break;
+				case '12:00':
+					$time = '01:00';
+					break;
+			}
+		} else {
+			$time = $time[0];
+		}
+		return $time;
+	}
+	
+	public function timeToRegular($time) {
+			switch ($time) {
+				// AM
+				case '01:00:00':
+					$time = '01:00 AM';
+					break;
+				case '02:00:00':
+					$time = '02:00 AM';
+					break;
+				case '03:00:00':
+					$time = '03:00 AM';
+					break;
+				case '04:00:00':
+					$time = '04:00 AM';
+					break;
+				case '05:00:00':
+					$time = '05:00 AM';
+					break;
+				case '06:00:00':
+					$time = '06:00 AM';
+					break;
+				case '07:00:00':
+					$time = '07:00 AM';
+					break;
+				case '08:00:00':
+					$time = '08:00 AM';
+					break;
+				case '09:00:00':
+					$time = '09:00 AM';
+					break;
+				case '10:00:00':
+					$time = '10:00 AM';
+					break;
+				case '11:00:00':
+					$time = '11:00 AM';
+					break;
+				case '12:00:00':
+					$time = '12:00 AM';
+				// PM
+				case '13:00:00':
+					$time = '01:00 PM';
+				case '14:00:00':
+					$time = '02:00 PM';
+				case '15:00:00':
+					$time = '03:00 PM';
+				case '16:00:00':
+					$time = '04:00 PM';
+				case '17:00:00':
+					$time = '05:00 PM';
+				case '18:00:00':
+					$time = '06:00 PM';
+				case '19:00:00':
+					$time = '07:00 PM';
+				case '20:00:00':
+					$time = '08:00 PM';
+				case '21:00:00':
+					$time = '09:00 PM';
+				case '22:00:00':
+					$time = '10:00 PM';
+				case '23:00:00':
+					$time = '11:00 PM';
+					break;
+			}
+			return $time;
+	}
+	
 	public function createNewEvent($newEvent) {
 		$datetime = $this->dateToSql($newEvent->date) . " " . $newEvent->time;
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
