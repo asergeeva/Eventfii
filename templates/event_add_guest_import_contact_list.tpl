@@ -14,7 +14,7 @@
   {/foreach}
   <tr>
   	<td></td>
-    <td><button id="add_import_contact_list">Add</button></td>
+    <td><a href="#" id="add_import_contact_list">Add</a></td>
     <td></td>
   </tr>
 </table>

@@ -770,7 +770,7 @@ class PanelController {
 
 				$this->smarty->display('manage_guests.tpl');
 				break;
-			case '/event/manage/guests/inviter':
+			case '/guest/inviter':
 				require_once('libs/OpenInviter/openinviter.php');
 				$inviter = new OpenInviter();
 				$oi_services = $inviter->getPlugins();
@@ -1179,7 +1179,7 @@ class PanelController {
 				$this->smarty->display('index.tpl');
 				break;
 			default:
-				$this->smarty->assign('requestUri', $page);
+				$this->smarty->assign('current_page', $current_page);
 				$this->smarty->display('error.tpl');
 				break;
 		}
