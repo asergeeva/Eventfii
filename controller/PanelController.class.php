@@ -934,11 +934,14 @@ class PanelController {
 				$this->smarty->display('manage_text.tpl');
 				break;
 			case '/event/text/send':
+				require_once('models/Event.class.php');
 				require_once('models/EFSMS.class.php');
 				$sms = new EFSMS();
 				
-				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
-				$sms->sendSMSReminder($attendees, $_SESSION['manageEvent']['id']);
+				$event = unserialize($_SESSION['manage_event']);
+				
+				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
+				$sms->sendSMSReminder($attendees, $event->eid);
 				print("Success");
 				break;
 			case '/event/text/save':
