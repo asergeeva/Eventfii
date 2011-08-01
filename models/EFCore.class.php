@@ -5,8 +5,8 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('db/DBConfig.class.php');
-require_once('models/EFCommon.class.php');
+require_once('../db/DBConfig.class.php');
+require_once('../models/EFCommon.class.php');
  
 class EFCore {
 	private $dbCon;
