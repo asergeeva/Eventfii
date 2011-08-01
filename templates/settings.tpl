@@ -19,7 +19,7 @@
 		<aside class="extra">
 			<section class="block" id="user-pic">
 					<p class="user-img">
-						<a href="#" class="info-pic"><img id="user_pic" src="{$userInfo['pic']}" alt="{$userInfo['fname']} {$userInfo['lname']}" width="96px" height="96px" /></a>
+						<a href="#" class="info-pic"><img id="user_pic" src="{$userInfo['pic']}" width="96px" height="96px" alt="{$userInfo['fname']} {$userInfo['lname']}" /></a>
 					</p>
 				<footer class="buttons buttons-extra">
 					<p><a href="#" id="user_image"><span>Upload</span></a></p>

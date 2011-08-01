@@ -4,7 +4,9 @@
 		{include file="manage_nav.tpl"}
 		<div class="content">
 			<section class="block" id="cp-manage">
-				<header>
+				<header class="rsvp-progress">
+					
+				</header>
 					<!-- Progress code goes here 
 					trueRSVP: {$trsvpVal}
 					Guestimate: {$guestimate}

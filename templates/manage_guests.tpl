@@ -10,9 +10,9 @@
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
-			<header class="block">
-				<p class="message">Add Guests</p>
-			</header>
+			<section class="block">
+				{include file="create_guest.tpl"}
+			</section>
 		</div>
 	</section>
 </div>
@@ -20,6 +20,8 @@
 
 {include file="js_global.tpl"}
 {include file="js_manage.tpl"}
+{include file="js_cp.tpl"}
+{include file="js_create.tpl"}
 
 </body>
 </html>

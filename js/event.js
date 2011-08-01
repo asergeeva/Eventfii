@@ -32,7 +32,7 @@ $(document).ready(function() {
 	$("#event_attending_response input:disabled").parent("label").click( function() {
 		$("#log-in").fadeIn(500);
 	});
-	$("#login .popup-close a").click( function() {
-		$("#login .popup-container").fadeOut(500);
+	$("#log-in .popup-close a").click( function() {
+		$("#log-in").fadeOut(500);
 	});
 });

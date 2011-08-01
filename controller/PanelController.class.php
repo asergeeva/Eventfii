@@ -495,7 +495,7 @@ class PanelController {
 				$this->smarty->display( 'error_event_notexist.tpl' );
 				return;
 			}
-			$this->smarty->assign('eventInfo', $eventInfo);
+			$this->smarty->assign('eventInfo', $eventInfo); 
 			 
 			$organizerId = $eventInfo['organizer'];
 			$organizerInfo = $this->dbCon->getUserInfo($organizerId);
@@ -593,7 +593,10 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
-			  $this->assignUserProfile($_SESSION['uid']);
+				$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+				$userInfo['pic'] = $this->getUserImage($_SESSION['uid']);
+				
+				$this->smarty->assign('userInfo', $userInfo);
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/settings/save':
