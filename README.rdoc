@@ -25,7 +25,9 @@
     mkdir templates_c
     sudo chown -R nobody:nobody templates_c
 * Setup OpenInviter
-    sudo chown -R nobody:nobody libs/OpenInviter/openinviter_stats.sqlite
+    sudo mkdir libs/OpenInviter/tmp
+    sudo chmod 777 libs/OpenInviter/tmp
+    sudo chown -R nobody:nobody libs/OpenInviter
 		
 == Coding style
 === Braces

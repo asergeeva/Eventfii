@@ -12,7 +12,7 @@
     </tr>
     <tr>
     	<th></th>
-      <td><button id="oi_import">Import</button></td>
+      <td><a href="#" id="oi_import">Import</a></td>
     </tr>
   </table>
 </div>

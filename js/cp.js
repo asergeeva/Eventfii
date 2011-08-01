@@ -125,18 +125,6 @@ var CP_EVENT = (function() {
 		}
 	});
 	
-	// OPENINVITER EMAIL PROVIDER
-	OPENINVITER.init();
-	$('.event_invite_oi').live('click', function() {
-		$('#update_event_form').html(EFGLOBAL.ajaxLoader);
-		$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
-			provider: this.href.split('#')[1]
-		}, function(providerLoginPage) {
-			$('#add_guest_right').html(providerLoginPage);
-		});
-	});
-	
-	
 	// ON EVENT
 	$('.event_attendee_cb').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/checkin', {
