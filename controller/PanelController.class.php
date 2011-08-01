@@ -593,9 +593,7 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
-			  $userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-				
-				$this->smarty->assign('userInfo', $userInfo);	
+			  $this->assignUserProfile($_SESSION['uid']);
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/settings/save':
