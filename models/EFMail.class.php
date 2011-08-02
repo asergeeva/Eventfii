@@ -12,6 +12,12 @@ require_once('db/DBConfig.class.php');
 class EFMail {
 	private $FROM = "hello@truersvp.com";
 	private $dbCon;
+	private $efmailDict = array(
+		"[Guest name]",
+		"[Host Name]",
+		"[Event name]",
+		"[Event time]"
+	);
 	
 	public function __construct() {
 		mailgun_init('key-afy6amxoo2fnj$u@mc');
