@@ -9,7 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/anytimec.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />
-	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/fileuploader.css" />
 	<link rel="SHORTCUT ICON" href="{$CSS_PATH}/favicon.ico" />
 	<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

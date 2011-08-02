@@ -11,8 +11,8 @@
 			{include file="profile_user.tpl"}
 			<section class="block" id="user-social">
 				<ul class="network">
-					<li><a href="http://facebook.com/sergeeva1" class="icon-facebook">sergeeva1</a></li>
-					<li><a href="http://twitter.com/asergeeva" class="icon-twitter">@asergeeva</a></li>
+					<li><a href="http://facebook.com/sergeeva1" class="icon-facebook">sergeeva1</a></li>{if $userInfo['twitter']}
+					<li><a href="http://twitter.com/{$userInfo['twitter']}" class="icon-twitter">@{$userInfo['twitter']}</a></li>{/if}
 				</ul>
 			</section>
 			<footer class="follow">

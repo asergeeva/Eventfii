@@ -16,10 +16,6 @@
 					<h1>Find out more</h1>
 				</header>
 				<div class="event-desc">
-					<figure>
-						<figcaption><address>{$eventInfo['location_address']}</address></figcaption>
-						<iframe width="167" height="137" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$eventInfo['location_address']|urlencode}&amp;hnear={$eventInfo['location_address']|urlencode}&amp;hl=en&amp;sll={$eventInfo['location_lat']},{$eventInfo['location_long']}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed"></iframe>
-					</figure>
 					<p>{$eventInfo['description']}</p>
 					<!--p>{$twitterHash}</p-->
 				</div>
@@ -51,6 +47,15 @@
 				<footer class="link-extra">
 					<p><a href="#">See All (?)</a></p>
 				</footer>
+			</section>
+			<section class="block" id="event-location">
+				<header class="block-title">
+					<h1>Location</h1>
+				</header>
+				<figure>
+					<figcaption><address>{$eventInfo['location_address']}</address></figcaption>
+					<iframe width="558" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$eventInfo['location_address']|urlencode}&amp;hnear={$eventInfo['location_address']|urlencode}&amp;hl=en&amp;sll={$eventInfo['location_lat']},{$eventInfo['location_long']}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed"></iframe>
+				</figure>
 			</section>
 			<section class="block" id="event-comments">
 				<header class="block-title">

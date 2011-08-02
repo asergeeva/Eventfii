@@ -600,10 +600,7 @@ class PanelController {
 				$this->smarty->display('settings.tpl');
 				break;
 			case '/settings/save':
-				$this->dbCon->updateUserInfo($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], 
-																		 $_REQUEST['phone'], $_REQUEST['zip'], $_REQUEST['twitter'], 
-																     $_REQUEST['about'], $_REQUEST['features'], $_REQUEST['updates'], 
-																		 $_REQUEST['attend']);
+				$this->dbCon->updateUserInfo($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['phone'], $_REQUEST['zip'], $_REQUEST['twitter'], $_REQUEST['about'], $_REQUEST['features'], $_REQUEST['updates'], $_REQUEST['attend']);
 				
 				if ($_REQUEST['curpass'] != '' &&
 						$_REQUEST['newpass'] != '' &&

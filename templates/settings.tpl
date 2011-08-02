@@ -14,7 +14,7 @@
 	</header>
 	<section id="main">
 		<header class="block">
-			<p class="message">Settings => still working</p>
+			<p class="message">Settings</p>
 		</header>
 		<aside class="extra">
 			<section class="block" id="user-pic">
@@ -40,7 +40,7 @@
 				<header class="block-title">
 					<h1>Account Info</h1>
 				</header>
-				<form method="post" action="{$CURHOST}/settings/save">
+				<form method="post" action="{$CURHOST}/settings">
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 
@@ -63,7 +63,7 @@
 				<fieldset>
 					<label for="twitter" class="autowidth">
 						<span>Twitter Handle</span> 
-						<input type="text" class="inputbox autowidth" name="user-twitter" id="twitter" value="{$userInfo['twitter']}" />
+						<input type="text" class="inputbox autowidth" name="twitter" id="twitter" value="{$userInfo['twitter']}" />
 					</label>
 					<label for="fbconnect" class="autowidth">
 							<div id="fb-root"></div>
@@ -102,8 +102,8 @@
 						<input type="password" class="inputbox autowidth" name="user-confpass" id="password-confirm" />
 					</label>
 				</fieldset>
-				<footer class="buttons buttons-extra">
-					<p><a href="#" id="save_settings"><span>Save All</span></a></p>
+				<footer class="buttons buttons-submit">
+					<p><input type="submit" name="submit" value="Save All" /></p>
           			<span id="save_loading_img"></span>
 				</footer>
 				</form>
