@@ -66,7 +66,8 @@
 						<input type="text" class="inputbox autowidth" name="user-twitter" id="twitter" value="{$userInfo['twitter']}" />
 					</label>
 					<label for="fbconnect" class="autowidth">
-						<span>Connect your facebook</span> 
+							<div id="fb-root"></div>
+		<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button></p><span id="user_fbid">{$userInfo['facebook']}</span>
 						<!-- Facebook Code -->
 					</label>
 				</fieldset>
@@ -115,6 +116,7 @@
 {include file="js_global.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
 </body>
 </html>

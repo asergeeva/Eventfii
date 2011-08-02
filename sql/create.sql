@@ -14,7 +14,8 @@ CREATE TABLE ef_users (
   email5    VARCHAR(500),
   zip		    VARCHAR(15),
   pic		    VARCHAR(200),
-  twitter 	VARCHAR(20), 
+  twitter 	VARCHAR(20),
+  facebook  VARCHAR(50),
   notif_opt1 TINYINT(1) DEFAULT 1,
   notif_opt2 TINYINT(1) DEFAULT 1,
   notif_opt3 TINYINT(1) DEFAULT 1

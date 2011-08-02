@@ -967,6 +967,9 @@ class PanelController {
 															 $autoReminder);
 				echo("Success");
 				break;
+			case '/fb/user/update':
+				$this->dbCon->facebookAdd($_REQUEST['fbid']);
+				break;
 			case '/login':
 				require_once('models/Event.class.php');
 				
@@ -975,7 +978,7 @@ class PanelController {
 					$this->smarty->assign('redirect', $params);
 					
 					if ( $_POST['isFB'] ) {
-						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'] );
+						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 						
 						if ( $userInfo ) {
 							$_SESSION['uid'] = $userInfo['id'];

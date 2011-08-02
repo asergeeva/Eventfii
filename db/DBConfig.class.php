@@ -255,6 +255,11 @@ class DBConfig {
 		return $this->getUserInfoByEmail($email);
 	}
 	
+	public function facebookAdd($fbid) {
+		$UPDATE_USER_FB = "UPDATE ef_users SET facebook = '".$fbid."' WHERE id = ".$_SESSION['uid'];
+		$this->executeUpdateQuery($UPDATE_USER_FB);
+	}
+	
 	/* facebookConnect
 	 * Used to log in through facebook.
 	 *
@@ -266,15 +271,16 @@ class DBConfig {
 	 * @param $email | Email Address
 	 * @return $userInfo | Array containing user information 
 	 */
-	public function facebookConnect( $fname, $lname, $email ) {
+	public function facebookConnect( $fname, $lname, $email, $fbid ) {
 		if ( ! $this->isUserEmailExist($email) ) {
 			// If the user is new, create their account
-			$this->createNewUser( $fname, $lname, $email, '', NULL, '' );
+			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL );
 		} else {
 			// Check to see that current users info is up to date
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
-										lname = '" . mysql_real_escape_string($lname) . "' 
+										lname = '" . mysql_real_escape_string($lname) . "',
+										facebook = '".mysql_real_escape_string($fbid)."', 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
