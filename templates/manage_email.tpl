@@ -55,6 +55,12 @@
 						<strong>Message:</strong>
 						<div>
 							<textarea class="autowidth" name="message" id="message">{$eventReminder['message']}</textarea>
+     {literal}
+     {Guest name}
+		 {Host name}
+		 {Event name}
+		 {Event time}
+     {/literal}
 						</div>
 					</label>
 				</fieldset>

@@ -13,6 +13,7 @@
 						<li>
 							<span>Add from address book</span>
 							<p><a href="#gmail" class="event_invite_oi">Gmail</a> <a href="#yahoo" class="event_invite_oi">Yahoo!</a></p>
+              <div id="oi_container"></div>
 						</li>
 						<li>
 							<label for="emails">

@@ -664,7 +664,7 @@ class PanelController {
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				if (isset($_POST['submit'])) {
 					$this->checkGuests($event);
-					$mailer->sendEmail($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
+					$mailer->sendInvite($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
 					header("Location: " . CURHOST . "/create/trueRSVP");
 					exit;
 				}
@@ -804,7 +804,6 @@ class PanelController {
 				$this->checkGuests($eventInfo);
 
 				$mailer = new EFMail();
-				$mailer->sendEmail($eventInfo->guests, $eventInfo->eid, $eventInfo->title, $eventInfo->url);
 				$this->dbCon->storeGuests($eventInfo->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage/email':
@@ -866,8 +865,10 @@ class PanelController {
 				break;
 			case '/event/email/send':
 				require_once('models/EFMail.class.php');
+				require_once('models/Event.class.php');
 				$mailer = new EFMail();
-				$attendees = $this->dbCon->getAttendeesByEvent($_SESSION['manageEvent']['id']);
+				$event = unserialize($_SESSION['manage_event']);
+				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['subject'] = $_REQUEST['reminderSubject'];
 				$req['type'] = $_REQUEST['type'];
@@ -878,8 +879,8 @@ class PanelController {
 				// if( $retval != "Success" ) {
 				//	die($retval);
 				//}
-	
-				$mailer->sendAutomatedEmail($_SESSION['manageEvent'], 
+				
+				$mailer->sendAutomatedEmail($event, 
 																		$_REQUEST['reminderContent'], 
 																		$_REQUEST['reminderSubject'], 
 																		$attendees);
@@ -939,12 +940,14 @@ class PanelController {
 			case '/event/text/send':
 				require_once('models/Event.class.php');
 				require_once('models/EFSMS.class.php');
+				require_once('models/EFMail.class.php');
+				$mailer = new EFMail();
 				$sms = new EFSMS();
 				
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
-				$sms->sendSMSReminder($attendees, $event->eid);
+				$sms->sendSMSReminder($attendees, $event->eid, $mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 				print("Success");
 				break;
 			case '/event/text/save':

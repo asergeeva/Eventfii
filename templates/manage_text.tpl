@@ -49,6 +49,12 @@
 						<strong>SMS Message: (140 characters or less)</strong>
 						<div>
 							<textarea class="autowidth" id="text-message">{$eventReminder['message']}</textarea>
+     {literal}
+     {Guest name}
+		 {Host name}
+		 {Event name}
+		 {Event time}
+     {/literal}
 						</div>
 						<p class="counter">Character Count: <em>135</em></p>
 					</label>

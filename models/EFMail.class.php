@@ -13,10 +13,10 @@ class EFMail {
 	private $FROM = "hello@truersvp.com";
 	private $dbCon;
 	private $efmailDict = array(
-		"[Guest name]",
-		"[Host Name]",
-		"[Event name]",
-		"[Event time]"
+		"{Guest name}",
+		"{Host name}",
+		"{Event name}",
+		"{Event time}"
 	);
 	
 	public function __construct() {
@@ -28,12 +28,51 @@ class EFMail {
 		
 	}
 	
+	public function mapText($text, $eid) {
+		$GET_EVENT_INFO = "SELECT u.fname, e.title, DATE_FORMAT(e.event_datetime, '%W %M %Y %r') AS datetime 
+													FROM ef_attendance a, ef_users u, ef_events e 
+													WHERE a.user_id = u.id AND a.event_id = e.id AND a.event_id = ".$eid;
+		$mapEventInfo = $this->dbCon->executeQuery($GET_EVENT_INFO);
+		$hostInfo = $this->dbCon->getUserInfo($mapInfo['organizer']);
+		for ($i = 0; $i < sizeof($this->efmailDict); ++$i) {
+			switch ($this->efmailDict[$i]) {
+				case "{Guest name}":
+					$text = str_replace($this->efmailDict[$i], $mapEventInfo['fname'], $text);
+					break;
+				case "{Host name}":
+					$text = str_replace($this->efmailDict[$i], $hostInfo['fname'], $text);
+					break;
+				case "{Event name}":
+					$text = str_replace($this->efmailDict[$i], $mapEventInfo['title'], $text);
+					break;
+				case "{Event time}":
+					$text = str_replace($this->efmailDict[$i], $mapEventInfo['datetime'], $text);
+					break;
+			}
+		}
+		print($text."<br/>");
+		return $text;
+	}
+	
 	/**
 	 * $to        Array  list of email addresses
 	 * $eventName String title of the event
 	 * $eventUrl  String url of the event
 	 */
 	public function sendEmail($to, $eventId, $eventName, $eventUrl) {
+		$subject = "You are invited to ".$eventName;
+		
+		for ($i = 0; $i < sizeof($to); ++$i) {
+			$hash_key = md5($to[$i].$eventId);
+			$message = "Link: ".$eventUrl."?ref=".$hash_key;
+			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to)
+														VALUES ('".$hash_key."', '".$to[$i]."')";
+			$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
+			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
+		}
+	}
+	
+	public function sendInvite($to, $eventId, $eventName, $eventUrl) {
 		$subject = "You are invited to ".$eventName;
 		
 		for ($i = 0; $i < sizeof($to); ++$i) {
@@ -59,9 +98,12 @@ class EFMail {
 	 */
 	public function sendAutomatedEmail($eventInfo, $content, $subject, $attendees) {
 		$message =  $content."\r\n".
-								"Link: ".$eventInfo['url'];
+								"Link: ".$eventInfo->url;
 		for ($i = 0; $i < sizeof($attendees); ++$i) {
-			MailgunMessage::send_text($this->FROM, $attendees[$i]['email'], $subject, $message);
+			MailgunMessage::send_text($this->FROM, 
+															  $attendees[$i]['email'], 
+																$subject, 
+																$this->mapText($message, $eventInfo->eid));
 		}
 	}
 	

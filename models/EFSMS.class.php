@@ -33,14 +33,14 @@ class EFSMS {
 	 * $smsRecipients DB row from the result of the query
 	 * http://www.twilio.com/docs/quickstart/sms/sending-via-rest
 	 **/
-	public function sendSMSReminder($smsRecipients, $eventInfo) {
+	public function sendSMSReminder($smsRecipients, $eventInfo, $message) {
 		foreach ($smsRecipients as $smsRecipient) {
 			// Send a new outgoinging SMS by POSTing to the SMS resource */
 			$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
 				"POST", array(
 				"To" => $smsRecipient['phone'],
 				"From" => $this->FROM,
-				"Body" => "Don't forget to attend ".$eventInfo['title']." in approx 2 hours"
+				"Body" => $message
 			));
 			
 			if ($response->IsError) {

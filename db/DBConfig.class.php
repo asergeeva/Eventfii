@@ -316,7 +316,10 @@ class DBConfig {
 	
 	public function dateToRegular($date) {
 		$dateElem = explode("-", $date);
-		return $dateElem[1]."/".$dateElem["2"]."/".$dateElem[0];
+		if ($dateElem[1] == "" || $dateElem[2] == "" || $dateElem[0] == "") {
+			return "";
+		}
+		return $dateElem[1]."/".$dateElem[2]."/".$dateElem[0];
 	}
 	
 	public function timeToSql($time) {
