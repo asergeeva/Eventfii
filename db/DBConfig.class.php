@@ -79,6 +79,7 @@ class DBConfig {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
 		}
+		return mysql_insert_id($dbLink);
 	}
 	
 	public function getQueryResult($query) {
@@ -193,7 +194,14 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
-	public function createNewUser($fname, $lname, $email, $phone, $pass, $zip) {
+	private function checkNullOrValSql($val) {
+		if (isset($val)) {
+			return "'".mysql_real_escape_string($val)."'";
+		}
+		return NULL;
+	}
+	
+	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL) {
 		if ( ! $this->isUserEmailExist($email) ) {
 			if ( isset( $pass ) ) {
 				$pass = "'".mysql_real_escape_string($pass)."'";
@@ -205,15 +213,15 @@ class DBConfig {
 			{
 				$zip="NULL";
 			}
-			$CREATE_NEW_USER = "INSERT INTO ef_users(fname, lname, email, phone, password, about, zip) 
-								VALUES(		'" . mysql_real_escape_string($fname) . "', 
-											'" . mysql_real_escape_string($lname) . "', 
-											'" . mysql_real_escape_string($email) . "', 
-											'" . mysql_real_escape_string($phone) . "', 
-											" . $pass . ", 
-											'', 
-											" . mysql_real_escape_string($zip) . ")";
-			$this->executeUpdateQuery($CREATE_NEW_USER);
+			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip) 
+								VALUES(		".$this->checkNullOrValSql($fname).", 
+													".$this->checkNullOrValSql($lname).", 
+												'" . mysql_real_escape_string($email) . "', 
+												'" . mysql_real_escape_string($phone) . "', 
+													".$this->checkNullOrValSql($pass).", 
+													".$this->checkNullOrValSql($fname).", 
+													".$this->checkNullOrValSql($zip).")";
+			return $this->executeUpdateQuery($CREATE_NEW_USER);
 		} else if ( isset($_SESSION['ref']) ) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
 			$userInfo = $this->getUserInfoByEmail($refEmail);
@@ -449,7 +457,6 @@ class DBConfig {
 			INSERT INTO ef_events (	created, 
 									organizer, 
 									title, 
-									url, 
 									goal, 
 									location_address, 
 									event_datetime, 
@@ -462,7 +469,6 @@ class DBConfig {
 			VALUES (		NOW(), 
 						'" . mysql_real_escape_string($newEvent->organizer) . "',
 						'" . mysql_real_escape_string($newEvent->title) . "', 
-						'" . mysql_real_escape_string($newEvent->url) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
@@ -473,7 +479,6 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ")
 		";
-		
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
@@ -823,4 +828,9 @@ class DBConfig {
 		return true;
 	}
 
+	public function getInviteReference($ref, $email) {
+		$GET_REF_EMAIL = "SELECT * FROM ef_event_invites i WHERE i.hash_key = '".$ref."' AND i.email_to = '".$email."'";
+		
+		return $this->executeQuery($GET_REF_EMAIL);
+	}
 }

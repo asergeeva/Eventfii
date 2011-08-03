@@ -58,7 +58,7 @@
 				</header>
 				<div id="fb-root"></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-				<fb:comments href="{$CURHOST}/event/{$eventInfo['eid']}"></fb:comments>
+				<fb:comments href="{$CURHOST}/event/{$eventInfo['id']}"></fb:comments>
 				<!-- Consider adding to header:
 					 Ability for users to receive notifications when their event gets comments
 

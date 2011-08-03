@@ -9,7 +9,6 @@ class Event {
 	public $eid;
 	public $organizer;
 	public $title;
-	public $url;
 	public $goal;
 	public $address;
 	public $date;
@@ -28,7 +27,6 @@ class Event {
 		if ( ! isset( $eventInfo ) ) {
 			$this->organizer = $_SESSION['uid'];
 			$this->title = $_POST['title'];
-			$this->url = $_POST['url']; 
 			$this->goal = $_POST['goal'];
 			$this->address = $_POST['address'];
 			$this->date = $_POST['date'];
