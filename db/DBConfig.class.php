@@ -198,7 +198,7 @@ class DBConfig {
 		if (isset($val)) {
 			return "'".mysql_real_escape_string($val)."'";
 		}
-		return NULL;
+		return "NULL";
 	}
 	
 	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL) {
@@ -664,8 +664,7 @@ class DBConfig {
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
-							AND 	a.confidence 
-							IS 		NOT NULL 
+							AND 	a.is_attending = 1
 							AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
