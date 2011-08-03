@@ -513,7 +513,6 @@ class DBConfig {
 									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 									e.created, 
 									e.title, 
-									e.url, 
 									e.goal, 
 									e.location_address, 
 									e.event_datetime, 
