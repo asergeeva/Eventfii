@@ -79,7 +79,6 @@ class DBConfig {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
 		}
-		return mysql_insert_id($dbLink);
 	}
 	
 	public function getQueryResult($query) {
@@ -211,7 +210,7 @@ class DBConfig {
 													".$this->checkNullOrValSql($pass).", 
 													".$this->checkNullOrValSql($fname).", 
 													".$this->checkNullOrValSql($zip).")";
-			return $this->executeUpdateQuery($CREATE_NEW_USER);
+			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else if ( isset($_SESSION['ref']) ) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
 			$userInfo = $this->getUserInfoByEmail($refEmail);
