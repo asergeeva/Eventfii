@@ -72,16 +72,28 @@ class EFMail {
 		}
 	}
 	
+	// We don't need transactions
 	public function sendInvite($to, $eventId, $eventName, $eventUrl) {
 		$subject = "You are invited to ".$eventName;
 		
 		for ($i = 0; $i < sizeof($to); ++$i) {
 			$hash_key = md5($to[$i].$eventId);
 			$message = "Link: ".$eventUrl."?ref=".$hash_key;
-			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to)
-														VALUES ('".$hash_key."', '".$to[$i]."')";
-			$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
-			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
+			$insertedUser = $this->dbCon->createNewUser(NULL, NULL, $to[$i], NULL, NULL, NULL);
+			$userId = mysql_insert_id();
+			
+			if ($userId != 0) {
+				$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
+															VALUES ('".$hash_key."', '".$to[$i]."', ".$eventId.")";
+				$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
+				$RECORD_ATTEND_UNCONFO = "INSERT IGNORE INTO ef_attendance (event_id, user_id) 
+																		VALUES (".$eventId.", ".$insertedUser['id'].")";
+				$this->dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+				$RECORD_CONTACT = "INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
+															VALUES (".$_SESSION['uid'].", ".$insertedUser['id'].")";
+				$this->dbCon->executeUpdateQuery($RECORD_CONTACT);
+				MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
+			}
 		}
 	}
 	

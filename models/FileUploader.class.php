@@ -1,5 +1,5 @@
 <?php
-
+require_once('Event.class.php');
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -125,8 +125,15 @@ class qqFileUploader {
         }
         
         $pathinfo = pathinfo($this->file->getName());
+				
+				$eventId = $_SESSION['new_eid'];
+				if (isset($_SESSION['manage_event'])) {
+					$event = unserialize($_SESSION['manage_event']);
+					print_r($event);
+					$eventId = $event->eid;
+				}
         //$filename = $pathinfo['filename'];
-        $filename = $_REQUEST['eventId'];
+        $filename = $eventId;
 				//$filename = md5(uniqid());
 		if(!isset($filename))
 			$filename=$_SESSION['uid'];

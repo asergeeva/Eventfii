@@ -35,12 +35,11 @@ var CSV_UPLOADER = (function() {
 	var _uploader;
 	
 	return {
-		init: function(eid, uploaderId) {
+		init: function(uploaderId) {
 			if ($('#' + uploaderId) !== undefined) {
 				_uploader = new qq.FileUploader({
 					element: $('#' + uploaderId)[0],
-					action: EFGLOBAL.baseUrl + '/event/csv/upload',
-					params: {eventId: eid}
+					action: EFGLOBAL.baseUrl + '/event/csv/upload'
 				});
 			}
 		}

@@ -40,7 +40,7 @@ var CREATE_EVENT_FORM = (function() {
 			$('#event_deadline_create').datepicker();
 			$('#event_title_create').focus();
 			if ($('#csv_upload') !== undefined && $('#eventid').length > 0) {
-				CSV_UPLOADER.init($('#eventid').html(), 'csv_upload');
+				CSV_UPLOADER.init('csv_upload');
 			}
 			// OPENINVITER EMAIL PROVIDER
 			/*

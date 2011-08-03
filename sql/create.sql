@@ -23,7 +23,8 @@ CREATE TABLE ef_users (
 
 CREATE TABLE ef_event_invites (
   hash_key VARCHAR(500) PRIMARY KEY,
-  email_to VARCHAR(500) NOT NULL
+  email_to VARCHAR(500) NOT NULL,
+  event_id INTEGER NOT NULL REFERENCES ef_events(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_friendship (
@@ -37,7 +38,6 @@ CREATE TABLE ef_events (
   created           TIMESTAMP NOT NULL,
   organizer         INTEGER NOT NULL REFERENCES ef_users(id),
   title             VARCHAR(1000) NOT NULL,
-  url               VARCHAR(5000) NOT NULL,
   goal              INTEGER NOT NULL,
   location_address  VARCHAR(5000) NOT NULL,
   location_lat      DOUBLE,
