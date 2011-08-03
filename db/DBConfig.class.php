@@ -203,16 +203,6 @@ class DBConfig {
 	
 	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL) {
 		if ( ! $this->isUserEmailExist($email) ) {
-			if ( isset( $pass ) ) {
-				$pass = "'".mysql_real_escape_string($pass)."'";
-			} else {
-				// Facebook maintained the password of the user we store them as a NULL
-				$pass = "NULL";
-			}
-			if (!isset($zip) || strlen($zip)<=0)
-			{
-				$zip="NULL";
-			}
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip) 
 								VALUES(		".$this->checkNullOrValSql($fname).", 
 													".$this->checkNullOrValSql($lname).", 

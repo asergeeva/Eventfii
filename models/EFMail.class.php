@@ -86,7 +86,7 @@ class EFMail {
 			$RECORD_ATTEND_UNCONFO = "INSERT INTO ef_attendance (event_id, user_id) 
 																	VALUES (".$eventId.", ".$insertedUser['id'].")";
 			$this->dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
-			$RECORD_CONTACT = "INSERT INTO ef_addressbook (user_id, contact_id) 
+			$RECORD_CONTACT = "INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
 														VALUES (".$_SESSION['uid'].", ".$insertedUser['id'].")";
 			$this->dbCon->executeUpdateQuery($RECORD_CONTACT);
 			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
