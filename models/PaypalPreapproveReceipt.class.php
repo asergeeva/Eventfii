@@ -1,6 +1,6 @@
 <?php
-require_once('EFCommon.class.php');
-require_once('libs/Paypal/AdaptivePayments.php');
+require_once(realpath(dirname(__FILE__)).'/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Paypal/AdaptivePayments.php');
 
 class PaypalPreapproveReceipt {
 	public function __construct() {

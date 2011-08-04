@@ -5,7 +5,7 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('libs/twilio.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/twilio.php');
 
 class EFSMS {
 	private $ApiVersion = "2010-04-01";

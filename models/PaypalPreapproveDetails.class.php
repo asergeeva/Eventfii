@@ -1,6 +1,6 @@
 <?php
-require_once('libs/Paypal/AdaptivePayments.php');
-require_once('libs/Paypal/Stub/AP/AdaptivePaymentsProxy.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Paypal/AdaptivePayments.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Paypal/Stub/AP/AdaptivePaymentsProxy.php');
 
 class PaypalPreapproveDetails {
 	public $preapprovalKey;

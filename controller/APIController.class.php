@@ -5,8 +5,8 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('../db/DBAPI.class.php');
-require_once('../models/EFCore.class.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class APIController {
 	private $smarty;
