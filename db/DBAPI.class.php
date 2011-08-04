@@ -5,7 +5,7 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
-require_once('DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/DBConfig.class.php');
 
 class DBAPI extends DBConfig {
 	public function __construct() {
@@ -16,7 +16,7 @@ class DBAPI extends DBConfig {
 		
 	}
 	
-	public function updateUserInfoMobile($email,$about,$zip,$cell,$twitter)
+	public function m_updateUserInfoMobile($email,$about,$zip,$cell,$twitter)
 	{
 		$uid=$_SESSION['uid'];
 		$UPDATE_USER_PROFILE="update ef_users set email='$email',about='$about',zip='$zip',phone='$cell',twitter='$twitter' where id=$uid";
@@ -24,7 +24,8 @@ class DBAPI extends DBConfig {
 		return 'status_updateCompleted';
 	}
 	
-	public function checkValidUserMobile($email, $pass) {
+	public function m_checkValidUser($email, $pass) 
+	{
 		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
 		if (isset($userInfo['id'])) {
@@ -33,8 +34,41 @@ class DBAPI extends DBConfig {
 		return NULL;
 	}
 	
-	public function getAttendeesMobile($eid) {
+	public function m_getEventAttendingBy($uid) 
+	{
+		$GET_EVENTS = "	SELECT	* 
+						FROM (
+								SELECT 	e.id, 
+										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
+										e.created, 
+										e.organizer,
+										e.title, 
+										e.goal, 
+										e.location_address, 
+										e.event_datetime, 
+										e.event_deadline, 
+										e.description, e.is_public 
+								FROM 	ef_attendance a, 
+										ef_events e 
+								WHERE 	a.event_id = e.id AND a.user_id = ".$uid."
+						) el
+						ORDER BY el.days_left ASC";
+		return $this->getQueryResultAssoc($GET_EVENTS);
+	}
+	
+	public function m_getAttendees($eid) 
+	{
 		$GET_ATTENDEES = "SELECT DISTINCT e.user_id FROM ef_attendance e WHERE e.event_id = '$eid'";
 		return $this->executeQuery($GET_ATTENDEES);
+	}
+	
+	public function m_getGuestListByEvent($eid) 
+	{
+		$GET_ATTENDEES = "	SELECT	* 
+							FROM 	ef_attendance a, 
+									ef_users u 
+							WHERE 	a.user_id = u.id 
+							AND 	a.event_id = " . $eid;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 }

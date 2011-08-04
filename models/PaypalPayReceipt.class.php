@@ -1,5 +1,5 @@
 <?php
-require_once('libs/Paypal/AdaptivePayments.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Paypal/AdaptivePayments.php');
 
 class PaypalPayReceipt {
 	public function __construct() {

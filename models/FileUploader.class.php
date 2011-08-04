@@ -1,5 +1,5 @@
 <?php
-require_once('Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/Event.class.php');
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -129,14 +129,14 @@ class qqFileUploader {
 				$eventId = $_SESSION['new_eid'];
 				if (isset($_SESSION['manage_event'])) {
 					$event = unserialize($_SESSION['manage_event']);
-					print_r($event);
 					$eventId = $event->eid;
+					$filename = $eventId;
 				}
         //$filename = $pathinfo['filename'];
-        $filename = $eventId;
 				//$filename = md5(uniqid());
-		if(!isset($filename))
-			$filename=$_SESSION['uid'];
+				if(!isset($filename)) {
+					$filename=$_SESSION['uid'];
+				}
 				
 				
         $ext = $pathinfo['extension'];
@@ -154,7 +154,7 @@ class qqFileUploader {
         }
         
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true);
+            return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
         } else {
             return array('error'=> 'Could not save uploaded file.' .
                 'The upload was cancelled, or server error encountered');

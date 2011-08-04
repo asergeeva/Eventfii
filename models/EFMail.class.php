@@ -6,8 +6,8 @@
  * All rights reserved
  */
  
-require_once('libs/Mailgun/Mailgun.php');
-require_once('db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 
 class EFMail {
 	private $FROM = "hello@truersvp.com";
