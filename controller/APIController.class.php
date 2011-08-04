@@ -106,19 +106,36 @@ class APIController {
 				break;
 			case 'sendMessage':
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+				require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 				$event = $this->buildEvent( $_REQUEST['eventId'] );		
 				$mailer = new EFMail();
+				$sms = new EFSMS();
 				$contacts = $_REQUEST['uid'];
+				
 				//Newbie php coding skills:
 				$attendees = array();
 				for($i=0; $i < count($contacts); $i++)
 				{
 					array_push($attendees, $this->dbCon->getUserInfo($contacts[$i]));
 				}
-				$mailer->sendAutomatedEmail($event, 
-											$_REQUEST['reminderContent'], 
-											$_REQUEST['reminderSubject'], 
-											$attendees);
+				//
+				
+				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
+				{
+					echo("Email");
+					$mailer->sendAutomatedEmail($event, 
+						$_REQUEST['reminderContent'], 
+						$_REQUEST['reminderSubject'], 
+						$attendees);
+				}		
+				if($_REQUEST['form'] == 'sms' || $_REQUEST['form'] == 'both') 
+				{
+					echo("Text");
+					$sms->sendSMSReminder($attendees, 
+						$event->eid, 
+						$mailer->mapText($_REQUEST['reminderContent'], 
+						$event->eid));
+				}
 				echo("status_emailSuccess");
 				break;
 			default:
