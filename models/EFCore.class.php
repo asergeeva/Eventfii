@@ -81,9 +81,7 @@ class EFCore {
 		
 		$trsvpGuestNoRespVal = $this->efCom->toPercent(CONFELSE) * $numGuestNoResp['guest_num'];
 		
-		$trsvpVal = $trsvpConf1Val + $trsvpConf2Val + $trsvpConf3Val + 
-								$trsvpConf4Val + $trsvpConf5Val + $trsvpConf6Val + 
-								$trsvpGuestNoRespVal;
+		$trsvpVal = $trsvpConf1Val + $trsvpConf2Val + $trsvpConf3Val + $trsvpConf4Val + $trsvpConf5Val + $trsvpConf6Val + $trsvpGuestNoRespVal;
 		return round($trsvpVal, 0);
 	}
 }

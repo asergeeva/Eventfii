@@ -71,9 +71,6 @@
 				</figure>
 			</section>
 		</aside>
-		<footer class="links-extra">
+		<!--footer class="links-extra">
 			<p><a href="#">Flag this event</a></p>
-		</footer>
-		<!--
-		<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=121330687952296&amp;xfbml=1"></script><fb:like href="{$eventInfo['url']}" send="true" width="540" show_faces="true" font="" id="fb-like-button"></fb:like>
-		-->		
+		</footer-->

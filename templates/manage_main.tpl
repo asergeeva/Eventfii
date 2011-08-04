@@ -5,19 +5,10 @@
 		<div class="content">
 			<section class="block" id="cp-manage">
 				<header class="rsvp-progress">
-					
-				</header>
-					<!-- Progress code goes here 
-					trueRSVP: {$trsvpVal}
-					Guestimate: {$guestimate}
-					Goal: {$eventInfo['goal']}
-
-					<div class="demo">
-						<div id="progress_bar" style="position:relative; bottom:5px; width:95%; left:10px;"></div>
-						<span style="position:relative; left:30%; bottom:5px;">Your trueRSVP:<b>{{$guestConf1}+{$guestConf2}+{$guestConf3}}</b> / Your Goal:<b>{$eventInfo['goal']}</b></span>
+					<div class="meter" style="width: {$trsvpVal / $eventInfo['goal'] * 100}%">
+						<p class="trueRSVP"><em>{$trsvpVal}</em> <span>Your trueRSVP</span></p>
 					</div>
-					
-					-->
+					<p class="goal"><em>{$eventInfo['goal']}</em> <span>Your Goal</span></p>
 				</header>
 				<section class="block" id="cp-breakdown">
 					<header class="block-collapsable-title">

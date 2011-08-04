@@ -8,16 +8,16 @@
 	</header>
 	<section id="main">
 		<aside class="extra">
-			{include file="profile_user.tpl"}
+			{include file="profile_user.tpl"}{if $userInfo['facebook'] || $userInfo['twitter']}
 			<section class="block" id="user-social">
 				<ul class="network">
-					<li><a href="http://facebook.com/profile.php?id={$userInfo['facebook']}" class="icon-facebook">{$userInfo['facebook']}</a></li>
-					<li><a href="http://twitter.com/{$userInfo['twitter']}" class="icon-twitter">@{$userInfo['twitter']}</a></li>
+					{if $userInfo['facebook']}<li><a href="http://facebook.com/profile.php?id={$userInfo['facebook']}" class="icon-facebook">{$userInfo['facebook']}</a></li>{/if}
+					{if $userInfo['twitter']}<li><a href="http://twitter.com/{$userInfo['twitter']}" class="icon-twitter">@{$userInfo['twitter']}</a></li>{/if}
 				</ul>
-			</section>
-			<footer class="follow">
+			</section>{/if}
+			<!--footer class="follow">
 				<p><a href="#"><span>Follow</span></a></p>
-			</footer>
+			</footer-->
 		</aside>
 		<div class="content">
 			{include file="event_created_pub.tpl"}

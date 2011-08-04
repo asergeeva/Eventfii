@@ -133,13 +133,15 @@ class DBConfig {
 	public function getUserInfoByEmail( $email ) {
 		$GET_USER_INFO = "	SELECT	* 
 							FROM 	ef_users 
-							WHERE 	email = '".$email."'";
+							WHERE 	email = '" . $email . "'";
 		$userInfo = $this->executeQuery($GET_USER_INFO);
 		return $userInfo;
 	}
 	
 	public function getReferenceEmail($hashKey) {
-		$GET_REF_EMAIL = "SELECT * FROM ef_event_invites i WHERE i.hash_key = '".$hashKey."'";
+		$GET_REF_EMAIL = "	SELECT	* 
+							FROM 	ef_event_invites i 
+							WHERE 	i.hash_key = '" . $hashKey . "'";
 		$invitedEmail = $this->executeQuery($GET_REF_EMAIL);
 		return $invitedEmail['email_to'];
 	}

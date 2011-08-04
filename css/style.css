@@ -289,6 +289,35 @@ header#page-header {
 	display: block;
 	vertical-align: top; }
 
+/*----- Slider ----------*/
+.rsvp-progress {
+	position: relative;
+	margin: 20px 40px 40px;
+	-moz-border-radius: 8px; 
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border: 1px solid #b5cad4; }
+.rsvp-progress p {
+	position: absolute;
+	text-align: center;
+	top: -20px;
+	right: 0;
+	width: 80px;
+	margin: 0 -40px 0 0; }
+.rsvp-progress em {
+	color: #3399cc;
+	margin: 0 0 45px;
+	display: block; }
+.rsvp-progress .goal em { color: #ff9933;}
+.rsvp-progress span { display: block; }
+.rsvp-progress .meter {
+	background: #3399cc;
+	position: relative;
+	height: 30px;
+	-moz-border-radius: 6px; 
+	-webkit-border-radius: 6px;
+	border-radius: 6px;  }
+
 /*----- Horizontal Navigation ----------*/
 .horizontal-nav {
 	background: #e5e5e5;
@@ -337,6 +366,7 @@ header#page-header {
 	text-decoration: none;
 	width: 100%;
 	display: block; }
+.event-list li a:hover { color: #ff9933; }
 .event-list li h2 { 
 	float: left;
 	padding: 5px 0; }
@@ -660,7 +690,7 @@ footer.links-extra {
 
 /*----- Site Map ----------*/
 footer#site-map {
-	background: url(../images/index_footer_bg.png) 0 0 repeat-x;
+	background: #2799d8;
 	font-family: Arial;
 	color: #fff;
 	height: 129px; /* 162 - 33 */

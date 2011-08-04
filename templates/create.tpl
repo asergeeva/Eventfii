@@ -19,7 +19,6 @@
 				<ol>
 					<li{$step1}><span>Add event information</span></li>
 					<li{$step2}><span>Add guests</span></li>
-					<li{$step3}><span>trueRSVP</span></li>
 				</ol>
 			</nav>
 			<footer class="links-extra">

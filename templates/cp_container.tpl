@@ -12,10 +12,7 @@
 				</footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info edit">{$userInfo['about']}</p>
-				<footer class="buttons buttons-extra">
-					<p><a href="#"><span>Edit</span></a></p>
-				</footer>
+				<p class="user-info edit">{if $userInfo['about']}{$userInfo['about']}{else}Click here to edit{/if}</p>
 			</section>
 			<footer class="links-extra">
 				<p><a href="{$CURHOST}/settings">Settings</a></p>

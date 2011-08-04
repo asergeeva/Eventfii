@@ -391,7 +391,7 @@ class PanelController {
 		$this->smarty->assign('guestConf5', $numGuestConf5['guest_num']);
 		$this->smarty->assign('guestConf6', $numGuestConf6['guest_num']);
 		$this->smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
-
+		
 		$this->smarty->assign('guestimate', $efCore->computeGuestimate($eventId));
 		$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
 	}
@@ -692,12 +692,12 @@ class PanelController {
 				$this->validateUserLogin();
 				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
-				$this->smarty->assign('step2', ' class="current"');
 				
+				/*
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				if (isset($_SESSION['manage_event'])) {
 					$event = unserialize($_SESSION['manage_event']);
-				}
+				} */
 				if (isset($_POST['submit'])) {
 					$this->checkGuests($event);
 					$mailer->sendInvite($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
