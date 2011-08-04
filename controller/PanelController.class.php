@@ -1042,7 +1042,6 @@ class PanelController {
 					
 					if ( $_POST['isFB'] ) {
 						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
-						
 						if ( $userInfo ) {
 							$_SESSION['uid'] = $userInfo['id'];
 							if ( isset ($params) ) {
@@ -1055,7 +1054,7 @@ class PanelController {
 						}
 						
 						// if there's new event when login using facebook
-						$this->checkCreateEventSession();
+						//$this->checkCreateEventSession();
 						
 						break;
 					// if the user submit the login form

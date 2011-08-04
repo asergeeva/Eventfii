@@ -277,11 +277,10 @@ class DBConfig {
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
 										lname = '" . mysql_real_escape_string($lname) . "',
-										facebook = '".mysql_real_escape_string($fbid)."', 
+										facebook = '".mysql_real_escape_string($fbid)."' 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
-		
 		return $this->getUserInfoByEmail($email);
 	}
 	
