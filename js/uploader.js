@@ -10,20 +10,13 @@ var USER_IMAGE_UPLOADER = (function() {
 	return {
 		init: function() {
 			if ($('#user_image').length>0) {
-			//alert("here");
 				_uploader = new qq.FileUploader({
 					element: $('#user_image')[0],
 					action: EFGLOBAL.baseUrl + '/user/image/upload',
 					onComplete: function(id, fileName, responseJSON){
-					//alert($('#user_pic').attr("src"));
-					var iurl="upload/user/"+$('#usersid').html()+".jpg?"+Math.random();
-					$('#user_pic').attr("src",iurl);
-					$('#user_pic').attr("width",150);
-					$('#user_pic').attr("height",150);
-					$('.qq-upload-list').html("");
-					//alert(responseJSON);
+						$('#user_pic').attr("src",responseJSON.file);
+						$('.qq-upload-list').html("");
 					}
-					//params: {userId: uid}
 				});
 			}
 		}

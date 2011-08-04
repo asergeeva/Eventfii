@@ -289,18 +289,21 @@ class PanelController {
 
 	// Need to add for Facebook Picture
 	private function getUserImage($userId) {
-		if ( file_exists('upload/user/' . $userId . '.png') ) {
-			return CURHOST . '/upload/user/' . $userId . '.png';
-		} else if ( file_exists('upload/user/' . $userId . '.jpg') ) {
-			return CURHOST . '/upload/user/' . $userId . '.jpg';
+		if ( file_exists("upload/user/" . $userId . ".png") ) {
+			return CURHOST . "/upload/user/" . $userId . ".png";
+		} else if ( file_exists("upload/user/" . $userId . ".jpg") ) {
+			return CURHOST . "/upload/user/" . $userId . ".jpg";
 		} else {
-			return CURHOST . '/images/default_thumb.jpg';
+			return CURHOST . "/images/default_thumb.jpg";
 		}
 	}
 	
 	private function checkHome() {
 		if (isset($_SESSION['uid'])) {
+			unset($_SESSION['new_eid']);
+			unset($_SESSION['manage_event']);
 			$this->assignCPEvents($_SESSION['uid']);
+			$this->smarty->assign('userImage', $this->getUserImage($_SESSION['uid']));
 			$this->smarty->display('cp.tpl');
 		} else {
 			$this->smarty->display('index.tpl');
@@ -729,6 +732,7 @@ class PanelController {
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 				$result = $uploader->handleUpload('upload/event/images/', TRUE);
 				// to pass data through iframe you will need to encode all html tags
+				
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/event/csv/upload':
