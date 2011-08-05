@@ -251,7 +251,7 @@ class PanelController {
 
 	// BEGIN OLD FUNCTIONS
 	//////////////////////
-	public function validateSaveEmail($req) {
+	public function validateSaveEmail($req, $isText = false) {
 		$msg="<br>";
 		$flag=0;
 		$dt=$req['date'];
@@ -263,11 +263,21 @@ class PanelController {
 			$msg.="Please enter a date in mm/dd/yyyy format. <br>";
 			$flag=1;
 		}
-
-		$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9]*$/")));
-		if (!($res)) {
+		
+		// Make sure date is in the future
+		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
+		if( $check < $today ) {
+			$msg.="Date must be in the future<br>";
 			$flag=1;
-			$msg.="Subject can only contain characters A-Z or numbers 0-9 <br>";
+		}
+
+		if ($isText === false) {
+			$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9]*$/")));
+			if (!($res)) {
+				$flag=1;
+				$msg.="Subject can only contain characters A-Z or numbers 0-9 <br>";
+			}
 		}
 
 		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9']*$/")));
@@ -936,14 +946,13 @@ class PanelController {
 					$autoReminder = 1;
 				}
 
-				// TODO: more meaningful error messages
-				//$req['content'] = $_REQUEST['reminderContent'];
-				//$req['subject'] = $_REQUEST['reminderSubject'];
-				//$req['date'] = $_REQUEST['reminderDate'];
-				//$retval = $this->validateSaveEmail($req);
-				//if( $retval != "Success" ) {
-				//	die($retval);
-				//}
+				$req['content'] = $_REQUEST['reminderContent'];
+				$req['subject'] = $_REQUEST['reminderSubject'];
+				$req['date'] = $_REQUEST['reminderDate'];
+				$retval = $this->validateSaveEmail($req);
+				if( $retval != "Success" ) {
+					die($retval);
+				}
 				
 				$this->dbCon->saveEmail( $event->eid, 
 																	$_REQUEST['reminderContent'], 
@@ -958,18 +967,19 @@ class PanelController {
 				require_once('models/EFMail.class.php');
 				require_once('models/Event.class.php');
 				$mailer = new EFMail();
+
 				$event = unserialize($_SESSION['manage_event']);
 				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
+				
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['subject'] = $_REQUEST['reminderSubject'];
 				$req['type'] = $_REQUEST['type'];
 				$req['date'] = $_REQUEST['reminderDate'];
 				
-				// BUGGY, NEED BETTER ERROR MESSAGE
-				//$retval = $this->validateSaveEmail($req);
-				// if( $retval != "Success" ) {
-				//	die($retval);
-				//}
+				$retval = $this->validateSaveEmail($req);
+					if( $retval != "Success" ) {
+					die($retval);
+				}
 				
 				$mailer->sendAutomatedEmail($event, 
 																		$_REQUEST['reminderContent'], 
@@ -1042,6 +1052,17 @@ class PanelController {
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
+				
+				
+				$req['content'] = $_REQUEST['reminderContent'];
+				$req['type'] = $_REQUEST['type'];
+				$req['date'] = $_REQUEST['reminderDate'];
+				
+				$retval = $this->validateSaveEmail($req, true);
+				if( $retval != "Success" ) {
+					die($retval);
+				}
+				
 				$sms->sendSMSReminder($attendees, $event->eid, $mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 				print("Success");
 				break;
@@ -1056,6 +1077,16 @@ class PanelController {
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
+				
+				$req['content'] = $_REQUEST['reminderContent'];
+				$req['type'] = $_REQUEST['type'];
+				$req['date'] = $_REQUEST['reminderDate'];
+				
+				$retval = $this->validateSaveEmail($req, true);
+				if( $retval != "Success" ) {
+					die($retval);
+				}
+				
 				$this->dbCon->saveText($event->eid, 
 															 $_REQUEST['reminderContent'], 
 															 $dateTime, 
