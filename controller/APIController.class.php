@@ -55,16 +55,33 @@ class APIController {
 			case 'login':
 				if(!isset($_SESSION['uid']))
 				{
-					if(isset($_REQUEST['email']) && isset($_REQUEST['password']))
+					if ( $_REQUEST['isFB'] ) 
 					{
-						$result = $this->dbCon->m_checkValidUser($_REQUEST['email'], $_REQUEST['password']);
-						if(!isset($result))
+						echo $_REQUEST['fname'];
+						echo $_REQUEST['lname'];
+						$userInfo = $this->dbCon->facebookConnect( $_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['fbid'] );
+						if ( $userInfo ) 
 						{
-							echo 'status_loginFailed';
+							$_SESSION['uid'] = $userInfo['id'];
+							if ( isset ($params) ) 
+							{
+								echo $params;
+							}
 						}
-						else
+					}
+					else
+					{
+						if(isset($_REQUEST['email']) && isset($_REQUEST['password']))
 						{
-							$_SESSION['uid'] = $result;
+							$result = $this->dbCon->m_checkValidUser($_REQUEST['email'], $_REQUEST['password']);
+							if(!isset($result))
+							{
+								echo 'status_loginFailed';
+							}
+							else
+							{
+								$_SESSION['uid'] = $result;
+							}
 						}
 					}
 				}
