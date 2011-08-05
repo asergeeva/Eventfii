@@ -59,8 +59,10 @@ class PanelController {
 	private function validateEventInfo ( &$newEvent ) {
 		// Check for errors
 		$error = $newEvent->get_errors();
+		
 		$is_valid = ( $error === false ) ? true : false;
-
+		
+		print($is_valid);
 		// If there are errors
 		if ( ! $is_valid ) {
 			if ( $error !== true )
@@ -794,10 +796,10 @@ class PanelController {
 				
 				// Fill in event information
 				require_once('models/Event.class.php');
-				$editEvent = new Event();
-                $editEvent->eid = $_GET['eventId'];
+				$editEvent = new Event(NULL);
+				$editEvent->eid = $_GET['eventId'];
 				
-                // Check to see if the new event information is valid.
+				// Check to see if the new event information is valid.
 				if ( $this->validateEventInfo( $editEvent ) === true ) {
 					$this->saveEvent( $editEvent );
 				}
