@@ -744,11 +744,10 @@ class PanelController {
 				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
 				
-				/*
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				if (isset($_SESSION['manage_event'])) {
 					$event = unserialize($_SESSION['manage_event']);
-				} */
+				}
 				if (isset($_POST['submit'])) {
 					$this->checkGuests($event);
 					$mailer->sendInvite($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
