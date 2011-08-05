@@ -1,5 +1,5 @@
 var EF_SETTINGS = (function() {
-	function _saveSettings() {
+	$('#save_settings').live('click', function() {
 		$('#save_loading_img').html(EFGLOBAL.ajaxLoader);
 		$.post(EFGLOBAL.baseUrl + '/settings/save', {
 			fname: $('#fname').val(),
@@ -17,12 +17,11 @@ var EF_SETTINGS = (function() {
 		}, function(respData) {
 			$('#save_loading_img').html(EFGLOBAL.isSucceed);
 		});
-	}
+	});
 	
 	return {
 		init: function() {
 			USER_IMAGE_UPLOADER.init();
-			$('#save_settings').live('click', _saveSettings);
 		},
 		
 		fbconnect: function() {

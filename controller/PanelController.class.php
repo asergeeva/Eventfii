@@ -62,7 +62,23 @@ class PanelController {
 		
 		$is_valid = ( $error === false ) ? true : false;
 		
-		print($is_valid);
+		// If there are errors
+		if ( ! $is_valid ) {
+			if ( $error !== true )
+				$this->smarty->assign('error', $error);
+			return false;
+		} 
+
+		// Looks like it's valid ;)
+		return true;
+	}
+	
+	private function validateUserInfo ( &$userInfo ) {
+		// Check for errors
+		$error = $userInfo->get_errors();
+		
+		$is_valid = ( $error === false ) ? true : false;
+		
 		// If there are errors
 		if ( ! $is_valid ) {
 			if ( $error !== true )
@@ -628,6 +644,35 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
+				require_once('models/User.class.php');
+				if (isset($_POST['submit'])) {
+					$responseMsg = array();
+					$user = new User(NULL);
+					if ( $this->validateEventInfo( $user ) === true ) {
+						$this->dbCon->updateUserInfo($user->fname, 
+																				 $user->lname, 
+																				 $user->email, 
+																				 $user->phone, 
+																				 $user->zip, 
+																				 $user->twitter,
+																				 $user->notif_opt1, 
+																				 $user->notif_opt2, 
+																				 $user->notif_opt3);
+						$responseMsg['user_success'] = 'User info has been updated';
+					} 
+					
+					if ( $_REQUEST['curpass'] != '' && $_REQUEST['newpass'] != '' && $_REQUEST['confpass'] != '' ) {
+						if ( $this->dbCon->resetPassword( md5($_REQUEST['curpass']), md5($_REQUEST['newpass']), md5($_REQUEST['confpass']) )) {
+							$responseMsg['password'] = 'User info has been updated';
+						} else {
+							$responseMsg['password'] = 'Invalid old password, not updated';
+						}
+					}
+					
+					$this->smarty->assign('responseMsg', $responseMsg);
+				}
+				
+				
 				if (isset($_SESSION['uid'])) {
 					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
 					$userInfo['pic'] = $this->getUserImage($_SESSION['uid']);
@@ -636,14 +681,6 @@ class PanelController {
 					$this->smarty->display('settings.tpl');
 				} else {
 					header("Location: " . CURHOST);
-				}
-				break;
-			case '/settings/save':
-				$this->validateLocalRequest();
-				$this->dbCon->updateUserInfo($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['phone'], $_REQUEST['zip'], $_REQUEST['twitter'], $_REQUEST['about'], $_REQUEST['features'], $_REQUEST['updates'], $_REQUEST['attend']);
-								
-				if ( $_REQUEST['curpass'] != '' && $_REQUEST['newpass'] != '' && $_REQUEST['confpass'] != '' ) {
-					$this->dbCon->resetPassword( md5($_REQUEST['curpass']), md5($_REQUEST['newpass']), md5($_REQUEST['confpass']) );
 				}
 				break;
 			case '/event/create':

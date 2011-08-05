@@ -179,7 +179,7 @@ class DBConfig {
 	}
 	
 	public function updateUserInfo($fname, $lname, $email, $phone, $zip, $twitter, 
-																 $about, $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1) {
+																 $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1) {
 		$UPDATE_USER = "UPDATE	ef_users SET 
 								fname = '" . mysql_real_escape_string($fname) . "', 
 								lname = '" . mysql_real_escape_string($lname) . "',

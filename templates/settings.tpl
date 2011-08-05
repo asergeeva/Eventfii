@@ -44,18 +44,23 @@
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 
-						<input type="text" class="inputbox autowidth" name="user-fname" id="fname" value="{$userInfo['fname']}" />
+						<input type="text" class="inputbox autowidth" name="fname" id="fname" value="{$userInfo['fname']}" />
+            <p class="message-error" id="titleErr">{$error.fname}</p>
 					</label>
 					<label for="lname">
 						<span>Last Name</span> 
-						<input type="text" class="inputbox autowidth" name="user-lname" id="lname" value="{$userInfo['lname']}" />
+						<input type="text" class="inputbox autowidth" name="lname" id="lname" value="{$userInfo['lname']}" />
+            <p class="message-error" id="titleErr">{$error.lname}</p>
 					</label>
 					<label for="email">
 						<span>Email</span> 
-						<input type="text" class="inputbox autowidth" name="user-email" id="email" value="{$userInfo['email']}" />
+						<input type="text" class="inputbox autowidth" name="email" id="email" value="{$userInfo['email']}" />
+            <p class="message-error" id="titleErr">{$error.email}</p>
 					</label>
-					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="user-cell" id="user-cell" value="{$userInfo['phone']}" /></label>
-					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="user-zip" id="user-zip" value="{$userInfo['zip']}" maxlength="5" /></label>
+					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="phone" id="user-cell" value="{$userInfo['phone']}" /></label>
+          <p class="message-error" id="titleErr">{$error.phone}</p>
+					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="zip" id="user-zip" value="{$userInfo['zip']}" maxlength="5" /></label>
+          <p class="message-error" id="titleErr">{$error.zip}</p>
 				</fieldset>
 				<header class="block-title">
 					<h1>Account Info</h1>
@@ -64,6 +69,7 @@
 					<label for="twitter" class="autowidth">
 						<span>Twitter Handle</span> 
 						<input type="text" class="inputbox autowidth" name="twitter" id="twitter" value="{$userInfo['twitter']}" />
+            <p class="message-error" id="titleErr">{$error.twitter}</p>
 					</label>
 					<label for="fbconnect" class="autowidth">
 							<div id="fb-root"></div>
@@ -82,7 +88,7 @@
 						<input type="checkbox" name="email-updates" id="updates" {if $userInfo['notif_opt2'] eq '1'}checked="checked"{/if} /> <em>Send me daily updates about my event when I’m the host</em>
 					</label>
 					<label for="attend" class="fullwidth">
-						<input type="checkbox" name="email-updates" id="attend" {if $userInfo['notif_opt3'] eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
+						<input type="checkbox" name="email-friend" id="attend" {if $userInfo['notif_opt3'] eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
 					</label>
 				</fieldset>
 				<header class="block-title">
@@ -101,10 +107,11 @@
 						<span>Confirm new password</span> 
 						<input type="password" class="inputbox autowidth" name="user-confpass" id="password-confirm" />
 					</label>
+          <p class="message-error" id="titleErr">{$responseMsg['password']}</p>
 				</fieldset>
 				<footer class="buttons buttons-submit">
 					<p><input type="submit" name="submit" value="Save All" /></p>
-          			<span id="save_loading_img"></span>
+          	{$responseMsg['user_success']}
 				</footer>
 				</form>
 			</section>
