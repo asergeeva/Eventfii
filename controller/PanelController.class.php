@@ -661,9 +661,11 @@ class PanelController {
 						$responseMsg['user_success'] = 'User info has been updated';
 					} 
 					
-					if ( $_REQUEST['curpass'] != '' && $_REQUEST['newpass'] != '' && $_REQUEST['confpass'] != '' ) {
-						if ( $this->dbCon->resetPassword( md5($_REQUEST['curpass']), md5($_REQUEST['newpass']), md5($_REQUEST['confpass']) )) {
-							$responseMsg['password'] = 'User info has been updated';
+					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
+						if ( $this->dbCon->resetPassword( md5($_REQUEST['user-curpass']), 
+																						  md5($_REQUEST['user-newpass']), 
+																							md5($_REQUEST['user-confpass']) )) {
+							$responseMsg['password'] = 'Password has been updated';
 						} else {
 							$responseMsg['password'] = 'Invalid old password, not updated';
 						}
