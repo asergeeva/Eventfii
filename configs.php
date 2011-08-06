@@ -2,10 +2,10 @@
 require_once(realpath(dirname(__FILE__)).'/libs/Smarty.class.php');
 $smarty = new Smarty();
 
-$smarty->setTemplateDir('templates');
-$smarty->setCompileDir('templates_c');
-$smarty->setCacheDir('cache');
-$smarty->setConfigDir('configs');
+$smarty->setTemplateDir(realpath(dirname(__FILE__)).'/templates');
+$smarty->setCompileDir(realpath(dirname(__FILE__)).'/templates_c');
+$smarty->setCacheDir(realpath(dirname(__FILE__)).'/cache');
+$smarty->setConfigDir(realpath(dirname(__FILE__)).'/configs');
 
 define('PATH', '/Eventfii');
 define('CURHOST', 'http://localhost'.PATH);

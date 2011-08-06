@@ -741,8 +741,9 @@ class PanelController {
 				break;
 			case '/create/guests':
 				$this->validateUserLogin();
-				require_once('models/EFMail.class.php');
+				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 				$mailer = new EFMail();
+				$this->smarty->assign('step2', ' class="current"');
 				
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				if (isset($_SESSION['manage_event'])) {
