@@ -1,7 +1,38 @@
 var MANAGE_EVENT = ( function() {
 	return {
 		init: function() {
-			$('#send-automatically').datepicker();
+			$('#automatic_email_event_date').datepicker();
+			$('#automatic_text_send_date').datepicker();
+			
+			AnyTime.picker(
+				"#automatic_email_send_time",
+							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
+				 $("#automatic_email_send_time").AnyTime_picker(
+							{ 
+						format: "%I:%i %p", labelTitle: "What Time",
+							labelHour: "Hour", labelMinute: "Minute"
+						}
+				));
+				
+		AnyTime.picker(
+				"#automatic_text_send_time",
+							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
+				 $("#automatic_text_send_time").AnyTime_picker(
+							{ 
+						format: "%I:%i %p", labelTitle: "What Time",
+							labelHour: "Hour", labelMinute: "Minute"
+						}
+				));
+				
+		AnyTime.picker(
+				"#event_time_update",
+							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
+				 $("#event_time_update").AnyTime_picker(
+							{ 
+						format: "%I:%i %p", labelTitle: "What Time",
+							labelHour: "Hour", labelMinute: "Minute"
+						}
+				));
 			
 			// EMAIL SETTINGS
 			// AUTO-SEND CHECKBOX
@@ -21,9 +52,8 @@ var MANAGE_EVENT = ( function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/email/save', {
 					autoReminder: $('#automatic_send_cb').attr('checked'),
-					reminderDate: $('#send-automatically').val(),
-					reminderTime: $('#automatic_email_send_time option:selected').val(),
-					reminderTimeMid: $('#automatic_email_send_timeframe option:selected').val(),
+					reminderDate: $('#automatic_email_event_date').val(),
+					reminderTime: $('#automatic_email_send_time').val(),
 					reminderRecipient: $('#email-to option:selected').val(),
 					reminderSubject: $('#subject').val(),
 					reminderContent: $('#message').val()
@@ -38,9 +68,8 @@ var MANAGE_EVENT = ( function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/email/send', {
 					autoReminder: $('#automatic_send_cb').attr('checked'),
-					reminderDate: $('#send-automatically').val(),
-					reminderTime: $('#automatic_email_send_time option:selected').val(),
-					reminderTimeMid: $('#automatic_email_send_timeframe option:selected').val(),
+					reminderDate: $('#automatic_email_event_date').val(),
+					reminderTime: $('#automatic_email_send_time').val(),
 					reminderRecipient: $('#email-to option:selected').val(),
 					reminderSubject: $('#subject').val(),
 					reminderContent: $('#message').val()
@@ -57,9 +86,8 @@ var MANAGE_EVENT = ( function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/text/save', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
-					reminderDate: $('#send-automatically').val(),
-					reminderTime: $('#automatic_text_send_time option:selected').val(),
-					reminderTimeMid: $('#automatic_text_send_timeframe option:selected').val(),
+					reminderDate: $('#automatic_text_send_date').val(),
+					reminderTime: $('#automatic_text_send_time').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val()
 				}, function(retval) {
@@ -73,9 +101,8 @@ var MANAGE_EVENT = ( function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/text/send', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
-					reminderDate: $('#send-automatically').val(),
-					reminderTime: $('#automatic_text_send_time option:selected').val(),
-					reminderTimeMid: $('#automatic_text_send_timeframe option:selected').val(),
+					reminderDate: $('#automatic_email_event_date').val(),
+					reminderTime: $('#automatic_text_send_time').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val()
 				}, function(retval) {

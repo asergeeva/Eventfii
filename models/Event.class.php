@@ -25,6 +25,7 @@ class Event {
 	
 	function __construct( $eventInfo ) {
 		if ( ! isset( $eventInfo ) ) {
+			$this->eid = NULL;
 			$this->organizer = $_SESSION['uid'];
 			$this->title = $_POST['title'];
 			$this->goal = $_POST['goal'];
@@ -287,6 +288,8 @@ class Event {
 			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
 			$this->numErrors++;
 		}
+		
+		$this->time = date("H:i:s", strtotime($this->time));
 	}
 
 	/* check_goal

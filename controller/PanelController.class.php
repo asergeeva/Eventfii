@@ -44,7 +44,10 @@ class PanelController {
 		$this->smarty->assign('eventInfo', $eventInfo);
 		
 		require_once('models/Event.class.php');
+		
 		$event = new Event( $eventInfo );
+		
+		$_SESSION['manage_event'] = serialize($event);
 		
 		return $event;
 	}
@@ -280,7 +283,7 @@ class PanelController {
 			}
 		}
 
-		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9']*$/")));
+		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z 0-9']*$/")));
 		if(!($res)) {
 			$flag=1;
 			$msg.="Content can only contain characters A-Z or numbers 0-9 <br>";
@@ -823,7 +826,6 @@ class PanelController {
 					}
 				}
 				
-				$_SESSION['manage_event'] = serialize($event);
 				$this->smarty->assign('eventAttendees', $eventAttendees);
 				
 				$this->assignManageVars( $_GET['eventId'] );
@@ -917,14 +919,10 @@ class PanelController {
 					$eventReminder['isAuto'] = 'checked = "checked"';
 				}
 				
-				$eventDatetime = explode(" ", $eventReminder['delivery_time']);
-				$eventDate = $this->dbCon->dateToRegular($eventDatetime[0]);
-				$eventTime = $this->dbCon->timeToRegular($eventDatetime[1]);
-				
-				$eventTimeMid = explode(" ", $eventTime);
-				
-				$eventTime = $eventTimeMid[0];
-				$eventTimeMid = $eventTimeMid[1];
+				$eventDatetime = explode(" ", $eventReminder['datetime']);
+				$eventDate = $eventDatetime[0];
+				$eventTime = explode(":", $eventDatetime[1]);
+				$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
 				
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);
@@ -940,7 +938,7 @@ class PanelController {
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
-				$dateTime = $sqlDate." ".$this->dbCon->timeToSql($_REQUEST['reminderTime']." ".$_REQUEST['reminderTimeMid']).":00";
+				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
@@ -1024,14 +1022,10 @@ class PanelController {
 					$eventReminder['isAuto'] = 'checked = "checked"';
 				}
 				
-				$eventDatetime = explode(" ", $eventReminder['delivery_time']);
-				$eventDate = $this->dbCon->dateToRegular($eventDatetime[0]);
-				$eventTime = $this->dbCon->timeToRegular($eventDatetime[1]);
-				
-				$eventTimeMid = explode(" ", $eventTime);
-				
-				$eventTime = $eventTimeMid[0];
-				$eventTimeMid = $eventTimeMid[1];
+				$eventDatetime = explode(" ", $eventReminder['datetime']);
+				$eventDate = $eventDatetime[0];
+				$eventTime = explode(":", $eventDatetime[1]);
+				$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
 				
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);
@@ -1072,7 +1066,7 @@ class PanelController {
 				$event = unserialize($_SESSION['manage_event']);
 			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
-				$dateTime = $sqlDate." ".$this->dbCon->timeToSql($_REQUEST['reminderTime']." ".$_REQUEST['reminderTimeMid']).":00";
+				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
