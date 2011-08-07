@@ -3022,6 +3022,7 @@ AnyTime.picker = function( id, options )
 		//---------------------------------------------------------------------
 		//  .pos() positions the picker, such as when it is displayed or
 		//	when the window is resized.
+		// BUGGY POSITIONING
 		//---------------------------------------------------------------------
 		
 		pos: function(event) // note: event is ignored but this is a handler
@@ -3031,7 +3032,8 @@ AnyTime.picker = function( id, options )
 		      var off = this.inp.offset();
 		      var bodyWidth = $(document.body).outerWidth(true);
 		      var pickerWidth = this.div.outerWidth(true);
-		      var left = off.left;
+					
+					var left = off.left;
 		      if ( left + pickerWidth > bodyWidth - 20 )
 		        left = bodyWidth - ( pickerWidth + 20 );
 		      var top = off.top - this.div.outerHeight(true);

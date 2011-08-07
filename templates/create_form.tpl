@@ -20,7 +20,7 @@
 		  			<p class="message-error" id="descErr">{$error['desc']}</p>
 		  		</dd>
 				<dt>
-					<label for="addresspicker">Where</label> 
+					<label for="address">Where</label> 
 					<em>Ex: 1234 Maple St, Los Angeles, CA 90007</em>
 				</dt> 
 				<dd>
