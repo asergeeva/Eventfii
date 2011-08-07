@@ -3033,13 +3033,15 @@ AnyTime.picker = function( id, options )
 		      var bodyWidth = $(document.body).outerWidth(true);
 		      var pickerWidth = this.div.outerWidth(true);
 					
-					var left = off.left;
-		      if ( left + pickerWidth > bodyWidth - 20 )
-		        left = bodyWidth - ( pickerWidth + 20 );
-		      var top = off.top - this.div.outerHeight(true);
-		      if ( top < 0 )
-		        top = off.top + this.inp.outerHeight(true);
-		      this.div.css( { top: String(top)+'px', left: String(left<0?0:left)+'px' } );
+					if (off !== null) {
+						var left = off.left;
+						if ( left + pickerWidth > bodyWidth - 20 )
+							left = bodyWidth - ( pickerWidth + 20 );
+						var top = off.top - this.div.outerHeight(true);
+						if ( top < 0 )
+							top = off.top + this.inp.outerHeight(true);
+						this.div.css( { top: String(top)+'px', left: String(left<0?0:left)+'px' } );
+					}
 		    }
 		
 		    var wOff = this.div.offset();
