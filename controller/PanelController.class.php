@@ -207,6 +207,7 @@ class PanelController {
 		if ($_REQUEST['emails'] != '') {
 			$eventInfo->setGuests($_REQUEST['emails']);
 		}
+
 		// CSV file check
 		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
 		if (file_exists($csvFile)) {
@@ -504,7 +505,7 @@ class PanelController {
 	 */
 	private function validateLocalRequest() {
 		if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
-			header("Location: " . CURHOST);
+			//header("Location: " . CURHOST);
 		}
 	}
 	
@@ -513,7 +514,7 @@ class PanelController {
 	 */
 	private function validateUserLogin() {
 		if (!isset($_SESSION['uid'])) {
-			header("Location: " . CURHOST);
+			//header("Location: " . CURHOST);
 		}
 	}
 	
