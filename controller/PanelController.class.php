@@ -7,6 +7,14 @@
  */
 
 require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFTwitter.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/OpenInviter/openinviter.php');
 
 class PanelController {
 	private $smarty;
@@ -42,8 +50,6 @@ class PanelController {
 		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
 		
 		$this->smarty->assign('eventInfo', $eventInfo);
-		
-		require_once('models/Event.class.php');
 		
 		$event = new Event( $eventInfo );
 		
@@ -332,6 +338,9 @@ class PanelController {
 	
 	private function checkHome() {
 		if (isset($_SESSION['uid'])) {
+			// if there's new event when login using facebook
+			$this->checkCreateEventSession();
+	
 			unset($_SESSION['new_eid']);
 			unset($_SESSION['manage_event']);
 			$this->assignCPEvents($_SESSION['uid']);
@@ -405,7 +414,6 @@ class PanelController {
 	} */
 	
 	public function assignManageVars($eventId) {
-		require_once('models/EFCore.class.php');
 		$efCore = new EFCore();
 
 		$numGuestConf1 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
@@ -534,7 +542,6 @@ class PanelController {
 	
 		// If /event in URI, display all event pages
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
-			require_once('models/EFTwitter.class.php');
 			$twitter = new EFTwitter();
 			$twitterHash = $twitter->getTwitterHash($eventId);
 			$this->smarty->assign( 'twitterHash', $twitterHash );
@@ -658,7 +665,6 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
-				require_once('models/User.class.php');
 				if (isset($_POST['submit'])) {
 					$responseMsg = array();
 					$user = new User(NULL);
@@ -701,7 +707,6 @@ class PanelController {
 				break;
 			case '/event/create':
 				$this->validateUserLogin();
-				require_once('models/Event.class.php');
 				//
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
@@ -745,7 +750,6 @@ class PanelController {
 				break;
 			case '/create/guests':
 				$this->validateUserLogin();
-				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 				$mailer = new EFMail();
 				$this->smarty->assign('step2', ' class="current"');
 				
@@ -770,7 +774,6 @@ class PanelController {
 				break;
 			case '/event/image/upload':
 				$this->validateLocalRequest();
-				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("jpg");
 
@@ -785,7 +788,6 @@ class PanelController {
 				break;
 			case '/event/csv/upload':
 				$this->validateLocalRequest();
-				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("csv");
 
@@ -847,7 +849,6 @@ class PanelController {
 				}
 				
 				// Fill in event information
-				require_once('models/Event.class.php');
 				$editEvent = new Event(NULL);
 				$editEvent->eid = $_GET['eventId'];
 				
@@ -874,7 +875,6 @@ class PanelController {
 				break;
 			case '/guest/inviter':
 				$this->validateLocalRequest();
-				require_once('libs/OpenInviter/openinviter.php');
 				$inviter = new OpenInviter();
 				$oi_services = $inviter->getPlugins();
 
@@ -898,8 +898,6 @@ class PanelController {
 				break;
 			case '/event/manage/guests/save':
 				$this->validateLocalRequest();
-				require_once('models/EFMail.class.php');
-
 				$event = $this->buildEvent($_GET['eventId']);
 
 				$this->checkGuests($eventInfo);
@@ -935,7 +933,6 @@ class PanelController {
 				break;
 			case '/event/email/save':
 				$this->validateLocalRequest();
-				require_once('models/Event.class.php');
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
@@ -963,8 +960,6 @@ class PanelController {
 				break;
 			case '/event/email/send':
 				$this->validateLocalRequest();
-				require_once('models/EFMail.class.php');
-				require_once('models/Event.class.php');
 				$mailer = new EFMail();
 
 				$event = unserialize($_SESSION['manage_event']);
@@ -988,7 +983,6 @@ class PanelController {
 				break;
 			case '/event/email/autosend':
 				$this->validateLocalRequest();
-				require_once('models/Event.class.php');
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$isActivated = 0;
@@ -1000,7 +994,6 @@ class PanelController {
 				break;
 			case '/event/text/autosend':
 				$this->validateLocalRequest();
-				require_once('models/Event.class.php');
 				$event = unserialize($_SESSION['manage_event']);
 				
 				$isActivated = 0;
@@ -1038,9 +1031,6 @@ class PanelController {
 				break;
 			case '/event/text/send':
 				$this->validateLocalRequest();
-				require_once('models/Event.class.php');
-				require_once('models/EFSMS.class.php');
-				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
 				$sms = new EFSMS();
 				
@@ -1063,7 +1053,6 @@ class PanelController {
 				break;
 			case '/event/text/save':
 				$this->validateLocalRequest();
-				require_once('models/Event.class.php');
 				$event = unserialize($_SESSION['manage_event']);
 			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
@@ -1094,13 +1083,11 @@ class PanelController {
 				$this->dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
 			case '/login':
-				require_once('models/Event.class.php');
-								
 				// if the user already logged in
 				if ( ! isset($_SESSION['uid']) ) {
 					$this->smarty->assign('redirect', $params);
 					
-					if ( $_POST['isFB'] ) {
+					if ( isset($_POST['isFB']) ) {
 						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 						if ( $userInfo ) {
 							$_SESSION['uid'] = $userInfo['id'];
@@ -1112,9 +1099,6 @@ class PanelController {
 						} else {
 							echo 0;
 						}
-						
-						// if there's new event when login using facebook
-						//$this->checkCreateEventSession();
 						
 						break;
 					// if the user submit the login form
@@ -1214,7 +1198,6 @@ class PanelController {
 				$this->smarty->display('login_forgot.tpl');
 				break;
 			case '/login/forgot/submit':
-				require_once('models/EFMail.class.php');
 				$mailer = new EFMail();
 
 				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
@@ -1228,7 +1211,6 @@ class PanelController {
 				break;
 			case '/user/image/upload':
 				$this->validateLocalRequest();
-				require_once('models/FileUploader.class.php');
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("jpg");
 
