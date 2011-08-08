@@ -52,6 +52,7 @@ CREATE TABLE ef_events (
 CREATE TABLE ef_addressbook (
   user_id    INTEGER NOT NULL REFERENCES ef_users(id),
   contact_id INTEGER NOT NULL REFERENCES ef_users(id),
+  group_name VARCHAR(1000),
   CONSTRAINT pk_attendance PRIMARY KEY (user_id, contact_id)
 ) ENGINE=InnoDB;
 
