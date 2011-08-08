@@ -1127,7 +1127,7 @@ class PanelController {
 						
 						$_SESSION['uid'] = $userId;
 						// if there's new event session when logging in
-						$this->checkCreateEventSession();
+						// $this->checkCreateEventSession();
 						
 						// Success, log in
 						header("Location: " . $this->getRedirectUrl());
@@ -1159,7 +1159,7 @@ class PanelController {
 						// Assign user's SESSION variables
 						$_SESSION['uid'] = $userInfo['id'];
 						// if there's new event session when registering
-						$this->checkCreateEventSession();
+						// $this->checkCreateEventSession();
 						
 						// $_SESSION['userProfilePic'] = "images/default_thumb.jpg";
 					} else {
