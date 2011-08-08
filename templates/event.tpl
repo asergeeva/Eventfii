@@ -29,6 +29,7 @@
 {include file="js_event.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/twitStream.js"></script>
 
 </body>
 </html>

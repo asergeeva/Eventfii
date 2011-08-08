@@ -9,31 +9,24 @@ $smarty->setConfigDir(realpath(dirname(__FILE__)).'/configs');
 
 define('PATH', '/Eventfii');
 define('CURHOST', 'http://localhost'.PATH);
-
 define('IMG_PATH', CURHOST.'/images');
-
 define('IMG_UPLOAD_PATH', 'upload/event/images');
 define('CSV_UPLOAD_PATH', 'upload/event/csv');
-
 define('IMG_UPLOAD', CURHOST.'/'.IMG_UPLOAD_PATH);
 define('CSV_UPLOAD', CURHOST.'/'.CSV_UPLOAD_PATH);
-
 define('JS_PATH', CURHOST.'/js');
 define('CSS_PATH', CURHOST.'/css');
-
 define('EVENT_URL', CURHOST.'/event');
+define('NUM_TWEETS', 5);
 
 $smarty->assign('CURHOST', CURHOST);
-
 $smarty->assign('IMG_PATH', IMG_PATH);
-
 $smarty->assign('IMG_UPLOAD', IMG_UPLOAD);
 $smarty->assign('CSV_UPLOAD', CSV_UPLOAD);
-
 $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
-
 $smarty->assign('EVENT_URL', EVENT_URL);
+$smarty->assign('NUM_TWEETS', NUM_TWEETS);
 
 define('CONFOPT1', 90);
 define('CONFOPT2', 65);

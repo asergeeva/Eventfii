@@ -8,6 +8,7 @@
 	<title>{$WTITLE} | {$WSLOGAN}</title>
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/anytimec.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{$CSS_PATH}/twit-stream.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/jquery-ui-1.8.11.custom.css" />
 	<link rel="SHORTCUT ICON" href="{$CSS_PATH}/favicon.ico" />
 	<!--[if lt IE 9]>
