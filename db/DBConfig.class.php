@@ -37,6 +37,13 @@ class DBConfig {
 		mysql_close($dbLink);
 	}
 	
+	/* function executeQuery
+	 * Executes a query that has a result set
+	 *
+	 * @param $query | The query to be run on the db
+	 * @return $results | Return valid results
+	 * @return false | If invalid query
+	 */
 	public function executeQuery($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
@@ -72,6 +79,11 @@ class DBConfig {
 		return $result;
 	}
 	
+	/* function executeUpdateQuery
+	 * Executes an updates query. There is not result set.
+	 *
+	 * @param $query | The query to be run on the db
+	 */
 	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
@@ -81,6 +93,12 @@ class DBConfig {
 		}
 	}
 	
+	/* function getQueryResult
+	 * Get a reference to the result of the query.
+	 * Result reference could be post-processed.
+ 	 *
+	 * @param $query | The query to be run on the db
+	 */
 	public function getQueryResult($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
@@ -90,6 +108,11 @@ class DBConfig {
 		return $dbResult;
 	}
 	
+	/* function getMaxEventId
+	 * Get the current maximum event ID.
+ 	 *
+	 * @return Integer | the max event ID stored in the DB
+	 */
 	public function getMaxEventId() {
 		$GET_MAX_EFID = "	SELECT	MAX(e.id) AS max_id 
 							FROM 	ef_events e
