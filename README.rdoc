@@ -45,3 +45,16 @@
 === String												
    // Bad                                                // Good
    $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
+	 
+=== Object
+   class ObjectName {
+	 	public function __construct() {
+		
+		}
+		
+		public function __destruct() {
+		
+		}
+		
+		... your subroutines...
+	 }
