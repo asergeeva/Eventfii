@@ -47,16 +47,13 @@
    $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
 	 
 === Object
-=begin rdoc
-   class ObjectName {
-      public function __construct() {
-      
-			}
-		
-      public function __destruct() {
-		
-      }
-      
-			... your subroutines...
-   }
-=end
+    class ObjectName {
+        public function __construct() {
+        
+        }
+        
+        public function __destruct() {
+        
+				}
+        ... your subroutines...
+    }
