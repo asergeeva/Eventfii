@@ -921,7 +921,12 @@ class PanelController {
 				$eventDatetime = explode(" ", $eventReminder['datetime']);
 				$eventDate = $eventDatetime[0];
 				$eventTime = explode(":", $eventDatetime[1]);
-				$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+				
+				if ($eventTime[0] != "" && $eventTime[1] != "") {
+					$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+				} else {
+					$eventTime = "";
+				}
 				
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);
@@ -1019,7 +1024,12 @@ class PanelController {
 				$eventDatetime = explode(" ", $eventReminder['datetime']);
 				$eventDate = $eventDatetime[0];
 				$eventTime = explode(":", $eventDatetime[1]);
-				$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+				
+				if ($eventTime[0] != "" && $eventTime[1] != "") {
+					$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+				} else {
+					$eventTime = "";
+				}
 				
 				$this->smarty->assign('eventDate', $eventDate);
 				$this->smarty->assign('eventTime', $eventTime);
