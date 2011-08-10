@@ -48,13 +48,13 @@
 	 
 === Object
    class ObjectName {
-	 	public function __construct() {
+      public function __construct() {
+      
+			}
 		
-		}
+      public function __destruct() {
 		
-		public function __destruct() {
-		
-		}
-		
-		... your subroutines...
-	 }
+      }
+      
+			... your subroutines...
+   }
