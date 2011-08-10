@@ -47,7 +47,7 @@
    $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
 	 
 === Object
-=begin
+=begin rdoc
    class ObjectName {
       public function __construct() {
       
