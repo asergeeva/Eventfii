@@ -207,20 +207,6 @@ class PanelController {
 			$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 		} */
 
-	public function checkGuests(&$eventInfo) {
-	
-		// text area check
-		if ($_REQUEST['emails'] != '') {
-			$eventInfo->setGuests($_REQUEST['emails']);
-		}
-
-		// CSV file check
-		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
-		if (file_exists($csvFile)) {
-			$eventInfo->setGuestsFromCSV($csvFile);
-		}
-	}
-
 	//checkUserCreationForm
 	public function checkUserCreationForm($req) {
 		$flag = 1;
@@ -754,21 +740,22 @@ class PanelController {
 				$this->smarty->assign('step2', ' class="current"');
 				
 				$event = $this->buildEvent($_SESSION['new_eid']);
-				if (isset($_SESSION['manage_event'])) {
-					$event = unserialize($_SESSION['manage_event']);
-				}
+				
 				if (isset($_POST['submit'])) {
-					$this->checkGuests($event);
-					$mailer->sendInvite($event->guests, $event->eid, $event->title, EVENT_URL."/".$event->eid);
 					header("Location: " . CURHOST . "/create/trueRSVP");
 					exit;
 				}
 				
 				$this->smarty->assign('eventInfo', $event);
+				$this->smarty->assign('submitTo', '/create/trueRSVP');
 				$this->smarty->display('create.tpl');
 				break;
 			case '/create/trueRSVP':
 				$this->validateUserLogin();
+				
+				$event = $this->buildEvent($_SESSION['new_eid']);
+				$event->submitGuests();
+				
 				$this->smarty->assign('step3', ' class="current"');
 				$this->smarty->display('create.tpl');
 				break;
@@ -867,10 +854,12 @@ class PanelController {
 				$page['addguests'] = ' class="current"';
 				$this->smarty->assign('page', $page);
 				
-				$event = $this->buildEvent($_GET['eventId']);
+				$event = unserialize($_SESSION['manage_event']);
+				if ($_POST['submit']) {
+					$event->submitGuests();
+				}
 				
-				$eventAttendees = $this->dbCon->getAttendeesByEvent($_REQUEST['eventId']);
-
+				$this->smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				$this->smarty->display('manage_guests.tpl');
 				break;
 			case '/guest/inviter':
@@ -900,10 +889,8 @@ class PanelController {
 				$this->validateLocalRequest();
 				$event = $this->buildEvent($_GET['eventId']);
 
-				$this->checkGuests($eventInfo);
-
 				$mailer = new EFMail();
-				$this->dbCon->storeGuests($eventInfo->guests, $_REQUEST['eventId'], $_SESSION['uid']);
+				$this->dbCon->storeGuests($event->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage/email':
 				$this->validateUserLogin();

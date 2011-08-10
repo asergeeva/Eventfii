@@ -1,7 +1,7 @@
 				<header class="block-title">
 					<h1>Add Guests</h1>
 				</header>
-				<form method="post" action="{$CURHOST}/create/guests">
+				<form method="post" action="{$CURHOST}{$submitTo}">
 				<fieldset>
 					<ol>
 						<li>

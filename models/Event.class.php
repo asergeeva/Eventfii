@@ -407,4 +407,19 @@ class Event {
 			fclose($handle);
 		}	
 	}
+	
+	public function submitGuests() {
+		$mailer = new EFMail();
+		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
+		
+		// text area check
+		if ($_REQUEST['emails'] != '') {
+			$this->setGuests($_REQUEST['emails']);
+		// CSV file check
+		} else if (file_exists($csvFile)) {
+			$this->setGuestsFromCSV($csvFile);
+		}
+		
+		$mailer->sendInvite($this->guests, $this->eid, $this->title, EVENT_URL."/".$this->eid);
+	}
 }
