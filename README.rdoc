@@ -47,6 +47,11 @@
    $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
 	 
 === Object
+   /***
+    * Author : Grady Laksmono
+    * Email : grady@eventfii.com
+    * Description about the object
+    */
     class ObjectName {
         public function __construct() {
         
