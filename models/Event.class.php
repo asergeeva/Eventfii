@@ -410,10 +410,10 @@ class Event {
 	
 	public function submitGuests() {
 		$mailer = new EFMail();
-		$csvFile = CSV_UPLOAD_PATH.'/'.$eventInfo->eid.'.csv';
+		$csvFile = CSV_UPLOAD_PATH.'/'.$this->eid.'.csv';
 		
 		// text area check
-		if ($_REQUEST['emails'] != '') {
+		if (trim($_REQUEST['emails']) != "") {
 			$this->setGuests($_REQUEST['emails']);
 		// CSV file check
 		} else if (file_exists($csvFile)) {

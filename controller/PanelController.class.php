@@ -742,21 +742,14 @@ class PanelController {
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				
 				if (isset($_POST['submit'])) {
-					header("Location: " . CURHOST . "/create/trueRSVP");
+					$event = $this->buildEvent($_SESSION['new_eid']);
+					$event->submitGuests();
+					header("Location: " . CURHOST . "/event/manage?eventId=".$_SESSION['new_eid']);
 					exit;
 				}
 				
 				$this->smarty->assign('eventInfo', $event);
-				$this->smarty->assign('submitTo', '/create/trueRSVP');
-				$this->smarty->display('create.tpl');
-				break;
-			case '/create/trueRSVP':
-				$this->validateUserLogin();
-				
-				$event = $this->buildEvent($_SESSION['new_eid']);
-				$event->submitGuests();
-				
-				$this->smarty->assign('step3', ' class="current"');
+				$this->smarty->assign('submitTo', '/create/guests');
 				$this->smarty->display('create.tpl');
 				break;
 			case '/event/image/upload':
@@ -791,7 +784,7 @@ class PanelController {
 				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_POST['eid']);
 				$this->dbCon->eventSignUp($_SESSION['uid'], $_POST['eid'], $_POST['conf']);
 				break;
-            case '/event/checkin':
+      case '/event/checkin':
 				$isAttend = 1;
 				if ($_REQUEST['checkin'] == 'false') {
 					$isAttend = 0;

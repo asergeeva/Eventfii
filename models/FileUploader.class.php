@@ -153,12 +153,13 @@ class qqFileUploader {
             }
         }
         
-        if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
-        } else {
-            return array('error'=> 'Could not save uploaded file.' .
-                'The upload was cancelled, or server error encountered');
-        }
-        
+				if (trim($filename) != "") {
+					if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
+							return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
+					} else {
+							return array('error'=> 'Could not save uploaded file.' .
+									'The upload was cancelled, or server error encountered');
+					}
+				}
     }    
 }
