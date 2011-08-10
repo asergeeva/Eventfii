@@ -5,6 +5,13 @@
 	<meta name="Author" content="trueRSVP" />
 	<meta property="fb:app_id" content="123284527755183" />
 	<meta property="fb:admins" content="1164166702" />
+  <meta property="og:title" content="trueRSVP"/> 
+  <meta property="og:type" content="website"/> 
+  <meta property="og:url" content="http://www.truersvp.com"/> 
+  <meta property="og:image" content="http://www.truersvp.com/_img/logo_launch.jpg"/> 
+  <meta property="og:site_name" content="trueRSVP"/> 
+  <meta property="fb:admins" content="1164166702"/> 
+  <meta property="og:description" content="A new RSVP system based on reputation"/> 
 	<title>{$WTITLE} | {$WSLOGAN}</title>
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/anytimec.css" media="screen" />
