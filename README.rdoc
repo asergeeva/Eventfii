@@ -47,6 +47,7 @@
    $badString = "Some string " . $str . " is here";      $goodString = "Some string ".$str." is here";
 	 
 === Object
+<code>
    class ObjectName {
       public function __construct() {
       
@@ -58,3 +59,4 @@
       
 			... your subroutines...
    }
+</code>
