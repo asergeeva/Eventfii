@@ -48,8 +48,8 @@
 	 
 === Object
    /***
-    * Author : Grady Laksmono
-    * Email : grady@eventfii.com
+    * Author : Your Name
+    * Email : Your Work Email
     * Description about the object
     */
     class ObjectName {
