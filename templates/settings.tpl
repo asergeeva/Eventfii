@@ -45,22 +45,28 @@
 					<label for="fname">
 						<span>First Name</span> 
 						<input type="text" class="inputbox autowidth" name="fname" id="fname" value="{$userInfo['fname']}" />
-            <p class="message-error" id="titleErr">{$error.fname}</p>
+						<p class="message-error" id="titleErr">{$error.fname}</p>
 					</label>
 					<label for="lname">
 						<span>Last Name</span> 
 						<input type="text" class="inputbox autowidth" name="lname" id="lname" value="{$userInfo['lname']}" />
-            <p class="message-error" id="titleErr">{$error.lname}</p>
+						<p class="message-error" id="titleErr">{$error.lname}</p>
 					</label>
 					<label for="email">
 						<span>Email</span> 
 						<input type="text" class="inputbox autowidth" name="email" id="email" value="{$userInfo['email']}" />
-            <p class="message-error" id="titleErr">{$error.email}</p>
+						<p class="message-error" id="titleErr">{$error.email}</p>
 					</label>
-					<label for="user-cell"><span>Cell #</span> <input type="text" class="inputbox autowidth" name="phone" id="user-cell" value="{$userInfo['phone']}" /></label>
-          <p class="message-error" id="titleErr">{$error.phone}</p>
-					<label for="user-zip"><span>Zip</span> <input type="text" class="inputbox autowidth" name="zip" id="user-zip" value="{$userInfo['zip']}" maxlength="5" /></label>
-          <p class="message-error" id="titleErr">{$error.zip}</p>
+					<label for="user-cell">
+						<span>Cell #</span> 
+						<input type="text" class="inputbox autowidth" name="phone" id="user-cell" value="{$userInfo['phone']}" />
+						<p class="message-error" id="titleErr">{$error.phone}</p>
+					</label>
+					<label for="user-zip">
+						<span>Zip</span> 
+						<input type="text" class="inputbox autowidth" name="zip" id="user-zip" value="{$userInfo['zip']}" maxlength="5" />
+						<p class="message-error" id="titleErr">{$error.zip}</p>
+					</label>å
 				</fieldset>
 				<header class="block-title">
 					<h1>Account Info</h1>

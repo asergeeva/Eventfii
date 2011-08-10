@@ -67,6 +67,7 @@ fieldset label {
 	width: 94px;
 	margin: 0 5px;
 	cursor: pointer;
+	vertical-align: top;
 	display: inline-block; }
 #settings fieldset label.autowidth { width: auto; }
 #settings fieldset label.fullwidth {
