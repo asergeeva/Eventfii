@@ -2,7 +2,6 @@
 session_start();
 
 require_once(realpath(dirname(__FILE__)).'/configs.php');
-require_once(realpath(dirname(__FILE__)).'/db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/controller/PanelController.class.php');
 
