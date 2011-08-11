@@ -6,7 +6,6 @@
  * All rights reserved
  */
 
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFTwitter.class.php');
@@ -17,13 +16,10 @@ require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/OpenInviter/openinviter.php');
 
 class PanelController {
-	private $smarty;
-	private $dbCon;
 	private $DEBUG = true;
 
-	public function __construct($smarty) {
-		$this->smarty = $smarty;
-		$this->dbCon = new DBConfig();
+	public function __construct() {
+	
 	}
 
 	public function __destruct() {
@@ -37,19 +33,19 @@ class PanelController {
 	 * @return $event | The event object
 	 */
 	private function buildEvent($eventId) {
-		$eventInfo = $this->dbCon->getEventInfo($eventId);
+		$eventInfo = EFCommon::$dbCon->getEventInfo($eventId);
 		
 		$eventInfo['address'] = $eventInfo['location_address'];
 		
 		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
 		
-		$eventInfo['date'] = $this->dbCon->dateToRegular($eventDateTime[0]);		
-        $eventInfo['deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
+		$eventInfo['date'] = EFCommon::$dbCon->dateToRegular($eventDateTime[0]);		
+        $eventInfo['deadline'] = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
 		
 		$eventTime = explode(":", $eventDateTime[1]);
 		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
 		
-		$this->smarty->assign('eventInfo', $eventInfo);
+		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		
 		$event = new Event( $eventInfo );
 		
@@ -74,7 +70,7 @@ class PanelController {
 		// If there are errors
 		if ( ! $is_valid ) {
 			if ( $error !== true )
-				$this->smarty->assign('error', $error);
+				EFCommon::$smarty->assign('error', $error);
 			return false;
 		} 
 
@@ -91,7 +87,7 @@ class PanelController {
 		// If there are errors
 		if ( ! $is_valid ) {
 			if ( $error !== true )
-				$this->smarty->assign('error', $error);
+				EFCommon::$smarty->assign('error', $error);
 			return false;
 		} 
 
@@ -121,7 +117,7 @@ class PanelController {
 		$event_field['location_lat'] = $newEvent->get_lat();
 		$event_field['location_long'] = $newEvent->get_long();
 		
-		$this->smarty->assign('event_field', $event_field);
+		EFCommon::$smarty->assign('event_field', $event_field);
 	}
 
 	/* makeNewEvent
@@ -140,9 +136,9 @@ class PanelController {
 			exit;
 		}
 		
-		$this->dbCon->createNewEvent($newEvent);
+		EFCommon::$dbCon->createNewEvent($newEvent);
 		
-		$_SESSION['new_eid'] = $this->dbCon->getMaxEventId();
+		$_SESSION['new_eid'] = EFCommon::$dbCon->getMaxEventId();
 		
 		unset($_SESSION['newEvent']);
 		header("Location: " . CURHOST . "/create/guests");
@@ -155,8 +151,8 @@ class PanelController {
 	 * @param $event | The VALIDATED event object
 	 */
 	private function saveEvent( $event ) {		
-		$this->dbCon->updateEvent( $event );
-		$this->smarty->assign("saved", true);
+		EFCommon::$dbCon->updateEvent( $event );
+		EFCommon::$smarty->assign("saved", true);
 	}
 
 	/*	MAIL FOR GUESTS
@@ -170,14 +166,14 @@ class PanelController {
 		$addr = $this->check_address($addrss);	
 		$newEvent['location_lat'] = $addr['lat'];
 		$newEvent['location_long'] = $addr['lng'];	
-		$this->dbCon->createNewEvent($newEvent);
+		EFCommon::$dbCon->createNewEvent($newEvent);
 		
 		// INVITE GUESTS USING EMAIL
 		$mailer = new EFMail();
 		$eid = explode('/', $newEvent['url']);
 		$newEvent['eid'] = $eid[sizeof($eid) - 1];
 
-		$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
+		EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
 		$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 	*/
 	
@@ -196,14 +192,14 @@ class PanelController {
 			$addr = $this->check_address($addrss);	
 			$newEvent['location_lat'] = $addr['lat'];
 			$newEvent['location_long'] = $addr['lng'];	
-			$this->dbCon->createNewEvent($newEvent);
+			EFCommon::$dbCon->createNewEvent($newEvent);
 			
 			// INVITE GUESTS USING EMAIL
 			$mailer = new EFMail();
 			$eid = explode('/', $newEvent['url']);
 			$newEvent['eid'] = $eid[sizeof($eid) - 1];
 			
-			$this->dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
+			EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
 			$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 		} */
 
@@ -226,19 +222,19 @@ class PanelController {
 		$ph_val = $this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
 		$pass_val = $this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
 
-		$email_exists=$this->dbCon->emailExistsCheck($email);
+		$email_exists=EFCommon::$dbCon->emailExistsCheck($email);
 		if( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $pass_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
 			$flag = 2;
 		}
 
 		if( strlen($email_exists) > 0 ) {
 			$flag=2;
-			$this->smarty->assign("user_create_email", "Email has been already registered once in the system.");
+			EFCommon::$smarty->assign("user_create_email", "Email has been already registered once in the system.");
 		}
 
 		if( strlen($pass) < 6 ) {
 			$flag=2;
-			$this->smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
+			EFCommon::$smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
 		
 		// Flag = 2, error = true, else, error = false
@@ -292,7 +288,7 @@ class PanelController {
 	public function valEmail($email,$tmp_var,$msg) {
 		$flag=1;
 		if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$this->smarty->assign($tmp_var,$msg);
+			EFCommon::$smarty->assign($tmp_var,$msg);
 			$flag=2;
 		}
 		return $flag;
@@ -302,7 +298,7 @@ class PanelController {
 		$flag=1;
 		$res=filter_var($val, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>$regex)));
 		if(!($res)) {
-			$this->smarty->assign($tmp_var,$msg);
+			EFCommon::$smarty->assign($tmp_var,$msg);
 			$flag=2;
 		}
 		return $flag;
@@ -330,15 +326,15 @@ class PanelController {
 			unset($_SESSION['new_eid']);
 			unset($_SESSION['manage_event']);
 			$this->assignCPEvents($_SESSION['uid']);
-			$this->smarty->assign('userImage', $this->getUserImage($_SESSION['uid']));
-			$this->smarty->display('cp.tpl');
+			EFCommon::$smarty->assign('userImage', $this->getUserImage($_SESSION['uid']));
+			EFCommon::$smarty->display('cp.tpl');
 		} else {
-			$this->smarty->display('index.tpl');
+			EFCommon::$smarty->display('index.tpl');
 		}
 	}
 
 	private function assignCPEvents($uid) {
-		// $this->smarty->assign('maxEventId', $this->dbCon->getMaxEventId());
+		// EFCommon::$smarty->assign('maxEventId', EFCommon::$dbCon->getMaxEventId());
 		if ( ! $this->assignUserProfile($uid) )
 			return false;
 		
@@ -349,33 +345,33 @@ class PanelController {
 	}
 
 	private function assignUserProfile($uid) {
-		$userInfo = $this->dbCon->getUserInfo($uid);
+		$userInfo = EFCommon::$dbCon->getUserInfo($uid);
 		if ( ! $userInfo ) {
 			return false;
 		}
 								  
 		$userInfo['pic'] = $this->getUserImage($uid);
-		$this->smarty->assign('userInfo', $userInfo);
+		EFCommon::$smarty->assign('userInfo', $userInfo);
 		
-		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
-		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
+		$paypalEmail = EFCommon::$dbCon->getPaypalEmail($uid);
+		EFCommon::$smarty->assign('paypalEmail', $paypalEmail['pemail']);
 		return true;
 	}
 
 	private function assignAttendingEvents($uid) {
-		$attendingEvents = $this->dbCon->getEventAttendingBy($uid);
+		$attendingEvents = EFCommon::$dbCon->getEventAttendingBy($uid);
 		if ( sizeof($attendingEvents) == 0 )
-			$this->smarty->assign('attendingExists', false);
+			EFCommon::$smarty->assign('attendingExists', false);
 		else 
-			$this->smarty->assign('attendingEvents', $attendingEvents);
+			EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
 	}
 
 	private function assignCreatedEvents($uid) {
-		$createdEvents = $this->dbCon->getEventByEO($uid);
+		$createdEvents = EFCommon::$dbCon->getEventByEO($uid);
 		if ( sizeof($createdEvents) == 0 )
-			$this->smarty->assign('createdExists', false );
+			EFCommon::$smarty->assign('createdExists', false );
 		else
-			$this->smarty->assign('createdEvents', $createdEvents);
+			EFCommon::$smarty->assign('createdEvents', $createdEvents);
 	}
 
 
@@ -384,8 +380,8 @@ class PanelController {
 		require_once('models/EFCore.class.php');
 		$efCore = new EFCore();
 
-		$eventAttendees = $this->dbCon->getAttendeesByEvent($eventId);
-		$eventInfo = $this->dbCon->getEventInfo($eventId);
+		$eventAttendees = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+		$eventInfo = EFCommon::$dbCon->getEventInfo($eventId);
 
 		for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 			if ($eventAttendees[$i]['is_attending'] == 1) {
@@ -393,33 +389,33 @@ class PanelController {
 			}
 		}
 
-		$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
-		$this->smarty->assign('eventAttendees', $eventAttendees);
-		$this->smarty->assign('eventInfo', $eventInfo);
-		$this->smarty->display('manage_event_on.tpl');
+		EFCommon::$smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
+		EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+		EFCommon::$smarty->assign('eventInfo', $eventInfo);
+		EFCommon::$smarty->display('manage_event_on.tpl');
 	} */
 	
 	public function assignManageVars($eventId) {
 		$efCore = new EFCore();
 
-		$numGuestConf1 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
-		$numGuestConf2 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
-		$numGuestConf3 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
-		$numGuestConf4 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT4);
-		$numGuestConf5 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT5);
-		$numGuestConf6 = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFOPT6);
-		$numGuestNoResp = $this->dbCon->getNumAttendeesByConfidence($eventId, CONFELSE);
+		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
+		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
+		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
+		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT4);
+		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT5);
+		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT6);
+		$numGuestNoResp = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFELSE);
 
-		$this->smarty->assign('guestConf1', $numGuestConf1['guest_num']);
-		$this->smarty->assign('guestConf2', $numGuestConf2['guest_num']);
-		$this->smarty->assign('guestConf3', $numGuestConf3['guest_num']);
-		$this->smarty->assign('guestConf4', $numGuestConf4['guest_num']);
-		$this->smarty->assign('guestConf5', $numGuestConf5['guest_num']);
-		$this->smarty->assign('guestConf6', $numGuestConf6['guest_num']);
-		$this->smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
+		EFCommon::$smarty->assign('guestConf1', $numGuestConf1['guest_num']);
+		EFCommon::$smarty->assign('guestConf2', $numGuestConf2['guest_num']);
+		EFCommon::$smarty->assign('guestConf3', $numGuestConf3['guest_num']);
+		EFCommon::$smarty->assign('guestConf4', $numGuestConf4['guest_num']);
+		EFCommon::$smarty->assign('guestConf5', $numGuestConf5['guest_num']);
+		EFCommon::$smarty->assign('guestConf6', $numGuestConf6['guest_num']);
+		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
 		
-		$this->smarty->assign('guestimate', $efCore->computeGuestimate($eventId));
-		$this->smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
+		EFCommon::$smarty->assign('guestimate', $efCore->computeGuestimate($eventId));
+		EFCommon::$smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
 	}
 
 	/* function getEventIdByUri
@@ -470,7 +466,7 @@ class PanelController {
 	
 	private function getRedirectUrl() {
 		if (isset($_SESSION['ref'])) {
-			$inviteReference = $this->dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
+			$inviteReference = EFCommon::$dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
 			$url = CURHOST."/event/".$inviteReference['event_id'];
 			unset($_SESSION['ref']);
 		} else {	
@@ -530,69 +526,69 @@ class PanelController {
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
 			$twitter = new EFTwitter();
 			$twitterHash = $twitter->getTwitterHash($eventId);
-			$this->smarty->assign( 'twitterHash', $twitterHash );
+			EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
 			
 			// Get a valid eventId
 			$eventId = $this->getEventIdByUri( $requestUri );
 			if ( ! $eventId ) {
-				$this->smarty->display( 'error.tpl' );
+				EFCommon::$smarty->display( 'error.tpl' );
 				return;
 			}
 			
-			$this->smarty->assign( 'eventId', $eventId );
+			EFCommon::$smarty->assign( 'eventId', $eventId );
 			
 			// Fetch event information from the database
-			$eventInfo = $this->dbCon->getEventInfo($eventId);
+			$eventInfo = EFCommon::$dbCon->getEventInfo($eventId);
 			if ( ! $eventInfo ) {
 				if (isset($_SESSION['ref'])) {
 					header("Location: ".CURHOST."/login?ref=".$_SESSION['ref']);
 				}
-				$this->smarty->display( 'error_event_notexist.tpl' );
+				EFCommon::$smarty->display( 'error_event_notexist.tpl' );
 				return;
 			}
-			$this->smarty->assign('eventInfo', $eventInfo); 
+			EFCommon::$smarty->assign('eventInfo', $eventInfo); 
 			 
 			$organizerId = $eventInfo['organizer'];
-			$organizerInfo = $this->dbCon->getUserInfo($organizerId);
+			$organizerInfo = EFCommon::$dbCon->getUserInfo($organizerId);
 			$organizerInfo['pic'] = $this->getUserImage($eventInfo['organizer']);
-			$this->smarty->assign( 'organizer', $organizerInfo );
+			EFCommon::$smarty->assign( 'organizer', $organizerInfo );
 			
-			$curSignUp = $this->dbCon->getCurSignup($eventId);
-			$this->smarty->assign( 'curSignUp', $curSignUp );
+			$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
+			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
 			
-			$attending = $this->dbCon->getAttendeesByEvent($eventId);
+			$attending = EFCommon::$dbCon->getAttendeesByEvent($eventId);
 			foreach( $attending as &$user ) {
 				$user['pic'] = $this->getUserImage($user['id']);
 			}
-			$this->smarty->assign( 'attending', $attending );
+			EFCommon::$smarty->assign( 'attending', $attending );
 			
 			// Make sure user is allowed to view the event
 			if ( intval($eventInfo['is_public']) == 1 || 
 				 ( isset( $_SESSION['uid'] ) &&
 				     // if the user is invited to the event 
-				   ( $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) || 
+				   ( EFCommon::$dbCon->isInvited( $_SESSION['uid'], $eventId ) || 
 					   // if the user is a host
 						 $_SESSION['uid'] == $eventInfo['organizer'] ) ) ) {
 				
 				if (isset($_SESSION['uid'])) {
 					// See if the user has responded
-					$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
+					$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['uid'], $eventId);
 					
-					$this->smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-					$this->smarty->assign('select' . $hasAttend['confidence'], ' class="selected"');
+					EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
+					EFCommon::$smarty->assign('select' . $hasAttend['confidence'], ' class="selected"');
 				}
 
 				if ( ! isset( $_SESSION['uid'] ) ) {
-					$this->smarty->assign('disabled', ' disabled="disabled"');
+					EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
 				}
 				
-				$this->smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
-				$this->smarty->display('event.tpl');
+				EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
+				EFCommon::$smarty->display('event.tpl');
 			} else {
 				if ( ! isset( $_SESSION['uid'] ) ) {
 					header("Location: " . CURHOST . "/login?redirect=event&eventId=" . $eventId);
 				} else {
-					$this->smarty->display('error_event_private.tpl');
+					EFCommon::$smarty->display('error_event_private.tpl');
 				}
 			}
 			return;
@@ -601,7 +597,7 @@ class PanelController {
 		// Quick check for permissions for editing events
 		if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
 			if ( ! isset ( $_GET['eventId'] ) ) {
-				$this->smarty->display('error.tpl');
+				EFCommon::$smarty->display('error.tpl');
 				return;
 			}
 			$eventId = $_GET['eventId'];
@@ -621,9 +617,9 @@ class PanelController {
 			$validUser = $this->assignCPEvents($userId);
 			
 			if ( ! $validUser )
-				$this->smarty->display('error_user_notexist.tpl');
+				EFCommon::$smarty->display('error_user_notexist.tpl');
 			else
-				$this->smarty->display('profile.tpl');
+				EFCommon::$smarty->display('profile.tpl');
 			
 			return;
 		}
@@ -642,20 +638,20 @@ class PanelController {
 				$this->checkHome();
 				break;
 			case '/contact':
-				$this->smarty->display('contact.tpl');
+				EFCommon::$smarty->display('contact.tpl');
 				break;
 			case '/share':
-				$this->smarty->display('share.tpl');
+				EFCommon::$smarty->display('share.tpl');
 				break;
 			case '/method':
-				$this->smarty->display('method.tpl');
+				EFCommon::$smarty->display('method.tpl');
 				break;
 			case '/settings':
 				if (isset($_POST['submit'])) {
 					$responseMsg = array();
 					$user = new User(NULL);
 					if ( $this->validateEventInfo( $user ) === true ) {
-						$this->dbCon->updateUserInfo($user->fname, 
+						EFCommon::$dbCon->updateUserInfo($user->fname, 
 																				 $user->lname, 
 																				 $user->email, 
 																				 $user->phone, 
@@ -668,7 +664,7 @@ class PanelController {
 					} 
 					
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
-						if ( $this->dbCon->resetPassword( md5($_REQUEST['user-curpass']), 
+						if ( EFCommon::$dbCon->resetPassword( md5($_REQUEST['user-curpass']), 
 																						  md5($_REQUEST['user-newpass']), 
 																							md5($_REQUEST['user-confpass']) )) {
 							$responseMsg['password'] = 'Password has been updated';
@@ -677,16 +673,16 @@ class PanelController {
 						}
 					}
 					
-					$this->smarty->assign('responseMsg', $responseMsg);
+					EFCommon::$smarty->assign('responseMsg', $responseMsg);
 				}
 				
 				
 				if (isset($_SESSION['uid'])) {
-					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
+					$userInfo = EFCommon::$dbCon->getUserInfo($_SESSION['uid']);
 					$userInfo['pic'] = $this->getUserImage($_SESSION['uid']);
 					
-					$this->smarty->assign('userInfo', $userInfo);
-					$this->smarty->display('settings.tpl');
+					EFCommon::$smarty->assign('userInfo', $userInfo);
+					EFCommon::$smarty->display('settings.tpl');
 				} else {
 					header("Location: " . CURHOST);
 				}
@@ -711,9 +707,9 @@ class PanelController {
 						$event_field['goal'] = $_POST['goal'];
 					}
 				
-					$this->smarty->assign('event_field', $event_field);
-					$this->smarty->assign('step1', ' class="current"');
-					$this->smarty->display('create.tpl');
+					EFCommon::$smarty->assign('event_field', $event_field);
+					EFCommon::$smarty->assign('step1', ' class="current"');
+					EFCommon::$smarty->display('create.tpl');
 					break;
 				// Check to see if they were working on the event before
 				} else {
@@ -728,8 +724,8 @@ class PanelController {
 					// Prepare the current values for display on the template
 					$this->saveEventFields( $newEvent );
                     
-					$this->smarty->assign('step1', ' class="current"');
-					$this->smarty->display('create.tpl');
+					EFCommon::$smarty->assign('step1', ' class="current"');
+					EFCommon::$smarty->display('create.tpl');
 				} else {
 					$this->makeNewEvent( $newEvent );
 				}
@@ -737,7 +733,7 @@ class PanelController {
 			case '/create/guests':
 				$this->validateUserLogin();
 				$mailer = new EFMail();
-				$this->smarty->assign('step2', ' class="current"');
+				EFCommon::$smarty->assign('step2', ' class="current"');
 				
 				$event = $this->buildEvent($_SESSION['new_eid']);
 				
@@ -748,9 +744,9 @@ class PanelController {
 					exit;
 				}
 				
-				$this->smarty->assign('eventInfo', $event);
-				$this->smarty->assign('submitTo', '/create/guests');
-				$this->smarty->display('create.tpl');
+				EFCommon::$smarty->assign('eventInfo', $event);
+				EFCommon::$smarty->assign('submitTo', '/create/guests');
+				EFCommon::$smarty->display('create.tpl');
 				break;
 			case '/event/image/upload':
 				$this->validateLocalRequest();
@@ -781,15 +777,15 @@ class PanelController {
 				break;
 			case '/event/attend':
 				$this->validateLocalRequest();
-				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_POST['eid']);
-				$this->dbCon->eventSignUp($_SESSION['uid'], $_POST['eid'], $_POST['conf']);
+				$_SESSION['attend_event'] = EFCommon::$dbCon->getEventInfo($_POST['eid']);
+				EFCommon::$dbCon->eventSignUp($_SESSION['uid'], $_POST['eid'], $_POST['conf']);
 				break;
       case '/event/checkin':
 				$isAttend = 1;
 				if ($_REQUEST['checkin'] == 'false') {
 					$isAttend = 0;
 				}
-				$this->dbCon->checkInGuest( $isAttend, $_REQUEST['guestId'], $_REQUEST['eventId'] );
+				EFCommon::$dbCon->checkInGuest( $isAttend, $_REQUEST['guestId'], $_REQUEST['eventId'] );
 				break;
 			case '/event/print':
 				$this->validateUserLogin();
@@ -798,33 +794,33 @@ class PanelController {
 			case '/event/manage':
 				$this->validateUserLogin();
 				$page['manage'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+				EFCommon::$smarty->assign('page', $page);
 				
 				$event = $this->buildEvent( $_GET['eventId'] );
 				
-				$eventAttendees = $this->dbCon->getAttendeesByEvent($_GET['eventId']);
+				$eventAttendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
 				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 					if ($eventAttendees[$i]['is_attending'] == 1) {
 						$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
 					}
 				}
 				
-				$this->smarty->assign('eventAttendees', $eventAttendees);
+				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
 				
 				$this->assignManageVars( $_GET['eventId'] );
 				
-				$this->smarty->display('manage.tpl');
+				EFCommon::$smarty->display('manage.tpl');
 				break;
 			case '/event/manage/edit':
 				$this->validateUserLogin();
 				$page['edit'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+				EFCommon::$smarty->assign('page', $page);
 				
 				if ( ! isset ($_POST['submit']) ) {
-					// $eventInfo = $this->dbCon->getEventInfo($_GET['eventId']);
+					// $eventInfo = EFCommon::$dbCon->getEventInfo($_GET['eventId']);
 					$editEvent = $this->buildEvent($_GET['eventId']);
 					$this->saveEventFields( $editEvent );
-					$this->smarty->display('manage_edit.tpl');
+					EFCommon::$smarty->display('manage_edit.tpl');
 					break;
 				}
 				
@@ -838,22 +834,22 @@ class PanelController {
 				}
 				
 				$this->saveEventFields( $editEvent );
-				$this->smarty->display('manage_edit.tpl');
+				EFCommon::$smarty->display('manage_edit.tpl');
                 
 				break;
 			case '/event/manage/guests':
 				$this->validateUserLogin();
 				$page['manage'] = ' class="current"';
 				$page['addguests'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+				EFCommon::$smarty->assign('page', $page);
 				
 				$event = unserialize($_SESSION['manage_event']);
 				if ($_POST['submit']) {
 					$event->submitGuests();
 				}
 				
-				$this->smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
-				$this->smarty->display('manage_guests.tpl');
+				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
+				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
 			case '/guest/inviter':
 				$this->validateLocalRequest();
@@ -871,11 +867,11 @@ class PanelController {
 					$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
 					$contactList = $inviter->getMyContacts();
 
-					$this->smarty->assign('contactList', $contactList);
-					$this->smarty->display('event_add_guest_import_contact_list.tpl');
+					EFCommon::$smarty->assign('contactList', $contactList);
+					EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
 				} else {
-					$this->smarty->assign('provider', $_REQUEST['provider']);
-					$this->smarty->display('event_add_guest_right.tpl');
+					EFCommon::$smarty->assign('provider', $_REQUEST['provider']);
+					EFCommon::$smarty->display('event_add_guest_right.tpl');
 				}
 				break;
 			case '/event/manage/guests/save':
@@ -883,17 +879,17 @@ class PanelController {
 				$event = $this->buildEvent($_GET['eventId']);
 
 				$mailer = new EFMail();
-				$this->dbCon->storeGuests($event->guests, $_REQUEST['eventId'], $_SESSION['uid']);
+				EFCommon::$dbCon->storeGuests($event->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage/email':
 				$this->validateUserLogin();
 				$page['manage'] = ' class="current"';
 				$page['email'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+				EFCommon::$smarty->assign('page', $page);
 
 				$event = $this->buildEvent( $_GET['eventId'] );
 				
-				$eventReminder = $this->dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
+				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = 'checked = "checked"';
 				}
@@ -908,19 +904,19 @@ class PanelController {
 					$eventTime = "";
 				}
 				
-				$this->smarty->assign('eventDate', $eventDate);
-				$this->smarty->assign('eventTime', $eventTime);
+				EFCommon::$smarty->assign('eventDate', $eventDate);
+				EFCommon::$smarty->assign('eventTime', $eventTime);
 	
-				$this->smarty->assign('eventTimeMid', $eventTimeMid);
+				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
 				
-				$this->smarty->assign('eventReminder', $eventReminder);
-				$this->smarty->display('manage_email.tpl');
+				EFCommon::$smarty->assign('eventReminder', $eventReminder);
+				EFCommon::$smarty->display('manage_email.tpl');
 				break;
 			case '/event/email/save':
 				$this->validateLocalRequest();
 				$event = unserialize($_SESSION['manage_event']);
 				
-				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
+				$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
@@ -935,7 +931,7 @@ class PanelController {
 					die($retval);
 				}
 				
-				$this->dbCon->saveEmail( $event->eid, 
+				EFCommon::$dbCon->saveEmail( $event->eid, 
 																	$_REQUEST['reminderContent'], 
 																	$dateTime, 
 																	$_REQUEST['reminderSubject'], 
@@ -948,7 +944,7 @@ class PanelController {
 				$mailer = new EFMail();
 
 				$event = unserialize($_SESSION['manage_event']);
-				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
+				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 				
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['subject'] = $_REQUEST['reminderSubject'];
@@ -975,7 +971,7 @@ class PanelController {
 					$isActivated = 1;
 				}
 
-				$this->dbCon->setAutosend($event->eid, EMAIL_REMINDER_TYPE, $isActivated);
+				EFCommon::$dbCon->setAutosend($event->eid, EMAIL_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/text/autosend':
 				$this->validateLocalRequest();
@@ -986,17 +982,17 @@ class PanelController {
 					$isActivated = 1;
 				}
 
-				$this->dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
+				EFCommon::$dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/manage/text':
 				$this->validateUserLogin();
 				$page['manage'] = ' class="current"';
 				$page['text'] = ' class="current"';
-				$this->smarty->assign('page', $page);
+				EFCommon::$smarty->assign('page', $page);
 				
 				$event = $this->buildEvent( $_GET['eventId'] );
 				
-				$eventReminder = $this->dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
+				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = 'checked = "checked"';
 				}
@@ -1011,13 +1007,13 @@ class PanelController {
 					$eventTime = "";
 				}
 				
-				$this->smarty->assign('eventDate', $eventDate);
-				$this->smarty->assign('eventTime', $eventTime);
+				EFCommon::$smarty->assign('eventDate', $eventDate);
+				EFCommon::$smarty->assign('eventTime', $eventTime);
 	
-				$this->smarty->assign('eventTimeMid', $eventTimeMid);
+				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
 				
-				$this->smarty->assign('eventReminder', $eventReminder);
-				$this->smarty->display('manage_text.tpl');
+				EFCommon::$smarty->assign('eventReminder', $eventReminder);
+				EFCommon::$smarty->display('manage_text.tpl');
 				break;
 			case '/event/text/send':
 				$this->validateLocalRequest();
@@ -1026,7 +1022,7 @@ class PanelController {
 				
 				$event = unserialize($_SESSION['manage_event']);
 				
-				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
+				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 				
 				
 				$req['content'] = $_REQUEST['reminderContent'];
@@ -1045,7 +1041,7 @@ class PanelController {
 				$this->validateLocalRequest();
 				$event = unserialize($_SESSION['manage_event']);
 			
-				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
+				$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
@@ -1061,7 +1057,7 @@ class PanelController {
 					die($retval);
 				}
 				
-				$this->dbCon->saveText($event->eid, 
+				EFCommon::$dbCon->saveText($event->eid, 
 															 $_REQUEST['reminderContent'], 
 															 $dateTime, 
 															 SMS_REMINDER_TYPE, 
@@ -1070,15 +1066,15 @@ class PanelController {
 				break;
 			case '/fb/user/update':
 				$this->validateLocalRequest();
-				$this->dbCon->facebookAdd($_REQUEST['fbid']);
+				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
 			case '/login':
 				// if the user already logged in
 				if ( ! isset($_SESSION['uid']) ) {
-					$this->smarty->assign('redirect', $params);
+					EFCommon::$smarty->assign('redirect', $params);
 					
 					if ( isset($_POST['isFB']) ) {
-						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+						$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 						if ( $userInfo ) {
 							$_SESSION['uid'] = $userInfo['id'];
 							if ( isset ($params) ) {
@@ -1095,23 +1091,23 @@ class PanelController {
 					} else if ( isset( $_POST['login'] ) ) {
 						if ( ! isset( $_POST['email'] ) ) {
 							// User didn't enter e-mail
-							$this->smarty->assign('user_login_email', "Please enter an e-mail");
-							$this->smarty->display("login.tpl");
+							EFCommon::$smarty->assign('user_login_email', "Please enter an e-mail");
+							EFCommon::$smarty->display("login.tpl");
 							break;
 						}
 						if ( ! isset( $_POST['pass'] ) ) {
 							// User didn't enter password
-							$this->smarty->assign('user_login_password', "Please enter a password");
-							$this->smarty>display("login.tpl");
+							EFCommon::$smarty->assign('user_login_password', "Please enter a password");
+							EFCommon::$smarty>display("login.tpl");
 							break;
 						} 
 						
-						$userId = $this->dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
+						$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
 						
 						if ( ! isset( $userId ) ) {
 							// Invalid e-mail/password combination
-							$this->smarty->assign('user_login_email', "Invalid e-mail or password");
-							$this->smarty->display("login.tpl");
+							EFCommon::$smarty->assign('user_login_email', "Invalid e-mail or password");
+							EFCommon::$smarty->display("login.tpl");
 							break;
 						}
 						
@@ -1135,12 +1131,12 @@ class PanelController {
 						
 						// Check if any errors
 						if( $errors ) {
-							$this->smarty->display('login.tpl');
+							EFCommon::$smarty->display('login.tpl');
 							break;
 						}
 						
 						// Create the new user
-						$userInfo = $this->dbCon->createNewUser( $_POST['fname'], 
+						$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
 																										 $_POST['lname'], 
 																										 $_POST['email'], 
 																										 $_POST['phone'], 
@@ -1153,7 +1149,7 @@ class PanelController {
 						
 						// $_SESSION['userProfilePic'] = "images/default_thumb.jpg";
 					} else {
-						$this->smarty->display('login.tpl');
+						EFCommon::$smarty->display('login.tpl');
 						break;
 					}
 				}
@@ -1167,36 +1163,36 @@ class PanelController {
 				header("Location: " . CURHOST);
 				exit;
 			case '/login/reset':
-				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
-					$this->smarty->assign('ref', $_REQUEST['ref']);
-					$this->smarty->display('login_reset.tpl');
+				if (EFCommon::$dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
+					EFCommon::$smarty->assign('ref', $_REQUEST['ref']);
+					EFCommon::$smarty->display('login_reset.tpl');
 				} else {
-					$this->smarty->display('login_reset_invalid.tpl');
+					EFCommon::$smarty->display('login_reset_invalid.tpl');
 				}
 				break;
 			case '/login/reset/submit':
 				if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
-					$this->dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
-					$this->smarty->display('login_reset_confirmed.tpl');
+					EFCommon::$dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
+					EFCommon::$smarty->display('login_reset_confirmed.tpl');
 				} else {
-					$this->smarty->assign('ref', $_REQUEST['ref']);
-					$this->smarty->assign('errorMsg', 'New password is not confirmed');
-					$this->smarty->display('login_reset.tpl');
+					EFCommon::$smarty->assign('ref', $_REQUEST['ref']);
+					EFCommon::$smarty->assign('errorMsg', 'New password is not confirmed');
+					EFCommon::$smarty->display('login_reset.tpl');
 				}
 				break;
 			case '/login/forgot':
-				$this->smarty->display('login_forgot.tpl');
+				EFCommon::$smarty->display('login_forgot.tpl');
 				break;
 			case '/login/forgot/submit':
 				$mailer = new EFMail();
 
 				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
 
-				if ($this->dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
+				if (EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
 					$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
-					$this->smarty->display('login_forgot_confirmed.tpl');
+					EFCommon::$smarty->display('login_forgot_confirmed.tpl');
 				} else {
-					$this->smarty->display('login_forgot_invalid.tpl');
+					EFCommon::$smarty->display('login_forgot_invalid.tpl');
 				}
 				break;
 			case '/user/image/upload':
@@ -1213,19 +1209,19 @@ class PanelController {
 				// will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 
-				$this->dbCon->saveUserPic();
+				EFCommon::$dbCon->saveUserPic();
 				break;
 			case '/user/status/update':
 				$this->validateLocalRequest();
-				$this->dbCon->updateUserStatus($_REQUEST['value']);
+				EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
 				echo($_REQUEST['value']);	
 				break;
 			case '/user/profile/update':
 				$this->validateLocalRequest();
-				$this->dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
+				EFCommon::$dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
 				$this->assignUserProfile($_SESSION['uid']);
 
-				$this->smarty->display('user_profile.tpl');
+				EFCommon::$smarty->display('user_profile.tpl');
 				break;
 			case '/user/profile-dtls/update':
 				$this->validateLocalRequest();
@@ -1247,7 +1243,7 @@ class PanelController {
 					$res = $res."0,";
 
 				if( $res == "0,0,0," ) {
-					$this->dbCon->updateUserProfileDtls($email,$zip,$cell);
+					EFCommon::$dbCon->updateUserProfileDtls($email,$zip,$cell);
 					echo $res;
 				} else {
 					echo $res;
@@ -1262,32 +1258,32 @@ class PanelController {
 			case '/event/payment/success':
 				require_once('models/PaypalPreapproveDetails.class.php');
 				
-				if ( $this->dbCon->eventSignUp($_SESSION['uid'], $_SESSION['attend_event']['id'] && isset($_SESSION['uid']) ) ) {
+				if ( EFCommon::$dbCon->eventSignUp($_SESSION['uid'], $_SESSION['attend_event']['id'] && isset($_SESSION['uid']) ) ) {
 					$paypalPreapprove = new PaypalPreapproveDetails();
 					$paypalPreapprove->preapprove();
-					$this->dbCon->preapprovePayment(
+					EFCommon::$dbCon->preapprovePayment(
 						$_SESSION['uid'],
 						$_SESSION['attend_event']['id'], 
 						$paypalPreapprove->preapprovalKey, 
 						$paypalPreapprove->response->senderEmail
 					);
 
-				  $userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-					$this->smarty->assign('userInfo', $userInfo);
+				  $userInfo = EFCommon::$dbCon->getUserInfo($_SESSION['uid']);
+					EFCommon::$smarty->assign('userInfo', $userInfo);
 
-					$this->smarty->display('payment_success.tpl');
+					EFCommon::$smarty->display('payment_success.tpl');
 					break;
 				}
-				$this->smarty->display('payment_failed.tpl');
+				EFCommon::$smarty->display('payment_failed.tpl');
 				break;
 			case '/event/payment/failed':
-				$this->smarty->display('payment_failed.tpl');
+				EFCommon::$smarty->display('payment_failed.tpl');
 				break;
 			case '/payment/collect':
 				require_once('models/PaypalPayReceipt.class.php');
 				$paypalPay = new PaypalPayReceipt();
 
-				$attendees = $this->dbCon->getAttendees($_REQUEST['eventId']);
+				$attendees = EFCommon::$dbCon->getAttendees($_REQUEST['eventId']);
 
 				// TODO: NON-ATOMIC OPERATION
 				// PayPal doesn't provide an API to receive payments from multiple senders
@@ -1297,22 +1293,22 @@ class PanelController {
 					$paypalPay->pay($attendees[$i]['pemail'], $_REQUEST['receiver_email'], 
 													$attendees[$i]['cost'], $attendees[$i]['pkey']);
 				}
-				$this->dbCon->updateCollected($_REQUEST['eventId']);
+				EFCommon::$dbCon->updateCollected($_REQUEST['eventId']);
 				$this->assignCreatedEvents($_SESSION['uid']);
-				$this->smarty->display('event_created.tpl');
+				EFCommon::$smarty->display('event_created.tpl');
 				break;
 			case '/logout':
 				if ( ! isset($_SESSION['uid']) ) {
-					$this->smarty->display('error.tpl');
+					EFCommon::$smarty->display('error.tpl');
 					break;
 				}
 				session_unset();
 				session_destroy();
-				$this->smarty->display('index.tpl');
+				EFCommon::$smarty->display('index.tpl');
 				break;
 			default:
-				$this->smarty->assign('current_page', $current_page);
-				$this->smarty->display('error.tpl');
+				EFCommon::$smarty->assign('current_page', $current_page);
+				EFCommon::$smarty->display('error.tpl');
 				break;
 		}
 	}

@@ -58,21 +58,8 @@ class EFMail {
 	 * $to        Array  list of email addresses
 	 * $eventName String title of the event
 	 * $eventUrl  String url of the event
+	 * We don't need transactions
 	 */
-	public function sendEmail($to, $eventId, $eventName, $eventUrl) {
-		$subject = "You are invited to ".$eventName;
-		
-		for ($i = 0; $i < sizeof($to); ++$i) {
-			$hash_key = md5($to[$i].$eventId);
-			$message = "Link: ".EVENT_URL."/".$eventInfo->eid."?ref=".$hash_key;
-			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to)
-														VALUES ('".$hash_key."', '".$to[$i]."')";
-			$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
-			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
-		}
-	}
-	
-	// We don't need transactions
 	public function sendInvite($to, $eventId, $eventName, $eventUrl) {
 		$subject = "You are invited to ".$eventName;
 		
@@ -102,10 +89,7 @@ class EFMail {
 		$message =  $content."\r\n".
 								"Link: ".EVENT_URL."/".$eventInfo->eid;
 		for ($i = 0; $i < sizeof($attendees); ++$i) {
-			MailgunMessage::send_text($this->FROM, 
-															  $attendees[$i]['email'], 
-																$subject, 
-																$this->mapText($message, $eventInfo->eid));
+			MailgunMessage::send_text($this->FROM, $attendees[$i]['email'], $subject, $this->mapText($message, $eventInfo->eid));
 		}
 	}
 	

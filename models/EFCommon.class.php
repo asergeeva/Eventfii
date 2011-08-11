@@ -24,13 +24,21 @@ class EFCommon {
 		'12' => 'December'
 	);
 	
-	public function __construct() {
+	public static $smarty;
+	
+	public static $dbCon;
+	
+	public function __construct($smarty) {
 		$this->currDate = getdate();
 		$this->startDate = $this->currDate['year'].'-'.$this->currDate['mon'].'-'.$this->currDate['mday'];
 		$this->startDate = strtotime($this->startDate);
 		
 		$this->startDate = date('Y-m-d', mktime(0,0,0,date('m',$this->startDate),date('d',$this->startDate),date('Y',$this->startDate)));
 		$this->endDate = $this->add_date($this->startDate, 1);
+		
+		self::$smarty = $smarty;
+		
+		self::$dbCon = new DBConfig();
 	}
 	
 	public function __destruct() {
