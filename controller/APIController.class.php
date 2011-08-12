@@ -6,6 +6,7 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class APIController {
@@ -136,7 +137,6 @@ class APIController {
 					array_push($attendees, $this->dbCon->getUserInfo($contacts[$i]));
 				}
 				//
-				
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
 				{
 					echo("Email");
@@ -154,6 +154,9 @@ class APIController {
 						$event->eid));
 				}
 				echo("status_emailSuccess");
+				break;
+			case 'getUsername':
+				echo json_encode($this->dbCon->m_getUsername($_REQUEST['uid']));
 				break;
 			default:
 				$this->smarty->assign('requestUri', $requestUri);
