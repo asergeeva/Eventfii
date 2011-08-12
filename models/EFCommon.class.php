@@ -6,6 +6,7 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 
 class EFCommon {
 	public $currDate;
@@ -30,6 +31,8 @@ class EFCommon {
 	
 	public static $dbCon;
 	
+	public static $mailer;
+	
 	public function __construct($smarty) {
 		$this->currDate = getdate();
 		$this->startDate = $this->currDate['year'].'-'.$this->currDate['mon'].'-'.$this->currDate['mday'];
@@ -41,6 +44,8 @@ class EFCommon {
 		self::$smarty = $smarty;
 		
 		self::$dbCon = new DBConfig();
+		
+		self::$mailer = new EFMail();
 	}
 	
 	public function __destruct() {

@@ -10,7 +10,6 @@ require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFTwitter.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/OpenInviter/openinviter.php');
@@ -169,12 +168,11 @@ class PanelController {
 		EFCommon::$dbCon->createNewEvent($newEvent);
 		
 		// INVITE GUESTS USING EMAIL
-		$mailer = new EFMail();
 		$eid = explode('/', $newEvent['url']);
 		$newEvent['eid'] = $eid[sizeof($eid) - 1];
 
 		EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-		$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
+		EFCommon::$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 	*/
 	
 	/* Potentailly reusable
@@ -195,12 +193,11 @@ class PanelController {
 			EFCommon::$dbCon->createNewEvent($newEvent);
 			
 			// INVITE GUESTS USING EMAIL
-			$mailer = new EFMail();
 			$eid = explode('/', $newEvent['url']);
 			$newEvent['eid'] = $eid[sizeof($eid) - 1];
 			
 			EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-			$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
+			EFCommon::$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
 		} */
 
 	//checkUserCreationForm
@@ -732,7 +729,6 @@ class PanelController {
 				break;
 			case '/create/guests':
 				$this->validateUserLogin();
-				$mailer = new EFMail();
 				EFCommon::$smarty->assign('step2', ' class="current"');
 				
 				$event = $this->buildEvent($_SESSION['new_eid']);
@@ -878,7 +874,6 @@ class PanelController {
 				$this->validateLocalRequest();
 				$event = $this->buildEvent($_GET['eventId']);
 
-				$mailer = new EFMail();
 				EFCommon::$dbCon->storeGuests($event->guests, $_REQUEST['eventId'], $_SESSION['uid']);
 				break;
 			case '/event/manage/email':
@@ -941,7 +936,6 @@ class PanelController {
 				break;
 			case '/event/email/send':
 				$this->validateLocalRequest();
-				$mailer = new EFMail();
 
 				$event = unserialize($_SESSION['manage_event']);
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
@@ -956,7 +950,7 @@ class PanelController {
 					die($retval);
 				}
 				
-				$mailer->sendAutomatedEmail($event, 
+				EFCommon::$mailer->sendAutomatedEmail($event, 
 																		$_REQUEST['reminderContent'], 
 																		$_REQUEST['reminderSubject'], 
 																		$attendees);
@@ -1017,7 +1011,6 @@ class PanelController {
 				break;
 			case '/event/text/send':
 				$this->validateLocalRequest();
-				$mailer = new EFMail();
 				$sms = new EFSMS();
 				
 				$event = unserialize($_SESSION['manage_event']);
@@ -1034,7 +1027,7 @@ class PanelController {
 					die($retval);
 				}
 				
-				$sms->sendSMSReminder($attendees, $event->eid, $mailer->mapText($_REQUEST['reminderContent'], $event->eid));
+				$sms->sendSMSReminder($attendees, $event->eid, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 				print("Success");
 				break;
 			case '/event/text/save':
@@ -1184,12 +1177,10 @@ class PanelController {
 				EFCommon::$smarty->display('login_forgot.tpl');
 				break;
 			case '/login/forgot/submit':
-				$mailer = new EFMail();
-
 				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
 
 				if (EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
-					$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
+					EFCommon::$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
 					EFCommon::$smarty->display('login_forgot_confirmed.tpl');
 				} else {
 					EFCommon::$smarty->display('login_forgot_invalid.tpl');
