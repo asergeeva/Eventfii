@@ -457,6 +457,7 @@ class PanelController {
 	private function checkCreateEventSession() {
 		if (isset($_SESSION['newEvent'])) {
 			$newEvent = unserialize($_SESSION['newEvent']);
+			print_r($_SESSION['newEvent']);
 			$newEvent->organizer = $_SESSION['uid'];
 			$this->makeNewEvent( $newEvent );
 		}
