@@ -9,14 +9,12 @@ require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class APIController {
-	private $smarty;
 	private $dbCon;
 	private $result;
 	private $efCore;
 	private $DEBUG = true;
 	
-	public function __construct($smarty) {
-		$this->smarty = $smarty;
+	public function __construct() {
 		$this->dbCon = new DBAPI();
 		$this->efCore = new EFCore();
 	}
@@ -38,7 +36,7 @@ class APIController {
 		$eventTime = explode(":", $eventDateTime[1]);
 		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
 		
-		$this->smarty->assign('eventInfo', $eventInfo);
+		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		
 		require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 		$event = new Event( $eventInfo );
@@ -156,8 +154,8 @@ class APIController {
 				echo("status_emailSuccess");
 				break;
 			default:
-				$this->smarty->assign('requestUri', $requestUri);
-				$this->smarty->display('error.tpl');
+				EFCommon::$smarty->assign('requestUri', $requestUri);
+				EFCommon::$smarty->display('error.tpl');
 				break;
 		}
 	}
