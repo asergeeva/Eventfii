@@ -5,4 +5,4 @@ upload/event/csv/
 logs/
 .DS_Store
 libs/OpenInviter/openinviter_stats.sqlite
-libs/QR/temp/
+temp/
