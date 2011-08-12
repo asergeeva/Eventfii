@@ -71,4 +71,11 @@ class DBAPI extends DBConfig {
 							AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
+	
+	public function m_getUsername($uid)
+	{
+		$GET_USER_INFO = "SELECT e.fname, e.lname FROM ef_users e WHERE e.id = " . $uid;
+		$userInfo = $this->executeValidQuery($GET_USER_INFO);
+		return $userInfo;
+	}
 }

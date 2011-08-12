@@ -1,28 +1,10 @@
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 TrueRSVP Inc. 
  * All rights reserved
  */
 var CREATE_EVENT_FORM = (function() {
-	/*
-	$('#event_create_submit').live('click', function() {
-		$('#event_create').html(EFGLOBAL.ajaxLoader);
-		$.post(EFGLOBAL.baseUrl + '/event/create', {
-			title:          $('#event_title_create').val(),
-			description:	  $('#event_description_create').val(),
-			address: 			  $('#addresspicker').val(),
-			date: 				  $('#event_date_create').val(),
-			time:				    $('#event_time_create').val(),
-			deadline: 			$('#event_deadline_create').val(),
-			goal:     			$('#event_goal_create').val(),
-			type:				    $('#event_type_create option:selected').val(),
-			is_public: 			$('input:radio[name=event_ispublic_create]:checked').val(),
-			url:					  $('#event_url_create').val()
-		}, CREATE_EVENT_FORM.createEventSubmit);
-		$('#container').html(EFGLOBAL.ajaxLoader);
-	});*/
- 
 	$('#invite_guest_submit').live('click', function() {
 		if( $('.btn-update').length == 0 ) {
 			$('#create_new_event').trigger('click');
@@ -42,21 +24,6 @@ var CREATE_EVENT_FORM = (function() {
 			if ($('#csv_upload') !== undefined && $('#eventid').length > 0) {
 				CSV_UPLOADER.init('csv_upload');
 			}
-			// OPENINVITER EMAIL PROVIDER
-			/*
-			OPENINVITER.init();
-			$('.event_invite_oi').live('click', function() {
-				$('#update_event_form').html(EFGLOBAL.ajaxLoader);
-				$.get(EFGLOBAL.baseUrl + '/event/edit/guest/inviter', {
-					provider: this.href.split('#')[1]
-				}, function(providerLoginPage) {
-					$('#add_guest_right').html(providerLoginPage);
-				});
-			});
-			
-			$("a[rel]").overlay();
-			$("img[rel]").overlay();
-			*/
 	 },
 	 
 	 createEventSubmit: function(loginForm) {

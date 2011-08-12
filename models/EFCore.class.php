@@ -4,18 +4,11 @@
  * Email : grady@eventfii.com
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
- */
-
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/EFCommon.class.php');
- 
+ */ 
 class EFCore {
-	private $dbCon;
-	private $efCom;
 	
 	public function __construct() {
-		$this->dbCon = new DBConfig();	
-		$this->efCom = new EFCommon();
+
 	}
 	
 	public function __destruct() {
@@ -23,7 +16,7 @@ class EFCore {
 	}
 	
 	public function computeGuestimate($eid) {
-		$numGuests = $this->dbCon->getNumAttendeesByConfidence($eid, CONFELSE);;
+		$numGuests = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFELSE);;
 		$numGuests = $numGuests['guest_num'];
 		
 		$baseNum = 0;
@@ -35,7 +28,7 @@ class EFCore {
 			$baseNum = mt_rand(GUESTRANGE3MIN, GUESTRANGE3MAX);
 		}
 		
-		$guestimate = ($numGuests * $this->efCom->toPercent($baseNum)) + $this->computeGuestimateTRSVP($eid);
+		$guestimate = ($numGuests * EFCommon::toPercent($baseNum)) + $this->computeGuestimateTRSVP($eid);
 		
 		return round($guestimate, 0);
 	}
@@ -43,19 +36,19 @@ class EFCore {
 	// Guestimate TrueRSVP does not include the probability of the guests
 	// Those are not responding to the invitation
 	public function computeGuestimateTRSVP($eid) {
-		$numGuestConf1 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
-		$numGuestConf2 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT2);
-		$numGuestConf3 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT3);
-		$numGuestConf4 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT4);
-		$numGuestConf5 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT5);
-		$numGuestConf6 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT6);
+		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
+		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT2);
+		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT3);
+		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT4);
+		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT5);
+		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT6);
 		
-		$trsvpConf1Val = $this->efCom->toPercent(CONFOPT1) * $numGuestConf1['guest_num'];
-		$trsvpConf2Val = $this->efCom->toPercent(CONFOPT2) * $numGuestConf2['guest_num'];
-		$trsvpConf3Val = $this->efCom->toPercent(CONFOPT3) * $numGuestConf3['guest_num'];
-		$trsvpConf4Val = $this->efCom->toPercent(CONFOPT4) * $numGuestConf4['guest_num'];
-		$trsvpConf5Val = $this->efCom->toPercent(CONFOPT5) * $numGuestConf5['guest_num'];
-		$trsvpConf6Val = $this->efCom->toPercent(CONFOPT6) * $numGuestConf6['guest_num'];
+		$trsvpConf1Val = EFCommon::toPercent(CONFOPT1) * $numGuestConf1['guest_num'];
+		$trsvpConf2Val = EFCommon::toPercent(CONFOPT2) * $numGuestConf2['guest_num'];
+		$trsvpConf3Val = EFCommon::toPercent(CONFOPT3) * $numGuestConf3['guest_num'];
+		$trsvpConf4Val = EFCommon::toPercent(CONFOPT4) * $numGuestConf4['guest_num'];
+		$trsvpConf5Val = EFCommon::toPercent(CONFOPT5) * $numGuestConf5['guest_num'];
+		$trsvpConf6Val = EFCommon::toPercent(CONFOPT6) * $numGuestConf6['guest_num'];
 		
 		$trsvpVal = $trsvpConf1Val + $trsvpConf2Val + $trsvpConf3Val + 
 								$trsvpConf4Val + $trsvpConf5Val + $trsvpConf6Val;
@@ -63,23 +56,23 @@ class EFCore {
 	}
 	
 	public function computeTrueRSVP($eid) {
-		$numGuestConf1 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
-		$numGuestConf2 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT2);
-		$numGuestConf3 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT3);
-		$numGuestConf4 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT4);
-		$numGuestConf5 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT5);
-		$numGuestConf6 = $this->dbCon->getNumAttendeesByConfidence($eid, CONFOPT6);
+		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
+		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT2);
+		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT3);
+		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT4);
+		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT5);
+		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT6);
 		
-		$numGuestNoResp = $this->dbCon->getNumAttendeesByConfidence($eid, CONFELSE);
+		$numGuestNoResp = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFELSE);
 		
-		$trsvpConf1Val = $this->efCom->toPercent(CONFOPT1) * $numGuestConf1['guest_num'];
-		$trsvpConf2Val = $this->efCom->toPercent(CONFOPT2) * $numGuestConf2['guest_num'];
-		$trsvpConf3Val = $this->efCom->toPercent(CONFOPT3) * $numGuestConf3['guest_num'];
-		$trsvpConf4Val = $this->efCom->toPercent(CONFOPT4) * $numGuestConf4['guest_num'];
-		$trsvpConf5Val = $this->efCom->toPercent(CONFOPT5) * $numGuestConf5['guest_num'];
-		$trsvpConf6Val = $this->efCom->toPercent(CONFOPT6) * $numGuestConf6['guest_num'];
+		$trsvpConf1Val = EFCommon::toPercent(CONFOPT1) * $numGuestConf1['guest_num'];
+		$trsvpConf2Val = EFCommon::toPercent(CONFOPT2) * $numGuestConf2['guest_num'];
+		$trsvpConf3Val = EFCommon::toPercent(CONFOPT3) * $numGuestConf3['guest_num'];
+		$trsvpConf4Val = EFCommon::toPercent(CONFOPT4) * $numGuestConf4['guest_num'];
+		$trsvpConf5Val = EFCommon::toPercent(CONFOPT5) * $numGuestConf5['guest_num'];
+		$trsvpConf6Val = EFCommon::toPercent(CONFOPT6) * $numGuestConf6['guest_num'];
 		
-		$trsvpGuestNoRespVal = $this->efCom->toPercent(CONFELSE) * $numGuestNoResp['guest_num'];
+		$trsvpGuestNoRespVal = EFCommon::toPercent(CONFELSE) * $numGuestNoResp['guest_num'];
 		
 		$trsvpVal = $trsvpConf1Val + $trsvpConf2Val + $trsvpConf3Val + $trsvpConf4Val + $trsvpConf5Val + $trsvpConf6Val + $trsvpGuestNoRespVal;
 		return round($trsvpVal, 0);

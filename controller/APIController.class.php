@@ -6,17 +6,16 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class APIController {
-	private $smarty;
 	private $dbCon;
 	private $result;
 	private $efCore;
 	private $DEBUG = true;
 	
-	public function __construct($smarty) {
-		$this->smarty = $smarty;
+	public function __construct() {
 		$this->dbCon = new DBAPI();
 		$this->efCore = new EFCore();
 	}
@@ -38,7 +37,7 @@ class APIController {
 		$eventTime = explode(":", $eventDateTime[1]);
 		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
 		
-		$this->smarty->assign('eventInfo', $eventInfo);
+		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		
 		require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 		$event = new Event( $eventInfo );
@@ -125,7 +124,7 @@ class APIController {
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 				require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 				$event = $this->buildEvent( $_REQUEST['eventId'] );		
-				$mailer = new EFMail();
+				//$mailer = new EFMail();
 				$sms = new EFSMS();
 				$contacts = $_REQUEST['uid'];
 				
@@ -136,11 +135,10 @@ class APIController {
 					array_push($attendees, $this->dbCon->getUserInfo($contacts[$i]));
 				}
 				//
-				
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
 				{
 					echo("Email");
-					$mailer->sendAutomatedEmail($event, 
+					EFCommon::$mailer->sendAutomatedEmail($event, 
 						$_REQUEST['reminderContent'], 
 						$_REQUEST['reminderSubject'], 
 						$attendees);
@@ -150,14 +148,17 @@ class APIController {
 					echo("Text");
 					$sms->sendSMSReminder($attendees, 
 						$event->eid, 
-						$mailer->mapText($_REQUEST['reminderContent'], 
+						EFCommon::$mailer->mapText($_REQUEST['reminderContent'], 
 						$event->eid));
 				}
 				echo("status_emailSuccess");
 				break;
+			case 'getUsername':
+				echo json_encode($this->dbCon->m_getUsername($_REQUEST['uid']));
+				break;
 			default:
-				$this->smarty->assign('requestUri', $requestUri);
-				$this->smarty->display('error.tpl');
+				EFCommon::$smarty->assign('requestUri', $requestUri);
+				EFCommon::$smarty->display('error.tpl');
 				break;
 		}
 	}

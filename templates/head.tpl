@@ -8,7 +8,7 @@
 	<meta property="og:title" content="trueRSVP "/> 
 	<meta property="og:type" content="event" /> 
 	<meta property="og:url" content="{$CURHOST}{$current_page}" /> 
-	<meta property="og:image" content="http://www.truersvp.com/_img/logo_launch.jpg" /> 
+	<meta property="og:image" content="{$IMG_PATH}/logo_wide.jpg" /> 
 	<meta property="og:site_name" content="trueRSVP" /> 
 	<meta property="og:description" content="A new RSVP system based on reputation" /> 
 	<title>{$WTITLE} | {$WSLOGAN}</title>

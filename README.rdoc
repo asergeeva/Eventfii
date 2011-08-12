@@ -28,6 +28,9 @@
     sudo mkdir libs/OpenInviter/tmp
     sudo chmod 777 libs/OpenInviter/tmp
     sudo chown -R nobody:nobody libs/OpenInviter
+* Setup QR code
+    sudo mkdir temp
+    sudo chmod 777 temp
 		
 == Coding style
 === Braces
