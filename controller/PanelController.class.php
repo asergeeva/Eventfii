@@ -649,14 +649,14 @@ class PanelController {
 					$user = new User(NULL);
 					if ( $this->validateEventInfo( $user ) === true ) {
 						EFCommon::$dbCon->updateUserInfo($user->fname, 
-																				 $user->lname, 
-																				 $user->email, 
-																				 $user->phone, 
-																				 $user->zip, 
-																				 $user->twitter,
-																				 $user->notif_opt1, 
-																				 $user->notif_opt2, 
-																				 $user->notif_opt3);
+														 $user->lname, 
+														 $user->email, 
+														 $user->phone, 
+														 $user->zip, 
+														 $user->twitter,
+														 $user->notif_opt1, 
+														 $user->notif_opt2, 
+														 $user->notif_opt3);
 						$responseMsg['user_success'] = 'User info has been updated';
 					} 
 					
@@ -927,11 +927,11 @@ class PanelController {
 				}
 				
 				EFCommon::$dbCon->saveEmail( $event->eid, 
-																	$_REQUEST['reminderContent'], 
-																	$dateTime, 
-																	$_REQUEST['reminderSubject'], 
-																	EMAIL_REMINDER_TYPE, 
-																	$autoReminder);
+											 $_REQUEST['reminderContent'], 
+											 $dateTime, 
+											 $_REQUEST['reminderSubject'], 
+											 EMAIL_REMINDER_TYPE, 
+											 $autoReminder);
 				echo("Success");
 				break;
 			case '/event/email/send':
@@ -951,9 +951,9 @@ class PanelController {
 				}
 				
 				EFCommon::$mailer->sendAutomatedEmail($event, 
-																		$_REQUEST['reminderContent'], 
-																		$_REQUEST['reminderSubject'], 
-																		$attendees);
+													  $_REQUEST['reminderContent'], 
+													  $_REQUEST['reminderSubject'], 
+													  $attendees);
 				echo("Success");
 				break;
 			case '/event/email/autosend':
@@ -1051,10 +1051,10 @@ class PanelController {
 				}
 				
 				EFCommon::$dbCon->saveText($event->eid, 
-															 $_REQUEST['reminderContent'], 
-															 $dateTime, 
-															 SMS_REMINDER_TYPE, 
-															 $autoReminder);
+										   $_REQUEST['reminderContent'], 
+										   $dateTime, 
+										   SMS_REMINDER_TYPE, 
+										   $autoReminder);
 				echo("Success");
 				break;
 			case '/fb/user/update':
@@ -1130,11 +1130,11 @@ class PanelController {
 						
 						// Create the new user
 						$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
-																										 $_POST['lname'], 
-																										 $_POST['email'], 
-																										 $_POST['phone'], 
-																										 md5($_POST['pass']), 
-																										 $_POST['zipcode'] );
+																	 $_POST['lname'], 
+																	 $_POST['email'], 
+																	 $_POST['phone'], 
+																	 md5($_POST['pass']), 
+																	 $_POST['zipcode'] );
 						// Assign user's SESSION variables
 						$_SESSION['uid'] = $userInfo['id'];
 						// if there's new event session when registering
