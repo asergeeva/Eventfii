@@ -52,13 +52,13 @@ class EFCommon {
 		
 	}
 	
-	public function add_date($orgDate,$yr){
+	public static function add_date($orgDate,$yr){
 	  $cd = strtotime($orgDate);
 	  $retDAY = date('Y-m-d', mktime(0, 0, 0, date('m',$cd), date('d',$cd), date('Y',$cd) + $yr));
 	  return $retDAY;
 	}
 	
-	public function toPercent($intVal) {
+	public static function toPercent($intVal) {
 		return floatval($intVal) * 0.01;
 	}
 }
