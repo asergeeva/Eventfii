@@ -13,6 +13,7 @@ require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/OpenInviter/openinviter.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/QR/qrlib.php');
 
 class PanelController {
 	private $DEBUG = true;
@@ -573,6 +574,17 @@ class PanelController {
 					
 					EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
 					EFCommon::$smarty->assign('select' . $hasAttend['confidence'], ' class="selected"');
+					
+					// Generating the QR Code
+					$qrKey = 'truersvp-'.$eventInfo['id'].'-'.$_SESSION['uid'];
+					$errorCorrectionLevel = 'L';
+					$matrixPointSize = 4;
+					$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+					QRcode::png($qrKey, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+					
+					
+					EFCommon::$smarty->assign('QR', '<img src="'.CURHOST.'/temp/'.basename($filename).'" />');
+					
 				}
 
 				if ( ! isset( $_SESSION['uid'] ) ) {
