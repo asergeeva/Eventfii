@@ -124,7 +124,7 @@ class APIController {
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 				require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 				$event = $this->buildEvent( $_REQUEST['eventId'] );		
-				$mailer = new EFMail();
+				//$mailer = new EFMail();
 				$sms = new EFSMS();
 				$contacts = $_REQUEST['uid'];
 				
@@ -138,7 +138,7 @@ class APIController {
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
 				{
 					echo("Email");
-					$mailer->sendAutomatedEmail($event, 
+					EFCommon::$mailer->sendAutomatedEmail($event, 
 						$_REQUEST['reminderContent'], 
 						$_REQUEST['reminderSubject'], 
 						$attendees);
@@ -148,7 +148,7 @@ class APIController {
 					echo("Text");
 					$sms->sendSMSReminder($attendees, 
 						$event->eid, 
-						$mailer->mapText($_REQUEST['reminderContent'], 
+						EFCommon::$mailer->mapText($_REQUEST['reminderContent'], 
 						$event->eid));
 				}
 				echo("status_emailSuccess");
