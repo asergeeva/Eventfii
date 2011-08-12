@@ -179,10 +179,9 @@ header#page-header {
 	clear: left; }
 
 /* Navigation */
-#header nav {
-	float: right; }
+#header nav { float: right; }
 #header nav ul {
-	margin: 25px 20px 0 0; }
+	margin: 0 20px 0 0; }
 #header nav li {
 	background: #fff;
 	text-transform: uppercase;
@@ -385,7 +384,8 @@ header#page-header {
 	list-style-type: decimal;
 	margin: 0 0 0 30px; }
 .block ol li { 
-	font-size: 18px; }
+	font-size: 18px;
+	clear: both; }
 .block ol li span { 
 	color: #666;
 	font-size: 13px; 
@@ -471,33 +471,49 @@ ol.rsvp-list { margin: 0; }
 	text-align: center; }
 
 /*----- Contacts List ----------*/
-.contacts-list { margin: 8px 0 0; }
-.contacts-list li {
+ul.contacts-list { margin: 8px 0 0; }
+ul.contacts-list li {
 	float: left;
-	width: 164px; /* 176 - 8 - 4 */
+	color: #333;
+	position: relative;
+	width: 172px; /* 176 - 4 */
 	margin: 0 2px 4px;
-	padding: 4px;
 	border: 1px solid #cacaca;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
-	border-radius: 4px; }
+	border-radius: 4px;
+	clear: none; }
 .contacts-list li:hover { 
 	background: #3399cc;
-	color: #fff;
-	cursor: pointer; }
+	color: #fff; }
+.contacts-list li label { 
+	width: 152px; /* 172 - 20 */
+	height: 36px; /* 44 - 8 */
+	padding: 4px 4px 4px 16px;
+	overflow: hidden;
+	cursor: pointer;
+	display: block; }
+.contacts-list li input {
+	position: absolute; 
+	top: 0;
+	left: 0; }
 .contacts-list li img {
-	display: inline;
 	float: left;
-	margin: 0 4px 0 0; 
+	margin: 0 4px 0 -12px; 
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px; }
 .contacts-list li h3 { 
-	font-size: 12px;
-	margin: 0 0 2px; }
-.contacts-list li.v1 h3 { font-size: 14px; }
+	font-size: 14px;
+	line-height: 1;
+	margin: 3px 0 4px; }
 .contacts-list li:hover h3 {  }
-.contacts-list li p { font-family: Arial; }
+ul.contacts-list li p { 
+	font-family: Arial;	
+	line-height: 1;
+	font-size: 11px;
+	float: none;
+	clear: none; }
 
 /*----- User Thumbnails ----------*/
 .thumbs {
@@ -644,8 +660,10 @@ a:hover .button em { background-position: 100% 100%; }
 	margin: 0;
 }
 
-/* Popup
+/* Popups and dropdowns
  -------------------------*/
+ .dropdown { margin: 0 0 0 -20px; }
+ 
 .popup-container {
 	position: absolute;
 	top: 140px;

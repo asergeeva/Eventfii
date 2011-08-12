@@ -5,28 +5,39 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+ 
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+ 
 class Event {
 	public $eid;
 	public $organizer;
 	public $title;
 	public $goal;
 	public $address;
+	public $event_datetime;
 	public $date;
 	public $time;
 	public $deadline;
+	public $rsvp_days_left;
+	public $days_left;
 	public $description;
 	public $is_public;
 	public $type;
 	public $location_lat;
 	public $location_long;
 	public $guests = array();
+	public $exists;
+	
 	private $error;
 	private $numErrors;
 	
+	private $dbCon;
+	
 	function __construct( $eventInfo ) {
-		if ( ! isset( $eventInfo ) ) {
+		if ( $eventInfo == NULL ) {
 			$this->eid = NULL;
-			$this->organizer = $_SESSION['uid'];
+			$this->organizer = $_SESSION['user'];
 			$this->title = $_POST['title'];
 			$this->goal = $_POST['goal'];
 			$this->address = $_POST['address'];
@@ -39,60 +50,156 @@ class Event {
 			$this->location_lat = $_POST['location_lat'];
 			$this->location_long = $_POST['location_long'];
 		} else {
-			$this->eid = $eventInfo['id'];
-			$this->organizer = $eventInfo['organizer'];
-			$this->title = $eventInfo['title'];
-			$this->goal = $eventInfo['goal'];
-			$this->address = $eventInfo['address'];
-			$this->date = $eventInfo['date'];
-			$this->time = $eventInfo['time'];
-			$this->deadline = $eventInfo['deadline'];
-			$this->description = $eventInfo['description'];
-			$this->is_public = $eventInfo['is_public'];
-			$this->type = $eventInfo['type'];
-			$this->location_lat = $eventInfo['location_lat'];
-			$this->location_long = $eventInfo['location_long'];
+			$this->dbCon = new DBConfig();
+			if ( ! is_array($eventInfo) ) {
+				$this->eid = $eventInfo;
+				$eventInfo = $this->dbCon->getEventInfo($this->eid);
+			}
+			
+			// Make sure an event was pulled from the db
+			if ( ! $eventInfo ) {
+				$this->exists = false;
+			} else {
+				$this->makeEventFromArray($eventInfo);
+				$this->addGuests();
+			}
 		}
 	}
-	
-	/* Depreciated
-	function __construct( $organizer, $title, $url, $goal, $address, $date, $time, $deadline, $description, $is_public, $type, $location_lat, $location_long ) {
-		$this->organizer = $organizer;
-		$this->title = $title;
-		$this->goal = $goal;
-		$this->address = $address;
-		$this->date = $date;
-		$this->time = $time;
-		$this->deadline = $deadline;
-		$this->description = $description;
-		$this->is_public = $is_public;
-		$this->type = $type;
-		$this->location_lat = $location_lat;
-		$this->location_long = $location_long;
-	}
-	 */
 	
 	public function __destruct() {
 		
 	}
 
-	// Accessor methods
-	
-	public function get_title() { return $this->title; }
-	public function get_description() { return $this->description; }
-	public function get_address() { return $this->address; }
-	public function get_date() { return $this->date; }
-	public function get_time() { return $this->time; }
-	public function get_goal() { return $this->goal; }
-	public function get_deadline() { return $this->deadline; }
-	public function get_type() { return $this->type; }
-	public function get_permissions() { return $this->is_public; }
-	public function get_lat() { return $this->location_lat; }
-	public function get_long() { return $this->location_long; }
-	
+	/* addGuests
+	 * Adds invited guests to the array
+	 */
+	private function addGuests() {
+		$guest_array = $this->dbCon->getAttendeesByEvent($this->eid);
+		if ( sizeof($guest_array) > 0 ) {
+			foreach ( $guest_array as $guest ) {
+				$guest[] = new User($guest);
+			}
+		}
+	}
 
-	/* function get_errors
-	 * Function that makes sure that all event fields
+	/* makeEventFromArray
+	 * Takes event info from an array and
+	 * stores it in the current object.
+	 *
+	 * Expects valid event info.
+	 */
+	private function makeEventFromArray($eventInfo) {
+		
+		$this->eid = $eventInfo['id'];
+		
+		// Store into private vars
+		if ( isset($eventInfo['organizer']) ) {
+			$this->organizer = new User($eventInfo['organizer']);
+		}
+		$this->title = $eventInfo['title'];
+		$this->goal = $eventInfo['goal'];
+		$this->address = $eventInfo['location_address'];
+		$this->event_datetime = $eventInfo['event_datetime'];
+
+		// Prepare date and time
+		$eventDateTime = explode(" ", $eventInfo['event_datetime']);		
+		$this->date = $this->dbCon->dateToRegular($eventDateTime[0]);
+		$this->deadline = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
+		$eventTime = explode(":", $eventDateTime[1]);
+		$this->time = $eventTime[0] . ":" . $eventTime[1];
+
+		if ( isset($eventInfo['rsvp_days_left']) ) {
+			$this->rsvp_days_left = $eventInfo['rsvp_days_left'];
+		}
+		$this->days_left = $eventInfo['days_left'];
+		$this->description = $eventInfo['description'];
+		$this->is_public = $eventInfo['is_public'];
+		if ( isset($eventInfo['type'] ) ) {
+			$this->type = $eventInfo['type'];
+		}
+		if ( isset($eventInfo['location_lat']) ) {
+			$this->location_lat = $eventInfo['location_lat'];
+		}
+		if ( isset($eventInfo['location_long']) ) {
+			$this->location_long = $eventInfo['location_long'];
+		}
+		$this->exists = true;
+	}
+
+	// GOING TO BE REMOVED WHEN SMART ASSIGNMENTS ARE
+	// THE OBJECTS RATHER THAN THE ARRAYS
+	/* get_array
+	 * Consolidates all of the Event object
+	 * information into a single array
+	 *
+	 * return $eventInfo | An array with all Event Info
+	 */
+	public function get_array() {
+		$eventInfo['id'] = $this->eid;
+		$eventInfo['organizer'] = $this->organizer;
+		$eventInfo['title'] = $this->title;
+		$eventInfo['description'] = $this->description;
+		$eventInfo['address'] = $this->address;
+		$eventInfo['date'] = $this->date;
+		$eventInfo['time'] = $this->time;
+		$eventInfo['goal'] = $this->goal;
+		$eventInfo['deadline'] = $this->deadline;
+		$eventInfo['type'] = $this->type;
+		$eventInfo['is_public'] = $this->is_public;
+		$eventInfo['location_lat'] = $this->location_lat;
+		$eventInfo['location_long'] = $this->location_long;
+		
+		return $eventInfo;
+	}
+	
+	/* can_view
+	 * Checks to see if a user can view the event
+	 *
+	 * @param $userId | The Id of the user trying to view the event
+	 * @return $can_view | True if they have permission, false if not
+	 */
+	public function can_view($userId) {
+		if ( $this->is_public ) 
+			return true;
+	
+		if ( $userId == NULL ) {
+			if ( isset($_SESSION['user']) ) {
+				$userId = $_SESSION['user']->id;
+			} else {
+				if ( isset($_SESSION['ref']) ) {
+					header("Location: " . CURHOST . "/login?ref=" . $_SESSION['ref']);
+					exit;
+				}
+				return false;
+			}
+		}
+			
+		
+		if ( $event->organizer == $userId )
+			return true;
+			
+		if ( $this->is_guest($userId) )
+			return true;
+			
+		return false;
+	}
+	
+	/* is_guest
+	 * Determines whether or not a given user is invited to the event
+	 *
+	 * @param $userId | The user being checked
+	 * @return $is_guest | True if the user is a guest, false if not
+	 */ 
+	private function is_guest($userId) {
+		foreach ( $guests as $guest ) {
+			if ( $guest->id == $userId ) 
+				return true;
+		}
+		return false;
+	}
+	
+	/* get_errors
+	 * Makes akes sure that all event fields
 	 * are filled and valid.
 	 *
 	 * return $errors | If there are errors
@@ -289,7 +396,7 @@ class Event {
 			$this->numErrors++;
 		}
 		
-		$this->time = date("H:i:s", strtotime($this->time));
+		// $this->time = date("H:i:s", strtotime($this->time));
 	}
 
 	/* check_goal
@@ -386,7 +493,22 @@ class Event {
 			$this->numErrors++;
 		}
 	}
+	
+	public function submitGuests() {
+		$mailer = new EFMail();
+		$csvFile = CSV_UPLOAD_PATH.'/'.$this->eid.'.csv';
 		
+		// text area check
+		if (trim($_REQUEST['emails']) != "") {
+			$this->setGuests($_REQUEST['emails']);
+		// CSV file check
+		} else if (file_exists($csvFile)) {
+			$this->setGuestsFromCSV($csvFile);
+		}
+		
+		$mailer->sendInvite($this->guests, $this->eid, $this->title);
+	}
+	
 	public function setGuests($guest_email) {
 		if (filter_var($guest_email, FILTER_VALIDATE_EMAIL)) {
 			array_push($this->guests, $guest_email);
@@ -408,18 +530,4 @@ class Event {
 		}	
 	}
 	
-	public function submitGuests() {
-		$mailer = new EFMail();
-		$csvFile = CSV_UPLOAD_PATH.'/'.$this->eid.'.csv';
-		
-		// text area check
-		if (trim($_REQUEST['emails']) != "") {
-			$this->setGuests($_REQUEST['emails']);
-		// CSV file check
-		} else if (file_exists($csvFile)) {
-			$this->setGuestsFromCSV($csvFile);
-		}
-		
-		$mailer->sendInvite($this->guests, $this->eid, $this->title, EVENT_URL."/".$this->eid);
-	}
 }

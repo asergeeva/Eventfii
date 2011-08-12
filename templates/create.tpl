@@ -4,9 +4,9 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		{if $step1}
+		{if isset($step1)}
 		<h1>Create a New Event</h1>
-		{else if $step2}
+		{else if isset($step2)}
 		<h1>Add guests to your event</h1>
 		{/if}
 	</header>
@@ -17,8 +17,8 @@
 					<h1>Steps</h1>
 				</header>
 				<ol>
-					<li{$step1}><span>Add event information</span></li>
-					<li{$step2}><span>Add guests</span></li>
+					<li{if isset($step1)} class="current"{/if}><span>Add event information</span></li>
+					<li{if isset($step2)} class="current"{/if}><span>Add guests</span></li>
 				</ol>
 			</nav>
 			<footer class="links-extra">
@@ -27,16 +27,16 @@
 		</aside>
 		<div class="content">
 			<section class="block">
-				{if $step1}
-				{if $error}
+				{if isset($step1)}
+				{if isset($error)}
 				<header class="block">
 					<p class="message">Please fix the errors below before continuing.</p>
 				</header>
 				{/if}
 				{include file="create_form.tpl"}
-				{else if $step2}
+				{else if isset($step2)}
 				{include file="create_guest.tpl"}
-				{else if $step3}
+				{else if isset($step3)}
 				<header class="block">
 					<p class="message">Event created successfully.</p>
 				</header>

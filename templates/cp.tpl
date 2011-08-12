@@ -4,9 +4,9 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		<h1>Welcome, {$userInfo['fname']}!</h1>
-		<h2><a href="{$CURHOST}/user/{$userInfo['id']}" id="user-{$userInfo['id']}">View your public profile</a></h2>
-	<span id="user-id" style="display:none;">{$userInfo['id']}</span>
+		<h1>Welcome, {$smarty.session.user->fname}!</h1>
+		<h2><a href="{$CURHOST}/user/{$smarty.session.user->id}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
+		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
 	</header>
 	{include file="cp_container.tpl"}
 </div>

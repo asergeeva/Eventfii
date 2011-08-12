@@ -4,12 +4,12 @@
 				</header>
 				{assign var=createdEvents_counts value=$createdEvents|@count} 
 				{if $createdEvents_counts gt 0}
-				<ul class="event-list">{foreach name=events item=event from=$createdEvents}
+				<ul class="event-list">{foreach $createdEvents as $event}
 					<li>
-						<a href="{$CURHOST}/event/{$event['id']}">
-							<h2>{$event['title']}</h2>
+						<a href="{$CURHOST}/event/{$event->eid}">
+							<h2>{$event->title}</h2>
 						</a> 
-						<a href="{$CURHOST}/event/manage?eventId={$event['id']}" class="event-manage">
+						<a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="event-manage">
 							<span class="button"><em>Manage</em>
 </span>
 						</a>

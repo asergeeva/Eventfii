@@ -6,16 +6,6 @@
  * All rights reserved
  */
 
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFTwitter.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
-require_once(realpath(dirname(__FILE__)).'/../libs/OpenInviter/openinviter.php');
-
 class PanelController {
 	private $smarty;
 	private $dbCon;
@@ -36,24 +26,23 @@ class PanelController {
 	 * @param $eventId | The event ID
 	 * @return $event | The event object
 	 */
-	private function buildEvent($eventId) {
-		$eventInfo = $this->dbCon->getEventInfo($eventId);
+	private function buildEvent($eventId, $manage = false ) {
 		
-		$eventInfo['address'] = $eventInfo['location_address'];
+		if ( $manage ) {
+			if ( isset($_SESSION['manage_event']) ) {				
+				if ( $_SESSION['manage_event']->eid == $eventId ) {
+					return $_SESSION['manage_event'];
+				} else {
+					unset( $_SESSION['manage_event'] );
+				}
+			}
+		}
 		
-		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
+		$event = new Event($eventId);
 		
-		$eventInfo['date'] = $this->dbCon->dateToRegular($eventDateTime[0]);		
-        $eventInfo['deadline'] = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
-		
-		$eventTime = explode(":", $eventDateTime[1]);
-		$eventInfo['time'] = $eventTime[0].":".$eventTime[1];
-		
-		$this->smarty->assign('eventInfo', $eventInfo);
-		
-		$event = new Event( $eventInfo );
-		
-		$_SESSION['manage_event'] = serialize($event);
+		if($manage) {
+			$_SESSION['manage_event'] = $event;
+		}
 		
 		return $event;
 	}
@@ -98,6 +87,14 @@ class PanelController {
 		// Looks like it's valid ;)
 		return true;
 	}
+	
+	private function getAttendees($eventId) {
+		$user_array = $this->dbCon->getAttendeesByEvent($eventId);
+		foreach($user_array as $userInfo) {
+			$attendees[] = new User($userInfo);
+		}
+		return $attendees;
+	}
 
 	/* saveEventFields
      * Stores the current values for the new event
@@ -109,17 +106,7 @@ class PanelController {
 	private function saveEventFields( $newEvent ) {
 
 		// Save the current fields
-		$event_field['title'] = $newEvent->get_title();
-		$event_field['description'] = $newEvent->get_description();
-		$event_field['address'] = $newEvent->get_address();
-		$event_field['date'] = $newEvent->get_date();
-		$event_field['time'] = $newEvent->get_time();
-		$event_field['goal'] = $newEvent->get_goal();
-		$event_field['deadline'] = $newEvent->get_deadline();
-		$event_field['type'] = $newEvent->get_type();
-		$event_field['permissions'] = $newEvent->get_permissions();
-		$event_field['location_lat'] = $newEvent->get_lat();
-		$event_field['location_long'] = $newEvent->get_long();
+		$event_field = $newEvent->get_array();
 		
 		$this->smarty->assign('event_field', $event_field);
 	}
@@ -134,8 +121,8 @@ class PanelController {
 	private function makeNewEvent( $newEvent ) {
 		// Make sure user is logged in before they can
 		// create the event
-		if ( ! isset($_SESSION['uid']) ) {
-			$_SESSION['newEvent'] = serialize($newEvent);
+		if ( ! isset($_SESSION['user']) ) {
+			$_SESSION['newEvent'] = $newEvent;
 			header("Location: " . CURHOST . "/login?redirect=create");
 			exit;
 		}
@@ -147,16 +134,6 @@ class PanelController {
 		unset($_SESSION['newEvent']);
 		header("Location: " . CURHOST . "/create/guests");
 		exit;
-	}
-	
-	/* saveEvent
-	 * Updates the event information in the databse
-	 *
-	 * @param $event | The VALIDATED event object
-	 */
-	private function saveEvent( $event ) {		
-		$this->dbCon->updateEvent( $event );
-		$this->smarty->assign("saved", true);
 	}
 
 	/*	MAIL FOR GUESTS
@@ -310,27 +287,20 @@ class PanelController {
 
 	////////////////
 	// End OLD FUNCTIONS
-
-	// Need to add for Facebook Picture
-	private function getUserImage($userId) {
-		if ( file_exists("upload/user/" . $userId . ".png") ) {
-			return CURHOST . "/upload/user/" . $userId . ".png";
-		} else if ( file_exists("upload/user/" . $userId . ".jpg") ) {
-			return CURHOST . "/upload/user/" . $userId . ".jpg";
-		} else {
-			return CURHOST . "/images/default_thumb.jpg";
-		}
-	}
 	
 	private function checkHome() {
-		if (isset($_SESSION['uid'])) {
+		if (isset($_SESSION['user'])) {
+		
+			// After logging in... fix this!
+		
 			// if there's new event when login using facebook
-			$this->checkCreateEventSession();
+			// Need to make sure that event is valid before creating new event...
+			// $this->checkCreateEventSession();
 	
-			unset($_SESSION['new_eid']);
-			unset($_SESSION['manage_event']);
-			$this->assignCPEvents($_SESSION['uid']);
-			$this->smarty->assign('userImage', $this->getUserImage($_SESSION['uid']));
+			//unset($_SESSION['new_eid']);
+			//unset($_SESSION['manage_event']);
+			
+			$this->assignCPEvents($_SESSION['user']->id);
 			$this->smarty->display('cp.tpl');
 		} else {
 			$this->smarty->display('index.tpl');
@@ -338,54 +308,39 @@ class PanelController {
 	}
 
 	private function assignCPEvents($uid) {
-		// $this->smarty->assign('maxEventId', $this->dbCon->getMaxEventId());
-		if ( ! $this->assignUserProfile($uid) )
-			return false;
-		
-		$this->assignAttendingEvents($uid);
 		$this->assignCreatedEvents($uid);
-		
-		return true;
+		$this->assignAttendingEvents($uid);
 	}
-
-	private function assignUserProfile($uid) {
-		$userInfo = $this->dbCon->getUserInfo($uid);
-		if ( ! $userInfo ) {
-			return false;
-		}
-								  
-		$userInfo['pic'] = $this->getUserImage($uid);
-		$this->smarty->assign('userInfo', $userInfo);
-		
-		$paypalEmail = $this->dbCon->getPaypalEmail($uid);
-		$this->smarty->assign('paypalEmail', $paypalEmail['pemail']);
-		return true;
-	}
-
-	private function assignAttendingEvents($uid) {
-		$attendingEvents = $this->dbCon->getEventAttendingBy($uid);
-		if ( sizeof($attendingEvents) == 0 )
-			$this->smarty->assign('attendingExists', false);
-		else 
-			$this->smarty->assign('attendingEvents', $attendingEvents);
-	}
-
+	
 	private function assignCreatedEvents($uid) {
-		$createdEvents = $this->dbCon->getEventByEO($uid);
-		if ( sizeof($createdEvents) == 0 )
-			$this->smarty->assign('createdExists', false );
-		else
-			$this->smarty->assign('createdEvents', $createdEvents);
+		$created_event = $this->dbCon->getEventByEO($uid);
+		foreach ( $created_event as $event ) {
+			$createdEvents[] = new Event($event);
+		}
+		$this->smarty->assign('createdEvents', $createdEvents);
+	}
+	
+	private function assignAttendingEvents($uid) {
+		$attending_event = $this->dbCon->getEventAttendingByUid($uid);
+		foreach( $attending_event as $event ) {
+			$attendingEvents[] = new Event($event);
+		}
+		$this->smarty->assign('attendingEvents', $attendingEvents);
 	}
 
-
-	/* Depreciated
-	 public function displayAttendeePage($eventId) {
+	/* printEvent
+	 * Used to print out an event
+	 */
+	public function printEvent() {
 		require_once('models/EFCore.class.php');
 		$efCore = new EFCore();
-
-		$eventAttendees = $this->dbCon->getAttendeesByEvent($eventId);
-		$eventInfo = $this->dbCon->getEventInfo($eventId);
+		
+		$eventId = $_GET['eventId'];
+		
+		$event = new Event($eventId);
+		
+		// $eventAttendees = $this->dbCon->getAttendeesByEvent($eventId);
+		// $eventInfo = $this->dbCon->getEventInfo($eventId);
 
 		for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
 			if ($eventAttendees[$i]['is_attending'] == 1) {
@@ -397,7 +352,7 @@ class PanelController {
 		$this->smarty->assign('eventAttendees', $eventAttendees);
 		$this->smarty->assign('eventInfo', $eventInfo);
 		$this->smarty->display('manage_event_on.tpl');
-	} */
+	}
 	
 	public function assignManageVars($eventId) {
 		$efCore = new EFCore();
@@ -452,21 +407,29 @@ class PanelController {
 		}
 		
 		$userId = $userId[sizeof($userId)-1];
-		// $userId = explode('?', $userId);
-		// $userId = $eventId[0];
 		
 		return $userId;
 	}
 	
 	// Check if there's a new event session
 	// create that event if the session exist
+	/* Depreciated
 	private function checkCreateEventSession() {
-		if (isset($_SESSION['newEvent'])) {
+		if ( isset($_SESSION['newEvent']) ) {
 			$newEvent = unserialize($_SESSION['newEvent']);
+			
+			// Verify that event is valid
+			if ( ! $this->validateEventInfo($newEvent) ) {
+				$_SESSION['newEvent'] = serialize($$newEvent);
+				return false;
+			}
+			
 			$newEvent->organizer = $_SESSION['uid'];
 			$this->makeNewEvent( $newEvent );
+			return true;
 		}
-	}
+		return false;
+	} */
 	
 	private function getRedirectUrl() {
 		if (isset($_SESSION['ref'])) {
@@ -497,6 +460,7 @@ class PanelController {
 	 * Make sure that the request is coming from 
 	 * the HOST not from the client
 	 */
+	 // Depreciated?
 	private function validateLocalRequest() {
 		if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
 			//header("Location: " . CURHOST);
@@ -506,8 +470,9 @@ class PanelController {
 	/**
 	 * Make sure the user logged in
 	 */
+	 // Depreciated?
 	private function validateUserLogin() {
-		if (!isset($_SESSION['uid'])) {
+		if (!isset($_SESSION['user'])) {
 			//header("Location: " . CURHOST);
 		}
 	}
@@ -518,8 +483,9 @@ class PanelController {
 	 *
 	 * @param $requestUri | The URI of the current page
 	 */
-	public function getView($requestUri) {
-		$requestUri = str_replace(PATH, '', $requestUri);
+	public function getView($uri) {
+		$this->smarty->assign("current_page", $uri);
+		$requestUri = str_replace(PATH, '', $uri);
 		
 		// If mail invite reference, save in Session
 		if (isset($_REQUEST['ref'])) {
@@ -528,73 +494,54 @@ class PanelController {
 	
 		// If /event in URI, display all event pages
 		if (preg_match("/event\/\d+/", $requestUri) > 0) {
-			$twitter = new EFTwitter();
-			$twitterHash = $twitter->getTwitterHash($eventId);
-			$this->smarty->assign( 'twitterHash', $twitterHash );
 			
-			// Get a valid eventId
 			$eventId = $this->getEventIdByUri( $requestUri );
 			if ( ! $eventId ) {
 				$this->smarty->display( 'error.tpl' );
 				return;
 			}
+			$event = $this->buildEvent($eventId);
+			$this->smarty->assign("event", $event);
 			
-			$this->smarty->assign( 'eventId', $eventId );
-			
-			// Fetch event information from the database
-			$eventInfo = $this->dbCon->getEventInfo($eventId);
-			if ( ! $eventInfo ) {
-				if (isset($_SESSION['ref'])) {
-					header("Location: ".CURHOST."/login?ref=".$_SESSION['ref']);
-				}
+			// Check to see if the event exists
+			if ( ! $event->exists ) {
 				$this->smarty->display( 'error_event_notexist.tpl' );
 				return;
 			}
-			$this->smarty->assign('eventInfo', $eventInfo); 
-			 
-			$organizerId = $eventInfo['organizer'];
-			$organizerInfo = $this->dbCon->getUserInfo($organizerId);
-			$organizerInfo['pic'] = $this->getUserImage($eventInfo['organizer']);
-			$this->smarty->assign( 'organizer', $organizerInfo );
+			
+			// Check permissions
+			if ( ! $event->can_view(NULL) ) {
+				$this->smarty->display( 'error_event_private.tpl' );
+				return;
+			}
+		
+			// Prepare the twitter feed
+			$twitter = new EFTwitter();
+			$twitterHash = $twitter->getTwitterHash($eventId);
+			$this->smarty->assign( 'twitterHash', $twitterHash );
+			
+			
+			// See if the user has responded
+			if ( isset($_SESSION['user']->id) ) {
+				$hasAttend = $this->dbCon->hasAttend($_SESSION['user']->id, $eventId);
+				$this->smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
+				$this->smarty->assign('select' . $hasAttend['confidence'], 'true');
+			} else {
+				$this->smarty->assign('disabled', ' disabled="disabled"');
+				$this->smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
+			}
 			
 			$curSignUp = $this->dbCon->getCurSignup($eventId);
 			$this->smarty->assign( 'curSignUp', $curSignUp );
 			
-			$attending = $this->dbCon->getAttendeesByEvent($eventId);
-			foreach( $attending as &$user ) {
-				$user['pic'] = $this->getUserImage($user['id']);
+			$event_attendees = $this->dbCon->getAttendeesByEvent($eventId);
+			foreach($event_attendees as $guest) {
+				$attending[] = new User($guest);
 			}
 			$this->smarty->assign( 'attending', $attending );
 			
-			// Make sure user is allowed to view the event
-			if ( intval($eventInfo['is_public']) == 1 || 
-				 ( isset( $_SESSION['uid'] ) &&
-				     // if the user is invited to the event 
-				   ( $this->dbCon->isInvited( $_SESSION['uid'], $eventId ) || 
-					   // if the user is a host
-						 $_SESSION['uid'] == $eventInfo['organizer'] ) ) ) {
-				
-				if (isset($_SESSION['uid'])) {
-					// See if the user has responded
-					$hasAttend = $this->dbCon->hasAttend($_SESSION['uid'], $eventId);
-					
-					$this->smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-					$this->smarty->assign('select' . $hasAttend['confidence'], ' class="selected"');
-				}
-
-				if ( ! isset( $_SESSION['uid'] ) ) {
-					$this->smarty->assign('disabled', ' disabled="disabled"');
-				}
-				
-				$this->smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
-				$this->smarty->display('event.tpl');
-			} else {
-				if ( ! isset( $_SESSION['uid'] ) ) {
-					header("Location: " . CURHOST . "/login?redirect=event&eventId=" . $eventId);
-				} else {
-					$this->smarty->display('error_event_private.tpl');
-				}
-			}
+			$this->smarty->display('event.tpl');
+			
 			return;
 		} // END /event
 		
@@ -605,7 +552,7 @@ class PanelController {
 				return;
 			}
 			$eventId = $_GET['eventId'];
-			if ( ! isset ( $_SESSION['uid'] ) ) {
+			if ( ! isset ( $_SESSION['user'] ) ) {
 				if ( $eventId ) {
 					header("Location: " . CURHOST . "/login?redirect=manage&eventId=" . $eid);
 				} else {
@@ -617,13 +564,16 @@ class PanelController {
 		
 		// User public profile page
 		if (preg_match("/user\/\d+/", $requestUri) > 0) {
-			$userId = $this->getUserIdByUri( $requestUri );	
-			$validUser = $this->assignCPEvents($userId);
+			$userId = $this->getUserIdByUri( $requestUri );
+			$profile = new User($userId);
 			
-			if ( ! $validUser )
+			if ( ! $profile->exists ) {
 				$this->smarty->display('error_user_notexist.tpl');
-			else
+			} else {
+				$this->assignCPEvents($userId);
+				$this->smarty->assign("profile", $profile);
 				$this->smarty->display('profile.tpl');
+			}
 			
 			return;
 		}
@@ -651,48 +601,33 @@ class PanelController {
 				$this->smarty->display('method.tpl');
 				break;
 			case '/settings':
-				if (isset($_POST['submit'])) {
+				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
 					$user = new User(NULL);
-					if ( $this->validateEventInfo( $user ) === true ) {
-						$this->dbCon->updateUserInfo($user->fname, 
-																				 $user->lname, 
-																				 $user->email, 
-																				 $user->phone, 
-																				 $user->zip, 
-																				 $user->twitter,
-																				 $user->notif_opt1, 
-																				 $user->notif_opt2, 
-																				 $user->notif_opt3);
+					if ( $this->validateUserInfo( $user ) === true ) {
+						$user->updateDb();
 						$responseMsg['user_success'] = 'User info has been updated';
 					} 
 					
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
-						if ( $this->dbCon->resetPassword( md5($_REQUEST['user-curpass']), 
-																						  md5($_REQUEST['user-newpass']), 
-																							md5($_REQUEST['user-confpass']) )) {
+						if ( $this->dbCon->resetPassword( md5($_REQUEST['user-curpass']), md5($_REQUEST['user-newpass']), md5($_REQUEST['user-confpass']) )) {
 							$responseMsg['password'] = 'Password has been updated';
 						} else {
 							$responseMsg['password'] = 'Invalid old password, not updated';
 						}
 					}
-					
 					$this->smarty->assign('responseMsg', $responseMsg);
 				}
 				
 				
-				if (isset($_SESSION['uid'])) {
-					$userInfo = $this->dbCon->getUserInfo($_SESSION['uid']);
-					$userInfo['pic'] = $this->getUserImage($_SESSION['uid']);
-					
-					$this->smarty->assign('userInfo', $userInfo);
+				if ( isset($_SESSION['user']) ) {
 					$this->smarty->display('settings.tpl');
 				} else {
 					header("Location: " . CURHOST);
 				}
 				break;
 			case '/event/create':
-				$this->validateUserLogin();
+				// $this->validateUserLogin();
 				//
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
@@ -704,12 +639,15 @@ class PanelController {
 					$newEvent = new Event(NULL);
 				// See if it's their first time on the field
 				} else if ( ! isset($_SESSION['newEvent']) ) {
-					if (isset($_POST['title'])) {
+					if (isset($_POST['title']) && $_POST['title'] != "name of event") {
 						$event_field['title'] = $_POST['title'];
 					}
-					if (isset($_POST['goal'])) {
+					if (isset($_POST['goal']) && $_POST['goal'] != "goal") {
 						$event_field['goal'] = $_POST['goal'];
 					}
+					
+					if ( ! isset($event_field) )
+						$event_field = NULL;
 				
 					$this->smarty->assign('event_field', $event_field);
 					$this->smarty->assign('step1', ' class="current"');
@@ -717,13 +655,13 @@ class PanelController {
 					break;
 				// Check to see if they were working on the event before
 				} else {
-					$newEvent = unserialize($_SESSION['newEvent']);
+					$newEvent = $_SESSION['newEvent'];
 				}
 
 				// Check to see if the new event is valid.
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
 					// Save the current information for the next visit
-					$_SESSION['newEvent'] = serialize($newEvent);
+					$_SESSION['newEvent'] = $newEvent;
           
 					// Prepare the current values for display on the template
 					$this->saveEventFields( $newEvent );
@@ -738,17 +676,15 @@ class PanelController {
 				$this->validateUserLogin();
 				$mailer = new EFMail();
 				$this->smarty->assign('step2', ' class="current"');
-				
-				$event = $this->buildEvent($_SESSION['new_eid']);
+				// Store created event in a new session
+				$event = $this->buildEvent($_SESSION['new_eid'], true);
 				
 				if (isset($_POST['submit'])) {
-					$event = $this->buildEvent($_SESSION['new_eid']);
 					$event->submitGuests();
 					header("Location: " . CURHOST . "/event/manage?eventId=".$_SESSION['new_eid']);
 					exit;
 				}
 				
-				$this->smarty->assign('eventInfo', $event);
 				$this->smarty->assign('submitTo', '/create/guests');
 				$this->smarty->display('create.tpl');
 				break;
@@ -782,9 +718,9 @@ class PanelController {
 			case '/event/attend':
 				$this->validateLocalRequest();
 				$_SESSION['attend_event'] = $this->dbCon->getEventInfo($_POST['eid']);
-				$this->dbCon->eventSignUp($_SESSION['uid'], $_POST['eid'], $_POST['conf']);
+				$this->dbCon->eventSignUp($_SESSION['user']->id, $_POST['eid'], $_POST['conf']);
 				break;
-      case '/event/checkin':
+			case '/event/checkin':
 				$isAttend = 1;
 				if ($_REQUEST['checkin'] == 'false') {
 					$isAttend = 0;
@@ -792,20 +728,21 @@ class PanelController {
 				$this->dbCon->checkInGuest( $isAttend, $_REQUEST['guestId'], $_REQUEST['eventId'] );
 				break;
 			case '/event/print':
-				$this->validateUserLogin();
-				$this->displayAttendeePage( $_REQUEST['eventId'] );
+				$this->printEvent();
 				break;
 			case '/event/manage':
 				$this->validateUserLogin();
-				$page['manage'] = ' class="current"';
+				$page['manage'] = true;
 				$this->smarty->assign('page', $page);
 				
-				$event = $this->buildEvent( $_GET['eventId'] );
+				$this->buildEvent( $_GET['eventId'], true );
 				
-				$eventAttendees = $this->dbCon->getAttendeesByEvent($_GET['eventId']);
-				for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
-					if ($eventAttendees[$i]['is_attending'] == 1) {
-						$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+				$attendees = $this->dbCon->getAttendeesByEvent($_GET['eventId']);
+				for ($i = 0; $i < sizeof($attendees); ++$i) {
+					$eventAttendees[$i] = new User($attendees[$i]);
+					$eventAttendees[$i]->confidence = $attendees[$i]['confidence'];
+					if ($attendees[$i]['is_attending'] == 1) {
+						$eventAttendees[$i]->checkedIn = true;
 					}
 				}
 				
@@ -817,12 +754,11 @@ class PanelController {
 				break;
 			case '/event/manage/edit':
 				$this->validateUserLogin();
-				$page['edit'] = ' class="current"';
+				$page['edit'] = true;
 				$this->smarty->assign('page', $page);
 				
 				if ( ! isset ($_POST['submit']) ) {
-					// $eventInfo = $this->dbCon->getEventInfo($_GET['eventId']);
-					$editEvent = $this->buildEvent($_GET['eventId']);
+					$editEvent = $this->buildEvent($_GET['eventId'], true);
 					$this->saveEventFields( $editEvent );
 					$this->smarty->display('manage_edit.tpl');
 					break;
@@ -834,7 +770,9 @@ class PanelController {
 				
 				// Check to see if the new event information is valid.
 				if ( $this->validateEventInfo( $editEvent ) === true ) {
-					$this->saveEvent( $editEvent );
+					$this->dbCon->updateEvent( $editEvent );
+					$_SESSION['manage_event'] = new Event($editEvent->eid);
+					$this->smarty->assign("saved", true);
 				}
 				
 				$this->saveEventFields( $editEvent );
@@ -843,12 +781,13 @@ class PanelController {
 				break;
 			case '/event/manage/guests':
 				$this->validateUserLogin();
-				$page['manage'] = ' class="current"';
-				$page['addguests'] = ' class="current"';
+				$page['manage'] = true;
+				$page['addguests'] = true;
 				$this->smarty->assign('page', $page);
 				
-				$event = unserialize($_SESSION['manage_event']);
-				if ($_POST['submit']) {
+				$event = $this->buildEvent( $_GET['eventId'], true );
+				
+				if ( isset($_POST['submit']) ) {
 					$event->submitGuests();
 				}
 				
@@ -880,22 +819,24 @@ class PanelController {
 				break;
 			case '/event/manage/guests/save':
 				$this->validateLocalRequest();
-				$event = $this->buildEvent($_GET['eventId']);
+				$event = $this->buildEvent($_GET['eventId'], true);
 
 				$mailer = new EFMail();
-				$this->dbCon->storeGuests($event->guests, $_REQUEST['eventId'], $_SESSION['uid']);
+				$this->dbCon->storeGuests($event->guests, $_GET['eventId'], $_SESSION['user']->id);
 				break;
 			case '/event/manage/email':
 				$this->validateUserLogin();
-				$page['manage'] = ' class="current"';
-				$page['email'] = ' class="current"';
+				$page['manage'] = true;
+				$page['email'] = true;
 				$this->smarty->assign('page', $page);
 
-				$event = $this->buildEvent( $_GET['eventId'] );
+				$event = $this->buildEvent( $_GET['eventId'], true );
+				
+				/* getEventEmail has no functionality yet
 				
 				$eventReminder = $this->dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = 'checked = "checked"';
+					$eventReminder['isAuto'] = true;
 				}
 				
 				$eventDatetime = explode(" ", $eventReminder['datetime']);
@@ -913,12 +854,13 @@ class PanelController {
 	
 				$this->smarty->assign('eventTimeMid', $eventTimeMid);
 				
-				$this->smarty->assign('eventReminder', $eventReminder);
+				$this->smarty->assign('eventReminder', $eventReminder); */
+				
 				$this->smarty->display('manage_email.tpl');
 				break;
 			case '/event/email/save':
 				$this->validateLocalRequest();
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 				
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
@@ -935,19 +877,14 @@ class PanelController {
 					die($retval);
 				}
 				
-				$this->dbCon->saveEmail( $event->eid, 
-																	$_REQUEST['reminderContent'], 
-																	$dateTime, 
-																	$_REQUEST['reminderSubject'], 
-																	EMAIL_REMINDER_TYPE, 
-																	$autoReminder);
+				$this->dbCon->saveEmail( $event->eid, $_REQUEST['reminderContent'], $dateTime, $_REQUEST['reminderSubject'], EMAIL_REMINDER_TYPE, $autoReminder);
 				echo("Success");
 				break;
 			case '/event/email/send':
 				$this->validateLocalRequest();
 				$mailer = new EFMail();
 
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
 				
 				$req['content'] = $_REQUEST['reminderContent'];
@@ -960,15 +897,12 @@ class PanelController {
 					die($retval);
 				}
 				
-				$mailer->sendAutomatedEmail($event, 
-																		$_REQUEST['reminderContent'], 
-																		$_REQUEST['reminderSubject'], 
-																		$attendees);
+				$mailer->sendAutomatedEmail($event, $_REQUEST['reminderContent'], $_REQUEST['reminderSubject'], $attendees);
 				echo("Success");
 				break;
 			case '/event/email/autosend':
 				$this->validateLocalRequest();
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 				
 				$isActivated = 0;
 				if ($_REQUEST['autoSend'] == 'true') {
@@ -979,7 +913,7 @@ class PanelController {
 				break;
 			case '/event/text/autosend':
 				$this->validateLocalRequest();
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 				
 				$isActivated = 0;
 				if ($_REQUEST['autoSend'] == 'true') {
@@ -990,15 +924,16 @@ class PanelController {
 				break;
 			case '/event/manage/text':
 				$this->validateUserLogin();
-				$page['manage'] = ' class="current"';
-				$page['text'] = ' class="current"';
+				$page['manage'] = true;
+				$page['text'] = true;
 				$this->smarty->assign('page', $page);
 				
-				$event = $this->buildEvent( $_GET['eventId'] );
+				$event = $this->buildEvent( $_GET['eventId'], true );
 				
+				/* Not yet implemented
 				$eventReminder = $this->dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = 'checked = "checked"';
+					$eventReminder['isAuto'] = true;
 				}
 				
 				$eventDatetime = explode(" ", $eventReminder['datetime']);
@@ -1016,7 +951,7 @@ class PanelController {
 	
 				$this->smarty->assign('eventTimeMid', $eventTimeMid);
 				
-				$this->smarty->assign('eventReminder', $eventReminder);
+				$this->smarty->assign('eventReminder', $eventReminder); */
 				$this->smarty->display('manage_text.tpl');
 				break;
 			case '/event/text/send':
@@ -1024,7 +959,7 @@ class PanelController {
 				$mailer = new EFMail();
 				$sms = new EFSMS();
 				
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 				
 				$attendees = $this->dbCon->getAttendeesByEvent($event->eid);
 				
@@ -1043,7 +978,7 @@ class PanelController {
 				break;
 			case '/event/text/save':
 				$this->validateLocalRequest();
-				$event = unserialize($_SESSION['manage_event']);
+				$event = $_SESSION['manage_event'];
 			
 				$sqlDate = $this->dbCon->dateToSql($_REQUEST['reminderDate']);
 				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
@@ -1074,88 +1009,83 @@ class PanelController {
 				break;
 			case '/login':
 				// if the user already logged in
-				if ( ! isset($_SESSION['uid']) ) {
-					$this->smarty->assign('redirect', $params);
-					
-					if ( isset($_POST['isFB']) ) {
-						$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
-						if ( $userInfo ) {
-							$_SESSION['uid'] = $userInfo['id'];
-							if ( isset ($params) ) {
-								echo $params;
-							} else {
-								echo 1;
-							}
+				if ( isset($_SESSION['user']) ) {
+					// Logged in user doesn't need to log in!
+					header("Location: " . CURHOST);
+					exit;
+				}
+				
+				// Make sure the user is properly redirected
+				$this->smarty->assign('redirect', $params);
+				
+				if ( isset($_POST['isFB']) ) {
+					$userInfo = $this->dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+					if ( $userInfo ) {
+						$_SESSION['user'] = new User($userInfo);
+						if ( isset ($params) ) {
+							echo $params;
 						} else {
-							echo 0;
+							echo 1;
 						}
-						
-						break;
-					// if the user submit the login form
-					} else if ( isset( $_POST['login'] ) ) {
-						if ( ! isset( $_POST['email'] ) ) {
-							// User didn't enter e-mail
-							$this->smarty->assign('user_login_email', "Please enter an e-mail");
-							$this->smarty->display("login.tpl");
-							break;
-						}
-						if ( ! isset( $_POST['pass'] ) ) {
-							// User didn't enter password
-							$this->smarty->assign('user_login_password', "Please enter a password");
-							$this->smarty>display("login.tpl");
-							break;
-						} 
-						
-						$userId = $this->dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
-						
-						if ( ! isset( $userId ) ) {
-							// Invalid e-mail/password combination
-							$this->smarty->assign('user_login_email', "Invalid e-mail or password");
-							$this->smarty->display("login.tpl");
-							break;
-						}
-						
-						$_SESSION['uid'] = $userId;
-						// if there's new event session when logging in
-						// $this->checkCreateEventSession();
-						
-						// Success, log in
-						header("Location: " . $this->getRedirectUrl());
-						exit;
-					
-					/* User used trueRSVP register */
-					} else if ( isset ( $_POST['register'] ) ) {
-						$req['fname'] = $_POST['fname'];
-						$req['lname'] = $_POST['lname'];
-						$req['email'] = $_POST['email'];
-						$req['phone'] = $_POST['phone'];
-						$req['pass'] = $_POST['pass'];
-						$req['zip'] = $_POST['zipcode'];
-						$errors = $this->checkUserCreationForm($req);
-						
-						// Check if any errors
-						if( $errors ) {
-							$this->smarty->display('login.tpl');
-							break;
-						}
-						
-						// Create the new user
-						$userInfo = $this->dbCon->createNewUser( $_POST['fname'], 
-																										 $_POST['lname'], 
-																										 $_POST['email'], 
-																										 $_POST['phone'], 
-																										 md5($_POST['pass']), 
-																										 $_POST['zipcode'] );
-						// Assign user's SESSION variables
-						$_SESSION['uid'] = $userInfo['id'];
-						// if there's new event session when registering
-						// $this->checkCreateEventSession();
-						
-						// $_SESSION['userProfilePic'] = "images/default_thumb.jpg";
 					} else {
+						echo 0;
+					}
+					
+					break;
+					
+				// if the user submits the login form
+				} else if ( isset( $_POST['login'] ) ) {
+					if ( ! isset( $_POST['email'] ) ) {
+						$this->smarty->assign('user_login_email', "Please enter an e-mail");
+						$this->smarty->display("login.tpl");
+						break;
+					}
+					if ( ! isset( $_POST['pass'] ) ) {
+						$this->smarty->assign('user_login_password', "Please enter a password");
+						$this->smarty>display("login.tpl");
+						break;
+					} 
+					
+					$userId = $this->dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
+					
+					if ( ! isset( $userId ) ) {
+						// Invalid e-mail/password combination
+						$this->smarty->assign('user_login_email', "Invalid e-mail or password");
+						$this->smarty->display("login.tpl");
+						break;
+					}
+					
+					$_SESSION['user'] = new User($userId);
+					// if there's new event session when logging in
+					// $this->checkCreateEventSession();
+					
+					// Success, log in
+					header("Location: " . $this->getRedirectUrl());
+					exit;
+				
+				/* User used trueRSVP register */
+				} else if ( isset ( $_POST['register'] ) ) {
+					$req['fname'] = $_POST['fname'];
+					$req['lname'] = $_POST['lname'];
+					$req['email'] = $_POST['email'];
+					$req['phone'] = $_POST['phone'];
+					$req['pass'] = $_POST['pass'];
+					$req['zip'] = $_POST['zipcode'];
+					$errors = $this->checkUserCreationForm($req);
+					
+					// Check if any errors
+					if( $errors ) {
 						$this->smarty->display('login.tpl');
 						break;
 					}
+					
+					// Create the new user
+					$userInfo = $this->dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zipcode'] );
+					// Assign user's SESSION variables
+					$_SESSION['user'] = new User($userInfo);
+				} else {
+					$this->smarty->display('login.tpl');
+					break;
 				}
 				
 				if ( isset ( $params ) ) {
@@ -1163,9 +1093,7 @@ class PanelController {
 					exit;
 				}
 				
-				// Logged in user doesn't need to log in!
-				header("Location: " . CURHOST);
-				exit;
+				break;
 			case '/login/reset':
 				if ($this->dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
 					$this->smarty->assign('ref', $_REQUEST['ref']);
@@ -1222,8 +1150,7 @@ class PanelController {
 				break;
 			case '/user/profile/update':
 				$this->validateLocalRequest();
-				$this->dbCon->updatePaypalEmail($_SESSION['uid'], $_REQUEST['paypal_email']);
-				$this->assignUserProfile($_SESSION['uid']);
+				// $this->dbCon->updatePaypalEmail($_SESSION['user']->id, $_REQUEST['paypal_email']);
 
 				$this->smarty->display('user_profile.tpl');
 				break;
@@ -1253,6 +1180,7 @@ class PanelController {
 					echo $res;
 				}
 				break;
+			/* Unused
 			case '/event/payment/submit':
 				require_once('models/PaypalPreapproveReceipt.class.php');
 
@@ -1301,8 +1229,9 @@ class PanelController {
 				$this->assignCreatedEvents($_SESSION['uid']);
 				$this->smarty->display('event_created.tpl');
 				break;
+			*/
 			case '/logout':
-				if ( ! isset($_SESSION['uid']) ) {
+				if ( ! isset($_SESSION['user']) ) {
 					$this->smarty->display('error.tpl');
 					break;
 				}

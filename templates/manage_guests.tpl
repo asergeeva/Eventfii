@@ -10,9 +10,8 @@
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
-			<section class="block">
-				{include file="create_guest.tpl"}
-			</section>
+			{include file="manage_invites.tpl"}
+			{include file="create_guest.tpl"}
 		</div>
 	</section>
 </div>

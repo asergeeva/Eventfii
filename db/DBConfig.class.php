@@ -109,7 +109,9 @@ class DBConfig {
 	}
 	
 	/* function getMaxEventId
-	 * Get the current maximum event ID.
+	 * Get the current maximum event ID. 
+	 * Useful when trying to find latest event 
+	 * added to the database.
  	 *
 	 * @return Integer | the max event ID stored in the DB
 	 */
@@ -201,8 +203,7 @@ class DBConfig {
 		return $usrPic['pic'];
 	}
 	
-	public function updateUserInfo($fname, $lname, $email, $phone, $zip, $twitter, 
-																 $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1) {
+	public function updateUserInfo( $fname, $lname, $email, $phone, $zip, $twitter, $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1 ) {
 		$UPDATE_USER = "UPDATE	ef_users SET 
 								fname = '" . mysql_real_escape_string($fname) . "', 
 								lname = '" . mysql_real_escape_string($lname) . "',
@@ -354,19 +355,21 @@ class DBConfig {
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
 		$CREATE_NEW_EVENT = "
-			INSERT INTO ef_events (	created, 
-									organizer, 
-									title, 
-									goal, 
-									location_address, 
-									event_datetime, 
-									event_deadline, 
-									description, 
-									is_public, 
-									type,
-									location_lat,
-									location_long) 
-			VALUES (		NOW(), 
+			INSERT INTO ef_events (	
+							created, 
+							organizer, 
+							title, 
+							goal, 
+							location_address, 
+							event_datetime, 
+							event_deadline, 
+							description, 
+							is_public, 
+							type,
+							location_lat,
+							location_long
+						) 
+			VALUES (	NOW(), 
 						'" . mysql_real_escape_string($newEvent->organizer) . "',
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
@@ -377,13 +380,13 @@ class DBConfig {
 						" . $newEvent->is_public . ",
 						" . $newEvent->type . ",
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
-						" . mysql_real_escape_string($newEvent->location_long) . ")
-		";
+						" . mysql_real_escape_string($newEvent->location_long) . "
+			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
 	public function updateEvent($eventInfo) {
-		$datetime = $this->dateToSql($eventInfo->date)." ".$eventInfo->time;
+		$datetime = $this->dateToSql($eventInfo->date) . " " . date("H:i:s", strtotime($eventInfo->time));
 		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
 		$UPDATE_EVENT = "	UPDATE	ef_events e 
@@ -404,10 +407,12 @@ class DBConfig {
 	public function getQueryResultAssoc($sqlQuery) {
 		$sqlResult = $this->getQueryResult($sqlQuery);
 		$sqlRows = array();
-		while ($row = mysql_fetch_array($sqlResult, MYSQL_ASSOC)) {
-			array_push($sqlRows, $row);
+		if ( $sqlResult != 0 ) {
+			while ($row = mysql_fetch_array($sqlResult, MYSQL_ASSOC)) {
+				array_push($sqlRows, $row);
+			}
+			mysql_free_result($sqlResult);
 		}
-		mysql_free_result($sqlResult);
 		return $sqlRows;
 	}
 	
@@ -436,7 +441,7 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	public function getEventAttendingBy($uid) {
+	public function getEventAttendingByUid($uid) {
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 								SELECT 	e.id, 
@@ -447,7 +452,8 @@ class DBConfig {
 										e.location_address, 
 										e.event_datetime, 
 										e.event_deadline, 
-										e.description, e.is_public 
+										e.description, 
+										e.is_public 
 								FROM 	ef_attendance a, 
 										ef_events e 
 								WHERE 	a.event_id = e.id AND a.user_id = ".$uid."
@@ -524,8 +530,10 @@ class DBConfig {
 	}
 	
 	public function updateuserStatus($status) {
-		$uid=$_SESSION['uid'];
-		$UPDATE_USER_STATUS = "UPDATE ef_users e SET e.about = '".$status."' WHERE e.id = ".$uid;
+		$uid = $_SESSION['user']->id;
+		$UPDATE_USER_STATUS = "	UPDATE	ef_users e 
+								SET 	e.about = '" . $status . "' 
+								WHERE 	e.id = " . $uid;
 		$this->executeUpdateQuery($UPDATE_USER_STATUS);
 	}
 	
@@ -538,14 +546,6 @@ class DBConfig {
 			$INSERT_PAYPAL_EMAIL = "INSERT INTO ef_paypal_accounts (uid, pemail) VALUES (".$uid.", '".$pemail."')";
 			$this->executeUpdateQuery($INSERT_PAYPAL_EMAIL);
 		}
-	}
-	
-	// DEPRECATED: Paypal
-	public function getAttendees($eid) {
-		$GET_ATTENDEES = "SELECT p.uid, p.eid, p.pkey, p.pemail, 
-													FROM ef_event_preapprovals p, ef_events e 
-											WHERE p.eid = e.id AND p.eid = ".$eid;
-		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
 	/* Depreciated
@@ -566,22 +566,23 @@ class DBConfig {
 		}
 	}
 	
+	// DEPRECATED: Paypal
 	
-	// Should confidence be greater than 4
-	// or whatever is bigger than the Not Attending confidence?
 	public function getAttendeesByEvent($eid) {
 		$GET_ATTENDEES = "	SELECT	* 
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
-							AND 	a.is_attending = 1
 							AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
 	public function getNumAttendeesByConfidence($eid, $conf) {
-		$GET_ATTENDEES = "SELECT COUNT(*) AS guest_num FROM ef_attendance a, ef_users u 
-												WHERE a.user_id = u.id AND a.confidence = ".$conf." AND a.event_id = ".$eid;
+		$GET_ATTENDEES = "	SELECT 	COUNT(*) AS guest_num 
+							FROM 	ef_attendance a, ef_users u 
+							WHERE 	a.user_id = u.id 
+							AND 	a.confidence = " . $conf . " 
+							AND 	a.event_id = " . $eid;
 		return $this->executeQuery($GET_ATTENDEES);
 	}
 
@@ -655,9 +656,15 @@ class DBConfig {
 	}
 	
 	public function getEventEmail($eid, $type) {
-		$GET_EVENT_EMAIL = "SELECT m.subject, m.message, DATE_FORMAT(m.delivery_time, '%m/%d/%Y %r') AS datetime, m.event_id 
-													FROM ef_event_messages m WHERE m.event_id = ".$eid." AND m.type = ".$type." 
-													ORDER BY m.created DESC LIMIT 1";
+		$GET_EVENT_EMAIL = "SELECT	m.subject, 
+									m.message, 
+									DATE_FORMAT(m.delivery_time, '%m/%d/%Y %r') AS datetime, 
+									m.event_id 
+							FROM 	ef_event_messages m 
+							WHERE 	m.event_id = " . $eid . " 
+							AND 	m.type = " . $type . " 
+							ORDER BY m.created DESC 
+							LIMIT 1";
 		return $this->executeQuery($GET_EVENT_EMAIL);
 	}
 	

@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		<header class="block">
-			<p class="message">{if $saved}Event Saved.{else}Make changes to your event here.{/if}</p>
+			<p class="message">{if isset($saved)}Event Saved.{else}Make changes to your event here.{/if}</p>
 		</header>
 		{include file="manage_edit_form.tpl"}
 	</section>

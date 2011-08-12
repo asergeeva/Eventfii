@@ -6,15 +6,15 @@
 				{assign var=createdEvents_counts value=$createdEvents|@count} 
 				{if $createdEvents_counts gt 0}
 				<ul class="event-list">
-					{foreach name=events item=event from=$createdEvents}
+					{foreach $createdEvents as $event}
 					<li>
-						<a href="{$CURHOST}/event/{$event['id']}">
-							<h2>{$event['title']}</h2>
+						<a href="{$CURHOST}/event/{$event->eid}">
+							<h2>{$event->title}</h2>
 						</a>
 					</li>
 					{/foreach}
 				</ul>
 				{else}
-				<p class="message">{$userInfo['fname']} hasn't created any public events yet.</p>
+				<p class="message">{$profile->fname} hasn't created any public events yet.</p>
 				{/if}
 			</section>

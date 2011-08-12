@@ -15,9 +15,9 @@
 					<label for="send-automatically">
 						<strong></strong>
 						<div>
-							<input type="checkbox" name="automatically" id="automatic_email_send_cb" {$eventReminder['isAuto']} /> Send automatically on 
-              <input type="text" class="inputbox datebox" id="automatic_email_event_date" value="{$eventDate}" /> at 
-              <input type="text" class="timebox" id="automatic_email_send_time" value="{$eventTime}" />
+							<input type="checkbox" name="automatically" id="automatic_email_send_cb"{if isset($eventReminder['isAuto'])} checked="checked"{/if} /> Send automatically on 
+              <input type="text" class="inputbox datebox" id="automatic_email_event_date" value="{if isset($eventDate)}{$eventDate}{/if}" /> at 
+              <input type="text" class="timebox" id="automatic_email_send_time" value="{if isset($eventTime)}{$eventTime}{/if}" />
 						</div>
 					</label>
 					<label for="mail_to">
@@ -31,13 +31,13 @@
 					<label for="subject">
 						<strong>Subject:</strong>
 						<div>
-							<input type="text" class="inputbox autowidth" name="subject" value="{$eventReminder['subject']}" id="subject" />
+							<input type="text" class="inputbox autowidth" name="subject" value="{if isset($eventReminder['subject'])}{$eventReminder['subject']}{/if}" id="subject" />
 						</div>
 					</label>
 					<label for="message">
 						<strong>Message:</strong>
 						<div>
-							<textarea class="autowidth" name="message" id="message">{$eventReminder['message']}</textarea>
+							<textarea class="autowidth" name="message" id="message">{if isset($eventReminder['message'])}{$eventReminder['message']}{/if}</textarea>
      {literal}
      {Guest name}
 		 {Host name}

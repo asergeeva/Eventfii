@@ -2,7 +2,7 @@
   <h2 class="event_form_section_header">Facebook:</h2>
   <div id="fb-root"></div>
   <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-  <fb:send href="{$eventInfo['url']}"></fb:send>
+  <fb:send href="{$event->url}"></fb:send>
 </div>
 <div id="event_invite_guest_email">
   <h2 class="event_form_section_header">Email:</h2>

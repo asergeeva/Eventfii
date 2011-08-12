@@ -1,8 +1,8 @@
 <nav class="event-options">
   <ol>
-    <li class="optn"><a href="manage?eventId={$id}">Manage</a></li>
-    <li class="optn optn-current"><a href="edit?eventId={$id}">Edit</a></li>
-    <li class="optn"><a href="event/{$id}" target="_blank">Preview</a></li>
+    <li class="optn"><a href="manage?eventId={$smarty.get.eventId}">Manage</a></li>
+    <li class="optn optn-current"><a href="edit?eventId={$smarty.get.eventId}">Edit</a></li>
+    <li class="optn"><a href="event/{$smarty.get.eventId}" target="_blank">Preview</a></li>
   </ol>
 </nav>
 <fieldset class="section-form">

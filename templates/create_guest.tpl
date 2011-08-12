@@ -1,3 +1,4 @@
+<section class="block">
 				<header class="block-title">
 					<h1>Add Guests</h1>
 				</header>
@@ -8,12 +9,12 @@
 							<span>Facebook</span>
 							<div id="fb-root"></div>
 							<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-							<fb:send href="{$EVENT_URL}/{$eventInfo->eid}"></fb:send>
+							<fb:send href="{$EVENT_URL}/{$smarty.session.manage_event->eid}"></fb:send>
 						</li>
 						<li>
 							<span>Add from address book</span>
 							<p><a href="#gmail" class="event_invite_oi">Gmail</a> <a href="#yahoo" class="event_invite_oi">Yahoo!</a></p>
-              <div id="oi_container"></div>
+              				<div class="dropdown" id="oi_container"></div>
 						</li>
 						<li>
 							<label for="emails">
@@ -23,7 +24,7 @@
 						</li>
 						<li>
 							<span>Upload a CSV file</span>
-							<span id="eventid">{$eventInfo->eid}</span>
+							<span id="eventid">{$smarty.session.manage_event->eid}</span>
 							<p><a href="#" id="csv_upload"><span>Upload</span></a></p>
 						</li>
 					</ol>
@@ -32,3 +33,4 @@
 					<p><input type="submit" name="submit" value="Done" /></p>
 				</footer>
 				</form>
+			</section>
