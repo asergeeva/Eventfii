@@ -5,8 +5,6 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */ 
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
-
 class EFTwitter {
 	private $dbCon;
 	private $PREFIX = "#truersvp";
@@ -25,7 +23,7 @@ class EFTwitter {
 	 * return String
 	 */
 	public function getTwitterHash($eid) {
-		$eventInfo = $this->dbCon->getEventInfo($eid);
+		$eventInfo = EFCommon::$dbCon->getEventInfo($eid);
 		return $this->PREFIX.$eventInfo['id'];
 	}
 }
