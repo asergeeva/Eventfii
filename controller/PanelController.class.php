@@ -519,7 +519,7 @@ class PanelController {
 				EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
 				
 				// Generating the QR Code
-				$qrKey = 'truersvp-'.$eventInfo['id'].'-'.$_SESSION['uid'];
+				$qrKey = 'truersvp-' . $event->eid . '-' . $_SESSION['user']->id;
 				$errorCorrectionLevel = 'L';
 				$matrixPointSize = 4;
 				$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';

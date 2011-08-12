@@ -1,6 +1,6 @@
 	<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#truersvp{$event->eid}"></div>
   <header class="block">
-			<p class="message"><em>{$event->days_let]}</em> days left until the event. Get excited!</p>
+			<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
 			<p class="message">{$QR}</p>
 		</header>
 		<!-- Not in design
