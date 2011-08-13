@@ -12,7 +12,6 @@ require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 
 class EFMail {
 	private $FROM = "hello@truersvp.com";
-	private $dbCon;
 	private $efmailDict = array(
 		"{Guest name}",
 		"{Host name}",
@@ -26,7 +25,6 @@ class EFMail {
 	
 	public function __construct() {
 		mailgun_init('key-afy6amxoo2fnj$u@mc');
-		$this->dbCon = new DBConfig();
 	}
 	
 	public function __destruct() {
@@ -37,8 +35,8 @@ class EFMail {
 		$GET_EVENT_INFO = "	SELECT 	u.fname, e.title, DATE_FORMAT(e.event_datetime, '%W %M %Y %r') AS datetime 
 							FROM 	ef_attendance a, ef_users u, ef_events e 
 							WHERE 	a.user_id = u.id AND a.event_id = e.id AND a.event_id = " . $eid;
-		$mapEventInfo = $this->dbCon->executeQuery($GET_EVENT_INFO);
-		$hostInfo = $this->dbCon->getUserInfo($mapInfo['organizer']);
+		$mapEventInfo = EFCommon::$dbCon->executeQuery($GET_EVENT_INFO);
+		$hostInfo = EFCommon::$dbCon->getUserInfo($mapInfo['organizer']);
 		for ($i = 0; $i < sizeof($this->efmailDict); ++$i) {
 			switch ($this->efmailDict[$i]) {
 				case "{Guest name}":
@@ -71,17 +69,17 @@ class EFMail {
 		for ($i = 0; $i < sizeof($to); ++$i) {
 			$hash_key = md5($to[$i].$eventId);
 			$message = "Link: " . $eventUrl . "?ref=" . $hash_key;
-			$insertedUser = $this->dbCon->createNewUser( NULL, NULL, $to[$i], NULL, NULL, NULL );
+			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $to[$i], NULL, NULL, NULL );
 			
 			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 								VALUES ('" . $hash_key . "', '" . $to[$i] . "', " . $eventId . ")";
-			$this->dbCon->executeUpdateQuery($RECORD_HASH_KEY);
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 			$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
 										VALUES (" . $eventId . ", " . $insertedUser['id'] . ")";
-			$this->dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
 			$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
 								VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
-			$this->dbCon->executeUpdateQuery($RECORD_CONTACT);
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
 			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
 		}
 	}

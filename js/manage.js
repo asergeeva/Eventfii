@@ -14,7 +14,7 @@ var MANAGE_EVENT = ( function() {
 						}
 				));
 				
-		AnyTime.picker(
+			AnyTime.picker(
 				"#automatic_text_send_time",
 							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
 				 $("#automatic_text_send_time").AnyTime_picker(
@@ -24,7 +24,7 @@ var MANAGE_EVENT = ( function() {
 						}
 				));
 				
-		AnyTime.picker(
+			AnyTime.picker(
 				"#event_time_update",
 							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
 				 $("#event_time_update").AnyTime_picker(
@@ -110,6 +110,14 @@ var MANAGE_EVENT = ( function() {
 					$('#reminder_status').html(EFGLOBAL.isSucceed);
 					else
 					$('#reminder_status').html(retval);
+				});
+			});
+			
+			$('.event_attendees').live('click', function() {
+				$.post(EFGLOBAL.baseUrl + '/event/checkin', {
+					'checkin': this.checked, 
+					'guestId': this.value.split('_')[1],
+					'eventId': this.value.split('_')[2]
 				});
 			});
 		}
