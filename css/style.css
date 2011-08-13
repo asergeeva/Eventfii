@@ -542,10 +542,11 @@ ul.contacts-list li p {
 #main .extra .block { padding: 12px; }
 
 /*----- Profile Panels ----------*/
+p.user-name { text-align: center; }
 p.user-img {
 	text-align: center;
 	width: 100%;
-	margin: 4px 0; }
+	margin: 8px 0 0; }
 p.user-img img { 
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
@@ -713,7 +714,7 @@ footer#site-map {
 	font-family: Arial;
 	color: #fff;
 	height: 129px; /* 162 - 33 */
-	margin: 0;
+	margin: 88px 0 0;
 	padding: 33px 0 0; }
 #site-map ul { 
 	width: 760px;

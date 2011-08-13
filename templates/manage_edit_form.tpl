@@ -13,8 +13,8 @@
 								<p class="message-error" id="titleErr">{$error.title}</p>{/if}
                             </dd>
 							<dt>
-								<label for="event_description_update">Brief Description</label> 
-								<em>What is your event about?</em>
+								<label for="event_description_update">Event Details</label> 
+								<em>What should your guests know?</em>
 							</dt>
 							<dd>
                                     <input type="text" class="inputbox autowidth" name="description" value="{$event_field.description}" id="event_description_update" />{if isset($error.desc)}
