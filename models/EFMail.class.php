@@ -90,10 +90,11 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendHtmlInvite($event) {
-		$hash_key = md5($to[$i].$event->eid);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['send_invite']);
+		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
-		$htmlEmail  = new DOMDocument();
-		$htmlEmail->load(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['send_invite']);
+		$htmlEmail = new DOMDocument();	
+		$htmlEmail->loadXML($htmlStr);
 		
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
 		for ($i = 0; $i < $replaceItems->length; ++$i) {
@@ -117,8 +118,10 @@ class EFMail {
 			}
 		}
 	
-		for ($i = 0; $i < sizeof($event->guests); ++$i) {
+		for ($i = 0; $i < sizeof($event->guests); ++$i) {		
 			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i], NULL, NULL, NULL );
+			
+			$hash_key = md5($event->guests[$i].$event->eid);
 			
 			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 								VALUES ('" . $hash_key . "', '" . $event->guests[$i] . "', " . $event->eid . ")";
