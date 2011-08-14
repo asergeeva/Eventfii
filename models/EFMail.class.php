@@ -18,8 +18,9 @@ class EFMail {
 		"{Event name}",
 		"{Event time}"
 	);
-	private $template = array(
-		"welcome_email" => "welcome.html"
+	private $templates = array(
+		"welcome_email" => "welcome.html",
+		"send_invite" => "inviteemail.html"
 		// ...
 	);
 	
@@ -63,12 +64,12 @@ class EFMail {
 	 * $eventUrl  String url of the event
 	 * We don't need transactions
 	 */
-	public function sendInvite($to, $eventId, $eventName, $eventUrl) {
+	public function sendInvite($to, $eventId, $eventName) {
 		$subject = "You are invited to ".$eventName;
 		
 		for ($i = 0; $i < sizeof($to); ++$i) {
 			$hash_key = md5($to[$i].$eventId);
-			$message = "Link: " . $eventUrl . "?ref=" . $hash_key;
+			$message = "Link: " . EVENT_URL ."/". $eventUrl ."?ref=". $hash_key;
 			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $to[$i], NULL, NULL, NULL );
 			
 			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
@@ -81,6 +82,64 @@ class EFMail {
 								VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
 			EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
 			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
+		}
+	}
+	
+	/**
+	 * $event     Event  the event object
+	 * We don't need transactions
+	 */
+	public function sendHtmlInvite($event) {
+		$hash_key = md5($to[$i].$event->eid);
+		
+		$htmlEmail  = new DOMDocument();
+		$htmlEmail->load(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['send_invite']);
+		
+		$replaceItems = $htmlEmail->getElementsByTagName("span");
+		for ($i = 0; $i < $replaceItems->length; ++$i) {
+			switch ($replaceItems->item($i)->getAttribute("id")) {
+				case "event_name":
+					$replaceItems->item($i)->nodeValue = $event->title;
+					$replaceItems->item($i)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid."?ref=" . $hash_key);
+					break;
+				case "event_date":
+					$replaceItems->item($i)->nodeValue = $event->date;
+					break;
+				case "event_location":
+					$replaceItems->item($i)->nodeValue = $event->address;
+					break;
+				case "host_name":
+					$replaceItems->item($i)->nodeValue = $_SESSION['user']->fname . " " . $_SESSION['user']->lname;
+					break;
+				case "host_email":
+					$replaceItems->item($i)->nodeValue = $_SESSION['user']->email;
+					break;
+			}
+		}
+	
+		for ($i = 0; $i < sizeof($event->guests); ++$i) {
+			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i], NULL, NULL, NULL );
+			
+			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
+								VALUES ('" . $hash_key . "', '" . $event->guests[$i] . "', " . $event->eid . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
+			$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
+										VALUES (" . $event->eid . ", " . $insertedUser['id'] . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+			$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
+								VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
+		
+			$rawMime = 
+			    "X-Priority: 1 (Highest)\n".
+			    "X-Mailgun-Tag: truersvp\n".
+			    "Content-Type: text/html;charset=UTF-8\n".    
+			    "From: ".$this->FROM."\n".
+			    "To: ".$event->guests[$i]."\n".
+			    "Subject: You are invited to ".$event->title."\n".
+			    "\n".$htmlEmail->saveXML();
+			    
+			MailgunMessage::send_raw($this->FROM, $event->guests[$i], $rawMime);
 		}
 	}
 	

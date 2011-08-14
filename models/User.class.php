@@ -63,11 +63,11 @@ class User {
 	}
 	
 	private function getUserInfoFromDb() {
-		return $this->dbCon->getUserInfo($this->uid);
+		return EFCommon::$dbCon->getUserInfo($this->uid);
 	}
 	
 	public function updateDb() {
-		$this->dbCon->updateUserInfo( $user->fname, $user->lname, $user->email, $user->phone, $user->zip, $user->twitter, $user->notif_opt1, $user->notif_opt2, $user->notif_opt3 );
+		EFCommon::$dbCon->updateUserInfo( $user->fname, $user->lname, $user->email, $user->phone, $user->zip, $user->twitter, $user->notif_opt1, $user->notif_opt2, $user->notif_opt3 );
 	}
 	
 	private function makeUserFromArray($userInfo) {

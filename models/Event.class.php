@@ -506,7 +506,7 @@ class Event {
 			$this->setGuestsFromCSV($csvFile);
 		}
 		
-		$mailer->sendInvite($this->guests, $this->eid, $this->title);
+		$mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
