@@ -97,6 +97,7 @@ class EFMail {
 		$htmlEmail->loadXML($htmlStr);
 		
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
+
 		for ($i = 0; $i < $replaceItems->length; ++$i) {
 			switch ($replaceItems->item($i)->getAttribute("id")) {
 				case "event_name":

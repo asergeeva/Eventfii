@@ -115,7 +115,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	private function makeNewEvent( $newEvent ) {
+	private function makeNewEvent( $newEvent ) {	
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {

@@ -88,8 +88,7 @@ class Event {
 	 *
 	 * Expects valid event info.
 	 */
-	private function makeEventFromArray($eventInfo) {
-		
+	private function makeEventFromArray($eventInfo) {		
 		$this->eid = $eventInfo['id'];
 		
 		// Store into private vars
@@ -102,9 +101,11 @@ class Event {
 		$this->event_datetime = $eventInfo['event_datetime'];
 
 		// Prepare date and time
-		$eventDateTime = explode(" ", $eventInfo['event_datetime']);		
+		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
+		
 		$this->date = $this->dbCon->dateToRegular($eventDateTime[0]);
 		$this->deadline = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
+		
 		$eventTime = explode(":", $eventDateTime[1]);
 		$this->time = $eventTime[0] . ":" . $eventTime[1];
 
@@ -123,6 +124,7 @@ class Event {
 		if ( isset($eventInfo['location_long']) ) {
 			$this->location_long = $eventInfo['location_long'];
 		}
+		
 		$this->exists = true;
 	}
 

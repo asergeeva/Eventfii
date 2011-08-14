@@ -118,7 +118,7 @@ class DBConfig {
 	public function getMaxEventId() {
 		$GET_MAX_EFID = "	SELECT	MAX(e.id) AS max_id 
 							FROM 	ef_events e
-							WHERE	e.organizer = " . $_SESSION['uid'];
+							WHERE	e.organizer = " . $_SESSION['user']->id;
 		
 		$maxId = $this->executeQuery($GET_MAX_EFID);
 		
@@ -370,7 +370,7 @@ class DBConfig {
 							location_long
 						) 
 			VALUES (	NOW(), 
-						'" . mysql_real_escape_string($newEvent->organizer) . "',
+						'" . mysql_real_escape_string($newEvent->organizer->id) . "',
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
 						'" . mysql_real_escape_string($newEvent->address) . "',
