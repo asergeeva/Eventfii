@@ -6,7 +6,6 @@
  * All rights reserved
  */
  
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
  
 class Event {
@@ -32,8 +31,6 @@ class Event {
 	private $error;
 	private $numErrors;
 	
-	private $dbCon;
-	
 	function __construct( $eventInfo ) {
 		if ( $eventInfo == NULL ) {
 			$this->eid = NULL;
@@ -50,10 +47,9 @@ class Event {
 			$this->location_lat = $_POST['location_lat'];
 			$this->location_long = $_POST['location_long'];
 		} else {
-			$this->dbCon = new DBConfig();
 			if ( ! is_array($eventInfo) ) {
 				$this->eid = $eventInfo;
-				$eventInfo = $this->dbCon->getEventInfo($this->eid);
+				$eventInfo = EFCommon::$dbCon->getEventInfo($this->eid);
 			}
 			
 			// Make sure an event was pulled from the db
@@ -74,7 +70,7 @@ class Event {
 	 * Adds invited guests to the array
 	 */
 	private function addGuests() {
-		$guest_array = $this->dbCon->getAttendeesByEvent($this->eid);
+		$guest_array = EFCommon::$dbCon->getAttendeesByEvent($this->eid);
 		if ( sizeof($guest_array) > 0 ) {
 			foreach ( $guest_array as $guest ) {
 				$guest[] = new User($guest);
@@ -103,8 +99,8 @@ class Event {
 		// Prepare date and time
 		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
 		
-		$this->date = $this->dbCon->dateToRegular($eventDateTime[0]);
-		$this->deadline = $this->dbCon->dateToRegular($eventInfo['event_deadline']);
+		$this->date = EFCommon::$dbCon->dateToRegular($eventDateTime[0]);
+		$this->deadline = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
 		
 		$eventTime = explode(":", $eventDateTime[1]);
 		$this->time = $eventTime[0] . ":" . $eventTime[1];
@@ -398,7 +394,7 @@ class Event {
 			$this->numErrors++;
 		}
 		
-		// $this->time = date("H:i:s", strtotime($this->time));
+		$this->time = date("H:i:s", strtotime($this->time));
 	}
 
 	/* check_goal
