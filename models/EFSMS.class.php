@@ -34,7 +34,6 @@ class EFSMS {
 	 * http://www.twilio.com/docs/quickstart/sms/sending-via-rest
 	 **/
 	public function sendSMSReminder($smsRecipients, $eventInfo, $message) {
-		print_r($smsRecipients);
 		foreach ($smsRecipients as $smsRecipient) {
 			// Send a new outgoinging SMS by POSTing to the SMS resource */
 			$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
