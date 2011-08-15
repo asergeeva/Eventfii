@@ -42,6 +42,7 @@ $smarty->assign('CONFOPT3', CONFOPT3);
 $smarty->assign('CONFOPT4', CONFOPT4);
 $smarty->assign('CONFOPT5', CONFOPT5);
 $smarty->assign('CONFOPT6', CONFOPT6);
+$smarty->assign('CONFELSE', CONFELSE);
 
 // 0-20
 define('GUESTRANGE1MIN', 65);

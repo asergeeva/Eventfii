@@ -577,7 +577,7 @@ class DBConfig {
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
-							AND 	a.event_id = " . $eid . " AND a.confidence <> ".CONFOPT6;
+							AND 	a.event_id = " . $eid . " AND a.confidence <> ".CONFELSE;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	

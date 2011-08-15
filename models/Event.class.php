@@ -267,7 +267,7 @@ class Event {
 	 		FILTER_VALIDATE_REGEXP, 
 	 		array(
 	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9'\s]{10,500}$/"
+	 				"regexp" => "/^[A-Za-z0-9'.\s]{10,500}$/"
 	 			)
 	 		)
 	 	);
