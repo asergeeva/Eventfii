@@ -133,52 +133,6 @@ class PanelController {
 		exit;
 	}
 
-	/*	MAIL FOR GUESTS
-		require_once('models/EFMail.class.php');
-		if ( is_array($newEvent) ) {
-			$r = 0;
-		} else {
-			$newEvent = json_decode($_SESSION['newEvent'], true);
-		}
-		$addrss = $newEvent['address'];
-		$addr = $this->check_address($addrss);	
-		$newEvent['location_lat'] = $addr['lat'];
-		$newEvent['location_long'] = $addr['lng'];	
-		EFCommon::$dbCon->createNewEvent($newEvent);
-		
-		// INVITE GUESTS USING EMAIL
-		$eid = explode('/', $newEvent['url']);
-		$newEvent['eid'] = $eid[sizeof($eid) - 1];
-
-		EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-		EFCommon::$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
-	*/
-	
-	/* Potentailly reusable
-	// Make sure user is logged in before they can
-	// create the event
-	if (isset($_SESSION['uid'])) {
-		if (isset($_SESSION['newEvent'])) {
-			require_once('models/EFMail.class.php');
-			if ( is_array($newEvent) ) {
-				$r = 0;
-			} else {
-				$newEvent = json_decode($_SESSION['newEvent'], true);
-			}
-			$addrss = $newEvent['address'];
-			$addr = $this->check_address($addrss);	
-			$newEvent['location_lat'] = $addr['lat'];
-			$newEvent['location_long'] = $addr['lng'];	
-			EFCommon::$dbCon->createNewEvent($newEvent);
-			
-			// INVITE GUESTS USING EMAIL
-			$eid = explode('/', $newEvent['url']);
-			$newEvent['eid'] = $eid[sizeof($eid) - 1];
-			
-			EFCommon::$dbCon->storeGuests($newEvent['guests'], $newEvent['eid'], $_SESSION['uid']);
-			EFCommon::$mailer->sendEmail($newEvent['guests'], $newEvent['eid'], $newEvent['title'], $newEvent['url']);
-		} */
-
 	//checkUserCreationForm
 	public function checkUserCreationForm($req) {
 		$flag = 1;
@@ -535,7 +489,7 @@ class PanelController {
 			$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
 			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
 			
-			$event_attendees = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+			$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
 			foreach($event_attendees as $guest) {
 				$attending[] = new User($guest);
 			}
@@ -1172,56 +1126,6 @@ class PanelController {
 					echo $res;
 				}
 				break;
-			/* Unused
-			case '/event/payment/submit':
-				require_once('models/PaypalPreapproveReceipt.class.php');
-
-				$paypalPreapprove = new PaypalPreapproveReceipt();
-				$paypalPreapprove->preapprove();
-				break;
-			case '/event/payment/success':
-				require_once('models/PaypalPreapproveDetails.class.php');
-				
-				if ( EFCommon::$dbCon->eventSignUp($_SESSION['uid'], $_SESSION['attend_event']['id'] && isset($_SESSION['uid']) ) ) {
-					$paypalPreapprove = new PaypalPreapproveDetails();
-					$paypalPreapprove->preapprove();
-					EFCommon::$dbCon->preapprovePayment(
-						$_SESSION['uid'],
-						$_SESSION['attend_event']['id'], 
-						$paypalPreapprove->preapprovalKey, 
-						$paypalPreapprove->response->senderEmail
-					);
-
-				  $userInfo = EFCommon::$dbCon->getUserInfo($_SESSION['uid']);
-					EFCommon::$smarty->assign('userInfo', $userInfo);
-
-					EFCommon::$smarty->display('payment_success.tpl');
-					break;
-				}
-				EFCommon::$smarty->display('payment_failed.tpl');
-				break;
-			case '/event/payment/failed':
-				EFCommon::$smarty->display('payment_failed.tpl');
-				break;
-			case '/payment/collect':
-				require_once('models/PaypalPayReceipt.class.php');
-				$paypalPay = new PaypalPayReceipt();
-
-				$attendees = EFCommon::$dbCon->getAttendees($_REQUEST['eventId']);
-
-				// TODO: NON-ATOMIC OPERATION
-				// PayPal doesn't provide an API to receive payments from multiple senders
-				// But it provides an API to send payments to multiple receivers
-				// https://www.x.com/thread/52330?stqc=true
-				for ($i = 0; $i < sizeof($attendees); ++$i) {
-					$paypalPay->pay($attendees[$i]['pemail'], $_REQUEST['receiver_email'], 
-													$attendees[$i]['cost'], $attendees[$i]['pkey']);
-				}
-				EFCommon::$dbCon->updateCollected($_REQUEST['eventId']);
-				$this->assignCreatedEvents($_SESSION['uid']);
-				EFCommon::$smarty->display('event_created.tpl');
-				break;
-			*/
 			case '/logout':
 				if ( ! isset($_SESSION['user']) ) {
 					EFCommon::$smarty->display('error.tpl');

@@ -502,11 +502,12 @@ class DBConfig {
 	
 	public function eventSignUp($uid, $eid, $conf) {
 		if ( ! $this->hasAttend($uid, $eid) ) {
-			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) 
+			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence, is_attending) 
 								VALUES(
 									" . $eid . ", 
 									" . $uid . ", 
-									" . $conf . "
+									" . $conf . ",
+									1
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
@@ -576,6 +577,15 @@ class DBConfig {
 									ef_users u 
 							WHERE 	a.user_id = u.id 
 							AND 	a.event_id = " . $eid;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	public function getConfirmedGuests($eid) {
+		$GET_ATTENDEES = "	SELECT	* 
+							FROM 	ef_attendance a, 
+									ef_users u 
+							WHERE 	a.user_id = u.id 
+							AND 	a.event_id = " . $eid . " AND a.is_attending = 1";
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
