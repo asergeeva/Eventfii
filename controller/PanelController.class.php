@@ -7,8 +7,6 @@
  */
 
 class PanelController {
-	private $DEBUG = true;
-
 	public function __construct() {
 	
 	}
@@ -753,7 +751,7 @@ class PanelController {
 				if ( isset( $_REQUEST['oi_email'] ) && isset( $_REQUEST['oi_pass'] ) ) {
 					$inviter->startPlugin($_REQUEST['oi_provider']);
 					$internal = $inviter->getInternalError();
-					if ( $internal && $this->DEBUG ) {
+					if ( $internal && DEBUG ) {
 						print($internal);
 					}
 					$inviter->login( $_REQUEST['oi_email'], $_REQUEST['oi_pass'] );
