@@ -126,17 +126,17 @@ class qqFileUploader {
         
         $pathinfo = pathinfo($this->file->getName());
 				
-				$eventId = $_SESSION['new_eid'];
-				if (isset($_SESSION['manage_event'])) {
-					$event = unserialize($_SESSION['manage_event']);
-					$eventId = $event->eid;
-					$filename = $eventId;
-				}
-        //$filename = $pathinfo['filename'];
-				//$filename = md5(uniqid());
-				if(!isset($filename)) {
-					$filename=$_SESSION['uid'];
-				}
+		$eventId = $_SESSION['new_eid'];
+		if (isset($_SESSION['manage_event'])) {
+			$event = unserialize($_SESSION['manage_event']);
+			$eventId = $event->eid;
+			$filename = $eventId;
+		}
+		//$filename = $pathinfo['filename'];
+		//$filename = md5(uniqid());
+		if(!isset($filename)) {
+			$filename=$_SESSION['user']->id;
+		}
 				
 				
         $ext = $pathinfo['extension'];

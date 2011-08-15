@@ -292,8 +292,8 @@ class PanelController {
 			// Need to make sure that event is valid before creating new event...
 			// $this->checkCreateEventSession();
 	
-			//unset($_SESSION['new_eid']);
-			//unset($_SESSION['manage_event']);
+			unset($_SESSION['new_eid']);
+			unset($_SESSION['manage_event']);
 			
 			$this->assignCPEvents($_SESSION['user']->id);
 			EFCommon::$smarty->display('cp.tpl');
@@ -1128,11 +1128,12 @@ class PanelController {
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 				$result = $uploader->handleUpload('upload/user/', TRUE);
+				
+				EFCommon::$dbCon->saveUserPic($result['file']);
+				
 				// to pass data through iframe you 
 				// will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-
-				EFCommon::$dbCon->saveUserPic();
 				break;
 			case '/user/status/update':
 				$this->validateLocalRequest();

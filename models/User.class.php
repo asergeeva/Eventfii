@@ -5,6 +5,7 @@
  * All code (c) 2011 Eventfii Inc. 
  * All rights reserved
  */
+ 
 class User {
 	public $id;
 	public $fname;
@@ -28,10 +29,8 @@ class User {
 	private $error;
 	private $numErrors;
 	
-	private $dbCon;
-	
 	function __construct($userInfo) {
-		if ( $userInfo == NULL ) {
+		if ( $userInfo === NULL ) {
 			$this->fname = $_POST['fname'];
 			$this->lname = $_POST['lname'];
 			$this->email = $_POST['email'];
@@ -42,10 +41,9 @@ class User {
 			$this->notif_opt2 = ( isset($_POST['email-updates']) ) ? 1 : 0;		
 			$this->notif_opt3 = ( isset($_POST['email-friend']) ) ? 1 : 0;
 		} else {
-			$this->dbCon = new DBConfig();
 			if ( ! is_array($userInfo) ) {
 				$userId = $userInfo;
-				$userInfo = $this->dbCon->getUserInfo($userId);
+				$userInfo = EFCommon::$dbCon->getUserInfo($userId);
 				
 				// Make sure a user was pulled from the db
 				if ( ! $userInfo ) {
@@ -87,9 +85,9 @@ class User {
 	}
 	
 	private function setUserPic() {
-		if ( file_exists("../upload/user/" . $this->id . ".png") ) {
+		if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".png") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".png";
-		} else if ( file_exists("../upload/user/" . $this->id . ".jpg") ) {
+		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
