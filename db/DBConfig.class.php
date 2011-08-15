@@ -428,7 +428,7 @@ class DBConfig {
 										e.is_public 
 								FROM 	ef_attendance a, 
 										ef_events e 
-								WHERE 	a.event_id = e.id AND a.user_id = ".$uid."
+								WHERE 	a.event_id = e.id AND a.user_id = ".$uid." AND a.confidence <> ".CONFOPT6."
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);

@@ -266,7 +266,7 @@ class Event {
 	 		FILTER_VALIDATE_REGEXP, 
 	 		array(
 	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9'.\s]{10,500}$/"
+	 				"regexp" => "/^[A-Za-z0-9'!\.\s]{10,500}$/"
 	 			)
 	 		)
 	 	);
@@ -527,4 +527,86 @@ class Event {
 		}	
 	}
 	
+	public function getCalDate() {
+		$dateTokens = explode("/", $this->date);
+		$timeTokens = explode(":", $this->time);
+	
+		$date = new DateTime();
+		$date->setTimezone(new DateTimeZone('PDT'));
+		$date->setDate($dateTokens[2], $dateTokens[0], $dateTokens[1]);
+		$date->setTime($timeTokens[0],$timeTokens[1], 00);
+		$date->setTimezone(new DateTimeZone('UTC'));
+	
+		return $date->format('Ymd\THis\Z');
+	}
+	
+	/* Generate the Google Calendar button */
+	public function getGCAL() {
+		$gCalButton = '<a href="http://www.google.com/calendar/event?action=TEMPLATE&text='.$this->text.
+																				   '&dates='.$this->getCalDate().'/'.$this->getCalDate().
+																				   '&details='.$this->description.
+																				   '&location='.$this->address.
+																				   '&trp=false'.
+																				   '&sprop='.EVENT_URL.$this->eid.
+																				   '&sprop='.$this->description.'" target="_blank">';
+		$gCalButton .= '<img src="http://www.google.com/calendar/images/ext/gc_button6.gif" border="0" />';
+		$gCalButton .= '</a>';
+		return $gCalButton;
+	}
+	
+	/* Generate the Outlook file */
+	public function getVCS() {
+		header("Content-Type: text/x-vCalendar");
+		header("Content-Disposition: inline; filename = TrueRSVP-".$this->eid.".vcs");
+		
+		/*The code for generating a .vcs file for outlook users*/	
+		$vCalOutput = "BEGIN:	\n";
+		$vCalDescription = str_replace("\r", "\\n", $this->description);
+		$vCalLocation = str_replace("\r", "\\n", $this->address);
+		$text = str_replace("\r", "\\n", $this->description);
+		
+		/* output the event */
+		$vCalOutput .= "BEGIN:VEVENT\n";
+		$vCalOutput .= "SUMMARY:".rawurldecode($text)."\n";
+		$vCalOutput .= "DESCRIPTION:".rawurldecode($vCalDescription)."\n";
+		$vCalOutput .= "DTSTART:".$this->getCalDate()."\n";
+		$vCalOutput .= "LOCATION:".rawurldecode($vCalLocation)."\n";
+		$vCalOutput .= "URL;VALUE=URI:".rawurldecode($link)."\n";
+		$vCalOutput .= "DTEND:".$this->getCalDate()."\n";
+		$vCalOutput .= "END:VEVENT\n";
+		$vCalOutput .= "END:VCALENDAR\n";
+		
+		print($vCalOutput);
+	}
+	
+	/* Generate the iCal file */
+	public function getICS() {
+		header('Content-Type: text/calendar; charset=utf-8');
+		header('Content-Disposition: attachment; filename="TrueRSVP-'.$this->eid.'.ics"; ');
+		
+		$vCalOutput = "BEGIN:VCALENDAR\n";
+		$vCalOutput .= "CALSCALE:GREGORIAN\n";
+		$vCalOutput .= "X-WR-TIMEZONE;VALUE=TEXT:US/Pacific\n";
+		$vCalOutput .= "METHOD:PUBLISH\n";
+		$vCalOutput .= "PRODID:-//Apple Computer\, Inc//iCal 1.0//EN\n";
+		$vCalOutput .= "X-WR-CALNAME;VALUE=TEXT:TrueRSVP\n";
+		$vCalOutput .= "VERSION:2.0\n";
+		$vCalOutput .= "BEGIN:VEVENT\n";
+		$vCalOutput .= "DESCRIPTION:".rawurldecode($this->description)."\n";
+		$vCalOutput .= "SEQUENCE:5\n";
+		$vCalOutput .= "DTSTART;TZID=US/Pacific:".$this->getCalDate()."\n";
+		$vCalOutput .= "DTSTAMP:".$this->getCalDate()."\n";
+		$vCalOutput .= "SUMMARY:".rawurldecode($this->description)."\n";
+		$vCalOutput .= "UID:EC9439B1-FF65-11D6-9973-003065F99D04\n";
+		$vCalOutput .= "DTEND;TZID=US/Pacific:".$this->getCalDate()."\n";
+		$vCalOutput .= "BEGIN:VALARM\n";
+		$vCalOutput .= "TRIGGER;VALUE=DURATION:-P1D\n";
+		$vCalOutput .= "ACTION:DISPLAY\n";
+		$vCalOutput .= "DESCRIPTION:Event reminder\n";
+		$vCalOutput .= "END:VALARM\n";
+		$vCalOutput .= "END:VEVENT\n";
+		$vCalOutput .= "END:VCALENDAR\n";
+		
+		print($vCalOutput);	
+	}
 }

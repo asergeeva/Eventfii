@@ -11,7 +11,7 @@ require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 
 class EFMail {
-	private $FROM = "hello@truersvp.com";
+	private $FROM = "'TrueRSVP' <hello@truersvp.com>";
 	private $efmailDict = array(
 		"{Guest name}",
 		"{Host name}",
