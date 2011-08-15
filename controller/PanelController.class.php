@@ -557,11 +557,7 @@ class PanelController {
 			case '/settings':
 				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
-					$user = new User(NULL);
-					if ( $this->validateUserInfo( $user ) === true ) {
-						$user->updateDb();
-						$responseMsg['user_success'] = 'User info has been updated';
-					} 
+					$_SESSION['user']->updateDb();
 					
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
 						if ( EFCommon::$dbCon->resetPassword( md5($_REQUEST['user-curpass']), md5($_REQUEST['user-newpass']), md5($_REQUEST['user-confpass']) )) {
@@ -784,8 +780,6 @@ class PanelController {
 
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
-				/* getEventEmail has no functionality yet
-				
 				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = true;
@@ -804,7 +798,7 @@ class PanelController {
 				EFCommon::$smarty->assign('eventDate', $eventDate);
 				EFCommon::$smarty->assign('eventTime', $eventTime);
 				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-				EFCommon::$smarty->assign('eventReminder', $eventReminder); */
+				EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
@@ -879,7 +873,6 @@ class PanelController {
 				
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
-				/* Not yet implemented
 				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
 				if ( $eventReminder['is_activated'] == 1 ) {
 					$eventReminder['isAuto'] = true;
@@ -898,7 +891,7 @@ class PanelController {
 				EFCommon::$smarty->assign('eventDate', $eventDate);
 				EFCommon::$smarty->assign('eventTime', $eventTime);
 				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-				EFCommon::$smarty->assign('eventReminder', $eventReminder); */
+				EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				
 				EFCommon::$smarty->display('manage_text.tpl');
 				break;

@@ -74,10 +74,11 @@ var MANAGE_EVENT = ( function() {
 					reminderSubject: $('#subject').val(),
 					reminderContent: $('#message').val()
 				}, function(retval) {
-					if(retval=="Success")
-					$('#reminder_status').html(EFGLOBAL.isSucceed);
-					else
-					$('#reminder_status').html(retval);
+					if(retval=="Success") {
+						$('#reminder_status').html(EFGLOBAL.isSucceed);
+					} else {
+ 						$('#reminder_status').html(retval);
+ 					}
 				});
 			});
 			
@@ -101,7 +102,7 @@ var MANAGE_EVENT = ( function() {
 				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/text/send', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
-					reminderDate: $('#automatic_email_event_date').val(),
+					reminderDate: $('#automatic_text_send_date').val(),
 					reminderTime: $('#automatic_text_send_time').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val()

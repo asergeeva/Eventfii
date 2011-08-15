@@ -116,9 +116,9 @@
 						<p class="message-error" id="titleErr">{$responseMsg['password']}</p>{/if}
 				</fieldset>
 				<footer class="buttons buttons-submit">
-					<p><a href="#" id="save_settings"><span>Save All</span></a></p>
+					<p><input type="submit" name="submit" value="Save All" /></p>{if isset($responseMsg)}
+					<p>{$responseMsg['user_success']}</p>{/if}
 				</footer>
-				<p id="save_settings_status"></p>
 				</form>
 			</section>
 		</div>

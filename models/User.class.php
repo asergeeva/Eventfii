@@ -65,7 +65,16 @@ class User {
 	}
 	
 	public function updateDb() {
-		EFCommon::$dbCon->updateUserInfo( $user->fname, $user->lname, $user->email, $user->phone, $user->zip, $user->twitter, $user->notif_opt1, $user->notif_opt2, $user->notif_opt3 );
+		EFCommon::$dbCon->updateUserInfo( $_POST['fname'], 
+										  $_POST['lname'], 
+										  $_POST['email'], 
+										  $_POST['phone'], 
+										  $_POST['zip'], 
+										  $_POST['twitter'], 
+										  isset($_POST['email-feature']) ? 1 : 0, 
+										  isset($_POST['email-updates']) ? 1 : 0, 
+										  isset($_POST['email-friend']) ? 1 : 0 );
+		$_SESSION['user'] = new User($this->id);
 	}
 	
 	private function makeUserFromArray($userInfo) {

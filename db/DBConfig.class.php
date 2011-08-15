@@ -217,7 +217,7 @@ class DBConfig {
 								notif_opt1 = ".$notif_opt1.",
 								notif_opt2 = ".$notif_opt2.",
 								notif_opt3 = ".$notif_opt3."
-						WHERE	id = '" . $_SESSION['uid'] . "'";
+						WHERE	id = " . $_SESSION['user']->id;
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
@@ -502,12 +502,11 @@ class DBConfig {
 	
 	public function eventSignUp($uid, $eid, $conf) {
 		if ( ! $this->hasAttend($uid, $eid) ) {
-			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence, is_attending) 
+			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) 
 								VALUES(
 									" . $eid . ", 
 									" . $uid . ", 
-									" . $conf . ",
-									1
+									" . $conf . "
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
@@ -551,12 +550,6 @@ class DBConfig {
 		}
 	}
 	
-	/* Depreciated
-	public function getNewEvents() {
-		$GET_NEW_EVENTS = "SELECT * FROM ef_events WHERE is_public = 1 ORDER BY event_datetime DESC LIMIT 3";
-		return $this->getQueryResultAssoc($GET_NEW_EVENTS);
-	} */
-	
 	public function storeGuests($guestEmails, $eid, $referrer) {
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
@@ -585,7 +578,7 @@ class DBConfig {
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
-							AND 	a.event_id = " . $eid . " AND a.is_attending = 1";
+							AND 	a.event_id = " . $eid . " AND a.confidence <> ".CONFOPT6;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	

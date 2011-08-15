@@ -54,7 +54,6 @@ class EFMail {
 					break;
 			}
 		}
-		print( $text . "<br/>" );
 		return $text;
 	}
 	
