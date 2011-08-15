@@ -224,8 +224,8 @@ class DBConfig {
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip) 
 								VALUES(		".$this->checkNullOrValSql($fname).", 
 													".$this->checkNullOrValSql($lname).", 
-												'" . mysql_real_escape_string($email) . "', 
-												'" . mysql_real_escape_string($phone) . "', 
+												   '".mysql_real_escape_string($email)."', 
+												    ".$this->checkNullOrValSql($phone).", 
 													".$this->checkNullOrValSql($pass).", 
 													".$this->checkNullOrValSql($fname).", 
 													".$this->checkNullOrValSql($zip).")";
@@ -234,34 +234,12 @@ class DBConfig {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
 			$userInfo = $this->getUserInfoByEmail($refEmail);
 			
-			$emailAttr = 'email1';
-			// check if the email is the same as the previous one
-			if ($userInfo['email1'] == $email) {
-				$emailAttr = 'email1';
-			} else if ($userInfo['email2'] == $email) {
-				$emailAttr = 'email2';
-			} else if ($userInfo['email3'] == $email) {
-				$emailAttr = 'email3';
-			} else if ($userInfo['email4'] == $email) {
-				$emailAttr = 'email4';
-			} else if ($userInfo['email5'] == $email) {
-				$emailAttr = 'email5';
-			// Check which attribute in the DB that is NULL
-			} else if ($userInfo['email2'] == '') {
-				$emailAttr = 'email2';
-			} else if ($userInfo['email3'] == '') {
-				$emailAttr = 'email3';
-			} else if ($userInfo['email4'] == '') {
-				$emailAttr = 'email4';
-			} else if ($userInfo['email5'] == '') {
-				$emailAttr = 'email5';
-			}
-			
 			$UPDATE_USER = "UPDATE	ef_users SET
-									fname = '" . mysql_real_escape_string($fname) . "', 
-									lname = '" . mysql_real_escape_string($lname) . "',
-									" . $emailAttr . " = '" . mysql_real_escape_string($email) . "',
-									about = ''
+									fname = ".$this->checkNullOrValSql($fname).", 
+									lname = ".$this->checkNullOrValSql($lname).",
+									phone = ".$this->checkNullOrValSql($phone).",
+									password = '".$pass."',
+									zip = ".$this->checkNullOrValSql($zip)."
 							WHERE	email = '" . $refEmail . "'";
 											
 			$email = $refEmail;

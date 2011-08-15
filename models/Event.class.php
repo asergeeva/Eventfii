@@ -73,7 +73,7 @@ class Event {
 		$guest_array = EFCommon::$dbCon->getAttendeesByEvent($this->eid);
 		if ( sizeof($guest_array) > 0 ) {
 			foreach ( $guest_array as $guest ) {
-				$guest[] = new User($guest);
+				$this->guests[] = new User($guest);
 			}
 		}
 	}

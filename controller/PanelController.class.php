@@ -150,14 +150,8 @@ class PanelController {
 		$ph_val = $this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
 		$pass_val = $this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
 
-		$email_exists=EFCommon::$dbCon->emailExistsCheck($email);
 		if( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $pass_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
 			$flag = 2;
-		}
-
-		if( strlen($email_exists) > 0 ) {
-			$flag=2;
-			EFCommon::$smarty->assign("user_create_email", "Email has been already registered once in the system.");
 		}
 
 		if( strlen($pass) < 6 ) {
@@ -1019,7 +1013,12 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zipcode'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
+																 $_POST['lname'], 
+																 $_POST['email'], 
+																 $_POST['phone'], 
+																 md5($_POST['pass']), 
+																 $_POST['zipcode'] );
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
 				} else {

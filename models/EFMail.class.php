@@ -58,33 +58,6 @@ class EFMail {
 	}
 	
 	/**
-	 * $to        Array  list of email addresses
-	 * $eventName String title of the event
-	 * $eventUrl  String url of the event
-	 * We don't need transactions
-	 */
-	public function sendInvite($to, $eventId, $eventName) {
-		$subject = "You are invited to ".$eventName;
-		
-		for ($i = 0; $i < sizeof($to); ++$i) {
-			$hash_key = md5($to[$i].$eventId);
-			$message = "Link: " . EVENT_URL ."/". $eventUrl ."?ref=". $hash_key;
-			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $to[$i], NULL, NULL, NULL );
-			
-			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
-								VALUES ('" . $hash_key . "', '" . $to[$i] . "', " . $eventId . ")";
-			EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
-			$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
-										VALUES (" . $eventId . ", " . $insertedUser['id'] . ")";
-			EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
-			$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
-								VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
-			EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
-			MailgunMessage::send_text($this->FROM, $to[$i], $subject, $message);
-		}
-	}
-	
-	/**
 	 * $event     Event  the event object
 	 * We don't need transactions
 	 */
@@ -98,13 +71,15 @@ class EFMail {
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
 	
 		for ($i = 0; $i < sizeof($event->guests); ++$i) {
+			$hash_key = md5($event->guests[$i].$event->eid.time());
+		
 			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i], NULL, NULL, NULL );
 			
 			for ($j = 0; $j < $replaceItems->length; ++$j) {
 				switch ($replaceItems->item($j)->getAttribute("id")) {
 					case "event_name":
 						$replaceItems->item($j)->nodeValue = $event->title;
-						$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid."?ref=" . md5($event->guests[$i].$eventId));
+						$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid."?ref=" . $hash_key);
 						break;
 					case "event_date":
 						$replaceItems->item($j)->nodeValue = $event->date;
@@ -121,9 +96,7 @@ class EFMail {
 				}
 			}
 			
-			$hash_key = md5($event->guests[$i].$event->eid);
-			
-			$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
+			$RECORD_HASH_KEY = "INSERT INTO ef_event_invites (hash_key, email_to, event_id) 
 								VALUES ('" . $hash_key . "', '" . $event->guests[$i] . "', " . $event->eid . ")";
 			EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 			$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
