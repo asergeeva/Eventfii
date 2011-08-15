@@ -188,7 +188,6 @@ class DBConfig {
 		$SAVE_USER_PIC="update ef_users set pic='".$file."' where id=".$_SESSION['user']->id;
 		$this->executeUpdateQuery($SAVE_USER_PIC);
 		$_SESSION['user']->pic = $file;
-		print($file);
 	}
 	
 	public function updateUserProfileDtls($email,$zip,$cell)
