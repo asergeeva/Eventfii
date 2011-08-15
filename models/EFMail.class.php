@@ -96,30 +96,30 @@ class EFMail {
 		$htmlEmail->loadXML($htmlStr);
 		
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
-
-		for ($i = 0; $i < $replaceItems->length; ++$i) {
-			switch ($replaceItems->item($i)->getAttribute("id")) {
-				case "event_name":
-					$replaceItems->item($i)->nodeValue = $event->title;
-					$replaceItems->item($i)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid."?ref=" . $hash_key);
-					break;
-				case "event_date":
-					$replaceItems->item($i)->nodeValue = $event->date;
-					break;
-				case "event_location":
-					$replaceItems->item($i)->nodeValue = $event->address;
-					break;
-				case "host_name":
-					$replaceItems->item($i)->nodeValue = $_SESSION['user']->fname . " " . $_SESSION['user']->lname;
-					break;
-				case "host_email":
-					$replaceItems->item($i)->nodeValue = $_SESSION['user']->email;
-					break;
-			}
-		}
 	
-		for ($i = 0; $i < sizeof($event->guests); ++$i) {		
+		for ($i = 0; $i < sizeof($event->guests); ++$i) {
 			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i], NULL, NULL, NULL );
+			
+			for ($j = 0; $j < $replaceItems->length; ++$j) {
+				switch ($replaceItems->item($j)->getAttribute("id")) {
+					case "event_name":
+						$replaceItems->item($j)->nodeValue = $event->title;
+						$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid."?ref=" . md5($event->guests[$i].$eventId));
+						break;
+					case "event_date":
+						$replaceItems->item($j)->nodeValue = $event->date;
+						break;
+					case "event_location":
+						$replaceItems->item($j)->nodeValue = $event->address;
+						break;
+					case "host_name":
+						$replaceItems->item($j)->nodeValue = $_SESSION['user']->fname . " " . $_SESSION['user']->lname;
+						break;
+					case "host_email":
+						$replaceItems->item($j)->nodeValue = $_SESSION['user']->email;
+						break;
+				}
+			}
 			
 			$hash_key = md5($event->guests[$i].$event->eid);
 			

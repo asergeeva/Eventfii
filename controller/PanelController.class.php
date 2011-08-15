@@ -436,11 +436,21 @@ class PanelController {
 		if (isset($_REQUEST['ref'])) {
 			$_SESSION['ref'] = $_REQUEST['ref'];
 		}
+		
+		// Remove GET parameters
+		// We need to use $current_page instead of $requestUri
+		$getParamStartPos = strpos($requestUri, '?');
+		if ($getParamStartPos) {
+			$current_page = substr($requestUri, 0, $getParamStartPos);
+			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
+		} else {
+			$current_page = $requestUri;
+		}
 	
 		// If /event in URI, display all event pages
-		if (preg_match("/event\/\d+/", $requestUri) > 0) {
+		if (preg_match("/event\/\d+/", $current_page) > 0) {
 			
-			$eventId = $this->getEventIdByUri( $requestUri );
+			$eventId = $this->getEventIdByUri( $current_page );
 			if ( ! $eventId ) {
 				EFCommon::$smarty->display( 'error.tpl' );
 				return;
@@ -500,7 +510,7 @@ class PanelController {
 		} // END /event
 		
 		// Quick check for permissions for editing events
-		if ( preg_match("/event\/manage*/", $requestUri) > 0 ) {
+		if ( preg_match("/event\/manage*/", $current_page) > 0 ) {
 			if ( ! isset ( $_GET['eventId'] ) ) {
 				EFCommon::$smarty->display('error.tpl');
 				return;
@@ -517,8 +527,8 @@ class PanelController {
 		}
 		
 		// User public profile page
-		if (preg_match("/user\/\d+/", $requestUri) > 0) {
-			$userId = $this->getUserIdByUri( $requestUri );
+		if (preg_match("/user\/\d+/", $current_page) > 0) {
+			$userId = $this->getUserIdByUri( $current_page );
 			$profile = new User($userId);
 			
 			if ( ! $profile->exists ) {
@@ -530,15 +540,6 @@ class PanelController {
 			}
 			
 			return;
-		}
-		
-		// Remove GET parameters
-		$getParamStartPos = strpos($requestUri, '?');
-		if ($getParamStartPos) {
-			$current_page = substr($requestUri, 0, $getParamStartPos);
-			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
-		} else {
-			$current_page = $requestUri;
 		}
 
 		switch ($current_page) {
