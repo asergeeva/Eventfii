@@ -11,7 +11,7 @@
 			{include file="profile_user.tpl"}{if $profile->facebook || $profile->twitter}
 			<section class="block" id="user-social">
 				<ul class="network">
-					{if $profile->facebook}<li><a href="http://facebook.com/profile.php?id={$profile->facebook}" class="icon-facebook">{$profile->facebook}</a></li>{/if}
+					{if $profile->facebook}<li><a href="http://facebook.com/profile.php?id={$profile->facebook}" class="icon-facebook">{$profile->fname} {$profile->lname}</a></li>{/if}
 					{if $profile->twitter}<li><a href="http://twitter.com/{$profile->twitter}" class="icon-twitter">@{$profile->twitter}</a></li>{/if}
 				</ul>
 			</section>{/if}
