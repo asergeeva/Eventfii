@@ -18,8 +18,14 @@ class DBAPI extends DBConfig {
 	
 	public function m_updateUserInfo($email,$about,$zip,$cell,$twitter)
 	{
-		$uid=$_SESSION['uid'];
-		$UPDATE_USER_PROFILE="update ef_users set email='$email',about='$about',zip='$zip',phone='$cell',twitter='$twitter' where id=$uid";
+		$uid = $_SESSION['user']->id;
+		$UPDATE_USER_PROFILE="	UPDATE 	ef_users 
+								SET 	email 	= '$email',
+										about 	= '$about',
+										zip 	= '$zip',
+										phone	= '$cell',
+										twitter	= '$twitter'
+								WHERE	id = " .$uid;
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 		return 'status_updateCompleted';
 	}

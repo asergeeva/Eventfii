@@ -45,26 +45,31 @@
 						<span>First Name</span> 
 						<input type="text" class="inputbox autowidth" name="fname" id="fname" value="{$smarty.session.user->fname}" />{if isset($error.fname)}
 						<p class="message-error" id="titleErr">{$error.fname}</p>{/if}
+
 					</label>
 					<label for="lname">
 						<span>Last Name</span> 
 						<input type="text" class="inputbox autowidth" name="lname" id="lname" value="{$smarty.session.user->lname}" />{if isset($error.lname)}
 						<p class="message-error" id="titleErr">{$error.lname}</p>{/if}
+
 					</label>
 					<label for="email">
 						<span>Email</span> 
 						<input type="text" class="inputbox autowidth" name="email" id="email" value="{$smarty.session.user->email}" />{if isset($error.email)}
 						<p class="message-error" id="titleErr">{$error.email}</p>{/if}
+
 					</label>
 					<label for="user-cell">
 						<span>Cell #</span> 
 						<input type="text" class="inputbox autowidth" name="phone" id="user-cell" value="{$smarty.session.user->phone}" />{if isset($error.phone)}
 						<p class="message-error" id="titleErr">{$error.phone}</p>{/if}
+
 					</label>
 					<label for="user-zip">
 						<span>Zip</span> 
 						<input type="text" class="inputbox autowidth" name="zip" id="user-zip" value="{$smarty.session.user->zip}" maxlength="5" />{if isset($error.zip)}
 						<p class="message-error" id="titleErr">{$error.zip}</p>{/if}
+
 					</label>
 				</fieldset>
 				<header class="block-title">
@@ -75,6 +80,7 @@
 						<span>Twitter Handle</span> 
 						<input type="text" class="inputbox autowidth" name="twitter" id="twitter" value="{$smarty.session.user->twitter}" />{if isset($error.twitter)}
 						<p class="message-error" id="titleErr">{$error.twitter}</p>{/if}
+
 					</label>
 					<label for="fbconnect" class="autowidth">
 						<div id="fb-root"></div>

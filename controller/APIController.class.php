@@ -52,45 +52,34 @@ class APIController {
 		
 		switch ($requestUri) {
 			case 'login':
-				if(!isset($_SESSION['uid']))
-				{
-					if ( $_REQUEST['isFB'] ) 
-					{
+				if( ! isset($_SESSION['user']->id) ) {
+					if ( $_REQUEST['isFB'] )  {
 						echo $_REQUEST['fname'];
 						echo $_REQUEST['lname'];
 						$userInfo = $this->dbCon->facebookConnect( $_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['fbid'] );
-						if ( $userInfo ) 
-						{
-							$_SESSION['uid'] = $userInfo['id'];
-							if ( isset ($params) ) 
-							{
+						if ( $userInfo ) {
+							$_SESSION['user'] = new User($userInfo);
+							if ( isset ($params) ) {
 								echo $params;
 							}
 						}
-					}
-					else
-					{
-						if(isset($_REQUEST['email']) && isset($_REQUEST['password']))
-						{
+					} else {
+						if(isset($_REQUEST['email']) && isset($_REQUEST['password'])) {
 							$result = $this->dbCon->m_checkValidUser($_REQUEST['email'], $_REQUEST['password']);
-							if(!isset($result))
-							{
+							if ( ! isset($result) ) {
 								echo 'status_loginFailed';
-							}
-							else
-							{
-								$_SESSION['uid'] = $result;
+							} else {
+								$_SESSION['user'] = $result;
 							}
 						}
 					}
 				}
-				if(isset($_SESSION['uid']))
-				{
+				if( isset($_SESSION['user']) ) {
 					echo 'status_loginSuccess';
 				}
 				break;
 			case 'getUserInfo':
-				echo json_encode($this->dbCon->getUserInfo($_SESSION['uid']));
+				echo json_encode($this->dbCon->getUserInfo($_SESSION['user']->id));
 				break;
 			case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['cell'],$_REQUEST['twitter']);
@@ -102,16 +91,16 @@ class APIController {
 				echo json_encode($this->dbCon->m_getEventAttendingBy($_SESSION['uid']));
 				break;
 			case 'setAttendanceForEvent':
-				echo json_encode($this->dbCon->eventSignUp($_SESSION['uid'], $_REQUEST['eid'], $_REQUEST['confidence']));
+				echo json_encode($this->dbCon->eventSignUp($_SESSION['user']->id, $_REQUEST['eid'], $_REQUEST['confidence']));
 				break;
 			case 'getHostingEvents':
-				echo json_encode($this->dbCon->getEventByEO($_SESSION['uid']));				
+				echo json_encode($this->dbCon->getEventByEO($_SESSION['user']->id));				
 				break;
 			case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
 				break; 
 			case 'checkInByDistance':
-				$this->dbCon->checkInGuest('1', $_SESSION['uid'], $_REQUEST['eid']);
+				$this->dbCon->checkInGuest('1', $_SESSION['user']->id, $_REQUEST['eid']);
 				echo 'status_checkInSuccess';
 				break;
 			case 'checkIn':

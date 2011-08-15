@@ -361,7 +361,7 @@ class PanelController {
 				$_SESSION['newEvent'] = serialize($$newEvent);
 				return false;
 			}
-			$newEvent->organizer = $_SESSION['uid'];
+			$newEvent->organizer = $_SESSION['user']->id;
 			$this->makeNewEvent( $newEvent );
 			return true;
 		}

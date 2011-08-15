@@ -176,38 +176,37 @@ class DBConfig {
 	
 	public function saveUserPic($file)
 	{
-		$uid=$_SESSION['uid'];
-		$SAVE_USER_PIC="update ef_users set pic='".$file."' where id=".$_SESSION['user']->id;
+		$uid = $_SESSION['user']->id;
+		$SAVE_USER_PIC = "	UPDATE 	ef_users
+							SET 	pic='" . $file . "'
+							WHERE	id=" . $_SESSION['user']->id;
 		$this->executeUpdateQuery($SAVE_USER_PIC);
 		$_SESSION['user']->pic = $file;
 	}
 	
 	public function updateUserProfileDtls($email,$zip,$cell)
 	{
-		$uid=$_SESSION['uid'];
-		$UPDATE_USER_PROFILE="update ef_users set zip='$zip',email='$email',phone='$cell' where id=$uid";
+		$uid = $_SESSION['user']->id;
+		$UPDATE_USER_PROFILE = "UPDATE 	ef_users 
+								SET		zip		= '$zip',
+										email	= '$email',
+										phone	= '$cell' 
+								WHERE	id = $uid";
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 	}
 	
-	public function getUserPic($uid) {
-		//$uid=$_SESSION['uid'];
-		$GET_USER_PIC="select pic from ef_users where id=$uid";
-		$usrPic=$this->executeQuery($GET_USER_PIC);
-		return $usrPic['pic'];
-	}
-	
 	public function updateUserInfo( $fname, $lname, $email, $phone, $zip, $twitter, $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1 ) {
-		$UPDATE_USER = "UPDATE	ef_users SET 
-								fname = '" . mysql_real_escape_string($fname) . "', 
-								lname = '" . mysql_real_escape_string($lname) . "',
-								email = '".mysql_real_escape_string($email)."', 
-								phone = '" . mysql_real_escape_string($phone) . "',
-								zip = '" . mysql_real_escape_string($zip) . "',
-								twitter = '" . mysql_real_escape_string($twitter) . "',
-								about = 'I am " . mysql_real_escape_string($fname) . "',
-								notif_opt1 = ".$notif_opt1.",
-								notif_opt2 = ".$notif_opt2.",
-								notif_opt3 = ".$notif_opt3."
+		$UPDATE_USER = "UPDATE	ef_users 
+						SET 	fname 		= '" . mysql_real_escape_string($fname) . "', 
+								lname 		= '" . mysql_real_escape_string($lname) . "',
+								email 		= '".mysql_real_escape_string($email)."', 
+								phone 		= '" . mysql_real_escape_string($phone) . "',
+								zip 		= '" . mysql_real_escape_string($zip) . "',
+								twitter 	= '" . mysql_real_escape_string($twitter) . "',
+								about 		= 'I am " . mysql_real_escape_string($fname) . "',
+								notif_opt1 	= " . $notif_opt1 . ",
+								notif_opt2 	= " . $notif_opt2 . ",
+								notif_opt3 	= " . $notif_opt3 . "
 						WHERE	id = " . $_SESSION['user']->id;
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
@@ -658,7 +657,9 @@ class DBConfig {
 	public function resetPassword($oldPass, $newPass, $confPass) {
 		$userPass = $this->getUserPass();
 		if ($oldPass == $userPass['password'] && $newPass == $confPass) {
-			$RESET_PASSWORD = "UPDATE ef_users SET password = '".$newPass."' WHERE id = ".$_SESSION['uid'];
+			$RESET_PASSWORD = "	UPDATE 	ef_users 
+								SET 	password = '" . $newPass . "' 
+								WHERE 	id = " . $_SESSION['user']->id;
 			$this->executeUpdateQuery($RESET_PASSWORD);
 			return true;
 		}
@@ -666,7 +667,7 @@ class DBConfig {
 	}
 	
 	public function getUserPass() {
-		$GET_USER_PASS = "SELECT password FROM ef_users WHERE id = ".$_SESSION['uid'];
+		$GET_USER_PASS = "SELECT password FROM ef_users WHERE id = " . $_SESSION['user']->id;
 		return $this->executeQuery($GET_USER_PASS);
 	}
 	
