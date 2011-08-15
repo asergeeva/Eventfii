@@ -128,8 +128,7 @@ class qqFileUploader {
 				
 		$eventId = $_SESSION['new_eid'];
 		if (isset($_SESSION['manage_event'])) {
-			$event = unserialize($_SESSION['manage_event']);
-			$eventId = $event->eid;
+			$eventId = $_SESSION['manage_event']->eid;
 			$filename = $eventId;
 		}
 		//$filename = $pathinfo['filename'];
@@ -153,13 +152,13 @@ class qqFileUploader {
             }
         }
         
-				if (trim($filename) != "") {
-					if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-							return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
-					} else {
-							return array('error'=> 'Could not save uploaded file.' .
-									'The upload was cancelled, or server error encountered');
-					}
-				}
+		if (trim($filename) != "") {
+			if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
+					return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
+			} else {
+					return array('error'=> 'Could not save uploaded file.' .
+							'The upload was cancelled, or server error encountered');
+			}
+		}
     }    
 }

@@ -21,8 +21,8 @@ var CREATE_EVENT_FORM = (function() {
 			$('#event_date_create').datepicker();
 			$('#event_deadline_create').datepicker();
 			$('#event_title_create').focus();
-			if ($('#csv_upload') !== undefined && $('#eventid').length > 0) {
-				CSV_UPLOADER.init('csv_upload');
+			if ($('#csv_upload').length > 0) {
+				CSV_UPLOADER.init();
 			}
 	 },
 	 

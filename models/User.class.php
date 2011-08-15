@@ -29,7 +29,7 @@ class User {
 	private $error;
 	private $numErrors;
 	
-	function __construct($userInfo) {
+	public function __construct($userInfo) {
 		if ( $userInfo === NULL ) {
 			$this->fname = $_POST['fname'];
 			$this->lname = $_POST['lname'];

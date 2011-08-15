@@ -24,7 +24,6 @@
 						</li>
 						<li>
 							<span>Upload a CSV file</span>
-							<span id="eventid">{$smarty.session.manage_event->eid}</span>
 							<p><a href="#" id="csv_upload"><span>Upload</span></a></p>
 						</li>
 					</ol>

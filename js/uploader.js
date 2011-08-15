@@ -9,7 +9,7 @@ var USER_IMAGE_UPLOADER = (function() {
 	
 	return {
 		init: function() {
-			if ($('#user_image').length>0) {
+			if ($('#user_image').length > 0) {
 				_uploader = new qq.FileUploader({
 					element: $('#user_image')[0],
 					action: EFGLOBAL.baseUrl + '/user/image/upload',
@@ -28,10 +28,10 @@ var CSV_UPLOADER = (function() {
 	var _uploader;
 	
 	return {
-		init: function(uploaderId) {
-			if ($('#' + uploaderId) !== undefined) {
+		init: function() {
+			if ($('#csv_upload').length > 0) {
 				_uploader = new qq.FileUploader({
-					element: $('#' + uploaderId)[0],
+					element: $('#csv_upload')[0],
 					action: EFGLOBAL.baseUrl + '/event/csv/upload'
 				});
 			}
