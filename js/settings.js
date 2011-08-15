@@ -15,7 +15,7 @@ var EF_SETTINGS = (function() {
 			newpass: $('#password-new').val(),
 			confpass: $('#password-confirm').val()
 		}, function(respData) {
-			$('#save_loading_img').html(EFGLOBAL.isSucceed);
+			$('#save_settings_status').html(EFGLOBAL.isSucceed);
 		});
 	});
 	
