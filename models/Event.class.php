@@ -171,9 +171,8 @@ class Event {
 				return false;
 			}
 		}
-			
 		
-		if ( $event->organizer == $userId )
+		if ( $this->organizer->id == $userId )
 			return true;
 			
 		if ( $this->is_guest($userId) )
@@ -189,7 +188,7 @@ class Event {
 	 * @return $is_guest | True if the user is a guest, false if not
 	 */ 
 	private function is_guest($userId) {
-		foreach ( $guests as $guest ) {
+		foreach ( $this->guests as $guest ) {
 			if ( $guest->id == $userId ) 
 				return true;
 		}

@@ -455,7 +455,7 @@ class PanelController {
 			}
 			$event = $this->buildEvent($eventId);
 			EFCommon::$smarty->assign("event", $event);
-
+			
 			// Check to see if the event exists
 			if ( ! $event->exists ) {
 				EFCommon::$smarty->display( 'error_event_notexist.tpl' );
