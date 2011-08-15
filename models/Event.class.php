@@ -563,7 +563,6 @@ class Event {
 		$vCalDescription = str_replace("\r", "\\n", $this->description);
 		$vCalLocation = str_replace("\r", "\\n", $this->address);
 		$text = str_replace("\r", "\\n", $this->description);
-		$frm_dt = 
 		
 		/* output the event */
 		$vCalOutput .= "BEGIN:VEVENT\n";
@@ -583,29 +582,28 @@ class Event {
 		header('Content-Type: text/calendar; charset=utf-8');
 		header('Content-Disposition: attachment; filename="TrueRSVP-'.$this->eid.'.ics"; ');
 		
-		$vCalOutput="";
-		$vCalOutput = $vCalOutput."BEGIN:VCALENDAR\n";
-		$vCalOutput = $vCalOutput."CALSCALE:GREGORIAN\n";
-		$vCalOutput = $vCalOutput."X-WR-TIMEZONE;VALUE=TEXT:US/Pacific\n";
-		$vCalOutput = $vCalOutput."METHOD:PUBLISH\n";
-		$vCalOutput = $vCalOutput."PRODID:-//Apple Computer\, Inc//iCal 1.0//EN\n";
-		$vCalOutput = $vCalOutput."X-WR-CALNAME;VALUE=TEXT:TrueRSVP\n";
-		$vCalOutput = $vCalOutput."VERSION:2.0\n";
-		$vCalOutput = $vCalOutput."BEGIN:VEVENT\n";
-		$vCalOutput = $vCalOutput."DESCRIPTION:".rawurldecode($this->description)."\n";
-		$vCalOutput = $vCalOutput."SEQUENCE:5\n";
-		$vCalOutput = $vCalOutput."DTSTART;TZID=US/Pacific:".$this->getCalDate()."\n";
-		$vCalOutput = $vCalOutput."DTSTAMP:".$this->getCalDate()."\n";
-		$vCalOutput = $vCalOutput."SUMMARY:".rawurldecode($this->description)."\n";
-		$vCalOutput = $vCalOutput."UID:EC9439B1-FF65-11D6-9973-003065F99D04\n";
-		$vCalOutput = $vCalOutput."DTEND;TZID=US/Pacific:".$this->getCalDate()."\n";
-		$vCalOutput = $vCalOutput."BEGIN:VALARM\n";
-		$vCalOutput = $vCalOutput."TRIGGER;VALUE=DURATION:-P1D\n";
-		$vCalOutput = $vCalOutput."ACTION:DISPLAY\n";
-		$vCalOutput = $vCalOutput."DESCRIPTION:Event reminder\n";
-		$vCalOutput = $vCalOutput."END:VALARM\n";
-		$vCalOutput = $vCalOutput."END:VEVENT\n";
-		$vCalOutput = $vCalOutput."END:VCALENDAR\n";
+		$vCalOutput = "BEGIN:VCALENDAR\n";
+		$vCalOutput .= "CALSCALE:GREGORIAN\n";
+		$vCalOutput .= "X-WR-TIMEZONE;VALUE=TEXT:US/Pacific\n";
+		$vCalOutput .= "METHOD:PUBLISH\n";
+		$vCalOutput .= "PRODID:-//Apple Computer\, Inc//iCal 1.0//EN\n";
+		$vCalOutput .= "X-WR-CALNAME;VALUE=TEXT:TrueRSVP\n";
+		$vCalOutput .= "VERSION:2.0\n";
+		$vCalOutput .= "BEGIN:VEVENT\n";
+		$vCalOutput .= "DESCRIPTION:".rawurldecode($this->description)."\n";
+		$vCalOutput .= "SEQUENCE:5\n";
+		$vCalOutput .= "DTSTART;TZID=US/Pacific:".$this->getCalDate()."\n";
+		$vCalOutput .= "DTSTAMP:".$this->getCalDate()."\n";
+		$vCalOutput .= "SUMMARY:".rawurldecode($this->description)."\n";
+		$vCalOutput .= "UID:EC9439B1-FF65-11D6-9973-003065F99D04\n";
+		$vCalOutput .= "DTEND;TZID=US/Pacific:".$this->getCalDate()."\n";
+		$vCalOutput .= "BEGIN:VALARM\n";
+		$vCalOutput .= "TRIGGER;VALUE=DURATION:-P1D\n";
+		$vCalOutput .= "ACTION:DISPLAY\n";
+		$vCalOutput .= "DESCRIPTION:Event reminder\n";
+		$vCalOutput .= "END:VALARM\n";
+		$vCalOutput .= "END:VEVENT\n";
+		$vCalOutput .= "END:VCALENDAR\n";
 		
 		print($vCalOutput);	
 	}
