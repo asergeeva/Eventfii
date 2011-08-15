@@ -496,6 +496,7 @@ class PanelController {
 				$attending[] = new User($guest);
 			}
 			EFCommon::$smarty->assign( 'attending', $attending );
+			EFCommon::$smarty->assign( 'gcal' , $event->getGCAL());
 			
 			EFCommon::$smarty->display('event.tpl');
 			return;
@@ -1125,6 +1126,14 @@ class PanelController {
 				session_unset();
 				session_destroy();
 				EFCommon::$smarty->display('index.tpl');
+				break;
+			case '/calendar/ics':
+				$event = $this->buildEvent( $_GET['eventId'] );
+				$event->getICS();
+				break;
+			case '/calendar/vcs':
+				$event = $this->buildEvent( $_GET['eventId'] );
+				$event->getVCS();
 				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);
