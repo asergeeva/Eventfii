@@ -554,6 +554,7 @@ class Event {
 		return $gCalButton;
 	}
 	
+	/* Generate the Outlook file */
 	public function getVCS() {
 		header("Content-Type: text/x-vCalendar");
 		header("Content-Disposition: inline; filename = TrueRSVP-".$this->eid.".vcs");
@@ -578,6 +579,7 @@ class Event {
 		print($vCalOutput);
 	}
 	
+	/* Generate the iCal file */
 	public function getICS() {
 		header('Content-Type: text/calendar; charset=utf-8');
 		header('Content-Disposition: attachment; filename="TrueRSVP-'.$this->eid.'.ics"; ');
