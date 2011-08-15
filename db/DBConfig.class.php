@@ -280,7 +280,7 @@ class DBConfig {
 	}
 	
 	public function facebookAdd($fbid) {
-		$UPDATE_USER_FB = "UPDATE ef_users SET facebook = '".$fbid."' WHERE id = ".$_SESSION['uid'];
+		$UPDATE_USER_FB = "UPDATE ef_users SET facebook = '".$fbid."' WHERE id = ".$_SESSION['user']->id;
 		$this->executeUpdateQuery($UPDATE_USER_FB);
 	}
 	
