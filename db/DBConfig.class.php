@@ -7,14 +7,6 @@
  */
  
 class DBConfig {
-	private $DB_HOST = "127.0.0.1:3306";
-	private $DB_USER = "glaksmono";
-	private $DB_PASS = "12345";
-	
-	private $DB_NAME = "eventfii";
-	
-	private $DEBUG = true;
-	
 	public function __construct() {
 		$this->openCon();
 	}
@@ -24,9 +16,9 @@ class DBConfig {
 	}
 	
 	public function openCon() {
-		$dbLink = mysql_connect($this->DB_HOST, $this->DB_USER, $this->DB_PASS);
-		mysql_select_db($this->DB_NAME);
-		if (!$dbLink && $this->DEBUG) {
+		$dbLink = mysql_connect(DB_HOST, DB_USER, DB_PASS);
+		mysql_select_db(DB_NAME);
+		if (!$dbLink && DEBUG) {
 			die('Could not connect: '.mysql_error());	
 		}
 		
@@ -47,7 +39,7 @@ class DBConfig {
 	public function executeQuery($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
-		if (!$dbResult && $this->DEBUG) {
+		if (!$dbResult && DEBUG) {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
 		}
@@ -69,7 +61,7 @@ class DBConfig {
 		$dbResult = mysql_query($query);
 		
 		// Check if query is valid
-		if ( ! $dbResult && $this->DEBUG ) {
+		if ( ! $dbResult && DEBUG ) {
 			$result = false;
 		} else {
 			$result = mysql_fetch_array($dbResult, MYSQL_ASSOC);
@@ -87,7 +79,7 @@ class DBConfig {
 	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
-		if (!$dbResult && $this->DEBUG) {
+		if (!$dbResult && DEBUG) {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
 		}
@@ -102,7 +94,7 @@ class DBConfig {
 	public function getQueryResult($query) {
 		$dbLink = $this->openCon();
 		$dbResult = mysql_query($query);
-		if ( ! $dbResult && $this->DEBUG ) {
+		if ( ! $dbResult && DEBUG ) {
 			return 0;
 		}
 		return $dbResult;
