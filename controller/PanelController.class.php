@@ -195,14 +195,14 @@ class PanelController {
 		}
 
 		if ($isText === false) {
-			$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9]*$/")));
+			$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9']*$/")));
 			if (!($res)) {
 				$flag=1;
 				$msg.="Subject can only contain characters A-Z or numbers 0-9 <br>";
 			}
 		}
 
-		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z 0-9']*$/")));
+		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[\{A-Za-z 0-9'\}]*$/")));
 		if(!($res)) {
 			$flag=1;
 			$msg.="Content can only contain characters A-Z or numbers 0-9 <br>";
