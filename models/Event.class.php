@@ -542,13 +542,7 @@ class Event {
 	
 	/* Generate the Google Calendar button */
 	public function getGCAL() {
-		$gCalButton = '<a href="http://www.google.com/calendar/event?action=TEMPLATE&text='.$this->text.
-																				   '&dates='.$this->getCalDate().'/'.$this->getCalDate().
-																				   '&details='.$this->description.
-																				   '&location='.$this->address.
-																				   '&trp=false'.
-																				   '&sprop='.EVENT_URL.$this->eid.
-																				   '&sprop='.$this->description.'" target="_blank">';
+		$gCalButton = '<a href="http://www.google.com/calendar/event?action=TEMPLATE&text=' . $this->title . '&dates=' . $this->getCalDate() . '/' . $this->getCalDate() . '&details=' . $this->description . '&location=' . $this->address . '&trp=false' . '&sprop=' . EVENT_URL.$this->eid . '&sprop=' . $this->description . '" target="_blank">';
 		$gCalButton .= '<img src="http://www.google.com/calendar/images/ext/gc_button6.gif" border="0" />';
 		$gCalButton .= '</a>';
 		return $gCalButton;

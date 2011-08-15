@@ -494,6 +494,7 @@ class PanelController {
 			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
 			
 			$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
+			$attending = NULL;
 			foreach($event_attendees as $guest) {
 				$attending[] = new User($guest);
 			}
