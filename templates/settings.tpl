@@ -28,10 +28,7 @@
 				</footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info">{$smarty.session.user->about}</p>
-				<footer class="buttons buttons-extra">
-					<p><a href="#"><span>Edit</span></a></p>
-				</footer>
+				<p class="user-info edit">{if $smarty.session.user->about}{$smarty.session.user->about}{else}Click here to edit{/if}</p>
 			</section>
 			<footer class="link-home">
 				<a href="{$CURHOST}">Back to Home</a>
