@@ -4,7 +4,7 @@
 		<ul>
 			<li><a href="{$CURHOST}">Home</a> | </li>
 			<li><a href="{$CURHOST}/share">Share</a> | </li>
-			<li><a href="{$CURHOST}/method">Method</a> | </li>{if $smarty.session.user}
+			<li><a href="{$CURHOST}/method">Method</a> | </li>{if isset($smarty.session.user)}
 
 			<li><a href="{$CURHOST}/logout" onclick="FB.logout()">Log out</a></li>{else}
 

@@ -69,7 +69,7 @@ class APIController {
 							if ( ! isset($result) ) {
 								echo 'status_loginFailed';
 							} else {
-								$_SESSION['user'] = $result;
+								$_SESSION['user'] = new User($result);
 							}
 						}
 					}

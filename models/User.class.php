@@ -33,13 +33,14 @@ class User {
 		if ( $userInfo === NULL ) {
 			$this->fname = $_POST['fname'];
 			$this->lname = $_POST['lname'];
-			$this->email = $_POST['email'];
+			$this->email = $_SESSION['user']->email;
 			$this->phone = $_POST['phone'];
 			$this->zip = $_POST['zip'];
 			$this->twitter = $_POST['twitter'];
+			$this->facebook = $_SESSION['user']->facebook;
 			$this->notif_opt1 = ( isset($_POST['email-feature']) ) ? 1 : 0;
-			$this->notif_opt2 = ( isset($_POST['email-updates']) ) ? 1 : 0;		
-			$this->notif_opt3 = ( isset($_POST['email-friend']) ) ? 1 : 0;
+			$this->notif_opt2 = ( isset($_POST['email-updates']) == 1 ) ? 1 : 0;		
+			$this->notif_opt3 = ( isset($_POST['email-friend']) == 1 ) ? 1 : 0;
 		} else {
 			if ( ! is_array($userInfo) ) {
 				$userId = $userInfo;
@@ -65,16 +66,16 @@ class User {
 	}
 	
 	public function updateDb() {
-		EFCommon::$dbCon->updateUserInfo( $_POST['fname'], 
-										  $_POST['lname'], 
-										  $_POST['email'], 
-										  $_POST['phone'], 
-										  $_POST['zip'], 
-										  $_POST['twitter'], 
-										  isset($_POST['email-feature']) ? 1 : 0, 
-										  isset($_POST['email-updates']) ? 1 : 0, 
-										  isset($_POST['email-friend']) ? 1 : 0 );
-		$_SESSION['user'] = new User($this->id);
+		EFCommon::$dbCon->updateUserInfo( $this->fname, 
+										  $this->lname, 
+										  $this->email, 
+										  $this->phone, 
+										  $this->zip, 
+										  $this->twitter, 
+										  isset($this->notif_opr1) ? 1 : 0, 
+										  isset($this->notif_opt2) ? 1 : 0, 
+										  isset($this->notif_opt3) ? 1 : 0 );
+		$_SESSION['user'] = $this;
 	}
 	
 	private function makeUserFromArray($userInfo) {
@@ -170,6 +171,9 @@ class User {
 	}
 	
 	private function check_cell() {
+		if ( strlen($this->phone) == 0 )
+			return;
+			
  		$valid_cell = filter_var(
 	 		$this->phone, 
 	 		FILTER_VALIDATE_REGEXP, 
@@ -187,6 +191,9 @@ class User {
 	}
 	
 	private function check_zip() {
+		if ( strlen($this->zip) == 0 )
+			return;
+	
  		$valid_zip = filter_var(
 	 		$this->zip, 
 	 		FILTER_VALIDATE_REGEXP, 
@@ -204,6 +211,9 @@ class User {
 	}
 	
 	private function check_twitter() {
+		if ( strlen($this->twitter) == 0 )
+			return;
+
  		$valid_twitter = filter_var(
 	 		$this->twitter, 
 	 		FILTER_VALIDATE_REGEXP, 

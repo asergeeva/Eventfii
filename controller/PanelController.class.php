@@ -255,6 +255,7 @@ class PanelController {
 	
 	private function assignCreatedEvents($uid) {
 		$created_event = EFCommon::$dbCon->getEventByEO($uid);
+		$createdEvents = NULL;
 		foreach ( $created_event as $event ) {
 			$createdEvents[] = new Event($event);
 		}
@@ -263,6 +264,7 @@ class PanelController {
 	
 	private function assignAttendingEvents($uid) {
 		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid);
+		$attendingEvents = NULL;
 		foreach( $attending_event as $event ) {
 			$attendingEvents[] = new Event($event);
 		}
@@ -551,7 +553,18 @@ class PanelController {
 			case '/settings':
 				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
-					$_SESSION['user']->updateDb();
+					
+					$user = new User(NULL);
+					$user->id = $_SESSION['user']->id;
+					
+					$error = $user->get_errors();
+					
+					if ( ! $error ) {
+						$user->updateDb();
+						$responseMsg['user_success'] = "User settings updated successfully.";
+					} else {
+						EFCommon::$smarty->assign("error", $error);
+					}
 					
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
 						if ( EFCommon::$dbCon->resetPassword( md5($_REQUEST['user-curpass']), md5($_REQUEST['user-newpass']), md5($_REQUEST['user-confpass']) )) {
@@ -950,7 +963,9 @@ class PanelController {
 				}
 				
 				// Make sure the user is properly redirected
-				EFCommon::$smarty->assign('redirect', $params);
+				if ( isset($params) ) {
+					EFCommon::$smarty->assign('redirect', $params);
+				}
 				
 				if ( isset($_POST['isFB']) ) {
 					$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );

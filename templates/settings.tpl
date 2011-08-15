@@ -16,7 +16,7 @@
 	</header>
 	<section id="main">
 		<header class="block">
-			<p class="message">Settings</p>
+			<p class="message">{if isset($responseMsg['user_success'])}{$responseMsg['user_success']}{else}Settings{/if}</p>
 		</header>
 		<aside class="extra">
 			<section class="block" id="user-pic">
@@ -39,7 +39,7 @@
 				<header class="block-title">
 					<h1>Account Info</h1>
 				</header>
-				<form method="post" action="{$CURHOST}/settings">
+				<form method="post" action="{$CURHOST}/settings" autocomplete="off">
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 
@@ -55,7 +55,7 @@
 					</label>
 					<label for="email">
 						<span>Email</span> 
-						<input type="text" class="inputbox autowidth" name="email" id="email" value="{$smarty.session.user->email}" />{if isset($error.email)}
+						<input type="text" class="inputbox autowidth" name="email" id="email" disabled="disabled" value="{$smarty.session.user->email}" />{if isset($error.email)}
 						<p class="message-error" id="titleErr">{$error.email}</p>{/if}
 
 					</label>
@@ -81,26 +81,28 @@
 						<input type="text" class="inputbox autowidth" name="twitter" id="twitter" value="{$smarty.session.user->twitter}" />{if isset($error.twitter)}
 						<p class="message-error" id="titleErr">{$error.twitter}</p>{/if}
 
-					</label>
+					</label>{if ! isset($smarty.session.user->facebook)}
 					<label for="fbconnect" class="autowidth">
+						<span>Facebook</span>
 						<div id="fb-root"></div>
 						<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button></p>
 						<span id="user_fbid">{$smarty.session.user->facebook}</span>
 						<!-- Facebook Code -->
-					</label>
+					</label>{/if}
+
 				</fieldset>
 				<header class="block-title">
 					<h1>Notification Options</h1>
 				</header>
 				<fieldset>
 					<label for="features" class="fullwidth">
-						<input type="checkbox" name="email-feature" id="features" {if $smarty.session.user->notif_opt1 eq '1'}checked="checked"{/if} /> <em>Tell me about new features every month</em>
+						<input type="checkbox" name="email-feature" value="1"  id="features" {if $smarty.session.user->notif_opt1 eq '1'}checked="checked"{/if} /> <em>Tell me about new features every month</em>
 					</label>
 					<label for="updates" class="fullwidth">
-						<input type="checkbox" name="email-updates" id="updates" {if $smarty.session.user->notif_opt2 eq '1'}checked="checked"{/if} /> <em>Send me daily updates about my event when I’m the host</em>
+						<input type="checkbox" name="email-updates" value="1" id="updates" {if $smarty.session.user->notif_opt2 eq '1'}checked="checked"{/if} /> <em>Send me daily updates about my event when I’m the host</em>
 					</label>
 					<label for="attend" class="fullwidth">
-						<input type="checkbox" name="email-friend" id="attend" {if $smarty.session.user->notif_opt3 eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
+						<input type="checkbox" name="email-friend" value="1"  id="attend" {if $smarty.session.user->notif_opt3 eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
 					</label>
 				</fieldset>
 				<header class="block-title">
@@ -120,10 +122,10 @@
 						<input type="password" class="inputbox autowidth" name="user-confpass" id="password-confirm" />
 					</label>{if isset($responseMsg['password'])}
 						<p class="message-error" id="titleErr">{$responseMsg['password']}</p>{/if}
+
 				</fieldset>
 				<footer class="buttons buttons-submit">
-					<p><input type="submit" name="submit" value="Save All" /></p>{if isset($responseMsg)}
-					<p>{$responseMsg['user_success']}</p>{/if}
+					<p><input type="submit" name="submit" value="Save All" /></p>
 				</footer>
 				</form>
 			</section>
