@@ -167,7 +167,9 @@ class DBConfig {
 		if (isset($_SESSION['ref'])) {
 			$email = $this->getReferenceEmail($_SESSION['ref']);
 		}
-		$GET_USER_EMAIL = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
+		$GET_USER_EMAIL = "	SELECT	* 
+							FROM 	ef_users e 
+							WHERE 	e.email = '" . $email . "'";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}

@@ -157,36 +157,35 @@ class EFMail {
 		$htmlEmail->loadXML($htmlStr);
 		
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
-		
+	
 		for ($i = 0; $i < sizeof($event->guests); ++$i) {
-			if (trim($event->guests[$i]->email) !== "") {
-				$hash_key = md5($event->guests[$i]->email.$event->eid.time());
+			$hash_key = md5($event->guests[$i]->id . $event->eid.time());
+		
 			
-				$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i]->email, NULL, NULL, NULL );
-				
-				$this->mapEventHtml($htmlEmail, $event, "?ref=".$hash_key);
-								
-				$RECORD_HASH_KEY = "INSERT INTO ef_event_invites (hash_key, email_to, event_id) 
-									VALUES ('" . $hash_key . "', '" . $event->guests[$i]->id . "', " . $event->eid . ")";
-				EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
-				$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
-											VALUES (" . $event->eid . ", " . $insertedUser['id'] . ")";
-				EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
-				$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
-									VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
-				EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
+			$insertedUser = EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i]->email, NULL, NULL, NULL );
 			
-				$rawMime = 
-				    "X-Priority: 1 (Highest)\n".
-				    "X-Mailgun-Tag: truersvp\n".
-				    "Content-Type: text/html;charset=UTF-8\n".    
-				    "From: ".$this->FROM."\n".
-				    "To: ".$event->guests[$i]->email."\n".
-				    "Subject: You are invited to ".$event->title."\n".
-				    "\n".$htmlEmail->saveXML();
-				
-				MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
-			}
+			$this->mapEventHtml($htmlEmail, $event, "?ref=".$hash_key);
+							
+			$RECORD_HASH_KEY = "INSERT INTO ef_event_invites (hash_key, email_to, event_id) 
+								VALUES ('" . $hash_key . "', '" . $event->guests[$i]->id . "', " . $event->eid . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
+			$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
+										VALUES (" . $event->eid . ", " . $insertedUser['id'] . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+			$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
+								VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
+			EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
+			
+			$rawMime = 
+			    "X-Priority: 1 (Highest)\n".
+			    "X-Mailgun-Tag: truersvp\n".
+			    "Content-Type: text/html;charset=UTF-8\n".    
+			    "From: ".$this->FROM."\n".
+			    "To: ".$event->guests[$i]->email."\n".
+			    "Subject: You are invited to ".$event->title."\n".
+			    "\n".$htmlEmail->saveXML();
+			
+			MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
 		}
 	}
 	

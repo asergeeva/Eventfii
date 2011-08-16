@@ -34,14 +34,13 @@
 	<tr>
 		<td style="padding: 10px">
 			<p>Hi [Attendee name],</p>
-			<p>Thank you for RSVPing to:</p>
+			<p>Click here if you want to be reminded of this event again in a week.</p>
 			<p>
 				<a href="#"><span id="event_name">Event Name</span></a><br />
 				<span id="event_date">Event Date</span><br />
 				<span id="event_location">Event Location</span>
 			</p>
-			<p>Your quick response earned you points to boost your reliability rating!</p>
-			<p>Click <a href="#">here</a> if you want to be reminded of this event in a week.</p>
+			<p>Click <a href="#">here</a> if you want to be reminded of this event again in a week. </p>
 			<p>Thanks,<br />[Host Name]<br />[Host E-mail]<br /><br /><img src="images/user_thumb.jpg" width="48px" height="48px" /></p>
 			<p class="extra">trueRSVP is the first RSVP system based on reputation. FInd out how many people are actually coming to your event. Learn more.</p>
 		</td>

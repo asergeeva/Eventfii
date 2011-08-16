@@ -3,37 +3,12 @@
 
 {include file="header.tpl"}
 <div id="container">
-	<header id="header">
-		<h1>Welcome, {$smarty.session.user->fname}!</h1>
-		<h2><a href="{$CURHOST}/user/{$smarty.session.user->id}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
-		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
-		<nav>
-			<ul>
-				<li class="current"><a href="{$CURHOST}"><span>Home</span></a></li>
-				<li><a href="#"><span>Calendar</span></a></li>
-			</ul>
-		</nav>
-	</header>
+	{include file="cp_header.tpl"}
 	<section id="main">
 		<header class="block">
 			<p class="message">{if isset($responseMsg['user_success'])}{$responseMsg['user_success']}{else}Settings{/if}</p>
 		</header>
-		<aside class="extra">
-			<section class="block" id="user-pic">
-					<p class="user-img">
-						<a href="#" class="info-pic"><img id="user_pic" src="{$smarty.session.user->pic}" width="96px" height="96px" alt="{$smarty.session.user->fname} {$smarty.session.user->lname}" /></a>
-					</p>
-				<footer class="buttons buttons-extra">
-					<p><a href="#" id="user_image"><span>Upload</span></a></p>
-				</footer>
-			</section>
-			<section class="block" id="user-desc">
-				<p class="user-info edit">{if $smarty.session.user->about}{$smarty.session.user->about}{else}Click here to edit{/if}</p>
-			</section>
-			<footer class="link-home">
-				<a href="{$CURHOST}">Back to Home</a>
-			</footer>
-		</aside>
+		{include file="cp_user.tpl"}
 		<div class="content">
 			<section class="block" id="settings">
 				<header class="block-title">

@@ -3,12 +3,17 @@
 
 {include file="header.tpl"}
 <div id="container">
-	<header id="header">
-		<h1>Welcome, {$smarty.session.user->fname}!</h1>
-		<h2><a href="{$CURHOST}/user/{$smarty.session.user->id}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
-		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
-	</header>
-	{include file="cp_container.tpl"}
+	{include file="cp_header.tpl"}
+	<section id="main">
+		<header class="block">
+			<p class="message">You can manage all of your upcoming events from this home page.</p>
+		</header>
+		{include file="cp_user.tpl"}
+		<div class="content">
+			{include file="event_created.tpl"}
+			{include file="event_attending.tpl"}
+		</div>
+	</section>
 </div>
 {include file="footer.tpl"}
 
