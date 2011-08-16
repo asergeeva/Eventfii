@@ -474,13 +474,13 @@ ol.rsvp-list { margin: 0; }
 	text-align: center; }
 
 /*----- Contacts List ----------*/
-ul.contacts-list { margin: 8px 0 0; }
+ul.contacts-list { margin: 8px 6px 0; }
 ul.contacts-list li {
 	float: left;
 	color: #333;
 	position: relative;
 	width: 172px; /* 176 - 4 */
-	margin: 0 2px 4px;
+	margin: 0 4px 8px;
 	border: 1px solid #cacaca;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;

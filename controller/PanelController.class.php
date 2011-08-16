@@ -471,16 +471,20 @@ class PanelController {
 				EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
 			}
 			
-			// Fetch the users who have signed up
+			// Find the number of users who have signed up
+			$curSignUp = 0;
 			$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
 			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
 			
+			// Get the event attendees
 			$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
 			$attending = NULL;
 			foreach($event_attendees as $guest) {
 				$attending[] = new User($guest);
 			}
 			EFCommon::$smarty->assign( 'attending', $attending );
+			
+			// Calendar
 			EFCommon::$smarty->assign( 'gcal' , $event->getGCAL());
 			
 			EFCommon::$smarty->display('event.tpl');
@@ -702,6 +706,8 @@ class PanelController {
 				$this->buildEvent( $_GET['eventId'], true );
 				
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
+				$eventAttendees = NULL;
+				
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$eventAttendees[$i] = new User($attendees[$i]);
 					$eventAttendees[$i]->confidence = $attendees[$i]['confidence'];
@@ -756,8 +762,13 @@ class PanelController {
 				}
 				
 				// Fetch the users who have signed up
-				$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
-				EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
+				$curSignUp = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+
+				$signedUp = NULL;
+				foreach( $curSignUp as $guest ) {
+					$signedUp[] = new User($guest);
+				}
+				EFCommon::$smarty->assign( 'signedUp', $signedUp );
 				
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');

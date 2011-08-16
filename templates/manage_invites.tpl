@@ -1,16 +1,16 @@
 <section class="block"> 
 					<header class="block-title"> 
 						<h1>Invited Guests</h1> 
-					</header>{if isset($curSignUp)}<ul class="thumbs">{foreach $curSignUp as $guest}
-					<li>
-						<figure>
-							<a href="{$CURHOST}/user/{$guest->id}">
-								<img src="{$guest->pic}" width="64px" height="64px" alt="{$v['fname']} {$guest->lname}" />
-								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
-							</a>
-						</figure>
-					</li>{/foreach}
-					
-				</ul>{/if}
-				
+					</header>{if isset($signedUp)}<ul class="contacts-list">{foreach $signedUp as $guest name=contacts}
+						<li>
+							<label for="contact-{$smarty.foreach.contacts.index}">
+								<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />
+								<img src="{$guest->pic}" width="36px" height="36px" alt="{$guest->fname} {$guest->lname}" />
+								<h3>{$guest->fname} {$guest->lname}</h3>
+								<p>{$guest->email}</p>
+							</label>
+						</li>{/foreach}
+
+					</ul>{/if}
+
 				</section>

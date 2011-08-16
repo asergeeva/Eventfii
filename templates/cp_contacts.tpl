@@ -6,9 +6,19 @@
 	{include file="cp_header.tpl"}
 	<section id="main">
 		<header class="block">
-			<p class="message">Address Book</p>
+			<p class="message">Make your event well known! Add your contacts.</p>
 		</header>
-		{include file="cp_user.tpl"}
+		<div class="navigation">
+			<nav class="block" id="manage-before">
+				<header class="block-title">
+					<h1>Address Book</h1>
+				</header>
+				<ul>
+					<li{if isset($page["contacts"])} class="current"{/if}><a href="{$CURHOST}/event/manage/contacts/add?eventId={$smarty.session.manage_event->eid}"><span>View all contacts</span></a></li>
+					<li{if isset($page["addcontacts"])} class="current"{/if}><a href="{$CURHOST}/event/manage/contacts/add?eventId={$smarty.session.manage_event->eid}"><span>Add contacts</span></a></li>
+				</ul>
+			</nav>
+		</div>
 		<div class="content">
 			{include file="contacts.tpl"}
 		</div>

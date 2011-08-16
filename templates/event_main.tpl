@@ -1,17 +1,7 @@
 	<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#truersvp{$event->eid}"></div>
   <header class="block">
 			<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
-			<p class="message">{$QR}</p>
 		</header>
-		<!-- Not in design
-		<div id="event_picture_container">
-			<img src="{$IMG_UPLOAD}/{$event->id}.jpg" id="event_picture" />
-		</div>
-		<div id="event_spots">
-			{$curSignUp} people is attending<br />
-			{$twitterHash}
-		</div>
-		-->
 		<div class="content">
 			<section class="block" id="event-info">
 				<header class="block-title">
@@ -40,7 +30,7 @@
 					</li>{/foreach}
 				</ul>
 				<footer class="link-extra">
-					<p><a href="#">See All (?)</a></p>
+					<p><a href="#">See All ({$curSignUp})</a></p>
 				</footer>
 			</section>
 			<section class="block" id="event-location">
