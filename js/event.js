@@ -28,11 +28,13 @@ var EVENT = (function() {
 })();
 
 $(document).ready(function() {
-	EVENT.init();
+	//EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
 		$("#log-in").fadeIn(500);
+		return false;
 	});
 	$("#log-in .popup-close a").click( function() {
 		$("#log-in").fadeOut(500);
+		return false;
 	});
 });

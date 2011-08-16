@@ -26,7 +26,7 @@ class APIController {
 	
 	private function buildEvent($eventId) {
 		$eventInfo = $this->dbCon->getEventInfo($eventId);
-		
+			
 		$eventInfo['address'] = $eventInfo['location_address'];
 		
 		$eventDateTime = explode(" ", $eventInfo['event_datetime']);

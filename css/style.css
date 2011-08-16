@@ -271,6 +271,9 @@ header#page-header {
 	font-family: Arial;
 	border-bottom: 1px solid #ccc;
 	margin: 0 -5px 3px; }
+.navigation .block .block-title { 
+	text-align: center;
+	padding: 0; }
 .block .block-collapsable-title {
 	background: #3399cc;
 	color: #fff;
@@ -588,6 +591,9 @@ ul.network li a {
 #main .navigation .block li a:hover { 
 	background: #ff9933;
 	color: #fff; }
+#main .navigation .block li.broken a {
+	background: red;
+	color: #fff; }
 #main .navigation .block li a {
 	text-decoration: none;
 	height: 21px; /* 30 - 9 */
@@ -669,7 +675,6 @@ a:hover .button em { background-position: 100% 100%; }
 	position: absolute;
 	top: 140px;
 	left: 50%;
-	width: 738px;
 	display: none; }
 .popup {
 	background: #fff;
@@ -704,6 +709,7 @@ footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
 	margin: 0 15px 0 0; }
+.links-extra p { margin: 0 0 15px; }
 .links-extra label { 
 	text-align: left;
 	margin: 0 0 0 100px; }

@@ -228,25 +228,6 @@ class PanelController {
 
 	////////////////
 	// End OLD FUNCTIONS
-	
-	private function checkHome() {
-		if (isset($_SESSION['user'])) {
-		
-			// After logging in... fix this!
-		
-			// if there's new event when login using facebook
-			// Need to make sure that event is valid before creating new event...
-			// $this->checkCreateEventSession();
-	
-			unset($_SESSION['new_eid']);
-			unset($_SESSION['manage_event']);
-			
-			$this->assignCPEvents($_SESSION['user']->id);
-			EFCommon::$smarty->display('cp.tpl');
-		} else {
-			EFCommon::$smarty->display('index.tpl');
-		}
-	}
 
 	private function assignCPEvents($uid) {
 		$this->assignCreatedEvents($uid);
@@ -490,6 +471,7 @@ class PanelController {
 				EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
 			}
 			
+			// Fetch the users who have signed up
 			$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
 			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
 			
@@ -540,7 +522,23 @@ class PanelController {
 
 		switch ($current_page) {
 			case '/':
-				$this->checkHome();
+				if (isset($_SESSION['user'])) {
+					$page['cp'] = true;
+					EFCommon::$smarty->assign('page', $page);
+					// After logging in... fix this!
+				
+					// if there's new event when login using facebook
+					// Need to make sure that event is valid before creating new event...
+					// $this->checkCreateEventSession();
+			
+					unset($_SESSION['new_eid']);
+					unset($_SESSION['manage_event']);
+					
+					$this->assignCPEvents($_SESSION['user']->id);
+					EFCommon::$smarty->display('cp.tpl');
+				} else {
+					EFCommon::$smarty->display('index.tpl');
+				}
 				break;
 			case '/contact':
 				EFCommon::$smarty->display('contact.tpl');
@@ -551,7 +549,15 @@ class PanelController {
 			case '/method':
 				EFCommon::$smarty->display('method.tpl');
 				break;
+			case '/contacts':
+				$page['contacts'] = true;
+				EFCommon::$smarty->assign('page', $page);
+				
+				EFCommon::$smarty->display('cp_contacts.tpl');
 			case '/settings':
+				$page['settings'] = true;
+				EFCommon::$smarty->assign('page', $page);
+			
 				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
 					
@@ -579,7 +585,7 @@ class PanelController {
 				
 				
 				if ( isset($_SESSION['user']) ) {
-					EFCommon::$smarty->display('settings.tpl');
+					EFCommon::$smarty->display('cp_settings.tpl');
 				} else {
 					header("Location: " . CURHOST);
 				}
@@ -749,6 +755,10 @@ class PanelController {
 					$event->submitGuests();
 				}
 				
+				// Fetch the users who have signed up
+				$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
+				EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
+				
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
@@ -789,24 +799,27 @@ class PanelController {
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
 				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
-				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = true;
+				
+				if ( is_array($eventReminder) ) {
+					if ( $eventReminder['is_activated'] == 1 ) {
+						$eventReminder['isAuto'] = true;
+					}
+					
+					$eventDatetime = explode(" ", $eventReminder['datetime']);
+					$eventDate = $eventDatetime[0];
+					$eventTime = explode(":", $eventDatetime[1]);
+					
+					if ($eventTime[0] != "" && $eventTime[1] != "") {
+						$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+					} else {
+						$eventTime = "";
+					}
+					
+					EFCommon::$smarty->assign('eventDate', $eventDate);
+					EFCommon::$smarty->assign('eventTime', $eventTime);
+					EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
+					EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				}
-				
-				$eventDatetime = explode(" ", $eventReminder['datetime']);
-				$eventDate = $eventDatetime[0];
-				$eventTime = explode(":", $eventDatetime[1]);
-				
-				if ($eventTime[0] != "" && $eventTime[1] != "") {
-					$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
-				} else {
-					$eventTime = "";
-				}
-				
-				EFCommon::$smarty->assign('eventDate', $eventDate);
-				EFCommon::$smarty->assign('eventTime', $eventTime);
-				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-				EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
@@ -882,24 +895,26 @@ class PanelController {
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
 				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
-				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = true;
+				if ( is_array($eventReminder) ) {
+					if ( $eventReminder['is_activated'] == 1 ) {
+						$eventReminder['isAuto'] = true;
+					}
+					
+					$eventDatetime = explode(" ", $eventReminder['datetime']);
+					$eventDate = $eventDatetime[0];
+					$eventTime = explode(":", $eventDatetime[1]);
+					
+					if ($eventTime[0] != "" && $eventTime[1] != "") {
+						$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+					} else {
+						$eventTime = "";
+					}
+					
+					EFCommon::$smarty->assign('eventDate', $eventDate);
+					EFCommon::$smarty->assign('eventTime', $eventTime);
+					EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
+					EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				}
-				
-				$eventDatetime = explode(" ", $eventReminder['datetime']);
-				$eventDate = $eventDatetime[0];
-				$eventTime = explode(":", $eventDatetime[1]);
-				
-				if ($eventTime[0] != "" && $eventTime[1] != "") {
-					$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
-				} else {
-					$eventTime = "";
-				}
-				
-				EFCommon::$smarty->assign('eventDate', $eventDate);
-				EFCommon::$smarty->assign('eventTime', $eventTime);
-				EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-				EFCommon::$smarty->assign('eventReminder', $eventReminder);
 				
 				EFCommon::$smarty->display('manage_text.tpl');
 				break;

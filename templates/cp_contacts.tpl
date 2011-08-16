@@ -6,12 +6,11 @@
 	{include file="cp_header.tpl"}
 	<section id="main">
 		<header class="block">
-			<p class="message">You can manage all of your upcoming events from this home page.</p>
+			<p class="message">Address Book</p>
 		</header>
 		{include file="cp_user.tpl"}
 		<div class="content">
-			{include file="event_created.tpl"}
-			{include file="event_attending.tpl"}
+			{include file="contacts.tpl"}
 		</div>
 	</section>
 </div>
