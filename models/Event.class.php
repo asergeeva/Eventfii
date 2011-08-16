@@ -502,21 +502,21 @@ class Event {
 		// text area check
 		if (trim($_POST['emails']) != "") {
 			$this->setGuests($_POST['emails']);
-		}
 		
-		// CSV file check		
-		if (file_exists($csvFile)) {
+		// CSV file check
+		} else if (file_exists($csvFile)) {
 			$this->setGuestsFromCSV($csvFile);
 		}
 		
-		// $mailer->sendHtmlInvite($this);
+		$mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
-		if ( filter_var($guest_email, FILTER_VALIDATE_EMAIL) ) {
-			array_push($this->guests, $guest_email);
-		} else {
-			$this->guests = array_map('trim', explode(",", $guest_email));
+		$guest_email = explode(",", $guest_email);
+		for ($i = 0; $i < sizeof($guest_email); ++$i) {
+			if (filter_var($guest_email[$i], FILTER_VALIDATE_EMAIL)) {
+				array_push($this->guests, new AbstractUser($guest_email[$i]));
+			}
 		}
 	}
 	
@@ -525,7 +525,7 @@ class Event {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
 					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
-						array_push($this->guests, $data[$i]);
+						array_push($this->guests, new AbstractUser($data[$i]));
 					}
 				}
 			}

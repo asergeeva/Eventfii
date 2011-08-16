@@ -7,6 +7,7 @@ require_once(realpath(dirname(__FILE__)).'/db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/Event.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/EFCore.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/EFTwitter.class.php');
+require_once(realpath(dirname(__FILE__)).'/models/AbstractUser.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/EFSMS.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/FileUploader.class.php');

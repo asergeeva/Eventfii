@@ -1,16 +1,17 @@
 <?php
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
  
-class User {
+require_once(realpath(dirname(__FILE__)).'/../models/AbstractUser.class.php');
+
+class User extends AbstractUser {
 	public $id;
 	public $fname;
 	public $lname;
-	public $email;
 	public $about;
 	public $verified;
 	public $referrer;
@@ -156,18 +157,6 @@ class User {
 			$this->error['lname'] = "Invalid last name";
 			$this->numErrors++;
 		}
-	}
-	
-	private function check_email() {
- 		$valid_email = filter_var(
-	 		$this->email, 
-	 		FILTER_VALIDATE_EMAIL
-	 	);
-	 	
-		if( ! $valid_email ) {
-			$this->error['email'] = "Invalid email";
-			$this->numErrors++;
-		}	
 	}
 	
 	private function check_cell() {
