@@ -1,0 +1,13 @@
+<header id="header">
+		<h1>Welcome, {$smarty.session.user->fname}!</h1>
+		<h2><a href="{$CURHOST}/user/{$smarty.session.user->id}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
+		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
+		<nav>
+			<ul>
+				<li{if isset($page.cp)} class="current"{/if} id="cp"><a href="{$CURHOST}"><span>Home</span></a></li>
+				<li{if isset($page.contacts)} class="current"{/if} id="contacts"><a href="{$CURHOST}/contacts" id="update_event_edit"><span>Address Book</span></a></li>
+				<li{if isset($page.calendar)} class="current"{/if} id="calendar"><a href="{$CURHOST}/calendar" id="update_event_edit"><span>Calendar</span></a></li>
+				<li{if isset($page.settings)} class="current"{/if} id="settings"><a href="{$CURHOST}/settings" id="update_event_edit"><span>Settings</span></a></li>
+			</ul>
+		</nav>
+	</header>

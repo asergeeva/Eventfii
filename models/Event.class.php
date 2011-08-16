@@ -44,8 +44,12 @@ class Event {
 			$this->description = $_POST['description'];
 			$this->is_public = $_POST['is_public'];
 			$this->type = $_POST['type'];
-			$this->location_lat = $_POST['location_lat'];
-			$this->location_long = $_POST['location_long'];
+			if ( isset($_POST['location_lat']) ) {
+				$this->location_lat = $_POST['location_lat'];
+			}
+			if ( isset($_POST['location_long']) ) {
+				$this->location_long = $_POST['location_long'];
+			}
 		} else {
 			if ( ! is_array($eventInfo) ) {
 				$this->eid = $eventInfo;
@@ -493,21 +497,23 @@ class Event {
 	
 	public function submitGuests() {
 		$mailer = new EFMail();
-		$csvFile = CSV_UPLOAD_PATH.'/'.$this->eid.'.csv';
+		$csvFile = CSV_UPLOAD_PATH . '/' . $this->eid . '.csv';
 		
 		// text area check
-		if (trim($_REQUEST['emails']) != "") {
-			$this->setGuests($_REQUEST['emails']);
-		// CSV file check
-		} else if (file_exists($csvFile)) {
+		if (trim($_POST['emails']) != "") {
+			$this->setGuests($_POST['emails']);
+		}
+		
+		// CSV file check		
+		if (file_exists($csvFile)) {
 			$this->setGuestsFromCSV($csvFile);
 		}
 		
-		$mailer->sendHtmlInvite($this);
+		// $mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
-		if (filter_var($guest_email, FILTER_VALIDATE_EMAIL)) {
+		if ( filter_var($guest_email, FILTER_VALIDATE_EMAIL) ) {
 			array_push($this->guests, $guest_email);
 		} else {
 			$this->guests = array_map('trim', explode(",", $guest_email));

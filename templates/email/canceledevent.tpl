@@ -25,7 +25,8 @@
 		.btn-attend:hover{color: #F93;}
 		.extra{color: #6d6d6d;}
 	</style>
-</head><body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
 
 <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" style="font-family: Arial; font-size: 12px; ">
 	<tr style="background: #3399cc">
@@ -34,15 +35,14 @@
 	<tr>
 		<td style="padding: 10px">
 			<p>Hi [Attendee name],</p>
-			<p>Thank you for RSVPing to:</p>
+			<p>The following event has been canceled:</p>
 			<p>
 				<a href="#"><span id="event_name">Event Name</span></a><br />
 				<span id="event_date">Event Date</span><br />
 				<span id="event_location">Event Location</span>
 			</p>
-			<p>Your quick response earned you points to boost your reliability rating!</p>
-			<p>Click <a href="#">here</a> if you want to be reminded of this event in a week.</p>
-			<p>Thanks,<br />[Host Name]<br />[Host E-mail]<br /><br /><img src="images/user_thumb.jpg" width="48px" height="48px" /></p>
+			<p>Thanks,<br />[trueRSVP co-founder name]<br />[trueRSVP co-founder E-mail]</p>
+			<p>Spread the love! <a href="#"><img src="images/icon_facebook.gif" alt="Share on Facebook" /></a> <a href="#"><img src="images/icon_twitter.gif" alt="Share on Twitter" /></a></p>
 			<p class="extra">trueRSVP is the first RSVP system based on reputation. FInd out how many people are actually coming to your event. Learn more.</p>
 		</td>
 	</tr>
