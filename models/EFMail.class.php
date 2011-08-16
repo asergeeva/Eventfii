@@ -19,9 +19,21 @@ class EFMail {
 		"{Event time}"
 	);
 	private $templates = array(
-		"welcome_email" => "welcome.html",
-		"send_invite" => "inviteemail.html"
-		// ...
+		"welcome" => "welcome_userPOV.html",
+		"confirm_email" => "confirmemail_userPOV.html",
+		"contact_us" => "contactus_userPOV.html",
+		"daily_summary" => "dailysummary_eventcreatorPOV.html",
+		"attendance_check" => "didyoushowup_attendeePOV.html",
+		"hosts_following" => "eventplannersyouarefollowing.html",
+		"follow_up" => "followupemail_dayafter_attendeePOV.html",
+		"invite" => "inviteemail.html",
+		"friends_attending" => "notificationwhenfriendsRSVP_attendeePOV.html",
+		"forgot_pw" => "recoverpassword_userPOV.html",
+		"reminder_4days" => "reminder_4daysbefore_eventcreator.html",
+		"reminder_after" => "reminder_after_eventcreator.html",
+		"reminder_dayof" => "reminder_dayof_eventcreator.html",
+		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html",
+		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html"
 	);
 	
 	public function __construct() {
@@ -62,7 +74,7 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendHtmlInvite($event) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['send_invite']);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['invite']);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	

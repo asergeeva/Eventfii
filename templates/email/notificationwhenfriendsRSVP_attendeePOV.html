@@ -11,17 +11,16 @@
 		/* Client-specific Styles */
 		#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" button. */
 		body{-webkit-text-size-adjust:none;} /* Prevent Webkit platforms from changing default text sizes. */
-
+		
 		/* Reset Styles */
 		body{margin:0; padding:0;}
-		a{color: #3399cc; cursor: pointer;}
-		img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;vertical-align: middle;}
+		img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
 		table td{border-collapse:collapse;}
 		#backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important;}
 		
 		.btn-rsvp{background: url(images/btn_rsvp.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 207px; height: 16px; padding: 4px 0 0; margin: 0 0 2px; display: block;}
 		.btn-rsvp:hover{color: #F93;}
-		.btn-attend{background: url(images/btn_attend.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 128px; height: 18px; padding: 6px 0 0; margin: 0 0 2px; display: block;}
+		.btn-attend{background: url(images/btn_rsvp.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 207px; height: 18px; padding: 6px 0 0; margin: 0 0 2px; display: block;}
 		.btn-attend:hover{color: #F93;}
 	</style>
 </head>
@@ -33,13 +32,12 @@
 	</tr>
 	<tr>
 		<td style="padding: 10px">
-			<p>You're invited to:</p>
-			<p><a href="#"><span id="event_name">Event Name</span></a><br />
-				<span id="event_date">Event Date</span><br />
-				<span id="event_location">Event Location</span></p>
-			<h3>RSVP here</h3>
-			<p>Click <a href="#">here</a> if you want to reminded of this event later.</p>
-			<p>Thanks,<br /><span id="host_name">[Host Name]</span><br /><span id="host_email">[Host E-mail]</span></p>
+			<p>Hi [Attendee first name]</p>
+			<p>Guess what? Your friends are going to [Event planners first name]’s [Event name]!</p>
+			<p>Here’s who ‘s coming so far:</p>
+			<p><a href="#"><img src="images/user_thumb.jpg" width="48px" height="48px" /></a> <a href="#"><img src="images/user_thumb.jpg" width="48px" height="48px" /></a> <a href="#"><img src="images/user_thumb.jpg" width="48px" height="48px" /></a></p>
+			<p>Click <a href="#">here</a> to see more event details or update you RSVP.</p>
+			<p>Thanks,<br />[trueRSVP co-founder name]<br />[trueRSVP co-founder E-mail]<br />
 			<p>Share this event on Twitter &amp; Facebook! <a href="#"><img src="images/icon_facebook.gif" alt="Share on Facebook" /></a> <a href="#"><img src="images/icon_twitter.gif" alt="Share on Twitter" /></a></p>
 		</td>
 	</tr>
