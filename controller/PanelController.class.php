@@ -1038,6 +1038,9 @@ class PanelController {
 																 $_POST['zipcode'] );
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
+					
+					// Send welcome email
+					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP');
 				} else {
 					EFCommon::$smarty->display('login.tpl');
 					break;
@@ -1048,6 +1051,7 @@ class PanelController {
 					exit;
 				}
 				
+				header("Location: " . CURHOST);
 				break;
 			case '/login/reset':
 				if (EFCommon::$dbCon->isValidPassResetRequest($_REQUEST['ref'])) {
