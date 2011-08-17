@@ -101,6 +101,9 @@ class EFMail {
 				case "host_email":
 					$replaceItems->item($j)->nodeValue = $event->organizer->email;
 					break;
+				case "event_twitter_hashtag":
+					$replaceItems->item($j)->nodeValue = "#truersvp".$event->eid;
+					break;
 			}
 		}
 	}
