@@ -9,8 +9,8 @@
  *      php EmailReminder.php <email_template> <interval> <subject>
  *      e.g. php EmailReminder.php reminder_attendee 1 'This is a reminder'
  *			- reminder_attendee
- *			- reminder_4days
- *			- reminder_dayof
+ *			- reminder_4days (Host)
+ *			- reminder_dayof (Host)
  */
 
 require_once(realpath(dirname(__FILE__)).'/../configs.php');

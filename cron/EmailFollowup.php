@@ -8,8 +8,8 @@
  * How to run this:
  *      php EmailFollowup.php <email_template> <interval> <subject>
  *      e.g. php EmailReminder.php reminder_attendee 1 'This is a reminder'
- *			- follow_up
- *			- reminder_after
+ *			- follow_up (Guest)
+ *			- reminder_after (Host)
  */
 
 require_once(realpath(dirname(__FILE__)).'/../configs.php');

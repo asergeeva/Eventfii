@@ -7,6 +7,7 @@
  */
  
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/QR/qrlib.php');
  
 class Event {
 	public $eid;
@@ -68,6 +69,22 @@ class Event {
 	
 	public function __destruct() {
 		
+	}
+	
+	/**
+	 * Generate the QR code for this event given the uid
+	 * $uid    Integer    the user ID
+	 * @return String the absolute URL of where the image for that user
+	 */
+	public function generateQR($uid) {
+		// Generating the QR Code
+		$qrKey = 'truersvp-' . $this->eid . '-' . $uid;
+		$errorCorrectionLevel = 'L';
+		$matrixPointSize = 4;
+		$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+		QRcode::png($qrKey, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+		
+		return CURHOST.'/temp/'.basename($filename);
 	}
 
 	/* addGuests

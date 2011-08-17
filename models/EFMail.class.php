@@ -9,6 +9,7 @@
 require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
 require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class EFMail {
 	private $FROM = "'trueRSVP' <hello@truersvp.com>";
@@ -104,6 +105,27 @@ class EFMail {
 				case "event_twitter_hashtag":
 					$replaceItems->item($j)->nodeValue = "#truersvp".$event->eid;
 					break;
+				case "event_truersvp":
+					$efcore = new EFCore();
+					$replaceItems->item($j)->nodeValue = $efcore->computeTrueRSVP($event->eid);
+					break;
+			}
+		}
+	}
+	
+	/**
+	 * $htmlEmail     DOMDocument  email template
+	 * $guest         User         The recipient
+	 * $event         Event        the event
+	 */
+	public function mapEventGuestHtml(&$event, &$guest, &$htmlEmail) {
+		$replaceItems = $htmlEmail->getElementsByTagName("span");
+
+		for ($j = 0; $j < $replaceItems->length; ++$j) {
+			switch ($replaceItems->item($j)->getAttribute("id")) {
+				case "event_qr":
+					$replaceItems->item($j)->firstChild->setAttribute("src", $event->generateQR($guest->id));
+					break;
 			}
 		}
 	}
@@ -165,6 +187,7 @@ class EFMail {
 		for ($i = 0; $i < sizeof($event->guests); ++$i) {
 			$this->mapEventHtml($htmlEmail, $event);
 			$this->mapGuestHtml($htmlEmail, $event->guests[$i]);
+			$this->mapEventGuestHtml($event, $event->guests[$i], $htmlEmail);
 			
 			$rawMime = 
 			    "X-Priority: 1 (Highest)\n".

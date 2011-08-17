@@ -475,16 +475,6 @@ class PanelController {
 				$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
 				EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
 				EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
-				
-				// Generating the QR Code
-				$qrKey = 'truersvp-' . $event->eid . '-' . $_SESSION['user']->id;
-				$errorCorrectionLevel = 'L';
-				$matrixPointSize = 4;
-				$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-				QRcode::png($qrKey, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
-				
-				
-				EFCommon::$smarty->assign('QR', '<img src="'.CURHOST.'/temp/'.basename($filename).'" />');
 			} else {
 				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
 				EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
