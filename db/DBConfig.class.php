@@ -474,20 +474,22 @@ class DBConfig {
 		return NULL;
 	}
 	
-	public function eventSignUp($uid, $eid, $conf) {
-		if ( ! $this->hasAttend($uid, $eid) ) {
+	public function eventSignUp($uid, $event, $conf) {
+		if ( ! $this->hasAttend($uid, $event->eid) ) {
 			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) 
 								VALUES(
-									" . $eid . ", 
+									" . $event->eid . ", 
 									" . $uid . ", 
 									" . $conf . "
 								)";
+			
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
+			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVP');
 		} else {
 			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
 								SET 	confidence = " . $conf . ", 
 										is_attending = 1 
-								WHERE 	event_id = " . $eid . " 
+								WHERE 	event_id = " . $event->eid . " 
 								AND 	user_id = " . $uid;
 
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);

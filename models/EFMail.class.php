@@ -72,9 +72,9 @@ class EFMail {
 	/**
 	 * $htmlEmail    DOMDocument  email template
 	 * $event        Event        the event
-	 * $reference    String       the reference of the link (e.g. ?eid=CODE)
+	 * $reference    String       the reference of the link (e.g. ?eid=CODE) -- Optional
 	 */
-	public function mapEventHtml(&$htmlEmail, &$event, $reference) {
+	public function mapEventHtml(&$htmlEmail, &$event, $reference = '') {
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
 
 		for ($j = 0; $j < $replaceItems->length; ++$j) {
@@ -134,6 +134,63 @@ class EFMail {
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
 		
+		$rawMime = 
+		    "X-Priority: 1 (Highest)\n".
+		    "X-Mailgun-Tag: truersvp\n".
+		    "Content-Type: text/html;charset=UTF-8\n".    
+		    "From: ".$this->FROM."\n".
+		    "To: ".$guest->email."\n".
+		    "Subject: ".$subject."\n".
+		    "\n".$htmlEmail->saveXML();
+		
+		MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
+	}
+	
+	/**
+	 * $template  String   the template
+	 * $event     Event    the event
+	 * $subject   String   the subject of the email
+	 * We don't need transactions
+	 */
+	public function sendGuestsHtmlEmailByEvent($template, $event, $subject) {
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates[$template]);
+		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
+		
+		$htmlEmail = new DOMDocument();	
+		$htmlEmail->loadXML($htmlStr);
+		
+		for ($i = 0; $i < sizeof($event->guests); ++$i) {
+			$this->mapEventHtml($htmlEmail, $event);
+			$this->mapGuestHtml($htmlEmail, $event->guests[$i]);
+			
+			$rawMime = 
+			    "X-Priority: 1 (Highest)\n".
+			    "X-Mailgun-Tag: truersvp\n".
+			    "Content-Type: text/html;charset=UTF-8\n".    
+			    "From: ".$this->FROM."\n".
+			    "To: ".$event->guests[$i]->email."\n".
+			    "Subject: ".$subject."\n".
+			    "\n".$htmlEmail->saveXML();
+			
+			MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+		}
+	}
+	
+	/**
+	 * $template  String        the template
+	 * $guest     AbstractUser  the user
+	 * $event     Event         the event
+	 * $subject   String        the subject of the email
+	 * We don't need transactions
+	 */
+	public function sendAGuestHtmlEmailByEvent($template, $guest, $event, $subject) {
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates[$template]);
+		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
+		
+		$htmlEmail = new DOMDocument();	
+		$htmlEmail->loadXML($htmlStr);
+		
+		$this->mapEventHtml($htmlEmail, $event);
 		$this->mapGuestHtml($htmlEmail, $guest);
 		
 		$rawMime = 

@@ -675,8 +675,7 @@ class PanelController {
 				break;
 			case '/event/attend':
 				$this->validateLocalRequest();
-				$_SESSION['attend_event'] = EFCommon::$dbCon->getEventInfo($_POST['eid']);
-				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $_POST['eid'], $_POST['conf']);
+				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this->buildEvent($_POST['eid']), $_POST['conf']);
 				break;
 			case '/event/checkin':
 				$isAttend = 1;

@@ -421,6 +421,14 @@ class Event {
 			
 	}
 	
+	/**
+	 * Abstracting the adding guest to the event
+	 * $guest   AbstractUser   the user
+	 */
+	public function add_guest($guest) {
+		array_push($this->guests, $guest);
+	}
+	
 	/* check_deadline
 	 * Checks the event's deadine
 	 *
