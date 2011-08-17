@@ -218,6 +218,7 @@ class EFMail {
 		
 		$this->mapEventHtml($htmlEmail, $event);
 		$this->mapGuestHtml($htmlEmail, $guest);
+		$this->mapEventGuestHtml($event, $guest, $htmlEmail);
 		
 		$rawMime = 
 		    "X-Priority: 1 (Highest)\n".
