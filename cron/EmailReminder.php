@@ -1,18 +1,38 @@
 <?php
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
+ *
+ * How to run this:
+ *      php EmailReminder.php <email_template> <interval> <subject>
+ *      e.g. php EmailReminder.php reminder_attendee 1 'This is a reminder'
+ *			- reminder_attendee
+ *			- reminder_4days
+ *			- reminder_dayof
  */
-require_once('db/DBConfig.class.php');
-require_once('models/EFMail.class.php');
+
+require_once(realpath(dirname(__FILE__)).'/../configs.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 
 class EmailReminder {
 	private $dbCon;
 	private $mailer;
+	
+	private $template;
+	private $interval;
+	private $subject;
 		
-	public function __construct() {
+	public function __construct($template, $interval, $subject) {
+		$this->template = $template;
+		$this->interval = $interval;
+		$this->subject = $subject;
+	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
 	}
@@ -22,19 +42,21 @@ class EmailReminder {
 	}
 	
 	public function sendReminders() {
-		$GET_REMINDER_MESSAGES = "SELECT * FROM ef_event_messages m, ef_events e, ef_attendance a, ef_users u WHERE 
-																m.event_id = e.id AND
-																e.id = a.event_id AND
-																a.user_id = u.id AND
-																m.delivery_time BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
-		$messages = $this->dbCon->getQueryResultAssoc($GET_REMINDER_MESSAGES);
-		for ($i = 0; $i < sizeof($messages); ++$i) {
-			$this->mailer->sendReminder($messages['email'], $messages['title'], $messages['url']);
-			print("Sent reminder email to ".$messages['email']." for event_id = ".$messages['event_id']);
+		$GET_EVENT = "SELECT e.* FROM ef_events e
+						WHERE e.event_datetime BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ".$this->interval."+1 DAY)";
+		
+		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
+		for ($i = 0; $i < sizeof($events); ++$i) {
+			$event = new Event($events[$i]);
+						
+			$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
+			print("Sent reminder email for event_id = ".$event->eid."\n");
 		}
-		print("-- Cron job for sending Email reminders COMPLETED --");
+		print("-- Cron job for sending Email reminders COMPLETED --\n");
 	}
 }
 
-$emailCron = new EmailReminder();
+$common = new EFCommon();
+
+$emailCron = new EmailReminder($argv[1], $argv[2], $argv[3]);
 $emailCron->sendReminders();

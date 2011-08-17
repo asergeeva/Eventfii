@@ -33,7 +33,9 @@ class EFCommon {
 	
 	public static $mailer;
 	
-	public function __construct($smarty) {
+	public function __construct($smarty = NULL) {
+		date_default_timezone_set('America/Los_Angeles');
+	
 		$this->currDate = getdate();
 		$this->startDate = $this->currDate['year'].'-'.$this->currDate['mon'].'-'.$this->currDate['mday'];
 		$this->startDate = strtotime($this->startDate);

@@ -19,21 +19,21 @@ class EFMail {
 		"{Event time}"
 	);
 	private $templates = array(
-		"welcome" => "welcome_userPOV.html", //- welcome invite email
+		"welcome" => "welcome_userPOV.html",
 		"confirm_email" => "confirmemail_userPOV.html",
 		"contact_us" => "contactus_userPOV.html",
 		"daily_summary" => "dailysummary_eventcreatorPOV.html", //- cron
-		"attendance_check" => "didyoushowup_attendeePOV.html", //- cron
+		"attendance_check" => "didyoushowup_attendeePOV.html",  //- cron
 		"hosts_following" => "eventplannersyouarefollowing.html",
-		"follow_up" => "followupemail_dayafter_attendeePOV.html", //- thank you after event for attendees
-		"invite" => "inviteemail.html", //- inviting guests email for hot
+		"follow_up" => "followupemail_dayafter_attendeePOV.html",
+		"invite" => "inviteemail.html",
 		"friends_attending" => "notificationwhenfriendsRSVP_attendeePOV.html",
 		"forgot_pw" => "recoverpassword_userPOV.html",
-		"reminder_4days" => "reminder_4daysbefore_eventcreator.html", //- your event is 4 days away for host
- 		"reminder_after" => "reminder_after_eventcreator.html", //- checking off attendees for host
-		"reminder_dayof" => "reminder_dayof_eventcreator.html", //- your event is tomorrow for host
-		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html", //- your event is tomorrow for attendees
-		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html" //- thank you for RSVP'ing for attendees
+		"reminder_4days" => "reminder_4daysbefore_eventcreator.html",
+ 		"reminder_after" => "reminder_after_eventcreator.html",
+		"reminder_dayof" => "reminder_dayof_eventcreator.html",
+		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html",
+		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html"
 	);
 	
 	public function __construct() {
@@ -96,10 +96,10 @@ class EFMail {
 					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
 					break;
 				case "host_name":
-					$replaceItems->item($j)->nodeValue = $_SESSION['user']->fname . " " . $_SESSION['user']->lname;
+					$replaceItems->item($j)->nodeValue = $event->organizer->fname . " " . $event->organizer->lname;
 					break;
 				case "host_email":
-					$replaceItems->item($j)->nodeValue = $_SESSION['user']->email;
+					$replaceItems->item($j)->nodeValue = $event->organizer->email;
 					break;
 			}
 		}
