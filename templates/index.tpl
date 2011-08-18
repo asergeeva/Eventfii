@@ -1,7 +1,7 @@
 {include file="index_header.tpl"}
 <div id="container">
 	<header>
-		<p><a href="login">Log In/Create New Account</a></p>
+		<p><a href="login">Log In</a>/<a href="create_account">Create New Account</a></p>
 	</header>
 	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
 	<h2>a new RSVP system based on reputation</h2>

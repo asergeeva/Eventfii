@@ -415,7 +415,36 @@ class PanelController {
 			//header("Location: " . CURHOST);
 		}
 	}
+
+	/*
+	 * Redirect the user home if he's logged in
+     */
+	private function loggedInRedirect() {
+		// if the user already logged in
+		if ( isset($_SESSION['user']) ) {
+			// Logged in user doesn't need to log in!
+			header("Location: " . CURHOST);
+			exit;
+		}
+	}
 	
+	/*
+	 * The user has just logged in to FB,
+	 * so let's take him to his profile page
+	 */
+	private function handleFBLogin() {
+		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+		if ( $userInfo ) {
+			$_SESSION['user'] = new User($userInfo);
+			if ( isset ($params) ) {
+				echo $params;
+			} else {
+				echo 1;
+			}
+		} else {
+			echo 0;
+		}
+	}
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.
@@ -944,13 +973,61 @@ class PanelController {
 				$this->validateLocalRequest();
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
-			case '/login':
-				// if the user already logged in
-				if ( isset($_SESSION['user']) ) {
-					// Logged in user doesn't need to log in!
-					header("Location: " . CURHOST);
+			case '/create_account':
+				// Logged in user doesn't need to create an account!
+				$this->loggedInRedirect();
+
+				// Make sure the user is properly redirected
+				if ( isset($params) ) {
+					EFCommon::$smarty->assign('redirect', $params);
+				}
+
+				if ( isset($_POST['isFB']) ) {
+					$this->handleFBLogin();
+					break;
+				// if the user submits the register form
+				} else if ( isset ( $_POST['register'] ) ) {
+					$req['fname'] = $_POST['fname'];
+					$req['lname'] = $_POST['lname'];
+					$req['email'] = $_POST['email'];
+					$req['phone'] = $_POST['phone'];
+					$req['pass'] = $_POST['pass'];
+					$req['zip'] = $_POST['zipcode'];
+					$errors = $this->checkUserCreationForm($req);
+					
+					// Check if any errors
+					if( $errors ) {
+						EFCommon::$smarty->display('create_account.tpl');
+						break;
+					}
+					
+					// Create the new user
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
+																 $_POST['lname'], 
+																 $_POST['email'], 
+																 $_POST['phone'], 
+																 md5($_POST['pass']), 
+																 $_POST['zipcode'] );
+					// Assign user's SESSION variables
+					$_SESSION['user'] = new User($userInfo);
+					
+					// Send welcome email
+					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP');
+				} else {
+					EFCommon::$smarty->display('create_account.tpl');
+					break;
+				}
+
+
+				if ( isset ( $params ) ) {
+					header("Location: " . $this->getRedirectUrl());
 					exit;
 				}
+				
+				header("Location: " . CURHOST);
+				break;
+			case '/login':
+				$this->loggedInRedirect();
 				
 				// Make sure the user is properly redirected
 				if ( isset($params) ) {
@@ -958,20 +1035,8 @@ class PanelController {
 				}
 				
 				if ( isset($_POST['isFB']) ) {
-					$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
-					if ( $userInfo ) {
-						$_SESSION['user'] = new User($userInfo);
-						if ( isset ($params) ) {
-							echo $params;
-						} else {
-							echo 1;
-						}
-					} else {
-						echo 0;
-					}
-					
+					$this->handleFBLogin();
 					break;
-					
 				// if the user submits the login form
 				} else if ( isset( $_POST['login'] ) ) {
 					if ( ! isset( $_POST['email'] ) ) {
@@ -1001,35 +1066,8 @@ class PanelController {
 					// Success, log in
 					header("Location: " . $this->getRedirectUrl());
 					exit;
-				
+
 				/* User used trueRSVP register */
-				} else if ( isset ( $_POST['register'] ) ) {
-					$req['fname'] = $_POST['fname'];
-					$req['lname'] = $_POST['lname'];
-					$req['email'] = $_POST['email'];
-					$req['phone'] = $_POST['phone'];
-					$req['pass'] = $_POST['pass'];
-					$req['zip'] = $_POST['zipcode'];
-					$errors = $this->checkUserCreationForm($req);
-					
-					// Check if any errors
-					if( $errors ) {
-						EFCommon::$smarty->display('login.tpl');
-						break;
-					}
-					
-					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
-																 $_POST['lname'], 
-																 $_POST['email'], 
-																 $_POST['phone'], 
-																 md5($_POST['pass']), 
-																 $_POST['zipcode'] );
-					// Assign user's SESSION variables
-					$_SESSION['user'] = new User($userInfo);
-					
-					// Send welcome email
-					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP');
 				} else {
 					EFCommon::$smarty->display('login.tpl');
 					break;

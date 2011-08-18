@@ -8,7 +8,8 @@
 
 			<li><a href="{$CURHOST}/logout" onclick="FB.logout()">Log out</a></li>{else}
 
-			<li><a href="{$CURHOST}/login">Sign Up/Log In</a></li>{/if}
+			<li><a href="{$CURHOST}/login">Log In</a> | </li>
+			<li><a href="{$CURHOST}/create_account">Sign Up</a></li>{/if}
 
 			<li class="buttons"><a href="{$CURHOST}/event/create" class="btn"><span>Create New Event</span></a></li>
 		</ul>

@@ -44,6 +44,11 @@ fieldset.two-col {
 	width: 41%;
 	margin: 0 4%;
 	padding: 10px 0; }
+fieldset.one-col {
+	margin-left: auto;
+	margin-right: auto;
+	width: 41%;
+	 }
 fieldset legend { display: none; }
 fieldset .column { 
 	float: left;
