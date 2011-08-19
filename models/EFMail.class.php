@@ -144,14 +144,19 @@ class EFMail {
 	 * $template  String   the template
 	 * $guest     User     the guest in user object
 	 * $subject   String   the subject of the email
+	 * $event     Event    the event object - Optional
 	 * We don't need transactions
 	 */
-	public function sendHtmlEmail($template, $guest, $subject) {
+	public function sendHtmlEmail($template, $guest, $subject, $event = NULL) {
 		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates[$template]);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
+		
+		if (isset($event)) {
+			$subject = EFCommon::mapText($subject, $event, $guest);
+		}
 		
 		$rawMime = 
 		    "X-Priority: 1 (Highest)\n".
