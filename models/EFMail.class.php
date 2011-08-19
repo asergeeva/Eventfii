@@ -154,8 +154,11 @@ class EFMail {
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
 		
+		$this->mapGuestHtml($htmlEmail, $guest);
+		
 		if (isset($event)) {
 			$subject = EFCommon::mapText($subject, $event, $guest);
+			$this->mapEventHtml($htmlEmail, $event);
 		}
 		
 		$rawMime = 
