@@ -1047,7 +1047,7 @@ class PanelController {
 					$_SESSION['user'] = new User($userInfo);
 					
 					// Send welcome email
-					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP');
+					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
 				} else {
 					EFCommon::$smarty->display('create_account.tpl');
 					break;
