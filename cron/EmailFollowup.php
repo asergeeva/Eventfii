@@ -6,8 +6,8 @@
  * All rights reserved
  *
  * How to run this:
- *      php EmailFollowup.php <email_template> <interval> <subject>
- *      e.g. php EmailReminder.php reminder_attendee 1 'This is a reminder'
+ *      php EmailFollowup.php <email_template> <interval_day> <interval_hour> <subject> <guest or host>
+ *      e.g. php EmailFollowup.php reminder_after 1 2 'This is a followup' host
  *			- follow_up (Guest)
  *			- reminder_after (Host)
  */
@@ -24,13 +24,17 @@ class EmailFollowup {
 	private $mailer;
 	
 	private $template;
-	private $interval;
+	private $interval_day;
+	private $interval_hour;
 	private $subject;
+	private $forGuest;
 		
-	public function __construct($template, $interval, $subject) {
+	public function __construct($template, $interval_day, $interval_hour, $subject, $forGuest) {
 		$this->template = $template;
-		$this->interval = $interval;
+		$this->interval_day = $interval_day;
+		$this->interval_hour = $interval_hour;
 		$this->subject = $subject;
+		$this->forGuest = if (strtolower($forGuest) == 'guest') ? true : false;
 	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
@@ -42,20 +46,25 @@ class EmailFollowup {
 	
 	public function sendFollowups() {
 		$GET_EVENT = "SELECT e.* FROM ef_events e
-						WHERE e.event_datetime BETWEEN DATE_SUB(CURDATE(), INTERVAL ".$this->interval."+1 DAY) AND CURDATE()";
+						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL ".$this->interval_day." ".$this->interval_hour." DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		for ($i = 0; $i < sizeof($events); ++$i) {
 			$event = new Event($events[$i]);
 						
-			$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
-			print("Sent reminder email for event_id = ".$event->eid."\n");
+			if (!$this->forGuest) {
+				$this->mailer->sendHtmlEmail($this->template, $event->organizer, $this->subject, $event);
+				print("Sent host followup email for event_id = ".$event->eid."\n");
+			} else {
+				$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
+				print("Sent guest followup email for event_id = ".$event->eid."\n");
+			}
 		}
-		print("-- Cron job for sending Email reminders COMPLETED --\n");
+		print("-- Cron job for sending Email followup COMPLETED --\n");
 	}
 }
 
 $common = new EFCommon();
 
-$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3]);
+$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4]);
 $emailCron->sendFollowups();
