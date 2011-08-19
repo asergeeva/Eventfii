@@ -1,4 +1,10 @@
-
+/*
+ * Author : Adam Wexler
+ * Email : adam@wexcode.com
+ * All code (c) 2011 trueRSVP
+ * All rights reserved
+ */
+ 
 html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, img, strong, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, aside, embed, figure, figcaption, footer, header, nav, section, time {
 	margin: 0;
 	padding: 0;
@@ -13,7 +19,7 @@ ol, ul { list-style: none; }
  -------------------------*/
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia;
 	color: #333;
 	font-size: 11px; }
 a { 
@@ -52,7 +58,7 @@ fieldset .column {
 fieldset dt { margin: 0; }
 fieldset dd { margin: 4px 0 20px; }
 fieldset dt label {
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	font-size: 18px;
 	color: #464646;
 	padding: 0; }
@@ -124,22 +130,22 @@ input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
 /* Page Header
  -------------------------*/
 header#page-header {
-	background: #2799d8;
+	background: url(../images/header_bg.gif) 0 0 repeat-x;
 	color: #fff;
 	width: 940px;
-	height: 61px;
+	height: 76px;
 	margin: 0 auto; }
 
 /*----- Logo ----------*/
 #page-header h1 {
-	background: url(../images/logo.gif) 0 0 no-repeat;
+	background: url(../images/logo.png) 0 0 no-repeat;
 	float: left;
-	width: 194px;
-	height: 37px;
-	margin: 24px 0 0; }
+	width: 243px;
+	height: 72px;
+	margin: 4px 0 0; }
 #page-header h1 a {
-	width: 194px;
-	height: 37px;
+	width: 243px;
+	height: 72px;
 	text-indent: -10000px;
 	display: block; }
 
@@ -170,7 +176,6 @@ header#page-header {
 #header { height: 55px; }
 #header h1 {
 	float: left;
-	font-family: Arial;
 	font-size: 24px; }
 #header h2, #header p { 
 	float: left;
@@ -187,7 +192,7 @@ header#page-header {
 	text-transform: uppercase;
 	float: left;
 	height: 30px;
-	margin: 0 30px 0 0;
+	margin: 0 5px 0 15px;
 	-moz-border-top-left-radius: 8px; 
 	-moz-border-top-right-radius: 8px; 
 	-webkit-border-top-left-radius: 8px;
@@ -197,7 +202,8 @@ header#page-header {
 #header nav li.current, #header nav li:hover { background: #e8e8e8; }
 #header nav li a {
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 14px;
+	text-shadow: 0 1px 1px #fff;
 	height: 21px; /* 30 - 9 */
 	padding: 9px 10px 0;
 	display: block; }
@@ -232,7 +238,7 @@ header#page-header {
 	background: #e8e8e8;
 	float: left;
 	width: 800px; /* 820 - 20 */
-	margin: 0 0 90px;
+	margin: 0 0 70px;
 	padding: 20px 10px 10px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
@@ -271,7 +277,7 @@ header#page-header {
 /* Title */
 .block .block-title {
 	font-size: 16px;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	border-bottom: 1px solid #ccc;
 	margin: 0 -5px 3px; }
 .navigation .block .block-title { 
@@ -281,7 +287,7 @@ header#page-header {
 	background: #3399cc;
 	color: #fff;
 	font-size: 16px;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	height: 27px; /* 33 - 6 */
 	margin: -15px -15px 7px;
 	padding: 10px 0 0 20px; }
@@ -323,27 +329,6 @@ header#page-header {
 	-moz-border-radius: 6px; 
 	-webkit-border-radius: 6px;
 	border-radius: 6px;  }
-
-/*----- Horizontal Navigation ----------*/
-.horizontal-nav {
-	background: #e5e5e5;
-	font-size: 14px;
-	margin: 0 0 4px;
-	-moz-border-radius: 8px; 
-	-webkit-border-radius: 8px;
-	border-radius: 8px; }
-.horizontal-nav ul {
-	width: 90%;
-	margin: 0 0 0 9%; }
-.horizontal-nav li {
-	text-align: center;
-	width: 30%;
-	display: inline-block; }
-.horizontal-nav li a {
-	color: #999;
-	padding: 10px 0;
-	display: block; }
-.horizontal-nav li:hover a { color: #666; }
 
 /*----- Event Description ----------*/
 .event-desc { 
@@ -399,7 +384,6 @@ header#page-header {
 
 /*----- Response List ----------*/
 .list li { 
-	float: left;
 	width: 100%;
 	overflow: auto;
 	clear: both; }
@@ -410,7 +394,7 @@ header#page-header {
 .list li.list-head {
 	background: none;
 	font-weight: bold;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	margin: 0 0 10px;
 	cursor: default; }
 .list li strong {
@@ -443,7 +427,7 @@ ol.rsvp-list { margin: 0; }
 	margin: 0 0 8px;
 	display: block; }
 .rsvp-list li label {
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	text-align: center;
 	font-size: inherit;
 	padding: 0;
@@ -511,7 +495,7 @@ ol.rsvp-list { margin: 0; }
 	clear: left; }
 .table dt.list-head { 
 	font-weight: bold;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	margin: 0 0 10px; }
 .table dd {
 	float: right;
@@ -556,7 +540,7 @@ ul.contacts-list li {
 	margin: 3px 0 4px; }
 .contacts-list li:hover h3 {  }
 ul.contacts-list li p { 
-	font-family: Arial;	
+	font-family: Helvetica, Arial;	
 	line-height: 1;
 	font-size: 11px;
 	float: none;
@@ -613,7 +597,7 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	width: 190px; }
 #main .navigation .block { padding: 8px; }
 #main .navigation .block a { color: #3399cc; }
@@ -683,7 +667,7 @@ a .button {
 	/* text-transform: lowercase; */
 	text-decoration: none;
 	color: #fff;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	font-size: 11px;
 	height: 24px;
 	padding: 0 0 0 6px;
@@ -730,7 +714,7 @@ a:hover .button em { background-position: 100% 100%; }
 	overflow: visible; }
 .popup-close {
 	position: absolute;
-	font-family: Arial;
+	font-family: Helvetica, Arial;
 	top: -25px;
 	right: -25px; }
 .popup-close a {
@@ -760,10 +744,10 @@ footer.links-extra {
 
 /*----- Site Map ----------*/
 footer#site-map {
-	background: #2799d8;
-	font-family: Arial;
+	background: url(../images/footer_bg.gif) 0 0 repeat-x;
+	font-family: Helvetica, Arial;
 	color: #fff;
-	height: 129px; /* 162 - 33 */
+	height: 125px; /* 158 - 33 */
 	padding: 33px 0 0;
 	clear: both; }
 #site-map ul { 
@@ -774,6 +758,7 @@ footer#site-map {
 	margin: 0 30px 0 0; }
 #site-map ul li span {
 	font-size: 14px;
+	font-weight: bold;
 	margin: 0 0 10px;
 	display: block; }
 #site-map ul li ul { 
@@ -784,8 +769,8 @@ footer#site-map {
 	margin: 0;
 	display: block; }
 #site-map ul li ul li a { 
-	font-size: 12px;
-	color: #666666;
+	font-size: 11px;
+	color: #fff;
 	margin: 0;
 	padding: 0 3px 3px 0;
 	display: block; }

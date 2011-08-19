@@ -33,4 +33,13 @@ $(document).ready(function() {
 		$("#log-in").fadeOut(500);
 		return false;
 	});
+	
+	$("#all-guests").click( function() {
+		$("#see-all").fadeIn(500);
+		return false;
+	});
+	$("#see-all .popup-close a").click( function() {
+		$("#see-all").fadeOut(500);
+		return false;
+	});
 });

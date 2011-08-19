@@ -14,7 +14,7 @@
 					<h1>During Event</h1>
 				</header>
 				<ul>
-					<li{if isset($page["attendee"])} class="current"{/if} class="broken"><a href="{$CURHOST}/event/manage/attendees?eventId={$smarty.session.manage_event->eid}"><span>Attendee List</span></a></li>
+					<li{if isset($page["attendeelist"])} class="current"{/if}><a href="{$CURHOST}/event/manage/attendees?eventId={$smarty.session.manage_event->eid}"><span>Attendee List</span></a></li>
 					<li{if isset($page["checkin"])} class="current"{/if} class="broken"><a href="{$CURHOST}/event/manage/checkin?eventId={$smarty.session.manage_event->eid}"><span>Check-in options</span></a></li>
 					<li{if isset($page["feed"])} class="current"{/if} class="broken"><a href="{$CURHOST}/event/manage/feed?eventId={$smarty.session.manage_event->eid}"><span>Live feed</span></a></li>
 				</ul>

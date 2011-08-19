@@ -24,7 +24,6 @@
 			{include file="contacts_add.tpl"}{else}
 			
 			{include file="contacts.tpl"}{/if}
-
 		</div>
 	</section>
 </div>
