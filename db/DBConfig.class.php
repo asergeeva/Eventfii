@@ -78,7 +78,7 @@ class DBConfig {
 	 */
 	public function executeUpdateQuery($query) {
 		$dbLink = $this->openCon();
-		$dbResult = mysql_query($query);
+		$dbResult = mysql_query( $query );
 		if (!$dbResult && DEBUG) {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
@@ -529,11 +529,11 @@ class DBConfig {
 	public function storeGuests($guestEmails, $eid, $referrer) {
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
-				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer) VALUES ('".$guestEmails[$i]."', ".$referrer.")";
+				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer)
+											VALUES ('" . $guestEmails[$i] . "', " . $referrer . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
-			$userInfo = $this->getUserInfoByEmail($guestEmails[$i]);
-			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (".$eid.", ".$userInfo['id'].")";
+			$new_user = new User($guestEmails[$i]);			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $new_user->id . ")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}
