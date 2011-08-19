@@ -48,7 +48,7 @@ class EmailReminder {
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		for ($i = 0; $i < sizeof($events); ++$i) {
 			$event = new Event($events[$i]);
-						
+			
 			$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
 			print("Sent reminder email for event_id = ".$event->eid."\n");
 		}

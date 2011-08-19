@@ -13,12 +13,6 @@ require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class EFMail {
 	private $FROM = "'trueRSVP' <hello@truersvp.com>";
-	private $efmailDict = array(
-		"{Guest name}",
-		"{Host name}",
-		"{Event name}",
-		"{Event time}"
-	);
 	private $templates = array(
 		"welcome" => "welcome_userPOV.html",
 		"confirm_email" => "confirmemail_userPOV.html",
@@ -51,19 +45,19 @@ class EFMail {
 							WHERE 	a.user_id = u.id AND a.event_id = e.id AND a.event_id = " . $eid;
 		$mapEventInfo = EFCommon::$dbCon->executeQuery($GET_EVENT_INFO);
 		$hostInfo = EFCommon::$dbCon->getUserInfo($mapInfo['organizer']);
-		for ($i = 0; $i < sizeof($this->efmailDict); ++$i) {
-			switch ($this->efmailDict[$i]) {
+		for ($i = 0; $i < sizeof(EFCommon::$efDict); ++$i) {
+			switch (EFCommon::$efDict[$i]) {
 				case "{Guest name}":
-					$text = str_replace($this->efmailDict[$i], $mapEventInfo['fname'], $text);
+					$text = str_replace(EFCommon::$efDict[$i], $mapEventInfo['fname'], $text);
 					break;
 				case "{Host name}":
-					$text = str_replace($this->efmailDict[$i], $hostInfo['fname'], $text);
+					$text = str_replace(EFCommon::$efDict[$i], $hostInfo['fname'], $text);
 					break;
 				case "{Event name}":
-					$text = str_replace($this->efmailDict[$i], $mapEventInfo['title'], $text);
+					$text = str_replace(EFCommon::$efDict[$i], $mapEventInfo['title'], $text);
 					break;
 				case "{Event time}":
-					$text = str_replace($this->efmailDict[$i], $mapEventInfo['datetime'], $text);
+					$text = str_replace(EFCommon::$efDict[$i], $mapEventInfo['datetime'], $text);
 					break;
 			}
 		}
@@ -195,7 +189,7 @@ class EFMail {
 			    "Content-Type: text/html;charset=UTF-8\n".    
 			    "From: ".$this->FROM."\n".
 			    "To: ".$event->guests[$i]->email."\n".
-			    "Subject: ".$subject."\n".
+			    "Subject: ".EFCommon::mapText($subject, $event, $event->guests[$i])."\n".
 			    "\n".$htmlEmail->saveXML();
 			
 			MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
