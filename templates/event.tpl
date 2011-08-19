@@ -18,9 +18,15 @@
 </div>
 {include file="footer.tpl"}
 <div class="popup-container" id="log-in">
-	<div class="popup block">
-		<p class="message">Log in or Sign up for trueRSVP to RSVP to <a href="{$CURHOST}/event/{$event->eid}">{$event->title}</a>. <strong>Click <a href="{$CURHOST}/method">here</a> to find out why trueRSVP can help make your next event a success.</strong></p>
+	<div class="popup block popup-small">
+		<p class="message">Log in to RSVP/<a href="#">Don't have an account yet?</a></p>
 		{include file="login_form.tpl"}
+		<p class="popup-close"><a href="#">X</a></p>
+	</div>
+</div>
+<div class="popup-container" id="create-acc">
+	<div class="popup block popup-small">
+		{include file="create_account_form.tpl"}
 		<p class="popup-close"><a href="#">X</a></p>
 	</div>
 </div>

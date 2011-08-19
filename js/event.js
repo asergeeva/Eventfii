@@ -42,4 +42,14 @@ $(document).ready(function() {
 		$("#see-all").fadeOut(500);
 		return false;
 	});
+
+	$("#create-acc .popup-close a").click( function() {
+		$("#create-acc").fadeOut(500);
+		return false;
+	});
+	$("#log-in .message a").click( function() {
+		$("#log-in").fadeOut(500);
+		$("#create-acc").fadeIn(500);
+		return false;
+	});
 });
