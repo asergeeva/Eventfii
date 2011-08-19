@@ -26,22 +26,20 @@
 			</footer>
 		</aside>
 		<div class="content">
-			<section class="block">
-				{if isset($step1)}
-				{if isset($error)}
+			<section class="block">{if isset($step1)}{if isset($error)}
+
 				<header class="block">
 					<p class="message">Please fix the errors below before continuing.</p>
-				</header>
-				{/if}
-				{include file="create_form.tpl"}
-				{else if isset($step2)}
-				{include file="create_guest.tpl"}
-				{else if isset($step3)}
+				</header>{/if}
+				
+				{include file="create_form.tpl"}{else if isset($step2)}
+
+				{include file="create_guest.tpl"}{else if isset($step3)}
+
 				<header class="block">
 					<p class="message">Event created successfully.</p>
 				</header>
-				<a href="{$CURHOST}">Click here to return to your control panel</a>
-				{/if}
+				<a href="{$CURHOST}">Click here to return to your control panel</a>{/if}
 			</section>
 		</div>
 	</section>

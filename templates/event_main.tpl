@@ -12,24 +12,27 @@
 					<!--p>{$twitterHash}</p-->
 				</div>
 			</section>
-			<section class="block" id="event-attendants">
+			{if isset($attending)}<section class="block" id="event-attendants">
 				<header class="block-title">
 					<h1>Who's coming?</h1>
 				</header>
 				<ul class="thumbs">{foreach $attending as $guest}
+
 					<li>
 						<figure>
 							<a href="{$CURHOST}/user/{$guest->id}">
-								<img src="{$guest->pic}" width="64px" height="64px" alt="{$v['fname']} {$guest->lname}" />
+								<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
 								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 							</a>
 						</figure>
 					</li>{/foreach}
+
 				</ul>
 				<footer class="link-extra">
-					<p><a href="#">See All ({$curSignUp})</a></p>
+					<p><a href="#" id="all-guests">See All ({$curSignUp})</a></p>
 				</footer>
-			</section>
+			</section>{/if}
+
 			<section class="block" id="event-location">
 				<header class="block-title">
 					<h1>Location</h1>
