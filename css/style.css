@@ -20,6 +20,10 @@ a {
 	color: #3399cc;
 	text-decoration: none; }
 a:hover { text-decoration: underline; }
+div.right-align{
+	float: right;
+	margin: 0 auto 0 auto;
+}
 
 /*----- Forms ----------*/
 label { cursor: pointer; }

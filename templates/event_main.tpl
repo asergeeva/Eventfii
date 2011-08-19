@@ -10,9 +10,6 @@
 				<div class="event-desc">
 					<p>{$event->description}</p>
 					<!--p>{$twitterHash}</p-->
-          <!-- Facebook share -->
-    <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=230238300346205&amp;xfbml=1"></script><fb:like href="{$EVENT_URL}/{$event->id}" send="true" layout="button_count" width="450" show_faces="false" action="like" font=""></fb:like>
-          <!-- End Facebook -->
 				</div>
 			</section>
 			<section class="block" id="event-attendants">
