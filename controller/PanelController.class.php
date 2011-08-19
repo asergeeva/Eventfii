@@ -541,8 +541,6 @@ class PanelController {
 			case '/method':
 				EFCommon::$smarty->display('method.tpl');
 				break;
-<<<<<<< HEAD
-=======
 			case '/contacts':
 				$page['contacts'] = true;
 				EFCommon::$smarty->assign('page', $page);
@@ -561,7 +559,6 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
->>>>>>> wex
 			case '/settings':
 				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
@@ -760,8 +757,6 @@ class PanelController {
 					EFCommon::$smarty->assign("message", $message);
 				}
 				
-<<<<<<< HEAD
-=======
 				// Fetch the users who have signed up
 				$curSignUp = EFCommon::$dbCon->getAttendeesByEvent($eventId);
 
@@ -775,7 +770,6 @@ class PanelController {
 					EFcommon::$smarty->assign( 'error', $event->error );
 				}
 				
->>>>>>> wex
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;

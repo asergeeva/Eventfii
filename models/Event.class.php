@@ -528,9 +528,7 @@ class Event {
 		
 		// text area check
 		if (trim($_POST['emails']) != "") {
-			$numGuests = $this->setGuests($_POST['emails']);
-		}
-		
+			$numGuests = $this->setGuests($_POST['emails']);		
 		// CSV file check
 		} else if (file_exists($csvFile)) {
 			$this->setGuestsFromCSV($csvFile);
