@@ -557,7 +557,20 @@ class PanelController {
 				$page['contacts'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
+				// Please implement
+				$contacts = NULL;
+				EFCommon::$smarty->assign('contacts', $contacts);
+				
 				EFCommon::$smarty->display('cp_contacts.tpl');
+				break;
+			case '/contacts/add':
+				$page['addcontacts'] = true;
+				EFCommon::$smarty->assign('page', $page);
+				
+				// No functions to add to address book
+				
+				EFCommon::$smarty->display('cp_contacts.tpl');
+				break;
 			case '/settings':
 				$page['settings'] = true;
 				EFCommon::$smarty->assign('page', $page);
@@ -758,7 +771,8 @@ class PanelController {
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
 				if ( isset($_POST['submit']) ) {
-					$event->submitGuests();
+					$message = $event->submitGuests();
+					EFCommon::$smarty->assign("message", $message);
 				}
 				
 				// Fetch the users who have signed up
@@ -769,6 +783,10 @@ class PanelController {
 					$signedUp[] = new User($guest);
 				}
 				EFCommon::$smarty->assign( 'signedUp', $signedUp );
+				
+				if( $event->numErrors > 0 ) {
+					EFcommon::$smarty->assign( 'error', $event->error );
+				}
 				
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
@@ -795,11 +813,6 @@ class PanelController {
 					EFCommon::$smarty->assign('provider', $_REQUEST['provider']);
 					EFCommon::$smarty->display('event_add_guest_right.tpl');
 				}
-				break;
-			case '/event/manage/guests/save':
-				$this->validateLocalRequest();
-				$event = $this->buildEvent($_GET['eventId'], true);
-				EFCommon::$dbCon->storeGuests($event->guests, $_GET['eventId'], $_SESSION['user']->id);
 				break;
 			case '/event/manage/email':
 				$this->validateUserLogin();

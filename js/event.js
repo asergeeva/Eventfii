@@ -8,13 +8,13 @@
 var EVENT = (function() {
 	return {
 		init: function() {
-			$('#event_attending_response input:enabled').live('click', function() {
+			$('#event_attending_response label').live('click', function() {
+				$('#event_attending_response label').removeClass('selected');
+				$(this).addClass('selected');
 				$.post(EFGLOBAL.baseUrl + '/event/attend', {
-						eid: $('#event-id').html(),
-						conf: $('input:radio[name=event_attending_response]:checked').val()
+						eid: $('#event-id').text(),
+						conf: $(this).children("input").val()
 				}, function(resultPage) {
-					$('#event_attending_response li').removeClass();
-					$('#event_attending_response input:checked').parent('li').addClass('selected');
 					$('#response_stat_msg').html(EFGLOBAL.attendSucceed);
 				});
 				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
@@ -28,7 +28,7 @@ var EVENT = (function() {
 })();
 
 $(document).ready(function() {
-	//EVENT.init();
+	EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
 		$("#log-in").fadeIn(500);
 		return false;

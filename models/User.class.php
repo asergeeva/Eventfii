@@ -43,8 +43,13 @@ class User {
 			$this->notif_opt3 = ( isset($_POST['email-friend']) == 1 ) ? 1 : 0;
 		} else {
 			if ( ! is_array($userInfo) ) {
-				$userId = $userInfo;
-				$userInfo = EFCommon::$dbCon->getUserInfo($userId);
+				if ( is_numeric($userInfo) ) {
+					$userId = $userInfo;
+					$userInfo = EFCommon::$dbCon->getUserInfo($userId);
+				} else {
+					$userEmail = $userInfo;
+					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($userEmail);
+				}
 				
 				// Make sure a user was pulled from the db
 				if ( ! $userInfo ) {

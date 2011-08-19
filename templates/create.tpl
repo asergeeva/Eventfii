@@ -3,12 +3,12 @@
 
 {include file="header.tpl"}
 <div id="container">
-	<header id="header">
-		{if isset($step1)}
-		<h1>Create a New Event</h1>
-		{else if isset($step2)}
-		<h1>Add guests to your event</h1>
-		{/if}
+	<header id="header">{if isset($step1)}
+		
+		<h1>Create a New Event</h1>{else if isset($step2)}
+		
+		<h1>Add guests to your event</h1>{/if}
+
 	</header>
 	<section id="main"> 
 		<aside class="navigation">

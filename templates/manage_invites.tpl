@@ -1,7 +1,13 @@
 <section class="block"> 
 					<header class="block-title"> 
 						<h1>Invited Guests</h1> 
-					</header>{if isset($signedUp)}<ul class="contacts-list">{foreach $signedUp as $guest name=contacts}
+					</header>{if isset($signedUp)}
+
+					<form method="post" action="http://localhost/Eventfii/event/manage?eventId?">
+					<fieldset>
+					
+					<ul class="contacts-list">{foreach $signedUp as $guest name=contacts}
+
 						<li>
 							<label for="contact-{$smarty.foreach.contacts.index}">
 								<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />
@@ -11,6 +17,11 @@
 							</label>
 						</li>{/foreach}
 
-					</ul>{/if}
+					</ul>
+					<footer class="buttons buttons-submit">
+						<p><input type="submit" name="submit" value="Update Guest List" id="guests_update" /></p> 
+					</footer>
+					</fieldset>
+					</form>{/if}
 
 				</section>

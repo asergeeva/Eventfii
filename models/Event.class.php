@@ -28,8 +28,8 @@ class Event {
 	public $guests = array();
 	public $exists;
 	
-	private $error;
-	private $numErrors;
+	public $error;
+	public $numErrors;
 	
 	function __construct( $eventInfo ) {
 		if ( $eventInfo == NULL ) {
@@ -499,9 +499,11 @@ class Event {
 		$mailer = new EFMail();
 		$csvFile = CSV_UPLOAD_PATH . '/' . $this->eid . '.csv';
 		
+		$numGuests = 0;
+		
 		// text area check
 		if (trim($_POST['emails']) != "") {
-			$this->setGuests($_POST['emails']);
+			$numGuests = $this->setGuests($_POST['emails']);
 		}
 		
 		// CSV file check		
@@ -509,14 +511,39 @@ class Event {
 			$this->setGuestsFromCSV($csvFile);
 		}
 		
+		if ( $numGuests == 0 ) {
+			return "No guests added.";
+		} else {
+			$plural_guest = ($numGuests == 1) ? "guest" : "guests";
+			return $numGuests . " " . $plural_guest . " added successfully";
+		}
+		
 		// $mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
-		if ( filter_var($guest_email, FILTER_VALIDATE_EMAIL) ) {
-			array_push($this->guests, $guest_email);
+		$guests = explode(",", $guest_email);
+		
+		// Reset the errors
+		unset($this->error);
+		$this->error["add_guest"] = "";
+		$this->numErrors = 0;
+		
+		foreach($guests as $guest) {
+			$guest = trim($guest);
+			if ( filter_var($guest, FILTER_VALIDATE_EMAIL) ) {
+				$addGuest[] = $guest;
+			} else {
+				$this->error["add_guest"] .= "<br />" . $guest;
+				$this->numErrors++;
+			}
+		}
+		
+		if ( isset($addGuest) ) {
+			EFCommon::$dbCon->storeGuests($addGuest, $this->eid, $_SESSION['user']->id);
+			return sizeof($addGuest);
 		} else {
-			$this->guests = array_map('trim', explode(",", $guest_email));
+			return 0;
 		}
 	}
 	
