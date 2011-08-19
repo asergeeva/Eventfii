@@ -4,12 +4,14 @@
 		{include file="manage_nav.tpl"}
 		<div class="content">
 			<section class="block" id="cp-manage">
+				<p class="message">Want to increase your trueRSVP? Add more guests or remind your current guests to RSVP.</p>
 				<header class="rsvp-progress">
 					<div class="meter" style="width: {$trsvpVal / $smarty.session.manage_event->goal * 100}%">
 						<p class="trueRSVP"><em>{$trsvpVal}</em> <span>Your trueRSVP</span></p>
 					</div>
 					<p class="goal"><em>{$smarty.session.manage_event->goal}</em> <span>Your Goal</span></p>
 				</header>
+				<p class="message">Click on the response type to see who has RSVP’d to your event.</p>
 				<section class="block" id="cp-breakdown">
 					<header class="block-collapsable-title">
 						<h1>RSVP Breakdown</h1>
@@ -46,7 +48,7 @@
 					</ul>
 				</section>
 				<footer class="links-extra">
-					<p><a href="{$CURHOST}/event/print?eventId={$smarty.session.manage_event->eid}" target="_blank">Print Attendance List</a</p> 
+					<p><a href="{$CURHOST}/event/print?eventId={$smarty.session.manage_event->eid}" target="_blank">Print Attendance List</a></p> 
 				</footer>
 			</section>
 		</div>

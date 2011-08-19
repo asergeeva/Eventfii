@@ -8,12 +8,12 @@
 var EVENT = (function() {
 	return {
 		init: function() {
-			$('.event_attending_response').live('click', function() {
-				$('#event_attending_response li').removeClass();
-				$(this).parent().parent().addClass('selected');
+			$('#event_attending_response label').live('click', function() {
+				$('#event_attending_response label').removeClass('selected');
+				$(this).addClass('selected');
 				$.post(EFGLOBAL.baseUrl + '/event/attend', {
-						eid: $('#event-id').html(),
-						conf: $('input:radio[name=event_attending_response]:checked').val()
+						eid: $('#event-id').text(),
+						conf: $(this).children("input").val()
 				}, function(resultPage) {
 					$('#response_stat_msg').html(EFGLOBAL.attendSucceed);
 				});

@@ -14,13 +14,17 @@
 					<h1>Address Book</h1>
 				</header>
 				<ul>
-					<li{if isset($page["contacts"])} class="current"{/if}><a href="{$CURHOST}/event/manage/contacts/add?eventId={$smarty.session.manage_event->eid}"><span>View all contacts</span></a></li>
-					<li{if isset($page["addcontacts"])} class="current"{/if}><a href="{$CURHOST}/event/manage/contacts/add?eventId={$smarty.session.manage_event->eid}"><span>Add contacts</span></a></li>
+					<li{if isset($page["contacts"])} class="current"{/if}><a href="{$CURHOST}/contacts"><span>View all contacts</span></a></li>
+					<li{if isset($page["addcontacts"])} class="current"{/if}><a href="{$CURHOST}/contacts/add"><span>Add contacts</span></a></li>
 				</ul>
 			</nav>
 		</div>
-		<div class="content">
-			{include file="contacts.tpl"}
+		<div class="content">{if isset($page.addcontacts)}
+
+			{include file="contacts_add.tpl"}{else}
+			
+			{include file="contacts.tpl"}{/if}
+
 		</div>
 	</section>
 </div>
