@@ -34,12 +34,21 @@ $smarty->assign('CSS_PATH', CSS_PATH);
 $smarty->assign('EVENT_URL', EVENT_URL);
 $smarty->assign('NUM_TWEETS', NUM_TWEETS);
 
+// Yes
 define('CONFOPT1', 90);
 define('CONFOPT2', 65);
+
+// May be
 define('CONFOPT3', 35);
+
+// No
 define('CONFOPT4', 15);
 define('CONFOPT5', 4);
+
+// A spam
 define('CONFOPT6', 1);
+
+// Not yet responding
 define('CONFELSE', 5);
 
 $smarty->assign('CONFOPT1', CONFOPT1);

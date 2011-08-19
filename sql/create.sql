@@ -22,6 +22,7 @@ CREATE TABLE ef_users (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (
+  invited  TIMESTAMP NOT NULL DEFAULT NOW(),
   hash_key VARCHAR(500) PRIMARY KEY,
   email_to VARCHAR(500) NOT NULL,
   event_id INTEGER NOT NULL REFERENCES ef_events(id)
@@ -35,7 +36,7 @@ CREATE TABLE ef_friendship (
 
 CREATE TABLE ef_events (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
-  created           TIMESTAMP NOT NULL,
+  created           TIMESTAMP NOT NULL DEFAULT NOW(),
   organizer         INTEGER NOT NULL REFERENCES ef_users(id),
   title             VARCHAR(1000) NOT NULL,
   goal              INTEGER NOT NULL,
@@ -67,12 +68,13 @@ CREATE TABLE ef_attendance (
   user_id           INTEGER NOT NULL REFERENCES ef_users(id),
   is_attending      TINYINT(1) NOT NULL DEFAULT 0,
   confidence        FLOAT NOT NULL DEFAULT 5,
+  rsvp_time         TIMESTAMP,
   CONSTRAINT pk_attendance PRIMARY KEY (event_id, user_id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
   id                INTEGER PRIMARY KEY AUTO_INCREMENT,
-  created           TIMESTAMP NOT NULL,
+  created           TIMESTAMP NOT NULL DEFAULT NOW(),
   subject           VARCHAR(200),
   message           VARCHAR(5000) NOT NULL,
   delivery_time     DATETIME NOT NULL,

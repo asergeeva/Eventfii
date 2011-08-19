@@ -476,11 +476,12 @@ class DBConfig {
 	
 	public function eventSignUp($uid, $event, $conf) {
 		if ( ! $this->hasAttend($uid, $event->eid) ) {
-			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence) 
+			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
 								VALUES(
 									" . $event->eid . ", 
 									" . $uid . ", 
-									" . $conf . "
+									" . $conf . ",
+									NOW()
 								)";
 			
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
@@ -533,7 +534,8 @@ class DBConfig {
 											VALUES ('" . $guestEmails[$i] . "', " . $referrer . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
-			$new_user = new User($guestEmails[$i]);			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $new_user->id . ")";
+			$new_user = new User($guestEmails[$i]);
+			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $new_user->id . ")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}

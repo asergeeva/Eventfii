@@ -77,4 +77,35 @@ class EFCore {
 		$trsvpVal = $trsvpConf1Val + $trsvpConf2Val + $trsvpConf3Val + $trsvpConf4Val + $trsvpConf5Val + $trsvpConf6Val + $trsvpGuestNoRespVal;
 		return round($trsvpVal, 0);
 	}
+	
+	/**
+	 * Reputation = # of events RSVP'ed / # of events attended
+	 */
+	public function computeReputation($uid) {
+		$COUNT_YES = "SELECT COUNT(*) AS cnt FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.confidence BETWEEN ".CONFOPT2." AND ".CONFOPT1;
+		$COUNT_NO = "SELECT COUNT(*) *-1 AS cnt FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.confidence BETWEEN ".CONFOPT4." AND ".CONFOPT5;
+		$NUM_ATTEND = "SELECT COUNT(*) as cnt FROM ef_attendance a WHERE a.is_attending = 1 AND a.user_id = ".$uid;
+		$NOT_ATTEND = "SELECT COUNT(*) *-1 as cnt FROM ef_attendance a WHERE a.is_attending = 0 AND a.user_id = ".$uid;
+		
+		$YES = EFCommon::$dbCon->executeQuery($COUNT_YES);
+		$NO = EFCommon::$dbCon->executeQuery($COUNT_NO);
+		
+		$ATTENDED = EFCommon::$dbCon->executeQuery($NUM_ATTEND);
+		$NOT_ATTENDED = EFCommon::$dbCon->executeQuery($NOT_ATTEND);
+		
+		return (floatval($YES['cnt']) / floatval($ATTENDED['cnt']) * 100) + (floatval($NO['cnt']) / floatval($NOT_ATTENDED['cnt']) * 100);
+	}
+	
+	/**
+	 * How fast the invited responded
+	 */
+	public function computeResponseTime($uid) {
+		$RESPONSE_TIME = "SELECT AVG(resp.response_time) AS avg_resp FROM
+							  (SELECT a.rsvp_time, i.invited, TIMESTAMPDIFF(SECOND, a.rsvp_time, i.invited) AS response_time 
+							    FROM ef_attendance a, ef_users u, ef_event_invites i 
+							    WHERE i.email_to = u.email AND i.event_id = a.event_id AND u.id = ".$uid.") resp";
+		$TRESPONSE = EFCommon::$dbCon->executeQuery($RESPONSE_TIME);
+		
+		return floatval($TRESPONSE['avg_resp']);
+	}
 }
