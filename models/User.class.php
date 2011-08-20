@@ -233,14 +233,18 @@ class User extends AbstractUser {
 		$this->error["add_contact"] = "";
 		$this->numErrors = 0;
 		
-		foreach($contacts as $contact) {
-			$contact = trim($contact);
-			if ( filter_var($contact, FILTER_VALIDATE_EMAIL) ) {
-				$addContacts[] = $contact;
-			} else {
-				$this->error["add_contact"] .= "<br />" . $contact;
-				$this->numErrors++;
+		if (sizeof($contacts) > 1) {
+			foreach($contacts as $contact) {
+				$contact = trim($contact);
+				if ( filter_var($contact, FILTER_VALIDATE_EMAIL) ) {
+					$addContacts[] = $contact;
+				} else {
+					$this->error["add_contact"] .= "<br />" . $contact;
+					$this->numErrors++;
+				}
 			}
+		} else {
+			$addContacts[] = $contact_email;
 		}
 		
 		if ( isset($addContacts) ) {

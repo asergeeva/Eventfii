@@ -535,12 +535,12 @@ class DBConfig {
 	
 	public function storeContacts($contactEmails, $uid) {
 		for ($i = 0; $i < sizeof($contactEmails); ++$i) {
-			if (!$this->isUserEmailExist($contactEmails[$i]->email)) {
+			if (!$this->isUserEmailExist($contactEmails[$i])) {
 				$STORE_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
-											VALUES ('" . $contactEmails[$i]->email . "', " . $uid . ")";
+											VALUES ('" . $contactEmails[$i] . "', " . $uid . ")";
 				$this->executeUpdateQuery($STORE_EMAIL_USERS);
 			}
-			$new_user = new User($contactEmails[$i]->email);
+			$new_user = new User($contactEmails[$i]);
 			$STORE_CONTACT = "INSERT INTO ef_addressbook (user_id, contact_id) VALUES (" . $uid . ", " . $new_user->id . ")";
 			$this->executeUpdateQuery($STORE_CONTACT);
 		}
