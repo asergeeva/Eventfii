@@ -722,6 +722,28 @@ class PanelController {
 				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
+			case '/event/manage/checkin':
+				EFCommon::$smarty->display('manage_checkin.tpl');
+				break;
+			case '/event/manage/confirm':
+				$page['confirm'] = true;
+				$page['manage'] = true;
+				EFCommon::$smarty->assign('page', $page);
+			
+				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
+				for ($i = 0; $i < sizeof($attendees); ++$i) {
+					$attendee = new User($attendees[$i]);
+					
+					if ($attendees[$i]['is_attending'] == 1) {
+						// $attendee->checkedIn = true;
+						$attendee->confidence = $attendees[$i]['confidence'];
+						$eventAttendees[] = $attendee;
+					}
+				}
+				
+				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+				EFCommon::$smarty->display('manage_attendees.tpl');
+				break;
 			case '/event/manage/edit':
 				$this->validateUserLogin();
 				$page['edit'] = true;
@@ -975,6 +997,36 @@ class PanelController {
 										   $autoReminder);
 				echo("Success");
 				break;
+			case '/event/manage/followup':
+				$page['manage'] = true;
+				$page['followup'] = true;
+				EFCommon::$smarty->assign('page', $page);
+
+				$event = $this->buildEvent( $_GET['eventId'], true );
+				
+				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
+				if ( $eventReminder['is_activated'] == 1 ) {
+					$eventReminder['isAuto'] = true;
+				}
+				
+				if ( isset($eventReminder['datetime']) ) {
+					$eventDatetime = explode(" ", $eventReminder['datetime']);
+					$eventDate = $eventDatetime[0];
+					$eventTime = explode(":", $eventDatetime[1]);
+					
+					if ($eventTime[0] != "" && $eventTime[1] != "") {
+						$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
+					} else {
+						$eventTime = "";
+					}
+					
+					EFCommon::$smarty->assign('eventDate', $eventDate);
+					EFCommon::$smarty->assign('eventTime', $eventTime);
+					EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
+					EFCommon::$smarty->assign('eventReminder', $eventReminder);
+				}
+				EFCommon::$smarty->display('manage_email.tpl');
+				break;				
 			case '/fb/user/update':
 				$this->validateLocalRequest();
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);

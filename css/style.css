@@ -20,7 +20,7 @@ ol, ul { list-style: none; }
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
 	font-family: Georgia;
-	color: #333;
+	color: #666;
 	font-size: 11px; }
 a { 
 	color: #3399cc;
@@ -30,7 +30,7 @@ a:hover { text-decoration: underline; }
 /*----- Forms ----------*/
 label { cursor: pointer; }
 figure {
-	text-align: center;
+	text-align: c∂enter;
 	font-size: 10px;
 	padding: 0 0 10px; }
 figure a { 
@@ -132,7 +132,7 @@ input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
 header#page-header {
 	background: url(../images/header_bg.gif) 0 0 repeat-x;
 	color: #fff;
-	width: 940px;
+	width: 900px;
 	height: 76px;
 	margin: 0 auto; }
 
@@ -153,24 +153,23 @@ header#page-header {
 #page-header aside {
 	font-size: 13px;
 	float: right;
-	margin: 38px 0 0; }
-#page-header ul li {
-	float: left;
-	text-transform: uppercase;
-	margin: 0 0 0 7px; }
-#page-header ul li.buttons {
-	font-size: 11px;
-	margin: -5px 0 0 7px;
-	text-transform: none; }
-#page-header li a { 
+	margin: 47px 0 0; }
+#page-header p { float: left; }
+#page-header p.buttons { 
+	margin: -5px 0 0 10px;
+	overflow: auto; }
+#page-header p a {
 	color: #fff;
-	margin: 0 7px 0 0; }
+	font-size: 12px;
+	padding: 0 4px;
+	display: inline-block; }
 
 /* Container
  -------------------------*/
 #container {
 	width: 820px;
-	margin: 40px auto 0; }
+	margin: 40px auto 0;
+	padding: 0 0 70px; }
 
 /*----- Header ----------*/
 #header { height: 55px; }
@@ -188,7 +187,6 @@ header#page-header {
 #header nav ul {
 	margin: 0 20px 0 0; }
 #header nav li {
-	background: #fff;
 	text-transform: uppercase;
 	float: left;
 	height: 30px;
@@ -204,8 +202,8 @@ header#page-header {
 	text-decoration: none;
 	font-size: 14px;
 	text-shadow: 0 1px 1px #fff;
-	height: 21px; /* 30 - 9 */
-	padding: 9px 10px 0;
+	height: 24px; /* 30 - 6 */
+	padding: 6px 10px 0;
 	display: block; }
 
 /*----- Information ----------*/
@@ -236,13 +234,12 @@ header#page-header {
  -------------------------*/
 #main {
 	background: #e8e8e8;
-	float: left;
 	width: 800px; /* 820 - 20 */
-	margin: 0 0 70px;
 	padding: 20px 10px 10px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
-	border-radius: 8px; }
+	border-radius: 8px;
+	overflow: hidden; }
 
 /*----- Main Message ----------*/
 .message {
@@ -252,6 +249,7 @@ header#page-header {
 .block .message { 
 	font-size: 13px;
 	margin: 12px 0; }
+header.block .message { margin: 0; }
 .message em { color: #ff9933; }
 .message strong { 
 	font-size: 12px;
@@ -271,8 +269,10 @@ header#page-header {
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	border: 1px solid #cacaca;
-	overflow: auto; }
+	border: 2px solid #cacaca;
+	border-top-width: 1px;
+	border-left-width: 1px;
+	overflow: hidden; }
 
 /* Title */
 .block .block-title {
@@ -298,7 +298,6 @@ header#page-header {
 #main .content {
 	float: left;
 	width: 610px;
-	display: block;
 	vertical-align: top; }
 
 /*----- Slider ----------*/
@@ -502,7 +501,7 @@ ol.rsvp-list { margin: 0; }
 	text-align: center; }
 
 /*----- Contacts List ----------*/
-ul.contacts-list { margin: 8px 6px 0; }
+ul.contacts-list { margin: 8px 5px 0; }
 ul.contacts-list li {
 	float: left;
 	color: #333;
@@ -542,9 +541,27 @@ ul.contacts-list li {
 ul.contacts-list li p { 
 	font-family: Helvetica, Arial;	
 	line-height: 1;
+	white-space: nowrap;
 	font-size: 11px;
 	float: none;
 	clear: none; }
+	
+/*----- Checkin Options ----------*/
+#manage-checkin header {
+	float: left;
+	width: 100px; }
+#manage-checkin p {
+	font-size: 16px;
+	overflow: auto; }
+#manage-checkin span {
+	font-family: Helvetica, Arial;
+	float: left;
+	display: inline;
+	clear: both; }
+#manage-checkin em {
+	float: left;
+	font-size: 12px;
+	clear: both; }
 
 /*----- User Thumbnails ----------*/
 .thumbs {
@@ -643,22 +660,35 @@ ul.network li a {
 
 /* Buttons
  -------------------------*/
-.link-home {
-	text-align: center; }
-.link-extra {
+.buttons-edit {
 	text-align: right;
 	margin: 10px 0 0; }
 .buttons-extra {
 	text-align: center;
-	margin: 10px 0 0; }
-.buttons-edit {
-	text-align: right;
 	margin: 10px 0 0; }
 .buttons-submit {
 	text-align: right;
 	margin: 10px 0 0;
 	clear: both; }
 .follow { text-align: center; }
+.link-home { text-align: center; }
+.link-extra {
+	text-align: right;
+	margin: 10px 0 0; }
+
+/* Create Button */
+.buttons-create .btn {
+	background: url(../images/btn_create_left.png) 0 0 no-repeat;
+	height: 26px;
+	padding: 0 0 0 6px;
+	display: block; }
+.buttons-create .btn span {
+	background:url(../images/btn_create_right.png) 100% 0 no-repeat;
+	float: left;
+	height: 21px; /* 26 - 5 */
+	padding: 5px 8px 0 1px;
+	display: block; }
+
 
 .buttons a, 
 .buttons-submit p,
@@ -667,7 +697,6 @@ a .button {
 	/* text-transform: lowercase; */
 	text-decoration: none;
 	color: #fff;
-	font-family: Helvetica, Arial;
 	font-size: 11px;
 	height: 24px;
 	padding: 0 0 0 6px;
@@ -692,8 +721,7 @@ a:hover .button em { background-position: 100% 100%; }
 .buttons-submit p input {
 	padding-top: 0;
 	height: 24px;
-	margin: 0;
-}
+	margin: 0; }
 
 /* Popups and dropdowns
  -------------------------*/
