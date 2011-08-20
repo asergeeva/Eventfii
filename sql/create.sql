@@ -18,7 +18,8 @@ CREATE TABLE ef_users (
   facebook  VARCHAR(50),
   notif_opt1 TINYINT(1) DEFAULT 1,
   notif_opt2 TINYINT(1) DEFAULT 1,
-  notif_opt3 TINYINT(1) DEFAULT 1
+  notif_opt3 TINYINT(1) DEFAULT 1,
+  reputation DOUBLE
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (
@@ -35,20 +36,22 @@ CREATE TABLE ef_friendship (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_events (
-  id                INTEGER PRIMARY KEY AUTO_INCREMENT,
-  created           TIMESTAMP NOT NULL DEFAULT NOW(),
-  organizer         INTEGER NOT NULL REFERENCES ef_users(id),
-  title             VARCHAR(1000) NOT NULL,
-  goal              INTEGER NOT NULL,
-  location_address  VARCHAR(5000) NOT NULL,
-  location_lat      DOUBLE,
-  location_long     DOUBLE,
-  event_datetime    DATETIME NOT NULL,
-  event_deadline    DATE NOT NULL,
-  type              INTEGER NOT NULL REFERENCES ef_event_type(tid),
-  description       VARCHAR(5000),
-  is_public         TINYINT(1) NOT NULL DEFAULT 1,
-  is_active  TINYINT(1) DEFAULT 1
+  id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
+  created             TIMESTAMP NOT NULL DEFAULT NOW(),
+  organizer           INTEGER NOT NULL REFERENCES ef_users(id),
+  title               VARCHAR(1000) NOT NULL,
+  goal                INTEGER NOT NULL,
+  location_name       VARCHAR(1000),
+  location_address    VARCHAR(5000) NOT NULL,
+  location_lat        DOUBLE,
+  location_long       DOUBLE,
+  event_datetime      DATETIME NOT NULL,
+  event_end_datetime  DATETIME,
+  event_deadline      DATE NOT NULL,
+  type                INTEGER NOT NULL REFERENCES ef_event_type(tid),
+  description         VARCHAR(5000),
+  is_public           TINYINT(1) NOT NULL DEFAULT 1,
+  is_active           TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_addressbook (
