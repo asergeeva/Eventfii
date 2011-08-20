@@ -24,6 +24,7 @@ class User extends AbstractUser {
 	public $notif_opt2;
 	public $notif_opt3;
 	public $exists;
+	public $contacts = array();
 	
 	public $is_attending;
 	
@@ -222,5 +223,67 @@ class User extends AbstractUser {
 			$this->error['twitter'] = "Please enter a valid twitter username";
 			$this->numErrors++;
 		}
+	}
+	
+	public function setContacts($contact_email) {
+		$contacts = explode(",", $contact_email);
+		
+		// Reset the errors
+		unset($this->error);
+		$this->error["add_contact"] = "";
+		$this->numErrors = 0;
+		
+		foreach($contacts as $contact) {
+			$contact = trim($contact);
+			if ( filter_var($contact, FILTER_VALIDATE_EMAIL) ) {
+				$addContacts[] = $contact;
+			} else {
+				$this->error["add_contact"] .= "<br />" . $contact;
+				$this->numErrors++;
+			}
+		}
+		
+		if ( isset($addContacts) ) {
+			EFCommon::$dbCon->storeContacts($addContacts, $_SESSION['user']->id);
+			return sizeof($addContacts);
+		} else {
+			return 0;
+		}
+	}
+	
+	public function setContactsFromCSV($csvFile) {
+		if (($handle = fopen($csvFile, "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+				for ($i = 0; $i < sizeof($data); ++$i) {
+					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+						array_push($this->contacts, new AbstractUser($data[$i]));
+					}
+				}
+			}
+			fclose($handle);
+		}	
+	}
+	
+	public function addContacts() {
+		$csvFile = USER_CSV_UPLOAD_PATH . '/' . $this->uid . '.csv';
+		
+		$numContacts = 0;
+		
+		// text area check
+		if (trim($_POST['emails']) != "") {
+			$numContacts = $this->setContacts($_POST['emails']);		
+		// CSV file check
+		} else if (file_exists($csvFile)) {
+			$this->setContactsFromCSV($csvFile);
+		}
+		
+		if ( $numContacts == 0 ) {
+			return "No guests added.";
+		} else {
+			$plural_contact = ($numContacts == 1) ? "contact" : "contacts";
+			return $numContacts . " " . $plural_contact . " added successfully";
+		}
+		
+		// EFCommon::$mailer->sendHtmlInvite($this);
 	}
 }

@@ -11,10 +11,9 @@
 						</label>
 					</li>
 				</ul>{/foreach}{else}
-				{/if}
 				
 				<header class="block">
 					<p class="message">No contacts</p>
 				</header>
-
+				{/if}
 			</section>

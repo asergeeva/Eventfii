@@ -18,6 +18,7 @@ define('CURHOST', 'http://localhost'.PATH);
 define('IMG_PATH', CURHOST.'/images');
 define('IMG_UPLOAD_PATH', 'upload/event/images');
 define('CSV_UPLOAD_PATH', 'upload/event/csv');
+define('USER_CSV_UPLOAD_PATH', 'upload/user/csv');
 define('IMG_UPLOAD', CURHOST.'/'.IMG_UPLOAD_PATH);
 define('CSV_UPLOAD', CURHOST.'/'.CSV_UPLOAD_PATH);
 define('JS_PATH', CURHOST.'/js');

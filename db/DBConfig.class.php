@@ -533,15 +533,28 @@ class DBConfig {
 		}
 	}
 	
+	public function storeContacts($contactEmails, $uid) {
+		for ($i = 0; $i < sizeof($contactEmails); ++$i) {
+			if (!$this->isUserEmailExist($contactEmails[$i])) {
+				$STORE_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
+											VALUES ('" . $contactEmails[$i] . "', " . $uid . ")";
+				$this->executeUpdateQuery($STORE_EMAIL_USERS);
+			}
+			$new_user = new User($contactEmails[$i]);
+			$STORE_CONTACT = "INSERT INTO ef_addressbook (user_id, contact_id) VALUES (" . $uid . ", " . $new_user->id . ")";
+			$this->executeUpdateQuery($STORE_CONTACT);
+		}
+	}
+	
 	public function storeGuests($guestEmails, $eid, $referrer) {
 		for ($i = 0; $i < sizeof($guestEmails); ++$i) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
-				$STORE_GUEST_EMAIL_USERS = "INSERT IGNORE INTO ef_users (email, referrer)
+				$STORE_GUEST_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
 											VALUES ('" . $guestEmails[$i] . "', " . $referrer . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
 			$new_user = new User($guestEmails[$i]);
-			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $new_user->id . ")";
+			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $new_user->id . ")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}
