@@ -860,27 +860,6 @@ class PanelController {
 
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
-				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
-				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = true;
-				}
-				
-				if ( isset($eventReminder['datetime']) ) {
-					$eventDatetime = explode(" ", $eventReminder['datetime']);
-					$eventDate = $eventDatetime[0];
-					$eventTime = explode(":", $eventDatetime[1]);
-					
-					if ($eventTime[0] != "" && $eventTime[1] != "") {
-						$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
-					} else {
-						$eventTime = "";
-					}
-					
-					EFCommon::$smarty->assign('eventDate', $eventDate);
-					EFCommon::$smarty->assign('eventTime', $eventTime);
-					EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-					EFCommon::$smarty->assign('eventReminder', $eventReminder);
-				}
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
 			case '/event/email/save':

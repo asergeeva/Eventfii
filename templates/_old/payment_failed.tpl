@@ -1,1 +1,0 @@
-<h2>Payment failed, or you already signed up to this event!</h2>

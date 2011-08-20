@@ -78,6 +78,9 @@ fieldset label {
 	font-size: 12px;
 	padding: 5px 0;
 	display: block; }
+fieldset footer label { 
+	padding: 0;
+	display: inline; }
 #settings fieldset label { 
 	width: 94px;
 	margin: 0 5px;
@@ -96,13 +99,13 @@ fieldset label strong {
 	display: block; }
 fieldset label p { 
 	cursor: pointer;
-	text-align: left;
-	clear: both; }
+	text-align: left; }
 fieldset label p.counter { text-align: right; }
 fieldset label div {
 	padding: 0 0 0 100px;
 	cursor: pointer;
 	display: block; }
+fieldset label div p { margin: 0 0 3px; }
 #settings fieldset label em { display: inline; }
 fieldset label span {
 	margin: 0 0 1px;
@@ -130,10 +133,12 @@ fieldset label textarea {
 	box-sizing: border-box;
 	border: 1px solid #acacac; }
 input.datebox { 
-	background: url(../images/icon_date.gif) 86px 50% no-repeat;
+	background: url(../images/icon_date.gif) 86px 2px no-repeat;
 	width: 110px;
-	padding: 0 28px 0 5px; }
-select.timebox { width: 119px; }
+	margin: 0 3px 0 1px;
+	padding: 0 28px 0 5px;
+	cursor: pointer; }
+select.timebox { cursor: pointer; }
 input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
 
 /* Page Header
@@ -698,6 +703,28 @@ ul.network li a {
 	padding: 5px 8px 0 1px;
 	display: block; }
 
+/* Send Button */
+.buttons-send { 
+	text-align: center;
+	margin: 10px 0 0; } 
+.buttons-send .btn {
+	background: url(../images/btn_small_left.png) 0 0 no-repeat;
+	text-decoration: none;
+	color: #fff;
+	font-size: 11px;
+	height: 24px;
+	padding: 0 0 0 6px;
+	display: inline-block; }
+.buttons-send .btn input {
+	background: url(../images/btn_small_right.png) 100% 0 no-repeat;
+	color: #fff;
+	text-decoration: none;
+	height: 24px;
+	margin: 0;
+	padding: 0 11px 0 4px;
+	border: 0;
+	cursor: pointer;
+	display: block; }
 
 .buttons a, 
 .buttons-submit p,
