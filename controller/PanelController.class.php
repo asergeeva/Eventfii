@@ -586,6 +586,9 @@ class PanelController {
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
 			case '/settings':
+				$page['settings'] = true;
+				EFCommon::$smarty->assign('page', $page);
+				
 				if ( isset($_POST['submit']) ) {
 					$responseMsg = array();
 					

@@ -4,6 +4,8 @@
  * All code (c) 2011 TrueRSVP Inc. 
  * All rights reserved
  */
+ 
+/* 
 var CREATE_EVENT_FORM = (function() {
 	$('#invite_guest_submit').live('click', function() {
 		if( $('.btn-update').length == 0 ) {
@@ -79,25 +81,17 @@ var CREATE_EVENT_FORM = (function() {
 					$('#deadlineErr').html("Deadline date cannot be greater than the event date.");
 				else
 					$('#deadlineErr').html("");
-					
+				
 				if ( loginForm.length > 18 ) {
 					//window.location = EFGLOBAL.baseUrl;
 				}
 			}
 		}
 	}
-)();
+)(); */
 
 $(document).ready( function() {
-	CREATE_EVENT_FORM.init();
-	AnyTime.picker(
-	"#event_time_create",
-				{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
-	 $("#event_time_create").AnyTime_picker(
-				{ 
-			format: "%I:%i %p", labelTitle: "What Time",
-				labelHour: "Hour", labelMinute: "Minute"
-			}
-	));
-	$( "#event_address_create" ).addresspicker();
+	// CREATE_EVENT_FORM.init();
+
+	$( "#address" ).addresspicker();
 });
