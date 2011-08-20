@@ -4,7 +4,7 @@
 					<li>
 						<label for="contact-{$contact->id}">
 							<input type="checkbox" id="contact-{$contact->id}" />
-							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($user->fname)}
+							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
 
 							<p>{$contact->email}</p>

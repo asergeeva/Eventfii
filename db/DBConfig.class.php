@@ -176,6 +176,11 @@ class DBConfig {
 		return true;
 	}
 	
+	public function getUserContacts($uid) {
+		$GET_CONTACT = "SELECT u.* FROM ef_addressbook a, ef_users u WHERE a.contact_id = u.id AND a.user_id <> u.id AND a.user_id = ".$uid;
+		return $this->getQueryResultAssoc($GET_CONTACT);
+	}
+	
 	public function saveUserPic($file)
 	{
 		$uid = $_SESSION['user']->id;
@@ -378,6 +383,7 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
 	
+	/* Get the list of the query results multiple than one row */
 	public function getQueryResultAssoc($sqlQuery) {
 		$sqlResult = $this->getQueryResult($sqlQuery);
 		$sqlRows = array();
