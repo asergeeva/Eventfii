@@ -49,37 +49,32 @@ class APIController {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		$requestUri = explode('/', $requestUri);
 		$requestUri = $requestUri[2];
-		
-		switch ($requestUri) {
+		$getParamStartPos = strpos($requestUri, '?');
+		if ($getParamStartPos) {
+			$current_page = substr($requestUri, 0, $getParamStartPos);
+			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
+		} else {
+			$current_page = $requestUri;
+		}
+		switch ($current_page) {
 			case 'login':
-				if( ! isset($_SESSION['user']->id) ) {
-					if ( $_REQUEST['isFB'] )  {
-						echo $_REQUEST['fname'];
-						echo $_REQUEST['lname'];
-						$userInfo = $this->dbCon->facebookConnect( $_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['email'], $_REQUEST['fbid'] );
-						if ( $userInfo ) {
-							$_SESSION['user'] = new User($userInfo);
-							if ( isset ($params) ) {
-								echo $params;
-							}
-						}
-					} else {
-						if(isset($_REQUEST['email']) && isset($_REQUEST['password'])) {
-							$result = $this->dbCon->m_checkValidUser($_REQUEST['email'], $_REQUEST['password']);
-							if ( ! isset($result) ) {
-								echo 'status_loginFailed';
-							} else {
-								$_SESSION['user'] = new User($result);
-							}
-						}
+				if ( isset($_POST['isFB']) ) {
+					$this->handleFBLogin();
+					break;
+				} else {
+					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
+					if( isset($userId)) {
+						$_SESSION['user'] = serialize(new User($userId));
+						echo 'status_loginSuccess';
 					}
-				}
-				if( isset($_SESSION['user']) ) {
-					echo 'status_loginSuccess';
+					else {
+						echo 'status_loginFailed';
+					}
+					
 				}
 				break;
 			case 'getUserInfo':
-				echo json_encode($this->dbCon->getUserInfo($_SESSION['user']->id));
+				echo json_encode(unserialize($_SESSION['user']));
 				break;
 			case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['cell'],$_REQUEST['twitter']);
@@ -88,19 +83,19 @@ class APIController {
 				echo json_encode($this->dbCon->getUserInfo($_REQUEST['oid']));
 				break;
 			case 'getAttendingEvents':
-				echo json_encode($this->dbCon->m_getEventAttendingBy($_SESSION['uid']));
+				echo json_encode($this->dbCon->m_getEventAttendingBy(unserialize($_SESSION['user'])->id));
 				break;
 			case 'setAttendanceForEvent':
-				echo json_encode($this->dbCon->eventSignUp($_SESSION['user']->id, $_REQUEST['eid'], $_REQUEST['confidence']));
+				echo json_encode($this->dbCon->eventSignUp(unserialize($_SESSION['user'])->id, $_REQUEST['eid'], $_REQUEST['confidence']));
 				break;
 			case 'getHostingEvents':
-				echo json_encode($this->dbCon->getEventByEO($_SESSION['user']->id));				
+				echo json_encode($this->dbCon->getEventByEO(unserialize($_SESSION['user'])->id));				
 				break;
 			case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
 				break; 
 			case 'checkInByDistance':
-				$this->dbCon->checkInGuest('1', $_SESSION['user']->id, $_REQUEST['eid']);
+				$this->dbCon->checkInGuest('1', unserialize($_SESSION['user'])->id, $_REQUEST['eid']);
 				echo 'status_checkInSuccess';
 				break;
 			case 'checkIn':

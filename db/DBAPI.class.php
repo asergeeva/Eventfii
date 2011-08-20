@@ -18,7 +18,7 @@ class DBAPI extends DBConfig {
 	
 	public function m_updateUserInfo($email,$about,$zip,$cell,$twitter)
 	{
-		$uid = $_SESSION['user']->id;
+		$uid = unserialize($_SESSION['user']->id);
 		$UPDATE_USER_PROFILE="	UPDATE 	ef_users 
 								SET 	email 	= '$email',
 										about 	= '$about',
