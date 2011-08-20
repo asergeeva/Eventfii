@@ -32,7 +32,11 @@
 					<p class="message">Please fix the errors below before continuing.</p>
 				</header>{/if}
 				
-				{include file="create_form.tpl"}{else if isset($step2)}
+				<div class="form" id="event_create">
+					<form method="post" action="{$CURHOST}/event/create">
+						{include file="create_form.tpl"}
+					</form>
+				</div>{else if isset($step2)}
 
 				{include file="create_guest.tpl"}{else if isset($step3)}
 

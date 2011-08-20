@@ -1,14 +1,15 @@
-	<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#truersvp{$event->eid}"></div>
-  <header class="block">
-			<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
-		</header>
+<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#truersvp{$event->eid}"></div>
 		<div class="content">
+			<header class="block">
+				<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
+			</header>
 			<section class="block" id="event-info">
 				<header class="block-title">
 					<h1>Find out more</h1>
 				</header>
 				<div class="event-desc">
 					<p>{$event->description}</p>
+					{include file="event_creator.tpl"}	
 					<!--p>{$twitterHash}</p-->
 				</div>
 			</section>

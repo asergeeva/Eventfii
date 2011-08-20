@@ -334,8 +334,11 @@ class DBConfig {
 							organizer, 
 							title, 
 							goal, 
+							reach_goal,
+							location_name,
 							location_address, 
 							event_datetime, 
+							event_end_datetime,
 							event_deadline, 
 							description, 
 							is_public, 
@@ -347,6 +350,7 @@ class DBConfig {
 						'" . mysql_real_escape_string($newEvent->organizer->id) . "',
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
+						'" . mysql_real_escape_string($newEvent->location) . "',
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
 						'" . mysql_real_escape_string($sqlDeadline) . "',
@@ -361,13 +365,17 @@ class DBConfig {
 	
 	public function updateEvent($eventInfo) {
 		$datetime = $this->dateToSql($eventInfo->date) . " " . date("H:i:s", strtotime($eventInfo->time));
+		$end_datetime = $this->dateToSql($eventInfo->end_date) . " " . date("H:i:s", strtotime($eventInfo->end_time));
 		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
 		$UPDATE_EVENT = "	UPDATE	ef_events e 
 							SET		e.title = '".mysql_real_escape_string($eventInfo->title)."', 
 									e.goal = ".mysql_real_escape_string($eventInfo->goal).",
+									e.reach_goal = ".mysql_real_escape_string($eventInfo->reach_goal).",
+									e.location_name = '".mysql_real_escape_string($eventInfo->location)."', 
 									e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
 									e.event_datetime = '".mysql_real_escape_string($datetime)."', 
+									e.event_end_datetime = '".mysql_real_escape_string($end_datetime)."',  
 									e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
 									e.description = '".mysql_real_escape_string($eventInfo->description)."',
 									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
@@ -402,12 +410,16 @@ class DBConfig {
 									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 									e.created, 
 									e.title, 
-									e.goal, 
+									e.goal,
+									e.reach_goal, 
+									e.location_name,
 									e.location_address, 
 									e.event_datetime, 
+									e.event_end_datetime,
 									e.event_deadline, 
 									e.description, 
-									e.is_public 
+									e.is_public,
+									e.type
 							FROM	ef_events e 
 							WHERE	e.organizer = " . $uid . "
 						) el
@@ -423,11 +435,15 @@ class DBConfig {
 										e.created, 
 										e.title, 
 										e.goal, 
+										e.reach_goal,
+										e.location_name,
 										e.location_address, 
 										e.event_datetime, 
+										e.event_end_datetime,
 										e.event_deadline, 
 										e.description, 
-										e.is_public 
+										e.is_public,
+										e.type 
 								FROM 	ef_attendance a, 
 										ef_events e 
 								WHERE 	a.event_id = e.id 
@@ -450,8 +466,11 @@ class DBConfig {
 								organizer, 
 								title, 
 								goal, 
+								reach_goal,
+								location_name,
 								location_address, 
 								event_datetime, 
+								event_end_datetime,
 								event_deadline, 
 								description, 
 								is_public, 

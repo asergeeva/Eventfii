@@ -54,11 +54,9 @@ fieldset.two-col {
 	width: 41%;
 	margin: 0 4%;
 	padding: 10px 0; }
-fieldset.one-col {
-	margin-left: auto;
-	margin-right: auto;
-	width: 41%;
-	 }
+fieldset.one-col { 
+	width: 50%;
+	margin: 0 auto; }
 fieldset legend { display: none; }
 fieldset .column { 
 	float: left;
@@ -66,6 +64,7 @@ fieldset .column {
 	padding: 0 5%; }
 fieldset dt { margin: 0; }
 fieldset dd { margin: 4px 0 20px; }
+fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dt label {
 	font-family: Helvetica, Arial;
 	font-size: 18px;
@@ -125,9 +124,9 @@ input.inputbox {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border: 1px solid #acacac; }
-fieldset label textarea { 
+fieldset textarea { 
 	background: #fff;
-	height: 60px;
+	height: 126px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;

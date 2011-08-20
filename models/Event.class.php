@@ -14,10 +14,14 @@ class Event {
 	public $organizer;
 	public $title;
 	public $goal;
+	public $reach_goal;
+	public $location;
 	public $address;
-	public $event_datetime;
+	public $datetime;
 	public $date;
 	public $time;
+	public $end_date;
+	public $end_time;
 	public $deadline;
 	public $rsvp_days_left;
 	public $days_left;
@@ -38,9 +42,13 @@ class Event {
 			$this->organizer = $_SESSION['user'];
 			$this->title = $_POST['title'];
 			$this->goal = $_POST['goal'];
+			$this->reach_goal = $_POST['reach_goal'];
+			$this->location = $_POST['location'];
 			$this->address = $_POST['address'];
 			$this->date = $_POST['date'];
 			$this->time = $_POST['time'];
+			$this->end_date = $_POST['end_date'];
+			$this->end_time = $_POST['end_time'];
 			$this->deadline = $_POST['deadline'];
 			$this->description = $_POST['description'];
 			$this->is_public = $_POST['is_public'];
@@ -114,24 +122,34 @@ class Event {
 		}
 		$this->title = $eventInfo['title'];
 		$this->goal = $eventInfo['goal'];
+		$this->reach_goal = $eventInfo['reach_goal'];
+		$this->location = $eventInfo['location_name'];
 		$this->address = $eventInfo['location_address'];
-		$this->event_datetime = $eventInfo['event_datetime'];
-
+		
 		// Prepare date and time
-		$eventDateTime = explode(" ", $eventInfo['event_datetime']);
-		
-		$this->date = EFCommon::$dbCon->dateToRegular($eventDateTime[0]);
+		$event_datetime = explode(" ", $eventInfo['event_datetime']);
+		$this->date = EFCommon::$dbCon->dateToRegular($event_datetime[0]);
+		$event_time = explode(":", $event_datetime[1]);
+		$this->time = $event_time[0] . ":" . $event_time[1];
+
+		// If end time...
+		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {
+			$event_end_datetime = explode(" ", $eventInfo['event_end_datetime']);
+			$this->end_date = EFCommon::$dbCon->dateToRegular($event_end_datetime[0]);
+			$event_end_time = explode(":", $event_end_datetime[1]);
+			$this->end_time = $event_end_time[0] . ":" . $event_end_time[1];
+		}
+
 		$this->deadline = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
-		
-		$eventTime = explode(":", $eventDateTime[1]);
-		$this->time = $eventTime[0] . ":" . $eventTime[1];
 
 		if ( isset($eventInfo['rsvp_days_left']) ) {
 			$this->rsvp_days_left = $eventInfo['rsvp_days_left'];
 		}
+		
 		$this->days_left = $eventInfo['days_left'];
 		$this->description = $eventInfo['description'];
 		$this->is_public = $eventInfo['is_public'];
+		
 		if ( isset($eventInfo['type'] ) ) {
 			$this->type = $eventInfo['type'];
 		}
@@ -141,6 +159,8 @@ class Event {
 		if ( isset($eventInfo['location_long']) ) {
 			$this->location_long = $eventInfo['location_long'];
 		}
+		
+		$this->reach_goal = $eventInfo['reach_goal'];
 		
 		$this->exists = true;
 	}
@@ -158,9 +178,13 @@ class Event {
 		$eventInfo['organizer'] = $this->organizer;
 		$eventInfo['title'] = $this->title;
 		$eventInfo['description'] = $this->description;
+		$eventInfo['location'] = $this->location;
 		$eventInfo['address'] = $this->address;
 		$eventInfo['date'] = $this->date;
 		$eventInfo['time'] = $this->time;
+		$eventInfo['end_date'] = $this->end_date;
+		$eventInfo['end_time'] = $this->end_time;
+		$eventInfo['reach_goal'] = $this->reach_goal;
 		$eventInfo['goal'] = $this->goal;
 		$eventInfo['deadline'] = $this->deadline;
 		$eventInfo['type'] = $this->type;
@@ -231,13 +255,13 @@ class Event {
 		// Check for errors
 		$this->check_title();
 		$this->check_description();
+		$this->check_location();
 		$this->check_address();
 		$this->check_date();
 		$this->check_time();
 		$this->check_goal();
 		$this->check_deadline();
-		$this->check_type();
-		$this->check_permissions();	
+		$this->check_type();	
 		
 		// Return if there are any errors
 		if ( $this->numErrors == 0 )
@@ -281,8 +305,8 @@ class Event {
 	 *  - Only alphanumeric characters
 	 *  - 10-500 characters
 	 */
-	 private function check_description() {	 
-	 	$valid_description = filter_var(
+	private function check_description() {	 
+		$valid_description = filter_var(
 	 		$this->description, 
 	 		FILTER_VALIDATE_REGEXP, 
 	 		array(
@@ -296,8 +320,35 @@ class Event {
 			$this->error['desc'] = "Description can only contain spaces, A-Z or 0-9";
 			$this->numErrors++;
 		}
-	 }
-
+	}
+	
+	/* check_location
+	 * Checks the event's location
+	 *
+	 * Requirements:
+	 *  - Only alphanumeric characters
+	 *  - 0-100 characters
+	 */
+	private function check_location() {
+		if( strlen($this->location) == 0 )
+			return;
+	
+		$valid_location = filter_var(
+			$this->location, 
+			FILTER_VALIDATE_REGEXP,
+			array(
+				"options" => array(
+					"regexp" => "/^[A-Za-z0-9'\s]{5,100}$/"
+				)
+			)
+		);
+	 	
+		if( ! $valid_location ) {
+			$this->error['location'] = "Location can only contain spaces, A-Z or 0-9";
+			$this->numErrors++;
+		}
+	}
+	
 	/* check_address
 	 * Checks the event's address
 	 *
@@ -371,7 +422,13 @@ class Event {
 	 *  - Date in the future
 	 */
 	private function check_date() {
-		$event_date = explode('/', $this->date); 
+		if ( strlen($this->date) == 0) {
+			$this->error['date'] = "Please enter a date for your event";
+			$this->numErrors++;
+			return;
+		}
+		
+		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
 		$day = $event_date[1];
 		$year = $event_date[2]; 
@@ -455,6 +512,12 @@ class Event {
 	 *  - Date is before the event date
 	 */
 	private function check_deadline() {
+		if ( strlen($this->deadline) == 0) {
+			$this->error['deadline'] = "Please enter a deadline for RSVP.";
+			$this->numErrors++;
+			return;
+		}
+	
 		$deadline_date = explode('/', $this->deadline); 
 		$deadline_month = $deadline_date[0];
 		$deadline_day = $deadline_date[1];
@@ -500,22 +563,9 @@ class Event {
 	 * Requirements:
 	 *  - Value is between 0 and 16
 	 */
-	 private function check_type() {
-	 	if ( ! ( $this->type > 0 && $this->type <= 16 ) ) {
+	private function check_type() {
+		if ( ! ( $this->type > 0 && $this->type <= 16 ) ) {
 			$this->error['type'] = "Please select an event type";
-			$this->numErrors++;
-		}
-	 }
-
-	/* check_permissions
-	 * Checks the event's permissions
-	 *
-	 * Requirements:
-	 *  - Value is either 0 or 1
-	 */
-	 private function check_permissions() {
-		 if ( !isset ( $this->is_public ) || ( $this->is_public != 0 && $this->is_public != 1 ) ) {
-			$this->error['pub'] = "Please Select the invite type.";
 			$this->numErrors++;
 		}
 	}
