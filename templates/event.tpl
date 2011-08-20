@@ -12,8 +12,8 @@
 		<!-- End Facebook -->
 	</header>
 	<section id="main">
-		{include file="event_main.tpl"}
 		{include file="event_side.tpl"}
+		{include file="event_main.tpl"}
 	</section>
 </div>
 {include file="footer.tpl"}

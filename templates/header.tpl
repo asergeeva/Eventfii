@@ -1,17 +1,8 @@
 <header id="page-header">
 	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a></h1>
 	<aside>
-		<ul>
-			<li><a href="{$CURHOST}">Home</a> | </li>
-			<li><a href="{$CURHOST}/share">Share</a> | </li>
-			<li><a href="{$CURHOST}/method">Method</a> | </li>{if isset($smarty.session.user)}
-
-			<li><a href="{$CURHOST}/logout" onclick="FB.logout()">Log out</a></li>{else}
-
-			<li><a href="{$CURHOST}/login">Log In</a> | </li>
-			<li><a href="{$CURHOST}/create_account">Sign Up</a></li>{/if}
-
-			<li class="buttons"><a href="{$CURHOST}/event/create" class="btn"><span>Create New Event</span></a></li>
+		<p>{if ! isset($smarty.session.user)}<a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/signup">Sign Up</a> | {else}<a href="{$CURHOST}">Home</a> | {/if}<a href="{$CURHOST}/method">How Does It Work?</a>{if isset($smarty.session.user)} | <a href="{$CURHOST}/logout" onclick"FB.logout()">Log Out</a>{/if}</p>
+		<p class="buttons buttons-create"><a href="{$CURHOST}/event/create" class="btn"><span>Create New Event</span></a></p>
 		</ul>
 	</aside>
 </header>
