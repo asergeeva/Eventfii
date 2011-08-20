@@ -638,6 +638,9 @@ class PanelController {
 				// Needs to be implemented
 				//
 				
+				// Make sure that event is always blank
+				unset($_SESSION['newEvent']);
+				
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					// Create an event object with the text from the form
