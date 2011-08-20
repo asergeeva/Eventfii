@@ -4,36 +4,6 @@ var MANAGE_EVENT = ( function() {
 			$('#automatic_email_event_date').datepicker();
 			$('#automatic_text_send_date').datepicker();
 			
-			AnyTime.picker(
-				"#automatic_email_send_time",
-							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
-				 $("#automatic_email_send_time").AnyTime_picker(
-							{ 
-						format: "%I:%i %p", labelTitle: "What Time",
-							labelHour: "Hour", labelMinute: "Minute"
-						}
-				));
-				
-			AnyTime.picker(
-				"#automatic_text_send_time",
-							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
-				 $("#automatic_text_send_time").AnyTime_picker(
-							{ 
-						format: "%I:%i %p", labelTitle: "What Time",
-							labelHour: "Hour", labelMinute: "Minute"
-						}
-				));
-				
-			AnyTime.picker(
-				"#event_time_update",
-							{ format: "%W, %M %D in the Year %z %E", firstDOW: 1 },
-				 $("#event_time_update").AnyTime_picker(
-							{ 
-						format: "%I:%i %p", labelTitle: "What Time",
-							labelHour: "Hour", labelMinute: "Minute"
-						}
-				));
-			
 			// EMAIL SETTINGS
 			// AUTO-SEND CHECKBOX
 			$('#automatic_email_send_cb').live('click', function() {
