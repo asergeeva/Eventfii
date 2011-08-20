@@ -549,6 +549,8 @@ class PanelController {
 					// Need to make sure that event is valid before creating new event...
 					// $this->checkCreateEventSession();
 			
+					
+					unset($_SESSION['newEvent']);
 					unset($_SESSION['new_eid']);
 					unset($_SESSION['manage_event']);
 					

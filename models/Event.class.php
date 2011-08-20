@@ -589,7 +589,7 @@ class Event {
 			return $numGuests . " " . $plural_guest . " added successfully";
 		}
 		
-		// $mailer->sendHtmlInvite($this);
+		$mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
