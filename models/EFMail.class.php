@@ -255,7 +255,7 @@ class EFMail {
 				
 				$this->mapEventHtml($htmlEmail, $event, "?ref=".$hash_key);
 								
-				$RECORD_HASH_KEY = "INSERT INTO ef_event_invites (hash_key, email_to, event_id) 
+				$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 									VALUES ('" . $hash_key . "', '" . $event->guests[$i]->email . "', " . $event->eid . ")";
 				EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 				$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 

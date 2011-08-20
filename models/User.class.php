@@ -261,7 +261,7 @@ class User extends AbstractUser {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
 					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
-						array_push($csv_contacts, new AbstractUser($data[$i]));
+						array_push($csv_contacts, $data[$i]);
 						array_push($this->contacts, new AbstractUser($data[$i]));
 					}
 				}
@@ -290,7 +290,5 @@ class User extends AbstractUser {
 			$plural_contact = ($numContacts == 1) ? "contact" : "contacts";
 			return $numContacts . " " . $plural_contact . " added successfully";
 		}
-		
-		// EFCommon::$mailer->sendHtmlInvite($this);
 	}
 }

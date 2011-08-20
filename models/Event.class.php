@@ -569,7 +569,6 @@ class Event {
 	}
 	
 	public function submitGuests() {
-		$mailer = new EFMail();
 		$csvFile = CSV_UPLOAD_PATH . '/' . $this->eid . '.csv';
 		
 		$numGuests = 0;
@@ -582,14 +581,15 @@ class Event {
 			$this->setGuestsFromCSV($csvFile);
 		}
 		
+		// Send the email invites
+		EFCommon::$mailer->sendHtmlInvite($this);
+		
 		if ( $numGuests == 0 ) {
 			return "No guests added.";
 		} else {
 			$plural_guest = ($numGuests == 1) ? "guest" : "guests";
 			return $numGuests . " " . $plural_guest . " added successfully";
 		}
-		
-		$mailer->sendHtmlInvite($this);
 	}
 	
 	public function setGuests($guest_email) {
@@ -600,14 +600,20 @@ class Event {
 		$this->error["add_guest"] = "";
 		$this->numErrors = 0;
 		
-		foreach($guests as $guest) {
-			$guest = trim($guest);
-			if ( filter_var($guest, FILTER_VALIDATE_EMAIL) ) {
-				$addGuest[] = $guest;
-			} else {
-				$this->error["add_guest"] .= "<br />" . $guest;
-				$this->numErrors++;
+		if (sizeof($guests) > 1) {
+			foreach($guests as $guest) {
+				$guest = trim($guest);
+				if ( filter_var($guest, FILTER_VALIDATE_EMAIL) ) {
+					array_push($this->guests, new AbstractUser($guest));
+					$addGuest[] = $guest;
+				} else {
+					$this->error["add_guest"] .= "<br />" . $guest;
+					$this->numErrors++;
+				}
 			}
+		} else {
+			array_push($this->guests, new AbstractUser($guest_email));
+			$addGuest[] = $guest_email;
 		}
 		
 		if ( isset($addGuest) ) {
@@ -619,16 +625,19 @@ class Event {
 	}
 	
 	public function setGuestsFromCSV($csvFile) {
+		$csv_contacts = array();
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
 					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+						array_push($csv_contacts, $data[$i]);
 						array_push($this->guests, new AbstractUser($data[$i]));
 					}
 				}
 			}
 			fclose($handle);
-		}	
+		}
+		EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
 	}
 	
 	public function getCalDate() {
