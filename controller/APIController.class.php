@@ -101,6 +101,12 @@ class APIController {
 			case 'checkIn':
 				echo json_encode($this->dbCon->checkInGuest($_REQUEST['checkIn'], $_REQUEST['uid'], $_REQUEST['eid']));
 				break;
+			case 'checkInWithDate':
+				echo json_encode($this->dbCon->m_checkInGuestWithDate($_REQUEST['checkIn'], $_REQUEST['uid'], $_REQUEST['eid'], $_REQUEST['date']));
+				break;		
+			case 'getCheckInDate':
+				echo json_encode($this->dbCon->m_getCheckInDate($_REQUEST['eid'], $_REQUEST['uid']));
+				break;
 			case 'computeTrueRSVP':
 				echo json_encode($this->efCore->computeTrueRSVP($_REQUEST['eid']));
 				break;

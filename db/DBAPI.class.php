@@ -84,4 +84,17 @@ class DBAPI extends DBConfig {
 		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
+	
+	public function m_checkInGuestWithDate($isAttend, $uid, $eid, $date) 
+	{
+		$CHECKIN_GUEST = "UPDATE ef_attendance a SET a.is_attending = ".$isAttend." , a.rsvp_time = ".$date."
+												WHERE a.user_id = ".$uid." AND a.event_id = ".$eid."";
+		$this->executeUpdateQuery($CHECKIN_GUEST);
+	}
+	public function m_getCheckInDate($eid, $uid)
+	{
+		$GET_DATE = "SELECT e.rsvp_time from ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";
+		$dateInfo = $this->executeValidQuery($GET_DATE);
+		return $dateInfo;
+	}
 }
