@@ -572,7 +572,13 @@ class PanelController {
 				EFCommon::$smarty->assign('page', $page);
 				
 				// Please implement
-				$contacts = NULL;
+				$contacts = array();
+				$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+				for ($i = 0; $i < sizeof($contactList); ++$i) {
+					$contact = new User($contactList[$i]);
+					array_push($contacts, $contact);
+				}
+				
 				EFCommon::$smarty->assign('contacts', $contacts);
 				
 				EFCommon::$smarty->display('cp_contacts.tpl');
@@ -582,7 +588,11 @@ class PanelController {
 				EFCommon::$smarty->assign('page', $page);
 				
 				// No functions to add to address book
+				if (isset($_POST['submit'])) {
+					$_SESSION['user']->addContacts();
+				}
 				
+				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
 			case '/settings':
@@ -707,6 +717,19 @@ class PanelController {
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 				$result = $uploader->handleUpload('upload/event/csv/', TRUE);
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				break;
+			case '/user/csv/upload':
+				$this->validateLocalRequest();
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("csv");
+
+				// max file size in bytes
+				$sizeLimit = 10 * 1024 * 1024;
+
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('upload/user/csv/', TRUE);
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
