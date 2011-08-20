@@ -470,8 +470,6 @@ class Event {
 			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
 			$this->numErrors++;
 		}
-		
-		$this->time = date("H:i:s", strtotime($this->time));
 	}
 
 	/* check_goal

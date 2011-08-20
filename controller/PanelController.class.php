@@ -102,7 +102,7 @@ class PanelController {
 
 		// Save the current fields
 		$event_field = $newEvent->get_array();
-		
+
 		EFCommon::$smarty->assign('event_field', $event_field);
 	}
 
@@ -637,10 +637,7 @@ class PanelController {
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
 				//
-				
-				// Make sure that event is always blank
-				unset($_SESSION['newEvent']);
-				
+								
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					// Create an event object with the text from the form
@@ -666,8 +663,10 @@ class PanelController {
 					$newEvent = $_SESSION['newEvent'];
 				}
 
+				
 				// Check to see if the new event is valid.
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
+				
 					// Save the current information for the next visit
 					$_SESSION['newEvent'] = $newEvent;
           

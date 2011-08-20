@@ -46,13 +46,13 @@
 								<dt>
 									<label for="date">When</label> 
 									<em>Date &amp; Time</em>
-								</dt> 
+								</dt>
 								<dd>
-									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox">{include file="timeselect.tpl"}</select></p>{if ! isset($event_field.end_date) and ! isset($event_field.end_time)}
+									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if ! isset($event_field.end_date) and ! isset($event_field.end_time)}
 									
 									<p><a href="#" id="end-date">Add End Time</a></p>{/if}
 
-									<p{if ! isset($event_field.end_date) and ! isset($event_field.end_time)} style="display: none"{/if} id="add-end-time"><input type="text" name="end_date" value="{$event_field.end_date}" class="inputbox datebox" id="end_date" /> <select name="end_time" class="timebox">{include file="timeselect.tpl"}</select></p>
+									<p{if ! isset($event_field.end_date) and ! isset($event_field.end_time)} style="display: none"{/if} id="add-end-time"><input type="text" name="end_date" value="{$event_field.end_date}" class="inputbox datebox" id="end_date" /> <select name="end_time" class="timebox">{include file="timeselect.tpl" time=$event_field.end_time}</select></p>
 									{if isset($error.date)}
 
 									<p class="message-error">{$error.date}</p>{/if}{if isset($error.time)}
