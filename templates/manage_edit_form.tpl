@@ -103,8 +103,7 @@
 							</dd>
 						</dl> 
 						<footer class="buttons-submit">
-							<input type="hidden" name="location_lat" value="$event_field.location_lat" />
-							<input type="hidden" name="location_long" value="$event_field.location_long" />
+							
 							<p><input type="submit" name="submit" id="event_update" value="Update" /></p>
 						</footer>
 				</fieldset>

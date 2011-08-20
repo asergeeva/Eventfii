@@ -51,7 +51,7 @@
 				</fieldset>
 				<div id="response_stat_msg"></div>
 			</section>
-			{include file="event_creator.tpl"}			
+					
 			<section class="block" id="event-calendar">
 				<header class="block-title">
 					<h1>Add event to:</h1>
