@@ -588,7 +588,9 @@ class PanelController {
 				EFCommon::$smarty->assign('page', $page);
 				
 				// No functions to add to address book
-				$_SESSION['user']->addContacts();
+				if (isset($_POST['submit'])) {
+					$_SESSION['user']->addContacts();
+				}
 				
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
