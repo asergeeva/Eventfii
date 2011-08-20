@@ -5,4 +5,3 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" language="javascript" src="http://connect.facebook.net/en_US/all.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/global.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/anytimec.js"></script>
