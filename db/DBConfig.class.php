@@ -331,6 +331,7 @@ class DBConfig {
 	
 	public function createNewEvent($newEvent) {
 		$datetime = $this->dateToSql($newEvent->date) . " " . $newEvent->time;
+		$end_datetime = $this->dateToSql($newEvent->end_date) . " " . $newEvent->end_time;
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
 		$CREATE_NEW_EVENT = "
@@ -352,12 +353,14 @@ class DBConfig {
 							location_long
 						) 
 			VALUES (	NOW(), 
-						'" . mysql_real_escape_string($newEvent->organizer->id) . "',
+						" . mysql_real_escape_string($newEvent->organizer->id) . ",
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
+						" . mysql_real_escape_string($newEvent->reach_goal). ",
 						'" . mysql_real_escape_string($newEvent->location) . "',
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
+						'" . mysql_real_escape_string($end_datetime)."',
 						'" . mysql_real_escape_string($sqlDeadline) . "',
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . $newEvent->is_public . ",
