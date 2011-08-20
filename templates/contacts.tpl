@@ -1,6 +1,7 @@
 			<section class="block">
 				{if isset($contacts)}
-				<ul class="contacts-list">{foreach $contacts as $contact}
+				<ul class="contacts-list">
+					{foreach $contacts as $contact}
 					<li>
 						<label for="contact-{$contact->id}">
 							<input type="checkbox" id="contact-{$contact->id}" />
@@ -10,7 +11,8 @@
 							<p>{$contact->email}</p>
 						</label>
 					</li>
-				</ul>{/foreach}{else}
+					{/foreach}
+				</ul>{else}
 				
 				<header class="block">
 					<p class="message">No contacts</p>

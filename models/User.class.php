@@ -252,20 +252,23 @@ class User extends AbstractUser {
 	}
 	
 	public function setContactsFromCSV($csvFile) {
+		$csv_contacts = array();
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
 					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+						array_push($csv_contacts, new AbstractUser($data[$i]));
 						array_push($this->contacts, new AbstractUser($data[$i]));
 					}
 				}
 			}
 			fclose($handle);
-		}	
+		}
+		EFCommon::$dbCon->storeContacts($csv_contacts, $_SESSION['user']->id);
 	}
 	
 	public function addContacts() {
-		$csvFile = USER_CSV_UPLOAD_PATH . '/' . $this->uid . '.csv';
+		$csvFile = USER_CSV_UPLOAD_PATH . '/' . $this->id . '.csv';
 		
 		$numContacts = 0;
 		

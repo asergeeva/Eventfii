@@ -715,6 +715,19 @@ class PanelController {
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
+			case '/user/csv/upload':
+				$this->validateLocalRequest();
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("csv");
+
+				// max file size in bytes
+				$sizeLimit = 10 * 1024 * 1024;
+
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('upload/user/csv/', TRUE);
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				break;
 			case '/event/attend':
 				$this->validateLocalRequest();
 				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this->buildEvent($_POST['eid']), $_POST['conf']);
