@@ -1,5 +1,5 @@
-<section class="block">{if isset($contacts)}
-
+			<section class="block">
+				{if isset($contacts)}
 				<ul class="contacts-list">{foreach $contacts as $contact}
 					<li>
 						<label for="contact-{$contact->id}">
@@ -11,9 +11,10 @@
 						</label>
 					</li>
 				</ul>{/foreach}{else}
-
+				{/if}
+				
 				<header class="block">
 					<p class="message">No contacts</p>
-				</header>{/if}
+				</header>
 
 			</section>
