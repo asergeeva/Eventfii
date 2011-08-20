@@ -23,9 +23,12 @@ var CREATE_EVENT_FORM = (function() {
 			$('#deadline').datepicker();
 		
 			$( "#address" ).addresspicker();
+			
+			CSV_UPLOADER.init();
+		}
 	 }
-)();
+})();
 
-$(document).ready( function() {
+$(document).ready(function() {
 	CREATE_EVENT_FORM.init();
 });
