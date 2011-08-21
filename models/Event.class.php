@@ -719,5 +719,6 @@ class Event {
 
 	public function getHumanReadableEventTime(){
 		$date = date_create($this->event_datetime);
+		return date_format($date, 'F j, g:i A');
 	}
 }
