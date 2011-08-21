@@ -589,9 +589,9 @@ class PanelController {
 								   "Content-Type: plaintext;charset=UTF-8\n".
 								   "From: ".$_POST['name']."<".$_POST['email'].">\n".
 								   "To: support@truersvp.com\n".
-								   "Subject: <trueRSVP Comment Form> ".$_POST['subject']."\n\n".
+								   "Subject: [trueRSVP Support] ".$_POST['subject']."\n\n".
 								   $_POST['message'];
-						MailgunMessage::send_raw($_POST['email'], 'vova@thewjf.com', $rawMime);
+						MailgunMessage::send_raw($_POST['email'], 'support@truersvp.com', $rawMime);
 						header("Location: " . CURHOST);
 						exit;
 					} else {
