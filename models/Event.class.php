@@ -127,6 +127,7 @@ class Event {
 		$this->address = $eventInfo['location_address'];
 		
 		// Prepare date and time
+		$this->datetime = $eventInfo['event_datetime'];
 		$event_datetime = explode(" ", $eventInfo['event_datetime']);
 		$this->date = EFCommon::$dbCon->dateToRegular($event_datetime[0]);
 		$event_time = explode(":", $event_datetime[1]);
