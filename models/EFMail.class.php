@@ -167,7 +167,7 @@ class EFMail {
 		    "Content-Type: text/html;charset=UTF-8\n".    
 		    "From: ".$this->FROM."\n".
 		    "To: ".$guest->email."\n".
-		    "Subject: ".$subject."\n".
+		    "Subject: ".EFCommon::mapText($subject, $event, $guest)."\n".
 		    "\n".$htmlEmail->saveXML();
 		
 		MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
