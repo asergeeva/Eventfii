@@ -1,5 +1,4 @@
-<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#truersvp{$event->eid}"></div>
-		<div class="content">
+<div class="content">
 			<header class="block">
 				<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
 			</header>

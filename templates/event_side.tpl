@@ -51,6 +51,13 @@
 				</fieldset>
 				<div id="response_stat_msg"></div>
 			</section>
+			<section class="block" id="twitter">
+				<header class="block-title">
+					<h1>Live Feed</h1>
+				</header>
+				<p class="twitter-info">Use <span>#trueRSVP5656</span> to post your tweet & pics here!</p>
+				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#trueRSVP{$event->eid}"></div>
+			</section>
 		</aside>
 		<!--footer class="links-extra">
 			<p><a href="#">Flag this event</a></p>
