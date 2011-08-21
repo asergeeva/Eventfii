@@ -15,9 +15,9 @@
 					{if $profile->twitter}<li><a href="http://twitter.com/{$profile->twitter}" class="icon-twitter">@{$profile->twitter}</a></li>{/if}
 				</ul>
 			</section>{/if}
-			<!--footer class="follow">
-				<p><a href="#"><span>Follow</span></a></p>
-			</footer-->
+			<footer class="follow">
+				<p><a href="#{$profile->id}" id="follow_host"><span>Follow</span></a></p>
+			</footer>
 		</aside>
 		<div class="content">
 			{include file="event_created_pub.tpl"}
@@ -28,5 +28,6 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
+{include file="js_profile.tpl"}
 </body>
 </html>

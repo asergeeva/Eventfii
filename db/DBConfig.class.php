@@ -771,4 +771,26 @@ class DBConfig {
 		
 		return $this->executeQuery($GET_REF_EMAIL);
 	}
+	
+	/**
+	 * $uid - User id of the logged in user
+	 * $fid - User id of the viewed user profile
+	 * Determine whether $uid should be following $fid
+	 */
+	public function followUser($uid, $fid) {
+		$IS_FOLLOW = "SELECT * FROM ef_friendship WHERE uid = ".$uid." AND fid = ".$fid;
+		if ($this->getRowNum($IS_FOLLOW) == 0) { 
+			$FOLLOW_USER = "INSERT INTO ef_friendship (uid, fid) VALUES (".$uid.", ".$fid.")";
+			$this->executeUpdateQuery($FOLLOW_USER);
+			
+			return 1;
+		} else {
+			$followInfo = $this->executeQuery($IS_FOLLOW);
+			$isFollow = (intval($followInfo['is_follow']) == 1) ? 0 : 1;
+			$UPDATE_FOLLOW = "UPDATE ef_friendship SET is_follow = ".$isFollow." WHERE uid = ".$uid." AND fid = ".$fid;
+			$this->executeUpdateQuery($UPDATE_FOLLOW);
+			
+			return $isFollow;
+		}
+	}
 }

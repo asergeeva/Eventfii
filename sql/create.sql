@@ -30,8 +30,9 @@ CREATE TABLE ef_event_invites (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_friendship (
-  uid INTEGER REFERENCES ef_users(id),
-  fid INTEGER REFERENCES ef_users(id),
+  uid       INTEGER REFERENCES ef_users(id),
+  fid       INTEGER REFERENCES ef_users(id),
+  is_follow TINYINT(1) NOT NULL DEFAULT 1,
   CONSTRAINT pk_friendship PRIMARY KEY (uid, fid)
 ) ENGINE=InnoDB;
 

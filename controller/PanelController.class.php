@@ -737,6 +737,12 @@ class PanelController {
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
+			case '/user/follow':
+				if ($_SESSION['user']->id != $_POST['fid']) {
+					print(EFCommon::$dbCon->followUser($_SESSION['user']->id, $_POST['fid']));
+				}
+				print(0);
+				break;
 			case '/event/attend':
 				$this->validateLocalRequest();
 				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this->buildEvent($_POST['eid']), $_POST['conf']);
