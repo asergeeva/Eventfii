@@ -400,6 +400,7 @@ header.block .message { margin: 0; }
 	display: inline; }
 .event-list span { padding: 5px 0; }
 .event-list li a.event-manage:hover { text-decoration: underline; }
+.event-list .button { margin: 7px 0 0; }
 
 /*----- Email Options ----------*/
 .block ol {
