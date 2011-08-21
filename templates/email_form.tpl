@@ -25,7 +25,7 @@
 						</div>
 					</label>
 					<footer class="buttons buttons-send">
-						<label for="automatic_email_send_cb"><input type="checkbox" name="automatically"{if isset($eventReminder['isAuto'])} checked="checked"{/if} id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_email_event_date" value="{$smarty.session.manage_event->date}" /> at {include file="timeselect.tpl"} <p class="btn"><input type="submit" name="submit" value="Send" /></p>
+						<label for="automatic_email_send_cb"><input type="checkbox" name="automatically"{if isset($eventReminder['isAuto'])} checked="checked"{/if} id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_email_event_date" value="{$smarty.session.manage_event->date}" /> at <select name="time">{include file="timeselect.tpl"} <p class="btn"><input type="submit" name="submit" value="Send" /></p></select>
 					</footer>
 				</fieldset>
 			</section> 
