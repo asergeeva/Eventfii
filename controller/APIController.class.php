@@ -45,6 +45,20 @@ class APIController {
 		return $event;
 	}
 	
+	private function handleFBLogin() {
+		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+		if ( $userInfo ) {
+			$_SESSION['user'] = serialize(new User($userInfo));
+			if ( isset ($params) ) {
+				echo $params;
+			} else {
+				echo 1;
+			}
+		} else {
+			echo 0;
+		}
+	}
+	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		$requestUri = explode('/', $requestUri);
