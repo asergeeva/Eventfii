@@ -7,7 +7,7 @@
 				<ul class="event-list">{foreach $attendingEvents as $event}
 					<li>
 						<a href="{$CURHOST}/event/{$event->eid}">
-							<h2>{$event->title}</h2> 
+							<h2>{$event->title}<br><small>{$event->getHumanReadableEventTime()}</small></h2> 
 							<span class="button"><em>update RSVP</em></span>
 						</a>
 					</li>

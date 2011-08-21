@@ -716,4 +716,9 @@ class Event {
 		
 		print($vCalOutput);	
 	}
+
+	public function getHumanReadableEventTime(){
+		$date = date_create($this->datetime);
+		return date_format($date, 'F j, g:i A');
+	}
 }

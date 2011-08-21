@@ -7,7 +7,7 @@
 				<ul class="event-list">{foreach $createdEvents as $event}
 					<li>
 						<a href="{$CURHOST}/event/{$event->eid}">
-							<h2>{$event->title}</h2>
+							<h2>{$event->title}<br><small>{$event->getHumanReadableEventTime()}</small></h2>
 						</a> 
 						<a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="event-manage">
 							<span class="button"><em>Manage</em>
