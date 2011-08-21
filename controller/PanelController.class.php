@@ -499,7 +499,6 @@ class PanelController {
 				$attending[] = new User($guest);
 			}
 			EFCommon::$smarty->assign( 'attending', $attending );
-			EFCommon::$smarty->assign( 'gcal' , $event->getGCAL());
 			
 			EFCommon::$smarty->display('event.tpl');
 			return;

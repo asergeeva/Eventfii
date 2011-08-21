@@ -7,10 +7,26 @@
 				<header class="block-title">
 					<h1>Find out more</h1>
 				</header>
-				<div class="event-desc">
-					<p>{$event->description}</p>
-					{include file="event_creator.tpl"}	
-					<!--p>{$twitterHash}</p-->
+				<div class="event-info">
+					<p class="event-desc">{$event->description}</p>
+					<section class="event-more" id="event-hosted">
+						<header>
+							<h1>Hosted by:</h1>
+						</header>
+						<p class="user-img">
+							<a href="{$CURHOST}/user/{$event->organizer->id}"><img src="{$event->organizer->pic}" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
+						</p>
+						<footer class="user-info">
+							<p class="user-name"><a href="{$CURHOST}/user/{$event->organizer->id}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
+							<p class="user-contact"><a href="mailto:{$event->organizer->email}">Send {$event->organizer->fname} a message</a></p>
+						</footer>
+					</section>
+					<section class="event-more" id="event-cal">
+						<header>
+							<h1>Add event to:</h1>
+						</header>
+						<p class="icons"><a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" class="icon-ical" target="_blank">iCal</a> <a href="http://www.google.com/calendar/event?action=TEMPLATE&text={$event->title}&dates={$event->getCalDate()}/{$event->getCalDate()}&details={$event->description}&location={$event->address}&trp=false&sprop={$EVENT_URL}/{$event->eid}&sprop={$event->description}" class="icon-gcal" target="_blank">gcal</a> <a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" class="icon-outlook" target="_blank">Outlook</a></p>
+					</section>
 				</div>
 			</section>
 			{if isset($attending)}<section class="block" id="event-attendants">

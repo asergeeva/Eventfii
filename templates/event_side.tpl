@@ -51,27 +51,6 @@
 				</fieldset>
 				<div id="response_stat_msg"></div>
 			</section>
-					
-			<section class="block" id="event-calendar">
-				<header class="block-title">
-					<h1>Add event to:</h1>
-				</header>
-				<figure>
-					<a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" target="_blank">
-						<img src="{$CURHOST}/images/ical.jpg" alt="iCal" />
-						<figcaption>iCal</figcaption>
-					</a>
-				</figure>
-				<figure>
-					{$gcal}
-				</figure>
-				<figure>
-					<a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" target="_blank">
-						<img src="{$CURHOST}/images/outlook.jpg" alt="Microsoft Outlook" />
-						<figcaption>Outlook</figcaption>
-					</a>
-				</figure>
-			</section>
 		</aside>
 		<!--footer class="links-extra">
 			<p><a href="#">Flag this event</a></p>
