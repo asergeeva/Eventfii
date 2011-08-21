@@ -30,7 +30,7 @@
 						<li>
 							<label class="rsvp-4{if isset($select15)} selected{/if}" for="event_attending_response_4">
 								<input type="radio" name="event_attending_response" value="{$CONFOPT4}"{if isset($conf15)}{$conf15}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_4" /> 
-								<span>Most likely not</span>
+								<span>Not likely</span>
 								<em>I probably won’t go</em>
 							</label>
 						</li>

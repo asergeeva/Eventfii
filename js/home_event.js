@@ -8,6 +8,8 @@
 $(document).ready(function() {
 	var title_init = $("#title").val();
 	var goal_init = $("#goal").val();
+	var email_init = $("#email").val();
+	
 
 	$("input[type=text]").focus(function() {
 		if ( $(this).val() == title_init ) {
@@ -18,6 +20,10 @@ $(document).ready(function() {
 			$("#goal").val('');
 			return;
 		}
+		if ( $(this).val() == email_init ) {
+			$("#email").val('');
+			return;
+		}		
 	});
 
 	$("input[type=text]").focusout(function() {
@@ -26,6 +32,9 @@ $(document).ready(function() {
 		}
 		if ( $("#goal").val() == '' ) {
 			$("#goal").val(goal_init);
+		}
+		if ( $("#email").val() == '' ) {
+			$("#email").val(email_init);
 		}
 	});
 });

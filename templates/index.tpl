@@ -4,7 +4,7 @@
 <header id="site-header">
 	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
 	<nav>
-		<p><a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/share">Share</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
+		<p><a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
 	</nav>
 	<section class="about">
 		<header>
@@ -41,12 +41,12 @@
 				<figcaption>SAT Score</figcaption>
 			</figure>
 		</div>
-		<p class="message">(Just kidding! You have to plan an event to see how it really works.) <a class="btn-small">Create an event</a></p>
+		<p class="message">(Just kidding! You have to plan an event to see how it really works.) <a href="{$CURHOST}/event/create" class="btn-small">Create an event</a></p>
 	</section>
 	<section class="block">
 		<header class="block-title">
 			<h1>Why use trueRSVP?</h1>
-			<a class="btn-large">More awesome features</a>
+			<a href="{$CURHOST}/method" class="btn-large">More awesome features</a>
 		</header>
 		<p class="message">Let’s face it, event planning sucks. We’re here to make it suck a lot less.</p>
 		<section class="column">
@@ -95,7 +95,7 @@
 			</ul>
 		</section>
 	</section>
-	<p class="extra"><span>Not planning an event just yet?</span> <input type="text"  name="e-mail" value="Leave us your e-mail and we'll remind you!" class="inputbox" /> <input type="submit" value="Send" class="submit" /></p>
+	<p class="extra"><span>Not planning an event just yet?</span> <input type="text" name="e-mail" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> <input type="submit" value="Send" class="submit" /></p>
 </div>
 {include file="footer.tpl"}
 
