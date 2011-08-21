@@ -4,11 +4,11 @@
 						<strong>To:</strong>
 						<div>
 							<select class="autowidth" id="email-to">
-								<option>All Attendees</option>
-								<option>Absolutely Attending</option>
-								<option>Maybe Attending</option>
-								<option>Not Attending</option>
-								<option>No Response Yet</option>
+								<option value="1">All Attendees</option>
+								<option value="2">Absolutely Attending</option>
+								<option value="3">Pretty sure, 50/50, Not likely</option>
+								<option value="4">Not Attending</option>
+								<option value="5">No Response Yet</option>
 							</select>
 						</div>
 					</label>
