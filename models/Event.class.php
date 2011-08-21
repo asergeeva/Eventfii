@@ -274,26 +274,15 @@ class Event {
 	 * Checks the event's title
 	 *
 	 * Requirements:
-	 *  - Only alphanumeric characters
-	 *  - 5-100 Characters
+	 *  - Minimum length
 	 */
 	private function check_title() {
-		$valid_characters = filter_var(
-			$this->title, 
-			FILTER_VALIDATE_REGEXP,
-			array(
-				"options" => array(
-					"regexp" => "/^[A-Za-z0-9'\s]{5,100}$/"
-				)
-			)
-		);
-
 		// Set the error meessage if there is one
 		if( strtolower( $this->title ) == "i'm planning..." ) {
 			$this->error['title'] = "Please enter an event title.";
 			$this->numErrors++;
-		} else if ( ! $valid_characters ) {
-			$this->error['title'] = "Title can only contain spaces, characters A-Z or numbers 0-9";
+		} else if ( strlen($this->title) < 5 ) {
+			$this->error['title'] = "Title must be at least 5 characters";
 			$this->numErrors++;
 		}
 	}
@@ -306,18 +295,8 @@ class Event {
 	 *  - 10-500 characters
 	 */
 	private function check_description() {	 
-		$valid_description = filter_var(
-	 		$this->description, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9'!\.\s]{10,500}$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_description ) {
-			$this->error['desc'] = "Description can only contain spaces, A-Z or 0-9";
+		if( strlen($this->description) < 5 ) {
+			$this->error['desc'] = "Title must be at least 5 characters";
 			$this->numErrors++;
 		}
 	}
