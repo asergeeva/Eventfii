@@ -1068,7 +1068,7 @@ class PanelController {
 				$this->validateLocalRequest();
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
-			case '/create_account':
+			case '/register':
 				// Logged in user doesn't need to create an account!
 				$this->loggedInRedirect();
 
