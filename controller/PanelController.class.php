@@ -689,6 +689,7 @@ class PanelController {
 				}
 				break;
 			case '/event/create':
+				unset($_SESSION['newEvent']);
 				// $this->validateUserLogin();
 				//
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));

@@ -12,29 +12,14 @@ $(document).ready(function() {
 	
 
 	$("input[type=text]").focus(function() {
-		if ( $(this).val() == title_init ) {
-			$("#title").val('');
-			return;
-		}
-		if ( $(this).val() == goal_init ) {
-			$("#goal").val('');
-			return;
-		}
-		if ( $(this).val() == email_init ) {
-			$("#email").val('');
-			return;
-		}		
+		if ( $(this).val() == title_init ) { $("#title").val(''); return; }
+		if ( $(this).val() == goal_init ) { $("#goal").val(''); return; }
+		if ( $(this).val() == email_init ) { $("#email").val(''); return; }		
 	});
 
 	$("input[type=text]").focusout(function() {
-		if ( $("#title").val() == '' ) {
-			$("#title").val(title_init);
-		}
-		if ( $("#goal").val() == '' ) {
-			$("#goal").val(goal_init);
-		}
-		if ( $("#email").val() == '' ) {
-			$("#email").val(email_init);
-		}
+		if ( $("#title").val() == '' ) { $("#title").val(title_init); }
+		if ( $("#goal").val() == '' ) { $("#goal").val(goal_init); }
+		if ( $("#email").val() == '' ) { $("#email").val(email_init); }
 	});
 });

@@ -4,41 +4,37 @@
 							<legend>Create Event</legend> 
 							<dl class="column"> 
 								<dt>
-									<label for="title">What are you planning?</label> 
-									<em>Name of Event</em>
+									<label for="title">What are you planning?</label>
 								</dt> 
 								<dd>
-									<input type="text" name="title" value="{$event_field.title|escape:'htmlall'}" class="inputbox autowidth" id="title" />{if isset($error.title)}
+									<input type="text" name="title" value="{if isset($event_field.title)}{$event_field.title}{else}Name of Event{/if}" class="inputbox autowidth{if ! isset($event_field.title)} default{/if}" id="title" />{if isset($error.title)}
 
 									<p class="message-error">{$error.title}</p>{/if}
 
 								</dd> 
 								<dt>
 									<label for="description">Event Details</label> 
-									<em>What should your guests know?</em>
 								</dt>
 								<dd>
-									<textarea name="description" class="inputbox autowidth" id="description">{$event_field.description|escape:'htmlall'}</textarea>{if isset($error.desc)}
+									<textarea name="description" class="inputbox autowidth{if ! isset($event_field.description)} default{/if}" id="description">{if isset($event_field.description)}{$event_field.description}{else}What should your guests know?{/if}</textarea>{if isset($error.desc)}
 
 									<p class="message-error">{$error.desc}</p>{/if}
 
 								</dd>
 								<dt>
 									<label for="location">Name of Location</label>
-									<em>Ex: Jim's House</em>
 								</dt>
 								<dd>
-									<input type="text" name="location" value="{$event_field.location|escape:'htmlall'}" class="inputbox autowidth" id="location" />{if isset($error.location)}
+									<input type="text" name="location" value="{if isset($event_field.location)}{$event_field.location}{else}Ex: Jim's House{/if}" class="inputbox autowidth{if ! isset($event_field.location)} default{/if}" id="location" />{if isset($error.location)}
 
 									<p class="message-error">{$error.location}</p>{/if}
 
 								</dd>
 								<dt>
 									<label for="address">Address</label> 
-									<em>Ex: 1234 Maple St, Los Angeles, CA 90007</em>
 								</dt> 
 								<dd>
-									<input type="text" name="address" value="{$event_field.address|escape:'htmlall'}" class="inputbox autowidth" id="address" />{if isset($error.address)}
+									<input type="text" name="address" value="{if isset($event_field.address)}{$event_field.address}{else}Ex: 1234 Maple St, Los Angeles, CA 90007{/if}" class="inputbox autowidth{if ! isset($event_field.address)} default{/if}" id="address" />{if isset($error.address)}
 
 									<p class="message-error">{$error.address}</p>{/if}
 
@@ -64,10 +60,9 @@
 							<dl class="column"> 
 								<dt>
 									<label for="goal">Attendance Goal</label> 
-									<em>In # of Attendees</em>
 								</dt>
 								<dd>
-									<input type="text" name="goal" value="{$event_field.goal|escape:'htmlall'}" class="inputbox autowidth" id="goal" />{if isset($error.goal)}
+									<input type="text" name="goal" value="{if isset($event_field.goal)}{$event_field.goal}{else}In # of Attendees{/if}" class="inputbox autowidth{if ! isset($event_field.goal)} default{/if}" id="goal" />{if isset($error.goal)}
 
 									<p class="message-error">{$error.goal}</p>{/if}
 
@@ -105,7 +100,7 @@
 								<dd>
 									<select name="type" id="type"> 
 										<option value="0">Please Select</option> 
-											<optgroup label="Personal"> 
+										<optgroup label="Personal"> 
 											<option value="1"{if $event_field.type eq '1'} selected{/if}>Birthday</option> 
 											<option value="2"{if $event_field.type eq '2'} selected{/if}>Other party</option> 
 											<option value="3"{if $event_field.type eq '3'} selected{/if}>Dinner</option> 

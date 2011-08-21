@@ -71,7 +71,7 @@ fieldset dt label {
 	color: #464646;
 	padding: 0; }
 fieldset dt em {
-	font-size: 14px; 
+	font-size: 12px; 
 	color: #959595; }
 fieldset label {
 	font-size: 12px;
@@ -116,8 +116,10 @@ fieldset label input, fieldset label textarea {
 	font-size: 12px;
 	color: #333; }
 #settings fieldset label input { font-size: 10px; }
+select option { font-family: Georgia; }
 input.inputbox { 
 	background: #fff;
+	font-family: Georgia;
 	height: 26px;
 	padding: 0 4px;
 	-moz-box-sizing: border-box;
@@ -126,11 +128,14 @@ input.inputbox {
 	border: 1px solid #acacac; }
 fieldset textarea { 
 	background: #fff;
+	font-family: Georgia;
 	height: 126px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border: 1px solid #acacac; }
+input.default, textarea.default {
+	color: #666; }
 input.datebox { 
 	background: url(../images/icon_date.gif) 86px 2px no-repeat;
 	width: 110px;

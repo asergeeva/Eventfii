@@ -39,7 +39,9 @@ class Event {
 	function __construct( $eventInfo ) {
 		if ( $eventInfo == NULL ) {
 			$this->eid = NULL;
-			$this->organizer = $_SESSION['user'];
+			if ( isset ($_SESSION['user']) ) {
+				$this->organizer = $_SESSION['user'];
+			}
 			$this->title = $_POST['title'];
 			$this->goal = $_POST['goal'];
 			$this->reach_goal = $_POST['reach_goal'];
@@ -312,6 +314,11 @@ class Event {
 	private function check_location() {
 		if( strlen($this->location) == 0 )
 			return;
+			
+		if ( $this->location == "Ex: Jim\'s House" ) {
+			$this->location = "";
+			return;
+		}
 	
 		$valid_location = filter_var(
 			$this->location, 
