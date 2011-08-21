@@ -14,6 +14,7 @@ var CREATE_EVENT_FORM = (function() {
 				$('#end_date').val(date);
 				var time = $('select[name="time"] option:selected').val();
 				$('select[name="end_time"]').val(time).attr("selected", "selected");
+				$('#add-end-time-title').fadeIn(500);
 				$('#add-end-time').fadeIn(500);
 				return false;
 			});
