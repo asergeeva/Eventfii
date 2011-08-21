@@ -372,6 +372,34 @@ class DBConfig {
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
+	/**
+	 * Check whether $uid is a valid host for $eid
+	 * $eid - Event ID
+	 * $uid - User ID
+	 * @return true when it is a valid host, false otherwise
+	 */
+	public function checkValidHost($eid, $uid) {
+		$CHECK_HOST = "SELECT * FROM ef_events WHERE id = ".$eid." AND organizer = ".$_SESSION['user']->id;
+		if ($this->getRowNum($CHECK_HOST) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Delete the event with the ID on param
+	 * $eid - Event ID
+	 * @return true when successful, false otherwise
+	 */
+	public function deleteEvent($eid) {
+		if ($this->checkValidHost($eid, $_SESSION['user']->id)) {
+			$DELETE_EVENT = "UPDATE ef_events SET is_active = 0 WHERE id = ".$eid." AND organizer = ".$_SESSION['user']->id;
+			$this->executeUpdateQuery($DELETE_EVENT);
+			return true;
+		}
+		return false;
+	}
+	
 	public function updateEvent($eventInfo) {
 		$datetime = $this->dateToSql($eventInfo->date) . " " . date("H:i:s", strtotime($eventInfo->time));
 		$end_datetime = $this->dateToSql($eventInfo->end_date) . " " . date("H:i:s", strtotime($eventInfo->end_time));
@@ -431,7 +459,7 @@ class DBConfig {
 									e.is_public,
 									e.type
 							FROM	ef_events e 
-							WHERE	e.organizer = " . $uid . "
+							WHERE	e.organizer = " . $uid . " AND is_active = 1
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
@@ -458,7 +486,7 @@ class DBConfig {
 										ef_events e 
 								WHERE 	a.event_id = e.id 
 								AND 	a.user_id = " . $uid . " 
-								AND 	a.confidence <> " . CONFOPT6 . "
+								AND 	a.confidence <> " . CONFOPT6 . " AND is_active = 1
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);

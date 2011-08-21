@@ -10,8 +10,7 @@
 							<h2>{$event->title}<br><small>{$event->getHumanReadableEventTime()}</small></h2>
 						</a> 
 						<a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="event-manage">
-							<span class="button"><em>Manage</em>
-</span>
+							<span class="button"><em>Manage</em></span>
 						</a>
 					</li>
 				{/foreach}

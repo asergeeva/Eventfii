@@ -680,6 +680,15 @@ class PanelController {
 					$this->makeNewEvent( $newEvent );
 				}
 				break;
+			case '/event/manage/cancel':
+				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
+					print("Event is successfully deleted");
+					// Add successful template for event cancellation
+					break;
+				}
+				// Add an error template for the invalid host
+				print("You are not the host for this event");
+				break;
 			case '/create/guests':
 				$this->validateUserLogin();
 				EFCommon::$mailer = new EFMail();
