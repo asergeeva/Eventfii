@@ -48,22 +48,18 @@
 					</label>
 				</fieldset>
 				<header class="block-title">
-					<h1>Account Info</h1>
+					<h1>Social Network</h1>
 				</header>
 				<fieldset>
 					<label for="twitter" class="autowidth">
-						<span>Twitter Handle</span> 
-						<input type="text" class="inputbox autowidth" name="twitter" id="twitter" value="{$smarty.session.user->twitter}" />{if isset($error.twitter)}
-						<p class="message-error" id="titleErr">{$error.twitter}</p>{/if}
-
-					</label>{if ! isset($smarty.session.user->facebook)}
+						<a href="#"><span id="connect_twitter"></span></a>
+					</label>
 					<label for="fbconnect" class="autowidth">
-						<span>Facebook</span>
 						<div id="fb-root"></div>
 						<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button></p>
 						<span id="user_fbid">{$smarty.session.user->facebook}</span>
 						<!-- Facebook Code -->
-					</label>{/if}
+					</label>
 
 				</fieldset>
 				<header class="block-title">
@@ -113,6 +109,7 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/twitter.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
 </body>
 </html>
