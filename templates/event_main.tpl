@@ -6,6 +6,7 @@
 			<section class="block" id="event-info">
 				<header class="block-title">
 					<h1>Find out more</h1>
+					<h2><a href="#">Flag this event</a></h2>
 				</header>
 				<div class="event-info">
 					<p class="event-desc">{$event->description}</p>
@@ -25,7 +26,7 @@
 						<header>
 							<h1>Add event to:</h1>
 						</header>
-						<p class="icons"><a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" class="icon-ical" target="_blank">iCal</a> <a href="http://www.google.com/calendar/event?action=TEMPLATE&text={$event->title}&dates={$event->getCalDate()}/{$event->getCalDate()}&details={$event->description}&location={$event->address}&trp=false&sprop={$EVENT_URL}/{$event->eid}&sprop={$event->description}" class="icon-gcal" target="_blank">gcal</a> <a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" class="icon-outlook" target="_blank">Outlook</a></p>
+						<p class="icons"><a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" class="icon-ical" target="_blank">iCal</a> <a href="http://www.google.com/calendar/event?action=TEMPLATE&amp;text={$event->title}&amp;dates={$event->getCalDate()}/{$event->getCalDate()}&amp;details={$event->description}&amp;location={$event->address}&amp;trp=false&amp;sprop={$EVENT_URL}/{$event->eid}&amp;sprop={$event->description}" class="icon-gcal" target="_blank">gcal</a> <a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" class="icon-outlook" target="_blank">Outlook</a></p>
 					</section>
 				</div>
 			</section>
@@ -56,7 +57,7 @@
 				</header>
 				<figure>
 					<figcaption><address>{$event->address}</address></figcaption>
-					<iframe width="558" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&iwloc=near"></iframe>
+					<iframe width="558" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
 				</figure>
 			</section>
 			<section class="block" id="event-comments">
