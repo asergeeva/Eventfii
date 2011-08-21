@@ -40,19 +40,24 @@ var LOGIN_FORM = (function() {
 			$('#container').html(EFGLOBAL.ajaxLoader);
 		},
 		
+		/**
+		 * userInfo - the user object from Facebook
+		 */
 		fbUserLogin: function(userInfo) {
 			$.post(EFGLOBAL.baseUrl + '/login', {
 				isExist: false,
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,
 				email: userInfo.email,
-				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture',
+				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture?type=large',
 				isFB: true,
 				fbid: userInfo.id
 			}, LOGIN_FORM.loginRedirect);
-			$('#container').html(EFGLOBAL.ajaxLoader);
 		},
 		
+		/**
+		 * Redirect user when they are logged in
+		 */
 		loginRedirect: function(status) {
 			if( status == 1 ) {
 				window.location = EFGLOBAL.baseUrl;

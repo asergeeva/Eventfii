@@ -225,16 +225,17 @@ class DBConfig {
 		return "NULL";
 	}
 	
-	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL) {
+	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, $fbid = NULL) {
 		if ( ! $this->isUserEmailExist($email) ) {
-			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip) 
+			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip, facebook) 
 								VALUES(		".$this->checkNullOrValSql($fname).", 
 													".$this->checkNullOrValSql($lname).", 
 												   '".mysql_real_escape_string($email)."', 
 												    ".$this->checkNullOrValSql($phone).", 
 													".$this->checkNullOrValSql($pass).", 
 													".$this->checkNullOrValSql($fname).", 
-													".$this->checkNullOrValSql($zip).")";
+													".$this->checkNullOrValSql($zip).",
+												    ".$this->checkNullOrValSql($fbid).")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		} else if ( isset($_SESSION['ref']) ) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
@@ -276,7 +277,7 @@ class DBConfig {
 	public function facebookConnect( $fname, $lname, $email, $fbid ) {
 		if ( ! $this->isUserEmailExist($email) ) {
 			// If the user is new, create their account
-			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL );
+			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL, $fbid );
 		} else {
 			// Check to see that current users info is up to date
 			$UPDATE_USER = "	UPDATE	ef_users 

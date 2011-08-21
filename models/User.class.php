@@ -93,7 +93,7 @@ class User extends AbstractUser {
 		$this->about = $userInfo['about'];
 		$this->phone = $userInfo['phone'];
 		$this->zip = $userInfo['zip'];
-		$this->pic = $this->setUserPic();
+		$this->pic = $this->setUserPic($userInfo['facebook']);
 		$this->twitter = $userInfo['twitter'];
 		$this->facebook = $userInfo['facebook'];
 		$this->notif_opt1 = $userInfo['notif_opt1'];
@@ -101,11 +101,13 @@ class User extends AbstractUser {
 		$this->notif_opt3 = $userInfo['notif_opt3'];
 	}
 	
-	private function setUserPic() {
+	private function setUserPic($facebook = NULL) {
 		if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".png") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".png";
 		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
+		} else if (isset($facebook)) {
+			return "http://graph.facebook.com/" . $facebook . "/picture";
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
 		}
