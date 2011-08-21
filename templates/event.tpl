@@ -24,12 +24,6 @@
 		<p class="popup-close"><a href="#">X</a></p>
 	</div>
 </div>
-<div class="popup-container" id="create-acc">
-	<div class="popup block popup-small">
-		{include file="create_account_form.tpl"}
-		<p class="popup-close"><a href="#">X</a></p>
-	</div>
-</div>
 <div class="popup-container" id="see-all">
 	<div class="popup block">
 		<header class="block-title">
