@@ -525,12 +525,12 @@ class PanelController {
 		if (preg_match("/user\/\d+/", $current_page) > 0) {
 			$userId = $this->getUserIdByUri( $current_page );
 			$profile = new User($userId);
-			
 			if ( ! $profile->exists ) {
 				EFCommon::$smarty->display('error_user_notexist.tpl');
 			} else {
 				$this->assignCPEvents($userId);
 				EFCommon::$smarty->assign("profile", $profile);
+				EFCommon::$smarty->assign("is_following", EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id));
 				EFCommon::$smarty->display('profile.tpl');
 			}
 			
@@ -739,8 +739,9 @@ class PanelController {
 			case '/user/follow':
 				if ($_SESSION['user']->id != $_POST['fid']) {
 					print(EFCommon::$dbCon->followUser($_SESSION['user']->id, $_POST['fid']));
+				} else {
+					print(0);
 				}
-				print(0);
 				break;
 			case '/event/attend':
 				$this->validateLocalRequest();

@@ -793,4 +793,17 @@ class DBConfig {
 			return $isFollow;
 		}
 	}
+	
+	/**
+	 * $uid - User id of the logged in user
+	 * $fid - User id of the viewed user profile
+	 * Get the information whether $uid is currently following $fid
+	 */
+	public function isFollowing($uid, $fid) {
+		$IS_FOLLOW = "SELECT * FROM ef_friendship WHERE uid = ".$uid." AND fid = ".$fid. " AND is_follow = 1";
+		if ($this->getRowNum($IS_FOLLOW) == 0) { 
+			return 0;
+		}
+		return 1;
+	}
 }
