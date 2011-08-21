@@ -552,6 +552,7 @@ class PanelController {
 					unset($_SESSION['newEvent']);
 					unset($_SESSION['new_eid']);
 					unset($_SESSION['manage_event']);
+					unset($_SESSION['contact_form']);
 					
 					$this->assignCPEvents($_SESSION['user']->id);
 					EFCommon::$smarty->display('cp.tpl');
@@ -560,7 +561,62 @@ class PanelController {
 				}
 				break;
 			case '/contact':
+				// if the form's been submitted, send its contents
+				if( isset($_POST['submit']) ) {
+					$inputValid = true;
+					// validate input
+					if( !isset($_POST['email']) || $_POST['email'] === '' ) {
+						$inputValid = false;
+						EFCommon::$smarty->assign('invalid_email_message', 
+							'You must enter an email address in this field, so we can get back to you!');
+					}
+					else if( !preg_match('/^[A-Za-z0-9._%+]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,5}$/', $_POST['email']) ){
+						$inputValid = false;
+						EFCommon::$smarty->assign('invalid_email_message',
+							'The email address you entered appears to be invalid!');
+					}
+
+					if( !isset($_POST['message']) || $_POST['message'] === '' ) {
+						$inputValid = false;
+						EFCommon::$smarty->assign('invalid_message_content_message',
+												  'You must enter a message!');
+					}
+					
+					// at this point we know whether the input is valid or not
+					if( $inputValid ){
+						unset($_SESSION['contact_form']);
+						$rawMime = "X-Mailgun-Tag: truersvp\n".
+								   "Content-Type: plaintext;charset=UTF-8\n".
+								   "From: ".$_POST['name']."<".$_POST['email'].">\n".
+								   "To: support@truersvp.com\n".
+								   "Subject: <trueRSVP Comment Form> ".$_POST['subject']."\n\n".
+								   $_POST['message'];
+						MailgunMessage::send_raw($_POST['email'], 'vova@thewjf.com', $rawMime);
+						header("Location: " . CURHOST);
+						exit;
+					} else {
+						// if the form input wasn't valid, let's save
+						// the input so that the user can continue where
+						// they left off
+						$contact_form = array('name' => $_POST['name'],
+											  'email' => $_POST['email'],
+											  'subject' => $_POST['subject'],
+											  'message' => $_POST['message']);
+						$_SESSION['contact_form'] = $contact_form;
+					}
+				}
+				
+				// if we have the saved form from before,
+				// let's restore it
+				if( isset($_SESSION['contact_form']) ){
+					$contact_form = $_SESSION['contact_form'];
+					EFCommon::$smarty->assign('name_value', $contact_form['name']);
+					EFCommon::$smarty->assign('email_value', $contact_form['email']);
+					EFCommon::$smarty->assign('subject_value', $contact_form['subject']);
+					EFCommon::$smarty->assign('message_value', $contact_form['message']);
+				}
 				EFCommon::$smarty->display('contact.tpl');
+				
 				break;
 			case '/share':
 				EFCommon::$smarty->display('share.tpl');
