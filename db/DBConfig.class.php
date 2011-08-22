@@ -319,7 +319,7 @@ class DBConfig {
 	
 	public function dateToSql($date) {
 		$dateElem = explode("/", $date);
-		return $dateElem[2]."-".$dateElem["0"]."-".$dateElem[1];
+		return $dateElem[2]."-".$dateElem[0]."-".$dateElem[1];
 	}
 	
 	public function dateToRegular($date) {
@@ -332,7 +332,11 @@ class DBConfig {
 	
 	public function createNewEvent($newEvent) {
 		$datetime = $this->dateToSql($newEvent->date) . " " . $newEvent->time;
-		$end_datetime = $this->dateToSql($newEvent->end_date) . " " . $newEvent->end_time;
+		if ( strlen($newEvent->end_date) != 0 && strlen($newEvent->end_time) != 0 ) {
+			$end_datetime = $this->dateToSql($newEvent->end_date) . " " . $newEvent->end_time;
+		} else {
+			$end_datetime = NULL;
+		}
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
 		$CREATE_NEW_EVENT = "

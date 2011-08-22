@@ -127,11 +127,11 @@ class PanelController {
 		$_SESSION['new_eid'] = EFCommon::$dbCon->getMaxEventId();
 		
 		unset($_SESSION['newEvent']);
-		header("Location: " . CURHOST . "/create/guests");
+		header("Location: " . CURHOST . "/event/manage/guests?eventId=" . $_SESSION['new_eid']);
 		exit;
 	}
 
-	//checkUserCreationForm
+	// checkUserCreationForm
 	public function checkUserCreationForm($req) {
 		$flag = 1;
 		$fname = $req['fname'];
@@ -155,7 +155,7 @@ class PanelController {
 		}
 
 		if( strlen($pass) < 6 ) {
-			$flag=2;
+			$flag = 2;
 			EFCommon::$smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
 		
@@ -548,7 +548,6 @@ class PanelController {
 					// Need to make sure that event is valid before creating new event...
 					// $this->checkCreateEventSession();
 			
-					
 					unset($_SESSION['newEvent']);
 					unset($_SESSION['new_eid']);
 					unset($_SESSION['manage_event']);
@@ -712,6 +711,7 @@ class PanelController {
 					if ( ! isset($event_field) )
 						$event_field = NULL;
 				
+					// Display the create event form
 					EFCommon::$smarty->assign('event_field', $event_field);
 					EFCommon::$smarty->assign('step1', ' class="current"');
 					EFCommon::$smarty->display('create.tpl');
@@ -720,9 +720,8 @@ class PanelController {
 				} else {
 					$newEvent = $_SESSION['newEvent'];
 				}
-
 				
-				// Check to see if the new event is valid.
+				// Event is invalid
 				if ( $this->validateEventInfo( $newEvent ) === false ) {
 				
 					// Save the current information for the next visit
@@ -733,6 +732,7 @@ class PanelController {
                     
 					EFCommon::$smarty->assign('step1', ' class="current"');
 					EFCommon::$smarty->display('create.tpl');
+				// Event is valid
 				} else {
 					$this->makeNewEvent( $newEvent );
 				}
@@ -1170,12 +1170,7 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
-																 $_POST['lname'], 
-																 $_POST['email'], 
-																 $_POST['phone'], 
-																 md5($_POST['pass']), 
-																 $_POST['zipcode'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zipcode'] );
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
 					

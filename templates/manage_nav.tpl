@@ -3,8 +3,8 @@
 				<header class="block-title">
 					<h1>Before Event</h1>
 				</header>
-				<ul>
-					<li{if isset($page.addguests)} class="current"{/if}><a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}"><span>Add more guests</span></a></li>
+				<ul>{assign var=guests_count value=$smarty.session.manage_event->guests|@count} 
+					<li{if isset($page.addguests)} class="current"{/if}><a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}"><span>Add {if $guests_count != 0}more {/if}guests</span></a></li>
 					<li{if isset($page.email)} class="current"{/if}><a href="{$CURHOST}/event/manage/email?eventId={$smarty.session.manage_event->eid}"><span>E-mail current guests</span></a></li>
 					<li{if isset($page.text)} class="current"{/if}><a href="{$CURHOST}/event/manage/text?eventId={$smarty.session.manage_event->eid}"><span>Sent text to guests</span></a></li>
 				</ul>
