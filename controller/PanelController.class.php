@@ -639,7 +639,10 @@ class PanelController {
 					array_push($contacts, $contact);
 				}
 				
-				EFCommon::$smarty->assign('contacts', $contacts);
+				if ( sizeof($contacts) > 0 )
+					EFCommon::$smarty->assign('contacts', $contacts);
+				else
+					EFCommon::$smarty->assign('contacts', NULL);
 				
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
