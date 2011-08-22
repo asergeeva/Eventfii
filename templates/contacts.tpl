@@ -13,7 +13,6 @@
 					</li>
 					{/foreach}
 				</ul>{else}
-				
 				<header class="block">
 					<p class="message">No contacts</p>
 				</header>

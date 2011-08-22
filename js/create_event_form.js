@@ -19,6 +19,13 @@ var CREATE_EVENT_FORM = (function() {
 				return false;
 			});
 			
+			$('#date').blur( function() {
+				if ( $('#deadline').val() == "" ) {
+					var event_date = $('#date').val();
+					$('#deadline').val(event_date);
+				}
+			});
+			
 			$('#title').focus();
 			$('#date').datepicker();
 			$('#end_date').datepicker();
