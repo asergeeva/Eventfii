@@ -262,6 +262,8 @@ class Event {
 		$this->check_address();
 		$this->check_date();
 		$this->check_time();
+		$this->check_end_date();
+		$this->check_end_time();
 		$this->check_goal();
 		$this->check_deadline();
 		$this->check_type();	
@@ -382,11 +384,13 @@ class Event {
 		
 		if ($httpCode == 200) {
 			$geocode = json_decode($result);
-			$this->location_lat = $geocode->results[0]->geometry->location->lat;
-			$this->location_long = $geocode->results[0]->geometry->location->lng; 
-			$formatted_address = $geocode->results[0]->formatted_address;
-			$geo_status = $geocode->status;
-			$location_type = $geocode->results[0]->geometry->location_type;
+			$location_type = "";
+			if ( $geocode->status != "ZERO_RESULTS" ) {
+				$this->location_lat = $geocode->results[0]->geometry->location->lat;
+				$this->location_long = $geocode->results[0]->geometry->location->lng; 
+				$formatted_address = $geocode->results[0]->formatted_address;
+				$location_type = $geocode->results[0]->geometry->location_type;
+			}
 		} else {
 			$event_address['location_type'] = "error";
 			$this->location_lat = "";
@@ -455,6 +459,68 @@ class Event {
 		
 		if( ! $valid_time ) {
 			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->numErrors++;
+		}
+	}
+	
+	/* check_end_date
+	 * Checks the event's end date
+	 *
+	 * Requirements:
+	 *  - Valid date
+	 *  - Date in the future
+	 *  - After event date
+	 */
+	private function check_end_date() {
+		$event_date = explode('/', $this->date);
+		$month = $event_date[0];
+		$day = $event_date[1];
+		$year = $event_date[2]; 
+		$event_end_date = explode('/', $this->end_date);
+		$end_month = $event_end_date[0];
+		$end_day = $event_end_date[1];
+		$end_year = $event_end_date[2]; 
+
+		// Make sure date is valid
+		if( !@checkdate($month, $day, $year) ) {
+			$this->error['end_date'] = "Please enter a valid date in mm/dd/yyyy format";
+			$this->numErrors++;
+			return;
+		}
+
+		// Make sure date is in the future
+		$check = @mktime(0, 0, 0, $end_month, $end_day, $end_year, -1);
+		$event = @mktime(0, 0, 0, $month, $day, $year, -1);
+		if( $check < $event ) {
+			$this->error['end_date'] = "Event end date must be on or after start date";
+			$this->numErrors++;
+		}
+	}
+	
+	/* check_end_time
+	 * Checks the event's time
+	 *
+	 * Requirements:
+	 *  - 12 hour time format
+	 */
+	private function check_end_time() {	
+		$valid_time = filter_var(
+			$this->end_time, 
+			FILTER_VALIDATE_REGEXP, 
+			array(
+				"options" => array(
+					"regexp" => "/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/"
+				)
+			)
+		);
+		
+		if ( ! $valid_time ) {
+			$this->error['end_time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->numErrors++;
+		}
+		
+		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
+			$this->error['end_time'] = "End time must be after event time";
 			$this->numErrors++;
 		}
 	}
