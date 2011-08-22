@@ -630,12 +630,31 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
+	/**
+	 * Get all of the guests who already RSVP'ed
+	 * $eid   Integer   the ID of the event
+	 */
 	public function getConfirmedGuests($eid) {
 		$GET_ATTENDEES = "	SELECT	* 
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
 							AND 	a.event_id = " . $eid . " AND a.confidence <> ".CONFELSE;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	/**
+	 * Get all of the guests who already RSVP'ed, 
+	 * with the specified confidence value
+	 * $eid   Integer    the ID of the event
+	 * $conf  Integer    the confidence value
+	 */
+	public function getConfirmedGuestsByConfidence($eid, $conf) {
+		$GET_ATTENDEES = "	SELECT	u.* 
+							FROM 	ef_attendance a, 
+									ef_users u 
+							WHERE 	a.user_id = u.id 
+							AND 	a.event_id = " . $eid . " AND a.confidence = ".$conf;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
@@ -668,30 +687,56 @@ class DBConfig {
 		$this->executeUpdateQuery($CHECKIN_GUEST);
 	}
 	
-	// If the recipient_group IS NULL, the recipient is all attendees
-	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $type, $autoReminder) {
-		$deliveryTime = $deliveryTime.":00";
-		$SAVE_REMINDER = "
-		INSERT INTO	ef_event_messages 
-					(
-						created, 
-						subject, 
-						message, 
-						delivery_time, 
-						event_id, 
-						type, 
-						is_activated
-					) 
-		VALUES		(
-						NOW(), 
-						'" . mysql_real_escape_string($subject) . "', 
-						'" . mysql_real_escape_string($msg) . "', 
-						'" . mysql_real_escape_string($deliveryDateTime) . "', 
-						" . $eid.",
-						" . $type.",
-						" . $autoReminder."
-					)";
-		$this->executeUpdateQuery($SAVE_REMINDER);
+	/**
+	 * Save the message with the type specified
+	 * $eid              Integer   event ID
+	 * $msg              String    the content of the message
+	 * $deliveryDateTime String    the datetime in string
+	 * $subject          String    the subject of the reminder
+	 * $autoReminder     Integer   whether this is message should be automatically sent at the later time
+	 * $group            Integer   the recipient group
+	 */
+	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $autoReminder, $group) {
+		if ($this->hasEventEmail($eid, EMAIL_REMINDER_TYPE)) {
+			$UPDATE_REMINDER = "
+			UPDATE	ef_event_messages 
+			SET
+			  created = NOW(), 
+			  subject = '" . mysql_real_escape_string($subject) . "', 
+			  message = '" . mysql_real_escape_string($msg) . "', 
+			  delivery_time = '" . mysql_real_escape_string($deliveryDateTime) . "', 
+			  is_activated = ".$autoReminder.",
+			  recipient_group = ".mysql_real_escape_string($group)."
+			WHERE
+			  event_id = ".$eid." AND
+			  type = ".EMAIL_REMINDER_TYPE;
+			$this->executeUpdateQuery($UPDATE_REMINDER);
+
+		} else {
+			$SAVE_REMINDER = "
+			INSERT INTO	ef_event_messages 
+						(
+							created, 
+							subject, 
+							message, 
+							delivery_time, 
+							event_id, 
+							type, 
+							is_activated,
+							recipient_group
+						) 
+			VALUES		(
+							NOW(), 
+							'" . mysql_real_escape_string($subject) . "', 
+							'" . mysql_real_escape_string($msg) . "', 
+							'" . mysql_real_escape_string($deliveryDateTime) . "', 
+							" . $eid.",
+							" . EMAIL_REMINDER_TYPE.",
+							" . $autoReminder.",
+							".mysql_real_escape_string($group)."
+						)";
+			$this->executeUpdateQuery($SAVE_REMINDER);
+		}
 	}
 	
 	public function saveText($eid, $msg, $deliveryDateTime, $type, $autoReminder) {
@@ -717,11 +762,41 @@ class DBConfig {
 		$this->executeUpdateQuery($SAVE_REMINDER);
 	}
 	
-	public function getEventEmail($eid, $type) {
+	/**
+	 * Check whether there is already a message for this event
+	 * $eid    Integer   the event ID
+	 * $type   Integer   the message type:
+	 *						define('EMAIL_REMINDER_TYPE', 1);
+	 *						define('SMS_REMINDER_TYPE', 2);
+	 * @return Boolean true when there is already a message. False otherwise.
+	 */
+	public function hasEventEmail($eid, $type) {
 		$GET_EVENT_EMAIL = "SELECT	m.subject, 
 									m.message, 
 									DATE_FORMAT(m.delivery_time, '%m/%d/%Y %r') AS datetime, 
 									m.event_id 
+							FROM 	ef_event_messages m 
+							WHERE 	m.event_id = " . $eid . " 
+							AND 	m.type = " . $type;
+		if ($this->getRowNum($GET_EVENT_EMAIL) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Get the message that was saved
+	 * $eid   Integer the event ID
+	 * $type  Integer the message type:
+	 *						define('EMAIL_REMINDER_TYPE', 1);
+	 *						define('SMS_REMINDER_TYPE', 2);
+	 */
+	public function getEventEmail($eid, $type) {
+		$GET_EVENT_EMAIL = "SELECT	m.subject, 
+									m.message, 
+									DATE_FORMAT(m.delivery_time, '%m/%d/%Y %r') AS datetime, 
+									m.event_id,
+									m.recipient_group 
 							FROM 	ef_event_messages m 
 							WHERE 	m.event_id = " . $eid . " 
 							AND 	m.type = " . $type . " 

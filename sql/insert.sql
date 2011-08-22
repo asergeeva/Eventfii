@@ -8,6 +8,14 @@ INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Sc
 INSERT INTO ef_messages_type (name) VALUES ('Email');
 INSERT INTO ef_messages_type (name) VALUES ('SMS');
 
+-- Recipient groups --
+INSERT INTO ef_recipient_groups (name) VALUES ('All Attendees');
+INSERT INTO ef_recipient_groups (name) VALUES ('Absolutely Attending');
+INSERT INTO ef_recipient_groups (name) VALUES ('Pretty sure, 50/50, Not likely');
+INSERT INTO ef_recipient_groups (name) VALUES ('Not Attending');
+INSERT INTO ef_recipient_groups (name) VALUES ('No Response Yet');
+
+
 -- Event types --
 -- Personal --
 INSERT INTO ef_event_type (name) VALUES ('Birthday');

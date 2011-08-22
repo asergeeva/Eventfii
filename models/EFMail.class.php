@@ -28,7 +28,8 @@ class EFMail {
  		"reminder_after" => "reminder_after_eventcreator.html",
 		"reminder_dayof" => "reminder_dayof_eventcreator.html",
 		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html",
-		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html"
+		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html",
+		"general" => "general.html"
 	);
 	
 	public function __construct() {
@@ -103,6 +104,9 @@ class EFMail {
 					$efcore = new EFCore();
 					$replaceItems->item($j)->nodeValue = $efcore->computeTrueRSVP($event->eid);
 					break;
+				case "event_host":
+					$replaceItems->item($j)->nodeValue = $event->organizer->fname;
+					break;
 			}
 		}
 	}
@@ -127,14 +131,20 @@ class EFMail {
 	/**
 	 * $htmlEmail     DOMDocument  email template
 	 * $guest         User         The recipient
+	 * $message       String       the message that will be embedded - Optional
 	 */
-	public function mapGuestHtml(&$htmlEmail, &$guest) {
+	public function mapGuestHtml(&$htmlEmail, &$guest, $message = NULL) {
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
 
 		for ($j = 0; $j < $replaceItems->length; ++$j) {
 			switch ($replaceItems->item($j)->getAttribute("id")) {
 				case "guest_name":
 					$replaceItems->item($j)->nodeValue = $guest->fname;
+					break;
+				case "message":
+					if (isset($message)) {
+						$replaceItems->item($j)->nodeValue = $message;
+					}
 					break;
 			}
 		}
@@ -145,16 +155,18 @@ class EFMail {
 	 * $guest     User     the guest in user object
 	 * $subject   String   the subject of the email
 	 * $event     Event    the event object - Optional
+	 * $content   String   the content of the email - Optional
 	 * We don't need transactions
 	 */
-	public function sendHtmlEmail($template, $guest, $subject, $event = NULL) {
+	public function sendHtmlEmail($template, $guest, $subject, $event = NULL, $content = NULL) {
 		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates[$template]);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
 		
-		$this->mapGuestHtml($htmlEmail, $guest);
+		$this->mapGuestHtml($htmlEmail, $guest, $content);
+		$this->mapEventHtml($htmlEmail, $event);
 		
 		if (isset($event)) {
 			$subject = EFCommon::mapText($subject, $event, $guest);
@@ -277,23 +289,5 @@ class EFMail {
 				MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
 			}
 		}
-	}
-	
-	/**
-	 * $attendees Array  list of all attendees
-	 * $eventInfo Object the Event object from the DBMS
-	 */
-	public function sendAutomatedEmail($eventInfo, $content, $subject, $attendees) {
-		$message = $content . "\r\nLink: " . EVENT_URL . "/" . $eventInfo->eid;
-		for ($i = 0; $i < sizeof($attendees); ++$i) {
-			MailgunMessage::send_text($this->FROM, $attendees[$i]['email'], $subject, $this->mapText($message, $eventInfo->eid));
-		}
-	}
-	
-	public function sendResetPassLink($uriPath, $hash_key, $email) {
-		$subject = "Reset Password";
-		
-		$message = "To reset password: " . CURHOST . $uriPath . "?ref=" . $hash_key;
-		MailgunMessage::send_text($this->FROM, $email, $subject, $message);
 	}
 }
