@@ -78,15 +78,20 @@ CREATE TABLE ef_attendance (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
-  id                INTEGER PRIMARY KEY AUTO_INCREMENT,
   created           TIMESTAMP NOT NULL DEFAULT NOW(),
   subject           VARCHAR(200),
   message           VARCHAR(5000) NOT NULL,
   delivery_time     DATETIME NOT NULL,
   event_id          INTEGER NOT NULL REFERENCES ef_events(id),
-  recipient_group   VARCHAR(500),
+  recipient_group   INTEGER NOT NULL REFERENCES ef_recipient_groups(id),
   type              TINYINT NOT NULL,
-  is_activated      TINYINT NOT NULL DEFAULT 0
+  is_activated      TINYINT NOT NULL DEFAULT 0,
+  CONSTRAINT pk_messages PRIMARY KEY (event_id, type)
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_recipient_groups (
+  id    INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name  VARCHAR(500) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_messages_type (

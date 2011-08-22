@@ -165,7 +165,7 @@ class PanelController {
 
 	// BEGIN OLD FUNCTIONS
 	//////////////////////
-	public function validateSaveEmail($req, $isText = false) {
+	public function validateSaveEmail($req) {
 		$msg="<br>";
 		$flag=0;
 		$dt=$req['date'];
@@ -184,14 +184,6 @@ class PanelController {
 		if( $check < $today ) {
 			$msg.="Date must be in the future<br>";
 			$flag=1;
-		}
-
-		if ($isText === false) {
-			$res=filter_var($req['subject'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[A-Za-z0-9']*$/")));
-			if (!($res)) {
-				$flag=1;
-				$msg.="Subject can only contain characters A-Z or numbers 0-9 <br>";
-			}
 		}
 
 		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[\{A-Za-z 0-9'\}]*$/")));
@@ -426,6 +418,18 @@ class PanelController {
 			echo 0;
 		}
 	}
+	
+	/**
+	 * Create the user object for each user that is retrieved from the DB
+	 * &$array  Array  the reference array that we want to append the user object into
+	 * $userDb  Array  the array of users from the DB
+	 */
+	private function appendGuests(&$array, $userDb) {
+		for ($i = 0; $i < sizeof($userDb); ++$i) {
+			array_push($array, new User($userDb[$i]));
+		}
+	}
+	
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.
@@ -960,7 +964,29 @@ class PanelController {
 				$page['email'] = true;
 				EFCommon::$smarty->assign('page', $page);
 
+				
 				$event = $this->buildEvent( $_GET['eventId'], true );
+				
+				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
+				if ( $eventReminder['is_activated'] == 1 ) {
+					$eventReminder['isAuto'] = true;
+				}
+				
+				if ( isset($eventReminder['datetime']) ) {
+					$eventDatetime = explode(" ", $eventReminder['datetime']);
+					$eventDate = $eventDatetime[0];
+					$eventTime = explode(":", $eventDatetime[1]);
+					
+					if ($eventTime[0] != "" && $eventTime[1] != "") {
+						$eventTime = $eventTime[0].":".$eventTime[1];
+					} else {
+						$eventTime = "";
+					}
+					
+					EFCommon::$smarty->assign('eventDate', $eventDate);
+					EFCommon::$smarty->assign('eventTime', $eventTime);
+					EFCommon::$smarty->assign('eventReminder', $eventReminder);
+				}
 				
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
@@ -983,14 +1009,18 @@ class PanelController {
 					die($retval);
 				}
 				
-				EFCommon::$dbCon->saveEmail( $event->eid, $_REQUEST['reminderContent'], $dateTime, $_REQUEST['reminderSubject'], EMAIL_REMINDER_TYPE, $autoReminder);
+				EFCommon::$dbCon->saveEmail( $event->eid, 
+											 $_POST['reminderContent'], 
+											 $dateTime, 
+											 $_POST['reminderSubject'], 
+											 $autoReminder, 
+											 $_POST['reminderRecipient']);
 				echo("Success");
 				break;
 			case '/event/email/send':
 				$this->validateLocalRequest();
 
 				$event = $_SESSION['manage_event'];
-				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 				
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['subject'] = $_REQUEST['reminderSubject'];
@@ -1002,7 +1032,30 @@ class PanelController {
 					die($retval);
 				}
 				
-				EFCommon::$mailer->sendAutomatedEmail($event, $_REQUEST['reminderContent'], $_REQUEST['reminderSubject'], $attendees);
+				$guests = array();
+				switch ($_POST['reminderRecipient']) {
+					case 1:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuests($_POST['eid']));
+						break;
+					case 2:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT1));
+						break;
+					case 3:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));										$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT4));
+						break;
+					case 4:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT5));
+						break;
+					case 5:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFELSE));
+						break;
+				}
+				
+				// Send email to all of the guests specified
+				for ($i = 0; $i < sizeof($guests); ++$i) {
+					EFCommon::$mailer->sendHtmlEmail('general', $guests[$i], $_POST['reminderSubject'], $event, $_POST['reminderContent']);
+				}
 				echo("Success");
 				break;
 			case '/event/email/autosend':
@@ -1072,7 +1125,7 @@ class PanelController {
 				$req['type'] = $_REQUEST['type'];
 				$req['date'] = $_REQUEST['reminderDate'];
 				
-				$retval = $this->validateSaveEmail($req, true);
+				$retval = $this->validateSaveEmail($req);
 				if( $retval != "Success" ) {
 					die($retval);
 				}
@@ -1095,7 +1148,7 @@ class PanelController {
 				$req['type'] = $_REQUEST['type'];
 				$req['date'] = $_REQUEST['reminderDate'];
 				
-				$retval = $this->validateSaveEmail($req, true);
+				$retval = $this->validateSaveEmail($req);
 				if( $retval != "Success" ) {
 					die($retval);
 				}

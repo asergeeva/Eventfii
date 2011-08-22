@@ -37,13 +37,13 @@ $smarty->assign('NUM_TWEETS', NUM_TWEETS);
 
 // Yes
 define('CONFOPT1', 90);
-define('CONFOPT2', 65);
 
 // May be
+define('CONFOPT2', 65);
 define('CONFOPT3', 35);
+define('CONFOPT4', 15);
 
 // No
-define('CONFOPT4', 15);
 define('CONFOPT5', 4);
 
 // A spam
@@ -72,6 +72,7 @@ define('GUESTRANGE2MAX', 60);
 define('GUESTRANGE3MIN', 40);
 define('GUESTRANGE3MAX', 55);
 
+// Email reminder type
 define('EMAIL_REMINDER_TYPE', 1);
 define('SMS_REMINDER_TYPE', 2);
 

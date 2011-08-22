@@ -1,4 +1,5 @@
 DROP TABLE ef_attendance;
+DROP TABLE ef_recipient_groups;
 DROP TABLE ef_event_messages;
 DROP TABLE ef_event_images;
 DROP TABLE ef_event_payments;
