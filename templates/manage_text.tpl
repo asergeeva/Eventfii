@@ -12,19 +12,15 @@
 		<div class="content">
 			<section class="block" id="manage-text">
 				<fieldset>
-					<label for="send-automatically">
-						<strong></strong>
-						<div>
-							<input type="checkbox" name="automatically" id="automatic_text_send_cb" checked="checked" /> Send automatically on 
-              <input type="text" name="eventDate" value="{if isset($eventDate)}{$eventDate}{/if}" class="inputbox datebox" id="automatic_text_send_date" /> at 
-              <input type="text" name="eventTime" value="{if isset($eventTime)}{$eventTime}{/if}" class="timebox" id="automatic_text_send_time" />
-						</div>
-					</label>
 					<label for="text-to">
 						<strong>To:</strong>
 						<div>
-							<select class="autowidth" id="text-to">
-								<option>All Attendees</option>
+							<select name="reminderRecipient" class="autowidth" id="email-to">
+								<option value="1" selected="selected">All Attendees</option>
+								<option value="2" selected="selected">Absolutely Attending</option>
+								<option value="3" selected="selected">Pretty sure, 50/50, Not likely</option>
+								<option value="4" selected="selected">Not Attending</option>
+								<option value="5" selected="selected">No Response Yet</option>
 							</select>
 						</div>
 					</label>
@@ -32,21 +28,15 @@
 						<strong>SMS Message: (140 characters or less)</strong>
 						<div>
 							<textarea class="autowidth" id="text-message"></textarea>
-     {literal}
-     {Guest name}
-		 {Host name}
-		 {Event name}
-		 {Event time}
-     {/literal}
+     						{literal}{Guest name} {Host name} {Event name} {Event time}{/literal}
 						</div>
-						<p class="counter">Character Count: <em>135</em></p>
-					</label>
+						<p class="counter">Character Count: <em id="character-count">135</em></p>
+					</label>				
+					<footer class="buttons buttons-send">
+						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>
+						<p class="btn"><input type="button" name="send" value="Send" id="send_text_reminder" /></p>
+					</footer>
 				</fieldset>
-				<footer class="buttons buttons-submit">
-					<a href="#" id="update_text_reminder"><span>Update</span></a>
-					<a href="#" id="send_text_reminder"><span>Send Now</span></a>
-          <span id="reminder_status"></span>
-				</footer>
 			</section>
 		</div>
 	</section>

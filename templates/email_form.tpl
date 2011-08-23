@@ -3,7 +3,7 @@
 	<label for="mail_to">
 		<strong>To:</strong>
 		<div>
-			<select class="autowidth" id="email-to">
+			<select name="attendees" class="autowidth" id="email-to">
 				<option value="1" selected="selected">All Attendees</option>
 				<option value="2" selected="selected">Absolutely Attending</option>
 				<option value="3" selected="selected">Pretty sure, 50/50, Not likely</option>
