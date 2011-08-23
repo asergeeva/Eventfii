@@ -547,7 +547,7 @@ var Validate = {
      */
     Presence: function(value, paramsObj){
       	var paramsObj = paramsObj || {};
-    	var message = paramsObj.failureMessage || "Can't be empty!";
+    	var message = paramsObj.failureMessage || "This field is required.";
     	if(value === '' || value === null || value === undefined){ 
     	  	Validate.fail(message);
     	}

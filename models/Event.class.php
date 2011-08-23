@@ -282,6 +282,7 @@ class Event {
 	 *  - Minimum length
 	 */
 	private function check_title() {
+		$this->title = stripslashes($this->title);
 		// Set the error meessage if there is one
 		if( strtolower( $this->title ) == "i'm planning..." ) {
 			$this->error['title'] = "Please enter an event title.";
@@ -299,7 +300,8 @@ class Event {
 	 *  - Only alphanumeric characters
 	 *  - 10-500 characters
 	 */
-	private function check_description() {	 
+	private function check_description() {
+		$this->description = stripslashes($this->description);
 		if( strlen($this->description) < 5 ) {
 			$this->error['desc'] = "Title must be at least 5 characters";
 			$this->numErrors++;
@@ -316,25 +318,12 @@ class Event {
 	private function check_location() {
 		if( strlen($this->location) == 0 )
 			return;
-			
-		if ( $this->location == "Ex: Jim\'s House" ) {
+		
+		$this->location = stripslashes($this->location);	
+		
+		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
 			return;
-		}
-	
-		$valid_location = filter_var(
-			$this->location, 
-			FILTER_VALIDATE_REGEXP,
-			array(
-				"options" => array(
-					"regexp" => "/^[A-Za-z0-9'\s]{5,100}$/"
-				)
-			)
-		);
-	 	
-		if( ! $valid_location ) {
-			$this->error['location'] = "Location can only contain spaces, A-Z or 0-9";
-			$this->numErrors++;
 		}
 	}
 	
@@ -472,6 +461,9 @@ class Event {
 	 *  - After event date
 	 */
 	private function check_end_date() {
+		if ( ! isset( $this->end_date ) || $this->end_date == "" )
+			return;
+	
 		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
 		$day = $event_date[1];
@@ -504,6 +496,9 @@ class Event {
 	 *  - 12 hour time format
 	 */
 	private function check_end_time() {	
+		if ( ! isset($end_time) || $end_time == "" )
+			return;
+	
 		$valid_time = filter_var(
 			$this->end_time, 
 			FILTER_VALIDATE_REGEXP, 
@@ -515,12 +510,12 @@ class Event {
 		);
 		
 		if ( ! $valid_time ) {
-			$this->error['end_time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->error['end_time'] = "Please select a time.";
 			$this->numErrors++;
 		}
 		
 		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
-			$this->error['end_time'] = "End time must be after event time";
+			$this->error['end_time'] = "End time must be after event time.";
 			$this->numErrors++;
 		}
 	}
