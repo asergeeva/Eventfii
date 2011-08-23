@@ -301,10 +301,7 @@ class Event {
 	 *  - 10-500 characters
 	 */
 	private function check_description() {
-<<<<<<< HEAD
-=======
 		$this->description = stripslashes($this->description);
->>>>>>> wex
 		if( strlen($this->description) < 5 ) {
 			$this->error['desc'] = "Title must be at least 5 characters";
 			$this->numErrors++;
@@ -323,11 +320,7 @@ class Event {
 			return;
 		
 		$this->location = stripslashes($this->location);	
-<<<<<<< HEAD
-					
-=======
-		
->>>>>>> wex
+
 		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
 			return;
@@ -468,15 +461,9 @@ class Event {
 	 *  - After event date
 	 */
 	private function check_end_date() {
-<<<<<<< HEAD
-		if ( strlen($this->end_date) == 0 )
+		if ( ! isset( $this->end_date ) || strlen($this->end_date) == 0 )
 			return;
-		
-=======
-		if ( ! isset( $this->end_date ) || $this->end_date == "" )
-			return;
-	
->>>>>>> wex
+			
 		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
 		$day = $event_date[1];
@@ -509,16 +496,10 @@ class Event {
 	 *  - 12 hour time format
 	 */
 	private function check_end_time() {	
-<<<<<<< HEAD
-		if ( strlen($this->end_time) == 0 )
+		if ( ! isset($end_time) || strlen($this->end_time) == 0 )
 			return;
 		
-=======
-		if ( ! isset($end_time) || $end_time == "" )
-			return;
-	
->>>>>>> wex
-		$valid_time = filter_var(
+			$valid_time = filter_var(
 			$this->end_time, 
 			FILTER_VALIDATE_REGEXP, 
 			array(
