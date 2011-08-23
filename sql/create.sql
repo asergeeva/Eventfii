@@ -56,6 +56,14 @@ CREATE TABLE ef_events (
   reach_goal          TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB;
 
+CREATE TABLE ef_waitinglist (
+  rsvp_time  TIMESTAMP DEFAULT NOW(),
+  event_id   INTEGER NOT NULL REFERENCES ef_events(id),
+  user_id    INTEGER NOT NULL REFERENCES ef_users(id),
+  confidence FLOAT NOT NULL,
+  CONSTRAINT pk_waitinglist PRIMARY KEY (event_id, user_id)
+);
+
 CREATE TABLE ef_addressbook (
   user_id    INTEGER NOT NULL REFERENCES ef_users(id),
   contact_id INTEGER NOT NULL,
@@ -73,7 +81,7 @@ CREATE TABLE ef_attendance (
   user_id           INTEGER NOT NULL REFERENCES ef_users(id),
   is_attending      TINYINT(1) NOT NULL DEFAULT 0,
   confidence        FLOAT NOT NULL DEFAULT 5,
-  rsvp_time         TIMESTAMP,
+  rsvp_time         TIMESTAMP DEFAULT NOW(),
   CONSTRAINT pk_attendance PRIMARY KEY (event_id, user_id)
 ) ENGINE=InnoDB;
 

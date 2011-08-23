@@ -824,7 +824,27 @@ class PanelController {
 				}
 				break;
 			case '/event/attend':
-				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this->buildEvent($_POST['eid']), $_POST['conf']);
+				$event = $this->buildEvent($_POST['eid']);
+				
+				// Waiting list
+				if (sizeof($event->guests) >= $event->goal) {
+					switch($event->reach_goal) {
+						case 1:
+							EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $_POST['conf']);
+							print("Success!");
+							break;
+						case 2:
+							print("Event is full, host decided not to take anymore attendees");
+							break;
+						case 3:
+							EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $_POST['conf']);
+							print("You have been added to the waiting list for this event");
+							break;
+					}
+				} else {
+					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $_POST['conf']);
+					print("Success!");
+				}
 				break;
 			case '/event/checkin':
 				$isAttend = 1;

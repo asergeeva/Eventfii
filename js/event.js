@@ -15,7 +15,7 @@ var EVENT = (function() {
 						eid: $('#event-id').text(),
 						conf: $(this).children("input").val()
 				}, function(resultPage) {
-					$('#response_stat_msg').html(EFGLOBAL.attendSucceed);
+					$('#response_stat_msg').html(resultPage);
 				});
 				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
 			});

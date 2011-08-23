@@ -549,10 +549,30 @@ class DBConfig {
 			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVP to {Event name}');
 		} else {
 			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
-								SET 	confidence = " . $conf . ", 
-										is_attending = 1 
+								SET 	confidence = " . $conf . " 
 								WHERE 	event_id = " . $event->eid . " 
 								AND 	user_id = " . $uid;
+
+			$this->executeUpdateQuery($UPDATE_SIGN_UP);
+		}
+	}
+	
+	public function eventWaitlist($uid, $event, $conf) {
+		if ( ! $this->hasAttend($uid, $event->eid) ) {
+			$SIGN_UP_WAITLIST_EVENT = "	INSERT INTO ef_waitinglist (event_id, user_id, confidence) 
+										VALUES(
+											" . $event->eid . ", 
+											" . $uid . ", 
+											" . $conf . ",
+											NOW()
+										)";
+			
+			$this->executeUpdateQuery($SIGN_UP_EVENT);
+		} else {
+			$UPDATE_WAITLIST = "	UPDATE 	ef_waitinglist 
+									SET 	confidence = " . $conf . " 
+									WHERE 	event_id = " . $event->eid . " 
+									AND 	user_id = " . $uid;
 
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
