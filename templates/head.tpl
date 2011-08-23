@@ -5,9 +5,9 @@
 	<meta name="Author" content="trueRSVP" />
 	<meta property="fb:app_id" content="123284527755183" />
 	<meta property="fb:admins" content="1164166702" />
-	<meta property="og:title" content="{if !isset($event->title)}trueRSVP{else}{$event->title}{/if} "/> 
+	<meta property="og:title" content="{if !isset($event->title)}trueRSVP{else}{$event->title}{/if}"/> 
 	<meta property="og:type" content="event" /> 
-	<meta property="og:url" content="{$CURHOST}{$current_page}" /> 
+	<meta property="og:url" content="{if !isset($event->title)}{$CURHOST}{else}{$EVENT_URL}/{$event->id}{/if}" /> 
 	<meta property="og:image" content="{$IMG_PATH}/logo_wide.jpg" /> 
 	<meta property="og:site_name" content="{$WTITLE} | {if !isset($event->title)}{$WSLOGAN}{else}{$event->title}{/if}" /> 
 	<meta property="og:description" content="{if !isset($event->description)}A new RSVP system based on reputation{else}{$event->description}{/if}" /> 
