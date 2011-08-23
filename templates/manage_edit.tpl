@@ -26,9 +26,11 @@
 
 {include file="js_global.tpl"}
 {include file="js_manage.tpl"}
+{include file="js_create.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/edit.js"></script>
+<script type="text/javascript" 
 
 </body>
 </html>

@@ -1,1 +1,1 @@
-<script src="{$JS_PATH}/manage.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{$JS_PATH}/manage.js"></script>

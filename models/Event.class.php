@@ -403,6 +403,7 @@ class Event {
 	 */
 	private function check_date() {
 		if ( strlen($this->date) == 0) {
+			$this->date = NULL;
 			$this->error['date'] = "Please enter a date for your event";
 			$this->numErrors++;
 			return;
@@ -461,8 +462,10 @@ class Event {
 	 *  - After event date
 	 */
 	private function check_end_date() {
-		if ( ! isset( $this->end_date ) || strlen($this->end_date) == 0 )
+		if ( ! isset( $this->end_date ) || strlen($this->end_date) == 0 ) {
+			$this->end_date = NULL;
 			return;
+		}
 			
 		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
