@@ -8,7 +8,7 @@
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
-
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 class APIController {
 	private $dbCon;
 	private $result;
@@ -99,8 +99,12 @@ class APIController {
 			case 'getAttendingEvents':
 				echo json_encode($this->dbCon->m_getEventAttendingBy(unserialize($_SESSION['user'])->id));
 				break;
+			case 'getAttendanceForEvent':
+				echo json_encode($this->dbCon->hasAttend(unserialize($_SESSION['user'])->id, $_REQUEST['eid']));
+				break;
 			case 'setAttendanceForEvent':
-				echo json_encode($this->dbCon->eventSignUp(unserialize($_SESSION['user'])->id, $_REQUEST['eid'], $_REQUEST['confidence']));
+				$event = new Event($_REQUEST['eid']);
+				echo json_encode($this->dbCon->eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
 				break;
 			case 'getHostingEvents':
 				echo json_encode($this->dbCon->getEventByEO(unserialize($_SESSION['user'])->id));				
