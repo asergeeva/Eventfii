@@ -8,6 +8,7 @@ var OPENINVITER = (function() {
 	// OPENINVITER EMAIL PROVIDER
 	$('.event_invite_oi').live('click', function() {
 		$('#oi_container').html(EFGLOBAL.ajaxLoader);
+		
 		$.get(EFGLOBAL.baseUrl + '/guest/inviter', {
 			provider: this.href.split('#')[1]
 		}, function(providerLoginPage) {

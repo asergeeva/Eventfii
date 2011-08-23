@@ -13,7 +13,9 @@
 						</li>
 						<li>
 							<span>Add from address book</span>
-							<p><a href="#gmail" class="event_invite_oi">Gmail</a> <a href="#yahoo" class="event_invite_oi">Yahoo!</a></p>
+							<p><a href="#gmail" class="event_invite_oi">Gmail</a> 
+							   <a href="#yahoo" class="event_invite_oi">Yahoo!</a>
+							   <a href="#truersvp" class="event_invite_oi">trueRSVP</a></p>
               				<div class="dropdown" id="oi_container"></div>
 						</li>
 						<li>

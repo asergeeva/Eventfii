@@ -959,8 +959,25 @@ class PanelController {
 					EFCommon::$smarty->assign('contactList', $contactList);
 					EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
 				} else {
-					EFCommon::$smarty->assign('provider', $_REQUEST['provider']);
-					EFCommon::$smarty->display('event_add_guest_right.tpl');
+					if ($_REQUEST['provider'] == 'truersvp') {
+						$contacts = array();
+						$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+						for ($i = 0; $i < sizeof($contactList); ++$i) {
+							$contact = new User($contactList[$i]);
+							array_push($contacts, $contact);
+						}
+						
+						if ( sizeof($contacts) > 0 )
+							EFCommon::$smarty->assign('contacts', $contacts);
+						else
+							EFCommon::$smarty->assign('contacts', NULL);
+						
+						EFCommon::$smarty->assign('addButton', true);
+						EFCommon::$smarty->display('contacts.tpl');
+					} else {
+						EFCommon::$smarty->assign('provider', $_REQUEST['provider']);
+						EFCommon::$smarty->display('event_add_guest_right.tpl');
+					}
 				}
 				break;
 			case '/event/manage/email':

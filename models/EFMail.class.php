@@ -76,7 +76,7 @@ class EFMail {
 		for ($j = 0; $j < $replaceItems->length; ++$j) {
 			switch ($replaceItems->item($j)->getAttribute("id")) {
 				case "event_name":
-					$replaceItems->item($j)->nodeValue = $event->title;
+					$replaceItems->item($j)->nodeValue = stripslashes($event->title);
 					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
 					break;
 				case "event_date":
@@ -143,7 +143,7 @@ class EFMail {
 					break;
 				case "message":
 					if (isset($message)) {
-						$replaceItems->item($j)->nodeValue = $message;
+						$replaceItems->item($j)->nodeValue = stripslashes($message);
 					}
 					break;
 			}
