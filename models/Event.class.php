@@ -299,7 +299,7 @@ class Event {
 	 *  - Only alphanumeric characters
 	 *  - 10-500 characters
 	 */
-	private function check_description() {	 
+	private function check_description() {
 		if( strlen($this->description) < 5 ) {
 			$this->error['desc'] = "Title must be at least 5 characters";
 			$this->numErrors++;
@@ -316,25 +316,12 @@ class Event {
 	private function check_location() {
 		if( strlen($this->location) == 0 )
 			return;
-			
-		if ( $this->location == "Ex: Jim\'s House" ) {
+		
+		$this->location = stripslashes($this->location);	
+					
+		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
 			return;
-		}
-	
-		$valid_location = filter_var(
-			$this->location, 
-			FILTER_VALIDATE_REGEXP,
-			array(
-				"options" => array(
-					"regexp" => "/^[A-Za-z0-9'\s]{5,100}$/"
-				)
-			)
-		);
-	 	
-		if( ! $valid_location ) {
-			$this->error['location'] = "Location can only contain spaces, A-Z or 0-9";
-			$this->numErrors++;
 		}
 	}
 	
@@ -472,6 +459,9 @@ class Event {
 	 *  - After event date
 	 */
 	private function check_end_date() {
+		if ( strlen($this->end_date) == 0 )
+			return;
+		
 		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
 		$day = $event_date[1];
@@ -504,6 +494,9 @@ class Event {
 	 *  - 12 hour time format
 	 */
 	private function check_end_time() {	
+		if ( strlen($this->end_time) == 0 )
+			return;
+		
 		$valid_time = filter_var(
 			$this->end_time, 
 			FILTER_VALIDATE_REGEXP, 

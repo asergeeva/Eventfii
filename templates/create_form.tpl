@@ -44,7 +44,7 @@
 									<em>Date &amp; Time</em>
 								</dt>
 								<dd>
-									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if ! isset($event_field.end_date) and ! isset($event_field.end_time)}
+									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox" id="time">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if ! isset($event_field.end_date) or $event_field.end_date == ""}
 									
 									<p><a href="#" id="end-date">Add End Time</a></p>{/if}{if isset($error.date)}
 
@@ -53,12 +53,12 @@
 									<p class="message-error">{$error.time}</p>{/if}
 
 								</dd>
-								<dt id="add-end-time-title"{if ! isset($event_field.end_date) and ! isset($event_field.end_time)} style="display: none"{/if}>
+								<dt id="add-end-time-title"{if ! isset($event_field.end_date) or $event_field.end_date == ""} style="display: none"{/if}>
 									<label for="end_date">Until When</label>
 									<em>Date &amp; Time</em>
 								</dt>
-								<dd id="add-end-time"{if ! isset($event_field.end_date) and ! isset($event_field.end_time)} style="display: none"{/if}>
-									<p><input type="text" name="end_date" value="{$event_field.end_date}" class="inputbox datebox" id="end_date" /> <select name="end_time" class="timebox">{include file="timeselect.tpl" time=$event_field.end_time}</select></p>{if isset($error.end_date)}
+								<dd id="add-end-time"{if ! isset($event_field.end_date) or $event_field.end_date == ""} style="display: none"{/if}>
+									<p><input type="text" name="end_date" value="{$event_field.end_date}" class="inputbox datebox" id="end_date" /> <select name="end_time" class="timebox" id="end_time">{include file="timeselect.tpl" time=$event_field.end_time}</select></p>{if isset($error.end_date)}
 
 									<p class="message-error">{$error.end_date}</p>{/if}{if isset($error.end_time)}
 									<p class="message-error">{$error.end_time}</p>{/if}
