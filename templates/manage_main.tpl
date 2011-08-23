@@ -19,18 +19,16 @@
 					<dl class="table"> 
 						<dt class="list-head">Response</dt> 
 						<dd>#</dd> 
-						<dt>I will absolutely be there</dt> 
+						<dt>Absolutely - I'll definitely be there!</dt> 
 						<dd>{$guestConf1}</dd> 
-						<dt>I'm pretty sure i can make it</dt> 
+						<dt>Pretty sure - I'll have to check my schedule</dt> 
 						<dd>{$guestConf2}</dd> 
-						<dt>I will make it if my schedule doesn't change</dt> 
+						<dt>50/50 - Interested, but not ready to commit</dt> 
 						<dd>{$guestConf3}</dd> 
-						<dt>I probably won't be able to make it</dt> 
+						<dt>Most likely not - I probably won't go</dt> 
 						<dd>{$guestConf4}</dd> 
-						<dt>Not attending, but show me as a supporter</dt> 
-						<dd>{$guestConf5}</dd> 
-						<dt>This is spam to me</dt> 
-						<dd>{$guestConf6}</dd> 
+						<dt>Raincheck - Can't make it this time</dt> 
+						<dd>{$guestConf5}</dd>
 						<dt>No Response</dt> 
 						<dd>{$guestNoResp}</dd> 
 					</dl>
