@@ -1391,12 +1391,20 @@ class PanelController {
 				break;
 			case '/logout':
 				if ( ! isset($_SESSION['user']) ) {
-					EFCommon::$smarty->display('error.tpl');
+					header('Location: '.CURHOST);
 					break;
 				}
 				session_unset();
 				session_destroy();
 				EFCommon::$smarty->display('index.tpl');
+				break;
+			case '/notyet':
+				if ( filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ) {
+					EFCommon::$dbCon->storeNotyet($_POST['email']);
+					print("Thank you!");
+				} else {
+					print("Invalid email");
+				}
 				break;
 			case '/calendar/ics':
 				$event = $this->buildEvent( $_GET['eventId'] );

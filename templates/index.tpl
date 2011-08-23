@@ -95,7 +95,8 @@
 			</ul>
 		</section>
 	</section>
-	<p class="extra"><span>Not planning an event just yet?</span> <input type="text" name="e-mail" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> <input type="submit" value="Send" class="submit" /></p>
+	<p class="extra"><span>Not planning an event just yet?</span> 
+	<span id="notyet_container"><input type="text" name="e-mail" id="email" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> <input type="button" id="not_planning_yet" value="Send" class="submit" /></span></p>
 </div>
 {include file="footer.tpl"}
 

@@ -13,3 +13,4 @@ DROP TABLE ef_paypal_accounts;
 DROP TABLE ef_event_invites;
 DROP TABLE ef_event_type;
 DROP TABLE ef_messages_type;
+DROP TABLE ef_notyet;

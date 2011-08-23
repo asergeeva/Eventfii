@@ -131,3 +131,8 @@ CREATE TABLE ef_password_reset (
   treset   TIMESTAMP,
   email    VARCHAR(500) NOT NULL REFERENCES ef_users(email)
 ) ENGINE=InnoDB;
+
+CREATE TABLE ef_notyet (
+  submit_time TIMESTAMP NOT NULL DEFAULT NOW(),
+  email       VARCHAR(500) PRIMARY KEY
+) ENGINE=InnoDB;

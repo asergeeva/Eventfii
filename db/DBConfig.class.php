@@ -913,4 +913,13 @@ class DBConfig {
 		}
 		return 1;
 	}
+	
+	/**
+	 * Store the email of NOT YET's (index page)
+	 * @param $email   String    email address
+	 */
+	public function storeNotyet($email) {
+		$STORE_NOTYET = "INSERT INTO ef_notyet (email) VALUES ('".mysql_real_escape_string($email)."')";
+		$this->executeUpdateQuery($STORE_NOTYET);
+	}
 }

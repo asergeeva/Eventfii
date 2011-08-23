@@ -22,4 +22,13 @@ $(document).ready(function() {
 		if ( $("#goal").val() == '' ) { $("#goal").val(goal_init); }
 		if ( $("#email").val() == '' ) { $("#email").val(email_init); }
 	});
+	
+	$("#not_planning_yet").live('click', function() {
+		$('#notyet_container').fadeOut('slow');
+		$.post(EFGLOBAL.baseUrl + '/notyet', {
+			email: $("#email").val()
+		}, function(response) {
+			$('#notyet_container').html(response).fadeIn('slow');
+		});
+	});
 });
