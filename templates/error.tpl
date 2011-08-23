@@ -6,6 +6,7 @@
 	<div class="error">
 		<h1>Uh oh! The page you requested does not exist.</h1>
     <p>{$current_page}</p>
+    <p>{$error_message}</p>
 	</div>
 </div>
 {include file="footer.tpl"}

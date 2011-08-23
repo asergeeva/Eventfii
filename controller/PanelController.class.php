@@ -367,27 +367,6 @@ class PanelController {
 		
 		return $url;
 	}
-	
-	/**
-	 * Make sure that the request is coming from 
-	 * the HOST not from the client
-	 */
-	 // Depreciated?
-	private function validateLocalRequest() {
-		if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
-			//header("Location: " . CURHOST);
-		}
-	}
-	
-	/**
-	 * Make sure the user logged in
-	 */
-	 // Depreciated?
-	private function validateUserLogin() {
-		if (!isset($_SESSION['user'])) {
-			//header("Location: " . CURHOST);
-		}
-	}
 
 	/*
 	 * Redirect the user home if he's logged in
@@ -430,6 +409,30 @@ class PanelController {
 		}
 	}
 	
+	/**
+	 * Display the error page with the specified error message
+	 * @param $error_message  String  the error message to be displayed
+	 */
+	private function displayError($error_message) {
+		EFCommon::$smarty->assign('error_message', $error_message);
+		EFCommon::$smarty->display('error.tpl');
+	}
+	
+	/**
+	 * Make sure that the user is valid seeing the current page
+	 */
+	private function securityValidate($current_page) {
+		// /event/manage/* pages are protected
+		if (preg_match("/event\/manage*/", $current_page) > 0) {
+			if (!EFCommon::$dbCon->checkValidHost($_GET['eventId'], $_SESSION['user']->id)) {
+				$this->displayError("You're not the host of this event");
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.
@@ -453,6 +456,11 @@ class PanelController {
 			$params = substr($requestUri, $getParamStartPos, strlen($requestUri) - 1 );
 		} else {
 			$current_page = $requestUri;
+		}
+		
+		// Security validation
+		if (!$this->securityValidate($current_page)) {
+			return;
 		}
 	
 		// If /event in URI, display all event pages
@@ -700,7 +708,6 @@ class PanelController {
 				break;
 			case '/event/create':
 				unset($_SESSION['newEvent']);
-				// $this->validateUserLogin();
 				//
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
@@ -758,7 +765,6 @@ class PanelController {
 				print("You are not the host for this event");
 				break;
 			case '/create/guests':
-				$this->validateUserLogin();
 				EFCommon::$mailer = new EFMail();
 				EFCommon::$smarty->assign('step2', ' class="current"');
 				// Store created event in a new session
@@ -774,7 +780,6 @@ class PanelController {
 				EFCommon::$smarty->display('create.tpl');
 				break;
 			case '/event/image/upload':
-				$this->validateLocalRequest();
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("jpg");
 
@@ -788,7 +793,6 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/event/csv/upload':
-				$this->validateLocalRequest();
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("csv");
 
@@ -801,7 +805,6 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/user/csv/upload':
-				$this->validateLocalRequest();
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("csv");
 
@@ -821,7 +824,6 @@ class PanelController {
 				}
 				break;
 			case '/event/attend':
-				$this->validateLocalRequest();
 				EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this->buildEvent($_POST['eid']), $_POST['conf']);
 				break;
 			case '/event/checkin':
@@ -835,7 +837,6 @@ class PanelController {
 				$this->printEvent();
 				break;
 			case '/event/manage':
-				$this->validateUserLogin();
 				$page['cp'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
@@ -887,7 +888,6 @@ class PanelController {
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
 			case '/event/manage/edit':
-				$this->validateUserLogin();
 				$page['edit'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
@@ -914,7 +914,6 @@ class PanelController {
                 
 				break;
 			case '/event/manage/guests':
-				$this->validateUserLogin();
 				$page['manage'] = true;
 				$page['addguests'] = true;
 				EFCommon::$smarty->assign('page', $page);
@@ -943,7 +942,6 @@ class PanelController {
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
 			case '/guest/inviter':
-				$this->validateLocalRequest();
 				$inviter = new OpenInviter();
 				$oi_services = $inviter->getPlugins();
 
@@ -966,7 +964,6 @@ class PanelController {
 				}
 				break;
 			case '/event/manage/email':
-				$this->validateUserLogin();
 				$page['manage'] = true;
 				$page['email'] = true;
 				EFCommon::$smarty->assign('page', $page);
@@ -998,7 +995,6 @@ class PanelController {
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
 			case '/event/email/save':
-				$this->validateLocalRequest();
 				$event = $_SESSION['manage_event'];
 				
 				$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
@@ -1025,8 +1021,6 @@ class PanelController {
 				echo("Success");
 				break;
 			case '/event/email/send':
-				$this->validateLocalRequest();
-
 				$event = $_SESSION['manage_event'];
 				
 				$req['content'] = $_REQUEST['reminderContent'];
@@ -1066,7 +1060,6 @@ class PanelController {
 				echo("Success");
 				break;
 			case '/event/email/autosend':
-				$this->validateLocalRequest();
 				$event = $_SESSION['manage_event'];
 				
 				$isActivated = 0;
@@ -1077,7 +1070,6 @@ class PanelController {
 				EFCommon::$dbCon->setAutosend($event->eid, EMAIL_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/text/autosend':
-				$this->validateLocalRequest();
 				$event = $_SESSION['manage_event'];
 				
 				$isActivated = 0;
@@ -1088,7 +1080,6 @@ class PanelController {
 				EFCommon::$dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/manage/text':
-				$this->validateUserLogin();
 				$page['manage'] = true;
 				$page['text'] = true;
 				EFCommon::$smarty->assign('page', $page);
@@ -1120,7 +1111,6 @@ class PanelController {
 				EFCommon::$smarty->display('manage_text.tpl');
 				break;
 			case '/event/text/send':
-				$this->validateLocalRequest();
 				$sms = new EFSMS();
 				
 				$event = $_SESSION['manage_event'];
@@ -1141,7 +1131,6 @@ class PanelController {
 				print("Success");
 				break;
 			case '/event/text/save':
-				$this->validateLocalRequest();
 				$event = $_SESSION['manage_event'];
 			
 				$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
@@ -1198,7 +1187,6 @@ class PanelController {
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;				
 			case '/fb/user/update':
-				$this->validateLocalRequest();
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
 			case '/register':
@@ -1335,7 +1323,6 @@ class PanelController {
 				}
 				break;
 			case '/user/image/upload':
-				$this->validateLocalRequest();
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("jpg");
 
@@ -1352,18 +1339,15 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/user/status/update':
-				$this->validateLocalRequest();
 				EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
 				echo($_REQUEST['value']);	
 				break;
 			case '/user/profile/update':
-				$this->validateLocalRequest();
 				// EFCommon::$dbCon->updatePaypalEmail($_SESSION['user']->id, $_REQUEST['paypal_email']);
 
 				EFCommon::$smarty->display('user_profile.tpl');
 				break;
 			case '/user/profile-dtls/update':
-				$this->validateLocalRequest();
 				$email = $_POST['email'];
 				$zip = $_POST['zip'];
 				$cell = $_POST['cell'];
