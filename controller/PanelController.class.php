@@ -1377,6 +1377,7 @@ class PanelController {
 				break;
 			case '/user/status/update':
 				EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
+				$_SESSION['user']->about = $_REQUEST['value'];
 				echo($_REQUEST['value']);	
 				break;
 			case '/user/profile/update':
