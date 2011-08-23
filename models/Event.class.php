@@ -282,6 +282,7 @@ class Event {
 	 *  - Minimum length
 	 */
 	private function check_title() {
+		$this->title = stripslashes($this->title);
 		// Set the error meessage if there is one
 		if( strtolower( $this->title ) == "i'm planning..." ) {
 			$this->error['title'] = "Please enter an event title.";
@@ -300,6 +301,10 @@ class Event {
 	 *  - 10-500 characters
 	 */
 	private function check_description() {
+<<<<<<< HEAD
+=======
+		$this->description = stripslashes($this->description);
+>>>>>>> wex
 		if( strlen($this->description) < 5 ) {
 			$this->error['desc'] = "Title must be at least 5 characters";
 			$this->numErrors++;
@@ -318,7 +323,11 @@ class Event {
 			return;
 		
 		$this->location = stripslashes($this->location);	
+<<<<<<< HEAD
 					
+=======
+		
+>>>>>>> wex
 		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
 			return;
@@ -459,9 +468,15 @@ class Event {
 	 *  - After event date
 	 */
 	private function check_end_date() {
+<<<<<<< HEAD
 		if ( strlen($this->end_date) == 0 )
 			return;
 		
+=======
+		if ( ! isset( $this->end_date ) || $this->end_date == "" )
+			return;
+	
+>>>>>>> wex
 		$event_date = explode('/', $this->date);
 		$month = $event_date[0];
 		$day = $event_date[1];
@@ -494,9 +509,15 @@ class Event {
 	 *  - 12 hour time format
 	 */
 	private function check_end_time() {	
+<<<<<<< HEAD
 		if ( strlen($this->end_time) == 0 )
 			return;
 		
+=======
+		if ( ! isset($end_time) || $end_time == "" )
+			return;
+	
+>>>>>>> wex
 		$valid_time = filter_var(
 			$this->end_time, 
 			FILTER_VALIDATE_REGEXP, 
@@ -508,12 +529,12 @@ class Event {
 		);
 		
 		if ( ! $valid_time ) {
-			$this->error['end_time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->error['end_time'] = "Please select a time.";
 			$this->numErrors++;
 		}
 		
 		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
-			$this->error['end_time'] = "End time must be after event time";
+			$this->error['end_time'] = "End time must be after event time.";
 			$this->numErrors++;
 		}
 	}

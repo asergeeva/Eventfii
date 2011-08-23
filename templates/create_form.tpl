@@ -44,13 +44,19 @@
 									<em>Date &amp; Time</em>
 								</dt>
 								<dd>
+<<<<<<< HEAD
 									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox" id="time">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if ! isset($event_field.end_date) or $event_field.end_date == ""}
 									
 									<p><a href="#" id="end-date">Add End Time</a></p>{/if}{if isset($error.date)}
+=======
+									<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if isset($error.date)}
+>>>>>>> wex
 
 									<p class="message-error">{$error.date}</p>{/if}{if isset($error.time)}
 
-									<p class="message-error">{$error.time}</p>{/if}
+									<p class="message-error">{$error.time}</p>{/if}{if ! isset($event_field.end_date) or $event_field.end_date == ""}
+									
+									<p><a href="#" id="end-date">Add End Time</a></p>{/if}
 
 								</dd>
 								<dt id="add-end-time-title"{if ! isset($event_field.end_date) or $event_field.end_date == ""} style="display: none"{/if}>
