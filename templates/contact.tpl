@@ -4,7 +4,8 @@
 {include file="header.tpl"}
 <div id="container">
 	<section id="main">
-		<section class="block"><header class="centered-title"><h1>Contact Us</h1></section>
+		<section class="block"><header class="centered-title"><h1>{if isset($thank_you_message)}{$thank_you_message}{else}Contact Us{/if}</h1></section>
+		{if !isset($thank_you_message)}
 		<p class="message-small">Have any questions or concerns?<br>We'd love to hear from you!</p>
 		<div class="form">
 			<form method="post" action="{$CURHOST}/contact">
@@ -46,6 +47,7 @@
 				</fieldset>
 			</form>
 		</div>
+		{/if}
 	</section>
 </div>
 {include file="footer.tpl"}

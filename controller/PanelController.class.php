@@ -595,7 +595,11 @@ class PanelController {
 								   "Subject: [trueRSVP Support] ".$_POST['subject']."\n\n".
 								   $_POST['message'];
 						MailgunMessage::send_raw($_POST['email'], 'support@truersvp.com', $rawMime);
-						header("Location: " . CURHOST);
+
+						// let's thank the user for contacting us
+						EFCommon::$smarty->assign('thank_you_message', 'Thank you for your feedback!');
+						EFCommon::$smarty->display('contact.tpl');
+
 						exit;
 					} else {
 						// if the form input wasn't valid, let's save
