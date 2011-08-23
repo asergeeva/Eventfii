@@ -20,6 +20,7 @@ class Event {
 	public $datetime;
 	public $date;
 	public $time;
+	public $end_datetime;
 	public $end_date;
 	public $end_time;
 	public $deadline;
@@ -137,6 +138,7 @@ class Event {
 
 		// If end time...
 		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {
+			$this->end_datetime = $eventInfo['event_end_datetime'];
 			$event_end_datetime = explode(" ", $eventInfo['event_end_datetime']);
 			$this->end_date = EFCommon::$dbCon->dateToRegular($event_end_datetime[0]);
 			$event_end_time = explode(":", $event_end_datetime[1]);

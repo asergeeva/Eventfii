@@ -5,7 +5,7 @@
 <div id="container">
 	<header id="header">
 		<h1 id="event-{$event->eid}">{$event->title}</h1>
-		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time></p>
+		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
 		<span id="event-id" style="display: none">{$event->eid}</span>
 		<!-- Facebook share -->
     	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=230238300346205&amp;xfbml=1"></script><div style="float:right;"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>
