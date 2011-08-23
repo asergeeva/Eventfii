@@ -15,9 +15,9 @@
 					<label for="send-automatically">
 						<strong></strong>
 						<div>
-							<input type="checkbox" name="automatically" id="automatic_text_send_cb"{if isset($eventReminder['isAuto'])} checked="checked"{/if} /> Send automatically on 
-              <input type="text" class="inputbox datebox" id="automatic_text_send_date"  value="{if isset($eventDate)}{$eventDate}{/if}" /> at 
-              <input type="text" class="timebox" id="automatic_text_send_time" value="{if isset($eventTime)}{$eventTime}{/if}" />
+							<input type="checkbox" name="automatically" id="automatic_text_send_cb" checked="checked" /> Send automatically on 
+              <input type="text" name="eventDate" value="{if isset($eventDate)}{$eventDate}{/if}" class="inputbox datebox" id="automatic_text_send_date" /> at 
+              <input type="text" name="eventTime" value="{if isset($eventTime)}{$eventTime}{/if}" class="timebox" id="automatic_text_send_time" />
 						</div>
 					</label>
 					<label for="text-to">
@@ -31,7 +31,7 @@
 					<label for="text-message">
 						<strong>SMS Message: (140 characters or less)</strong>
 						<div>
-							<textarea class="autowidth" id="text-message">{if isset($eventReminder['message'])}{$eventReminder['message']}{/if}</textarea>
+							<textarea class="autowidth" id="text-message"></textarea>
      {literal}
      {Guest name}
 		 {Host name}

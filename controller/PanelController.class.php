@@ -118,7 +118,7 @@ class PanelController {
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
 			$_SESSION['newEvent'] = $newEvent;
-			header("Location: " . CURHOST . "/login?redirect=create");
+			header("Location: " . CURHOST . "/login");
 			exit;
 		}
 		
@@ -327,21 +327,13 @@ class PanelController {
 	
 	// Check if there's a new event session
 	// create that event if the session exist
-	/* Depreciated
 	private function checkCreateEventSession() {
 		if ( isset($_SESSION['newEvent']) ) {
-			$newEvent = unserialize($_SESSION['newEvent']);
-			// Verify that event is valid
-			if ( ! $this->validateEventInfo($newEvent) ) {
-				$_SESSION['newEvent'] = serialize($$newEvent);
-				return false;
-			}
+			$newEvent = $_SESSION['newEvent'];
 			$newEvent->organizer = $_SESSION['user']->id;
 			$this->makeNewEvent( $newEvent );
-			return true;
 		}
-		return false;
-	} */
+	}
 	
 	private function getRedirectUrl() {
 		if (isset($_SESSION['ref'])) {
@@ -530,7 +522,13 @@ class PanelController {
 					header("Location: " . CURHOST . "/login");
 				}
 				exit;
-			} 
+			}
+			
+			// Fetch the event information if necessary
+			$event = $this->buildEvent($eventId, true);
+			
+			$page['manage'] = true;
+			EFCommon::$smarty->assign('page', $page);
 		}
 		
 		// User public profile page
@@ -558,7 +556,7 @@ class PanelController {
 				
 					// if there's new event when login using facebook
 					// Need to make sure that event is valid before creating new event...
-					// $this->checkCreateEventSession();
+					$this->checkCreateEventSession();
 			
 					unset($_SESSION['newEvent']);
 					unset($_SESSION['new_eid']);
@@ -726,8 +724,21 @@ class PanelController {
 						$event_field['goal'] = $_POST['goal'];
 					}
 					
-					if ( ! isset($event_field) )
-						$event_field = NULL;
+					if ( ! isset($event_field) ) {
+						// $event_field = NULL;
+						$event_field['description'] = "Filler description";
+						$event_field['location'] = "Home";
+						$event_field['address'] = "2733 Comstock Circle, Belmont, CA 94002, USA";
+						$event_field['date'] = "12/31/2012";
+						$event_field['time'] = "01:00";
+						$event_field['end_date'] = NULL;
+						$event_field['end_time'] = NULL;
+						$event_field['goal'] = "1000";
+						$event_field['reach_goal'] = 2;
+						$event_field['deadline'] = "12/31/2012";
+						$event_field['type'] = 5;
+						$event_field['is_public'] = 1;
+					}
 				
 					// Display the create event form
 					EFCommon::$smarty->assign('event_field', $event_field);
@@ -767,6 +778,7 @@ class PanelController {
 			case '/create/guests':
 				EFCommon::$mailer = new EFMail();
 				EFCommon::$smarty->assign('step2', ' class="current"');
+				
 				// Store created event in a new session
 				$event = $this->buildEvent($_SESSION['new_eid'], true);
 				
@@ -868,8 +880,7 @@ class PanelController {
 				break;
 			case '/event/manage/attendees':
 				$page['attendeelist'] = true;
-				$page['manage'] = true;
-				EFCommon::$smarty->assign('page', $page);
+				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
@@ -886,12 +897,14 @@ class PanelController {
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
 			case '/event/manage/checkin':
+				$page['checkin'] = true;
+				EFCommon::$smarty->append('page', $page, TRUE);
+				
 				EFCommon::$smarty->display('manage_checkin.tpl');
 				break;
 			case '/event/manage/confirm':
 				$page['confirm'] = true;
-				$page['manage'] = true;
-				EFCommon::$smarty->assign('page', $page);
+				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
@@ -934,9 +947,8 @@ class PanelController {
                 
 				break;
 			case '/event/manage/guests':
-				$page['manage'] = true;
 				$page['addguests'] = true;
-				EFCommon::$smarty->assign('page', $page);
+				EFCommon::$smarty->append('page', $page, TRUE);
 				
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
@@ -1001,33 +1013,8 @@ class PanelController {
 				}
 				break;
 			case '/event/manage/email':
-				$page['manage'] = true;
 				$page['email'] = true;
-				EFCommon::$smarty->assign('page', $page);
-
-				
-				$event = $this->buildEvent( $_GET['eventId'], true );
-				
-				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, EMAIL_REMINDER_TYPE);
-				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = true;
-				}
-				
-				if ( isset($eventReminder['datetime']) ) {
-					$eventDatetime = explode(" ", $eventReminder['datetime']);
-					$eventDate = $eventDatetime[0];
-					$eventTime = explode(":", $eventDatetime[1]);
-					
-					if ($eventTime[0] != "" && $eventTime[1] != "") {
-						$eventTime = $eventTime[0].":".$eventTime[1];
-					} else {
-						$eventTime = "";
-					}
-					
-					EFCommon::$smarty->assign('eventDate', $eventDate);
-					EFCommon::$smarty->assign('eventTime', $eventTime);
-					EFCommon::$smarty->assign('eventReminder', $eventReminder);
-				}
+				EFCommon::$smarty->append('page', $page, TRUE);
 				
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
@@ -1049,21 +1036,17 @@ class PanelController {
 					die($retval);
 				}
 				
-				EFCommon::$dbCon->saveEmail( $event->eid, 
-											 $_POST['reminderContent'], 
-											 $dateTime, 
-											 $_POST['reminderSubject'], 
-											 $autoReminder, 
-											 $_POST['reminderRecipient']);
+				EFCommon::$dbCon->saveEmail( $event, $_POST['reminderContent'],  $dateTime, $_POST['reminderSubject'], $autoReminder, $_POST['reminderRecipient'] );
+				
 				echo("Success");
 				break;
 			case '/event/email/send':
 				$event = $_SESSION['manage_event'];
 				
-				$req['content'] = $_REQUEST['reminderContent'];
-				$req['subject'] = $_REQUEST['reminderSubject'];
-				$req['type'] = $_REQUEST['type'];
-				$req['date'] = $_REQUEST['reminderDate'];
+				$req['content'] = $_POST['reminderContent'];
+				$req['subject'] = $_POST['reminderSubject'];
+				$req['type'] = $_POST['type'];
+				$req['date'] = $_POST['reminderDate'];
 				
 				$retval = $this->validateSaveEmail($req);
 				if( $retval != "Success" ) {
@@ -1079,7 +1062,8 @@ class PanelController {
 						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT1));
 						break;
 					case 3:
-						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));										$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));							
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
 						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT4));
 						break;
 					case 4:
@@ -1110,40 +1094,15 @@ class PanelController {
 				$event = $_SESSION['manage_event'];
 				
 				$isActivated = 0;
-				if ($_REQUEST['autoSend'] == 'true') {
+				if ($_POST['autoSend'] == 'true') {
 					$isActivated = 1;
 				}
 
 				EFCommon::$dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
 				break;
 			case '/event/manage/text':
-				$page['manage'] = true;
 				$page['text'] = true;
-				EFCommon::$smarty->assign('page', $page);
-				
-				$event = $this->buildEvent( $_GET['eventId'], true );
-				
-				$eventReminder = EFCommon::$dbCon->getEventEmail($event->eid, SMS_REMINDER_TYPE);
-				if ( $eventReminder['is_activated'] == 1 ) {
-					$eventReminder['isAuto'] = true;
-				}
-				
-				if ( isset($eventReminder['datetime']) ) {
-					$eventDatetime = explode(" ", $eventReminder['datetime']);
-					$eventDate = $eventDatetime[0];
-					$eventTime = explode(":", $eventDatetime[1]);
-					
-					if ($eventTime[0] != "" && $eventTime[1] != "") {
-						$eventTime = $eventTime[0].":".$eventTime[1]." ".$eventDatetime[2];
-					} else {
-						$eventTime = "";
-					}
-					
-					EFCommon::$smarty->assign('eventDate', $eventDate);
-					EFCommon::$smarty->assign('eventTime', $eventTime);
-					EFCommon::$smarty->assign('eventTimeMid', $eventTimeMid);
-					EFCommon::$smarty->assign('eventReminder', $eventReminder);
-				}
+				EFCommon::$smarty->append('page', $page, TRUE);
 				
 				EFCommon::$smarty->display('manage_text.tpl');
 				break;
@@ -1153,7 +1112,6 @@ class PanelController {
 				$event = $_SESSION['manage_event'];
 				
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
-				
 				
 				$req['content'] = $_REQUEST['reminderContent'];
 				$req['type'] = $_REQUEST['type'];
@@ -1194,9 +1152,8 @@ class PanelController {
 				echo("Success");
 				break;
 			case '/event/manage/followup':
-				$page['manage'] = true;
 				$page['followup'] = true;
-				EFCommon::$smarty->assign('page', $page);
+				EFCommon::$smarty->append('page', $page, TRUE);
 
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				
@@ -1308,8 +1265,6 @@ class PanelController {
 					}
 					
 					$_SESSION['user'] = new User($userId);
-					// if there's new event session when logging in
-					// $this->checkCreateEventSession();
 					
 					// Success, log in
 					header("Location: " . $this->getRedirectUrl());
