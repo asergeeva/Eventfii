@@ -9,6 +9,7 @@ require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 class APIController {
 	private $dbCon;
 	private $result;
@@ -163,6 +164,24 @@ class APIController {
 				break;
 			case 'getUsername':
 				echo json_encode($this->dbCon->m_getUsername($_REQUEST['uid']));
+				break;
+			case 'uploadImage':
+				$_SESSION['user'] = unserialize($_SESSION['user']);
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = array("jpg");
+
+				// max file size in bytes
+				$sizeLimit = 2 * 1024 * 1024;
+
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload('../upload/user/', TRUE);
+				$result['file'] = str_replace('../', '', $result['file']);
+				EFCommon::$dbCon->saveUserPic($result['file']);
+				
+				// to pass data through iframe you 
+				// will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
