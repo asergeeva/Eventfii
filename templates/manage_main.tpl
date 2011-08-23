@@ -4,7 +4,7 @@
 		{include file="manage_nav.tpl"}
 		<div class="content">
 			<section class="block" id="cp-manage">
-				<p class="message">Want to increase your trueRSVP? Add more guests or remind your current guests to RSVP.</p>
+				<p class="message">Want to increase your trueRSVP? <a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}">Add more guests</a> or <a href="{$CURHOST}/event/manage/email?eventId={$smarty.session.manage_event->eid}">remind</a> your current guests to RSVP.</p>
 				<header class="rsvp-progress">
 					<div class="meter" style="width: {$trsvpVal / $smarty.session.manage_event->goal * 100}%">
 						<p class="trueRSVP"><em>{$trsvpVal}</em> <span>Your trueRSVP</span></p>

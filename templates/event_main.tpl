@@ -18,7 +18,7 @@
 						</p>
 						<footer class="user-info">
 							<p class="user-name"><a href="{$CURHOST}/user/{$event->organizer->id}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
-							<p class="user-contact"><a href="mailto:{$event->organizer->email}">Send {$event->organizer->fname} a message</a></p>
+							<p class="user-contact"><a href="mailto:{$event->organizer->email}">Send {$event->organizer->fname} an email</a></p>
 						</footer>
 					</section>
 					<section class="event-more" id="event-cal">

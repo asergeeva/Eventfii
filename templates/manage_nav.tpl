@@ -30,7 +30,7 @@
 				</ul>
 			</nav>
 			<footer class="links-extra">
-				<p>{if ! isset($page.manage)}<a href="{$CURHOST}/event/manage?eventId={$smarty.session.manage_event->eid}">Back to manage page</a>{else}<a href="{$CURHOST}">Back to home</a>{/if}</p>
+				<p>{if ! isset($page.cp)}<a href="{$CURHOST}/event/manage?eventId={$smarty.session.manage_event->eid}">Back to manage page</a>{else}<a href="{$CURHOST}">Back to home</a>{/if}</p>
 				<p><a href="{$CURHOST}/event/manage/cancel?eventId={$smarty.session.manage_event->eid}">Cancel this event</a></p>
 			</footer>
 		</div>

@@ -836,7 +836,7 @@ class PanelController {
 				break;
 			case '/event/manage':
 				$this->validateUserLogin();
-				$page['manage'] = true;
+				$page['cp'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
 				$this->buildEvent( $_GET['eventId'], true );
