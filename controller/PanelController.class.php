@@ -1259,8 +1259,15 @@ class PanelController {
 					}
 					
 					$_SESSION['user'] = new User($userId);
-
-					// Success, log in
+					
+					// Create user's event if valid
+					if ( isset($_SESSION['newEvent']) ) {
+						$newEvent = $_SESSION['newEvent'];
+						if ( $this->validateEventInfo( $newEvent ) == true ) {
+							$this->makeNewEvent( $newEvent );
+						}
+					}
+					
 					header("Location: " . $this->getRedirectUrl());
 					exit;
 
