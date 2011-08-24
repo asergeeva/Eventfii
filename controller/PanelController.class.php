@@ -425,6 +425,10 @@ class PanelController {
 		return true;
 	}
 	
+	/* private function setPage($page) {
+	
+	} */
+	
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.

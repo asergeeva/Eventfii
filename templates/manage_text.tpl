@@ -33,8 +33,8 @@
 						</div>
 						<p class="counter">Character Count: <em id="character-count">135</em></p>
 					</label>				
-					<footer class="buttons buttons-send1">
-						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_text_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>
+					<footer class="buttons buttons-send">
+						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>
 						<p class="btn"><input type="button" name="send" value="Send" id="send_text_reminder" /></p>
 					</footer>
 					<span id="reminder_status"></span>
