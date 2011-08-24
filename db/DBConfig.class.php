@@ -382,7 +382,7 @@ class DBConfig {
 						'" . mysql_real_escape_string($newEvent->location) . "',
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
-						'" . mysql_real_escape_string($end_datetime)."',
+						 " .$this->checkNullOrValSql($end_datetime).",
 						'" . mysql_real_escape_string($sqlDeadline) . "',
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . $newEvent->is_public . ",

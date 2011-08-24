@@ -330,7 +330,7 @@ class PanelController {
 	private function checkCreateEventSession() {
 		if ( isset($_SESSION['newEvent']) ) {
 			$newEvent = $_SESSION['newEvent'];
-			$newEvent->organizer = $_SESSION['user']->id;
+			$newEvent->organizer = $_SESSION['user'];
 			$this->makeNewEvent( $newEvent );
 		}
 	}
@@ -1202,6 +1202,7 @@ class PanelController {
 					
 					// Create the new user
 					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zipcode'] );
+					
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
 					
@@ -1254,7 +1255,7 @@ class PanelController {
 					}
 					
 					$_SESSION['user'] = new User($userId);
-					
+
 					// Success, log in
 					header("Location: " . $this->getRedirectUrl());
 					exit;
