@@ -545,7 +545,7 @@ class DBConfig {
 		$HAS_ATTEND = "	SELECT	* 
 						FROM	ef_attendance a 
 						WHERE	a.event_id = " . $eid . " 
-						AND		a.user_id = " . $uid;
+						AND		a.user_id = " . $uid . " AND a.confidence <> ".CONFELSE;
 		if ($this->getRowNum($HAS_ATTEND) > 0) {
 			return $this->executeValidQuery($HAS_ATTEND);
 		}
@@ -554,7 +554,7 @@ class DBConfig {
 	
 	public function eventSignUp($uid, $event, $conf) {
 		if ( ! $this->hasAttend($uid, $event->eid) ) {
-			$SIGN_UP_EVENT = "	INSERT INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
+			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
 								VALUES(
 									" . $event->eid . ", 
 									" . $uid . ", 
