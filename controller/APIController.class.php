@@ -40,7 +40,6 @@ class APIController {
 		
 		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		
-		require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 		$event = new Event( $eventInfo );
 		
 		return $event;
