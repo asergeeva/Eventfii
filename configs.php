@@ -1,4 +1,5 @@
 <?php
+require_once(realpath(dirname(__FILE__)).'/baseconfig.php');
 require_once(realpath(dirname(__FILE__)).'/libs/Smarty.class.php');
 $smarty = new Smarty();
 
@@ -7,14 +8,7 @@ $smarty->setCompileDir(realpath(dirname(__FILE__)).'/templates_c');
 $smarty->setCacheDir(realpath(dirname(__FILE__)).'/cache');
 $smarty->setConfigDir(realpath(dirname(__FILE__)).'/configs');
 
-define('DB_HOST', '127.0.0.1:3306');
-define('DB_USER', 'glaksmono');
-define('DB_PASS', '12345');
-define('DB_NAME', 'eventfii');
-define('DEBUG', true);
 
-define('PATH', '/Eventfii');
-define('CURHOST', 'http://localhost'.PATH);
 define('IMG_PATH', CURHOST.'/images');
 define('IMG_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/images');
 define('CSV_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/csv');

@@ -6,3 +6,4 @@ logs/
 .DS_Store
 libs/OpenInviter/openinviter_stats.sqlite
 temp/
+baseconfig.php
