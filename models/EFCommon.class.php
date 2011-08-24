@@ -40,6 +40,8 @@ class EFCommon {
 	
 	public static $mailer;
 	
+	public static $sms;
+	
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -55,6 +57,8 @@ class EFCommon {
 		self::$dbCon = new DBConfig();
 		
 		self::$mailer = new EFMail();
+		
+		self::$sms = new EFSMS();
 	}
 	
 	public function __destruct() {

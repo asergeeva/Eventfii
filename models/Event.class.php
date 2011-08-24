@@ -6,7 +6,7 @@
  * All rights reserved
  */
  
-require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+require_once(realpath(dirname(__FILE__)).'/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/QR/qrlib.php');
  
 class Event {

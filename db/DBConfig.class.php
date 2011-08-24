@@ -717,7 +717,7 @@ class DBConfig {
 	 * $group            Integer   the recipient group
 	 */
 	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $autoReminder, $group) {
-		if ($this->hasEventEmail($eid, EMAIL_REMINDER_TYPE)) {
+		if ($this->hasEventMessage($eid, EMAIL_REMINDER_TYPE)) {
 			$UPDATE_REMINDER = "
 			UPDATE	ef_event_messages 
 			SET
@@ -759,27 +759,45 @@ class DBConfig {
 		}
 	}
 	
-	public function saveText($eid, $msg, $deliveryDateTime, $type, $autoReminder) {
-		$deliveryTime = $deliveryTime.":00";
-		$SAVE_REMINDER = "
-		INSERT INTO	ef_event_messages 
-					(
-						created, 
-						message, 
-						delivery_time, 
-						event_id, 
-						type, 
-						is_activated
-					) 
-		VALUES		(
-						NOW(),
-						'" . mysql_real_escape_string($msg) . "', 
-						'" . mysql_real_escape_string($deliveryDateTime) . "', 
-						" . $eid.",
-						" . $type.",
-						" . $autoReminder."
-					)";
-		$this->executeUpdateQuery($SAVE_REMINDER);
+	public function saveText($eid, $msg, $deliveryDateTime, $autoReminder, $group) {
+		if ($this->hasEventMessage($eid, SMS_REMINDER_TYPE)) {
+			$UPDATE_REMINDER = "
+			UPDATE	ef_event_messages 
+			SET
+			  created = NOW(), 
+			  subject =  NULL, 
+			  message = '" . mysql_real_escape_string($msg) . "', 
+			  delivery_time = '" . mysql_real_escape_string($deliveryDateTime) . "', 
+			  is_activated = ".$autoReminder.",
+			  recipient_group = ".mysql_real_escape_string($group)."
+			WHERE
+			  event_id = ".$eid." AND
+			  type = ".SMS_REMINDER_TYPE;
+			$this->executeUpdateQuery($UPDATE_REMINDER);
+
+		} else {
+			$SAVE_REMINDER = "
+			INSERT INTO	ef_event_messages 
+						(
+							created, 
+							message, 
+							delivery_time, 
+							event_id, 
+							type, 
+							is_activated,
+							recipient_group
+						) 
+			VALUES		(
+							NOW(),
+							'" . mysql_real_escape_string($msg) . "', 
+							'" . mysql_real_escape_string($deliveryDateTime) . "', 
+							" . $eid.",
+							" . SMS_REMINDER_TYPE.",
+							" . $autoReminder.",
+							".mysql_real_escape_string($group)."
+						)";
+			$this->executeUpdateQuery($SAVE_REMINDER);
+		}
 	}
 	
 	/**
@@ -790,7 +808,7 @@ class DBConfig {
 	 *						define('SMS_REMINDER_TYPE', 2);
 	 * @return Boolean true when there is already a message. False otherwise.
 	 */
-	public function hasEventEmail($eid, $type) {
+	public function hasEventMessage($eid, $type) {
 		$GET_EVENT_EMAIL = "SELECT	m.subject, 
 									m.message, 
 									DATE_FORMAT(m.delivery_time, '%m/%d/%Y %r') AS datetime, 

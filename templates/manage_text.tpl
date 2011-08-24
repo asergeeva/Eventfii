@@ -7,6 +7,7 @@
 	<section id="main">
 		<header class="block">
 			<p class="message">Send your guests updates through Text Messages here.</p>
+			<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
@@ -15,7 +16,7 @@
 					<label for="text-to">
 						<strong>To:</strong>
 						<div>
-							<select name="reminderRecipient" class="autowidth" id="email-to">
+							<select name="reminderRecipient" class="autowidth" id="text-to">
 								<option value="1" selected="selected">All Attendees</option>
 								<option value="2" selected="selected">Absolutely Attending</option>
 								<option value="3" selected="selected">Pretty sure, 50/50, Not likely</option>
@@ -33,9 +34,10 @@
 						<p class="counter">Character Count: <em id="character-count">135</em></p>
 					</label>				
 					<footer class="buttons buttons-send1">
-						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>
+						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_text_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>
 						<p class="btn"><input type="button" name="send" value="Send" id="send_text_reminder" /></p>
 					</footer>
+					<span id="reminder_status"></span>
 				</fieldset>
 			</section>
 		</div>

@@ -30,7 +30,11 @@ class EFSMS {
 	/**
 	 * Sending SMS reminder to the guests of the event that 
 	 * will be held in at least 2 hours from now
-	 * $smsRecipients DB row from the result of the query
+	 *
+	 * @param $smsRecipients  Array  of DB user
+	 * @param $eventInfo      Event  the event object
+	 * @param $message        String the text message
+	 *
 	 * http://www.twilio.com/docs/quickstart/sms/sending-via-rest
 	 **/
 	public function sendSMSReminder($smsRecipients, $eventInfo, $message) {
@@ -38,15 +42,17 @@ class EFSMS {
 			// Send a new outgoinging SMS by POSTing to the SMS resource */
 			$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
 				"POST", array(
-				"To" => $smsRecipient['phone'],
+				"To" => $smsRecipient->phone,
 				"From" => $this->FROM,
-				"Body" => $message
+				"Body" => EFCommon::mapText($message, $event, $smsRecipient)
 			));
 			
 			if ($response->IsError) {
-				print("Error: {".$response->ErrorMessage."}");
+				if (DEBUG) {
+					print("Error: {".$response->ErrorMessage."}<br />");
+				}
 			} else {
-				print("Sent message to ".$smsRecipient['phone']." for ".$eventInfo['title']);
+				print("Sent message to ".$smsRecipient->fname." for ".$eventInfo->title."<br />");
 			}
     }
 	}

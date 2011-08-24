@@ -166,7 +166,7 @@ class PanelController {
 	// BEGIN OLD FUNCTIONS
 	//////////////////////
 	public function validateSaveEmail($req) {
-		$msg="<br>";
+		$msg="<br />";
 		$flag=0;
 		$dt=$req['date'];
 		$a_date = explode('/', $dt);
@@ -182,14 +182,14 @@ class PanelController {
 		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
 		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
 		if( $check < $today ) {
-			$msg.="Date must be in the future<br>";
+			$msg.="Date must be in the future<br />";
 			$flag=1;
 		}
 
 		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[\{A-Za-z 0-9'\}]*$/")));
 		if(!($res)) {
 			$flag=1;
-			$msg.="Content can only contain characters A-Z or numbers 0-9 <br>";
+			$msg.="Content can only contain characters A-Z or numbers 0-9 <br />";
 		}
 
 		if($flag==0) {
@@ -1018,41 +1018,41 @@ class PanelController {
 				
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;
-			case '/event/email/save':
+			case '/event/email/send':
 				$event = $_SESSION['manage_event'];
 				
-				$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
-				$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
+				// Determine whether the auto reminder is activated
 				$autoReminder = 0;
 				if ($_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
-
-				$req['content'] = $_REQUEST['reminderContent'];
-				$req['subject'] = $_REQUEST['reminderSubject'];
-				$req['date'] = $_REQUEST['reminderDate'];
-				$retval = $this->validateSaveEmail($req);
-				if( $retval != "Success" ) {
-					die($retval);
+				
+				// Validation
+				$email = new EFEmailMessage($_POST['reminderSubject'],
+									   		$_POST['reminderContent'],
+									   		$_POST['reminderTime'],
+									   		$_POST['reminderDate'],
+									   		$_POST['reminderRecipient']);
+				
+				if($email->get_errors($autoReminder)) {
+					die($email->print_errors());
 				}
 				
-				EFCommon::$dbCon->saveEmail( $event, $_POST['reminderContent'],  $dateTime, $_POST['reminderSubject'], $autoReminder, $_POST['reminderRecipient'] );
-				
-				echo("Success");
-				break;
-			case '/event/email/send':
-				$event = $_SESSION['manage_event'];
-				
-				$req['content'] = $_POST['reminderContent'];
-				$req['subject'] = $_POST['reminderSubject'];
-				$req['type'] = $_POST['type'];
-				$req['date'] = $_POST['reminderDate'];
-				
-				$retval = $this->validateSaveEmail($req);
-				if( $retval != "Success" ) {
-					die($retval);
+				// If the auto reminder is enabled, we will only save it (sending it through cron job)
+				if ($autoReminder == 1) {
+					$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
+					$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
+					EFCommon::$dbCon->saveEmail( $_POST['eid'], 
+												 $_POST['reminderContent'], 
+												 $dateTime, 
+												 $_POST['reminderSubject'], 
+												 $autoReminder, 
+												 $_POST['reminderRecipient'] );
+					echo("Saved");
+					return;
 				}
 				
+				// If the auto reminder is not enabled, we will send it right away
 				$guests = array();
 				switch ($_POST['reminderRecipient']) {
 					case 1:
@@ -1062,8 +1062,7 @@ class PanelController {
 						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT1));
 						break;
 					case 3:
-						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));							
-						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));										$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
 						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT4));
 						break;
 					case 4:
@@ -1078,27 +1077,7 @@ class PanelController {
 				for ($i = 0; $i < sizeof($guests); ++$i) {
 					EFCommon::$mailer->sendHtmlEmail('general', $guests[$i], $_POST['reminderSubject'], $event, $_POST['reminderContent']);
 				}
-				echo("Success");
-				break;
-			case '/event/email/autosend':
-				$event = $_SESSION['manage_event'];
-				
-				$isActivated = 0;
-				if ($_REQUEST['autoSend'] == 'true') {
-					$isActivated = 1;
-				}
-
-				EFCommon::$dbCon->setAutosend($event->eid, EMAIL_REMINDER_TYPE, $isActivated);
-				break;
-			case '/event/text/autosend':
-				$event = $_SESSION['manage_event'];
-				
-				$isActivated = 0;
-				if ($_POST['autoSend'] == 'true') {
-					$isActivated = 1;
-				}
-
-				EFCommon::$dbCon->setAutosend($event->eid, SMS_REMINDER_TYPE, $isActivated);
+				echo("Sent");
 				break;
 			case '/event/manage/text':
 				$page['text'] = true;
@@ -1107,23 +1086,60 @@ class PanelController {
 				EFCommon::$smarty->display('manage_text.tpl');
 				break;
 			case '/event/text/send':
-				$sms = new EFSMS();
-				
 				$event = $_SESSION['manage_event'];
 				
-				$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
-				
-				$req['content'] = $_REQUEST['reminderContent'];
-				$req['type'] = $_REQUEST['type'];
-				$req['date'] = $_REQUEST['reminderDate'];
-				
-				$retval = $this->validateSaveEmail($req);
-				if( $retval != "Success" ) {
-					die($retval);
+				// Determine whether the auto reminder is activated
+				$autoReminder = 0;
+				if ($_REQUEST['autoReminder'] == 'true') {
+					$autoReminder = 1;
 				}
 				
-				$sms->sendSMSReminder($attendees, $event->eid, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
-				print("Success");
+				// Validation
+				$sms = new AbstractMessage($_POST['reminderContent'],
+									   	   $_POST['reminderTime'],
+									   	   $_POST['reminderDate'],
+									   	   $_POST['reminderRecipient']);
+				
+				if($sms->get_errors($autoReminder)) {
+					die($sms->print_errors());
+				}
+				
+				// If the auto reminder is enabled, we will only save it (sending it through cron job)
+				if ($autoReminder == 1) {
+					$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
+					$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
+					EFCommon::$dbCon->saveText( $_POST['eid'], 
+												 $_POST['reminderContent'], 
+												 $dateTime, 
+												 $autoReminder, 
+												 $_POST['reminderRecipient'] );
+					echo("Saved");
+					return;
+				}
+				
+				// If the auto reminder is not enabled, we will send it right away
+				$guests = array();
+				switch ($_POST['reminderRecipient']) {
+					case 1:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuests($_POST['eid']));
+						break;
+					case 2:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT1));
+						break;
+					case 3:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT2));										$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT3));
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT4));
+						break;
+					case 4:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFOPT5));
+						break;
+					case 5:
+						$this->appendGuests($guests, EFCommon::$dbCon->getConfirmedGuestsByConfidence($_POST['eid'], CONFELSE));
+						break;
+				}
+				
+				EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
+				echo("Sent");
 				break;
 			case '/event/text/save':
 				$event = $_SESSION['manage_event'];

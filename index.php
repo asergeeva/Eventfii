@@ -2,6 +2,8 @@
 
 require_once(realpath(dirname(__FILE__)).'/configs.php');
 require_once(realpath(dirname(__FILE__)).'/models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/models/AbstractMessage.class.php');
+require_once(realpath(dirname(__FILE__)).'/models/EFEmailMessage.class.php');
 require_once(realpath(dirname(__FILE__)).'/controller/PanelController.class.php');
 require_once(realpath(dirname(__FILE__)).'/db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/models/Event.class.php');
