@@ -12,7 +12,7 @@ require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class EFMail {
-	private $FROM = "'trueRSVP' <hello@truersvp.com>";
+	private $FROM = "trueRSVP <hello@truersvp.com>";
 	private $templates = array(
 		"welcome" => "welcome_userPOV.html",
 		"confirm_email" => "confirmemail_userPOV.html",
