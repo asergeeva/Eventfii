@@ -22,7 +22,7 @@
 
 		</label> 
 		<footer class="links-extra">
-			<p><a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
+			<p><a href="{$CURHOST}/register">Create New Account</a> | <a href="{$CURHOST}/login/forgot">Forgot Password</a></p>
 			<label for="remember"><input type="checkbox" name="remember" id="remember" /> Sign in automatically next time?</label>
 		</footer>
 		<footer class="buttons buttons-submit"> 

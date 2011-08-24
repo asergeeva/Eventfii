@@ -377,6 +377,7 @@ header.block .message { margin: 0; }
 .event-more .user-info .user-name { font-size: 11px; }
 
 /*----- Icons ----------*/
+.icons-full { margin: 0 -53px; }
 .icons a { 
 	background: none 0 0 no-repeat;
 	font-family: 10px;
@@ -386,6 +387,7 @@ header.block .message { margin: 0; }
 	display: inline-block; }
 .icons-full a { 
 	padding: 0;
+	margin: 0;
 	text-indent: -10000px; }
 .icons a.icon-ical { background-image: url(../images/icon_ical.gif); }
 .icons a.icon-gcal { background-image: url(../images/icon_gcal.gif); }
@@ -398,7 +400,10 @@ header.block .message { margin: 0; }
 	background-image: url(../images/icon_yahoo.gif);
 	width: 205px;
 	height: 43px; }
-.icons.icons-full a.icon-trueRSVP { text-indent: 0; }
+.icons.icons-full a.icon-trueRSVP { 
+	background-image: url(../images/icon_trueRSVP.gif);
+	width: 315px;
+	height: 48px; }
 
 /*----- Event Location ----------*/
 #event-location address { 

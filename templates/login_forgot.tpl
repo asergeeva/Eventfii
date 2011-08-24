@@ -1,9 +1,11 @@
-{include file="header.tpl"}
+{include file="head.tpl" title="Jumpstart your social life"}
 <body>
 
-{include file="home_header.tpl"}
-<div id="fb-root"></div>
+{include file="header.tpl"}
 <div id="container">
+	<header class="block">
+		<p class="message">Recover your password</p>		
+	</header>
 	<div class="section section-login" id="login_container">
 		<section class="block">
 			<h1 class="block-title">Forgot Password</h1>
@@ -20,3 +22,6 @@
 	</div>
 </div>
 {include file="footer.tpl"}
+
+</body>
+</html>
