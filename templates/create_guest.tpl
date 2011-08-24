@@ -13,10 +13,12 @@
 						</li>
 						<li>
 							<span>Add from address book</span>
-							<p><a href="#gmail" class="event_invite_oi">Gmail</a> 
-							   <a href="#yahoo" class="event_invite_oi">Yahoo!</a>
-							   <a href="#truersvp" class="event_invite_oi">trueRSVP</a></p>
-              				<div class="dropdown" id="oi_container"></div>
+							<p class="icons icons-full">
+								<a href="#gmail" class="icon-gmail event_invite_oi">Gmail</a>
+								<a href="#yahoo" class="icon-yahoo event_invite_oi">Yahoo!</a>
+								<a href="#truersvp" class="icon-trueRSVP event_invite_oi">trueRSVP</a>
+							</p>
+							<div class="dropdown" id="oi_container"></div>
 						</li>
 						<li>
 							<label for="emails">

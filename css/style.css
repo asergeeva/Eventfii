@@ -384,9 +384,21 @@ header.block .message { margin: 0; }
 	padding: 6px 0 0 35px;
 	margin: 0 10px;
 	display: inline-block; }
+.icons-full a { 
+	padding: 0;
+	text-indent: -10000px; }
 .icons a.icon-ical { background-image: url(../images/icon_ical.gif); }
 .icons a.icon-gcal { background-image: url(../images/icon_gcal.gif); }
 .icons a.icon-outlook { background-image: url(../images/icon_outlook.gif); }
+.icons a.icon-gmail {
+	background-image: url(../images/icon_gmail.gif);
+	width: 105px; 
+	height: 43px; }
+.icons a.icon-yahoo {
+	background-image: url(../images/icon_yahoo.gif);
+	width: 205px;
+	height: 43px; }
+.icons.icons-full a.icon-trueRSVP { text-indent: 0; }
 
 /*----- Event Location ----------*/
 #event-location address { 
