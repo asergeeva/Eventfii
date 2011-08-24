@@ -7,8 +7,8 @@
 var EFGLOBAL = (function() {
 	return {
 		ajaxLoader: '<img src="images/ajax-loader.gif" alt="loading" class="ajax-loader" />',
-		baseUrl: 'http://localhost/Eventfii',
-		fbAppId: '122732554481304',
+		baseUrl: 'http://qa.truersvp.com',
+		fbAppId: '256152217746559',
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>'
 	}
