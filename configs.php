@@ -7,14 +7,14 @@ $smarty->setCompileDir(realpath(dirname(__FILE__)).'/templates_c');
 $smarty->setCacheDir(realpath(dirname(__FILE__)).'/cache');
 $smarty->setConfigDir(realpath(dirname(__FILE__)).'/configs');
 
-define('DB_HOST', 'internal-db.s99541.gridserver.com:3306');
-define('DB_USER', 'db99541_true_qa');
-define('DB_PASS', 'happyparty');
-define('DB_NAME', 'db99541_true_qa');
+define('DB_HOST', '127.0.0.1:3306');
+define('DB_USER', 'glaksmono');
+define('DB_PASS', '12345');
+define('DB_NAME', 'eventfii');
 define('DEBUG', true);
 
-define('PATH', '');
-define('CURHOST', 'http://qa.truersvp.com'.PATH);
+define('PATH', '/Eventfii');
+define('CURHOST', 'http://localhost'.PATH);
 define('IMG_PATH', CURHOST.'/images');
 define('IMG_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/images');
 define('CSV_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/csv');
