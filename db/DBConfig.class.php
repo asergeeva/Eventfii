@@ -226,32 +226,49 @@ class DBConfig {
 	}
 	
 	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, $fbid = NULL) {
+		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
-			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, about, zip, facebook) 
-								VALUES(		".$this->checkNullOrValSql($fname).", 
-													".$this->checkNullOrValSql($lname).", 
-												   '".mysql_real_escape_string($email)."', 
-												    ".$this->checkNullOrValSql($phone).", 
-													".$this->checkNullOrValSql($pass).", 
-													".$this->checkNullOrValSql($fname).", 
-													".$this->checkNullOrValSql($zip).",
-												    ".$this->checkNullOrValSql($fbid).")";
+			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, zip, facebook) 
+								VALUES(".$this->checkNullOrValSql($fname).", 
+									   ".$this->checkNullOrValSql($lname).", 
+									   '".mysql_real_escape_string($email)."', 
+									   ".$this->checkNullOrValSql($phone).", 
+									   ".$this->checkNullOrValSql($pass).", 
+									   ".$this->checkNullOrValSql($zip).",
+									   ".$this->checkNullOrValSql($fbid).")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
+		
+		// Update the reference
+		// The implementation is the same as without reference
+		// Future: may be we want to give credits to the inviter
 		} else if ( isset($_SESSION['ref']) ) {
 			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
-			$userInfo = $this->getUserInfoByEmail($refEmail);
 			
 			$UPDATE_USER = "UPDATE	ef_users SET
 									fname = ".$this->checkNullOrValSql($fname).", 
 									lname = ".$this->checkNullOrValSql($lname).",
 									phone = ".$this->checkNullOrValSql($phone).",
-									password = '".$pass."',
-									zip = ".$this->checkNullOrValSql($zip)."
+									password = ".$this->checkNullOrValSql($pass).",
+									zip = ".$this->checkNullOrValSql($zip).",
+									facebook = ".$this->checkNullOrValSql($fbid)."
 							WHERE	email = '" . $refEmail . "'";
 											
 			$email = $refEmail;
 			$this->executeUpdateQuery($UPDATE_USER);
-		} 
+		
+		// If there is no reference
+		} else {
+			$UPDATE_USER = "UPDATE	ef_users SET
+									fname = ".$this->checkNullOrValSql($fname).", 
+									lname = ".$this->checkNullOrValSql($lname).",
+									phone = ".$this->checkNullOrValSql($phone).",
+									password = ".$this->checkNullOrValSql($pass).",
+									zip = ".$this->checkNullOrValSql($zip).",
+									facebook = ".$this->checkNullOrValSql($fbid)."
+							WHERE	email = '" . $email . "'";
+											
+			$this->executeUpdateQuery($UPDATE_USER);
+		}
 		
 		return $this->getUserInfoByEmail($email);
 	}
