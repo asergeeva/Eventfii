@@ -46,7 +46,7 @@ class EmailFollowup {
 	
 	public function sendFollowups() {
 		$GET_EVENT = "SELECT e.* FROM ef_events e
-						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL ".$this->interval_day." ".$this->interval_hour." DAY_HOUR)";
+						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		for ($i = 0; $i < sizeof($events); ++$i) {
@@ -64,7 +64,5 @@ class EmailFollowup {
 	}
 }
 
-$common = new EFCommon();
-
-$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4]);
+$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
 $emailCron->sendFollowups();

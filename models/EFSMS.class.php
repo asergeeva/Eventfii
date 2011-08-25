@@ -40,20 +40,25 @@ class EFSMS {
 	public function sendSMSReminder($smsRecipients, $eventInfo, $message) {
 		foreach ($smsRecipients as $smsRecipient) {
 			// Send a new outgoinging SMS by POSTing to the SMS resource */
-			$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
-				"POST", array(
-				"To" => $smsRecipient->phone,
-				"From" => $this->FROM,
-				"Body" => EFCommon::mapText($message, $event, $smsRecipient)
-			));
-			
-			if ($response->IsError) {
-				if (DEBUG) {
-					print("Error: {".$response->ErrorMessage."}<br />");
-				}
-			} else {
-				print("Sent message to ".$smsRecipient->fname." for ".$eventInfo->title."<br />");
+			$this->sendSMS($smsRecipient, $eventInfo, $message);
+    	}
+	}
+	
+	public function sendSMS(&$smsRecipient, &$eventInfo, $message) {
+		// Send a new outgoinging SMS by POSTing to the SMS resource */
+		$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
+			"POST", array(
+			"To" => $smsRecipient->phone,
+			"From" => $this->FROM,
+			"Body" => EFCommon::mapText($message, $event, $smsRecipient)
+		));
+		
+		if ($response->IsError) {
+			if (DEBUG) {
+				print("Error: {".$response->ErrorMessage."}<br />");
 			}
-    }
+		} else {
+			print("Sent message to ".$smsRecipient->fname." for ".$eventInfo->title."<br />");
+		}
 	}
 }
