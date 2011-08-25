@@ -63,7 +63,7 @@ class AutoReminder {
 					print("Sent guests reminder Email for event_id = ".$event->eid."\n");
 					break;
 				case 2:
-					EFCommon::$sms->sendSMSReminder($event->guests, $event, $event_message['message']);
+					$this->sms->sendSMSReminder($event->guests, $event, $event_message['message']);
 					print("Sent guests reminder SMS for event_id = ".$event->eid."\n");
 					break;
 			}
