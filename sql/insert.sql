@@ -7,6 +7,7 @@ INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Sc
 -- Message types --
 INSERT INTO ef_messages_type (name) VALUES ('Email');
 INSERT INTO ef_messages_type (name) VALUES ('SMS');
+INSERT INTO ef_messages_type (name) VALUES ('Followup');
 
 -- Recipient groups --
 INSERT INTO ef_recipient_groups (name) VALUES ('All Attendees');

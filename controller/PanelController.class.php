@@ -1039,7 +1039,8 @@ class PanelController {
 												 $dateTime, 
 												 $_POST['reminderSubject'], 
 												 $autoReminder, 
-												 $_POST['reminderRecipient'] );
+												 $_POST['reminderRecipient'],
+												 $_POST['isFollowup'] );
 					echo("Saved");
 					return;
 				}
@@ -1158,6 +1159,7 @@ class PanelController {
 			case '/event/manage/followup':
 				$page['followup'] = true;
 				EFCommon::$smarty->append('page', $page, TRUE);
+				EFCommon::$smarty->assign('is_followup', true);
 
 				EFCommon::$smarty->display('manage_email.tpl');
 				break;				

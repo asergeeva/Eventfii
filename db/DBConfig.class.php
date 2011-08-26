@@ -739,9 +739,11 @@ class DBConfig {
 	 * $subject          String    the subject of the reminder
 	 * $autoReminder     Integer   whether this is message should be automatically sent at the later time
 	 * $group            Integer   the recipient group
+	 * $isFollowup       Integer   between 1 or 0, 1 if it is a followup email
 	 */
-	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $autoReminder, $group) {
-		if ($this->hasEventMessage($eid, EMAIL_REMINDER_TYPE)) {
+	public function saveEmail($eid, $msg, $deliveryDateTime, $subject, $autoReminder, $group, $isFollowup) {
+		$reminderType = ($isFollowup == 0) ? EMAIL_REMINDER_TYPE : EMAIL_FOLLOWUP_TYPE;
+		if ($this->hasEventMessage($eid, $reminderType)) {
 			$UPDATE_REMINDER = "
 			UPDATE	ef_event_messages 
 			SET
@@ -753,7 +755,7 @@ class DBConfig {
 			  recipient_group = ".mysql_real_escape_string($group)."
 			WHERE
 			  event_id = ".$eid." AND
-			  type = ".EMAIL_REMINDER_TYPE;
+			  type = ".$reminderType;
 			$this->executeUpdateQuery($UPDATE_REMINDER);
 
 		} else {
@@ -775,7 +777,7 @@ class DBConfig {
 							'" . mysql_real_escape_string($msg) . "', 
 							'" . mysql_real_escape_string($deliveryDateTime) . "', 
 							" . $eid.",
-							" . EMAIL_REMINDER_TYPE.",
+							" . $reminderType.",
 							" . $autoReminder.",
 							".mysql_real_escape_string($group)."
 						)";

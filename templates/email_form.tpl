@@ -22,6 +22,7 @@
 		<div>
 			<p>Hi {literal}{Guest Name}{/literal},</p>
 			<textarea class="autowidth" name="message" id="message"></textarea>
+			<input type="hidden" id="is_followup" value="{if isset($is_followup)}1{else}0{/if}" />
 			<p>Thanks!<br />{$smarty.session.user->fname}</p>
 		</div>
 	</label>

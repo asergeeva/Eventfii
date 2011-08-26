@@ -8,7 +8,7 @@
  * This is always going to be sent for guest
  * How to run this:
  *      php AutoReminder.php <interval_day> <interval_hour> <type>
- *		type - 1 for Email, 2 for SMS
+ *		type - 1 for Email, 2 for SMS, 3 for Followup
  *      e.g. php AutoReminder.php 1 2 1
  */
 

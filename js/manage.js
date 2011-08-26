@@ -14,6 +14,7 @@ var MANAGE_EVENT = ( function() {
 					reminderRecipient: $('#email-to option:selected').val(),
 					reminderSubject: $('#subject').html().trim(),
 					reminderContent: $('#message').val(),
+					isFollowup: $('#is_followup').val(),
 					eid: $('#event_id').html()
 				}, function(retval) {
 					if(retval=="Success") {
