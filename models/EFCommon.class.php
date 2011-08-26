@@ -7,6 +7,7 @@
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 
 class EFCommon {
 	public $currDate;
