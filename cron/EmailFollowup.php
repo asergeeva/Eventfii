@@ -45,7 +45,13 @@ class EmailFollowup {
 	}
 	
 	public function sendFollowups() {
-		$GET_EVENT = "SELECT e.* FROM ef_events e
+		$GET_EVENT = "SELECT 
+						DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
+						DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
+						DATE_FORMAT(e.event_datetime, '%M %d, %Y') AS friendly_event_date,
+						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
+						e.*
+					  FROM ef_events e
 						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);

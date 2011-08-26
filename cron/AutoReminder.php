@@ -46,7 +46,14 @@ class AutoReminder {
 	}
 	
 	public function sendReminders() {
-		$GET_EVENT = "SELECT * FROM ef_events e, ef_event_messages m 
+		$GET_EVENT = "SELECT
+						DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
+						DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
+						DATE_FORMAT(e.event_datetime, '%M %d, %Y') AS friendly_event_date,
+						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
+						e.*,
+						m.*
+					  FROM ef_events e, ef_event_messages m 
 						WHERE e.id = m.event_id AND m.type = ".$this->$type." AND 
 						e.event_datetime = DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		

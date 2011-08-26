@@ -20,6 +20,10 @@ class Event {
 	public $datetime;
 	public $date;
 	public $time;
+	
+	public $friendly_date;
+	public $friendly_time;
+	
 	public $end_datetime;
 	public $end_date;
 	public $end_time;
@@ -135,6 +139,9 @@ class Event {
 		$this->date = EFCommon::$dbCon->dateToRegular($event_datetime[0]);
 		$event_time = explode(":", $event_datetime[1]);
 		$this->time = $event_time[0] . ":" . $event_time[1];
+
+		$this->friendly_date = $eventInfo['friendly_event_date'];
+		$this->friendly_time = $eventInfo['friendly_event_time'];
 
 		// If end time...
 		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {

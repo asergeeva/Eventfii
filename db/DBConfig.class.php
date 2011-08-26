@@ -526,6 +526,8 @@ class DBConfig {
 		$GET_EVENT = "	SELECT	id, 
 								DATEDIFF ( event_deadline, CURDATE() ) AS rsvp_days_left,
 								DATEDIFF ( event_datetime, CURDATE() ) AS days_left,
+								DATE_FORMAT(event_datetime, '%M %d, %Y') AS friendly_event_date,
+								DATE_FORMAT(event_datetime, '%r') AS friendly_event_time,
 								created,
 								organizer, 
 								title, 

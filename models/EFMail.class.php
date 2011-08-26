@@ -80,10 +80,18 @@ class EFMail {
 					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
 					break;
 				case "event_date":
-					$replaceItems->item($j)->nodeValue = $event->date;
+					if (isset($event->friendly_date && trim($event->friendly_date) != "") {
+						$replaceItems->item($j)->nodeValue = $event->friendly_date;
+					} else {
+						$replaceItems->item($j)->nodeValue = $event->date;
+					}
 					break;
 				case "event_time":
-					$replaceItems->item($j)->nodeValue = $event->time;
+					if (isset($event->friendly_time && trim($event->friendly_time) != "") {
+						$replaceItems->item($j)->nodeValue = $event->friendly_time;
+					} else {
+						$replaceItems->item($j)->nodeValue = $event->time;
+					}
 					break;
 				case "event_location":
 					$replaceItems->item($j)->nodeValue = $event->address;

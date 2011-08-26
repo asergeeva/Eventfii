@@ -729,19 +729,7 @@ class PanelController {
 					}
 					
 					if ( ! isset($event_field) ) {
-						// $event_field = NULL;
-						$event_field['description'] = "Filler description";
-						$event_field['location'] = "Home";
-						$event_field['address'] = "2733 Comstock Circle, Belmont, CA 94002, USA";
-						$event_field['date'] = "12/31/2012";
-						$event_field['time'] = "01:00";
-						$event_field['end_date'] = NULL;
-						$event_field['end_time'] = NULL;
-						$event_field['goal'] = "1000";
-						$event_field['reach_goal'] = 2;
-						$event_field['deadline'] = "12/31/2012";
-						$event_field['type'] = 5;
-						$event_field['is_public'] = 1;
+						$event_field = NULL;
 					}
 				
 					// Display the create event form
