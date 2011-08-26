@@ -92,6 +92,13 @@ class APIController {
 				break;
 			case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['cell'],$_REQUEST['twitter']);
+				$_SESSION['user'] = unserialize($_SESSION['user']);
+				$_SESSION['user']->email = $_REQUEST['email'];
+				$_SESSION['user']->about = $_REQUEST['about'];
+				$_SESSION['user']->zip = $_REQUEST['zip'];
+				$_SESSION['user']->phone = $_REQUEST['cell'];
+				$_SESSION['user']->twitter = $_REQUEST['twitter'];
+				$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
 			case 'getOrganizerEmail':
 				echo json_encode($this->dbCon->getUserInfo($_REQUEST['oid']));
@@ -166,10 +173,7 @@ class APIController {
 				break;
 			case 'uploadImage':
 				$_SESSION['user'] = unserialize($_SESSION['user']);
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 				$allowedExtensions = array("jpg");
-
-				// max file size in bytes
 				$sizeLimit = 2 * 1024 * 1024;
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -177,9 +181,7 @@ class APIController {
 				$result['file'] = str_replace('../', '', $result['file']);
 				EFCommon::$dbCon->saveUserPic($result['file']);
 				
-				// to pass data through iframe you 
-				// will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
 			default:

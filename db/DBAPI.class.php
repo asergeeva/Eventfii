@@ -25,7 +25,7 @@ class DBAPI extends DBConfig {
 										zip 	= '$zip',
 										phone	= '$cell',
 										twitter	= '$twitter'
-								WHERE	id = ".$uid;
+								WHERE	id = '$uid'";
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 		return 'status_updateCompleted';
 	}
