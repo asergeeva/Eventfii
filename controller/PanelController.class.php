@@ -102,7 +102,7 @@ class PanelController {
 
 		// Save the current fields
 		$event_field = $newEvent->get_array();
-
+		
 		EFCommon::$smarty->assign('event_field', $event_field);
 	}
 

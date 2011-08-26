@@ -423,7 +423,12 @@ class DBConfig {
 	
 	public function updateEvent($eventInfo) {
 		$datetime = $this->dateToSql($eventInfo->date) . " " . date("H:i:s", strtotime($eventInfo->time));
-		$end_datetime = $this->dateToSql($eventInfo->end_date) . " " . date("H:i:s", strtotime($eventInfo->end_time));
+		if ( strlen($eventInfo->end_date) != 0 && strlen($eventInfo->end_time) != 0 ) {
+			$end_datetime = $this->dateToSql($newEvent->end_date) . " " . $newEvent->end_time;
+		} else {
+			$end_datetime = NULL;
+		}
+		
 		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
 		$UPDATE_EVENT = "	UPDATE	ef_events e 
@@ -433,7 +438,7 @@ class DBConfig {
 									e.location_name = '".mysql_real_escape_string($eventInfo->location)."', 
 									e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
 									e.event_datetime = '".mysql_real_escape_string($datetime)."', 
-									e.event_end_datetime = '".mysql_real_escape_string($end_datetime)."',  
+									e.event_end_datetime = ".$this->checkNullOrValSql($end_datetime).",  
 									e.event_deadline = '".mysql_real_escape_string($sqlDeadline)."', 
 									e.description = '".mysql_real_escape_string($eventInfo->description)."',
 									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
