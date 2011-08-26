@@ -27,6 +27,9 @@ class AutoReminder {
 	private $interval_day;
 	private $interval_hour;
 	private $type;
+	
+	private const EMAIL_TYPE = 1;
+	private const SMS_TYPE = 2;
 		
 	public function __construct($interval_day, $interval_hour, $type) {
 		$this->interval_day = $interval_day;
@@ -52,7 +55,7 @@ class AutoReminder {
 			$event = new Event($event_messages[$i]);
 			
 			switch ($this->type) {
-				case 1:
+				case self::EMAIL_TYPE:
 					for ($i = 0; $i < sizeof($event->guests); ++$i) {
 						$this->mailer->sendHtmlEmail('general', 
 												      $event->guests[$i], 
@@ -62,7 +65,7 @@ class AutoReminder {
 					}
 					print("Sent guests reminder Email for event_id = ".$event->eid."\n");
 					break;
-				case 2:
+				case self::SMS_TYPE:
 					$this->sms->sendSMSReminder($event->guests, $event, $event_message['message']);
 					print("Sent guests reminder SMS for event_id = ".$event->eid."\n");
 					break;
