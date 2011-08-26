@@ -640,7 +640,8 @@ class DBConfig {
 				$this->executeUpdateQuery($STORE_EMAIL_USERS);
 			}
 			$new_user = new User($contactEmails[$i]);
-			$STORE_CONTACT = "INSERT IGNORE INTO ef_addressbook (user_id, contact_id) VALUES (" . $uid . ", " . $new_user->id . ")";
+			$STORE_CONTACT = "INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
+							  VALUES (" . $uid . ", " . $new_user->id . ", '".$new_user->email."')";
 			$this->executeUpdateQuery($STORE_CONTACT);
 		}
 	}
@@ -985,5 +986,9 @@ class DBConfig {
 	public function storeNotyet($email) {
 		$STORE_NOTYET = "INSERT INTO ef_notyet (email) VALUES ('".mysql_real_escape_string($email)."')";
 		$this->executeUpdateQuery($STORE_NOTYET);
+	}
+	
+	public function getEmailSuggestion($keyword) {
+		$GET_SUGGESTION = "SELECT * FROM ef_addressbook a WHERE a.email LIKE '%".$keyword."%' AND a.user_id = ".$_SESSION['user']->id;
 	}
 }

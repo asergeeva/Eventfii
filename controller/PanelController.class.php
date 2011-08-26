@@ -1381,6 +1381,8 @@ class PanelController {
 				$event = $this->buildEvent( $_GET['eventId'] );
 				$event->getVCS();
 				break;
+			case '/service/autocomplete':
+				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);
 				EFCommon::$smarty->display('error.tpl');

@@ -281,8 +281,8 @@ class EFMail {
 				$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
 											VALUES (" . $event->eid . ", " . $insertedUser['id'] . ")";
 				EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
-				$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id) 
-									VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ")";
+				$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
+									VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ", '".$insertedUser['email']."')";
 				EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
 				
 				$rawMime = 
