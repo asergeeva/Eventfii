@@ -73,15 +73,7 @@ class User extends AbstractUser {
 	}
 	
 	public function updateDb() {
-		EFCommon::$dbCon->updateUserInfo( $this->fname, 
-										  $this->lname, 
-										  $this->email, 
-										  $this->phone, 
-										  $this->zip, 
-										  $this->twitter, 
-										  isset($this->notif_opr1) ? 1 : 0, 
-										  isset($this->notif_opt2) ? 1 : 0, 
-										  isset($this->notif_opt3) ? 1 : 0 );
+		EFCommon::$dbCon->updateUserInfo( $this->fname, $this->lname, $this->email, $this->phone, $this->zip, $this->twitter, isset($this->notif_opr1) ? 1 : 0, isset($this->notif_opt2) ? 1 : 0, isset($this->notif_opt3) ? 1 : 0 );
 		$_SESSION['user'] = $this;
 	}
 	

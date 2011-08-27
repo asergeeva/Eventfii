@@ -5,21 +5,29 @@
 <div id="container">
 	<div class="form">
 		<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}">
-		<fieldset id="new_user_login_form" class="one-col"> 
+		<fieldset id="new_user_login_form" class="one-col">{if isset($smarty.session.user)}
+			
+			<p class="fb-connected"><span>Your account has been connected.</span></p>{else}
+
 			<p class="message">Facebook login makes signing up 75% faster!</p>
 			<div id="fb-root"></div>
 			<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>  
 			<div id="invalid_credentials"></div>
 			<p class="message-small">or</p> 
-			<p class="message-small">Create New Account</p> 
+			<p class="message-small">Create New Account</p>{/if}
 			<label for="ef_login_email_new">
 				<strong>Email</strong> 
-				<div>
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" name="email" id="ef_login_email_new" value="" />
+				<div>{if isset($smarty.session.user)}
+
+					<p>{$smarty.session.user->email}</p>{else}
+
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" name="email" id="ef_login_email_new" value="" />{/if}
+
 				</div>{if isset($user_create_email)}
 				<p class="message-error">{$user_create_email}</p>{/if}
 
-			</label> 
+			</label>{if ! isset($smarty.session.user)}
+
 			<label for="ef_login_pass_new">
 				<strong>Password</strong> 
 				<div>
@@ -27,19 +35,28 @@
 				</div>{if isset($user_create_pass)}
 				<p class="message-error">{$user_create_pass}</p>{/if}
 
-			</label>
+			</label>{/if}
+
 			<label for="ef_fname_new">
 				<strong>First Name</strong> 
-				<div>
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{/if}" name="fname" id="ef_fname_new" />
+				<div>{if isset($smarty.session.user)}
+
+					<p>{$smarty.session.user->fname}</p>{/if}
+
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{/if}" name="fname" id="ef_fname_new" /></p>
+
 				</div>{if isset($user_create_fname)}
 				<p class="message-error">{$user_create_fname}</p>{/if}
 
 			</label>
 			<label for="ef_lname_new">
 				<strong>Last Name</strong> 
-				<div>
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{/if}" name="lname" id="ef_lname_new" />
+				<div>{if isset($smarty.session.user)}
+
+					<p>{$smarty.session.user->lname}</p>{else}
+
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{/if}" name="lname" id="ef_lname_new" />{/if}
+
 				</div>{if isset($user_create_lname)}
 				<p class="message-error">{$user_create_lname}</p>{/if}
 

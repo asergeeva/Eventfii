@@ -1,9 +1,14 @@
-<aside class="extra">
+<aside class="extra">{if $event->rsvp_days_left > 0}
+
 			<section class="block" id="rsvp">
 				<header class="block-title">
 					<h1>Your RSVP</h1>
-				</header>
-				<p class="rsvp-message"><em>{$event->rsvp_days_left}</em> days left to RSVP</p>
+				</header>{if $event>rsvp_days_left == 1}
+
+				<p class="rsvp-message"><em>1</em> day left to RSVP</p>{else}
+				
+				<p class="rsvp-message"><em>{$event->rsvp_days_left}</em> days left to RSVP</p>{/if}
+				
 				<fieldset>				
 					<ol class="rsvp-list" id="event_attending_response">
 						<li>
@@ -50,7 +55,8 @@
 					</ol>
 				</fieldset>
 				<div id="response_stat_msg"></div>
-			</section>
+			</section>{/if}
+
 			<section class="block" id="twitter">
 				<header class="block-title">
 					<h1>Live Feed</h1>

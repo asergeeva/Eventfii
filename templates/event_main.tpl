@@ -1,11 +1,17 @@
 <div class="content">
-			<header class="block">
-				<p class="message"><em>{$event->days_left}</em> days left until the event. Get excited!</p>
-			</header>
+			{if $event->days_left > 0}
+
+			<header class="block">{if $event->days_left == 1}
+
+				<p class="message"><em>1</em> day left until the event. Get excited!</p>{else}
+
+				<p class="message"><em>{$event->days_left}</em> days left until the event.</p>{/if}
+
+			</header>{/if}
 			<section class="block" id="event-info">
 				<header class="block-title">
 					<h1>Find out more</h1>
-					<h2><a href="#">Flag this event</a></h2>
+					<h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2>
 				</header>
 				<div class="event-info">
 					<p class="event-desc">{$event->description}</p>

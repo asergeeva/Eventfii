@@ -45,7 +45,26 @@ figure figcaption { margin: 0 0 10px; }
 /*----- Forms ----------*/
 #settings fieldset {
 	padding: 0 10px 10px; }
-.form { overflow: auto; }
+.form { 
+	text-align: center;
+	overflow: auto; }
+.form .fb-connected {
+	background: url(../images/facebook_bg.png) 0 0 repeat-x;
+	position: relative;
+	height: 20px;
+	margin: 0 0 20px;
+	border: 1px solid #3f598b;
+	cursor: default;
+	display: inline-block; }
+.form .fb-connected span {
+	background: url(../images/facebook_icon.png) 0 0 no-repeat;
+	position: relative;
+	color: #fff;
+	font-family: Helvetica, Arial;
+	font-weight: bold;
+	height: 16px; /* 20 - 4 */
+	padding: 4px 4px 0 25px;
+	display: block; }
 .form .fb-login {
 	text-align: center;
 	margin: 15px 0 0; }
@@ -62,8 +81,12 @@ fieldset .column {
 	float: left;
 	width: 40%;
 	padding: 0 5%; }
-fieldset dt { margin: 0; }
-fieldset dd { margin: 4px 0 20px; }
+fieldset dt { 
+	text-align: left;
+	margin: 0; }
+fieldset dd { 
+	text-align: left;
+	margin: 4px 0 20px; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dt label {
 	font-family: Helvetica, Arial;
@@ -74,6 +97,7 @@ fieldset dt em {
 	font-size: 12px; 
 	color: #959595; }
 fieldset label {
+	text-align: left;
 	font-size: 12px;
 	padding: 5px 0;
 	display: block; }
@@ -262,7 +286,6 @@ header#page-header {
 /*----- Main Message ----------*/
 .message {
 	font-size: 18px;
-	background: #fff;
 	text-align: center; }
 .block .message { 
 	font-size: 13px;
@@ -291,6 +314,12 @@ header.block .message { margin: 0; }
 	border-top-width: 1px;
 	border-left-width: 1px;
 	overflow: hidden; }
+
+/* Notifications */
+.block.notification { 
+	background: #F93;
+	color: #fff;
+	border-color: #fff; }
 
 /* Title */
 .block .block-title {

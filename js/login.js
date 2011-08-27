@@ -60,7 +60,7 @@ var LOGIN_FORM = (function() {
 		 */
 		loginRedirect: function(status) {
 			if( status == 1 ) {
-				window.location = EFGLOBAL.baseUrl;
+				window.location = EFGLOBAL.baseUrl + '/home?loggedIn=true';
 			} else if ( status == 0 ) {
 				window.location = EFGLOBAL.baseUrl + '/login';
 				$('#invalid_credentials').html("Please enter valid login credentials.");

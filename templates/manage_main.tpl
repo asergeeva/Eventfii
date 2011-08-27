@@ -1,8 +1,14 @@
-<header class="block">
-			<p class="message"><em>{$smarty.session.manage_event->days_left}</em> days left until the event. Get excited!</p>
-		</header>
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="content">{if $smarty.session.manage_event->days_left > 0}
+
+			<header class="block">{if $smarty.session.manage_event->days_left == 1}
+
+				<p class="message"><em>1</em> day left until the event. Get excited!</p>{else}
+
+				<p class="message"><em>{$smarty.session.manage_event->days_left}</em> days left until the event.</p>{/if}
+
+			</header>{/if}
+
 			<section class="block" id="cp-manage">
 				<p class="message">Want to increase your trueRSVP? <a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}">Add more guests</a> or <a href="{$CURHOST}/event/manage/email?eventId={$smarty.session.manage_event->eid}">remind</a> your current guests to RSVP.</p>
 				<header class="rsvp-progress">

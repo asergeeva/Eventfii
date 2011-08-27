@@ -36,6 +36,9 @@ $(document).ready(function() {
 	
 	$("#all-guests").click( function() {
 		$("#see-all").fadeIn(500);
+		var position = $("#event-attendants").position();
+		var top = position.top - 50;
+		$("#see-all").css("top", top + "px");
 		return false;
 	});
 	$("#see-all .popup-close a").click( function() {
