@@ -1,13 +1,14 @@
 			<section class="block">
 				{if isset($contacts)}
-				<ul class="contacts-list">
+				<div id="contacts-header">Contacts</div>
+				<ul class="contacts-list" id="contacts-list">
 					{foreach $contacts as $contact}
 					<li>
 						<label for="contact-{$contact->id}">
 							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />
 							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
-							<p>{$contact->email}</p>
+							<p><a href="#/{$contact->email}/">{$contact->email}</a></p>
 						</label>
 					</li>
 					{/foreach}
