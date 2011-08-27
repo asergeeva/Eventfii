@@ -220,7 +220,32 @@ class PanelController {
 
 	////////////////
 	// End OLD FUNCTIONS
+	
+	/***** USER PROFILE ASSIGN EVENTS ********/
+	private function assignProfileEvents($uid) {
+		$this->assignCreatedEventsProfile($uid);
+		$this->assignAttendingEventsProfile($uid);
+	}
+	
+	private function assignCreatedEventsProfile($uid) {
+		$created_event = EFCommon::$dbCon->getEventByEOProfile($uid);
+		$createdEvents = NULL;
+		foreach ( $created_event as $event ) {
+			$createdEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('createdEvents', $createdEvents);
+	}
+	
+	private function assignAttendingEventsProfile($uid) {
+		$attending_event = EFCommon::$dbCon->getEventAttendingByUidProfile($uid);
+		$attendingEvents = NULL;
+		foreach( $attending_event as $event ) {
+			$attendingEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
+	}
 
+	/***** CONTROL PANEL ASSIGN EVENTS ********/
 	private function assignCPEvents($uid) {
 		$this->assignCreatedEvents($uid);
 		$this->assignAttendingEvents($uid);
@@ -544,7 +569,7 @@ class PanelController {
 			if ( ! $profile->exists ) {
 				EFCommon::$smarty->display('error_user_notexist.tpl');
 			} else {
-				$this->assignCPEvents($userId);
+				$this->assignProfileEvents($userId);
 				EFCommon::$smarty->assign("profile", $profile);
 				EFCommon::$smarty->assign("is_following", EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id));
 				EFCommon::$smarty->display('profile.tpl');
