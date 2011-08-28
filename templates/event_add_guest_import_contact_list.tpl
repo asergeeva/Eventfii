@@ -9,4 +9,4 @@
 										</label>
 									</li>{/foreach}
 								</ul>
-								<p class="message"><a href="#" id="add_import_contact_list">Add</a></p>
+								<p class="message"><a href="#emails" id="add_import_contact_list">Add</a></p>
