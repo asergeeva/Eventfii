@@ -12,12 +12,12 @@
  *			- reminder_after (Host)
  */
 
-require_once(realpath(dirname(__FILE__)).'/../configs.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../html/configs.php');
+require_once(realpath(dirname(__FILE__)).'/../html/models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../html/libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../html/db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../html/models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../html/models/Event.class.php');
 
 class EmailFollowup {
 	private $dbCon;
