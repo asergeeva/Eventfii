@@ -1,10 +1,11 @@
-								<ul class="contacts-list">{foreach from=$contactList key=email item=name}
+								<div id="contacts-header">Contacts</div>
+								<ul class="contacts-list" id="contacts-list">{foreach from=$contactList key=email item=name}
 									<li>
 										<label for="contact-{$email}">
 											<input type="checkbox" id="contact-{$email}" value="{$email}" class="selected_contact" />
 											<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="User" />
 											<h3>{$name}</h3>
-											<p>{$email}</p>
+											<p><a href="#/{$email}/">{$email}</a></p>
 										</label>
 									</li>{/foreach}
 								</ul>
