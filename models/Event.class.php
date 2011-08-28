@@ -24,7 +24,6 @@ class Event {
 	public $friendly_date;
 	public $friendly_time;
 	
-	public $end_datetime;
 	public $end_date;
 	public $end_time;
 	public $deadline;
@@ -144,7 +143,7 @@ class Event {
 		$this->friendly_time = ( isset($eventInfo['friendly_event_time']) ) ? $eventInfo['friendly_event_time'] : NULL;
 
 		// If end time...
-		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {
+		if ( strlen($eventInfo['end_date']) != 0 ) {
 			$this->end_datetime = $eventInfo['event_end_datetime'];
 			$event_end_datetime = explode(" ", $eventInfo['event_end_datetime']);
 			$this->end_date = EFCommon::$dbCon->dateToRegular($event_end_datetime[0]);
@@ -700,9 +699,9 @@ class Event {
 		EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
 	}
 	
-	public function getCalDate() {
-		$dateTokens = explode("/", $this->date);
-		$timeTokens = explode(":", $this->time);
+	public function getCalDate($date, $time) {
+		$dateTokens = explode("/", $date);
+		$timeTokens = explode(":", $time);
 	
 		$date = new DateTime();
 		$date->setTimezone(new DateTimeZone('PDT'));
@@ -728,10 +727,16 @@ class Event {
 		$vCalOutput .= "BEGIN:VEVENT\n";
 		$vCalOutput .= "SUMMARY:".rawurldecode($text)."\n";
 		$vCalOutput .= "DESCRIPTION:".rawurldecode($vCalDescription)."\n";
-		$vCalOutput .= "DTSTART:".$this->getCalDate()."\n";
+		$vCalOutput .= "DTSTART:".$this->getCalDate($this->date, $this->time)."\n";
 		$vCalOutput .= "LOCATION:".rawurldecode($vCalLocation)."\n";
 		$vCalOutput .= "URL;VALUE=URI:".rawurldecode($link)."\n";
-		$vCalOutput .= "DTEND:".$this->getCalDate()."\n";
+		
+		// Check whether there is an end_date and end_time
+		if (isset($this->end_date) && isset($this->end_time)) {
+			$vCalOutput .= "DTEND:".$this->getCalDate($this->end_date, $this->end_time)."\n";
+		} else {
+			$vCalOutput .= "DTEND:".$this->getCalDate($this->date, $this->time)."\n";
+		}
 		$vCalOutput .= "END:VEVENT\n";
 		$vCalOutput .= "END:VCALENDAR\n";
 		
@@ -753,11 +758,18 @@ class Event {
 		$vCalOutput .= "BEGIN:VEVENT\n";
 		$vCalOutput .= "DESCRIPTION:".rawurldecode($this->description)."\n";
 		$vCalOutput .= "SEQUENCE:5\n";
-		$vCalOutput .= "DTSTART;TZID=US/Pacific:".$this->getCalDate()."\n";
-		$vCalOutput .= "DTSTAMP:".$this->getCalDate()."\n";
+		$vCalOutput .= "DTSTART;TZID=US/Pacific:".$this->getCalDate($this->date, $this->time)."\n";
+		$vCalOutput .= "DTSTAMP:".$this->getCalDate($this->date, $this->time)."\n";
 		$vCalOutput .= "SUMMARY:".rawurldecode($this->description)."\n";
 		$vCalOutput .= "UID:EC9439B1-FF65-11D6-9973-003065F99D04\n";
-		$vCalOutput .= "DTEND;TZID=US/Pacific:".$this->getCalDate()."\n";
+		
+		// Check whether there is an end_date and end_time
+		if (isset($this->end_date) && isset($this->end_time)) {
+			$vCalOutput .= "DTEND;TZID=US/Pacific:".$this->getCalDate($this->end_date, $this->end_time)."\n";
+		} else {
+			$vCalOutput .= "DTEND;TZID=US/Pacific:".$this->getCalDate($this->date, $this->time)."\n";
+		}
+		
 		$vCalOutput .= "BEGIN:VALARM\n";
 		$vCalOutput .= "TRIGGER;VALUE=DURATION:-P1D\n";
 		$vCalOutput .= "ACTION:DISPLAY\n";

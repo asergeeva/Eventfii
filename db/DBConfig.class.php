@@ -429,7 +429,7 @@ class DBConfig {
 	public function updateEvent($eventInfo) {
 		$datetime = $this->dateToSql($eventInfo->date) . " " . date("H:i:s", strtotime($eventInfo->time));
 		if ( strlen($eventInfo->end_date) != 0 && strlen($eventInfo->end_time) != 0 ) {
-			$end_datetime = $this->dateToSql($newEvent->end_date) . " " . $newEvent->end_time;
+			$end_datetime = $this->dateToSql($eventInfo->end_date) . " " . $eventInfo->end_time;
 		} else {
 			$end_datetime = NULL;
 		}
