@@ -140,8 +140,8 @@ class Event {
 		$event_time = explode(":", $event_datetime[1]);
 		$this->time = $event_time[0] . ":" . $event_time[1];
 
-		$this->friendly_date = $eventInfo['friendly_event_date'];
-		$this->friendly_time = $eventInfo['friendly_event_time'];
+		$this->friendly_date = ( isset($eventInfo['friendly_event_date']) ) ? $eventInfo['friendly_event_date'] : NULL;
+		$this->friendly_time = ( isset($eventInfo['friendly_event_time']) ) ? $eventInfo['friendly_event_time'] : NULL;
 
 		// If end time...
 		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {

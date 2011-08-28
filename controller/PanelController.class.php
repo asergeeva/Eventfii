@@ -901,6 +901,7 @@ class PanelController {
 				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
+				$eventAttendees = NULL;
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$attendee = new User($attendees[$i]);
 					
@@ -1206,13 +1207,7 @@ class PanelController {
 					break;
 				// if the user submits the register form
 				} else if ( isset ( $_POST['register'] ) ) {
-					$req['fname'] = $_POST['fname'];
-					$req['lname'] = $_POST['lname'];
-					$req['email'] = $_POST['email'];
-					$req['phone'] = $_POST['phone'];
-					$req['pass'] = $_POST['pass'];
-					$req['zip'] = $_POST['zipcode'];
-					$errors = $this->checkUserCreationForm($req);
+					$user = new User( NULL );
 					
 					// Check if any errors
 					if( $errors ) {

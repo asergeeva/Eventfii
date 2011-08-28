@@ -73,7 +73,7 @@
 			<label for="ef_zipcode_new">
 				<strong>Zip Code</strong>
 				<div>
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.zipcode)}{$smarty.post.zipcode}{/if}" name="zipcode" id="ef_zipcode_new" /> 
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.zip)}{$smarty.post.zip}{/if}" name="zip" id="ef_zipcode_new" /> 
 				</div>
 				<p>So we can tell you how close to your events you are.</p>{if isset($user_create_zipcode)}
 				<p class="message-error">{$user_create_zipcode}</p>{/if}

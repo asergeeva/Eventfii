@@ -10,8 +10,14 @@
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
-			<section class="block" id="cp-attendee-list">
+			<section class="block" id="cp-attendee-list">{if ! isset($eventAttendees)}
+
+				<header class="block">
+					<p class="message">No attendees</p>
+				</header>{else}
+
 				<section class="block" id="cp-attendees">
+
 					<header class="block-collapsable-title">
 						<h1>Attendees</h1>
 					</header>
@@ -27,7 +33,8 @@
 				<footer class="links-extra">
 					<p><a href="{$CURHOST}/event/print?eventId={$smarty.session.manage_event->eid}" target="_blank">Print Attendance List</a></p> 
 				</footer>
-			</section>
+			</section>{/if}
+
 		</div>
 	</section>
 </div>

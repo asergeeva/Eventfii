@@ -1,13 +1,9 @@
-<div class="content">
-			{if $event->days_left > 0}
+<div class="content">{if $event->days_left > 0}
 
-			<header class="block">{if $event->days_left == 1}
-
-				<p class="message"><em>1</em> day left until the event. Get excited!</p>{else}
-
-				<p class="message"><em>{$event->days_left}</em> days left until the event.</p>{/if}
-
+			<header class="block">
+				<p class="message"><em>{$event->days_left}</em> {if $event->days_left == 1}day{else}days{/if} left until the event.{if $event->days_left == 1} Get exited!{/if}<br /><br />Use <em>#trueRSVP{$event->eid}</em> to post your tweet & pics here!</p>
 			</header>{/if}
+
 			<section class="block" id="event-info">
 				<header class="block-title">
 					<h1>Find out more</h1>

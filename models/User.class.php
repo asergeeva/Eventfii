@@ -9,36 +9,26 @@
 require_once(realpath(dirname(__FILE__)).'/../models/AbstractUser.class.php');
 
 class User extends AbstractUser {
-	public $id;
-	public $fname;
-	public $lname;
-	public $about;
 	public $verified;
 	public $referrer;
 	public $phone;
 	public $zip;
-	public $pic;
 	public $twitter;
 	public $facebook;	
 	public $notif_opt1;
 	public $notif_opt2;
 	public $notif_opt3;
-	public $exists;
 	public $contacts = array();
 	
 	public $is_attending;
 	
-	private $error;
-	private $numErrors;
-	
-	public function __construct($userInfo) {
+	public function __construct($userInfo) {		
+		// Settings page
 		if ( $userInfo === NULL ) {
-			$this->fname = $_POST['fname'];
-			$this->lname = $_POST['lname'];
-			$this->email = $_SESSION['user']->email;
-			$this->phone = $_POST['phone'];
-			$this->zip = $_POST['zip'];
-			$this->twitter = $_POST['twitter'];
+			parent::__construct(NULL);
+			$this->set_phone();
+			$this->set_zip();
+			$this->twitter = $_SESSION['user']->twitter;
 			$this->facebook = $_SESSION['user']->facebook;
 			$this->notif_opt1 = ( isset($_POST['email-feature']) ) ? 1 : 0;
 			$this->notif_opt2 = ( isset($_POST['email-updates']) == 1 ) ? 1 : 0;		
@@ -68,24 +58,11 @@ class User extends AbstractUser {
 		
 	}
 	
-	private function getUserInfoFromDb() {
-		return EFCommon::$dbCon->getUserInfo($this->uid);
-	}
-	
-	public function updateDb() {
-		EFCommon::$dbCon->updateUserInfo( $this->fname, $this->lname, $this->email, $this->phone, $this->zip, $this->twitter, isset($this->notif_opr1) ? 1 : 0, isset($this->notif_opt2) ? 1 : 0, isset($this->notif_opt3) ? 1 : 0 );
-		$_SESSION['user'] = $this;
-	}
-	
-	private function makeUserFromArray($userInfo) {
-		$this->id = $userInfo['id'];
-		$this->fname = $userInfo['fname'];
-		$this->lname = $userInfo['lname'];
-		$this->email = $userInfo['email'];
-		$this->about = $userInfo['about'];
-		$this->phone = $userInfo['phone'];
-		$this->zip = $userInfo['zip'];
-		$this->pic = $this->setUserPic($userInfo['facebook']);
+	protected function makeUserFromArray($userInfo) {
+		parent::makeUserFromArray($userInfo);
+		
+		$this->set_phone($userInfo['phone']);
+		$this->set_zip($userInfo['zip']);
 		$this->twitter = $userInfo['twitter'];
 		$this->facebook = $userInfo['facebook'];
 		$this->notif_opt1 = $userInfo['notif_opt1'];
@@ -93,130 +70,13 @@ class User extends AbstractUser {
 		$this->notif_opt3 = $userInfo['notif_opt3'];
 	}
 	
-	private function setUserPic($facebook = NULL) {
-		if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".png") ) {
-			return CURHOST . "/upload/user/" . $this->id . ".png";
-		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
-			return CURHOST . "/upload/user/" . $this->id . ".jpg";
-		} else if (isset($facebook)) {
-			return "http://graph.facebook.com/" . $facebook . "/picture?type=large";
-		} else {
-			return CURHOST . "/images/default_thumb.jpg";
-		}
+	private function getUserInfoFromDb() {
+		return EFCommon::$dbCon->getUserInfo($this->uid);
 	}
 	
-	public function get_errors() {
-		// Reset
-		$this->numErrors = 0;
-		unset($this->error);
-	
-		// Check for errors
-		$this->check_fname();
-		$this->check_lname();
-		$this->check_email();
-		$this->check_cell();
-		$this->check_zip();
-		$this->check_twitter();
-		
-		// Return if there are any errors
-		if ( $this->numErrors == 0 )
-			return false;
-		else
-			return $this->error;
-	}
-	
-	private function check_fname() {
- 		$valid_fname = filter_var(
-	 		$this->fname, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_fname ) {
-			$this->error['fname'] = "Invalid first name";
-			$this->numErrors++;
-		}
-	}
-	
-	private function check_lname() {
- 		$valid_lname = filter_var(
-	 		$this->lname, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_lname ) {
-			$this->error['lname'] = "Invalid last name";
-			$this->numErrors++;
-		}
-	}
-	
-	private function check_cell() {
-		if ( strlen($this->phone) == 0 )
-			return;
-			
- 		$valid_cell = filter_var(
-	 		$this->phone, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_cell ) {
-			$this->error['phone'] = "Phone number is not in valid format";
-			$this->numErrors++;
-		}	
-	}
-	
-	private function check_zip() {
-		if ( strlen($this->zip) == 0 )
-			return;
-	
- 		$valid_zip = filter_var(
-	 		$this->zip, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^\d{5}(-\d{4})?$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_zip ) {
-			$this->error['zip'] = "Please enter a valid zip code";
-			$this->numErrors++;
-		}
-	}
-	
-	private function check_twitter() {
-		if ( strlen($this->twitter) == 0 )
-			return;
-
- 		$valid_twitter = filter_var(
-	 		$this->twitter, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_twitter ) {
-			$this->error['twitter'] = "Please enter a valid twitter username";
-			$this->numErrors++;
-		}
+	public function updateDb() {
+		EFCommon::$dbCon->updateUserInfo( $this->fname, $this->lname, $this->email, $this->phone, $this->zip, $this->twitter, isset($this->notif_opr1) ? 1 : 0, isset($this->notif_opt2) ? 1 : 0, isset($this->notif_opt3) ? 1 : 0 );
+		$_SESSION['user'] = $this;
 	}
 	
 	public function setContacts($contact_email) {
@@ -227,8 +87,8 @@ class User extends AbstractUser {
 		$this->error["add_contact"] = "";
 		$this->numErrors = 0;
 		
-		if (sizeof($contacts) > 1) {
-			foreach($contacts as $contact) {
+		if ( sizeof($contacts) > 1 ) {
+			foreach( $contacts as $contact ) {
 				$contact = trim($contact);
 				if ( filter_var($contact, FILTER_VALIDATE_EMAIL) ) {
 					$addContacts[] = $contact;
@@ -283,6 +143,93 @@ class User extends AbstractUser {
 		} else {
 			$plural_contact = ($numContacts == 1) ? "contact" : "contacts";
 			return $numContacts . " " . $plural_contact . " added successfully";
+		}
+	}
+	
+	public function set_phone($phone = NULL) {
+		if ( $phone == NULL ) {
+			if ( isset($_POST['phone']) ) {
+				$phone = $_POST['phone']; 
+			}
+		}
+		
+		if ( strlen($phone) == 0 ) {
+			$this->phone = NULL;
+			return;
+		}
+		
+		$this->phone = $phone;
+		
+		$valid_phone = filter_var(
+	 		$this->phone, 
+	 		FILTER_VALIDATE_REGEXP, 
+	 		array(
+	 			"options" => array(
+	 				"regexp" => "/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/"
+	 			)
+	 		)
+	 	);
+	 	
+		if( ! $valid_phone ) {
+			$this->addError("phone", "Phone number is not in valid format.");
+		}	
+	}
+	
+	public function set_zip($zip = NULL) {
+		if ( $zip == NULL ) {
+			if ( isset($_POST['zip']) ) {
+				$zip = $_POST['zip']; 
+			}
+		}
+		
+		if ( strlen($zip) == 0 ) {
+			$this->zip = NULL;
+			return;
+		}
+		
+		$this->zip = $zip;
+		
+ 		$valid_zip = filter_var(
+	 		$this->zip, 
+	 		FILTER_VALIDATE_REGEXP, 
+	 		array(
+	 			"options" => array(
+	 				"regexp" => "/^\d{5}(-\d{4})?$/"
+	 			)
+	 		)
+	 	);
+	 	
+		if( ! $valid_zip ) {
+			$this->addError("zip", "Please enter a valid zip code.");
+		}
+	}
+	
+	public function set_twitter($twitter = NULL) {
+		if ( $twitter == NULL ) {
+			if ( isset($_POST['twitter']) ) {
+				$twitter = $_POST['twitter']; 
+			}
+		}
+		
+		if ( strlen($twitter) == 0 ) {
+			$this->twitter = NULL;
+			return;
+		}
+		
+		$this->twitter = $twitter;
+
+ 		$valid_twitter = filter_var(
+	 		$this->twitter, 
+	 		FILTER_VALIDATE_REGEXP, 
+	 		array(
+	 			"options" => array(
+	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
+	 			)
+	 		)
+	 	);
+	 	
+		if( ! $valid_twitter ) {
+			$this->addError("twitter", "Please enter a valid twitter username.");
 		}
 	}
 }

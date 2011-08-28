@@ -4,7 +4,7 @@
 							<legend>Create Event</legend> 
 							<dl class="column"> 
 								<dt>
-									<label for="title">What are you planning?</label>
+									<label for="title">What are you planning?*</label>
 								</dt> 
 								<dd>
 									<input type="text" name="title" value="{if isset($event_field.title)}{$event_field.title}{else}Name of Event{/if}" class="inputbox autowidth{if ! isset($event_field.title)} default{/if}" id="title" />{if isset($error.title)}
@@ -13,7 +13,7 @@
 
 								</dd> 
 								<dt>
-									<label for="description">Event Details</label> 
+									<label for="description">Event Details*</label> 
 								</dt>
 								<dd>
 									<textarea name="description" class="inputbox autowidth{if ! isset($event_field.description)} default{/if}" id="description">{if isset($event_field.description)}{$event_field.description}{else}What should your guests know?{/if}</textarea>{if isset($error.desc)}
@@ -31,7 +31,7 @@
 
 								</dd>
 								<dt>
-									<label for="address">Address</label> 
+									<label for="address">Address*</label> 
 								</dt> 
 								<dd>
 									<input type="text" name="address" value="{if isset($event_field.address)}{$event_field.address}{else}Ex: 1234 Maple St, Los Angeles, CA 90007{/if}" class="inputbox autowidth{if ! isset($event_field.address)} default{/if}" id="address" />{if isset($error.address)}
@@ -40,7 +40,7 @@
 
 								</dd>
 								<dt>
-									<label for="date">When</label> 
+									<label for="date">When*</label> 
 									<em>Date &amp; Time</em>
 								</dt>
 								<dd>

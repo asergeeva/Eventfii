@@ -142,7 +142,9 @@ class DBConfig {
 	}
 	
 	public function getUserInfo($uid) {
-		$GET_USER_INFO = "SELECT * FROM ef_users e WHERE e.id = " . $uid;
+		$GET_USER_INFO = "	SELECT	* 
+							FROM 	ef_users
+							WHERE 	id = " . $uid;
 		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
@@ -468,9 +470,7 @@ class DBConfig {
 	}
 	
 	/***** CONTROL PANEL ASSIGN EVENTS ********/
-	public function getEventByEO($uid) {
-		$isPublicQuery = ($isPublic) ? 1 : 0;
-		
+	public function getEventByEO($uid) {	
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 							SELECT	e.id, 
@@ -522,9 +522,7 @@ class DBConfig {
 	}
 	
 	/***** USER PROFILE ASSIGN EVENTS ********/
-	public function getEventByEOProfile($uid) {
-		$isPublicQuery = ($isPublic) ? 1 : 0;
-		
+	public function getEventByEOProfile($uid) {		
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 							SELECT	e.id, 
