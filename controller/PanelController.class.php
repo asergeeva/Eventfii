@@ -966,6 +966,7 @@ class PanelController {
 				EFCommon::$smarty->append('page', $page, TRUE);
 				
 				$event = $this->buildEvent( $_GET['eventId'], true );
+				EFCommon::$smarty->assign("event", $event);
 				
 				if ( isset($_POST['submit']) ) {
 					$message = $event->submitGuests();
