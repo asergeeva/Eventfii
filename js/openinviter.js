@@ -14,18 +14,13 @@ var OPENINVITER = (function() {
 	// OPENINVITER EMAIL PROVIDER
 	$('.event_invite_oi').live('click', function() {
 		$('#oi_container').html(EFGLOBAL.ajaxLoader);
-		var currentProvider = this.href.split('#')[1];
-		
+				
 		$.get(EFGLOBAL.baseUrl + '/guest/inviter', {
-			provider: currentProvider
+			provider: this.href.split('#')[1]
 		}, function(providerLoginPage) {
-			if (currentProvider == 'truersvp') {
-				$('#oi_container').html(providerLoginPage).ready(function() {
-					OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
-				});
-			} else {
-				$('#oi_container').html(providerLoginPage);
-			}
+			$('#oi_container').html(providerLoginPage).ready(function() {
+				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+			});
 		});
 	});
 	
@@ -35,7 +30,9 @@ var OPENINVITER = (function() {
 			oi_email: $('#oi_email').val(),
 			oi_pass: $('#oi_pass').val()
 		}, function(contactListPage) {
-			$('#oi_container').html(contactListPage);
+			$('#oi_container').html(contactListPage).ready(function() {
+				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+			});
 		});
 	});
 	
