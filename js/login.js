@@ -59,8 +59,12 @@ var LOGIN_FORM = (function() {
 		 * Redirect user when they are logged in
 		 */
 		loginRedirect: function(status) {
+			// Regular login
 			if( status == 1 ) {
 				window.location = EFGLOBAL.baseUrl + '/home?loggedIn=true';
+			// Facebook login
+			} else if ( status == 3) {
+				window.location = EFGLOBAL.baseUrl + '/register';
 			} else if ( status == 0 ) {
 				window.location = EFGLOBAL.baseUrl + '/login';
 				$('#invalid_credentials').html("Please enter valid login credentials.");

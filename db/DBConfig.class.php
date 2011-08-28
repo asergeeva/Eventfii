@@ -304,7 +304,10 @@ class DBConfig {
 										lname = '" . mysql_real_escape_string($lname) . "',
 										facebook = '".mysql_real_escape_string($fbid)."' 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
+			
+			// The user must have already registered
 			$this->executeUpdateQuery($UPDATE_USER);
+			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
 		}
 		return $this->getUserInfoByEmail($email);
 	}

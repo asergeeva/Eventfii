@@ -22,7 +22,7 @@ class User extends AbstractUser {
 	
 	public $is_attending;
 	
-	public function __construct($userInfo) {		
+	public function __construct($userInfo) {
 		// Settings page
 		if ( $userInfo === NULL ) {
 			parent::__construct(NULL);

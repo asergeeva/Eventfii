@@ -20,8 +20,7 @@
 				<div>{if isset($smarty.session.user)}
 
 					<p>{$smarty.session.user->email}</p>{else}
-
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" name="email" id="ef_login_email_new" value="" />{/if}
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}" name="email" id="ef_login_email_new" value="" />{/if}
 
 				</div>{if isset($user_create_email)}
 				<p class="message-error">{$user_create_email}</p>{/if}
@@ -43,7 +42,7 @@
 
 					<p>{$smarty.session.user->fname}</p>{/if}
 
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{/if}" name="fname" id="ef_fname_new" /></p>
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}" name="fname" id="ef_fname_new" /></p>
 
 				</div>{if isset($user_create_fname)}
 				<p class="message-error">{$user_create_fname}</p>{/if}
@@ -55,7 +54,7 @@
 
 					<p>{$smarty.session.user->lname}</p>{else}
 
-					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{/if}" name="lname" id="ef_lname_new" />{/if}
+					<input type="text" class="inputbox autowidth" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}" name="lname" id="ef_lname_new" />{/if}
 
 				</div>{if isset($user_create_lname)}
 				<p class="message-error">{$user_create_lname}</p>{/if}

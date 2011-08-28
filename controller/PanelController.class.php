@@ -141,9 +141,7 @@ class PanelController {
 		$pass = $req['pass'];
 		$zip = $req['zip'];
 
-		if( strlen($zip) > 0 )
-			$zipcode_val = $this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
-
+		$zipcode_val = $this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
 		$f_name_val = $this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
 		$l_name_val = $this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
 		$email_val = $this->valEmail($email,"user_create_email","Email entered is invalid.");
@@ -406,14 +404,8 @@ class PanelController {
 	private function handleFBLogin() {
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 		if ( $userInfo ) {
-			$_SESSION['user'] = new User($userInfo);
-			
-			EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
-			if ( isset ($params) ) {
-				echo $params;
-			} else {
-				echo 1;
-			}
+			$_SESSION['fb'] = new User($userInfo);
+			echo 3;
 		} else {
 			echo 0;
 		}
@@ -1214,7 +1206,7 @@ class PanelController {
 					$req['email'] = $_POST['email'];
 					$req['phone'] = $_POST['phone'];
 					$req['pass'] = $_POST['pass'];
-					$req['zip'] = $_POST['zipcode'];
+					$req['zip'] = $_POST['zip'];
 					$errors = $this->checkUserCreationForm($req);
 					
 					$user = new User( NULL );
@@ -1226,7 +1218,7 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zipcode'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zip'] );
 					
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
