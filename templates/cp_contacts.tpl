@@ -5,9 +5,6 @@
 <div id="container">
 	{include file="cp_header.tpl"}
 	<section id="main">
-		<header class="block">
-			<p class="message">Make your event well known! Add your contacts.</p>
-		</header>
 		<div class="navigation">
 			<nav class="block" id="manage-before">
 				<header class="block-title">
@@ -19,11 +16,15 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="content">{if isset($page.addcontacts)}
+		<div class="content">
+			<header class="block">
+				<p class="message">Make your event well known! Add your contacts.</p>
+			</header>{if isset($page.addcontacts)}
 
 			{include file="contacts_add.tpl"}{else}
 			
 			{include file="contacts.tpl"}{/if}
+
 		</div>
 	</section>
 </div>

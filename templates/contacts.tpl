@@ -1,23 +1,28 @@
-			<section class="block">
-				{if isset($contacts)}
-				<div id="contacts-header">Contacts</div>
-				<ul class="contacts-list" id="contacts-list">
-					{foreach $contacts as $contact}
+<section class="block">{if isset($contacts)}
+
+				<header class="block-title">
+					<h1>Contacts</h1>
+				</header>
+				<div id="contacts-header"></div>
+				<ul class="contacts-list" id="contacts-list">{foreach $contacts as $contact}
+
 					<li>
-						<label for="contact-{$contact->id}">
-							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />
+						<label for="contact-{$contact->id}">{if isset($addButton)}
+						
+							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />{/if}
+
 							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
 							<p><a href="#/{$contact->email}/">{$contact->email}</a></p>
 						</label>
-					</li>
-					{/foreach}
+					</li>{/foreach}
+
 				</ul>{else}
+
 				<header class="block">
 					<p class="message">No contacts</p>
-				</header>
-				{/if}
-			</section>
-			{if isset($addButton)}
-			<p class="message"><a href="#" id="add_import_contact_list">Add</a></p>
-			{/if}
+				</header>{/if}
+
+			</section>{if isset($addButton)}
+
+			<p class="message"><a href="#" id="add_import_contact_list">Add</a></p>{/if}

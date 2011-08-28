@@ -4,12 +4,17 @@
 {include file="header.tpl"}
 <div id="container">
 	{include file="cp_header.tpl"}
-	<section id="main">
-		<header class="block">
-			<p class="message">{if isset($responseMsg['user_success'])}{$responseMsg['user_success']}{else}Settings{/if}</p>
-		</header>
+	<section id="main">{if isset($responseMsg['user_success'])}
+
+		<header class="block notification">
+			<p class="message">{$responseMsg['user_success']}</p>
+		</header>{/if}
+
 		{include file="cp_user.tpl"}
 		<div class="content">
+			<header class="block">
+				<p class="message">Settings</p>
+			</header>
 			<section class="block" id="settings">
 				<header class="block-title">
 					<h1>Account Info</h1>

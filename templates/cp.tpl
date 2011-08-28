@@ -13,6 +13,7 @@
 			<p class="message">You are already logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{/if}
 
 		</header>{/if}
+
 		{include file="cp_user.tpl"}
 		<div class="content">
 			<header class="block">
