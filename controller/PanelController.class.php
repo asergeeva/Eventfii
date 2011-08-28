@@ -1304,13 +1304,19 @@ class PanelController {
 				}
 				break;
 			case '/login/reset/submit':
-				if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
-					EFCommon::$dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
-					EFCommon::$smarty->display('login_reset_confirmed.tpl');
+				if (strlen($_REQUEST['login_forgot_newpass']) < 6) {
+						EFCommon::$smarty->assign('ref', $_REQUEST['ref']);
+						EFCommon::$smarty->assign('errorMsg', 'Password must be at least 6 characters');
+						EFCommon::$smarty->display('login_reset.tpl');
 				} else {
-					EFCommon::$smarty->assign('ref', $_REQUEST['ref']);
-					EFCommon::$smarty->assign('errorMsg', 'New password is not confirmed');
-					EFCommon::$smarty->display('login_reset.tpl');
+					if ($_REQUEST['login_forgot_newpass'] == $_REQUEST['login_forgot_newpass_conf']) {
+						EFCommon::$dbCon->resetPasswordByEmail($_REQUEST['login_forgot_newpass'], $_REQUEST['login_forgot_ref']);
+						EFCommon::$smarty->display('login_reset_confirmed.tpl');
+					} else {
+						EFCommon::$smarty->assign('ref', $_REQUEST['ref']);
+						EFCommon::$smarty->assign('errorMsg', 'New password is not confirmed');
+						EFCommon::$smarty->display('login_reset.tpl');
+					}
 				}
 				break;
 			case '/login/forgot':
@@ -1318,9 +1324,14 @@ class PanelController {
 				break;
 			case '/login/forgot/submit':
 				$hash_key = md5(time().$_REQUEST['login_forgot_email']);
-
-				if (EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email'])) {
-					EFCommon::$mailer->sendResetPassLink('/login/reset', $hash_key, $_REQUEST['login_forgot_email']);
+				$user = EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email']);
+				
+				if (isset($user)) {
+					EFCommon::$mailer->sendHtmlEmail('general', 
+													  $user, 
+													  "Reset Password", 
+													  NULL, 
+													  "This is the link to reset your password: ".CURHOST."/login/reset?ref=".$hash_key);
 					EFCommon::$smarty->display('login_forgot_confirmed.tpl');
 				} else {
 					EFCommon::$smarty->display('login_forgot_invalid.tpl');

@@ -298,4 +298,15 @@ class EFMail {
 			}
 		}
 	}
+	
+	/**
+	 * Sending the reset password link to the user
+	 */
+	public function sendResetPassLink($uriPath, $hash_key, $user_email) {
+		$this->sendHtmlEmail('general', 
+							  $$user_email, 
+							  "Reset Password", 
+							  NULL, 
+							  "This is the link to reset your password: ".CURHOST.$uriPath."?ref=".$hash_key);
+	}
 }
