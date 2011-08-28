@@ -407,6 +407,8 @@ class PanelController {
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 		if ( $userInfo ) {
 			$_SESSION['user'] = new User($userInfo);
+			
+			EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
 			if ( isset ($params) ) {
 				echo $params;
 			} else {
@@ -1207,6 +1209,14 @@ class PanelController {
 					break;
 				// if the user submits the register form
 				} else if ( isset ( $_POST['register'] ) ) {
+					$req['fname'] = $_POST['fname']; 	
+					$req['lname'] = $_POST['lname'];
+					$req['email'] = $_POST['email'];
+					$req['phone'] = $_POST['phone'];
+					$req['pass'] = $_POST['pass'];
+					$req['zip'] = $_POST['zipcode'];
+					$errors = $this->checkUserCreationForm($req);
+					
 					$user = new User( NULL );
 					
 					// Check if any errors
