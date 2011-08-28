@@ -704,6 +704,7 @@ class PanelController {
 					
 					$error = $user->get_errors();
 					
+					// UPDATE DB
 					if ( ! $error ) {
 						$user->updateDb();
 						$responseMsg['user_success'] = "User settings updated successfully.";
@@ -711,6 +712,7 @@ class PanelController {
 						EFCommon::$smarty->assign("error", $error);
 					}
 					
+					// RESET PASSWORD
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
 						if ( EFCommon::$dbCon->resetPassword( md5($_REQUEST['user-curpass']), md5($_REQUEST['user-newpass']), md5($_REQUEST['user-confpass']) )) {
 							$responseMsg['password'] = 'Password has been updated';

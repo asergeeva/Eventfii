@@ -153,11 +153,6 @@ class User extends AbstractUser {
 			}
 		}
 		
-		if ( strlen($phone) == 0 ) {
-			$this->phone = NULL;
-			return;
-		}
-		
 		$this->phone = $phone;
 		
 		$valid_phone = filter_var(
@@ -180,11 +175,6 @@ class User extends AbstractUser {
 			if ( isset($_POST['zip']) ) {
 				$zip = $_POST['zip']; 
 			}
-		}
-		
-		if ( strlen($zip) == 0 ) {
-			$this->zip = NULL;
-			return;
 		}
 		
 		$this->zip = $zip;
