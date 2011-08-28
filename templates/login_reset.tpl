@@ -1,8 +1,7 @@
-{include file="header.tpl"}
+{include file="head.tpl"}
 
 <body>
-{include file="home_header.tpl"}
-<div id="fb-root"></div>
+{include file="header.tpl"}
 <div id="container">
 	<div id="login_container">
     <h3>Reset Password</h3>
@@ -28,5 +27,5 @@
     </form>
 	</div>
 </div>
-{include file="global_js.tpl"}
+{include file="js_global.tpl"}
 {include file="footer.tpl"}

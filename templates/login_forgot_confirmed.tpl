@@ -1,7 +1,7 @@
-{include file="header.tpl"}
+{include file="head.tpl"}
 <body>
 
-{include file="home_header.tpl"}
+{include file="header.tpl"}
 <div id="fb-root"></div>
 <div id="container">
 	<div class="section section-login" id="login_container">

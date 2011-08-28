@@ -958,11 +958,11 @@ class DBConfig {
 	public function requestPasswordReset($hash_key, $email) {
 		$CHECK_VALID_EMAIL = "SELECT * FROM ef_users u WHERE u.email = '".$email."'";
 		if ($this->getRowNum($CHECK_VALID_EMAIL) == 0) {
-			return false;
+			return NULL;
 		}
 		$REQUEST_PASS_RESET = "INSERT INTO ef_password_reset (hash_key, email) VALUES ('".$hash_key."', '".$email."')";
 		$this->executeUpdateQuery($REQUEST_PASS_RESET);
-		return true;
+		return new User($this->getUserInfoByEmail($email));;
 	}
 	
 	public function isValidPassResetRequest($hash_key) {
