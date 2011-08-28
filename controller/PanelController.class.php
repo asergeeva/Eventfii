@@ -689,6 +689,8 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
+				print_r($_SESSION);
+				
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
@@ -897,15 +899,12 @@ class PanelController {
 				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
-				$eventAttendees = NULL;
+				$eventAttendees = array();
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$attendee = new User($attendees[$i]);
 					
-					if ($attendees[$i]['is_attending'] == 1) {
-						// $attendee->checkedIn = true;
-						$attendee->confidence = $attendees[$i]['confidence'];
-						$eventAttendees[] = $attendee;
-					}
+					$attendee->confidence = $attendees[$i]['confidence'];
+					$eventAttendees[] = $attendee;
 				}
 				
 				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
