@@ -1,6 +1,7 @@
 {include file="index_header.tpl"}
 <body>
 
+<div id="fb-root"></div>
 <header id="site-header">
 	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
 	<nav>

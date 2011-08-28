@@ -7,3 +7,5 @@ define('DEBUG', true);
 
 define('PATH', '/Eventfii');
 define('CURHOST', 'http://localhost'.PATH);
+
+define('FB_APP_ID', '122732554481304');

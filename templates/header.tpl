@@ -5,3 +5,4 @@
 		<p class="buttons buttons-create"><a href="{$CURHOST}/event/create" class="btn"><span>Create New Event</span></a></p>
 	</aside>
 </header>
+<div id="fb-root"></div>

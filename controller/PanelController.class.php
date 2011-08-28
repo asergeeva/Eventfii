@@ -1221,7 +1221,12 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zip'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
+																 $_POST['lname'], 
+																 $_POST['email'], 
+																 $_POST['phone'], 
+																 md5($_POST['pass']), 
+																 $_POST['zip'] );
 					
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);

@@ -228,6 +228,8 @@ class DBConfig {
 	}
 	
 	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, $fbid = NULL) {
+		$fbid = (isset($_SESSION['fb'])) ? $_SESSION['fb']->facebook : $fbid; 
+	
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, zip, facebook) 
