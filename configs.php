@@ -78,7 +78,7 @@ define('DEVICE_ID', 'PayPal_Platform_PHP_SDK');
 define('APPLICATION_ID', 'APP-80W284485P519543T');
 
 define('WTITLE', 'trueRSVP');
-define('WSLOGAN', 'What\'s your number?');
+define('WSLOGAN', 'Flake-proof your event');
 
 $smarty->assign('WTITLE', WTITLE);
 $smarty->assign('WSLOGAN', WSLOGAN);

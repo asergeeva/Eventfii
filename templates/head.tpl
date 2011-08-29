@@ -10,7 +10,7 @@
 	<meta property="og:url" content="{if !isset($event->title)}{$CURHOST}{else}{$EVENT_URL}/{$event->eid}{/if}" /> 
 	<meta property="og:image" content="{$IMG_PATH}/logo_wide.jpg" /> 
 	<meta property="og:site_name" content="{$WTITLE} | {if !isset($event->title)}{$WSLOGAN}{else}{$event->title}{/if}" /> 
-	<meta property="og:description" content="{if !isset($event->description)}A new RSVP system based on reputation{else}{$event->description}{/if}" /> 
+	<meta property="og:description" content="{if !isset($event->description)}Flake-proof your event and find out how many people will actually show up{else}{$event->description}{/if}" /> 
 	<title>{$WTITLE} | {if !isset($event->title)}{$WSLOGAN}{else}{$event->title}{/if}</title>
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{$CSS_PATH}/fileuploader.css" media="screen" />
