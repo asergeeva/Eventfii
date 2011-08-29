@@ -42,7 +42,7 @@ class DBAPI extends DBConfig {
 	
 	public function m_checkFBUser($email)
 	{
-		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."";
+		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
 		if (isset($userInfo['id'])) 
 		{

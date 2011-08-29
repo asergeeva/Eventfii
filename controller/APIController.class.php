@@ -76,7 +76,7 @@ class APIController {
 			case 'login':
 				if ( isset($_POST['isFB']) ) 
 				{
-					if($this->dbCon->checkUserExists($_POST['email']))
+					if($this->dbCon->m_checkFBUser($_POST['email']))
 					{
 						$this->handleFBLogin();
 						break;
