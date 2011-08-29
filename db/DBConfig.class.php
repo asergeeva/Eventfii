@@ -221,7 +221,7 @@ class DBConfig {
 	}
 	
 	private function checkNullOrValSql($val) {
-		if (isset($val)) {
+		if (isset($val) && trim($val) != "") {
 			return "'".mysql_real_escape_string($val)."'";
 		}
 		return "NULL";
@@ -363,6 +363,11 @@ class DBConfig {
 		}
 		$sqlDeadline = $this->dateToSql($newEvent->deadline);
 		
+		$twitter = $newEvent->twitter;
+		if (is_numeric(strpos($newEvent->twitter, '#'))) {
+			$twitter = substr($newEvent->twitter, strpos($newEvent->twitter, '#') + 1);
+		}
+		
 		$CREATE_NEW_EVENT = "
 			INSERT INTO ef_events (	
 							created, 
@@ -379,14 +384,15 @@ class DBConfig {
 							is_public, 
 							type,
 							location_lat,
-							location_long
+							location_long,
+							twitter
 						) 
 			VALUES (	NOW(), 
 						" . mysql_real_escape_string($newEvent->organizer->id) . ",
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
 						" . mysql_real_escape_string($newEvent->reach_goal). ",
-						'" . mysql_real_escape_string($newEvent->location) . "',
+						" . $this->checkNullOrValSql($newEvent->location) . ",
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
 						 " .$this->checkNullOrValSql($end_datetime).",
@@ -395,7 +401,8 @@ class DBConfig {
 						" . $newEvent->is_public . ",
 						" . $newEvent->type . ",
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
-						" . mysql_real_escape_string($newEvent->location_long) . "
+						" . mysql_real_escape_string($newEvent->location_long) . ",
+						" . $this->checkNullOrValSql($twitter) . "
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
@@ -438,11 +445,16 @@ class DBConfig {
 		
 		$sqlDeadline = $this->dateToSql($eventInfo->deadline);
 		
+		$twitter = $eventInfo->twitter;
+		if (is_numeric(strpos($eventInfo->twitter, '#'))) {
+			$twitter = substr($eventInfo->twitter, strpos($eventInfo->twitter, '#') + 1);
+		}
+		
 		$UPDATE_EVENT = "	UPDATE	ef_events e 
 							SET		e.title = '".mysql_real_escape_string($eventInfo->title)."', 
 									e.goal = ".mysql_real_escape_string($eventInfo->goal).",
 									e.reach_goal = ".mysql_real_escape_string($eventInfo->reach_goal).",
-									e.location_name = '".mysql_real_escape_string($eventInfo->location)."', 
+									e.location_name = ".$this->checkNullOrValSql($eventInfo->location).", 
 									e.location_address = '".mysql_real_escape_string($eventInfo->address)."', 
 									e.event_datetime = '".mysql_real_escape_string($datetime)."', 
 									e.event_end_datetime = ".$this->checkNullOrValSql($end_datetime).",  
@@ -451,7 +463,8 @@ class DBConfig {
 									e.is_public = ".mysql_real_escape_string($eventInfo->is_public).", 
 									e.location_lat=".mysql_real_escape_string($eventInfo->location_lat).",
 									e.location_long=".mysql_real_escape_string($eventInfo->location_long).",
-									e.type = ".$eventInfo->type." 
+									e.type = ".$eventInfo->type.",
+									e.twitter = ".$this->checkNullOrValSql($twitter)." 
 							WHERE	e.id = ".mysql_real_escape_string($eventInfo->eid);
 		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
@@ -602,7 +615,8 @@ class DBConfig {
 								is_public, 
 								type,
 								location_lat,
-								location_long
+								location_long,
+								twitter
 						FROM	ef_events
 						WHERE	id = " . $eid;
 		return $this->executeValidQuery( $GET_EVENT );

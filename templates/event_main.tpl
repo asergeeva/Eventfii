@@ -1,7 +1,7 @@
 <div class="content">{if $event->days_left > 0}
 
 			<header class="block">
-				<p class="message"><em>{$event->days_left}</em> {if $event->days_left == 1}day{else}days{/if} left until the event.{if $event->days_left == 1} Get exited!{/if}<br /><br />Use <em>#trueRSVP{$event->eid}</em> to post your tweet & pics here!</p>
+				<p class="message"><em>{$event->days_left}</em> {if $event->days_left == 1}day{else}days{/if} left until the event.{if $event->days_left == 1} Get exited!{/if}<br /><br />Use <em>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</em> to post your tweet & pics here!</p>
 			</header>{/if}
 
 			<section class="block" id="event-info">

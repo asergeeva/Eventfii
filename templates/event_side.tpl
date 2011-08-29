@@ -61,8 +61,8 @@
 				<header class="block-title">
 					<h1>Live Feed</h1>
 				</header>
-				<p class="twitter-info">Use <span>#trueRSVP{$event->eid}</span> to post your tweet & pics here!</p>
-				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#trueRSVP{$event->eid}"></div>
+				<p class="twitter-info">Use <span>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</span> to post your tweet & pics here!</p>
+				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}"></div>
 			</section>
 		</aside>
 		<!--footer class="links-extra">

@@ -148,6 +148,14 @@
 									<p class="message-error" id="pubErr">{$error.pub}</p>{/if}
 
 								</dd>
+								<dt>
+									<label>Twitter Hash Tag</label>
+								</dt>
+								<dd>
+									<input type="text" name="twitter" value="{if isset($event_field.twitter)}{$event_field.twitter}{else}Ex: #RockTurtle{/if}" class="inputbox autowidth{if ! isset($event_field.twitter)} default{/if}" id="twitter" />{if isset($error.twitter)}
+
+									<p class="message-error">{$error.twitter}</p>{/if}
+								</dd>
 							</dl>
 							<footer class="buttons buttons-submit">
 								<input type="hidden" name="location_lat" value="{if isset($event_field.location_lat)}{$event_field.location_lat}{/if}" />

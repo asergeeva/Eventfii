@@ -49,6 +49,7 @@ $(document).ready(function() {
 	var location_init = "Ex: Jim's House";
 	var address_init = "Ex: 1234 Maple St, Los Angeles, CA 90007";
 	var goal_init = "In # of Attendees";
+	var twitter_init = "Ex: #RockTurtle";
 	
 	if ( $("#location").val() == '' ) { 
 		$("#location").val(location_init); 
@@ -75,7 +76,12 @@ $(document).ready(function() {
 			$(this).val(''); 
 			$(this).removeClass("default");
 			return; 
-		}		
+		}
+		if ( $(this).val() == twitter_init ) { 
+			$(this).val(''); 
+			$(this).removeClass("default");
+			return; 
+		}
 	});
 	$("textarea").focus(function() {
 		if ( $(this).val() == description_init ) { 
@@ -100,6 +106,10 @@ $(document).ready(function() {
 		}
 		if ( $("#goal").val() == '' ) { 
 			$(this).val(goal_init); 
+			$(this).addClass("default"); 
+		}
+		if ( $("#twitter").val() == '' ) { 
+			$(this).val(twitter_init); 
 			$(this).addClass("default"); 
 		}
 	});

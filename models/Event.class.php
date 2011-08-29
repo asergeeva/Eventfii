@@ -38,6 +38,8 @@ class Event {
 	public $guests = array();
 	public $exists;
 	
+	public $twitter;
+	
 	public $error;
 	public $numErrors;
 	
@@ -66,6 +68,7 @@ class Event {
 			if ( isset($_POST['location_long']) ) {
 				$this->location_long = $_POST['location_long'];
 			}
+			$this->twitter = $_POST['twitter'];
 		} else {
 			if ( ! is_array($eventInfo) ) {
 				$this->eid = $eventInfo;
@@ -173,6 +176,7 @@ class Event {
 		}
 		
 		$this->reach_goal = $eventInfo['reach_goal'];
+		$this->twitter = $eventInfo['twitter'];
 		
 		$this->exists = true;
 	}
@@ -203,6 +207,7 @@ class Event {
 		$eventInfo['is_public'] = $this->is_public;
 		$eventInfo['location_lat'] = $this->location_lat;
 		$eventInfo['location_long'] = $this->location_long;
+		$eventInfo['twitter'] = $this->twitter;
 		
 		return $eventInfo;
 	}
@@ -275,7 +280,8 @@ class Event {
 		$this->check_end_time();
 		$this->check_goal();
 		$this->check_deadline();
-		$this->check_type();	
+		$this->check_type();
+		$this->check_twitter();
 		
 		// Return if there are any errors
 		if ( $this->numErrors == 0 )
@@ -332,6 +338,25 @@ class Event {
 
 		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
+			return;
+		}
+	}
+	
+	/* check_twitter
+	 * Checks the twitter hash tag
+	 *
+	 * Requirements:
+	 *  - Only alphanumeric characters
+	 *  - 0-100 characters
+	 */
+	private function check_twitter() {
+		if( strlen($this->twitter) == 0 )
+			return;
+		
+		$this->twitter = stripslashes($this->twitter);	
+
+		if ( $this->twitter == "Ex: #RockTurtle" ) {
+			$this->twitter = "";
 			return;
 		}
 	}
