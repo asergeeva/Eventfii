@@ -10,6 +10,7 @@ require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
+
 class APIController {
 	private $dbCon;
 	private $result;
@@ -58,6 +59,7 @@ class APIController {
 			echo 0;
 		}
 	}
+
 	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
@@ -72,9 +74,18 @@ class APIController {
 		}
 		switch ($current_page) {
 			case 'login':
-				if ( isset($_POST['isFB']) ) {
-					$this->handleFBLogin();
-					break;
+				if ( isset($_POST['isFB']) ) 
+				{
+					if($this->dbCon->m_checkFBUser($_POST['email']))
+					{
+						$this->handleFBLogin();
+						break;
+					}
+					else
+					{
+						echo 'status_doesNotExist';
+						break;
+					}
 				} else {
 					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
 					if( isset($userId)) {
