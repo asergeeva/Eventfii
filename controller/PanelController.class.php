@@ -389,10 +389,18 @@ class PanelController {
 	 * Redirect the user home if he's logged in
      */
 	private function loggedInRedirect() {
+		
 		// if the user already logged in
 		if ( isset($_SESSION['user']) ) {
+			// If there is a page to be redirected to
+			if (isset($_SESSION['page_redirect'])) { 
+				header("Location: ". $_SESSION['page_redirect']);
+				unset($_SESSION['page_redirect']);
+				
 			// Logged in user doesn't need to log in!
-			header("Location: " . CURHOST . "/home?loggedIn=false");
+			} else {
+				header("Location: " . CURHOST . "/home?loggedIn=false");
+			}
 			exit;
 		}
 	}
@@ -406,11 +414,7 @@ class PanelController {
 		if ( $userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
 			
-			if (preg_match("/event\/\d+/", $_POST['curPage']) > 0) {
-				echo 4;
-			} else {
-				echo 3;
-			}
+			echo 3;
 		} else {
 			echo 0;
 		}
@@ -1204,6 +1208,7 @@ class PanelController {
 					EFCommon::$smarty->assign('redirect', $params);
 				}
 
+				// If this is a Facebook form login
 				if ( isset($_POST['isFB']) ) {
 					$this->handleFBLogin();
 					break;
@@ -1238,6 +1243,9 @@ class PanelController {
 					
 					// Send welcome email
 					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
+					
+					// Check on which page the user should be redirected to
+					$this->loggedInRedirect();
 				} else {
 					EFCommon::$smarty->display('create_account.tpl');
 					break;
@@ -1260,6 +1268,10 @@ class PanelController {
 				}
 				
 				if ( isset($_POST['isFB']) ) {
+					// If currently looking at the event page
+					if (preg_match("/event\/\d+/", $_POST['curPage']) > 0) {
+						$_SESSION['page_redirect'] = $_POST['curPage'];
+					}
 					$this->handleFBLogin();
 					break;
 				// if the user submits the login form
