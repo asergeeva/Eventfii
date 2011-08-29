@@ -51,7 +51,8 @@ var LOGIN_FORM = (function() {
 				email: userInfo.email,
 				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture?type=large',
 				isFB: true,
-				fbid: userInfo.id
+				fbid: userInfo.id,
+				curPage: window.location.href
 			}, LOGIN_FORM.loginRedirect);
 		},
 		
@@ -63,8 +64,12 @@ var LOGIN_FORM = (function() {
 			if( status == 1 ) {
 				window.location = EFGLOBAL.baseUrl + '/home?loggedIn=true';
 			// Facebook login
-			} else if ( status == 3) {
+			} else if ( status == 3 ) {
 				window.location = EFGLOBAL.baseUrl + '/register';
+			// Use the current page as redirect
+			} else if ( status == 4 ) {
+				window.location = window.location.href;
+			// Invalid login
 			} else if ( status == 0 ) {
 				window.location = EFGLOBAL.baseUrl + '/login';
 				$('#invalid_credentials').html("Please enter valid login credentials.");

@@ -405,7 +405,12 @@ class PanelController {
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
 		if ( $userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
-			echo 3;
+			
+			if (preg_match("/event\/\d+/", $_POST['curPage']) > 0) {
+				echo 4;
+			} else {
+				echo 3;
+			}
 		} else {
 			echo 0;
 		}
