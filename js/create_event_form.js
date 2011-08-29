@@ -49,7 +49,7 @@ $(document).ready(function() {
 	var location_init = "Ex: Jim's House";
 	var address_init = "Ex: 1234 Maple St, Los Angeles, CA 90007";
 	var goal_init = "In # of Attendees";
-	var twitter_init = "Ex: #RockTurtle";
+	var twitter_init = "Ex: #TurtlesRock";
 	
 	if ( $("#location").val() == '' ) { 
 		$("#location").val(location_init); 

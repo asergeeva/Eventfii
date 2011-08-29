@@ -355,7 +355,7 @@ class Event {
 		
 		$this->twitter = stripslashes($this->twitter);	
 
-		if ( $this->twitter == "Ex: #RockTurtle" ) {
+		if ( $this->twitter == "Ex: #TurtlesRock" ) {
 			$this->twitter = "";
 			return;
 		}

@@ -152,7 +152,7 @@
 									<label>Twitter Hash Tag</label>
 								</dt>
 								<dd>
-									<input type="text" name="twitter" value="{if isset($event_field.twitter)}{$event_field.twitter}{else}Ex: #RockTurtle{/if}" class="inputbox autowidth{if ! isset($event_field.twitter)} default{/if}" id="twitter" />{if isset($error.twitter)}
+									<input type="text" name="twitter" value="{if isset($event_field.twitter)}{$event_field.twitter}{else}Ex: #TurtlesRock{/if}" class="inputbox autowidth{if ! isset($event_field.twitter)} default{/if}" id="twitter" />{if isset($error.twitter)}
 
 									<p class="message-error">{$error.twitter}</p>{/if}
 								</dd>
