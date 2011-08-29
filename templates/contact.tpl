@@ -16,9 +16,9 @@
 					<label for="name_input">
 						<strong>Your name</strong>
 						<div>{if isset($smarty.session.user)}
-
-							<p>{$smarty.session.user->fname} {$smarty.session.user->lname}</p>{else}
-
+							
+							<input type="text" class="inputbox autowidth" name="name" id="name_input" value="{$smarty.session.user->fname} {$smarty.session.user->lname}" readonly="readonly">
+							{else}
 							<input type="text" class="inputbox autowidth" name="name" id="name_input" value="{if isset($name)}{$name}{/if}">{/if}
 
 						</div>
@@ -26,9 +26,8 @@
 					<label for="email_input">
 						<strong>Your e-mail</strong>
 						<div>{if isset($smarty.session.user)}
-
-							<p>{$smarty.session.user->email}</p>{else}
-
+							<input type="text" class="inputbox autowidth" name="email" id="email_input" value="{$smarty.session.user->email}" readonly="readonly">
+							{else}
 							<input type="text" class="inputbox autowidth" name="email" id="email_input" value="{if isset($email)}{$email}{/if}">{/if}
 
 						</div>{if isset($invalid_email_message)}
