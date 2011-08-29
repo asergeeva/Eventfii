@@ -699,8 +699,6 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
-				print_r($_SESSION);
-				
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
@@ -1441,6 +1439,8 @@ class PanelController {
 				$event->getVCS();
 				break;
 			case '/service/autocomplete':
+				break;
+			case '/twitter/update':
 				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);
