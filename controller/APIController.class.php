@@ -149,34 +149,47 @@ class APIController {
 			case 'sendMessage':
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 				require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
-				$event = $this->buildEvent( $_REQUEST['eventId'] );		
-				//$mailer = new EFMail();
-				$sms = new EFSMS();
+				$event = $this->buildEvent( $_REQUEST['eventId'] );	
 				$contacts = $_REQUEST['uid'];
-				
-				//Newbie php coding skills:
-				$attendees = array();
-				for($i=0; $i < count($contacts); $i++)
-				{
-					array_push($attendees, $this->dbCon->getUserInfo($contacts[$i]));
-				}
-				//
+ 				$guests = array();
+ 				for($i=0; $i < count($contacts); $i++)
+ 				{
+ 					array_push($guests, $this->dbCon->getUserInfo($contacts[$i]));
+ 				}		
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
 				{
-					echo("Email");
-					EFCommon::$mailer->sendAutomatedEmail($event, 
-						$_REQUEST['reminderContent'], 
-						$_REQUEST['reminderSubject'], 
-						$attendees);
-				}		
-				if($_REQUEST['form'] == 'sms' || $_REQUEST['form'] == 'both') 
-				{
-					echo("Text");
-					$sms->sendSMSReminder($attendees, 
-						$event->eid, 
-						EFCommon::$mailer->mapText($_REQUEST['reminderContent'], 
-						$event->eid));
+					for ($i = 0; $i < sizeof($guests); ++$i) 
+					{
+						EFCommon::$mailer->sendHtmlEmail('general', $guests[$i], $_POST['reminderSubject'], $event, $_POST['reminderContent']);
+					}
 				}
+				if($_REQUEST['form'] == 'text' || $_REQUEST['form'] == 'both') 
+ 				{
+					EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
+				}
+				//$mailer = new EFMail();
+				// $sms = new EFSMS();
+// 				$contacts = $_REQUEST['uid'];
+// 				
+// 				//Newbie php coding skills:
+
+// 				//
+// 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
+// 				{
+// 					echo("Email");
+// 					EFCommon::$mailer->sendAutomatedEmail($event, 
+// 						$_REQUEST['reminderContent'], 
+// 						$_REQUEST['reminderSubject'], 
+// 						$attendees);
+// 				}		
+// 				if($_REQUEST['form'] == 'sms' || $_REQUEST['form'] == 'both') 
+// 				{
+// 					echo("Text");
+// 					$sms->sendSMSReminder($attendees, 
+// 						$event->eid, 
+// 						EFCommon::$mailer->mapText($_REQUEST['reminderContent'], 
+// 						$event->eid));
+// 				}
 				echo("status_emailSuccess");
 				break;
 			case 'getUsername':
@@ -194,6 +207,11 @@ class APIController {
 				
 				//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				$_SESSION['user'] = serialize($_SESSION['user']);
+				break;
+			case 'isAttending':
+				//$_SESSION['user'] = unserialize($_SESSION['user']);
+				echo json_encode($this->dbCon->m_isAttending($_REQUEST['eid']));
+				//$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);

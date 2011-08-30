@@ -66,6 +66,7 @@ class DBAPI extends DBConfig {
 										e.location_long,
 										e.event_datetime, 
 										e.event_deadline, 
+										e.twitter,
 										e.description, e.is_public 
 								FROM 	ef_attendance a, 
 										ef_events e 
@@ -106,8 +107,14 @@ class DBAPI extends DBConfig {
 	}
 	public function m_getCheckInDate($eid, $uid)
 	{
-		$GET_DATE = "SELECT e.rsvp_time from ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";
+		$GET_DATE = "SELECT e.rsvp_time FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";
 		$dateInfo = $this->executeValidQuery($GET_DATE);
 		return $dateInfo;
+	}
+	public function m_isAttending($eid)
+	{
+		$IS_ATTENDING="SELECT * FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid;
+		$isAttending = $this->executeValidQuery($IS_ATTENDING);
+		return $isAttending;
 	}
 }
