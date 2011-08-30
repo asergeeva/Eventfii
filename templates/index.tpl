@@ -5,7 +5,7 @@
 <header id="site-header">
 	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
 	<nav>
-		<p><a href="{$SCURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
+		<p><a href="{$SCURHOST}/login">Log In</a> | <a href="{$SCURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
 	</nav>
 	<section class="about">
 		<header>
