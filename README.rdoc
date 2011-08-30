@@ -31,6 +31,8 @@
 * Setup QR code
     sudo mkdir temp
     sudo chmod 777 temp
+* Setup SSL on localhost
+    sudo /Applications/XAMPP/xamppfiles/xampp enablessl
 		
 == Coding style
 === Braces

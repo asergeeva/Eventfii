@@ -21,6 +21,7 @@ define('EVENT_URL', CURHOST.'/event');
 define('NUM_TWEETS', 5);
 
 $smarty->assign('CURHOST', CURHOST);
+$smarty->assign('SCURHOST', SCURHOST);
 $smarty->assign('FB_APP_ID', FB_APP_ID);
 $smarty->assign('IMG_PATH', IMG_PATH);
 $smarty->assign('IMG_UPLOAD', IMG_UPLOAD);

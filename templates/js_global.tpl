@@ -17,6 +17,7 @@ var EFGLOBAL = (function() {
 	return {
 		ajaxLoader: '<img src="images/ajax-loader.gif" alt="loading" class="ajax-loader" />',
 		baseUrl: '{/literal}{$CURHOST}{literal}',
+		sbaseUrl: '{/literal}{$SCURHOST}{literal}',
 		fbAppId: '{/literal}{$FB_APP_ID}{literal}',
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>'

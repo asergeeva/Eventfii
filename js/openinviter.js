@@ -15,7 +15,7 @@ var OPENINVITER = (function() {
 	$('.event_invite_oi').live('click', function() {
 		$('#oi_container').html(EFGLOBAL.ajaxLoader);
 				
-		$.get(EFGLOBAL.baseUrl + '/guest/inviter', {
+		$.get(EFGLOBAL.sbaseUrl + '/guest/inviter', {
 			provider: this.href.split('#')[1]
 		}, function(providerLoginPage) {
 			$('#oi_container').html(providerLoginPage).ready(function() {
@@ -25,7 +25,7 @@ var OPENINVITER = (function() {
 	});
 	
 	$('#oi_import').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/guest/inviter', {
+		$.post(EFGLOBAL.sbaseUrl + '/guest/inviter', {
 			oi_provider: $('#oi_provider').val(),
 			oi_email: $('#oi_email').val(),
 			oi_pass: $('#oi_pass').val()

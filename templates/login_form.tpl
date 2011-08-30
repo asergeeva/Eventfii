@@ -1,5 +1,5 @@
 <div class="form">
-	<form method="post" action="{$CURHOST}/login{if isset($redirect)}{$redirect}{/if}">
+	<form method="post" action="{$SCURHOST}/login{if isset($redirect)}{$redirect}{/if}">
 	<fieldset id="existing_user_login_form" class="one-col">
 		<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>  
 		<div id="invalid_credentials"></div>
