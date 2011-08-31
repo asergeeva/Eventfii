@@ -59,7 +59,6 @@ class APIController {
 			echo 0;
 		}
 	}
-
 	
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
@@ -154,7 +153,8 @@ class APIController {
  				$guests = array();
  				for($i=0; $i < count($contacts); $i++)
  				{
- 					array_push($guests, $this->dbCon->getUserInfo($contacts[$i]));
+ 					$newUser = new User($contacts[$i]);
+ 					array_push($guests, $newUser);
  				}		
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
 				{
@@ -167,29 +167,6 @@ class APIController {
  				{
 					EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 				}
-				//$mailer = new EFMail();
-				// $sms = new EFSMS();
-// 				$contacts = $_REQUEST['uid'];
-// 				
-// 				//Newbie php coding skills:
-
-// 				//
-// 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
-// 				{
-// 					echo("Email");
-// 					EFCommon::$mailer->sendAutomatedEmail($event, 
-// 						$_REQUEST['reminderContent'], 
-// 						$_REQUEST['reminderSubject'], 
-// 						$attendees);
-// 				}		
-// 				if($_REQUEST['form'] == 'sms' || $_REQUEST['form'] == 'both') 
-// 				{
-// 					echo("Text");
-// 					$sms->sendSMSReminder($attendees, 
-// 						$event->eid, 
-// 						EFCommon::$mailer->mapText($_REQUEST['reminderContent'], 
-// 						$event->eid));
-// 				}
 				echo("status_emailSuccess");
 				break;
 			case 'getUsername':

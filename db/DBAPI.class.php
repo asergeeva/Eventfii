@@ -113,8 +113,19 @@ class DBAPI extends DBConfig {
 	}
 	public function m_isAttending($eid)
 	{
+		$uid = unserialize($_SESSION['user'])->id;
 		$IS_ATTENDING="SELECT * FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid;
 		$isAttending = $this->executeValidQuery($IS_ATTENDING);
 		return $isAttending;
+	}
+	public function m_getGuestContactInfo($eid, $uid)
+	{
+		$GET_ATTENDEES = "	SELECT	* 
+					FROM 	ef_attendance a, 
+							ef_users u 
+					WHERE 	u.id = " . $uid . "
+					AND		a.user_id = u.id
+					AND 	a.event_id = " . $eid;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 }
