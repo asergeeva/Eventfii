@@ -20,6 +20,9 @@ class User extends AbstractUser {
 	public $notif_opt3;
 	public $contacts = array();
 	
+	public $fb_access_token;
+	public $fb_session_key;
+	
 	public $is_attending;
 	
 	public function __construct($userInfo) {
@@ -68,6 +71,9 @@ class User extends AbstractUser {
 		$this->notif_opt1 = $userInfo['notif_opt1'];
 		$this->notif_opt2 = $userInfo['notif_opt2'];
 		$this->notif_opt3 = $userInfo['notif_opt3'];
+		
+		$this->fb_access_token = $userInfo['fb_access_token'];
+		$this->fb_session_key = $userInfo['fb_session_key'];	
 	}
 	
 	private function getUserInfoFromDb() {

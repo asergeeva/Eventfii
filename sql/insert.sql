@@ -1,9 +1,3 @@
--- Admins --
-INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Grady', 'Laksmono', 'grady@truersvp.com', MD5('laksmono'), 'I am Grady', 1);
-INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Fei', 'Xiao', 'fei@truersvp.com', MD5('xiao'), 'I am Fei', 1);
-INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Anna', 'Sergeeva', 'anna@truersvp.com', MD5('sergeeva'), 'I am Anna', 1);
-INSERT INTO ef_users (fname, lname, email, password, about, verified) VALUES('Scott', 'Sangster', 'scott@truersvp.com', MD5('sangster'), 'I am Scott', 1);
-
 -- Message types --
 INSERT INTO ef_messages_type (name) VALUES ('Email');
 INSERT INTO ef_messages_type (name) VALUES ('SMS');

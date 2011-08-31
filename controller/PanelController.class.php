@@ -410,7 +410,8 @@ class PanelController {
 	 * so let's take him to his profile page
 	 */
 	private function handleFBLogin() {
-		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], 
+													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
 		if ( $userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
 			
@@ -598,6 +599,7 @@ class PanelController {
 					unset($_SESSION['contact_form']);
 					
 					$this->assignCPEvents($_SESSION['user']->id);
+					
 					EFCommon::$smarty->display('cp.tpl');
 				} else {
 					EFCommon::$smarty->display('index.tpl');
@@ -1196,6 +1198,10 @@ class PanelController {
 				break;				
 			case '/fb/user/update':
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
+				break;
+			case '/fb/friends':
+				$fbFriends = json_decode($_POST['fbFriends']);
+				EFCommon::$dbCon->saveFBFriends($fbFriends->data, $_SESSION['user']->id);
 				break;
 			case '/register':
 				// Logged in user doesn't need to create an account!

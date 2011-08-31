@@ -7,10 +7,6 @@
  
 var LOGIN_FORM = (function() {
 	return {
-		init: function() {
-			FBCON.getLoginStatus();
-		},
-		
 		existingUserLogin: function() {
 			$.post(EFGLOBAL.baseUrl + '/login', {
 					isExist: true,
@@ -42,8 +38,9 @@ var LOGIN_FORM = (function() {
 		
 		/**
 		 * userInfo - the user object from Facebook
+		 * sessionInfo - the session from Facebook
 		 */
-		fbUserLogin: function(userInfo) {
+		fbUserLogin: function(userInfo, sessionInfo) {
 			$.post(EFGLOBAL.baseUrl + '/login', {
 				isExist: false,
 				fname: userInfo.first_name,
@@ -52,8 +49,18 @@ var LOGIN_FORM = (function() {
 				pic: 'http://graph.facebook.com/' + userInfo.id + '/picture?type=large',
 				isFB: true,
 				fbid: userInfo.id,
-				curPage: window.location.href
+				curPage: window.location.href,
+				fb_access_token: sessionInfo.access_token,
+				fb_session_key: sessionInfo.session_key
 			}, LOGIN_FORM.loginRedirect);
+			
+			FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
+				if (typeof userFriends.error == 'undefined') {
+					$.post(EFGLOBAL.baseUrl + '/fb/friends', {
+						fbFriends: JSON.stringify(userFriends)
+					});
+				}
+			});
 		},
 		
 		/**

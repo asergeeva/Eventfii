@@ -4,6 +4,7 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/json2.js"></script>
 <script src="https://connect.facebook.net/en_US/all.js#appId={$FB_APP_ID}&amp;xfbml=1"></script>
 <script type="text/javascript" language="javascript">
 {literal}

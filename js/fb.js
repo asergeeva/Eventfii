@@ -15,22 +15,17 @@ var FBCON = (function() {
 				xfbml  : true  // parse XFBML
 			});
 		},
-				
-		getLoginStatus: function() {
-			this.fbInit();
-			FB.getLoginStatus(function(response) {
-				if (response.session) {
-					FBCON.onlogin();
-				} else {
-					
-				}
-			});
-		},
 		
 		onlogin: function() {
-			FB.api('/me', function(userInfo) {
-				if (typeof userInfo.error == 'undefined') {
-					LOGIN_FORM.fbUserLogin(userInfo);
+			FB.getLoginStatus(function(sessionInfo) {
+				if (sessionInfo.session) {
+					FB.api('/me', function(userInfo) {
+						if (typeof userInfo.error == 'undefined') {
+							LOGIN_FORM.fbUserLogin(userInfo, sessionInfo.session);
+						}
+					});
+				} else {
+					
 				}
 			});
 		}

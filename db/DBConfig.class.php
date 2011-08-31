@@ -227,19 +227,31 @@ class DBConfig {
 		return "NULL";
 	}
 	
-	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, $fbid = NULL) {
-		$fbid = (isset($_SESSION['fb'])) ? $_SESSION['fb']->facebook : $fbid; 
+	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, 
+								  $fbid = NULL, $access_token = NULL, $session_key = NULL) {
+
+		// If Facebook session exists, use its data for the FB related variables
+		if (isset($_SESSION['fb'])) {
+			$fbid = $_SESSION['fb']->facebook;
+			$access_token = $_SESSION['fb']->fb_access_token;
+			$session_key = $_SESSION['fb']->fb_session_key;
+
+			$fbFriends = EFCommon::$facebook->api('/me/friends', array('access_token' => $_SESSION['fb']->fb_access_token));
+			$this->saveFBFriends($fbFriends['data'], $_SESSION['fb']->id);
+		}
 	
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
-			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, zip, facebook) 
+			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, zip, facebook, fb_access_token, fb_session_key) 
 								VALUES(".$this->checkNullOrValSql($fname).", 
 									   ".$this->checkNullOrValSql($lname).", 
 									   '".mysql_real_escape_string($email)."', 
 									   ".$this->checkNullOrValSql($phone).", 
 									   ".$this->checkNullOrValSql($pass).", 
 									   ".$this->checkNullOrValSql($zip).",
-									   ".$this->checkNullOrValSql($fbid).")";
+									   ".$this->checkNullOrValSql($fbid).",
+									   ".$this->checkNullOrValSql($access_token).",
+									   ".$this->checkNullOrValSql($session_key).")";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		
 		// Update the reference
@@ -254,7 +266,9 @@ class DBConfig {
 									phone = ".$this->checkNullOrValSql($phone).",
 									password = ".$this->checkNullOrValSql($pass).",
 									zip = ".$this->checkNullOrValSql($zip).",
-									facebook = ".$this->checkNullOrValSql($fbid)."
+									facebook = ".$this->checkNullOrValSql($fbid).",
+									fb_access_token = ".$this->checkNullOrValSql($access_token).",
+									fb_session_key = ".$this->checkNullOrValSql($session_key)."
 							WHERE	email = '" . $refEmail . "'";
 											
 			$email = $refEmail;
@@ -268,7 +282,9 @@ class DBConfig {
 									phone = ".$this->checkNullOrValSql($phone).",
 									password = ".$this->checkNullOrValSql($pass).",
 									zip = ".$this->checkNullOrValSql($zip).",
-									facebook = ".$this->checkNullOrValSql($fbid)."
+									facebook = ".$this->checkNullOrValSql($fbid).",
+									fb_access_token = ".$this->checkNullOrValSql($access_token).",
+									fb_session_key = ".$this->checkNullOrValSql($session_key)."
 							WHERE	email = '" . $email . "'";
 											
 			$this->executeUpdateQuery($UPDATE_USER);
@@ -295,16 +311,18 @@ class DBConfig {
 	 * @param $email | Email Address
 	 * @return $userInfo | Array containing user information 
 	 */
-	public function facebookConnect( $fname, $lname, $email, $fbid ) {
+	public function facebookConnect( $fname, $lname, $email, $fbid, $access_token, $session_key ) {
 		if ( ! $this->isUserEmailExist($email) ) {
 			// If the user is new, create their account
-			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL, $fbid );
+			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL, $fbid, $access_token, $session_key );
 		} else {
 			// Check to see that current users info is up to date
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
 										lname = '" . mysql_real_escape_string($lname) . "',
-										facebook = '".mysql_real_escape_string($fbid)."' 
+										facebook = '".mysql_real_escape_string($fbid)."',
+										fb_access_token = '".mysql_real_escape_string($access_token)."',
+										fb_session_key = '".mysql_real_escape_string($session_key)."' 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			
 			// The user must have already registered
@@ -1065,5 +1083,24 @@ class DBConfig {
 	
 	public function getEmailSuggestion($keyword) {
 		$GET_SUGGESTION = "SELECT * FROM ef_addressbook a WHERE a.email LIKE '%".$keyword."%' AND a.user_id = ".$_SESSION['user']->id;
+	}
+	
+	/**
+	 * Store the user's Facebook friends
+	 * @param $fbFriends   Array  of facebook friends
+	 * @param $userId      Integer the user ID
+	 */
+	public function saveFBFriends($fbFriends, $userId) {
+		for ($i = 0; $i < sizeof($fbFriends); ++$i) {
+			if (is_array($fbFriends[$i])) {
+				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
+										VALUES (".$userId.", '".$fbFriends[$i]['name']."', '".$fbFriends[$i]['id']."')";
+				$this->executeUpdateQuery($STORE_FB_FRIEND);
+			} else {
+				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
+										VALUES (".$userId.", '".$fbFriends[$i]->name."', '".$fbFriends[$i]->id."')";
+				$this->executeUpdateQuery($STORE_FB_FRIEND);
+			}
+		}
 	}
 }

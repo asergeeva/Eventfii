@@ -6,12 +6,6 @@
  */
 var CP_EVENT = (function() {
 	return {
-		init: function() {
-			$('#fb-logout').live('click', function() {
-				FB.logout();
-			});
-		},
-		
 		updateProfile: function(uid) {
 			$.post(EFGLOBAL.baseUrl + '/user/profile/update', {
 				paypal_email: $('#paypal_email').val()
@@ -29,7 +23,6 @@ $(document).ready(function() {
 	USER_IMAGE_UPLOADER.init();
 	$("img[rel]").overlay();
 	$("a[rel]").overlay();
-	CP_EVENT.init();
 	
 	$('#editBtn').click(function(){
 		$('.edit').click();

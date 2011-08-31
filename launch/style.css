@@ -1,0 +1,129 @@
+/* Stylesheet */
+* { 
+	margin: 0; 
+	padding: 0; }
+	
+body { 
+	background: #56a9d3 url(_img/body_launch_bg.gif) 0 0 repeat-x;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 300;
+	font-size: 16px; }
+
+a { text-decoration: none; } 
+a: hover { text-decoration: underline; }
+
+/* Buttons */
+.btn-launch { 
+	background: url(_img/btn_left.png) 0 0 no-repeat;
+	float: right;
+	height: 35px;
+	margin: 15px 8px 0 0;
+	padding: 0 0 0 10px;
+	display: block; }
+.btn-launch:hover { background-position: 0 100%; }
+.btn-launch a {
+	background: url(_img/btn_right.png) 100% 0 no-repeat;
+	float: left;
+	color: #fff;
+	font-size: 13px;
+	height: 28px; /* 35 - 7 */
+	padding: 7px 36px 0 23px;
+	border: 0;
+	cursor: pointer;
+	clear: right;
+	display: block; }
+.btn-launch:hover a { background-position: 100% 100%; }
+
+/* Inputs */
+#inputbox { 
+	float: left;
+	width: 100%; }
+input.inputbox {
+	background: #fff;
+	float: left;
+	color: #666;
+	font-size: 22px;
+	font-family: inherit;
+	width: 100%;
+	max-width: 597px; /* 617 - 18 - 2 */
+	height: 35px;
+	margin: 14px 0 0;
+	padding: 0 9px;
+	cursor: text;
+	border: 1px solid #b5b5b5;
+	display: block;
+	clear: left; }
+input.inputbox-small { width: 466px; }
+
+/* Icons */
+.icon {
+	background: none 0 0 no-repeat;
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+	text-indent: -10000px;
+	display: inline-block; }
+.icon-twitter { background-image: url(_img/icon_twitter.png); }
+.icon-facebook { background-image: url(_img/icon_facebook.png); }
+.icon-stumbleupon { background-image: url(_img/icon_stumbleupon.png); }
+.icon-google { background-image: url(_img/icon_google.png); }
+.icon-delicious { background-image: url(_img/icon_delicious.png); }
+.icon-reddit { background-image: url(_img/icon_reddit.png); }
+
+/* Page Header
+-------------------------*/
+
+/*----- Logo ----------*/
+h1#logo {
+	background: url(_img/logo_launch.jpg) 0 0 no-repeat;
+	text-align: center;
+	width: 327px;
+	height: 88px;
+	margin: 0 auto;
+	display: block;
+	text-indent: -10000px; }
+#container h2 {
+	float: left;
+	color: #cacaca;
+	font-size: 24px;
+	font-weight: normal;
+	text-align: center;
+	width: 100%;
+	margin: 15px 0;
+	clear: both; }
+#container h3 { 
+	float: left;
+	text-align: center;
+	color: #fff;
+	font-size: 46px;
+	font-weight: normal;
+	margin: 40px 0 0;
+	width: 100%;
+	clear: both; }
+	
+/* Main
+-------------------------*/
+#container { 
+	text-align: center;
+	width: 617px;
+	margin: 0 auto;
+	padding: 169px 0 0;
+	overflow: auto; }
+
+/* Footer
+-------------------------*/
+#footer {
+	float: left;
+	color: #fff;
+	font-size: 24px;
+	margin: 18px 0 0;
+	width: 100%;
+	clear: both; }
+
+#facebook-share {
+	width: 150px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}

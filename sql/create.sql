@@ -19,7 +19,9 @@ CREATE TABLE ef_users (
   notif_opt1 TINYINT(1) DEFAULT 1,
   notif_opt2 TINYINT(1) DEFAULT 1,
   notif_opt3 TINYINT(1) DEFAULT 1,
-  reputation DOUBLE
+  reputation DOUBLE,
+  fb_access_token VARCHAR(500),
+  fb_session_key  VARCHAR(500)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (
@@ -57,14 +59,11 @@ CREATE TABLE ef_events (
   twitter             VARCHAR(155)
 ) ENGINE=InnoDB;
 
-CREATE TABLE fb_events (
-  id          VARCHAR(500) NOT NULL,
-  name        VARCHAR(500),
-  start_time  TIMESTAMP,
-  end_time    TIMESTAMP,
-  location    VARCHAR(500),
+CREATE TABLE fb_friends (
   user_id     INTEGER NOT NULL REFERENCES ef_users(id),
-  rsvp_status VARCHAR(100)
+  fb_name     VARCHAR(500) NOT NULL,
+  fb_id       VARCHAR(500) NOT NULL,
+  CONSTRAINT PRIMARY KEY (user_id, fb_id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_waitinglist (

@@ -43,6 +43,8 @@ class EFCommon {
 	
 	public static $sms;
 	
+	public static $facebook;
+	
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -60,6 +62,11 @@ class EFCommon {
 		self::$mailer = new EFMail();
 		
 		self::$sms = new EFSMS();
+		
+		self::$facebook = new Facebook(array(
+		  'appId'  => FB_APP_ID,
+		  'secret' => FB_APP_SECRET,
+		));	
 	}
 	
 	public function __destruct() {
