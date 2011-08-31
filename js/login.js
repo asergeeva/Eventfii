@@ -52,14 +52,14 @@ var LOGIN_FORM = (function() {
 				curPage: window.location.href,
 				fb_access_token: sessionInfo.access_token,
 				fb_session_key: sessionInfo.session_key
-			}, LOGIN_FORM.loginRedirect);
-			
-			FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
-				if (typeof userFriends.error == 'undefined') {
-					$.post(EFGLOBAL.baseUrl + '/fb/friends', {
-						fbFriends: JSON.stringify(userFriends)
-					});
-				}
+			}, function() {
+				FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
+					if (typeof userFriends.error == 'undefined') {
+						$.post(EFGLOBAL.baseUrl + '/fb/friends', {
+							fbFriends: JSON.stringify(userFriends)
+						}, LOGIN_FORM.loginRedirect);
+					}
+				});
 			});
 		},
 		
