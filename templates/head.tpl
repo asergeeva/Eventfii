@@ -22,4 +22,7 @@
 	<![endif]-->
 	
 	<script type="text/javascript">var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-24315776-1"]);_gaq.push(["_trackPageview"]);(function(){ var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b) })();</script>
+	
+	<!-- start Mixpanel --><script type="text/javascript">var mpq=[];mpq.push(["init","90a81dc86956434fc4a155802fac19fc"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
+</script><!-- end Mixpanel -->
 </head>
