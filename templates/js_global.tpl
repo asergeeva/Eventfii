@@ -9,8 +9,8 @@
 {literal}
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
 var EFGLOBAL = (function() {

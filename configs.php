@@ -1,4 +1,10 @@
 <?php
+/*
+ * Author : Grady Laksmono
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
+ * All rights reserved
+ */
 require_once(realpath(dirname(__FILE__)).'/baseconfig.php');
 require_once(realpath(dirname(__FILE__)).'/libs/Smarty.class.php');
 $smarty = new Smarty();

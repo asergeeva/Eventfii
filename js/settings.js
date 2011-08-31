@@ -1,3 +1,9 @@
+/*
+ * Author : Grady Laksmono
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
+ * All rights reserved
+ */
 var EF_SETTINGS = (function() {
 	$('#save_settings').live('click', function() {
 		$('#save_loading_img').html(EFGLOBAL.ajaxLoader);

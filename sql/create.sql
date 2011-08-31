@@ -57,6 +57,16 @@ CREATE TABLE ef_events (
   twitter             VARCHAR(155)
 ) ENGINE=InnoDB;
 
+CREATE TABLE fb_events (
+  id          VARCHAR(500) NOT NULL,
+  name        VARCHAR(500),
+  start_time  TIMESTAMP,
+  end_time    TIMESTAMP,
+  location    VARCHAR(500),
+  user_id     INTEGER NOT NULL REFERENCES ef_users(id),
+  rsvp_status VARCHAR(100)
+) ENGINE=InnoDB;
+
 CREATE TABLE ef_waitinglist (
   rsvp_time  TIMESTAMP DEFAULT NOW(),
   event_id   INTEGER NOT NULL REFERENCES ef_events(id),

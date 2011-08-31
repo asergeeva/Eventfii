@@ -1,3 +1,9 @@
+/*
+ * Author : Grady Laksmono
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
+ * All rights reserved
+ */
 var MANAGE_EVENT = ( function() {
 	return {
 		init: function() {

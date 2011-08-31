@@ -1,7 +1,7 @@
 /*
  * Author : Grady Laksmono
  * Email : grady@truersvp.com
- * All code (c) 2011 TrueRSVP Inc. 
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
  
