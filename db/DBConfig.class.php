@@ -1094,11 +1094,11 @@ class DBConfig {
 		for ($i = 0; $i < sizeof($fbFriends); ++$i) {
 			if (is_array($fbFriends[$i])) {
 				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
-										VALUES (".$userId.", '".$fbFriends[$i]['name']."', '".$fbFriends[$i]['id']."')";
+										VALUES (".$userId.", '".mysql_real_escape_string($fbFriends[$i]['name'])."', '".$fbFriends[$i]['id']."')";
 				$this->executeUpdateQuery($STORE_FB_FRIEND);
 			} else {
 				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
-										VALUES (".$userId.", '".$fbFriends[$i]->name."', '".$fbFriends[$i]->id."')";
+										VALUES (".$userId.", '".mysql_real_escape_string($fbFriends[$i]->name)."', '".$fbFriends[$i]->id."')";
 				$this->executeUpdateQuery($STORE_FB_FRIEND);
 			}
 		}
