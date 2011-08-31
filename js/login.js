@@ -44,7 +44,7 @@ var LOGIN_FORM = (function() {
 		 * userInfo - the user object from Facebook
 		 */
 		fbUserLogin: function(userInfo) {
-			$.post(EFGLOBAL.sbaseUrl + '/login', {
+			$.post(EFGLOBAL.baseUrl + '/login', {
 				isExist: false,
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,

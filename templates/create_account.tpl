@@ -4,7 +4,7 @@
 {include file="header.tpl"}
 <div id="container">
 	<div class="form">
-		<form method="post" action="{$SCURHOST}/register{if isset($redirect)}{$redirect}{/if}">
+		<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}">
 		<fieldset id="new_user_login_form" class="one-col">{if isset($smarty.session.user)}
 			
 			<p class="fb-connected"><span>Your account has been connected.</span></p>{else}

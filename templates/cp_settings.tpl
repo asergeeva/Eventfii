@@ -19,7 +19,7 @@
 				<header class="block-title">
 					<h1>Account Info</h1>
 				</header>
-				<form method="post" action="{$SCURHOST}/settings" autocomplete="off">
+				<form method="post" action="{$CURHOST}/settings" autocomplete="off">
 				<fieldset>
 					<label for="fname">
 						<span>First Name</span> 

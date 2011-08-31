@@ -12,7 +12,7 @@
 				</header>
 				<ul>
 					<li{if isset($page["contacts"])} class="current"{/if}><a href="{$CURHOST}/contacts"><span>View all contacts</span></a></li>
-					<li{if isset($page["addcontacts"])} class="current"{/if}><a href="{$SCURHOST}/contacts/add"><span>Add contacts</span></a></li>
+					<li{if isset($page["addcontacts"])} class="current"{/if}><a href="{$CURHOST}/contacts/add"><span>Add contacts</span></a></li>
 				</ul>
 			</nav>
 		</div>
