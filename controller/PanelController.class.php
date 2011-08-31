@@ -1200,7 +1200,7 @@ class PanelController {
 				EFCommon::$dbCon->facebookAdd($_REQUEST['fbid']);
 				break;
 			case '/fb/friends':
-				$fbFriends = json_decode($_POST['fbFriends']);
+				$fbFriends = json_decode(stripslashes($_POST['fbFriends']));
 				EFCommon::$dbCon->saveFBFriends($fbFriends->data, $_SESSION['user']->id);
 				break;
 			case '/register':
