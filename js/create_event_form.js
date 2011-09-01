@@ -42,8 +42,6 @@ var CREATE_EVENT_FORM = (function() {
 })();
 
 $(document).ready(function() {
-	CREATE_EVENT_FORM.init();
-	
 	var title_init = "Name of Event";
 	var description_init = "What should your guests know?";
 	var location_init = "Ex: Jim's House";
@@ -119,6 +117,8 @@ $(document).ready(function() {
 			$(this).addClass("default"); 			
 		}
 	});
+	
+	CREATE_EVENT_FORM.init();
 });
 
 // Live validation
