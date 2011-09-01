@@ -6,8 +6,7 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/json2.js"></script>
 <script src="https://connect.facebook.net/en_US/all.js#appId={$FB_APP_ID}&amp;xfbml=1"></script>
-<script type="text/javascript" language="javascript">
-{literal}
+<script type="text/javascript" language="javascript">{literal}
 /*
  * Author : Grady Laksmono
  * Email : grady@truersvp.com
@@ -22,6 +21,5 @@ var EFGLOBAL = (function() {
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>'
 	}
-}());
-{/literal}
+}());{/literal}
 </script>

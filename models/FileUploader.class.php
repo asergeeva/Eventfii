@@ -1,5 +1,5 @@
 <?php
-require_once(realpath(dirname(__FILE__)).'/Event.class.php');
+
 /**
  * Handle file uploads via XMLHttpRequest
  */

@@ -150,6 +150,10 @@ input.inputbox {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border: 1px solid #acacac; }
+input.input-facebook { 
+	background: url(../images/icon_facebook.gif) 3px 3px no-repeat;
+	color: #666;
+	padding: 0 4px 0 24px; }
 fieldset textarea { 
 	background: #fff;
 	font-family: Georgia;

@@ -7,9 +7,6 @@
  */
  
 require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
 
 class EFMail {
 	private $FROM = "trueRSVP <hello@truersvp.com>";

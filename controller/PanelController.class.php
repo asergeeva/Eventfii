@@ -399,9 +399,11 @@ class PanelController {
 				
 			// Logged in user doesn't need to log in!
 			} else {
-				header("Location: " . CURHOST . "/home?loggedIn=false");
+				header("Location: " . CURHOST . "/home?loggedIn=true");
 			}
 			exit;
+		} else {
+			header("Location: " . CURHOST . "/home?loggedIn=false");
 		}
 	}
 	
@@ -1206,6 +1208,8 @@ class PanelController {
 			case '/register':
 				// Logged in user doesn't need to create an account!
 				$this->loggedInRedirect();
+				
+				unset($_SESSION['fb']);
 
 				// Make sure the user is properly redirected
 				if ( isset($params) ) {
@@ -1235,12 +1239,7 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
-																 $_POST['lname'], 
-																 $_POST['email'], 
-																 $_POST['phone'], 
-																 md5($_POST['pass']), 
-																 $_POST['zip'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zip'] );
 					
 					// Assign user's SESSION variables
 					$_SESSION['user'] = new User($userInfo);
@@ -1385,9 +1384,11 @@ class PanelController {
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/user/status/update':
-				EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
-				$_SESSION['user']->about = $_REQUEST['value'];
-				echo($_REQUEST['value']);	
+				if ($_REQUEST['value'] != "Click here to edit") {
+					EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
+					$_SESSION['user']->about = $_REQUEST['value'];
+					echo($_REQUEST['value']);
+				}
 				break;
 			case '/user/profile/update':
 				// EFCommon::$dbCon->updatePaypalEmail($_SESSION['user']->id, $_REQUEST['paypal_email']);
