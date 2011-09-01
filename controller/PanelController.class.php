@@ -397,13 +397,10 @@ class PanelController {
 				header("Location: ". $_SESSION['page_redirect']);
 				unset($_SESSION['page_redirect']);
 				
-			// Logged in user doesn't need to log in!
 			} else {
-				header("Location: " . CURHOST . "/home?loggedIn=true");
+				header("Location: " . CURHOST . "/home?loggedIn=false");
 			}
 			exit;
-		} else {
-			header("Location: " . CURHOST . "/home?loggedIn=false");
 		}
 	}
 	
