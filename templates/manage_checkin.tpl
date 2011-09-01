@@ -5,11 +5,11 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		<header class="block">
-			<p class="message">Pick the check-in option that's right for your event.</p>
-		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
+			<header class="block">
+				<p class="message">Pick the check-in option that's right for your event.</p>
+			</header>
 			<section class="block" id="manage-checkin">
 				<section class="block">
 					<header>

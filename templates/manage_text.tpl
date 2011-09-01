@@ -5,12 +5,12 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		<header class="block">
-			<p class="message">Send your guests updates through Text Messages here.</p>
-			<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
-		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
+			<header class="block">
+				<p class="message">Send your guests updates through Text Messages here.</p>
+				<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
+			</header>
 			<section class="block" id="manage-text">
 				<fieldset>
 					<label for="text-to">

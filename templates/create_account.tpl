@@ -4,7 +4,7 @@
 {include file="header.tpl"}
 <div id="container">
 	<div class="form">
-		<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}">
+		<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}" autocomplete="off">
 		<fieldset id="new_user_login_form" class="one-col">{if isset($smarty.session.fb)}
 			
 			<p class="fb-connected"><span>Your trueRSVP account has been created.</span></p>

@@ -5,11 +5,11 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		<header class="block">
-			<p class="message">Confirm who showed up to improve your trueRSVP accuracy for your next event!</p>
-		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
+			<header class="block">
+				<p class="message">Confirm who showed up to improve your trueRSVP accuracy for your next event!</p>
+			</header>
 			<section class="block" id="cp-attendee-list">{if ! isset($eventAttendees)}
 
 				<header class="block">
@@ -23,8 +23,10 @@
 					</header>
 					<ul class="list"> 
 						<li class="list-head"><strong>Name</strong> <!--em>Certainty</em--> <span>Showed Up?</span></li>{foreach $eventAttendees as $guest}
+
 						<!--li><label for="attendee-{$guest->id}"><strong>{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em>{$guest->confidence}%</em--> 
 						<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if isset($guest->checkedIn)} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span></label></li>{/foreach}
+
 					</ul>
 					<!--footer class="buttons buttons-submit">
 						<p><input type="submit" name="submit" value="Save" /></p> 

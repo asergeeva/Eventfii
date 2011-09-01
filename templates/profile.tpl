@@ -15,9 +15,9 @@
 					{if $profile->twitter}<li><a href="http://twitter.com/{$profile->twitter}" class="icon-twitter">@{$profile->twitter}</a></li>{/if}
 				</ul>
 			</section>{/if}
-			<footer class="follow">
+			<!--footer class="follow">
 				<p><a href="#{$profile->id}" id="follow_host"><span id="follow_button">{if $is_following eq 1}Unfollow{else}Follow{/if}</span></a></p>
-			</footer>
+			</footer-->
 		</aside>
 		<div class="content">
 			{include file="event_created_pub.tpl"}
