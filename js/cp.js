@@ -17,6 +17,20 @@ var CP_EVENT = (function() {
 			$('#user_profile').html(profileContainer);
 		}
 	}
+	
+	FB.getLoginStatus(function(sessionInfo) {
+		if (sessionInfo.session) {
+			FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
+				if (typeof userFriends.error == 'undefined') {
+					$.post(EFGLOBAL.baseUrl + '/fb/friends', {
+						fbFriends: JSON.stringify(userFriends)
+					}, LOGIN_FORM.loginRedirect);
+				}
+			});
+		} else {
+			
+		}
+	});
 })();
 
 $(document).ready(function() {
