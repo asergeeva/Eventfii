@@ -396,7 +396,8 @@ class PanelController {
 			if (isset($_SESSION['page_redirect'])) { 
 				header("Location: ". $_SESSION['page_redirect']);
 				unset($_SESSION['page_redirect']);
-				
+			} else if (isset($_SESSION['fb'])) {
+				header("Location: " . CURHOST . "/home?loggedIn=true");
 			} else {
 				header("Location: " . CURHOST . "/home?loggedIn=false");
 			}
