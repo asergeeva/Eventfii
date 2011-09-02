@@ -4,12 +4,13 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		<h1 id="event-{$event->eid}">{$event->title}</h1>
+		<h1 id="event-{$event->eid}">{$event->title}</h1>{if isset($smarty.session.user)}{if $smarty.session.user->id == $event->organizer->id}
+		
+		<h2><a href="{$CURHOST}/event/manage?eventId={$event->eid}">Back to manage event page</a></h2>{/if}{/if}
+		
 		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
+    	<div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>
 		<span id="event-id" style="display: none">{$event->eid}</span>
-		<!-- Facebook share -->
-    	<div style="float:right;"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>
-		<!-- End Facebook -->
 	</header>
 	<section id="main">
 		{include file="event_side.tpl"}

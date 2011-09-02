@@ -225,8 +225,11 @@ header#page-header {
 #header h2, #header p { 
 	float: left;
 	font-size: 14px;
-	margin: 2px 0 0;
+	margin: 1px 0 0;
 	clear: left; }
+#header .fb-share { 
+	float: right; 
+	margin: -5px 0 0; }
 
 /* Navigation */
 #header nav { float: right; }
