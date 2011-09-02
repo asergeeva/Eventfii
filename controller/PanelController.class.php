@@ -508,6 +508,7 @@ class PanelController {
 				return;
 			}
 			$event = $this->buildEvent($eventId);
+			
 			EFCommon::$smarty->assign("event", $event);
 			
 			// Check to see if the event exists

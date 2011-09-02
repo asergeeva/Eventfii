@@ -1,10 +1,10 @@
 <?php
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
- */ 
+ */
 class EFCore {
 	
 	public function __construct() {
@@ -55,6 +55,12 @@ class EFCore {
 		return round($trsvpVal, 0);
 	}
 	
+	/**
+	 * Get the trueRSVP number
+	 * @param  $event   Event    the event object
+	 *
+	 * @return Integer
+	 */
 	public function computeTrueRSVP($eid) {
 		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
 		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT2);
@@ -78,22 +84,171 @@ class EFCore {
 		return round($trsvpVal, 0);
 	}
 	
+	public function getTrueRSVP($event) {
+		$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
+		$goalProb = $this->getProbByGoal($event);
+		$typeProb = $this->getProbByEventType($event);
+		
+		$result = 0;
+		for ($i = 0; $i < sizeof($attendees); ++$i) {
+			$attendee = new User($attendees[$i]);
+			
+			$attendeeProb = 0;
+			
+			if (!$attendee->get_errors()) {
+				$attendeeProb += $this->getProbByDistance($attendee, $event);
+				$attendeeProb += $this->getProbByFriends($attendee, $event);
+				$attendeeProb += $this->getProbByUserReputation($attendee);
+				$attendeeProb += $this->getUserProb($attendee, $event);
+			}
+			$attendeeProb += $goalProb;
+			$attendeeProb += $typeProb;
+			
+			$result += ($attendeeProb / 6.0);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Get the user confidence in decimal
+	 *
+	 * @param $user  User  user that we want to find confidence on
+	 * @param $event Event the event that the user confidence on
+	 *
+	 * @return Double the probability in decimal
+	 */
+	private function getUserProb(&$user, &$event) {
+		$GET_USER_PROB = "SELECT * FROM ef_attendance a WHERE a.user_id = ".$user->id." AND a.event_id = ".$event->eid;
+		$user_prob = EFCommon::$dbCon->executeQuery($GET_USER_PROB);
+		
+		return floatval($user_prob['confidence']) / 100.0;
+	}
+	
+	/**
+	 * Get the probability based on distance
+	 * 
+	 * @param $user    User   the user who's going to attend the event
+	 * @param $event   Event  the event that the user is going to attend
+	 *
+	 * @return Double the probability in decimal
+	 */
+	private function getProbByDistance(&$user, &$event) {
+		$from = EFCommon::$google->geoGetCoords($user->zip);
+		$to = EFCommon::$google->geoGetCoords($event->address);
+		
+		// Distance default by miles
+		$distance = EFCommon::$google->geoGetDistance($from['lat'], $from['lon'], $to['lat'], $to['lon']);
+		
+		if ($distance > 0 && $distance <= 5) {
+			return 1.0;
+		}
+		
+		if ($distance > 5 && $distance <= 10) {
+			return 0.9;
+		}
+		
+		if ($distance > 10 && $distance <= 20) {
+			return 0.8;
+		}
+		
+		if ($distance > 20 && $distance <= 50) {
+			return 0.7;
+		}
+		
+		if ($distance > 50 && $distance <= 200) {
+			return 0.6;
+		}
+		
+		if ($distance > 200 && $distance <= 3000) {
+			return 0.5;
+		}
+		
+		return 0.4;
+	}
+	
+	/**
+	 * Get the number of friends who are going to the event
+	 *
+	 * @param &$user   User   the probbility of this user
+	 * @param &$event  Event  the event that the user attend
+	 *
+	 * @return Double the probability in decimal  
+	 */
+	private function getProbByFriends(&$user, &$event) {
+		$GET_NUM_FRIENDS = "SELECT COUNT(*) AS num_friends FROM ef_users u, ef_attendance a 
+							  WHERE u.id = a.user_id AND a.event_id = ".$event->eid." AND u.facebook IN
+							    (SELECT f.fb_id FROM fb_friends f WHERE f.user_id = ".$user->id.");";
+		$num_friends = EFCommon::$dbCon->executeQuery($GET_NUM_FRIENDS);
+		$num_friends = intval($num_friends['num_friends']);
+		
+		if ($num_friends >= 10) {
+			return 1.0;
+		}
+		
+		return ($num_friends * 0.1);
+	}
+	
+	/**
+	 * Get the probability based on the goal
+	 *
+	 * @param &$event  Event the reference to the event object
+	 *
+	 * @return Double the probability in decimal 
+	 */
+	private function getProbByGoal(&$event) {
+		if ($event->goal > 0 && $event->goal <= 6) {
+			return 1.0;
+		}
+		
+		if ($event->goal > 6 && $event->goal <= 20) {
+			return 0.8;
+		}
+		
+		if ($event->goal > 20 && $event->goal <= 50) {
+			return 0.6;
+		}
+		
+		if ($event->goal > 50 && $event->goal <= 200) {
+			return 0.4;
+		}
+		
+		return 0.3;
+	}
+	
+	private function getProbByEventType(&$event) {
+		// Personal
+		if ($event->type >= 1 && $event->type <= 6) {
+			return 0.8;
+		}
+		
+		// Educational
+		if ($event->type >= 7 && $event->type <= 11) {
+			return 0.7;
+		}
+		
+		// Professional
+		if ($event->type >= 12 && $event->type <= 16) {
+			return 0.6;
+		}
+	}
+	
 	/**
 	 * Reputation = # of events RSVP'ed / # of events attended
 	 */
-	public function computeReputation($uid) {
-		$COUNT_YES = "SELECT COUNT(*) AS cnt FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.confidence BETWEEN ".CONFOPT2." AND ".CONFOPT1;
-		$COUNT_NO = "SELECT COUNT(*) *-1 AS cnt FROM ef_attendance a WHERE a.user_id = ".$uid." AND a.confidence BETWEEN ".CONFOPT4." AND ".CONFOPT5;
-		$NUM_ATTEND = "SELECT COUNT(*) as cnt FROM ef_attendance a WHERE a.is_attending = 1 AND a.user_id = ".$uid;
-		$NOT_ATTEND = "SELECT COUNT(*) *-1 as cnt FROM ef_attendance a WHERE a.is_attending = 0 AND a.user_id = ".$uid;
+	public function getProbByUserReputation(&$user) {
+		$COUNT_YES = "SELECT COUNT(*) AS cnt FROM ef_attendance a 
+							WHERE a.user_id = ".$user->id." AND a.confidence BETWEEN ".CONFOPT2." AND ".CONFOPT1;
+		$NUM_ATTEND = "SELECT COUNT(*) as cnt FROM ef_attendance a 
+							WHERE a.is_attending = 1 AND a.user_id = ".$user->id;
 		
-		$YES = EFCommon::$dbCon->executeQuery($COUNT_YES);
-		$NO = EFCommon::$dbCon->executeQuery($COUNT_NO);
-		
+		$YES = EFCommon::$dbCon->executeQuery($COUNT_YES);		
 		$ATTENDED = EFCommon::$dbCon->executeQuery($NUM_ATTEND);
-		$NOT_ATTENDED = EFCommon::$dbCon->executeQuery($NOT_ATTEND);
 		
-		return (floatval($YES['cnt']) / floatval($ATTENDED['cnt']) * 100) + (floatval($NO['cnt']) / floatval($NOT_ATTENDED['cnt']) * 100);
+		$YES = floatval($YES['cnt']);
+		$ATTENDED = floatval($ATTENDED['cnt']);
+		
+		return ($ATTENDED == 0) ? 0 : ($YES / $ATTENDED);
 	}
 	
 	/**

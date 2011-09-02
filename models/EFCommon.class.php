@@ -45,6 +45,11 @@ class EFCommon {
 	
 	public static $facebook;
 	
+	/* http://www.phpinsider.com/php/code/GoogleMapAPI/ */
+	public static $google;
+	
+	public static $core;
+	
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -67,7 +72,12 @@ class EFCommon {
 		  'appId'  => FB_APP_ID,
 		  'secret' => FB_APP_SECRET,
 		  'cookie' => true
-		));	
+		));
+		
+		self::$google = new GoogleMapAPI('map');
+		self::$google->setAPIKey(GOOGLE_MAPS_API);
+		
+		self::$core = new EFCore();
 	}
 	
 	public function __destruct() {
