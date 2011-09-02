@@ -252,7 +252,42 @@ header#page-header {
 	padding: 6px 10px 0;
 	display: block; }
 
-/*----- Information ----------*/
+/*----- Method ----------*/
+.method { margin: 0 -30px; }
+.method section { 
+	padding: 0 0 10px;
+	overflow: auto;
+	clear: both; }
+.method section > header { 
+	font-size: 20px;
+	font-weight: bold;
+	padding: 18px 5px;
+	border-top: 1px solid #ebebeb; }
+.method aside {
+	background-repeat: no-repeat;
+	float: left;
+	width: 270px; /* 290 - 20 */
+	margin: 0 1px;
+	padding: 236px 10px 0;
+	display: inline; }
+
+/* Images */
+.method aside.method-invite { background-image: url(../images/method_invite.png); }
+.method aside.method-rsvp { background-image: url(../images/method_rsvp.png); }
+.method aside.method-text { background-image: url(../images/method_text.png); }
+.method aside.method-mobile { background-image: url(../images/method_mobile.png); }
+.method aside.method-qr { background-image: url(../images/method_qr.png); }
+.method aside.method-feed { background-image: url(../images/method_feed.png); }
+.method aside.method-reputation { background-image: url(../images/method_reputation.png); }
+.method aside.method-email { background-image: url(../images/method_email.png); }
+.method aside.method-truersvp { background-image: url(../images/method_truersvp.png); }
+
+.method aside header { 
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0 0 5px; }
+	
+	
 .information h2 {
 	color: #2799d8;
 	font-size: 16px; }
