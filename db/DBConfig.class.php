@@ -1103,4 +1103,13 @@ class DBConfig {
 			}
 		}
 	}
+	
+	/**
+	 * Given the URI alias, get the event row in the DB
+	 * @param $url_alias   String   the alias URI of an event
+	 */
+	public function getEventByURIAlias($url_alias) {
+		$GET_EVENT_URI_ALIAS = "SELECT * FROM ef_events WHERE url_alias = '".mysql_real_escape_string($url_alias)."'";
+		return $this->executeQuery($GET_EVENT_URI_ALIAS);
+	}
 }

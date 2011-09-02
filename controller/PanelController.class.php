@@ -335,6 +335,10 @@ class PanelController {
 		return $eventId;
 	}
 	
+	public function getEventAliasUri( $requestUri ) {
+		
+	}
+	
 	private function getUserIdByUri( $requestUri ) {
 		$userId = explode('/', $requestUri);		
 
@@ -487,6 +491,11 @@ class PanelController {
 		// Security validation
 		if (!$this->securityValidate($current_page)) {
 			return;
+		}
+		
+		// If event has an alias URL
+		if (preg_match("/event\/a\/*/", $current_page) > 0) {
+			
 		}
 	
 		// If /event in URI, display all event pages
