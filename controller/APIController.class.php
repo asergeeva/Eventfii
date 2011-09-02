@@ -190,6 +190,14 @@ class APIController {
 				echo json_encode($this->dbCon->m_isAttending($_REQUEST['eid']));
 				//$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
+			case 'logout':
+				if ( ! isset($_SESSION['user']) ) {
+					header('Location: '.CURHOST);
+					break;
+				}
+				session_unset();
+				session_destroy();
+				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
 				EFCommon::$smarty->display('error.tpl');
