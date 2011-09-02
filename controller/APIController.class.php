@@ -47,7 +47,7 @@ class APIController {
 	}
 	
 	private function handleFBLogin() {
-		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'] );
+		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], $_POST['access'], $_POST['session'] );
 		if ( $userInfo ) {
 			$_SESSION['user'] = serialize(new User($userInfo));
 			if ( isset ($params) ) {
