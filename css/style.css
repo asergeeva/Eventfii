@@ -90,7 +90,7 @@ fieldset dd {
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dt label {
 	font-family: Helvetica, Arial;
-	font-size: 18px;
+
 	color: #464646;
 	padding: 0; }
 fieldset dt em {
@@ -360,8 +360,7 @@ header.block .message { margin: 0; }
 /* Notifications */
 .block.notification { 
 	background: #F93;
-	color: #fff;
-	border-color: #fff; }
+	color: #fff; }
 
 /* Title */
 .block .block-title {

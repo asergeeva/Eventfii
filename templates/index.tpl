@@ -3,93 +3,83 @@
 
 <div id="fb-root"></div>
 <header id="site-header">
-	<h1><a href="{$CURHOST}">trueRSVP</a></h1>
+	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a></h1>
 	<nav>
 		<p><a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
 	</nav>
-	<section class="about">
+	<section class="teaser">
 		<header>
-			<h1>A new RSVP system based on <em>reputation</em></h1>
-			<p>Don’t let last minute flakes affect the success of your event. trueRSVP tells you how many people will <span>actually</span> show up!</p>
+			<h1>Flake-proof your event.</h1>
 		</header>
-		<form method="post" action="{$CURHOST}/event/create" class="block">
+		<p>Create an event & find out how many people will <em>actually</em> show up.</p>
+	</section>
+	<section class="start">
+		<form method="post" action="{$CURHOST}/event/create">
 			<fieldset>
-				<legend>Get Started!</legend>
-				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come.</p>
-				<p class="submit"><input type="submit" value="Go" class="go" /></p>
+				<legend>Free to get started!</legend>
+				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come.</span></p>
+				<p class="submit"><input type="submit" value="Go" class="btn btn-go" /></p>
 			</fieldset>
 		</form>
+		<aside>
+			<p><a href="{$CURHOST}/signup" class="btn btn-signup">Sign up here</a> <a href="{$CURHOST}/method" class="btn btn-more">Find out more</a></p>
+		</aside>
+	</section>
+	<section class="more">
+		<aside>
+			<p>At DEMO conference?</p>
+			<p>Check out the <a href="{$CURHOST}/demo">live event page</a>!</p>
+		</aside>
+		<aside class="more-iphone">
+			<p><a href="#">Get the iPhone App</a></p>
+		</aside>
 	</section>
 </header>
 <div id="main">
-	<section class="block">
-		<header class="block-title">
-			<h1>What’s our top secret reputation formula?</h1>
-		</header>
-		<div class="formula">
-			<figure>
-				<img src="{$CURHOST}/images/formula_zodiac.gif" alt="Zodiac Sign" />
-				<figcaption>Zodiac Sign</figcaption>
-			</figure>
-			<span>+</span>
-			<figure>
-				<img src="{$CURHOST}/images/formula_height.gif" alt="Height" />
-				<figcaption>Height</figcaption>
-			</figure>
-			<span>+</span>
-			<figure>
-				<img src="{$CURHOST}/images/formula_sat.gif" alt="SAT Score" />
-				<figcaption>SAT Score</figcaption>
-			</figure>
-		</div>
-		<p class="message">(Just kidding! You have to plan an event to see how it really works.) <a href="{$CURHOST}/event/create" class="btn-small">Create an event</a></p>
-	</section>
-	<section class="block">
+	<section class="block" id="reasons">
 		<header class="block-title">
 			<h1>Why use trueRSVP?</h1>
-			<a href="{$CURHOST}/method" class="btn-large">More awesome features</a>
 		</header>
-		<p class="message">Let’s face it, event planning sucks. We’re here to make it suck a lot less.</p>
-		<section class="column">
+		<section class="lose-old">
 			<header>
 				<h1>Lose the old system</h1>
 			</header>
 			<ul>
-				<li class="icon icon-rsvp">
+				<li>
 					<h2>Unique RSVP options</h2>
 					<p>Get an honest RSVP from your guests</p>
 				</li>
-				<li class="icon icon-feed">
+				<li>
 					<h2>Live event feed</h2>
 					<p>All your pics and tweets in one place</p>
 				</li>
 			</ul>
 		</section>
-		<section class="column">
+		<section class="lose-lines">
 			<header>
 				<h1>Lose the lines</h1>
 			</header>
 			<ul>
-				<li class="icon icon-qr">
+				<li>
 					<h2>QR code check-ins</h2>
 					<p>Easily scan in your guests using your phone</p>
 				</li>
-				<li class="icon icon-geolocation">
+				<li>
 					<h2>Geolocation check-ins</h2>
 					<p>Have your guests check themselves in as soon as they arrive</p>
 				</li>
 			</ul>
 		</section>
-		<section class="column">
+		<section class="lose-chain">
 			<header>
 				<h1>Lose the ball and chain</h1>
 			</header>
 			<ul>
-				<li class="icon icon-mobile">
+				<li>
 					<h2>Mobile application</h2>
 					<p>Take your event management on-the-go</p>
 				</li>
-				<li class="icon icon-sms">
+				<li>
 					<h2>Group SMS</h2>
 					<p>Contact all your guests in one text</p>
 				</li>

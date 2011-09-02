@@ -3,14 +3,14 @@ html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, i
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline; }
+	font: inherit; }
+img { vertical-align: baseline; }
 aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
 body {
-	background: url(../images/index_header_bg.gif) 0 0 repeat-x;
-	font-family: Georgia;
+	background: url(../images/index_header_bg.gif);
+	font-family: Helvetica, Arial;
 	color: #666;
 	font-size: 12px; }
 a { 
@@ -32,46 +32,162 @@ input.inputbox, input.inputbox-small {
 	padding: 0 3px;
 	border: 1px solid #999; }
 input.inputbox-small { width: 72px; }
-.submit .go {
-	background: url(../images/index_btn_go.gif) 0 0 no-repeat;
-	float: right;
-	font-family: Helvetica, Arial;
-	color: #fff;
-	font-size: 28px;
-	text-align: center;
-	font-weight: bold;
-	width: 109px;
-	height: 49px;
+
+/*----- Buttons ----------*/
+.btn {
+	background: transparent none 0 0 no-repeat;
+	font-size: 0;
+	text-indent: -10000px;
 	border: 0;
-	cursor: pointer; }
+	cursor: pointer;
+	display: inline-block; }
+
+/* Submit Button */
+.submit .btn-go {
+	background-image: url(../images/index_btn_go.gif);
+	float: right;
+	width: 117px;
+	height: 57px; }
+.submit .btn-go:hover { background-position: 0 -57px; }
+.submit .btn-go:focus { background-position: 0 -114px; }
+
+/*----- Signup ----------*/
+.btn-signup {
+	background: url(../images/index_btn_signup.png) 0 0 no-repeat;
+	width: 218px;
+	height: 91px; }
+.btn-signup:hover { background-position: 0 -91px; }
+.btn-signup:focus { background-position: 0 -182px; }
+
+/*----- More ----------*/
+.btn-more {
+	background: url(../images/index_btn_more.png) 0 0 no-repeat;
+	width: 218px;
+	height: 91px; }
+.btn-more:hover { background-position: 0 -91px; }
+.btn-more:focus { background-position: 0 -182px; }
 	
 /* Header
 -------------------------*/
 header#site-header {
-	background: url(../images/index_header_bg.gif) 0 0 repeat-x;
 	width: 948px;
-	height: 386px;
-	margin: 0 auto; }
-#site-header a { color: #fff; }
-#site-header h1 { 
+	margin: 0 auto;
+	padding: 0 0 125px;
+	overflow: hidden;
+	border-bottom: 1px solid #8b8b8d; }
+
+/*----- Logo ----------*/
+#site-header h1#logo { 
 	float: left;
 	margin: 15px 0 0; }
-#site-header h1 a {
+#logo a {
 	background: url(../images/index_logo.png) 0 0 no-repeat;
 	width: 292px;
 	height: 81px;
 	text-indent: -10000px;
 	display: block; }
+
+/*----- Site navigation ----------*/
 #site-header nav {
 	float: right;
 	font-size: 12px;
-	font-family: Georgia;
 	color: #fff;
 	margin: 75px 0 0; }
-#site-header nav a { 
+#site-header nav a {
+	color: inherit;
 	padding: 0 3px;
 	display: inline-block; }
 
+/*----- Teaser ----------*/
+.teaser { 
+	padding: 40px 0 0;
+	clear: both; }
+.teaser header h1 {
+	background: url(../images/index_teaser.png) 0 0 no-repeat;
+	width: 418px;
+	height: 38px;
+	margin: 0 auto 13px;
+	text-indent: -10000px; }
+.teaser p {
+	background: url(../images/index_teaser_desc.png) 0 0 no-repeat;
+	width: 607px;
+	height: 23px;
+	margin: 0 auto;
+	text-indent: -10000px; }
+
+/*----- Start ----------*/
+.start { 
+	background: url(../images/index_mascot.png) 0 25px no-repeat;
+	margin: 50px 0 0 56px;
+	padding: 0 0 0 330px;
+	clear: both; }
+.start header { 
+	float: right;
+	color: #fff;
+	width: 350px;
+	margin: 30px 0 0 25px;
+	overflow: auto; }
+.start header h1 {
+	float: left;
+	font-size: 32px;
+	line-height: 30px;
+	font-weight: bold;
+	font-family: Helvetica, Arial;
+	clear: both; }
+.start header h1 em { color: #ffcc66; }
+.start header p { 
+	float: left;
+	font-size: 18px;
+	margin: 6px 0 0;
+	clear: both; }
+.start header p span { font-style: italic; }
+.start form {
+	background: url(../images/index_bubble.png) 0 0 no-repeat;
+	font-size: 16px;
+	line-height: 32px;
+	width: 432px; /* 522 - 90 */
+	height: 190px; /* 220 - 30 */
+	padding: 30px 30px 0 60px; }
+.start form legend { 
+	font-family: Helvetica, Arial;
+	font-size: 30px;
+	font-weight: bold;
+	color: #666;
+	padding: 0 0 10px; }
+.start form p { padding: 0 20px; }
+.start form p span {
+	padding: 0 0 0 15px;
+	display: block; }
+.start aside { 
+	margin: 0 0 0 35px;
+	clear: both; }
+.start aside a { margin: 0 0 0 20px; }
+
+/*----- More ----------*/
+.more { 
+	margin: 15px 165px 0 57px;
+	overflow: auto; }
+.more aside { float: left; }
+.more aside.more-iphone { float: right; }
+.more aside p {
+	font-size: 25px;
+	font-weight: bold;
+	color: #fff; }
+.more aside.more-iphone p { 
+	font-size: 20px;
+	margin: 0 0 2px; }
+.more aside p a { 
+	color: #ffcc66;
+	text-decoration: none;
+	padding: 0 0 1px;
+	border-bottom: 1px solid #ffcc66;
+	display: inline-block; }
+.more aside.more-iphone p a {
+	background: url(../images/index_iphone.png) 0 0 no-repeat;
+	color: #fff;
+	height: 51px;
+	padding: 15px 0 0 37px;
+	border: 0; }
 
 /* Main
 -------------------------*/
@@ -79,32 +195,7 @@ header#site-header {
 	background: url(../images/index_bg.gif);
 	float: left;
 	width: 100%;
-	padding: 25px 0 0; }
-
-/*----- Formula ----------*/
-.formula {
-	float: left;
-	margin: 20px 0;
-	padding: 0 0 0 25px;
-	overflow: auto; }
-.block span { 
-	background: url(../images/formula_plus.gif) 0 0 no-repeat;
-	float: left;
-	width: 22px;
-	height: 23px;
-	margin: 100px 50px 0;
-	text-indent: -10000px;
-	display: block; }
-.block figure { 
-	float: left;
-	display: inline; }
-.block figcaption { 
-	text-align: center;
-	font-size: 15px; }
-.block p.message { 
-	font-size: 15px;
-	text-align: center;
-	clear: both; }
+	border-top: 1px solid #b6b6ba; }
 	
 /* Block
 -------------------------*/
@@ -117,80 +208,47 @@ header#site-header {
 	border: 2px solid #acacaf;
 	overflow: auto; }
 .block header.block-title {
+	font-size: 30px;
 	padding: 0 0 10px;
-	overflow: auto;
-	border-bottom: 1px solid #ebebeb; }
+	overflow: auto; }
 .block header h1 {
 	float: left;
 	font-family: Helvetica, Arial;
 	font-size: 32px;
 	font-weight: bold;
 	color: #646464; }
-	
-/*----- About ----------*/
-.about { 
-	float: left;
-	clear: both; }
-.about header { 
-	float: right;
-	color: #fff;
-	width: 350px;
-	margin: 30px 0 0 25px;
+
+/*----- Reasons ----------*/
+#reasons { margin: -75px auto 0; }
+#reasons section {
+	background: none 40px 65px no-repeat;
+	height: 232px; /* 252 - 20 */
+	padding: 20px 40px 0;
+	border-top: 1px solid #ebebeb;
 	overflow: auto; }
-.about header h1 {
-	float: left;
-	font-size: 32px;
-	line-height: 30px;
-	font-weight: bold;
-	font-family: Helvetica, Arial;
-	clear: both; }
-.about header h1 em { color: #ffcc66; }
-.about header p { 
-	float: left;
-	font-size: 18px;
-	margin: 6px 0 0;
-	clear: both; }
-.about header p span { font-style: italic; }
-.about form.block {
-	float: left;
+
+/* Images */
+#reasons .lose-old { background-image: url(../images/index_lose_old.gif); }
+#reasons .lose-lines { background-image: url(../images/index_lose_lines.gif); }
+#reasons .lose-chain { background-image: url(../images/index_lose_chain.gif); }
+
+#reasons section header h1 { 
+	font-size: 20px; 
+	font-weight: bold; }
+#reasons ul {
+	float: right;
+	width: 360px;
+	padding: 20px 0 0; }
+#reasons ul li {
 	font-size: 16px;
-	line-height: 32px;
-	width: 425px;
-	margin: 40px 0 0 70px; }
-.about form legend { 
-	font-family: Helvetica, Arial;
-	font-size: 32px;
-	font-weight: bold;
-	color: #646464;
-	padding: 0 0 10px; }
+	margin: 40px 0 0; }
+#reasons ul li h2 { font-weight: bold; }
 
 /*----- Messages ----------*/
 .message {
 	font-family: Helvetica, Arial;
 	font-size: 20px;
 	margin: 15px 0; }
-.column {
-	float: left;
-	width: 33%; }
-.column header { 
-	float: left;
-	margin: 0 0 10px; }
-.column header h1 {
-	font-size: 16px; }
-
-/* Icons */
-.icon {
-	background: none 0 0 no-repeat;
-	height: 55px;
-	padding: 0 0 0 75px;
-	clear: both; }
-.icon-rsvp { background-image: url(../images/index_icon_rsvp.gif); }
-.icon-feed { background-image: url(../images/index_icon_feed.gif); }
-.icon-qr { background-image: url(../images/index_icon_qr.gif); }
-.icon-geolocation { background-image: url(../images/index_icon_geolocation.gif); }
-.icon-mobile { background-image: url(../images/index_icon_mobile.gif); }
-.icon-sms { background-image: url(../images/index_icon_sms.gif); }
-.icon h2 { font-weight: bold; }
 
 /*----- Buttons ----------*/
 .block .btn-small {
@@ -223,7 +281,7 @@ header#site-header {
 	font-family: Helvetica, Arial;
 	font-size: 20px;
 	font-weight: bold;
-	margin: 0 0 30px; }
+	margin: 30px 0; }
 .extra span {
 	margin: 0 10px 0 0;
 	display: inline-block; }
