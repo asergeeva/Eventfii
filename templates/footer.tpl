@@ -1,25 +1,23 @@
 <footer id="site-map"> 
-	<ul> 
-		<li> 
-			<span>Company</span> 
-			<ul> 
-				<li><a href="#">Privacy Policy</a></li> 
-				<li><a href="#">Terms of Service</a></li> 
-			</ul>
-		</li>
-		<li>
-			<span>Contact Us</span>
-			<ul>
-				<li><a href="{$CURHOST}/contact">E-mail</a></li>
-			</ul>
-		</li>
+	<ul>
 		<li>
 			<span>Learn</span>
 			<ul>
-				<li><a href="#">FAQ</a></li> 
-				<li><a href="#">Team</a></li> 
-				<li><a href="#">About Us</a></li> 
-				<li><a href="#">Blog</a></li> 
+				<li><a href="{$CURHOST}/method">How do we work?</a></li>
+			</ul>
+		</li>
+		<li>
+			<span>Help</span> 
+			<ul>
+				<li><a href="{$CURHOST}/faq">FAQ</a></li>
+				<li><a href="{$CURHOST}/contact">Contact Us</a></li>
+			</ul>
+		</li>
+		<li>
+			<span>Company</span>
+			<ul>
+				<li><a href="{$CURHOST}/privacy">Privacy Policy</a></li>
+				<li><a href="{$CURHOST}/terms">Terms of Service</a></li>
 			</ul> 
 		</li> 
 	</ul> 

@@ -400,7 +400,8 @@ class PanelController {
 			if (isset($_SESSION['page_redirect'])) { 
 				header("Location: ". $_SESSION['page_redirect']);
 				unset($_SESSION['page_redirect']);
-				
+			} else if (isset($_SESSION['fb'])) {
+				header("Location: " . CURHOST . "/home?loggedIn=true");
 			} else {
 				header("Location: " . CURHOST . "/home?loggedIn=false");
 			}
@@ -612,6 +613,9 @@ class PanelController {
 				} else {
 					EFCommon::$smarty->display('index.tpl');
 				}
+				break;
+			case '/terms':
+				EFCommon::$smarty->display('terms.tpl');
 				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
