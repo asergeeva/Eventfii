@@ -4,7 +4,7 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		Terms of Service
+		<h1>Terms of Service</h1>
 	</header>
 	<article>
 		<section>

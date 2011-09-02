@@ -617,6 +617,9 @@ class PanelController {
 			case '/terms':
 				EFCommon::$smarty->display('terms.tpl');
 				break;
+			case '/privacy':
+				EFCommon::$smarty->display('privacy.tpl');
+				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
 				if ( isset($_POST['submit']) ) {
