@@ -198,6 +198,9 @@ class APIController {
 				session_unset();
 				session_destroy();
 				break;
+			case 'ping':
+				echo 'pong';
+				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
 				EFCommon::$smarty->display('error.tpl');
