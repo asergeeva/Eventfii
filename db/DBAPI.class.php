@@ -128,4 +128,12 @@ class DBAPI extends DBConfig {
 					AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
+	public function m_eventSignUp($uid, $event, $conf)
+	{
+		$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
+							SET 	confidence = " . $conf . " 
+							WHERE 	event_id = " . $event->eid . " 
+							AND 	user_id = " . $uid;
+		return $this->executeUpdateQuery($UPDATE_SIGN_UP);
+	}
 }
