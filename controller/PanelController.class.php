@@ -272,7 +272,6 @@ class PanelController {
 	 */
 	public function printEvent() {
 		require_once('models/EFCore.class.php');
-		$efCore = new EFCore();
 		
 		$eventId = $_GET['eventId'];
 		$event = new Event($eventId);
@@ -285,7 +284,7 @@ class PanelController {
 			}
 		}
 
-		EFCommon::$smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($eventId));
 		EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
 		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		EFCommon::$smarty->display('manage_event_on.tpl');
@@ -331,10 +330,6 @@ class PanelController {
 		$eventId = $eventId[sizeof($eventId) - 1];
 		
 		return $eventId;
-	}
-	
-	public function getEventAliasUri( $requestUri ) {
-		
 	}
 	
 	private function getUserIdByUri( $requestUri ) {
@@ -435,6 +430,23 @@ class PanelController {
 	}
 	
 	/**
+	 * Given the current page URI, get its alias
+	 * @return String alias of the event URI
+	 */
+	private function getEventAliasByUri($requestUri) {
+		$alias = explode('/', $requestUri);
+		
+		// Verify that format of URL is http://{$CURHOST}/event/a/{$alias}
+		if (sizeof($alias) != 4 ) {
+			return false;
+		}
+		
+		$alias = $alias[sizeof($alias) - 1];
+		
+		return $alias;
+	}
+	
+	/**
 	 * Display the error page with the specified error message
 	 * @param $error_message  String  the error message to be displayed
 	 */
@@ -456,6 +468,56 @@ class PanelController {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Displaying the event given its ID
+	 * @param $eventId  Integer event ID
+	 */
+	private function displayEventById($eventId) {
+		$event = $this->buildEvent($eventId);
+		
+		EFCommon::$smarty->assign("event", $event);
+		
+		// Check to see if the event exists
+		if ( ! $event->exists ) {
+			EFCommon::$smarty->display( 'error_event_notexist.tpl' );
+			return;
+		}
+		
+		// Check permissions
+		if ( ! $event->can_view(NULL) ) {
+			EFCommon::$smarty->display( 'error_event_private.tpl' );
+			return;
+		}
+	
+		// Prepare the twitter feed
+		$twitter = new EFTwitter();
+		$twitterHash = $twitter->getTwitterHash($eventId);
+		EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
+		
+		
+		// See if the user has responded
+		if ( isset($_SESSION['user']->id) ) {
+			$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
+			EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
+			EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
+		} else {
+			EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
+			EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
+		}
+		
+		$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
+		EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
+		
+		$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
+		$attending = NULL;
+		foreach($event_attendees as $guest) {
+			$attending[] = new User($guest);
+		}
+		EFCommon::$smarty->assign( 'attending', $attending );
+		
+		EFCommon::$smarty->display('event.tpl');
 	}
 	
 	/* private function setPage($page) {
@@ -494,7 +556,14 @@ class PanelController {
 		
 		// If event has an alias URL
 		if (preg_match("/event\/a\/*/", $current_page) > 0) {
-			
+			$alias = $this->getEventAliasByUri($current_page);
+			if ( ! $alias ) {
+				EFCommon::$smarty->display( 'error.tpl' );
+				return;
+			}
+			$eventDb = EFCommon::$dbCon->getEventByURIAlias($alias);
+			$this->displayEventById($eventDb['id']);
+			return;
 		}
 	
 		// If /event in URI, display all event pages
@@ -505,49 +574,7 @@ class PanelController {
 				EFCommon::$smarty->display( 'error.tpl' );
 				return;
 			}
-			$event = $this->buildEvent($eventId);
-			
-			EFCommon::$smarty->assign("event", $event);
-			
-			// Check to see if the event exists
-			if ( ! $event->exists ) {
-				EFCommon::$smarty->display( 'error_event_notexist.tpl' );
-				return;
-			}
-			
-			// Check permissions
-			if ( ! $event->can_view(NULL) ) {
-				EFCommon::$smarty->display( 'error_event_private.tpl' );
-				return;
-			}
-		
-			// Prepare the twitter feed
-			$twitter = new EFTwitter();
-			$twitterHash = $twitter->getTwitterHash($eventId);
-			EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
-			
-			
-			// See if the user has responded
-			if ( isset($_SESSION['user']->id) ) {
-				$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
-				EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-				EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
-			} else {
-				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
-				EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
-			}
-			
-			$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
-			EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
-			
-			$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
-			$attending = NULL;
-			foreach($event_attendees as $guest) {
-				$attending[] = new User($guest);
-			}
-			EFCommon::$smarty->assign( 'attending', $attending );
-			
-			EFCommon::$smarty->display('event.tpl');
+			$this->displayEventById($eventId);
 			return;
 		} // END /event
 		

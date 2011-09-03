@@ -144,7 +144,7 @@ class APIController {
 				echo json_encode($this->dbCon->m_getCheckInDate($_REQUEST['eid'], $_REQUEST['uid']));
 				break;
 			case 'computeTrueRSVP':
-				echo json_encode($this->efCore->computeTrueRSVP($_REQUEST['eid']));
+				echo json_encode($this->efCore->getTrueRSVP($_REQUEST['eid']));
 				break;
 			case 'sendMessage':
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');

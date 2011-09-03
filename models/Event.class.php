@@ -10,6 +10,7 @@ require_once(realpath(dirname(__FILE__)).'/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/QR/qrlib.php');
  
 class Event {
+	public $alias;
 	public $eid;
 	public $organizer;
 	public $title;
@@ -123,7 +124,9 @@ class Event {
 	 *
 	 * Expects valid event info.
 	 */
-	private function makeEventFromArray($eventInfo) {		
+	private function makeEventFromArray($eventInfo) {
+		$this->alias = $eventInfo['url_alias'];
+				
 		$this->eid = $eventInfo['id'];
 		
 		// Store into private vars

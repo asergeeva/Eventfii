@@ -120,6 +120,22 @@ class DBConfig {
 		return $maxId['max_id'];
 	}
 	
+	/**
+	 * Get the next event ID
+	 * @return   Integer  the next event ID
+	 */
+	public function getNextEventId() {
+		$GET_MAX_EFID = "	SELECT	MAX(e.id) AS max_id 
+							FROM 	ef_events e";
+		
+		$maxId = $this->executeQuery($GET_MAX_EFID);
+		
+		if ( is_null($maxId['max_id']) ) {
+			return 1;
+		}
+		return intval($maxId['max_id']) + 1;
+	}
+	
 	public function getMaxRecipientTokenId() {
 		$GET_MAX_EFID = "SELECT MAX(e.id) AS max_id FROM ef_recipient_token e";
 		$maxId = $this->executeQuery($GET_MAX_EFID);
@@ -404,7 +420,8 @@ class DBConfig {
 							type,
 							location_lat,
 							location_long,
-							twitter
+							twitter,
+							url_alias
 						) 
 			VALUES (	NOW(), 
 						" . mysql_real_escape_string($newEvent->organizer->id) . ",
@@ -421,7 +438,8 @@ class DBConfig {
 						" . $newEvent->type . ",
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
-						" . $this->checkNullOrValSql($twitter) . "
+						" . $this->checkNullOrValSql($twitter) . ",
+						" . dechex(400 + $this->getNextEventId() + 3) . "
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
@@ -523,7 +541,8 @@ class DBConfig {
 									e.event_deadline, 
 									e.description, 
 									e.is_public,
-									e.type
+									e.type,
+									e.url_alias
 							FROM	ef_events e 
 							WHERE	e.organizer = " . $uid . " AND e.is_active = 1
 						) el
@@ -547,7 +566,8 @@ class DBConfig {
 										e.event_deadline, 
 										e.description, 
 										e.is_public,
-										e.type 
+										e.type,
+										e.url_alias 
 								FROM 	ef_attendance a, 
 										ef_events e 
 								WHERE 	a.event_id = e.id 

@@ -107,7 +107,7 @@ class EFMail {
 					break;
 				case "event_truersvp":
 					$efcore = new EFCore();
-					$replaceItems->item($j)->nodeValue = $efcore->computeTrueRSVP($event->eid);
+					$replaceItems->item($j)->nodeValue = $efcore->getTrueRSVP($event->eid);
 					break;
 				case "event_host":
 					$replaceItems->item($j)->nodeValue = $event->organizer->fname;
