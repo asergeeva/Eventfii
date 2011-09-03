@@ -382,6 +382,9 @@ class Event {
 			$this->numErrors++;
 			return;
 		}
+		
+		$this->location_lat = $geocode['lat'];
+		$this->location_long = $geocode['lon'];
 	}
 
 	/* check_date
