@@ -348,7 +348,8 @@ class PanelController {
 	// Check if there's a new event session
 	// create that event if the session exist
 	private function checkCreateEventSession() {
-		if ( isset($_SESSION['newEvent']) ) {
+		if ( isset($_SESSION['newEvent']) && 
+				$this->validateEventInfo( $_SESSION['newEvent'] )) {
 			$newEvent = $_SESSION['newEvent'];
 			$newEvent->organizer = $_SESSION['user'];
 			$this->makeNewEvent( $newEvent );
