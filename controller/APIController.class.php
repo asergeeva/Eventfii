@@ -122,7 +122,7 @@ class APIController {
 				break;
 			case 'setAttendanceForEvent':
 				$event = new Event($_REQUEST['eid']);
-				echo json_encode($this->dbCon->eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
+				echo json_encode($this->dbCon->m_eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
 				break;
 			case 'getHostingEvents':
 				echo json_encode($this->dbCon->getEventByEO(unserialize($_SESSION['user'])->id));				

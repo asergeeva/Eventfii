@@ -8,6 +8,7 @@
 require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/Facebook/facebook.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/GoogleMapAPI.class.php');
 
 class EFCommon {
 	public $currDate;
