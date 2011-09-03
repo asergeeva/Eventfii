@@ -334,10 +334,9 @@ class Event {
 	 *  - 0-100 characters
 	 */
 	private function check_location() {
+		$this->location = stripslashes($this->location);
 		if( strlen($this->location) == 0 )
-			return;
-		
-		$this->location = stripslashes($this->location);	
+			return;	
 
 		if ( $this->location == "Ex: Jim's House" ) {
 			$this->location = "";
@@ -347,16 +346,11 @@ class Event {
 	
 	/* check_twitter
 	 * Checks the twitter hash tag
-	 *
-	 * Requirements:
-	 *  - Only alphanumeric characters
-	 *  - 0-100 characters
 	 */
 	private function check_twitter() {
+		$this->twitter = stripslashes($this->twitter);	
 		if( strlen($this->twitter) == 0 )
 			return;
-		
-		$this->twitter = stripslashes($this->twitter);	
 
 		if ( $this->twitter == "Ex: #TurtlesRock" ) {
 			$this->twitter = "";

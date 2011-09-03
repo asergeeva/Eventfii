@@ -6,6 +6,105 @@
  */
  
 var CREATE_EVENT_FORM = (function() {
+	var title_init = "Name of Event",
+		description_init = "What should your guests know?",
+		location_init = "Ex: Jim's House",
+		address_init = "Ex: 1234 Maple St, Los Angeles, CA 90007",
+		goal_init = "In # of Attendees",
+		twitter_init = "Ex: #TurtlesRock",
+		
+		_title = $('#title'),
+		_description = $('#description'),
+		_location = $('#location'),
+		_address = $('#address'),
+		_goal = $('#goal'),
+		_twitter = $('#twitter');
+		
+	// Non-required fields init
+	if (_twitter.val().trim() == '') {
+		_twitter.val(twitter_init);
+	}
+	if (_location.val().trim() == '') {
+		_location.val(location_init);
+	}
+
+	// When the cursor is focus
+	_title.focus(function() {
+		if ( _title.val() == title_init ) { 
+			_title.val(''); 
+			_title.removeClass("default");
+		}
+	});
+	_location.focus(function() {
+		if ( _location.val() == location_init ) { 
+			_location.val(''); 
+			_location.removeClass("default");
+		}	
+	});
+	_address.focus(function() {
+		if ( _address.val() == address_init ) { 
+			_address.val(''); 
+			_address.removeClass("default");
+		}	
+	});
+	_goal.focus(function() {
+		if ( _goal.val() == goal_init ) { 
+			_goal.val(''); 
+			_goal.removeClass("default"); 
+		}
+	});
+	_twitter.focus(function() {
+		if ( _twitter.val() == twitter_init ) { 
+			_twitter.val(''); 
+			_twitter.removeClass("default");
+		}	
+	});
+	_description.focus(function() {
+		if ( _description.val() == description_init ) { 
+			_description.val(''); 
+			_description.removeClass("default");
+		}
+	});
+
+
+	// When the cursor is out of focus
+	_description.focusout(function() {
+		if ( _description.val() == '' ) { 
+			_description.val(description_init); 
+			_description.addClass("default"); 			
+		}	
+	});
+	_title.focusout(function() {
+		if ( _title.val() == '' ) {
+			_title.val(title_init);
+			_title.addClass("default"); 
+		}
+	});
+	_location.focusout(function() {
+		if ( _location.val() == '' ) { 
+			_location.val(location_init); 
+			_location.addClass("default"); 
+		}
+	});
+	_address.focusout(function() {
+		if ( _address.val() == '' ) { 
+			_address.val(address_init); 
+			_address.addClass("default"); 
+		}
+	});
+	_goal.focusout(function() {
+		if ( _goal.val() == '' ) { 
+			_goal.val(goal_init); 
+			_goal.addClass("default"); 
+		}
+	});
+	_twitter.focusout(function() {
+		if ( _twitter.val() == '' ) { 
+			_twitter.val(twitter_init); 
+			_twitter.addClass("default"); 
+		}
+	});
+	
 	return {
 		init: function() {
 			$('#end-date').click( function() {
@@ -38,121 +137,9 @@ var CREATE_EVENT_FORM = (function() {
 			
 			CSV_UPLOADER.init();
 		}
-	 }
+	}
 })();
 
 $(document).ready(function() {
-	var title_init = "Name of Event";
-	var description_init = "What should your guests know?";
-	var location_init = "Ex: Jim's House";
-	var address_init = "Ex: 1234 Maple St, Los Angeles, CA 90007";
-	var goal_init = "In # of Attendees";
-	var twitter_init = "Ex: #TurtlesRock";
-	
-	if ( $("#location").val() == '' ) { 
-		$("#location").val(location_init); 
-		$("#location").addClass("default"); 
-	}
-	
-	$("input[type=text]").focus(function() {
-		if ( $(this).val() == title_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}
-		if ( $(this).val() == location_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}	
-		if ( $(this).val() == address_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}		
-		if ( $(this).val() == goal_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}
-		if ( $(this).val() == twitter_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}
-	});
-	$("textarea").focus(function() {
-		if ( $(this).val() == description_init ) { 
-			$(this).val(''); 
-			$(this).removeClass("default");
-			return; 
-		}
-	});
-
-	$("input[type=text]").focusout(function() {
-		if ( $("#title").val() == '' ) { 
-			$(this).val(title_init);
-			$(this).addClass("default"); 
-		}
-		if ( $("#location").val() == '' ) { 
-			$(this).val(location_init); 
-			$(this).addClass("default"); 
-		}
-		if ( $("#address").val() == '' ) { 
-			$(this).val(address_init); 
-			$(this).addClass("default"); 
-		}
-		if ( $("#goal").val() == '' ) { 
-			$(this).val(goal_init); 
-			$(this).addClass("default"); 
-		}
-		if ( $("#twitter").val() == '' ) { 
-			$(this).val(twitter_init); 
-			$(this).addClass("default"); 
-		}
-	});
-	$("textarea").focusout(function() {
-		if ( $("#description").val() == '' ) { 
-			$(this).val(description_init); 
-			$(this).addClass("default"); 			
-		}
-	});
-	
 	CREATE_EVENT_FORM.init();
 });
-
-// Live validation
-
-// Title
-var title = new LiveValidation('title', { validMessage: " ", wait: 1000 });
-title.add(Validate.Length, { minimum: 5, tooShortMessage: "Title must be at least 5 characers."});
-var empty_title = new LiveValidation( 'title', {validMessage: " ", onlyOnSubmit: true } );
-empty_title.add( Validate.Presence );
-empty_title.add( Validate.Exclusion, { within: ['Name of Event'], failureMessage: "This field is required." } );
-
-// Details
-var details = new LiveValidation('description', { validMessage: " ", wait: 1000 } );
-details.add(Validate.Length, { minimum: 5, tooShortMessage: "Title must be at least 5 characers."});
-var empty_details = new LiveValidation( 'description', {validMessage: " ", onlyOnSubmit: true } );
-empty_details.add( Validate.Presence );
-empty_details.add( Validate.Exclusion, { within: ['What should your guests know?'], failureMessage: "This field is required." } );
-
-// Address
-var empty_address = new LiveValidation('address', { validMessage: " ", onlyOnSubmit: true });
-empty_address.add( Validate.Presence );
-empty_address.add( Validate.Exclusion, { within: ['Ex: 1234 Maple St, Los Angeles, CA 90007'], failureMessage: "This field is required." } );
-
-// Date
-var date = new LiveValidation('date', { validMessage: " ", onlyOnSubmit: true });
-date.add( Validate.Presence );
-
-// Goal
-var goal = new LiveValidation('goal', { validMessage: " ", wait: 0 });
-goal.add( Validate.Numericality, { onlyInteger: true } );
-var empty_goal = new LiveValidation('goal', { validMessage: " ", onlyOnSubmit: true });
-empty_goal.add( Validate.Presence );
-empty_goal.add( Validate.Exclusion, { within: ['In # of Attendees'], failureMessage: "This field is required." } );
-
-// Deadline
-var deadline = new LiveValidation('deadline', { validMessage: " ", onlyOnSubmit: true });
-deadline.add( Validate.Presence );

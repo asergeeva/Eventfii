@@ -51,7 +51,6 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
-{include file="js_cp.tpl"}
 {include file="js_create.tpl"}
 
 </body>
