@@ -29,7 +29,7 @@
 
 				<p class="message-error">{$user_create_email}</p>{/if}
 
-			</label>{if ! isset($smarty.session.user) && ! isset($smarty.session.fb->email)}
+			</label>{if ! isset($smarty.session.user)}
 
 			<label for="ef_login_pass_new">
 				<strong>Password</strong> 

@@ -789,7 +789,7 @@ class PanelController {
 				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
 				// Needs to be implemented
 				//
-								
+
 				// Check to see if the user has submit the form yet
 				if ( isset($_POST['submit']) ) {
 					// Create an event object with the text from the form
@@ -1248,8 +1248,6 @@ class PanelController {
 				// Logged in user doesn't need to create an account!
 				$this->loggedInRedirect();
 				
-				unset($_SESSION['fb']);
-
 				// Make sure the user is properly redirected
 				if ( isset($params) ) {
 					EFCommon::$smarty->assign('redirect', $params);

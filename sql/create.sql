@@ -1,27 +1,28 @@
 CREATE TABLE ef_users (
-  id        INTEGER PRIMARY KEY AUTO_INCREMENT,
-  fname     VARCHAR(150),
-  lname     VARCHAR(150),
-  email     VARCHAR(500) NOT NULL UNIQUE,
-  password  VARCHAR(5000),
-  about     VARCHAR(5000),
-  verified  TINYINT(1) NOT NULL DEFAULT 0,
-  referrer  INTEGER REFERENCES ef_users(id),
-  phone     VARCHAR(500),
-  email2    VARCHAR(500),
-  email3    VARCHAR(500),
-  email4    VARCHAR(500),
-  email5    VARCHAR(500),
-  zip		    VARCHAR(15),
-  pic		    VARCHAR(200),
-  twitter 	VARCHAR(20),
-  facebook  VARCHAR(50),
-  notif_opt1 TINYINT(1) DEFAULT 1,
-  notif_opt2 TINYINT(1) DEFAULT 1,
-  notif_opt3 TINYINT(1) DEFAULT 1,
-  reputation DOUBLE,
+  id              INTEGER PRIMARY KEY AUTO_INCREMENT,
+  fname           VARCHAR(150),
+  lname           VARCHAR(150),
+  email           VARCHAR(500) NOT NULL UNIQUE,
+  password        VARCHAR(5000),
+  about           VARCHAR(5000),
+  verified        TINYINT(1) NOT NULL DEFAULT 0,
+  referrer        INTEGER REFERENCES ef_users(id),
+  phone           VARCHAR(500),
+  email2          VARCHAR(500),
+  email3          VARCHAR(500),
+  email4          VARCHAR(500),
+  email5          VARCHAR(500),
+  zip		          VARCHAR(15),
+  pic		          VARCHAR(200),
+  twitter 	      VARCHAR(20),
+  facebook        VARCHAR(50),
+  notif_opt1      TINYINT(1) DEFAULT 1,
+  notif_opt2      TINYINT(1) DEFAULT 1,
+  notif_opt3      TINYINT(1) DEFAULT 1,
+  reputation      DOUBLE,
   fb_access_token VARCHAR(500),
-  fb_session_key  VARCHAR(500)
+  fb_session_key  VARCHAR(500),
+  url_alias       VARCHAR(250) UNIQUE
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (
@@ -57,7 +58,7 @@ CREATE TABLE ef_events (
   is_active           TINYINT(1) DEFAULT 1,
   reach_goal          TINYINT(1) DEFAULT 1,
   twitter             VARCHAR(155),
-  url_alias           VARCHAR(250)
+  url_alias           VARCHAR(250) UNIQUE
 ) ENGINE=InnoDB;
 
 CREATE TABLE fb_friends (
