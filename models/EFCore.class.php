@@ -56,10 +56,11 @@ class EFCore {
 	}
 	
 	/**
-	 * Get the trueRSVP number
+	 * Get the trueRSVP number V1
 	 * @param  $event   Event    the event object
 	 *
 	 * @return Integer
+	 * DO NOT REMOVE, THIS IS JUST FOR DOCUMENTATION PURPOSE
 	 */
 	public function computeTrueRSVP($eid) {
 		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eid, CONFOPT1);
@@ -84,6 +85,12 @@ class EFCore {
 		return round($trsvpVal, 0);
 	}
 	
+	/**
+	 * Get the trueRSVP number V2
+	 * @param  $event   Event    the event object
+	 *
+	 * @return Integer
+	 */
 	public function getTrueRSVP($event) {
 		$attendees = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 		$goalProb = $this->getProbByGoal($event);
@@ -107,7 +114,7 @@ class EFCore {
 			$result += ($attendeeProb / 6.0);
 		}
 		
-		return $result;
+		return round($result);
 	}
 	
 	/**

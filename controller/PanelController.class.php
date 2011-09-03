@@ -292,8 +292,6 @@ class PanelController {
 	}
 	
 	public function assignManageVars($eventId) {
-		$efCore = new EFCore();
-
 		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
 		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
 		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
@@ -310,8 +308,8 @@ class PanelController {
 		EFCommon::$smarty->assign('guestConf6', $numGuestConf6['guest_num']);
 		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
 		
-		EFCommon::$smarty->assign('guestimate', $efCore->computeGuestimate($eventId));
-		EFCommon::$smarty->assign('trsvpVal', $efCore->computeTrueRSVP($eventId));
+		EFCommon::$smarty->assign('guestimate', EFCommon::$core->computeGuestimate($eventId));
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($eventId));
 	}
 
 	/* function getEventIdByUri
