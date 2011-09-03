@@ -78,6 +78,7 @@ class APIController {
 					if($this->dbCon->m_checkFBUser($_POST['email']))
 					{
 						$this->handleFBLogin();
+						echo 'status_loginSuccess';
 						break;
 					}
 					else
