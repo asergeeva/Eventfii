@@ -374,54 +374,13 @@ class Event {
 			$this->numErrors++;
 			return;
 		}
-
-		$valid_address = filter_var(
-			$this->address, 
-			FILTER_VALIDATE_REGEXP,
-			array(
-				"options" => array(
-					"regexp" => "/^[A-Za-z0-9\s-,*]*$/"
-				)
-			)
-		);
 		
-		if( ! ($valid_address) ) {
-			$this->error['address'] = "Address can only contain spaces, A-Z, 0-9 or -*,@&";
+		// Check the address using a geocoder
+		$geocode = EFCommon::$google->getGeocode($this->address);
+		if( ! is_numeric($geocode['lat']) || ! is_numeric($geocode['lon'])) {
+			$this->error['address'] = "Address is invalid";
 			$this->numErrors++;
 			return;
-		}
-
-		// Verify with google that address exists
-		require_once('models/Location.class.php');
-		$a = urlencode($this->address);
-		$event_address = array();
-		$geocodeURL = "http://maps.googleapis.com/maps/api/geocode/json?address=$a&sensor=false";
-		$ch = curl_init($geocodeURL);
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		$result = curl_exec( $ch );
-		$httpCode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		curl_close( $ch );
-		
-		if ($httpCode == 200) {
-			$geocode = json_decode($result);
-			$location_type = "";
-			if ( $geocode->status != "ZERO_RESULTS" ) {
-				$this->location_lat = $geocode->results[0]->geometry->location->lat;
-				$this->location_long = $geocode->results[0]->geometry->location->lng; 
-				$formatted_address = $geocode->results[0]->formatted_address;
-				$location_type = $geocode->results[0]->geometry->location_type;
-			}
-		} else {
-			$event_address['location_type'] = "error";
-			$this->location_lat = "";
-			$this->location_long = "";
-		}
-
-		if ( ! ( $location_type == "RANGE_INTERPOLATED" || $location_type == "ROOFTOP" ) ) {
-			$this->error['address'] = "Address entered is invalid";
-			$this->numErrors++;
-		} else {
-			$this->address = $formatted_address;
 		}
 	}
 
