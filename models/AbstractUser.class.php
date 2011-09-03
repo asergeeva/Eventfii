@@ -57,6 +57,7 @@ class AbstractUser {
 		$this->set_email($userInfo['email']);
 		$this->about = $userInfo['about'];
 		$this->pic = $this->setUserPic($userInfo['facebook']);
+		$this->is_attending = $userInfo['is_attending'];
 	}
 	
 	private function setUserPic($facebook = NULL) {

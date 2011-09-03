@@ -22,8 +22,6 @@ class User extends AbstractUser {
 	public $fb_access_token;
 	public $fb_session_key;
 	
-	public $is_attending;
-	
 	public function __construct($userInfo) {
 		// Settings page
 		if ( $userInfo === NULL ) {
