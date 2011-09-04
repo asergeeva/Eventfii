@@ -210,7 +210,7 @@ class DBConfig {
 		return true;
 	}
 	
-	private function isUserInvited($email) {
+	private function isUserRegistered($email) {
 		if (isset($_SESSION['ref'])) {
 			$email = $this->getReferenceEmail($_SESSION['ref']);
 		}
@@ -327,13 +327,13 @@ class DBConfig {
 		// Update the reference
 		// The implementation is the same as without reference
 		// Future: may be we want to give credits to the inviter
-		} else if ( isset($_SESSION['ref'])) {
+		} else if ( isset($_SESSION['ref']) && $this->isUserRegistered($this->getReferenceEmail($_SESSION['ref']))) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $this->getReferenceEmail($_SESSION['ref']));
 			return $this->getUserInfoByEmail($email);
-		} else if (isset($_SESSION['fb'])) {
+		} else if (isset($_SESSION['fb']) && $this->isUserRegistered($_SESSION['fb']->email)) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['fb']->email);
 			return $this->getUserInfoByEmail($email);
-		} else if ($this->isUserInvited($email)) {
+		} else if ($this->isUserRegistered($email)) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email);
 			return $this->getUserInfoByEmail($email); 
 		}
