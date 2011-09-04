@@ -101,7 +101,7 @@
 
 				</fieldset>
 				<footer class="buttons buttons-submit">
-					<p><input type="submit" name="submit" value="Save All" /></p>
+					<p><span class="btn btn-small"><input type="submit" name="submit" value="Save All" /></span></p>
 				</footer>
 				</form>
 			</section>

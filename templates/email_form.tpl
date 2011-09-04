@@ -28,7 +28,7 @@
 	</label>
 	<footer class="buttons buttons-send">
 		<!--label for="automatic_email_send_cb"><input type="checkbox" name="automatically"{if isset($eventReminder['isAuto'])} checked="checked"{/if} id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_email_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_email_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select-->
-		<p><span class="btn btn-med"><input type="button" name="send" value="Send" id="send_email_reminder" /></span></p>
+		<p><span class="btn btn-small"><input type="button" name="send" value="Send" id="send_email_reminder" /></span></p>
 		</select>
 		<span id="reminder_status"></span>
 	</footer>

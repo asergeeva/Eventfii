@@ -19,7 +19,7 @@ ol, ul { list-style: none; }
  -------------------------*/
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
-	font-family: Georgia;
+	font-family: Helvetica, Arial;
 	color: #666;
 	font-size: 11px; }
 a { 
@@ -60,7 +60,6 @@ figure figcaption { margin: 0 0 10px; }
 	background: url(../images/facebook_icon.png) 0 0 no-repeat;
 	position: relative;
 	color: #fff;
-	font-family: Helvetica, Arial;
 	font-weight: bold;
 	height: 16px; /* 20 - 4 */
 	padding: 4px 4px 0 25px;
@@ -89,8 +88,6 @@ fieldset dd {
 	margin: 4px 0 20px; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dt label {
-	font-family: Helvetica, Arial;
-
 	color: #464646;
 	padding: 0; }
 fieldset dt em {
@@ -140,10 +137,8 @@ fieldset input, fieldset textarea {
 	font-size: 12px;
 	color: #333; }
 #settings fieldset label input { font-size: 10px; }
-select option { font-family: Georgia; }
 input.inputbox { 
 	background: #fff;
-	font-family: Georgia;
 	height: 26px;
 	padding: 0 4px;
 	-moz-box-sizing: border-box;
@@ -156,7 +151,6 @@ input.input-facebook {
 	padding: 0 4px 0 24px; }
 fieldset textarea { 
 	background: #fff;
-	font-family: Georgia;
 	height: 126px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -199,12 +193,11 @@ header#page-header {
 #page-header aside {
 	font-size: 13px;
 	float: right;
-	margin: 47px 0 0; }
-#page-header p { float: left; }
-#page-header p.buttons { 
-	margin: -5px 0 0 10px;
+	margin: 43px 0 0;
 	overflow: auto; }
-#page-header p a {
+#page-header nav { padding: 5px 4px 0 0; }
+#page-header nav, #page-header p { float: left; }
+#page-header nav p a {
 	color: #fff;
 	font-size: 12px;
 	padding: 0 4px;
@@ -225,7 +218,7 @@ header#page-header {
 #header h2, #header p { 
 	float: left;
 	font-size: 14px;
-	margin: 1px 0 0;
+	margin: 0;
 	clear: left; }
 #header .fb-share { 
 	float: right; 
@@ -362,9 +355,8 @@ header.block .message { margin: 0; }
 .block .block-title {
 	border-bottom: 1px solid #ccc;
 	margin: 0 -5px 3px; }
-.centered-title{
+.centered-title {
 	font-size: 16px;
-	font-family: Helvetica, Arial;
 	text-align: center; }
 .navigation .block .block-title { 
 	text-align: center;
@@ -373,12 +365,10 @@ header.block .message { margin: 0; }
 	background: #3399cc;
 	color: #fff;
 	font-size: 16px;
-	font-family: Helvetica, Arial;
 	height: 27px; /* 33 - 6 */
 	margin: -15px -15px 7px;
 	padding: 10px 0 0 20px; }
 .block .block-title h1 { 
-	font-family: Helvetica, Arial;
 	font-size: 16px;
 	padding: 0 0 6px 5px;
 	display: inline-block; }
@@ -430,7 +420,6 @@ header.block .message { margin: 0; }
 	float: left;
 	width: 50%; }
 .event-more header {
-	font-family: Helvetica, Arial;
 	font-size: 12px;
 	margin: 0 0 6px; }
 .event-more .user-img { 
@@ -446,7 +435,7 @@ header.block .message { margin: 0; }
 .icons-full { margin: 0 -53px; }
 .icons a { 
 	background: none 0 0 no-repeat;
-	font-family: 10px;
+	font-size: 10px;
 	height: 24px; /* 30 - 6 */
 	padding: 6px 0 0 35px;
 	margin: 0 10px;
@@ -536,7 +525,6 @@ header.block .message { margin: 0; }
 .list li.list-head {
 	background: none;
 	font-weight: bold;
-	font-family: Helvetica, Arial;
 	margin: 0 0 10px;
 	cursor: default; }
 .list li strong {
@@ -569,7 +557,6 @@ ol.rsvp-list { margin: 0; }
 	margin: 0 0 8px;
 	display: block; }
 .rsvp-list li label {
-	font-family: Helvetica, Arial;
 	text-align: center;
 	font-size: inherit;
 	padding: 0;
@@ -666,7 +653,6 @@ ol.rsvp-list { margin: 0; }
 	clear: left; }
 .table dt.list-head { 
 	font-weight: bold;
-	font-family: Helvetica, Arial;
 	margin: 0 0 10px; }
 .table dd {
 	float: right;
@@ -711,7 +697,6 @@ ul.contacts-list li {
 	margin: 3px 0 4px; }
 .contacts-list li:hover h3 {  }
 ul.contacts-list li p { 
-	font-family: Helvetica, Arial;	
 	line-height: 1;
 	white-space: nowrap;
 	font-size: 11px;
@@ -726,7 +711,6 @@ ul.contacts-list li p {
 	font-size: 16px;
 	overflow: auto; }
 #manage-checkin span {
-	font-family: Helvetica, Arial;
 	float: left;
 	display: inline;
 	clear: both; }
@@ -786,7 +770,6 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
-	font-family: Helvetica, Arial;
 	width: 190px; }
 #main .navigation .block { padding: 8px; }
 #main .navigation .block a { color: #3399cc; }
@@ -834,11 +817,17 @@ ul.network li a {
  -------------------------*/
 
 /*----- Buttons ----------*/
+.buttons { clear: both; }
+.buttons-submit { 
+	text-align: center; 
+	margin: 15px 0 0; }
+.buttons-send { text-align: center; }
+.buttons-create { clear: none; }
+
 .btn, .btn input, .btn span {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	color: #fff;
-	font-size: 30px;
 	line-height: 1;
 	margin: 0;
 	border: 0;
@@ -848,9 +837,33 @@ a.btn { text-decoration: none; }
 .btn input, .btn span { float: left; }
 .btn:hover { background-position: 0 100%; }
 .btn:hover span, .btn:hover input { background-position: 100% 100%; }
-.btn:focus { background-position: 0 0; }
-.btn:focus span, .btn:focus input { background-position: 100% 0; }
+.btn:focus, .btn:active { background-position: 0 0; }
+.btn:focus span, .btn:focus input,
+.btn:active span, .btn:active input { background-position: 100% 0; }
 
+.btn-manage { 
+	background-image: url(../images/btn_manage_left.png);
+	background-position: 0 -27px;
+	height: 27px;
+	padding: 0 0 0 9px; }
+.btn-manage span {
+	background-image: url(../images/btn_manage_right.png);
+	background-position: 100% -27px;
+	height: 21px; /* 27 - 6 */
+	padding: 6px 11px 0 0; }
+.btn-small { 
+	background-image: url(../images/btn_small_left.png);
+	background-position: 0 -27px;
+	height: 27px;
+	padding: 0 0 0 8px; }
+.btn-small span, .btn-small input {
+	background-image: url(../images/btn_small_right.png);
+	background-position: 100% -27px;
+	height: 21px; /* 27 - 6 */
+	padding: 6px 9px 0 0; }
+.btn-small input {
+	height: 27px;
+	padding: 0 9px 2px 0; }
 .btn-med { 
 	background-image: url(../images/btn_med_left.png);
 	background-position: 0 -56px;
@@ -859,12 +872,13 @@ a.btn { text-decoration: none; }
 .btn-med input {
 	background-image: url(../images/btn_med_right.png);
 	background-position: 100% -56px;
-	float: left;
+	font-size: 30px;
 	height: 56px;
 	padding: 0 28px 10px 13px; }
 .btn-large {
 	background-image: url(../images/btn_large_left.png);
 	background-position: 0 -91px;
+	font-size: 30px;
 	height: 91px;
 	padding: 0 0 0 16px; }
 .btn-large span {
@@ -873,105 +887,6 @@ a.btn { text-decoration: none; }
 	height: 65px; /* 91 - 26 */
 	padding: 26px 20px 0 4px; }
 
-.buttons { clear: both; }
-.buttons-submit { 
-	text-align: center; 
-	margin: 15px 0 0; }
-.buttons-send { text-align: center; }
-
-/* Create Button */
-.buttons-create { clear: none; }
-.buttons-create a {
-	background: url(../images/btn_create_left.png) 0 0 no-repeat;
-	color: inherit;
-	font-size: 11px;
-	height: 26px;
-	padding: 0 0 0 6px; }
-.buttons-create a span {
-	background: url(../images/btn_create_right.png) 100% 0 no-repeat;
-	float: left;
-	text-decoration: none;
-	color: inherit;
-	height: 21px; /* 26 - 5 */
-	padding: 5px 8px 0 1px;
-	border: 0;
-	cursor: pointer;
-	display: block; }
-
-/*
-.buttons-edit {
-	text-align: right;
-	margin: 10px 0 0; }
-.buttons-extra {
-	text-align: center;
-	margin: 10px 0 0; }
-.buttons-submit {
-	text-align: right;
-	margin: 10px 0 0;
-	clear: both; }
-.follow { text-align: center; }
-.link-home { text-align: center; }
-.link-extra {
-	text-align: right;
-	margin: 10px 0 0; 
-
-/* Send Button * /
-.buttons-send { 
-	text-align: center;
-	margin: 10px 0 0; } 
-.buttons-send .btn {
-	background: url(../images/btn_small_left.png) 0 0 no-repeat;
-	text-decoration: none;
-	color: #fff;
-	font-size: 11px;
-	height: 24px;
-	padding: 0 0 0 6px;
-	display: inline-block; }
-.buttons-send .btn input {
-	background: url(../images/btn_small_right.png) 100% 0 no-repeat;
-	color: #fff;
-	text-decoration: none;
-	height: 24px;
-	margin: 0;
-	padding: 0 11px 0 4px;
-	border: 0;
-	cursor: pointer;
-	display: block; }
-
-.buttons a, 
-.buttons-submit p,
-a .button {
-	background: url(../images/btn_small_left.png) 0 0 no-repeat;
-	/* text-transform: lowercase; * /
-	text-decoration: none;
-	color: #fff;
-	font-size: 11px;
-	height: 24px;
-	padding: 0 0 0 6px;
-	display: inline-block; }
-.buttons a:hover, 
-.buttons-submit p:hover,
-a:hover .button { background-position: 0 100%; }
-.buttons a span, 
-.buttons-submit p input,
-a .button em {
-	background: url(../images/btn_small_right.png) 100% 0 no-repeat;
-	color: #fff;
-	text-decoration: none;
-	height: 18px; /* 24 - 6 * /
-	padding: 6px 11px 0 4px;
-	border: 0;
-	cursor: pointer;
-	display: block; }
-.buttons a:hover span, 
-.buttons-submit p:hover input,
-a:hover .button em { background-position: 100% 100%; }
-.buttons-submit p input {
-	padding-top: 0;
-	height: 24px;
-	margin: 0; }
-
-*/
 
 /* Popups and dropdowns
  -------------------------*/
@@ -995,7 +910,6 @@ a:hover .button em { background-position: 100% 100%; }
 	margin: 0 0 0 -259px; }
 .popup-close {
 	position: absolute;
-	font-family: Helvetica, Arial;
 	top: -25px;
 	right: -25px; }
 .popup-close a {
@@ -1026,7 +940,6 @@ footer.links-extra {
 /*----- Site Map ----------*/
 footer#site-map {
 	background: url(../images/footer_bg.gif) 0 0 repeat-x;
-	font-family: Helvetica, Arial;
 	color: #fff;
 	height: 125px; /* 158 - 33 */
 	padding: 33px 0 0;
