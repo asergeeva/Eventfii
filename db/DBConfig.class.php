@@ -267,9 +267,17 @@ class DBConfig {
 			$fbid = $_SESSION['fb']->facebook;
 			$access_token = $_SESSION['fb']->fb_access_token;
 			$session_key = $_SESSION['fb']->fb_session_key;
-
-			$fbFriends = EFCommon::$facebook->api('/me/friends', array('access_token' => $_SESSION['fb']->fb_access_token));
-			$this->saveFBFriends($fbFriends['data'], $_SESSION['fb']->id);
+			
+			$session = EFCommon::$facebook->getUser();
+			// Session based API call.
+			if ($session) {
+				try {
+					$fbFriends = EFCommon::$facebook->api('/me/friends', array('access_token' => $_SESSION['fb']->fb_access_token));
+					$this->saveFBFriends($fbFriends['data'], $_SESSION['fb']->id);
+				} catch (FacebookApiException $e) {
+					error_log($e);
+				}
+			}
 		}
 	
 		// If the email hasn't yet been found in the system

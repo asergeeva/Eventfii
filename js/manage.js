@@ -62,4 +62,5 @@ var MANAGE_EVENT = ( function() {
 
 $(document).ready(function() {
 	MANAGE_EVENT.init();
+	CSV_UPLOADER.init();
 });
