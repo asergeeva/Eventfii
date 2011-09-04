@@ -262,7 +262,6 @@ class EFMail {
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
 		
-		
 		for ($i = 0; $i < sizeof($event->guests); ++$i) {
 			if (trim($event->guests[$i]->email) !== "") {		
 				$hash_key = md5($event->guests[$i]->email."-".$event->eid ."-". time());

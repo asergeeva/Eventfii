@@ -38,6 +38,8 @@ class Event {
 	public $location_lat;
 	public $location_long;
 	public $guests = array();
+	public $guest_emails = array();
+	
 	public $exists;
 	
 	public $twitter;
@@ -637,6 +639,20 @@ class Event {
 		}
 	}
 	
+	/**
+	 * Given the guest's email adddress, add guest to the Event guests collection
+	 * @param    $guest_email    String    the email of the guest
+	 */
+	private function addGuestEmail($guest_email) {
+		if ( filter_var($guest_email, FILTER_VALIDATE_EMAIL) &&
+				!in_array($guest_email, $this->guest_emails)) {
+			array_push($this->guest_emails, $guest_email);
+			array_push($this->guests, new AbstractUser($guest_email));
+			return true;
+		}
+		return false;
+	}
+	
 	public function setGuests($guest_email) {
 		$guests = explode(",", $guest_email);
 		
@@ -648,16 +664,11 @@ class Event {
 		if (sizeof($guests) > 1) {
 			foreach($guests as $guest) {
 				$guest = trim($guest);
-				if ( filter_var($guest, FILTER_VALIDATE_EMAIL) ) {
-					array_push($this->guests, new AbstractUser($guest));
+				if ($this->addGuestEmail($guest)) {
 					$addGuest[] = $guest;
-				} else {
-					$this->error["add_guest"] .= "<br />" . $guest;
-					$this->numErrors++;
 				}
 			}
-		} else {
-			array_push($this->guests, new AbstractUser($guest_email));
+		} else if ($this->addGuestEmail($guest_email)) {
 			$addGuest[] = $guest_email;
 		}
 		
@@ -674,15 +685,17 @@ class Event {
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
-					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+					if ($this->addGuestEmail($data[$i])) {
 						array_push($csv_contacts, $data[$i]);
-						array_push($this->guests, new AbstractUser($data[$i]));
 					}
 				}
 			}
 			fclose($handle);
 		}
-		EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
+		
+		if (sizeof($csv_contacts) > 0) {
+			EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
+		}
 	}
 	
 	public function getCalDate($date, $time) {
