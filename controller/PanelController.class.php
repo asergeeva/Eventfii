@@ -463,7 +463,10 @@ class PanelController {
 	private function securityValidate($current_page) {
 		// /event/manage/* pages are protected
 		if (preg_match("/event\/manage*/", $current_page) > 0) {
-			if (!EFCommon::$dbCon->checkValidHost($_GET['eventId'], $_SESSION['user']->id)) {
+			if (!isset($_SESSION['user'])) {
+				header("Location: ".CURHOST."/login");
+			}
+			else if (!EFCommon::$dbCon->checkValidHost($_GET['eventId'], $_SESSION['user']->id)) {
 				$this->displayError("You're not the host of this event");
 				return false;
 			}

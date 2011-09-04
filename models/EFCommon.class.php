@@ -75,8 +75,8 @@ class EFCommon {
 		  'cookie' => true
 		));
 		
-		//self::$google = new GoogleMapAPI('map');
-		//self::$google->setAPIKey(GOOGLE_MAPS_API);
+		self::$google = new GoogleMapAPI('map');
+		self::$google->setAPIKey(GOOGLE_MAPS_API);
 		
 		self::$core = new EFCore();
 	}
