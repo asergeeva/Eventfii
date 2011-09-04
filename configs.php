@@ -24,7 +24,7 @@ define('CSV_UPLOAD', CURHOST.'/'.CSV_UPLOAD_PATH);
 define('JS_PATH', CURHOST.'/js');
 define('CSS_PATH', CURHOST.'/css');
 define('EVENT_URL', CURHOST.'/event');
-define('NUM_TWEETS', 5);
+define('NUM_TWEETS', 25);
 
 define('LAUNCH_PAGE', CURHOST.'/launch');
 

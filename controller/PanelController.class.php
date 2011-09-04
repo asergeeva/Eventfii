@@ -124,10 +124,11 @@ class PanelController {
 		
 		EFCommon::$dbCon->createNewEvent($newEvent);
 		
-		$_SESSION['new_eid'] = EFCommon::$dbCon->getMaxEventId();
-		
 		unset($_SESSION['newEvent']);
-		header("Location: " . CURHOST . "/event/manage/guests?eventId=" . $_SESSION['new_eid']);
+		
+		$eventCreated = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
+		
+		header("Location: " . CURHOST . "/event/manage/guests?eventId=" . $eventCreated->eid);
 		exit;
 	}
 

@@ -333,7 +333,7 @@ class openinviter
 	        	}
 			if (!$update)
 				{
-				if ((!$valid_cache) AND (empty($modified_files)) AND (!$this->settings['hosted'])) touch($this->settings['cookie_path'].'/'.$this->settings['plugins_cache_file']);
+				if ((!$valid_cache) AND (empty($modified_files)) AND (!$this->settings['hosted'])) @touch($this->settings['cookie_path'].'/'.$this->settings['plugins_cache_file']);
 				else
 					{
 					$cache_contents="<?php\n";

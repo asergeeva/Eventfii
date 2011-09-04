@@ -439,9 +439,14 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						" . dechex(400 + $this->getNextEventId() + 3) . "
+						'" . dechex(400 + $this->getNextEventId() + 3) . "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
+	}
+	
+	public function getLastEventCreatedBy($uid) {
+		$GET_LAST_EVENT = "SELECT * FROM ef_events WHERE organizer = ".$uid." ORDER BY created DESC LIMIT 1";
+		return new Event($this->executeQuery($GET_LAST_EVENT));
 	}
 	
 	/**
