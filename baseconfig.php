@@ -6,16 +6,16 @@
  * All rights reserved
  */
 
-define('DB_HOST', '127.0.0.1:3306');
-define('DB_USER', 'glaksmono');
-define('DB_PASS', '12345');
-define('DB_NAME', 'eventfii');
+define('DB_HOST', 'internal-db.s99541.gridserver.com:3306');
+define('DB_USER', 'db99541_true_qa');
+define('DB_PASS', 'happyparty');
+define('DB_NAME', 'db99541_true_qa');
 define('DEBUG', true);
 
-define('PATH', '/Eventfii');
-define('CURHOST', 'https://localhost'.PATH);
+define('PATH', '');
+define('CURHOST', 'http://qa.truersvp.com'.PATH);
 
-define('FB_APP_ID', '122732554481304');
-define('FB_APP_SECRET', '2416d6b193a5c135c2c850b02a4dba78');
+define('FB_APP_ID', '256152217746559');
+define('FB_APP_SECRET', 'eda14af05705ec62098266b5d2bc81d1');
 
-define('GOOGLE_MAPS_API', 'ABQIAAAAYw9IaNOSbAwS1vK0gtJ__xT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRy3n3lZ15FCAqVglN8_EtnpZDXbg');
+define('GOOGLE_MAPS_API', 'ABQIAAAAYw9IaNOSbAwS1vK0gtJ__xSg30_YD3IIP8NVVjYl9YkEYp2gBRQqLTqNrejOlyChi__bADM7NNaD9A');

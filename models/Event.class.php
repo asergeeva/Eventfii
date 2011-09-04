@@ -674,7 +674,7 @@ class Event {
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
 				for ($i = 0; $i < sizeof($data); ++$i) {
-					if (!in_array($data[$i], $this->guests) && filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
 						array_push($csv_contacts, $data[$i]);
 						array_push($this->guests, new AbstractUser($data[$i]));
 					}

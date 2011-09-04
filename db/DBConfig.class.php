@@ -285,7 +285,7 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($fbid).",
 									   ".$this->checkNullOrValSql($access_token).",
 									   ".$this->checkNullOrValSql($session_key).",
-									   '".dechex(500 + $this->getNextUserId() + 5)."')";
+									   '".dechex(505 + $this->getNextUserId())."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		
 		// Update the reference
@@ -457,7 +457,7 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						'" . dechex(400 + $this->getNextEventId() + 3) . "'
+						'" . dechex(403 + $this->getNextEventId()) . "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
