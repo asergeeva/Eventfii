@@ -210,6 +210,19 @@ class DBConfig {
 		return true;
 	}
 	
+	private function isUserInvited($email) {
+		if (isset($_SESSION['ref'])) {
+			$email = $this->getReferenceEmail($_SESSION['ref']);
+		}
+		$GET_USER_EMAIL = "	SELECT	* 
+							FROM 	ef_users e 
+							WHERE 	e.email = '" . $email . "' AND password IS NULL";
+		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public function getUserContacts($uid) {
 		$GET_CONTACT = "SELECT u.* FROM ef_addressbook a, ef_users u WHERE a.contact_id = u.id AND a.user_id <> u.id AND a.user_id = ".$uid;
 		return $this->getQueryResultAssoc($GET_CONTACT);
@@ -271,7 +284,8 @@ class DBConfig {
 								zip = ".$this->checkNullOrValSql($zip).",
 								facebook = ".$this->checkNullOrValSql($fbid).",
 								fb_access_token = ".$this->checkNullOrValSql($access_token).",
-								fb_session_key = ".$this->checkNullOrValSql($session_key)."
+								fb_session_key = ".$this->checkNullOrValSql($session_key).",
+								url_alias = HEX(".USER_ALIAS_OFFSET." + id)
 						WHERE	email = '" . $email . "'";
 	
 		$this->executeUpdateQuery($UPDATE_USER);
@@ -306,7 +320,7 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($fbid).",
 									   ".$this->checkNullOrValSql($access_token).",
 									   ".$this->checkNullOrValSql($session_key).",
-									   '".dechex(505 + $this->getNextUserId())."')";
+									   '".dechex(USER_ALIAS_OFFSET + $this->getNextUserId())."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 			return $this->getUserInfoByEmail($email);
 			
@@ -319,6 +333,9 @@ class DBConfig {
 		} else if (isset($_SESSION['fb'])) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['fb']->email);
 			return $this->getUserInfoByEmail($email);
+		} else if ($this->isUserInvited($email)) {
+			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email);
+			return $this->getUserInfoByEmail($email); 
 		}
 		
 		return NULL;
@@ -454,7 +471,7 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						'" . dechex(403 + $this->getNextEventId()) . "'
+						'" . dechex(EVENT_ALIAS_OFFSET + $this->getNextEventId()) . "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
