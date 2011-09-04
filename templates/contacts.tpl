@@ -3,7 +3,7 @@
 				<header class="block-title">
 					<h1>Contacts</h1>
 				</header>
-				<div id="contacts-header"></div>
+				<div id="search-container">Search: <div id="contacts-header"></div></div>
 				<ul class="contacts-list" id="contacts-list">{foreach $contacts as $contact}
 
 					<li>

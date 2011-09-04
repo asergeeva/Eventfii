@@ -1,4 +1,4 @@
-								<div id="contacts-header">Contacts</div>
+								<div id="search-container">Search: <div id="contacts-header"></div></div>
 								<ul class="contacts-list" id="contacts-list">{foreach from=$contactList key=email item=name}
 									<li>
 										<label for="contact-{$email}">
