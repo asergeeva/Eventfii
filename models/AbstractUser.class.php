@@ -8,6 +8,8 @@
 
 class AbstractUser {
 	// Base user information
+	public $alias;
+	
 	public $id;
 	public $fname;
 	public $lname;
@@ -51,6 +53,7 @@ class AbstractUser {
 	}
 	
 	protected function makeUserFromArray($userInfo) {
+		$this->alias = $userInfo['url_alias'];
 		$this->id = $userInfo['id'];
 		$this->set_fname($userInfo['fname']);
 		$this->set_lname($userInfo['lname']);

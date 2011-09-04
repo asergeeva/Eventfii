@@ -435,7 +435,7 @@ class PanelController {
 	 * Given the current page URI, get its alias
 	 * @return String alias of the event URI
 	 */
-	private function getEventAliasByUri($requestUri) {
+	private function getAliasByUri($requestUri) {
 		$alias = explode('/', $requestUri);
 		
 		// Verify that format of URL is http://{$CURHOST}/event/a/{$alias}
@@ -522,6 +522,19 @@ class PanelController {
 		EFCommon::$smarty->display('event.tpl');
 	}
 	
+	private function displayUserById($userId) {
+		$profile = new User($userId);
+		if ( ! $profile->exists ) {
+			EFCommon::$smarty->display('error_user_notexist.tpl');
+		} else {
+			$is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
+			$this->assignProfileEvents($userId);
+			EFCommon::$smarty->assign("profile", $profile);
+			EFCommon::$smarty->assign("is_following", $is_following);
+			EFCommon::$smarty->display('profile.tpl');
+		}
+	}
+	
 	/* private function setPage($page) {
 	
 	} */
@@ -558,7 +571,7 @@ class PanelController {
 		
 		// If event has an alias URL
 		if (preg_match("/event\/a\/*/", $current_page) > 0) {
-			$alias = $this->getEventAliasByUri($current_page);
+			$alias = $this->getAliasByUri($current_page);
 			if ( ! $alias ) {
 				EFCommon::$smarty->display( 'error.tpl' );
 				return;
@@ -603,20 +616,22 @@ class PanelController {
 			EFCommon::$smarty->assign('page', $page);
 		}
 		
+		// If the user has an alias URL
+		if (preg_match("/user\/a\/*/", $current_page) > 0) {
+			$alias = $this->getAliasByUri($current_page);
+			if ( ! $alias ) {
+				EFCommon::$smarty->display( 'error.tpl' );
+				return;
+			}
+			$userDb = EFCommon::$dbCon->getUserByURIAlias($alias);
+			$this->displayUserById($userDb['id']);
+			return;
+		}
+		
 		// User public profile page
 		if (preg_match("/user\/\d+/", $current_page) > 0) {
 			$userId = $this->getUserIdByUri( $current_page );
-			$profile = new User($userId);
-			if ( ! $profile->exists ) {
-				EFCommon::$smarty->display('error_user_notexist.tpl');
-			} else {
-				$is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
-				$this->assignProfileEvents($userId);
-				EFCommon::$smarty->assign("profile", $profile);
-				EFCommon::$smarty->assign("is_following", $is_following);
-				EFCommon::$smarty->display('profile.tpl');
-			}
-			
+			$this->displayUserById($userId);			
 			return;
 		}
 

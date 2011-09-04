@@ -1,6 +1,6 @@
 <header id="header">
 		<h1>Welcome, {$smarty.session.user->fname}!</h1>
-		<h2><a href="{$CURHOST}/user/{$smarty.session.user->id}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
+		<h2><a href="{$CURHOST}/user/a/{$smarty.session.user->alias}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
 		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
 		<nav>
 			<ul>
