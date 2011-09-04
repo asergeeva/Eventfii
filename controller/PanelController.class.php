@@ -1056,6 +1056,7 @@ class PanelController {
 					EFcommon::$smarty->assign( 'error', $event->error );
 				}
 				
+				EFCommon::$smarty->assign('event', $event);
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
@@ -1263,6 +1264,8 @@ class PanelController {
 			case '/fb/friends':
 				$fbFriends = json_decode(stripslashes($_POST['fbFriends']));
 				EFCommon::$dbCon->saveFBFriends($fbFriends->data, $_SESSION['user']->id);
+				break;
+			case '/fb/invite':
 				break;
 			case '/register':
 				// Logged in user doesn't need to create an account!
