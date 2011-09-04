@@ -287,7 +287,8 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($session_key).",
 									   '".dechex(505 + $this->getNextUserId())."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
-		
+			return $this->getUserInfoByEmail($email);
+			
 		// Update the reference
 		// The implementation is the same as without reference
 		// Future: may be we want to give credits to the inviter
@@ -307,24 +308,10 @@ class DBConfig {
 											
 			$email = $refEmail;
 			$this->executeUpdateQuery($UPDATE_USER);
-		
-		// If there is no reference
-		} else {
-			$UPDATE_USER = "UPDATE	ef_users SET
-									fname = ".$this->checkNullOrValSql($fname).", 
-									lname = ".$this->checkNullOrValSql($lname).",
-									phone = ".$this->checkNullOrValSql($phone).",
-									password = ".$this->checkNullOrValSql($pass).",
-									zip = ".$this->checkNullOrValSql($zip).",
-									facebook = ".$this->checkNullOrValSql($fbid).",
-									fb_access_token = ".$this->checkNullOrValSql($access_token).",
-									fb_session_key = ".$this->checkNullOrValSql($session_key)."
-							WHERE	email = '" . $email . "'";
-											
-			$this->executeUpdateQuery($UPDATE_USER);
+			return $this->getUserInfoByEmail($email);
 		}
 		
-		return $this->getUserInfoByEmail($email);
+		return NULL;
 	}
 	
 	public function facebookAdd($fbid) {

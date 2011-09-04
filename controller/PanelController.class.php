@@ -1301,14 +1301,20 @@ class PanelController {
 					// Create the new user
 					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zip'] );
 					
-					// Assign user's SESSION variables
-					$_SESSION['user'] = new User($userInfo);
-					
-					// Send welcome email
-					EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
-					
-					// Check on which page the user should be redirected to
-					$this->loggedInRedirect();
+					if (isset($userInfo)) {
+						// Assign user's SESSION variables
+						$_SESSION['user'] = new User($userInfo);
+						
+						// Send welcome email
+						EFCommon::$mailer->sendHtmlEmail('welcome', $_SESSION['user'], 'Welcome to trueRSVP {Guest name}');
+						
+						// Check on which page the user should be redirected to
+						$this->loggedInRedirect();
+					} else {
+						EFCommon::$smarty->assign('user_create_email', 'This email has been used');
+						EFCommon::$smarty->display('create_account.tpl');
+						break;
+					}
 				} else {
 					EFCommon::$smarty->display('create_account.tpl');
 					break;

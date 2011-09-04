@@ -23,7 +23,7 @@
 
 					<p>{$smarty.session.user->email}</p>{else}
 
-					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.post.email) || isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox autowidth{if isset($smarty.session.fb->email)} input-facebook{/if}" id="ef_login_email_new" />{/if}
+					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox autowidth{if isset($smarty.session.fb->email)} input-facebook{/if}" id="ef_login_email_new" />{/if}
 
 				</div>{if isset($user_create_email)}
 
