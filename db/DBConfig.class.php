@@ -136,6 +136,22 @@ class DBConfig {
 		return intval($maxId['max_id']) + 1;
 	}
 	
+	/**
+	 * Get the next user ID
+	 * @return   Integer  the next user ID
+	 */
+	public function getNextUserId() {
+		$GET_MAX_UID = "	SELECT	MAX(u.id) AS max_id 
+							FROM 	ef_users u";
+		
+		$maxId = $this->executeQuery($GET_MAX_UID);
+		
+		if ( is_null($maxId['max_id']) ) {
+			return 1;
+		}
+		return intval($maxId['max_id']) + 1;
+	}
+	
 	public function getMaxRecipientTokenId() {
 		$GET_MAX_EFID = "SELECT MAX(e.id) AS max_id FROM ef_recipient_token e";
 		$maxId = $this->executeQuery($GET_MAX_EFID);
@@ -258,7 +274,8 @@ class DBConfig {
 	
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
-			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, zip, facebook, fb_access_token, fb_session_key) 
+			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, 
+															zip, facebook, fb_access_token, fb_session_key, url_alias) 
 								VALUES(".$this->checkNullOrValSql($fname).", 
 									   ".$this->checkNullOrValSql($lname).", 
 									   '".mysql_real_escape_string($email)."', 
@@ -267,7 +284,8 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($zip).",
 									   ".$this->checkNullOrValSql($fbid).",
 									   ".$this->checkNullOrValSql($access_token).",
-									   ".$this->checkNullOrValSql($session_key).")";
+									   ".$this->checkNullOrValSql($session_key).",
+									   '".dechex(500 + $this->getNextUserId() + 5)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 		
 		// Update the reference
@@ -1136,5 +1154,14 @@ class DBConfig {
 	public function getEventByURIAlias($url_alias) {
 		$GET_EVENT_URI_ALIAS = "SELECT * FROM ef_events WHERE url_alias = '".mysql_real_escape_string($url_alias)."'";
 		return $this->executeQuery($GET_EVENT_URI_ALIAS);
+	}
+	
+	/**
+	 * Given the URI alias, get the user row in the DB
+	 * @param $url_alias   String   the alias URI of an user
+	 */
+	public function getUserByURIAlias($url_alias) {
+		$GET_USER_URI_ALIAS = "SELECT * FROM ef_users WHERE url_alias = '".mysql_real_escape_string($url_alias)."'";
+		return $this->executeQuery($GET_USER_URI_ALIAS);
 	}
 }
