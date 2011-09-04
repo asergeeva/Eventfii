@@ -203,7 +203,7 @@ class DBConfig {
 		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . $email . "' AND e.password IS NOT NULL";
+							WHERE 	e.email = '" . $email . "'";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -259,6 +259,27 @@ class DBConfig {
 		return "NULL";
 	}
 	
+	/**
+	 * Update user
+	 */
+	private function updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email) {
+		$UPDATE_USER = "UPDATE	ef_users SET
+								fname = ".$this->checkNullOrValSql($fname).", 
+								lname = ".$this->checkNullOrValSql($lname).",
+								phone = ".$this->checkNullOrValSql($phone).",
+								password = ".$this->checkNullOrValSql($pass).",
+								zip = ".$this->checkNullOrValSql($zip).",
+								facebook = ".$this->checkNullOrValSql($fbid).",
+								fb_access_token = ".$this->checkNullOrValSql($access_token).",
+								fb_session_key = ".$this->checkNullOrValSql($session_key)."
+						WHERE	email = '" . $email . "'";
+	
+		$this->executeUpdateQuery($UPDATE_USER);
+	}
+	
+	/**
+	 * Create a new user
+	 */
 	public function createNewUser($fname = NULL, $lname = NULL, $email, $phone = NULL, $pass = NULL, $zip = NULL, 
 								  $fbid = NULL, $access_token = NULL, $session_key = NULL) {
 
@@ -271,7 +292,7 @@ class DBConfig {
 			$fbFriends = EFCommon::$facebook->api('/me/friends', array('access_token' => $_SESSION['fb']->fb_access_token));
 			$this->saveFBFriends($fbFriends['data'], $_SESSION['fb']->id);
 		}
-	
+		
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, 
@@ -292,22 +313,11 @@ class DBConfig {
 		// Update the reference
 		// The implementation is the same as without reference
 		// Future: may be we want to give credits to the inviter
-		} else if ( isset($_SESSION['ref']) ) {
-			$refEmail = $this->getReferenceEmail($_SESSION['ref']);
-			
-			$UPDATE_USER = "UPDATE	ef_users SET
-									fname = ".$this->checkNullOrValSql($fname).", 
-									lname = ".$this->checkNullOrValSql($lname).",
-									phone = ".$this->checkNullOrValSql($phone).",
-									password = ".$this->checkNullOrValSql($pass).",
-									zip = ".$this->checkNullOrValSql($zip).",
-									facebook = ".$this->checkNullOrValSql($fbid).",
-									fb_access_token = ".$this->checkNullOrValSql($access_token).",
-									fb_session_key = ".$this->checkNullOrValSql($session_key)."
-							WHERE	email = '" . $refEmail . "'";
-											
-			$email = $refEmail;
-			$this->executeUpdateQuery($UPDATE_USER);
+		} else if ( isset($_SESSION['ref'])) {
+			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $this->getReferenceEmail($_SESSION['ref']));
+			return $this->getUserInfoByEmail($email);
+		} else if (isset($_SESSION['fb'])) {
+			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['fb']->email);
 			return $this->getUserInfoByEmail($email);
 		}
 		
