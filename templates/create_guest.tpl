@@ -21,7 +21,7 @@
 						 					
 						                    <fb:multi-friend-selector
 						                    showborder="false"
-						                    actiontext="Invite to {$event->title}" cols="3">
+						                    actiontext="Invite to {$event->title}" cols="3" max="35">
 						        </fb:request-form>
 						      </fb:fbml>
 						    </script>
