@@ -625,7 +625,7 @@ class Event {
 			$numGuests = $this->setGuests($_POST['emails']);		
 		// CSV file check
 		} else if (file_exists($csvFile)) {
-			$this->setGuestsFromCSV($csvFile);
+			$numGuests = $this->setGuestsFromCSV($csvFile);
 		}
 		
 		// Send the email invites
@@ -695,7 +695,9 @@ class Event {
 		
 		if (sizeof($csv_contacts) > 0) {
 			EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
+			return sizeof($csv_contacts);
 		}
+		return 0;
 	}
 	
 	public function getCalDate($date, $time) {
