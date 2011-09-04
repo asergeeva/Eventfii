@@ -22,10 +22,10 @@ a:hover {
 
 /* Forms
 -------------------------*/
+input, textarea, select { font-family: Helvetica, Arial; }
 input.inputbox, input.inputbox-small {
 	background: #fff;
 	color: #999;
-	font-family: Georgia;
 	font-size: 14px;
 	width: 264px;
 	height: 23px;
@@ -34,22 +34,48 @@ input.inputbox, input.inputbox-small {
 input.inputbox-small { width: 72px; }
 
 /*----- Buttons ----------*/
-.btn {
-	background: transparent none 0 0 no-repeat;
-	font-size: 0;
-	text-indent: -10000px;
+.btn, .btn input, .btn span {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	float: left;
+	color: #fff;
+	font-size: 30px;
+	line-height: 1;
+	margin: 0;
 	border: 0;
 	cursor: pointer;
 	display: inline-block; }
+a.btn { text-decoration: none; }
+.btn:hover { background-position: 0 100%; }
+.btn:hover span, .btn:hover input { background-position: 100% 100%; }
+.btn:focus { background-position: 0 0; }
+.btn:focus span, .btn:focus input { background-position: 100% 0; }
+
+.btn-med { 
+	background-image: url(../images/btn_med_left.png);
+	background-position: 0 -56px;
+	height: 56px;
+	padding: 0 0 0 15px; }
+.btn-med input {
+	background-image: url(../images/btn_med_right.png);
+	background-position: 100% -56px;
+	float: left;
+	height: 56px;
+	padding: 0 28px 7px 13px; }
+.btn-large {
+	background-image: url(../images/btn_large_left.png);
+	background-position: 0 -91px;
+	height: 91px;
+	padding: 0 0 0 16px; }
+.btn-large span {
+	background-image: url(../images/btn_large_right.png);
+	background-position: 100% -91px;
+	height: 65px; /* 91 - 26 */
+	padding: 26px 20px 0 4px; }
 
 /* Submit Button */
-.submit .btn-go {
-	background-image: url(../images/index_btn_go.gif);
-	float: right;
-	width: 117px;
-	height: 57px; }
-.submit .btn-go:hover { background-position: 0 -57px; }
-.submit .btn-go:focus { background-position: 0 -114px; }
+.submit { float: right; }
+
 
 /*----- Signup ----------*/
 .btn-signup {
@@ -72,7 +98,7 @@ input.inputbox-small { width: 72px; }
 header#site-header {
 	width: 948px;
 	margin: 0 auto;
-	padding: 0 0 125px;
+	padding: 0 0 100px;
 	overflow: hidden;
 	border-bottom: 1px solid #8b8b8d; }
 
@@ -119,7 +145,8 @@ header#site-header {
 .start { 
 	background: url(../images/index_mascot.png) 0 25px no-repeat;
 	margin: 50px 0 0 56px;
-	padding: 0 0 0 330px;
+	padding: 0 0 25px 330px;
+	overflow: auto;
 	clear: both; }
 .start header { 
 	float: right;
@@ -165,7 +192,7 @@ header#site-header {
 
 /*----- More ----------*/
 .more { 
-	margin: 15px 165px 0 57px;
+	margin: 0 165px 0 57px;
 	overflow: auto; }
 .more aside { float: left; }
 .more aside.more-iphone { float: right; }
@@ -188,6 +215,7 @@ header#site-header {
 	height: 51px;
 	padding: 15px 0 0 37px;
 	border: 0; }
+.more aside.more-iphone p a:hover { color: #ffcc66; }
 
 /* Main
 -------------------------*/

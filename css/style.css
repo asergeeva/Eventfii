@@ -255,6 +255,26 @@ header#page-header {
 	padding: 6px 10px 0;
 	display: block; }
 
+/*----- Terms and Privacy ----------*/
+article { font-size: 12px; }
+article section { margin: 0 0 15px; }
+article section section { padding: 0 20px; }
+article ul {
+	margin: 15px 0 0 25px;
+	list-style: disc; }
+article ol { 
+	margin: 15px 0 0 25px;
+	list-style: decimal; }
+article li { margin: 15px 0 0; }
+article h1 { 
+	font-size: 18px;
+	margin: 0 0 18px; }
+article section section h1 { 
+	font-size: 16px;
+	margin: 0; }
+article h2 { font-size: 16px; }
+
+
 /*----- Method ----------*/
 .method { margin: 0 -30px; }
 .method section { 
@@ -289,30 +309,6 @@ header#page-header {
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0 0 5px; }
-	
-	
-.information h2 {
-	color: #2799d8;
-	font-size: 16px; }
-.information p {
-	color: #666;
-	font-size: 13px;
-	margin: 6px 0 13px; }
-.information ul {
-	background: url(../images/info_bg.gif) 3px 0 no-repeat;
-	width: 760px;
-	height: 170px;
-	margin: 20px auto 0;
-	display: block; }
-.information ul li {
-	color: #808080;
-	text-align: center;
-	font-size: 9px;
-	float: left;
-	width: 178px; /* 184 - 12 */
-	height: 32px; /* 170 - 138 */
-	margin: 0 3px 0;
-	padding: 138px 3px 0; }
 
 /* Main
  -------------------------*/
@@ -836,6 +832,73 @@ ul.network li a {
 
 /* Buttons
  -------------------------*/
+
+/*----- Buttons ----------*/
+.btn, .btn input, .btn span {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	color: #fff;
+	font-size: 30px;
+	line-height: 1;
+	margin: 0;
+	border: 0;
+	cursor: pointer;
+	display: inline-block; }
+a.btn { text-decoration: none; }
+.btn input, .btn span { float: left; }
+.btn:hover { background-position: 0 100%; }
+.btn:hover span, .btn:hover input { background-position: 100% 100%; }
+.btn:focus { background-position: 0 0; }
+.btn:focus span, .btn:focus input { background-position: 100% 0; }
+
+.btn-med { 
+	background-image: url(../images/btn_med_left.png);
+	background-position: 0 -56px;
+	height: 56px;
+	padding: 0 0 0 15px; }
+.btn-med input {
+	background-image: url(../images/btn_med_right.png);
+	background-position: 100% -56px;
+	float: left;
+	height: 56px;
+	padding: 0 28px 10px 13px; }
+.btn-large {
+	background-image: url(../images/btn_large_left.png);
+	background-position: 0 -91px;
+	height: 91px;
+	padding: 0 0 0 16px; }
+.btn-large span {
+	background-image: url(../images/btn_large_right.png);
+	background-position: 100% -91px;
+	height: 65px; /* 91 - 26 */
+	padding: 26px 20px 0 4px; }
+
+.buttons { clear: both; }
+.buttons-submit { 
+	text-align: center; 
+	margin: 15px 0 0; }
+.buttons-send { text-align: center; }
+
+/* Create Button */
+.buttons-create { clear: none; }
+.buttons-create a {
+	background: url(../images/btn_create_left.png) 0 0 no-repeat;
+	color: inherit;
+	font-size: 11px;
+	height: 26px;
+	padding: 0 0 0 6px; }
+.buttons-create a span {
+	background: url(../images/btn_create_right.png) 100% 0 no-repeat;
+	float: left;
+	text-decoration: none;
+	color: inherit;
+	height: 21px; /* 26 - 5 */
+	padding: 5px 8px 0 1px;
+	border: 0;
+	cursor: pointer;
+	display: block; }
+
+/*
 .buttons-edit {
 	text-align: right;
 	margin: 10px 0 0; }
@@ -850,22 +913,9 @@ ul.network li a {
 .link-home { text-align: center; }
 .link-extra {
 	text-align: right;
-	margin: 10px 0 0; }
+	margin: 10px 0 0; 
 
-/* Create Button */
-.buttons-create .btn {
-	background: url(../images/btn_create_left.png) 0 0 no-repeat;
-	height: 26px;
-	padding: 0 0 0 6px;
-	display: block; }
-.buttons-create .btn span {
-	background:url(../images/btn_create_right.png) 100% 0 no-repeat;
-	float: left;
-	height: 21px; /* 26 - 5 */
-	padding: 5px 8px 0 1px;
-	display: block; }
-
-/* Send Button */
+/* Send Button * /
 .buttons-send { 
 	text-align: center;
 	margin: 10px 0 0; } 
@@ -892,7 +942,7 @@ ul.network li a {
 .buttons-submit p,
 a .button {
 	background: url(../images/btn_small_left.png) 0 0 no-repeat;
-	/* text-transform: lowercase; */
+	/* text-transform: lowercase; * /
 	text-decoration: none;
 	color: #fff;
 	font-size: 11px;
@@ -908,7 +958,7 @@ a .button em {
 	background: url(../images/btn_small_right.png) 100% 0 no-repeat;
 	color: #fff;
 	text-decoration: none;
-	height: 18px; /* 24 - 6 */
+	height: 18px; /* 24 - 6 * /
 	padding: 6px 11px 0 4px;
 	border: 0;
 	cursor: pointer;
@@ -921,9 +971,11 @@ a:hover .button em { background-position: 100% 100%; }
 	height: 24px;
 	margin: 0; }
 
+*/
+
 /* Popups and dropdowns
  -------------------------*/
- .dropdown { margin: 0 0 0 -20px; }
+.dropdown { margin: 0 0 0 -20px; }
  
 .popup-container {
 	position: absolute;
@@ -966,7 +1018,7 @@ footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
 	margin: 0 15px 0 0; }
-.links-extra p { margin: 0 0 15px; }
+/* .links-extra p { margin: 0 0 15px; } */
 .links-extra label { 
 	text-align: left;
 	margin: 0 0 0 100px; }

@@ -157,10 +157,13 @@
 									<p class="message-error">{$error.twitter}</p>{/if}
 								</dd>
 							</dl>
-							<footer class="buttons buttons-submit">
-								<input type="hidden" name="location_lat" value="{if isset($event_field.location_lat)}{$event_field.location_lat}{/if}" />
-								<input type="hidden" name="location_long" value="{if isset($event_field.location_long)}{$event_field.location_lat}{/if}" />
-								<p><input type="submit" name="submit" value="{if isset($page.edit)}Update{else}Begin{/if}" /></p> 
+							<footer class="buttons buttons-submit">{if isset($event_field.location_lat)}
+
+								<input type="hidden" name="location_lat" value="{$event_field.location_lat}" />{/if}{if isset($event_field.location_long)}
+
+								<input type="hidden" name="location_long" value="{$event_field.location_lat}" />{/if}
+
+								<p><span class="btn btn-med"><input type="submit" name="submit" value="{if isset($page.edit)}Update{else}Next{/if}" /></span></p> 
 							</footer> 
 						</fieldset>
 					</form>
