@@ -10,7 +10,6 @@
 		<section>
 			<header>
 				<h1>trueRSVP Terms of Service</h1>
-				<p>Last Updated: August 19th 2011</p>
 			</header>
 			<section>
 				<header>
@@ -258,6 +257,9 @@
 				<p>trueRSVP reserves the right to amend these Terms of Service at its sole discretion and any modifications shall be effective immediately upon posting. We will announce any such change by posting the revised draft of these Terms of Service on the Site. You can determine when these Terms of Service were last revised by referring to the "Last Revised On" legend at the top of this page. By continuing to use the Site following such changes, you will be deemed to have agreed to such changes. If you do not agree with the terms of these Terms of Service or any changes thereto, please do not continue using this Site.</p>
 			</section>
 		</section>
+		<footer>
+			<p>Last Updated: September 1, 2011</p>
+		</footer>
 	</article>
 </div>
 {include file="footer.tpl"}

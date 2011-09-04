@@ -18,11 +18,11 @@
 			<fieldset>
 				<legend>Free to get started!</legend>
 				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come.</span></p>
-				<p class="submit"><input type="submit" value="Go" class="btn btn-go" /></p>
+				<p class="submit"><span class="btn btn-med"><input type="submit" value="Go!" /></span></p>
 			</fieldset>
 		</form>
 		<aside>
-			<p><a href="{$CURHOST}/signup" class="btn btn-signup">Sign up here</a> <a href="{$CURHOST}/method" class="btn btn-more">Find out more</a></p>
+			<p><a href="{$CURHOST}/signup" class="btn btn-large"><span>Sign up here</span></a> <a href="{$CURHOST}/method" class="btn btn-large"><span>Find out more</span></a></p>
 		</aside>
 	</section>
 	<section class="more">

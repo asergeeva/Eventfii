@@ -33,7 +33,7 @@
 					</ol>
 				</fieldset>
 				<footer class="buttons buttons-submit">
-					<p><input type="submit" name="submit" value="Done" /></p>
+					<p><span class="btn btn-med"><input type="submit" name="submit" value="Done" /></span></p>
 				</footer>
 				</form>
 			</section>
