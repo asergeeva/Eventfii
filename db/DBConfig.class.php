@@ -203,7 +203,7 @@ class DBConfig {
 		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . $email . "'";
+							WHERE 	e.email = '" . $email . "' AND e.password IS NOT NULL";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
