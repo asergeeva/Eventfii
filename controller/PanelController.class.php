@@ -571,9 +571,9 @@ class PanelController {
 		if (!$this->securityValidate($current_page)) {
 			return;
 		}
-		
+
 		// If event has an alias URL
-		if (preg_match("/event\/a\/*/", $current_page) > 0) {
+		if (preg_match("/event\/a\/.*/", $current_page) > 0) {
 			$alias = $this->getAliasByUri($current_page);
 			if ( ! $alias ) {
 				EFCommon::$smarty->display( 'error.tpl' );
@@ -620,7 +620,7 @@ class PanelController {
 		}
 		
 		// If the user has an alias URL
-		if (preg_match("/user\/a\/*/", $current_page) > 0) {
+		if (preg_match("/user\/a\/.*/", $current_page) > 0) {
 			$alias = $this->getAliasByUri($current_page);
 			if ( ! $alias ) {
 				EFCommon::$smarty->display( 'error.tpl' );
