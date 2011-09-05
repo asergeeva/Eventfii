@@ -136,4 +136,14 @@ class DBAPI extends DBConfig {
 							AND 	user_id = " . $uid;
 		return $this->executeUpdateQuery($UPDATE_SIGN_UP);
 	}
+	public function m_hasAttend($uid, $eid) {
+		$HAS_ATTEND = "	SELECT	* 
+						FROM	ef_attendance a 
+						WHERE	a.event_id = " . $eid . " 
+						AND		a.user_id = " . $uid . " AND a.confidence <> ".CONFELSE;
+		if ($this->getRowNum($HAS_ATTEND) > 0) {
+			return $this->executeValidQuery($HAS_ATTEND);
+		}
+		return NULL;
+	}
 }
