@@ -5,6 +5,9 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
+		<header class="block notification">
+			<p class="message">Email sent successfully</p>
+		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
 			<header class="block">

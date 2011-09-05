@@ -5,10 +5,13 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
+		<header class="block notification">
+			<p class="message">Text sent successfully.</p>
+		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
 			<header class="block">
-				<p class="message">Send your guests updates through Text Messages here.</p>
+				<p class="message">Text your guests here.</p>
 				<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
 			</header>
 			<section class="block" id="manage-text">
@@ -29,13 +32,12 @@
 						<strong>SMS Message: (140 characters or less)</strong>
 						<div>
 							<textarea class="autowidth" id="text-message"></textarea>
-     						{literal}{Guest name} {Host name} {Event name} {Event time}{/literal}
 						</div>
 						<p class="counter">Character Count: <em id="character-count">135</em></p>
 					</label>				
 					<footer class="buttons buttons-send">
 						<!--label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select-->
-						<p><span class="btn btn-med"><input type="button" name="send" value="Send" id="send_text_reminder" /></span></p>
+						<p><span class="btn btn-small"><input type="submit" name="send" value="Send" id="send_text_reminder" /></span></p>
 					</footer>
 					<span id="reminder_status"></span>
 				</fieldset>

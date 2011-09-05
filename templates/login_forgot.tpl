@@ -13,9 +13,9 @@
 			<form method="post" action="{$CURHOST}/login/forgot/submit"  id="login_forgot_form">
 				<fieldset>
 					<label for="login_forgot_email"><span>Email</span> <input type="text" class="inputbox" name="login_forgot_email" id="login_forgot_email" /></label>
-					<div class="submit-buttons">
-						<p class="btn-med"><input type="submit" name="login_forgot_reset" id="login_forgot_reset" value="Reset" /></p>
-					</div>
+					<footer class="buttons buttons-submit">
+						<p><span class="btn btn-small"><input type="submit" name="login_forgot_reset" value="Reset" id="login_forgot_reset" /></span></p>
+					</footer>
 				</fieldset>
 			</form>
 		</section>

@@ -17,12 +17,12 @@
 		<form method="post" action="{$CURHOST}/event/create">
 			<fieldset>
 				<legend>Free to get started!</legend>
-				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="goal" name="goal" id="goal" /> people to come.</span></p>
+				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="max" name="goal" id="goal" /> people to come.</span></p>
 				<p class="submit"><span class="btn btn-med"><input type="submit" value="Go!" /></span></p>
 			</fieldset>
 		</form>
 		<aside>
-			<p><a href="{$CURHOST}/signup" class="btn btn-large"><span>Sign up here</span></a> <a href="{$CURHOST}/method" class="btn btn-large"><span>Find out more</span></a></p>
+			<p><a href="{$CURHOST}/register" class="btn btn-large"><span>Sign up here</span></a> <a href="{$CURHOST}/method" class="btn btn-large"><span>Find out more</span></a></p>
 		</aside>
 	</section>
 	<section class="more">
@@ -86,8 +86,13 @@
 			</ul>
 		</section>
 	</section>
-	<p class="extra"><span>Not planning an event just yet?</span> 
-	<span id="notyet_container"><input type="text" name="e-mail" id="email" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> <input type="button" id="not_planning_yet" value="Send" class="submit" /></span></p>
+	<p class="extra">
+		<span>Not planning an event just yet?</span> 
+		<span id="notyet_container">
+			<input type="text" name="e-mail" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> 
+			<input type="submit" name="submit" value="Send" class="submit" id="not_planning_yet" />
+		</span>
+	</p>
 </div>
 {include file="footer.tpl"}
 
