@@ -698,6 +698,14 @@ class DBConfig {
 		return $this->executeValidQuery( $GET_EVENT );
 	}
 	
+	/**
+	 * Check whether the user has signed up to an event
+	 *
+	 * @param $uid  Integer  the user ID
+	 * @param $eid  Integer  the event ID
+	 *
+	 * @return Boolean true if the user has signed up, false otherwise
+	 */
 	public function hasAttend($uid, $eid) {
 		$HAS_ATTEND = "	SELECT	* 
 						FROM	ef_attendance a 
@@ -710,7 +718,8 @@ class DBConfig {
 	}
 	
 	public function eventSignUp($uid, $event, $conf) {
-		if ( ! $this->hasAttend($uid, $event->eid) ) {
+		$signedUp = $this->hasAttend($uid, $event->eid);
+		if ( ! isset($signedUp) ) {
 			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
 								VALUES(
 									" . $event->eid . ", 
@@ -718,7 +727,6 @@ class DBConfig {
 									" . $conf . ",
 									NOW()
 								)";
-			
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVP to {Event name}');
 		} else {
@@ -732,7 +740,8 @@ class DBConfig {
 	}
 	
 	public function eventWaitlist($uid, $event, $conf) {
-		if ( ! $this->hasAttend($uid, $event->eid) ) {
+		$signedUp = $this->hasAttend($uid, $event->eid);
+		if ( ! isset($signedUp) ) {
 			$SIGN_UP_WAITLIST_EVENT = "	INSERT INTO ef_waitinglist (event_id, user_id, confidence) 
 										VALUES(
 											" . $event->eid . ", 

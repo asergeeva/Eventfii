@@ -187,7 +187,9 @@ class EFMail {
 		    "Subject: ".EFCommon::mapText($subject, $event, $guest)."\n".
 		    "\n".$htmlEmail->saveXML();
 		
-		MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
+		if (ENABLE_EMAIL) {
+			MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
+		}
 	}
 	
 	/**
@@ -217,7 +219,9 @@ class EFMail {
 			    "Subject: ".EFCommon::mapText($subject, $event, $event->guests[$i])."\n".
 			    "\n".$htmlEmail->saveXML();
 			
-			MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+			if (ENABLE_EMAIL) {
+				MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+			}
 		}
 	}
 	
@@ -248,7 +252,9 @@ class EFMail {
 		    "Subject: ".EFCommon::mapText($subject, $event, $guest)."\n".
 		    "\n".$htmlEmail->saveXML();
 		
-		MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
+		if (ENABLE_EMAIL) {
+			MailgunMessage::send_raw($this->FROM, $guest->email, $rawMime);
+		}
 	}
 	
 	/**
@@ -292,7 +298,9 @@ class EFMail {
 					    "Subject: You are invited to ".$event->title."\n".
 					    "\n".$htmlEmail->saveXML();
 					
-					MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+					if (ENABLE_EMAIL) {
+						MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+					}
 				}
 			}
 		}
