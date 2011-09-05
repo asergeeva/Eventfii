@@ -107,7 +107,7 @@ class APIController {
 				$_SESSION['user']->email = $_REQUEST['email'];
 				$_SESSION['user']->about = $_REQUEST['about'];
 				$_SESSION['user']->zip = $_REQUEST['zip'];
-				$_SESSION['user']->phone = $_REQUEST['cell'];
+				$_SESSION['user']->phone = $_REQUEST['phone'];
 				$_SESSION['user']->twitter = $_REQUEST['twitter'];
 				$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
