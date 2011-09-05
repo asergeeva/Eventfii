@@ -146,4 +146,29 @@ class DBAPI extends DBConfig {
 		}
 		return NULL;
 	}
+	public function m_getEventByEO($uid)
+	{
+		$GET_EVENTS = "	SELECT	* 
+						FROM (
+							SELECT	e.id, 
+									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+									e.created, 
+									e.title, 
+									e.goal,
+									e.reach_goal, 
+									e.location_name,
+									e.location_address, 
+									e.event_datetime, 
+									e.event_end_datetime,
+									e.event_deadline, 
+									e.description, 
+									e.is_public,
+									e.type,
+									e.twitter
+							FROM	ef_events e 
+							WHERE	e.organizer = " . $uid . " AND e.is_active = 1 AND e.is_public = 1
+						) el
+						ORDER BY el.days_left ASC";
+		return $this->getQueryResultAssoc($GET_EVENTS);
+	}
 }
