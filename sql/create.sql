@@ -51,12 +51,12 @@ CREATE TABLE ef_events (
   location_long       DOUBLE,
   event_datetime      DATETIME NOT NULL,
   event_end_datetime  DATETIME,
-  event_deadline      DATE NOT NULL,
+  event_deadline      DATE,
   type                INTEGER NOT NULL REFERENCES ef_event_type(tid),
-  description         VARCHAR(5000),
+  description         VARCHAR(5000) NOT NULL,
   is_public           TINYINT(1) NOT NULL DEFAULT 1,
-  is_active           TINYINT(1) DEFAULT 1,
-  reach_goal          TINYINT(1) DEFAULT 1,
+  is_active           TINYINT(1) NOT NULL DEFAULT 1,
+  reach_goal          TINYINT(1) NOT NULL DEFAULT 1,
   twitter             VARCHAR(155),
   url_alias           VARCHAR(250) UNIQUE
 ) ENGINE=InnoDB;
