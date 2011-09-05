@@ -30,6 +30,7 @@ class AbstractUser {
 		
 		// Settings page
 		if ( $userInfo == NULL ) {
+			$this->alias = $_SESSION['user']->alias;
 			$this->id = $_SESSION['user']->id;
 			$this->set_fname();
 			$this->set_lname();
