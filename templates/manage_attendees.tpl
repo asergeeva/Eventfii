@@ -21,10 +21,10 @@
 					<header class="block-collapsable-title">
 						<h1>Attendees</h1>
 					</header>
-					<ul class="list"> 
-						<li class="list-head"><strong>Name</strong> <!--em>Certainty</em--> <span>Showed Up?</span></li>{foreach $eventAttendees as $guest}
-
-						<li><label for="attendee-{$guest->id}"><strong>{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <!--em>{$guest->confidence}%</em--> 
+					<ul class="list"><li class="list-head"><strong id="head-name"><a href="#">Name</a></strong> <em id="head-rsvp"><a href="#">RSVP</a></em> <span id="head-show">Showed Up?</span></li></ul>
+					<ul class="list" id="attendee-list"> 
+						{foreach $eventAttendees as $guest}
+						<li><label for="attendee-{$guest->id}"><strong title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em title="{$guest->confidence}">{$guest->friendly_confidence}</em> 
 						<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span></label></li>{/foreach}
 
 					</ul>

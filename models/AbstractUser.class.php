@@ -20,6 +20,7 @@ class AbstractUser {
 	public $exists;
 	
 	public $is_attending;
+	public $friendly_confidence;
 	public $confidence;
 	
 	protected $error;

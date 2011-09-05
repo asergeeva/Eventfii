@@ -985,6 +985,7 @@ class PanelController {
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$attendee = new User($attendees[$i]);
 					
+					$attendee->friendly_confidence = EFCommon::$confidenceMap[$attendees[$i]['confidence']];
 					$attendee->confidence = $attendees[$i]['confidence'];
 					$eventAttendees[] = $attendee;
 				}

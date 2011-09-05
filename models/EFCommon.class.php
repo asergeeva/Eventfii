@@ -36,6 +36,16 @@ class EFCommon {
 		"{Event time}"
 	);
 	
+	public static $confidenceMap = array(
+		CONFOPT1 => "Absolutely",
+		CONFOPT2 => "Pretty sure",
+		CONFOPT3 => "50/50",
+		CONFOPT4 => "Not likely",
+		CONFOPT5 => "Raincheck",
+		CONFOPT6 => "Spam",
+		CONFELSE => "Not Responding"
+	);
+	
 	public static $smarty;
 	
 	public static $dbCon;

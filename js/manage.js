@@ -5,10 +5,34 @@
  * All rights reserved
  */
 var MANAGE_EVENT = ( function() {
+	var _isAsc = true;
+	
 	return {
 		init: function() {
 			$('#automatic_email_event_date').datepicker();
 			$('#automatic_text_send_date').datepicker();
+			
+			// Sort by RSVP
+			$('#head-rsvp').live('click', function() {
+				if (!_isAsc) {
+					$('ul#attendee-list>li').tsort('em[title]',{attr:'title'});
+					_isAsc = true;
+				} else {
+					$('ul#attendee-list>li').tsort('em[title]',{attr:'title', order: 'desc'});
+					_isAsc = false;
+				}
+			});
+			
+			// Sort by name
+			$('#head-name').live('click', function() {
+				if (!_isAsc) {
+					$('ul#attendee-list>li').tsort('strong[title]',{attr:'title'});
+					_isAsc = true;
+				} else {
+					$('ul#attendee-list>li').tsort('strong[title]',{attr:'title', order: 'desc'});
+					_isAsc = false;
+				}
+			});
 			
 			// EMAIL
 			$('#send_email_reminder').live('click', function() {
