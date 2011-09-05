@@ -302,7 +302,7 @@ class Event {
 		
 		$this->time = $time;
 		
-		if( $this->time == 0 ) {
+		if( is_null($this->time) ) {
 			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
 			$this->numErrors++;
 		}

@@ -17,94 +17,94 @@ var CREATE_EVENT_FORM = (function() {
 		_description = $('#description'),
 		_location = $('#location'),
 		_address = $('#address');
-		// _goal = $('#goal')
-		//_twitter = $('#twitter')
-		
-	// Non-required fields init
-	//if (_twitter.val().trim() == '') {
-	//	_twitter.val(twitter_init);
-	//}
-	if (_location.val().trim() == '') {
-		_location.val(location_init);
+		_goal = $('#goal')
+		_twitter = $('#twitter')
+
+
+	if (typeof(_title) !== 'undefined') {
+		_title.focus(function() {
+			if ( _title.val() == title_init ) { 
+				_title.val(''); 
+				_title.removeClass("default");
+			}
+		});
+		_title.focusout(function() {
+			if ( _title.val() == '' ) {
+				_title.val(title_init);
+				_title.addClass("default"); 
+			}
+		});
 	}
-
-	// When the cursor is focus
-	_title.focus(function() {
-		if ( _title.val() == title_init ) { 
-			_title.val(''); 
-			_title.removeClass("default");
-		}
-	});
-	_description.focus(function() {
-		if ( _description.val() == description_init ) { 
-			_description.val(''); 
-			_description.removeClass("default");
-		}
-	});
-	_location.focus(function() {
-		if ( _location.val() == location_init ) { 
-			_location.val(''); 
-			_location.removeClass("default");
-		}	
-	});
-	_address.focus(function() {
-		if ( _address.val() == address_init ) { 
-			_address.val(''); 
-			_address.removeClass("default");
-		}	
-	});
-	/* _goal.focus(function() {
-		if ( _goal.val() == goal_init ) { 
-			_goal.val(''); 
-			_goal.removeClass("default"); 
-		}
-	});
-	_twitter.focus(function() {
-		if ( _twitter.val() == twitter_init ) { 
-			_twitter.val(''); 
-			_twitter.removeClass("default");
-		}	
-	}); */
-	
-
-
-	// When the cursor is out of focus
-	_title.focusout(function() {
-		if ( _title.val() == '' ) {
-			_title.val(title_init);
-			_title.addClass("default"); 
-		}
-	});
-	_description.focusout(function() {
-		if ( _description.val() == '' ) { 
-			_description.val(description_init); 
-			_description.addClass("default"); 			
-		}	
-	});
-	_location.focusout(function() {
-		if ( _location.val() == '' ) { 
-			_location.val(location_init); 
-			_location.addClass("default"); 
-		}
-	});
-	_address.focusout(function() {
-		if ( _address.val() == '' ) { 
-			_address.val(address_init); 
-			_address.addClass("default"); 
-		}
-	});
-	/* _goal.focusout(function() {
-		if ( _goal.val() == '' ) { 
-			_goal.val(goal_init); 
-			_goal.addClass("default"); 
-		}
-	});
-	_twitter.focusout(function() {
-		if ( _twitter.val() == '' ) { 
-			_twitter.val(twitter_init); 
-			_twitter.addClass("default"); 
-		}
-	}); */
+	if (typeof(_description) !== 'undefined') {
+		_description.focus(function() {
+			if ( _description.val() == description_init ) { 
+				_description.val(''); 
+				_description.removeClass("default");
+			}
+		});
+		_description.focusout(function() {
+			if ( _description.val() == '' ) { 
+				_description.val(description_init); 
+				_description.addClass("default"); 			
+			}	
+		});
+	}	
+	if (typeof(_location) !== 'undefined') {
+		_location.focus(function() {
+			if ( _location.val() == location_init ) { 
+				_location.val(''); 
+				_location.removeClass("default");
+			}	
+		});
+		_location.focusout(function() {
+			if ( _location.val() == '' ) { 
+				_location.val(location_init); 
+				_location.addClass("default"); 
+			}
+		});
+	}
+	if (typeof(_address) !== 'undefined') {
+		_address.focus(function() {
+			if ( _address.val() == address_init ) { 
+				_address.val(''); 
+				_address.removeClass("default");
+			}	
+		});
+		_address.focusout(function() {
+			if ( _address.val() == '' ) { 
+				_address.val(address_init); 
+				_address.addClass("default"); 
+			}
+		});
+	}
+	if (typeof(_goal) !== 'undefined') {
+		_goal.focus(function() {
+			if ( _goal.val() == goal_init ) { 
+				_goal.val(''); 
+				_goal.removeClass("default"); 
+			}
+		});		
+		_goal.focusout(function() {
+			if ( _goal.val() == '' ) { 
+				_goal.val(goal_init); 
+				_goal.addClass("default"); 
+			}
+		});
+	}
+	if (typeof(_twitter) !== 'undefined') {
+		_twitter.focus(function() {
+			if ( _twitter.val() == twitter_init ) { 
+				_twitter.val(''); 
+				_twitter.removeClass("default");
+			}	
+		});
+		_twitter.focusout(function() {
+			if ( _twitter.val() == '' ) { 
+				_twitter.val(twitter_init); 
+				_twitter.addClass("default"); 
+			}
+		});
+	}
 	
 	return {
 		init: function() {
