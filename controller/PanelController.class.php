@@ -960,7 +960,7 @@ class PanelController {
 				EFCommon::$smarty->assign('page', $page);
 				
 				$this->buildEvent( $_GET['eventId'], true );
-								
+				
 				$this->assignManageVars( $_GET['eventId'] );
 				
 				EFCommon::$smarty->display('manage.tpl');

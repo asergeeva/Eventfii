@@ -62,9 +62,9 @@ class DBConfig {
 		
 		// Check if query is valid
 		if ( ! $dbResult && DEBUG ) {
-			$dbResult = false;
+			$result = false;
 		} else {
-			$dbResult = mysql_fetch_array($dbResult, MYSQL_ASSOC);
+			$result = mysql_fetch_array($dbResult, MYSQL_ASSOC);
 			mysql_free_result($dbResult);
 		}
 		
