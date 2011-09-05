@@ -65,7 +65,12 @@ class DBConfig {
 			$result = false;
 		} else {
 			$result = mysql_fetch_array($dbResult, MYSQL_ASSOC);
-			mysql_free_result($dbResult);
+			
+			if (DEBUG) {
+				mysql_free_result($dbResult);
+			} else {
+				@mysql_free_result($dbResult);
+			}
 		}
 		
 		return $result;
