@@ -3,6 +3,9 @@
  * Email : grady@truersvp.com
  * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
+ *
+ * Documentation:
+ *		- tinySort: http://tinysort.sjeiti.com/#usage
  */
 var MANAGE_EVENT = ( function() {
 	var _isAsc = true;
