@@ -256,8 +256,6 @@ class DBConfig {
 								email 		= '".mysql_real_escape_string($email)."', 
 								phone 		= '" . mysql_real_escape_string($phone) . "',
 								zip 		= '" . mysql_real_escape_string($zip) . "',
-								twitter 	= '" . mysql_real_escape_string($twitter) . "',
-								about 		= 'I am " . mysql_real_escape_string($fname) . "',
 								notif_opt1 	= " . $notif_opt1 . ",
 								notif_opt2 	= " . $notif_opt2 . ",
 								notif_opt3 	= " . $notif_opt3 . "
