@@ -48,6 +48,7 @@ class Event {
 	public $numErrors;
 	
 	function __construct( $eventInfo ) {
+		// Creating new event
 		if ( $eventInfo == NULL ) {
 			$this->eid = NULL;
 			if ( isset ($_SESSION['user']) ) {
@@ -73,7 +74,10 @@ class Event {
 				$this->location_long = $_POST['location_long'];
 			}
 			$this->twitter = $_POST['twitter'];
+
+		// Event from database
 		} else {
+			// If event ID was passed, pull the event info from the database
 			if ( ! is_array($eventInfo) ) {
 				$this->eid = $eventInfo;
 				$eventInfo = EFCommon::$dbCon->getEventInfo($this->eid);
@@ -82,6 +86,7 @@ class Event {
 			// Make sure an event was pulled from the db
 			if ( ! $eventInfo ) {
 				$this->exists = false;
+			// Fill the event object
 			} else {
 				$this->makeEventFromArray($eventInfo);
 				$this->addGuests();
@@ -93,34 +98,6 @@ class Event {
 		
 	}
 	
-	/**
-	 * Generate the QR code for this event given the uid
-	 * $uid    Integer    the user ID
-	 * @return String the absolute URL of where the image for that user
-	 */
-	public function generateQR($uid) {
-		// Generating the QR Code
-		$qrKey = 'truersvp-' . $this->eid . '-' . $uid;
-		$errorCorrectionLevel = 'L';
-		$matrixPointSize = 4;
-		$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($qrKey, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
-		
-		return CURHOST.'/temp/'.basename($filename);
-	}
-
-	/* addGuests
-	 * Adds invited guests to the array
-	 */
-	private function addGuests() {
-		$guest_array = EFCommon::$dbCon->getAttendeesByEvent($this->eid);
-		if ( sizeof($guest_array) > 0 ) {
-			foreach ( $guest_array as $guest ) {
-				$this->guests[] = new User($guest);
-			}
-		}
-	}
-
 	/* makeEventFromArray
 	 * Takes event info from an array and
 	 * stores it in the current object.
@@ -186,7 +163,7 @@ class Event {
 		
 		$this->exists = true;
 	}
-
+	
 	// GOING TO BE REMOVED WHEN SMART ASSIGNMENTS ARE
 	// THE OBJECTS RATHER THAN THE ARRAYS
 	/* get_array
@@ -217,7 +194,19 @@ class Event {
 		
 		return $eventInfo;
 	}
-	
+
+	/* addGuests
+	 * Adds invited guests to the array
+	 */
+	private function addGuests() {
+		$guest_array = EFCommon::$dbCon->getAttendeesByEvent($this->eid);
+		if ( sizeof($guest_array) > 0 ) {
+			foreach ( $guest_array as $guest ) {
+				$this->guests[] = new AbstractUser($guest);
+			}
+		}
+	}
+
 	/* can_view
 	 * Checks to see if a user can view the event
 	 *
@@ -264,7 +253,7 @@ class Event {
 	}
 	
 	/* get_errors
-	 * Makes akes sure that all event fields
+	 * Makes sure that all event fields
 	 * are filled and valid.
 	 *
 	 * return $errors | If there are errors
@@ -294,6 +283,36 @@ class Event {
 			return false;
 		else
 			return $this->error;
+	}
+	
+	/* check_step1
+	 * Makes sure that all step 1 event creation
+	 * fields are valid.
+	 *
+	 * return $errors | If there are errors
+	 * return false | If there are no errors
+	 */
+	public function check_step1() {
+		// Reset
+		$this->numErrors = 0;
+		unset($this->error);
+	
+		// Check for errors
+		$this->check_title();
+		$this->check_description();
+		$this->check_location();
+		$this->check_address();
+		$this->check_date();
+		$this->check_time();
+		$this->check_end_date();
+		$this->check_end_time();
+		$this->check_type();
+	
+		if ( $this->numErrors == 0 ) {
+			return false;
+		} else {
+			return $this->error;
+		}
 	}
 
 	/* check_title
@@ -558,8 +577,6 @@ class Event {
 	 */
 	private function check_deadline() {
 		if ( strlen($this->deadline) == 0) {
-			$this->error['deadline'] = "Please enter a deadline for RSVP.";
-			$this->numErrors++;
 			return;
 		}
 	
@@ -678,6 +695,22 @@ class Event {
 		} else {
 			return 0;
 		}
+	}
+	
+	/**
+	 * Generate the QR code for this event given the uid
+	 * $uid    Integer    the user ID
+	 * @return String the absolute URL of where the image for that user
+	 */
+	public function generateQR($uid) {
+		// Generating the QR Code
+		$qrKey = 'truersvp-' . $this->eid . '-' . $uid;
+		$errorCorrectionLevel = 'L';
+		$matrixPointSize = 4;
+		$filename = realpath(dirname(__FILE__)).'/../temp/truersvp-'.md5($qrKey.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+		QRcode::png($qrKey, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+		
+		return CURHOST.'/temp/'.basename($filename);
 	}
 	
 	public function setGuestsFromCSV($csvFile) {

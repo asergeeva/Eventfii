@@ -15,8 +15,6 @@ html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, i
 aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
-/* Styles
- -------------------------*/
 body {
 	background: #fff url(../images/header_bg.gif) 0 0 repeat-x;
 	font-family: Helvetica, Arial;
@@ -26,23 +24,59 @@ a {
 	color: #3399cc;
 	text-decoration: none; }
 a:hover { text-decoration: underline; }
-div.right-align{
+div.right-align {
 	float: right;
-	margin: 0 auto 0 auto;
-}
-
+	margin: 0 auto; }
+	
 /*----- Forms ----------*/
 label { cursor: pointer; }
 figure {
-	text-align: c∂enter;
+	text-align: center;
 	font-size: 10px;
 	padding: 0 0 10px; }
 figure a { 
 	color: #3399cc;
 	display: block; }
 figure figcaption { margin: 0 0 10px; }
+	
+/* Page Header
+ -------------------------*/
+header#page-header {
+	background: url(../images/header_bg.gif) 0 0 repeat-x;
+	color: #fff;
+	width: 900px;
+	height: 76px;
+	margin: 0 auto; }
 
-/*----- Forms ----------*/
+/*----- Logo ----------*/
+#page-header h1 {
+	background: url(../images/logo.png) 0 0 no-repeat;
+	float: left;
+	width: 243px;
+	height: 72px;
+	margin: 4px 0 0; }
+#page-header h1 a {
+	width: 243px;
+	height: 72px;
+	text-indent: -10000px;
+	display: block; }
+
+/*----- Links ----------*/
+#page-header aside {
+	font-size: 13px;
+	float: right;
+	margin: 43px 0 0;
+	overflow: auto; }
+#page-header nav { padding: 5px 4px 0 0; }
+#page-header nav, #page-header p { float: left; }
+#page-header nav p a {
+	color: #fff;
+	font-size: 12px;
+	padding: 0 4px;
+	display: inline-block; }
+
+/* Forms
+ -------------------------*/
 #settings fieldset {
 	padding: 0 10px 10px; }
 .form { 
@@ -89,7 +123,12 @@ fieldset dd {
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dt label {
 	color: #464646;
+	font-size: 16px;
 	padding: 0; }
+fieldset dt label span { 
+	color: #ff0000;
+	font-weight: bold;
+	display: inline; }
 fieldset dt em {
 	font-size: 12px; 
 	color: #959595; }
@@ -166,42 +205,6 @@ input.datebox {
 	cursor: pointer; }
 select.timebox { cursor: pointer; }
 input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
-
-/* Page Header
- -------------------------*/
-header#page-header {
-	background: url(../images/header_bg.gif) 0 0 repeat-x;
-	color: #fff;
-	width: 900px;
-	height: 76px;
-	margin: 0 auto; }
-
-/*----- Logo ----------*/
-#page-header h1 {
-	background: url(../images/logo.png) 0 0 no-repeat;
-	float: left;
-	width: 243px;
-	height: 72px;
-	margin: 4px 0 0; }
-#page-header h1 a {
-	width: 243px;
-	height: 72px;
-	text-indent: -10000px;
-	display: block; }
-
-/*----- Links ----------*/
-#page-header aside {
-	font-size: 13px;
-	float: right;
-	margin: 43px 0 0;
-	overflow: auto; }
-#page-header nav { padding: 5px 4px 0 0; }
-#page-header nav, #page-header p { float: left; }
-#page-header nav p a {
-	color: #fff;
-	font-size: 12px;
-	padding: 0 4px;
-	display: inline-block; }
 
 /* Container
  -------------------------*/
@@ -383,6 +386,20 @@ header.block .message { margin: 0; }
 	float: left;
 	width: 610px;
 	vertical-align: top; }
+	
+/*----- Create Event ----------*/
+.create {
+	width: 620px;
+	margin: 0 auto; }
+
+nav.steps {
+	background: url(../images/steps_bg.gif) 0 0 repeat-x;
+	width: 600px;
+	height: 50px;
+	margin: 0 auto 2px; }
+nav.steps.step-2 { background-position: 0 -50px; }
+nav.steps.step-3 { background-position: 0 -100px; }
+.steps li { text-indent: -10000px; }
 
 /*----- Slider ----------*/
 .rsvp-progress {

@@ -349,8 +349,7 @@ class PanelController {
 	// Check if there's a new event session
 	// create that event if the session exist
 	private function checkCreateEventSession() {
-		if ( isset($_SESSION['newEvent']) && 
-				$this->validateEventInfo( $_SESSION['newEvent'] )) {
+		if ( isset($_SESSION['newEvent']) && $this->validateEventInfo( $_SESSION['newEvent'] )) {
 			$newEvent = $_SESSION['newEvent'];
 			$newEvent->organizer = $_SESSION['user'];
 			$this->makeNewEvent( $newEvent );
@@ -803,54 +802,67 @@ class PanelController {
 					header("Location: " . CURHOST);
 				}
 				break;
-			case '/event/create':
-				unset($_SESSION['newEvent']);
-				//
-				// $eventInfo->time = date("H:i:s", strtotime($_REQUEST['time']));
-				// Needs to be implemented
-				//
+			case '/event/create':	
 
-				// Check to see if the user has submit the form yet
-				if ( isset($_POST['submit']) ) {
-					// Create an event object with the text from the form
-					$newEvent = new Event(NULL);
-				// See if it's their first time on the field
-				} else if ( ! isset($_SESSION['newEvent']) ) {
-					if (isset($_POST['title']) && $_POST['title'] != "name of event") {
-						$event_field['title'] = $_POST['title'];
-					}
-					if (isset($_POST['goal']) && $_POST['goal'] != "goal") {
-						$event_field['goal'] = $_POST['goal'];
+				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
+					// Check to see if coming off of the index page
+					if ( isset($_POST['submit']) ) {
+						if (isset($_POST['title']) && $_POST['title'] != "name of event") {
+							$event_field['title'] = $_POST['title'];
+						}
+						if (isset($_POST['goal']) && $_POST['goal'] != "max") {
+							$event_field['goal'] = $_POST['goal'];
+						}
 					}
 					
-					if ( ! isset($event_field) ) {
-						$event_field = NULL;
+					$newEvent = new Event(NULL);
+					
+					$error = $newEvent->check_step1();
+					$is_valid = ( $error === false ) ? true : false;
+					
+					// Invalid Step 1
+					if ( ! $is_valid ) {
+						EFCommon::$smarty->assign('error', $error);
+						$this->saveEventFields( $newEvent );
+					// Valid Step 1
+					} else {
+						// Display Step 2
+						EFCommon::$smarty->assign('step', 2);
+						EFCommon::$smarty->display('create.tpl');
+						break;
 					}
-				
-					// Display the create event form
-					EFCommon::$smarty->assign('event_field', $event_field);
-					EFCommon::$smarty->assign('step1', ' class="current"');
+			
+					// Display Step 1
+					EFCommon::$smarty->assign('step', 1);
 					EFCommon::$smarty->display('create.tpl');
 					break;
-				// Check to see if they were working on the event before
-				} else {
-					$newEvent = $_SESSION['newEvent'];
-				}
 				
-				// Event is invalid
-				if ( $this->validateEventInfo( $newEvent ) === false ) {
-				
-					// Save the current information for the next visit
-					$_SESSION['newEvent'] = $newEvent;
-          
-					// Prepare the current values for display on the template
-					$this->saveEventFields( $newEvent );
-                    
-					EFCommon::$smarty->assign('step1', ' class="current"');
-					EFCommon::$smarty->display('create.tpl');
-				// Event is valid
-				} else {
-					$this->makeNewEvent( $newEvent );
+				// Check Step 2
+				} else if ( isset($_POST['step2']) ) {
+					$newEvent = new Event(NULL);
+					
+					$error = $newEvent->get_errors();
+					$is_valid = ( $error === false ) ? true : false;
+										
+					// Invalid Step 2
+					if ( ! $is_valid ) {
+						EFCommon::$smarty->assign('error', $error);
+						
+						// Display Step 2
+						EFCommon::$smarty->assign('step', 2);
+						EFCommon::$smarty->display('create.tpl');
+						break;
+						
+					// Valid Step 2
+					} else {
+						// Display Step 3
+						$this->makeNewEvent( $newEvent );
+						EFCommon::$smarty->assign('step', 3);
+						EFCommon::$smarty->display('create.tpl');
+						break;
+					}
+				} else if ( isset($_POST['step3']) ) {
+					
 				}
 				break;
 			case '/event/manage/cancel':

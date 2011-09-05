@@ -18,7 +18,7 @@
 			<fieldset>
 				<legend>Free to get started!</legend>
 				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="max" name="goal" id="goal" /> people to come.</span></p>
-				<p class="submit"><span class="btn btn-med"><input type="submit" value="Go!" /></span></p>
+				<p class="submit"><span class="btn btn-med"><input type="submit" name="submit" value="Go!" /></span></p>
 			</fieldset>
 		</form>
 		<aside>
