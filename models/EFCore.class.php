@@ -114,7 +114,7 @@ class EFCore {
 			$result += ($attendeeProb / 6.0);
 		}
 		
-		return round($result);
+		return round($result) + 1;
 	}
 	
 	/**
