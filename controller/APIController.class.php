@@ -102,7 +102,7 @@ class APIController {
 				echo json_encode(unserialize($_SESSION['user']));
 				break;
 			case 'setUserInfo':
-				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['cell'],$_REQUEST['twitter']);
+				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['phone'],$_REQUEST['twitter']);
 				$_SESSION['user'] = unserialize($_SESSION['user']);
 				$_SESSION['user']->email = $_REQUEST['email'];
 				$_SESSION['user']->about = $_REQUEST['about'];
