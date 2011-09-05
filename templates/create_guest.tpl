@@ -1,4 +1,35 @@
 <section class="block">
+			<nav class="horizontal-nav">
+				<ul>
+					<li><a href="{$CURHOST}/event/create/guests?tab=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.tab) || $smarty.get.tab == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>
+					<li><a href="{$CURHOST}/event/create/guests?tab=manual" class="btn btn-manage{if $smarty.get.tab == 'manual'} current{/if}"><span>Manually Add</span></a></li>
+					<li><a href="{$CURHOST}/event/create/guests?tab=fb" class="btn btn-manage{if $smarty.get.tab == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
+					<li><a href="{$CURHOST}/event/create/guests?tab=csv" class="btn btn-manage{if $smarty.get.tab == 'csv'} current{/if}"><span>Import CSV</span></a></li>
+					<li><a href="{$CURHOST}/event/create/guests?tab=import" class="btn btn-manage{if $smarty.get.tab == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
+				</ul>
+			</nav>{if ! isset($smarty.get.tab) || $smarty.get.tab == 'trueRSVP'}
+
+			<div class="block notification">
+				<p class="message">Not implemented yet, sorry.</p>
+			</div>{elseif $smarty.get.tab == 'manual'}
+
+			<form method="post" action="{$CURHOST}/event/create/guests?tab=trueRSVP">
+			<fieldset>
+				
+			</fieldset>
+			</form>{elseif $smarty.get.tab == 'fb'}
+
+			{elseif $smarty.get.tab == 'csv'}
+
+			{else}
+
+			<div class="block notification">
+				<p class="message">Not implemented yet, sorry.</p>
+			</div>{/if}
+		</section>
+		{include file="manage_invites.tpl"}
+
+<!--section class="block">
 				<header class="block-title">
 					<h1>Add Guests</h1>
 				</header>
@@ -10,18 +41,8 @@
 							<fb:serverFbml>
 						    <script type="text/fbml">
 						      <fb:fbml>
-						          <fb:request-form
-						                    action="{$CURHOST}/fb/invite"
-						                    target="_top"
-						                    method="POST"
-						                    invite="true"
-						                    type="event"
-						                    content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$CURHOST}/event/a/{$event->alias}' label='Accept' />"
-						                    >
-						 					
-						                    <fb:multi-friend-selector
-						                    showborder="false"
-						                    actiontext="Invite to {$event->title}" cols="3" max="35">
+						          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$CURHOST}/event/a/{$event->alias}' label='Accept' />">
+								  <fb:multi-friend-selector showborder="false" actiontext="Invite to {$event->title}" cols="3" max="35">
 						        </fb:request-form>
 						      </fb:fbml>
 						    </script>
@@ -55,4 +76,4 @@
 					<p><span class="btn btn-med"><input type="submit" name="submit" value="Done" /></span></p>
 				</footer>
 				</form>
-			</section>
+			</section-->

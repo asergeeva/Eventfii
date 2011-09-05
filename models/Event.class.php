@@ -19,6 +19,7 @@ class Event {
 	public $reach_goal;
 	public $location;
 	public $address;
+	public $created;
 	public $datetime;
 	public $date;
 	public $time;
@@ -47,33 +48,31 @@ class Event {
 	public $error;
 	public $numErrors;
 	
-	function __construct( $eventInfo ) {
+	function __construct( $eventInfo, $step1 = false ) {
 		// Creating new event
 		if ( $eventInfo == NULL ) {
+			$this->numErrors = 0;
 			$this->eid = NULL;
-			if ( isset ($_SESSION['user']) ) {
-				$this->organizer = $_SESSION['user'];
+			$this->organizer = ( isset($_SESSION['user']) ) ? $_SESSION['user'] : NULL;
+			$this->set_title(NULL);
+			$this->set_description(NULL);
+			$this->set_type(NULL);
+			$this->set_location(NULL);
+			$this->set_address(NULL);
+			$this->set_date(NULL);
+			$this->set_time(NULL);
+			$this->set_end_date(NULL);
+			$this->set_end_time(NULL);
+			$this->set_deadline(NULL);
+			
+			// For event creation some fields aren't checked
+			// until step 2. Keep those out of the validation loop.
+			if ( ! $step1 ) {
+				$this->set_goal(NULL);
+				$this->reach_goal = $_POST['reach_goal'];
+				$this->is_public = $_POST['is_public'];
+				$this->set_twitter(NULL);
 			}
-			$this->title = $_POST['title'];
-			$this->goal = $_POST['goal'];
-			$this->reach_goal = $_POST['reach_goal'];
-			$this->location = $_POST['location'];
-			$this->address = $_POST['address'];
-			$this->date = $_POST['date'];
-			$this->time = $_POST['time'];
-			$this->end_date = $_POST['end_date'];
-			$this->end_time = $_POST['end_time'];
-			$this->deadline = $_POST['deadline'];
-			$this->description = $_POST['description'];
-			$this->is_public = $_POST['is_public'];
-			$this->type = $_POST['type'];
-			if ( isset($_POST['location_lat']) ) {
-				$this->location_lat = $_POST['location_lat'];
-			}
-			if ( isset($_POST['location_long']) ) {
-				$this->location_long = $_POST['location_long'];
-			}
-			$this->twitter = $_POST['twitter'];
 
 		// Event from database
 		} else {
@@ -98,6 +97,400 @@ class Event {
 		
 	}
 	
+	/* set_title
+	 * Sets the event title
+	 *
+	 * Requirements:
+	 *  - Minimum length 5 chars
+	 */
+	private function set_title( $title = NULL ) {
+		if ( $title == NULL ) {
+			if ( isset ($_POST['title']) ) {
+				$title = $_POST['title'];
+			}
+		}
+		
+		$this->title = stripslashes($title);
+		
+		if( strtolower( $this->title ) == "i'm planning..." || $this->title == "Name of Event" ) {
+			$this->error['title'] = "Please enter an event title.";
+			$this->numErrors++;
+		} else if ( strlen($this->title) < 5 ) {
+			$this->error['title'] = "Title must be at least 5 characters";
+			$this->numErrors++;
+		}
+	}
+
+	/* set_description
+	 * Sets the event's description
+	 *
+	 * Requirements:
+	 *  - Only alphanumeric characters
+	 *  - 5-500 characters
+	 */
+	private function set_description( $description = NULL ) {
+		if ( $description == NULL ) {
+			if ( isset($_POST['description']) ) {
+				$description = $_POST['description'];
+			}
+		}
+	
+		$this->description = stripslashes($description);
+		
+		if ( $this->description == "What should your guests know?" ) {
+			$this->description = NULL;
+			$this->error['desc'] = "Please enter an event description.";
+			$this->numErrors++;
+		}
+		
+		if( strlen($this->description) < 5 ) {
+			$this->error['desc'] = "Event description must be at least 5 characters";
+			$this->numErrors++;
+		}
+		if ( strlen($this->description) > 500 ) {
+			$this->error['desc'] = "Event description must be less than 500 characters";
+			$this->numErrors++;
+		}
+	}
+	
+	/* set_type
+	 * Sets the event's type
+	 *
+	 * Requirements:
+	 * - Can't be 0
+	 */
+	private function set_type( $type = NULL ) {
+		if ( $type == NULL ) {
+			if ( isset($_POST['type']) ) {
+				$type = $_POST['type'];
+			}
+		}
+		
+		$this->type = $type;
+		
+		if ( $type == 0 ) {
+			$this->error['type'] = "Please select an event type.";
+			$this->numErrors++;
+		}
+	}
+	
+	/* set_location
+	 * Sets the event's location
+	 *
+	 * Requirements:
+	 *  - Only alphanumeric characters
+	 *  - 0-100 characters
+	 */
+	private function set_location( $location = NULL ) {
+		if ( $location == NULL ) {
+			if ( isset($_POST['location']) ) {
+				$location = $_POST['location'];
+			}
+		}
+		
+		$this->location = stripslashes($location);
+		
+		// Optional
+		if( $this->location == "Ex: Jim's House" ) {
+			$this->location = NULL;
+			return;
+		}
+
+		if ( strlen($this->location) > 100 ) {
+			$this->error['desc'] = "Event location must be less than 100 characters.";
+			$this->numErrors++;
+		}
+	}
+	
+	
+	
+	/* set_address
+	 * Sets the event's address
+	 *
+	 * Also sets the location's latitude and longitude
+	 * if valid, or removes them if not valid.
+	 *
+	 * Requirements:
+	 *  - Can't contain illegal characters
+	 *  - Valid address
+	 */
+	private function set_address($address = NULL) {
+		if ( $address == NULL ) {
+			if ( isset($_POST['address']) ) {
+				$address = $_POST['address'];
+			}
+		}
+		
+		$this->address = stripslashes($address);
+		
+		
+		if ( $this->address == "Ex: 1234 Maple St, Los Angeles, CA 90007" ) {
+			$this->address = NULL;
+			$this->error['address'] = "Please enter an address";
+			$this->numErrors++;
+			return;
+		}
+		
+		// Check the address using a geocoder
+		$geocode = EFCommon::$google->getGeocode($this->address);
+		if( ! is_numeric($geocode['lat']) || ! is_numeric($geocode['lon'])) {
+			$this->error['address'] = "Address is invalid";
+			$this->numErrors++;
+			return;
+		}
+		
+		$this->location_lat = $geocode['lat'];
+		$this->location_long = $geocode['lon'];
+	}
+
+	/* set_date
+	 * Sets the event's date
+	 *
+	 * Requirements:
+	 *  - Valid date
+	 *  - Date in the future
+	 */
+	private function set_date( $date = NULL ) {
+		if ( $date == NULL ) {
+			if ( isset($_POST['date']) ) {
+				$date = $_POST['date'];
+			}
+		}
+		
+		$this->date = $date;
+	
+		if ( strlen($this->date) == 0) {
+			$this->date = NULL;
+			$this->error['date'] = "Please enter a date for your event";
+			$this->numErrors++;
+			return;
+		}
+		
+		$event_date = explode('/', $this->date);
+		$month = $event_date[0];
+		$day = $event_date[1];
+		$year = $event_date[2]; 
+
+		// Make sure date is valid
+		if( !@checkdate($month, $day, $year) ) {
+			$this->error['date'] = "Please enter a valid date in mm/dd/yyyy format";
+			$this->numErrors++;
+			return;
+		}
+
+		// Make sure date is in the future
+		$check = @mktime(0, 0, 0, $month, $day, $year, -1);
+		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
+		if( $check < $today ) {
+			$this->error['date'] = "Event date should be a date in the future.";
+			$this->numErrors++;
+		}
+	}
+	
+	/* set_time
+	 * Checks the event's time
+	 *
+	 * Requirements:
+	 *  - 12 hour time format
+	 */
+	private function set_time( $time = NULL ) {
+		if ( $time == NULL ) {
+			if ( isset($_POST['time']) ) {
+				$time = $_POST['time'];
+			}
+		}
+		
+		$this->time = $time;
+		
+		if( $this->time == 0 ) {
+			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->numErrors++;
+		}
+	}
+	
+	/* set_end_date
+	 * Sets the event's end date
+	 *
+	 * Requirements:
+	 *  - Valid date
+	 *  - Date in the future
+	 *  - After event date
+	 */
+	private function set_end_date( $end_date = NULL ) {
+		if ( $end_date == NULL ) {
+			if ( isset($_POST['end_date']) ) {
+				$end_date = $_POST['end_date'];
+			}
+		}
+		
+		$this->end_date = $end_date;
+	
+		// Optional
+		if ( strlen($this->end_date) == 0 ) {
+			$this->end_date = NULL;
+			return;
+		}
+		
+		$event_end_date = explode('/', $this->end_date);
+		$end_month = $event_end_date[0];
+		$end_day = $event_end_date[1];
+		$end_year = $event_end_date[2]; 
+
+		// Make sure date is valid
+		if( !@checkdate($end_month, $end_day, $end_year) ) {
+			$this->error['end_date'] = "Please enter a valid date in mm/dd/yyyy format";
+			$this->numErrors++;
+			return;
+		}
+		
+		if ( isset ( $this->date ) && ! isset ( $this->error['date'] ) ) {
+			$event_date = explode('/', $this->date);
+			$month = $event_date[0];
+			$day = $event_date[1];
+			$year = $event_date[2];
+			
+			// Make sure end date is on or after start date
+			$check = @mktime(0, 0, 0, $end_month, $end_day, $end_year, -1);
+			$event = @mktime(0, 0, 0, $month, $day, $year, -1);
+			if( $check < $event ) {
+				$this->error['end_date'] = "Event end date must be on or after start date";
+				$this->numErrors++;
+			}
+		}
+	}
+	
+	/* set_end_time
+	 * Sets the event's time
+	 *
+	 * Requirements:
+	 *  - 12 hour time format
+	 */
+	private function set_end_time( $end_time = NULL ) {
+		if ( $end_time == NULL ) {
+			if ( isset($_POST['end_time']) ) {
+				$end_time = $_POST['end_time'];
+			}
+		}
+		
+		$this->end_time = $_POST['end_time'];
+		
+		// Optional
+		if ( $this->end_time == 0 ) {
+			$this->end_time = NULL;
+			if ( strlen($this->end_date) == 0 ) {
+				return;
+			} else {
+				$this->error['end_time'] = "Please select a time";
+				$this->numErrors++;
+				return;
+			}
+		}
+		
+		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
+			$this->error['end_time'] = "End time must be after event time.";
+			$this->numErrors++;
+		}
+	}
+	
+	/* set_deadline
+	 * Sets the event's deadline
+	 *
+	 * Requirements:
+	 *  - Valid date
+	 *  - After event creation date
+	 *  - Before/on event date
+	 */
+	private function set_deadline( $deadline = NULL ) {
+		if ( $deadline == NULL ) {
+			if ( isset($_POST['deadline']) ) {
+				$deadline = $_POST['deadline'];
+			}
+		}
+		
+		$this->deadline = $deadline;
+	
+		// Optional
+		if ( strlen($this->deadline) == 0 ) {
+			$this->deadline = NULL;
+			return;
+		}
+		
+		$event_deadline = explode('/', $this->deadline);
+		$month = $event_deadline[0];
+		$day = $event_deadline[1];
+		$year = $event_deadline[2]; 
+
+		// Make sure date is valid
+		if( !@checkdate($month, $day, $year) ) {
+			$this->error['deadline'] = "Please enter a valid date in mm/dd/yyyy format";
+			$this->numErrors++;
+			return;
+		}
+		
+		if ( isset ( $this->date ) && ! isset ( $this->error['date'] )) {
+			$event_date = explode('/', $this->date);
+			$event_month = $event_date[0];
+			$event_day = $event_date[1];
+			$event_year = $event_date[2];
+			
+			// Make sure end date is on or after start date
+			$check = @mktime(0, 0, 0, $month, $day, $year, -1);
+			$event = @mktime(0, 0, 0, $event_month, $event_day, $event_year, -1);
+			if( $check > $event ) {
+				$this->error['deadline'] = "Deadline must be before event date";
+				$this->numErrors++;
+			}
+		}
+	}
+	
+	/* set_goal
+	 * Sets the event's attendance goal
+	 *
+	 * Requirements:
+	 *  - Number between 0-1000000
+	 */
+	private function set_goal( $goal = NULL ) {
+		if ( $goal == NULL ) {
+			if ( isset($_POST['goal']) ) {
+				$goal = $_POST['goal'];
+			}
+		}
+		
+		$this->goal = $goal;
+		
+		$int_options = array(
+			"options" => array(
+				"min_range" => 1,
+				"max_range" => 1000000
+			)
+		);
+
+		if( ! filter_var($this->goal, FILTER_VALIDATE_INT, $int_options) ) {
+			$this->error['goal'] = "Please enter a attendance goal between 1 and 1000000.";
+			$this->numErrors++;
+		}
+			
+	}
+	
+	/* set_twitter
+	 * Sets the twitter hash tag
+	 */
+	private function set_twitter( $twitter = NULL ) {
+		if ( $twitter == NULL ) {
+			if ( isset($_POST['twitter']) ) {
+				$twitter = $_POST['twitter'];
+			}
+		}
+		
+		$this->twitter = stripslashes($twitter);
+		
+		if( strlen($this->twitter) == 0 || $this->twitter == "Ex: #TurtlesRock" ) {
+			$this->twitter = NULL;
+			return;
+		}
+	}
+	
+	
 	/* makeEventFromArray
 	 * Takes event info from an array and
 	 * stores it in the current object.
@@ -106,18 +499,21 @@ class Event {
 	 */
 	private function makeEventFromArray($eventInfo) {
 		$this->alias = $eventInfo['url_alias'];
-				
 		$this->eid = $eventInfo['id'];
+		$this->created = $eventInfo['created'];
+		$this->exists = true;
 		
-		// Store into private vars
-		if ( isset($eventInfo['organizer']) ) {
-			$this->organizer = new User($eventInfo['organizer']);
-		}
+		$this->organizer = new AbstractUser($eventInfo['organizer']);
 		$this->title = $eventInfo['title'];
-		$this->goal = $eventInfo['goal'];
-		$this->reach_goal = $eventInfo['reach_goal'];
+		$this->description = $eventInfo['description'];
 		$this->location = $eventInfo['location_name'];
 		$this->address = $eventInfo['location_address'];
+		if ( isset($eventInfo['location_lat']) ) {
+			$this->location_lat = $eventInfo['location_lat'];
+		}
+		if ( isset($eventInfo['location_long']) ) {
+			$this->location_long = $eventInfo['location_long'];
+		}
 		
 		// Prepare date and time
 		$this->datetime = $eventInfo['event_datetime'];
@@ -140,28 +536,19 @@ class Event {
 
 		$this->deadline = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
 
+		$this->days_left = $eventInfo['days_left'];
+
 		if ( isset($eventInfo['rsvp_days_left']) ) {
 			$this->rsvp_days_left = $eventInfo['rsvp_days_left'];
+		} else {
+			$this->rsvp_days_left = $this->days_left;
 		}
 		
-		$this->days_left = $eventInfo['days_left'];
-		$this->description = $eventInfo['description'];
-		$this->is_public = $eventInfo['is_public'];
-		
-		if ( isset($eventInfo['type'] ) ) {
-			$this->type = $eventInfo['type'];
-		}
-		if ( isset($eventInfo['location_lat']) ) {
-			$this->location_lat = $eventInfo['location_lat'];
-		}
-		if ( isset($eventInfo['location_long']) ) {
-			$this->location_long = $eventInfo['location_long'];
-		}
-		
+		$this->type = $eventInfo['type'];
+		$this->goal = $eventInfo['goal'];
 		$this->reach_goal = $eventInfo['reach_goal'];
+		$this->is_public = $eventInfo['is_public'];
 		$this->twitter = $eventInfo['twitter'];
-		
-		$this->exists = true;
 	}
 	
 	// GOING TO BE REMOVED WHEN SMART ASSIGNMENTS ARE
@@ -183,14 +570,15 @@ class Event {
 		$eventInfo['time'] = $this->time;
 		$eventInfo['end_date'] = $this->end_date;
 		$eventInfo['end_time'] = $this->end_time;
-		$eventInfo['reach_goal'] = $this->reach_goal;
-		$eventInfo['goal'] = $this->goal;
 		$eventInfo['deadline'] = $this->deadline;
+		$eventInfo['goal'] = $this->goal;
+		$eventInfo['reach_goal'] = $this->reach_goal;
 		$eventInfo['type'] = $this->type;
 		$eventInfo['is_public'] = $this->is_public;
 		$eventInfo['location_lat'] = $this->location_lat;
 		$eventInfo['location_long'] = $this->location_long;
 		$eventInfo['twitter'] = $this->twitter;
+		$eventInfo['alias'] = $this->alias;
 		
 		return $eventInfo;
 	}
@@ -259,304 +647,12 @@ class Event {
 	 * return $errors | If there are errors
 	 * return false | If there are no errors
 	 */
-	public function get_errors() {
-		// Reset
-		$this->numErrors = 0;
-		unset($this->error);
-	
-		// Check for errors
-		$this->check_title();
-		$this->check_description();
-		$this->check_location();
-		$this->check_address();
-		$this->check_date();
-		$this->check_time();
-		$this->check_end_date();
-		$this->check_end_time();
-		$this->check_goal();
-		$this->check_deadline();
-		$this->check_type();
-		$this->check_twitter();
-		
+	public function get_errors() {		
 		// Return if there are any errors
 		if ( $this->numErrors == 0 )
 			return false;
 		else
 			return $this->error;
-	}
-	
-	/* check_step1
-	 * Makes sure that all step 1 event creation
-	 * fields are valid.
-	 *
-	 * return $errors | If there are errors
-	 * return false | If there are no errors
-	 */
-	public function check_step1() {
-		// Reset
-		$this->numErrors = 0;
-		unset($this->error);
-	
-		// Check for errors
-		$this->check_title();
-		$this->check_description();
-		$this->check_location();
-		$this->check_address();
-		$this->check_date();
-		$this->check_time();
-		$this->check_end_date();
-		$this->check_end_time();
-		$this->check_type();
-	
-		if ( $this->numErrors == 0 ) {
-			return false;
-		} else {
-			return $this->error;
-		}
-	}
-
-	/* check_title
-	 * Checks the event's title
-	 *
-	 * Requirements:
-	 *  - Minimum length
-	 */
-	private function check_title() {
-		$this->title = stripslashes($this->title);
-		// Set the error meessage if there is one
-		if( strtolower( $this->title ) == "i'm planning..." ) {
-			$this->error['title'] = "Please enter an event title.";
-			$this->numErrors++;
-		} else if ( strlen($this->title) < 5 ) {
-			$this->error['title'] = "Title must be at least 5 characters";
-			$this->numErrors++;
-		}
-	}
-
-	/* check_description
-	 * Checks the event's address
-	 *
-	 * Requirements:
-	 *  - Only alphanumeric characters
-	 *  - 10-500 characters
-	 */
-	private function check_description() {
-		$this->description = stripslashes($this->description);
-		if( strlen($this->description) < 5 ) {
-			$this->error['desc'] = "Title must be at least 5 characters";
-			$this->numErrors++;
-		}
-	}
-	
-	/* check_location
-	 * Checks the event's location
-	 *
-	 * Requirements:
-	 *  - Only alphanumeric characters
-	 *  - 0-100 characters
-	 */
-	private function check_location() {
-		$this->location = stripslashes($this->location);
-		if( strlen($this->location) == 0 )
-			return;	
-
-		if ( $this->location == "Ex: Jim's House" ) {
-			$this->location = "";
-			return;
-		}
-	}
-	
-	/* check_twitter
-	 * Checks the twitter hash tag
-	 */
-	private function check_twitter() {
-		$this->twitter = stripslashes($this->twitter);	
-		if( strlen($this->twitter) == 0 )
-			return;
-
-		if ( $this->twitter == "Ex: #TurtlesRock" ) {
-			$this->twitter = "";
-			return;
-		}
-	}
-	
-	/* check_address
-	 * Checks the event's address
-	 *
-	 * Also sets the location's latitude and longitude
-	 * if valid, or removes them if not valid.
-	 *
-	 * Requirements:
-	 *  - Can't contain illegal characters
-	 *  - Valid address
-	 */
-	private function check_address() {
-		if ( $this->address == "" ) {
-			$this->error['address'] = "Please enter an address";
-			$this->numErrors++;
-			return;
-		}
-		
-		// Check the address using a geocoder
-		$geocode = EFCommon::$google->getGeocode($this->address);
-		if( ! is_numeric($geocode['lat']) || ! is_numeric($geocode['lon'])) {
-			$this->error['address'] = "Address is invalid";
-			$this->numErrors++;
-			return;
-		}
-		
-		$this->location_lat = $geocode['lat'];
-		$this->location_long = $geocode['lon'];
-	}
-
-	/* check_date
-	 * Checks the event's date
-	 *
-	 * Requirements:
-	 *  - Valid date
-	 *  - Date in the future
-	 */
-	private function check_date() {
-		if ( strlen($this->date) == 0) {
-			$this->date = NULL;
-			$this->error['date'] = "Please enter a date for your event";
-			$this->numErrors++;
-			return;
-		}
-		
-		$event_date = explode('/', $this->date);
-		$month = $event_date[0];
-		$day = $event_date[1];
-		$year = $event_date[2]; 
-
-		// Make sure date is valid
-		if( !@checkdate($month, $day, $year) ) {
-			$this->error['date'] = "Please enter a valid date in mm/dd/yyyy format";
-			$this->numErrors++;
-			return;
-		}
-
-		// Make sure date is in the future
-		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
-		if( $check < $today ) {
-			$this->error['date'] = "Event date should be a date in the future.";
-			$this->numErrors++;
-		}
-	}
-	
-	/* check_time
-	 * Checks the event's time
-	 *
-	 * Requirements:
-	 *  - 12 hour time format
-	 */
-	private function check_time() {	
-		$valid_time = filter_var(
-			$this->time, 
-			FILTER_VALIDATE_REGEXP, 
-			array(
-				"options" => array(
-					"regexp" => "/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/"
-				)
-			)
-		);
-		
-		if( ! $valid_time ) {
-			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
-			$this->numErrors++;
-		}
-	}
-	
-	/* check_end_date
-	 * Checks the event's end date
-	 *
-	 * Requirements:
-	 *  - Valid date
-	 *  - Date in the future
-	 *  - After event date
-	 */
-	private function check_end_date() {
-		if ( ! isset( $this->end_date ) || strlen($this->end_date) == 0 ) {
-			$this->end_date = NULL;
-			return;
-		}
-			
-		$event_date = explode('/', $this->date);
-		$month = $event_date[0];
-		$day = $event_date[1];
-		$year = $event_date[2]; 
-		$event_end_date = explode('/', $this->end_date);
-		$end_month = $event_end_date[0];
-		$end_day = $event_end_date[1];
-		$end_year = $event_end_date[2]; 
-
-		// Make sure date is valid
-		if( !@checkdate($month, $day, $year) ) {
-			$this->error['end_date'] = "Please enter a valid date in mm/dd/yyyy format";
-			$this->numErrors++;
-			return;
-		}
-
-		// Make sure date is in the future
-		$check = @mktime(0, 0, 0, $end_month, $end_day, $end_year, -1);
-		$event = @mktime(0, 0, 0, $month, $day, $year, -1);
-		if( $check < $event ) {
-			$this->error['end_date'] = "Event end date must be on or after start date";
-			$this->numErrors++;
-		}
-	}
-	
-	/* check_end_time
-	 * Checks the event's time
-	 *
-	 * Requirements:
-	 *  - 12 hour time format
-	 */
-	private function check_end_time() {	
-		if ( ! isset($end_time) || strlen($this->end_time) == 0 )
-			return;
-		
-			$valid_time = filter_var(
-			$this->end_time, 
-			FILTER_VALIDATE_REGEXP, 
-			array(
-				"options" => array(
-					"regexp" => "/^((0?[1-9]|1[012])(:[0-5]\d){0,2}(\ [AP]M))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$/"
-				)
-			)
-		);
-		
-		if ( ! $valid_time ) {
-			$this->error['end_time'] = "Please select a time.";
-			$this->numErrors++;
-		}
-		
-		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
-			$this->error['end_time'] = "End time must be after event time.";
-			$this->numErrors++;
-		}
-	}
-
-	/* check_goal
-	 * Checks the event's attendance goal
-	 *
-	 * Requirements:
-	 *  - Number between 0-1000000
-	 */
-	private function check_goal() {
-		$int_options = array(
-			"options" => array(
-				"min_range" => 1,
-				"max_range" => 1000000
-			)
-		);
-
-		if( ! filter_var($this->goal, FILTER_VALIDATE_INT, $int_options) ) {
-			$this->error['goal'] = "Please enter a attendance goal between 1 and 1000000.";
-			$this->numErrors++;
-		}
-			
 	}
 	
 	/**
@@ -565,71 +661,6 @@ class Event {
 	 */
 	public function add_guest($guest) {
 		array_push($this->guests, $guest);
-	}
-	
-	/* check_deadline
-	 * Checks the event's deadine
-	 *
-	 * Requirements:
-	 *  - Valid date
-	 *  - In the future
-	 *  - Date is before the event date
-	 */
-	private function check_deadline() {
-		if ( strlen($this->deadline) == 0) {
-			return;
-		}
-	
-		$deadline_date = explode('/', $this->deadline); 
-		$deadline_month = $deadline_date[0];
-		$deadline_day = $deadline_date[1];
-		$deadline_year = $deadline_date[2];
-		
-		// Check for valid date
-		if( !@checkdate( $deadline_month, $deadline_day, $deadline_year ) ) {
-			$this->error['deadline'] = "Please enter a valid date in mm/dd/yyyy format";
-			$this->numErrors++;
-			return;
-		}
-
-		// Check for date in the future	
-		$check = @mktime(0, 0, 0, $deadline_month, $deadline_day, $deadline_year, -1);
-		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
-		if ( $check < $today ) {
-			$this->error['deadline'] = "Deadline date should be a date in the future.";
-			$this->numErrors++;
-			return;
-		}
-
-		// See if the event date is valid
-		if ( isset ( $this->error['date'] ) )
-			return;
-
-		// Check for date before event date		
-		$event_date = explode('/', $this->date); 
-		$event_month = $event_date[0];
-		$event_day = $event_date[1];
-		$event_year = $event_date[2];
-
-		$event_check = @mktime(0, 0, 0, $event_month, $event_day, $event_year, -1);
-		if( $event_check < $check ) {
-			$this->error['deadline'] = "Deadline date must be before your event date.";
-			$this->numErrors++;
-			return;
-		}
-	}
-
-	/* check_type
-	 * Checks the event's type
-	 *
-	 * Requirements:
-	 *  - Value is between 0 and 16
-	 */
-	private function check_type() {
-		if ( ! ( $this->type > 0 && $this->type <= 16 ) ) {
-			$this->error['type'] = "Please select an event type";
-			$this->numErrors++;
-		}
 	}
 	
 	public function submitGuests() {

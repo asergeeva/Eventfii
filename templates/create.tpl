@@ -11,12 +11,13 @@
 			<li>Success!</li>
 		</ol>
 	</nav>
-	<div class="create">
+	<div class="create">{if $step == 1}
+
 		<section class="block">{if isset($error)}
 
 			<header class="block notification">
 				<p class="message">Please fix the errors below before continuing.</p>
-			</header>{/if}{if $step == 1}
+			</header>{/if}
 
 			<div class="form" id="event_create">
 				<form method="post" action="{$CURHOST}/event/create">
@@ -96,7 +97,7 @@
 								<label for="date">When<span>*</span></label> 
 							</dt>
 							<dd>
-								<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox id="time">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if isset($error.date)}
+								<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox" id="time">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if isset($error.date)}
 
 								<p class="message-error">{$error.date}</p>{/if}{if isset($error.time)}
 
@@ -133,7 +134,14 @@
 						</footer> 
 					</fieldset>
 				</form>
-			</div>{elseif $step == 2}
+			</div>
+		</section>{elseif $step == 2}
+
+		<section class="block">{if isset($error)}
+
+			<header class="block notification">
+				<p class="message">Please fix the errors below before continuing.</p>
+			</header>{/if}
 
 			<div class="form" id="event_create">
 				<form method="post" action="{$CURHOST}/event/create">
@@ -208,11 +216,11 @@
 						</footer> 
 					</fieldset>
 				</form>
-			</div>{elseif $step == 3}
-				YAY!
-			{*include file="create_guest.tpl"*}{/if}
+			</div>
+		</section>{elseif $step == 3}
 
-		</section>
+		{include file="create_guest.tpl"}{/if}
+
 	</div>
 </div>
 {include file="footer.tpl"}

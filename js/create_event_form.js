@@ -11,19 +11,19 @@ var CREATE_EVENT_FORM = (function() {
 		location_init = "Ex: Jim's House",
 		address_init = "Ex: 1234 Maple St, Los Angeles, CA 90007",
 		goal_init = "In # of Attendees",
-		twitter_init = "Ex: #TurtlesRock",
+		twitter_init = "Ex: #TurtlesRock";
 		
-		_title = $('#title'),
+	var	_title = $('#title'),
 		_description = $('#description'),
 		_location = $('#location'),
-		_address = $('#address'),
-		_goal = $('#goal'),
-		_twitter = $('#twitter');
+		_address = $('#address');
+		// _goal = $('#goal')
+		//_twitter = $('#twitter')
 		
 	// Non-required fields init
-	if (_twitter.val().trim() == '') {
-		_twitter.val(twitter_init);
-	}
+	//if (_twitter.val().trim() == '') {
+	//	_twitter.val(twitter_init);
+	//}
 	if (_location.val().trim() == '') {
 		_location.val(location_init);
 	}
@@ -33,6 +33,12 @@ var CREATE_EVENT_FORM = (function() {
 		if ( _title.val() == title_init ) { 
 			_title.val(''); 
 			_title.removeClass("default");
+		}
+	});
+	_description.focus(function() {
+		if ( _description.val() == description_init ) { 
+			_description.val(''); 
+			_description.removeClass("default");
 		}
 	});
 	_location.focus(function() {
@@ -47,7 +53,7 @@ var CREATE_EVENT_FORM = (function() {
 			_address.removeClass("default");
 		}	
 	});
-	_goal.focus(function() {
+	/* _goal.focus(function() {
 		if ( _goal.val() == goal_init ) { 
 			_goal.val(''); 
 			_goal.removeClass("default"); 
@@ -58,27 +64,22 @@ var CREATE_EVENT_FORM = (function() {
 			_twitter.val(''); 
 			_twitter.removeClass("default");
 		}	
-	});
-	_description.focus(function() {
-		if ( _description.val() == description_init ) { 
-			_description.val(''); 
-			_description.removeClass("default");
-		}
-	});
+	}); */
+	
 
 
 	// When the cursor is out of focus
-	_description.focusout(function() {
-		if ( _description.val() == '' ) { 
-			_description.val(description_init); 
-			_description.addClass("default"); 			
-		}	
-	});
 	_title.focusout(function() {
 		if ( _title.val() == '' ) {
 			_title.val(title_init);
 			_title.addClass("default"); 
 		}
+	});
+	_description.focusout(function() {
+		if ( _description.val() == '' ) { 
+			_description.val(description_init); 
+			_description.addClass("default"); 			
+		}	
 	});
 	_location.focusout(function() {
 		if ( _location.val() == '' ) { 
@@ -92,7 +93,7 @@ var CREATE_EVENT_FORM = (function() {
 			_address.addClass("default"); 
 		}
 	});
-	_goal.focusout(function() {
+	/* _goal.focusout(function() {
 		if ( _goal.val() == '' ) { 
 			_goal.val(goal_init); 
 			_goal.addClass("default"); 
@@ -103,13 +104,13 @@ var CREATE_EVENT_FORM = (function() {
 			_twitter.val(twitter_init); 
 			_twitter.addClass("default"); 
 		}
-	});
+	}); */
 	
 	return {
 		init: function() {
 			$('#end-date').click( function() {
 				$(this).fadeOut(0);
-				var date = $('#date').val()
+				var date = $('#date').val();
 				$('#end_date').val(date);
 				var time = $('select[name="time"] option:selected').val();
 				$('select[name="end_time"]').val(time).attr("selected", "selected");

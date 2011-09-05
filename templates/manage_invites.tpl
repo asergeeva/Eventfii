@@ -19,6 +19,8 @@
 					<!--footer class="buttons buttons-submit">
 						<p><input type="submit" name="submit" value="Update Guest List" id="guests_update" /></p> 
 					</footer-->
-					</fieldset>{/if}
+					</fieldset>{else}
+
+					<p>No one has been invited for this event.</p>{/if}
 
 				</section>

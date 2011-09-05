@@ -7,10 +7,10 @@
 
 					<li>
 						<a href="{$CURHOST}/event/a/{$event->alias}">
-							<h2>{$event->title}<br><small>{$event->getHumanReadableEventTime()}</small></h2>
+							<h2><strong>{$event->title}</strong> {$event->getHumanReadableEventTime()}</h2>
 						</a> 
 						<a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="event-manage">
-							<span class="button"><em>Manage</em></span>
+							<span class="btn btn-manage"><em>Manage</em></span>
 						</a>
 					</li>{/foreach}
 

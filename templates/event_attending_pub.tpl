@@ -7,8 +7,8 @@
 
 					<li>
 						<a href="{$CURHOST}/event/{$event->eid}">
-							<h2>{$event->title}</h2>
-							<span>{$event->days_left} days left</span>
+							<h2><strong>{$event->title}</strong></h2>
+							<span class="event-daysleft">{$event->days_left} days left</span>
 						</a>
 					</li>{/foreach}
 

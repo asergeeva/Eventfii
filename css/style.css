@@ -63,11 +63,10 @@ header#page-header {
 
 /*----- Links ----------*/
 #page-header aside {
-	font-size: 13px;
 	float: right;
 	margin: 43px 0 0;
 	overflow: auto; }
-#page-header nav { padding: 5px 4px 0 0; }
+#page-header nav { padding: 6px 4px 0 0; }
 #page-header nav, #page-header p { float: left; }
 #page-header nav p a {
 	color: #fff;
@@ -401,6 +400,18 @@ nav.steps.step-2 { background-position: 0 -50px; }
 nav.steps.step-3 { background-position: 0 -100px; }
 .steps li { text-indent: -10000px; }
 
+/* Horizontal Navigation */
+.horizontal-nav { overflow: hidden; }
+.horizontal-nav ul {
+	float: left;
+	position: relative;
+	left: 50%; }
+.horizontal-nav li {
+	position: relative;
+	float: left;
+	right: 50%;
+	display: block; }
+
 /*----- Slider ----------*/
 .rsvp-progress {
 	position: relative;
@@ -499,23 +510,22 @@ nav.steps.step-3 { background-position: 0 -100px; }
 	border-radius: 8px;
 	overflow: hidden;
 	clear: both; }
-.event-list li a, .event-list span {	
-	color: #7d7d7d;
-	text-decoration: none;
-	width: 100%;
-	display: block; }
-.event-list li a:hover { color: #ff9933; }
-.event-list li h2 { 
+.event-list li a { 
+	color: #7D7D7D;
+	text-decoration: none; }
+.event-list li a h2 { 
 	float: left;
 	padding: 5px 0; }
-.event-list li a.event-manage, 
-.event-list li span { 
+.event-list li a h2 strong { display: block; }
+.event-list li a:hover h2 strong { 
+	color: #ff9933;
+	text-decoration: underline; }
+.event-list li a.event-manage { 
 	float: right;
-	width: auto;
-	display: inline; }
-.event-list span { padding: 5px 0; }
-.event-list li a.event-manage:hover { text-decoration: underline; }
-.event-list .button { margin: 7px 0 0; }
+	margin: 7px 0 0; }
+.event-list li a span.event-daysleft { 
+	float: right;
+	margin: 5px 0 0; }
 
 /*----- Email Options ----------*/
 .block ol {
@@ -777,9 +787,9 @@ p.user-img img {
 /*----- Network ----------*/
 ul.network li a {
 	background: none 0 0 no-repeat;
-	height: 17px;
+	height: 15px; /* 17 - 2 */
 	margin: 10px 0;
-	padding: 0 0 0 30px;
+	padding: 2px 0 0 24px;
 	display: block; }
 .network li a.icon-facebook { background-image: url(../images/icon_facebook.gif); }
 .network li a.icon-twitter { background-image: url(../images/icon_twitter.gif); }
@@ -841,7 +851,7 @@ ul.network li a {
 .buttons-send { text-align: center; }
 .buttons-create { clear: none; }
 
-.btn, .btn input, .btn span {
+.btn, .btn input, .btn span, .btn em {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	color: #fff;
@@ -853,21 +863,22 @@ ul.network li a {
 a.btn { text-decoration: none; }
 .btn input, .btn span { float: left; }
 .btn:hover { background-position: 0 100%; }
-.btn:hover span, .btn:hover input { background-position: 100% 100%; }
-.btn:focus, .btn:active { background-position: 0 0; }
-.btn:focus span, .btn:focus input,
-.btn:active span, .btn:active input { background-position: 100% 0; }
+.btn:hover span, .btn:hover input, .btn:hover em { background-position: 100% 100%; }
+.btn:focus, .btn:active, .btn.current { background-position: 0 0; }
+.btn:focus span, .btn:focus input, .btn:focus em,
+.btn:active span, .btn:active input, .btn:active em,
+.btn.current span, .btn.current input, .btn.current em { background-position: 100% 0; }
 
 .btn-manage { 
 	background-image: url(../images/btn_manage_left.png);
 	background-position: 0 -27px;
 	height: 27px;
 	padding: 0 0 0 9px; }
-.btn-manage span {
+.btn-manage span, .btn-manage em {
 	background-image: url(../images/btn_manage_right.png);
 	background-position: 100% -27px;
 	height: 21px; /* 27 - 6 */
-	padding: 6px 11px 0 0; }
+	padding: 6px 11px 0 1px; }
 .btn-small { 
 	background-image: url(../images/btn_small_left.png);
 	background-position: 0 -27px;
@@ -876,8 +887,8 @@ a.btn { text-decoration: none; }
 .btn-small span, .btn-small input {
 	background-image: url(../images/btn_small_right.png);
 	background-position: 100% -27px;
-	height: 21px; /* 27 - 6 */
-	padding: 6px 9px 0 0; }
+	height: 20px; /* 27 -7 */
+	padding: 7px 9px 0 0; }
 .btn-small input {
 	height: 27px;
 	padding: 0 9px 2px 0; }

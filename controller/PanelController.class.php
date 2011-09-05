@@ -113,22 +113,21 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	private function makeNewEvent( $newEvent ) {	
+	private function makeNewEvent( $newEvent ) {
+		$_SESSION['newEvent'] = $newEvent;
+	
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
-			$_SESSION['newEvent'] = $newEvent;
 			header("Location: " . CURHOST . "/login");
 			exit;
 		}
 		
 		EFCommon::$dbCon->createNewEvent($newEvent);
 		
-		unset($_SESSION['newEvent']);
+		$_SESSION['newEvent']->eid = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
 		
-		$eventCreated = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
-		
-		header("Location: " . CURHOST . "/event/manage/guests?eventId=" . $eventCreated->eid);
+		header("Location: " . CURHOST . "/event/create/guests");
 		exit;
 	}
 
@@ -349,10 +348,12 @@ class PanelController {
 	// Check if there's a new event session
 	// create that event if the session exist
 	private function checkCreateEventSession() {
-		if ( isset($_SESSION['newEvent']) && $this->validateEventInfo( $_SESSION['newEvent'] )) {
-			$newEvent = $_SESSION['newEvent'];
-			$newEvent->organizer = $_SESSION['user'];
-			$this->makeNewEvent( $newEvent );
+		if ( isset($_SESSION['newEvent']) && ! isset($_SESSION['newEvent']->eid) ) {
+			if ( $this->validateEventInfo( $_SESSION['newEvent'] )) {
+				$newEvent = $_SESSION['newEvent'];
+				$newEvent->organizer = $_SESSION['user'];
+				$this->makeNewEvent( $newEvent );
+			}
 		}
 	}
 	
@@ -802,8 +803,7 @@ class PanelController {
 					header("Location: " . CURHOST);
 				}
 				break;
-			case '/event/create':	
-
+			case '/event/create':
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
@@ -813,25 +813,26 @@ class PanelController {
 						if (isset($_POST['goal']) && $_POST['goal'] != "max") {
 							$event_field['goal'] = $_POST['goal'];
 						}
+					} else if ( isset($_POST['step1']) ) {
+						$newEvent = new Event(NULL, true);
+						
+						$is_valid = ( $newEvent->numErrors == 0 ) ? true : false;
+						
+						// Invalid Step 1
+						if ( ! $is_valid ) {
+							EFCommon::$smarty->assign('error', $newEvent->error);
+							$this->saveEventFields( $newEvent );
+						// Valid Step 1
+						} else {
+							// Display Step 2
+							EFCommon::$smarty->assign('step', 2);
+							EFCommon::$smarty->display('create.tpl');
+							break;
+						}
+					} else if ( isset($_SESSION['user']) ) {
+						unset($_SESSION['newEvent']);
 					}
 					
-					$newEvent = new Event(NULL);
-					
-					$error = $newEvent->check_step1();
-					$is_valid = ( $error === false ) ? true : false;
-					
-					// Invalid Step 1
-					if ( ! $is_valid ) {
-						EFCommon::$smarty->assign('error', $error);
-						$this->saveEventFields( $newEvent );
-					// Valid Step 1
-					} else {
-						// Display Step 2
-						EFCommon::$smarty->assign('step', 2);
-						EFCommon::$smarty->display('create.tpl');
-						break;
-					}
-			
 					// Display Step 1
 					EFCommon::$smarty->assign('step', 1);
 					EFCommon::$smarty->display('create.tpl');
@@ -841,12 +842,11 @@ class PanelController {
 				} else if ( isset($_POST['step2']) ) {
 					$newEvent = new Event(NULL);
 					
-					$error = $newEvent->get_errors();
-					$is_valid = ( $error === false ) ? true : false;
+					$is_valid = ( $newEvent->numErrors == 0 ) ? true : false;
 										
 					// Invalid Step 2
 					if ( ! $is_valid ) {
-						EFCommon::$smarty->assign('error', $error);
+						EFCommon::$smarty->assign('error', $newEvent->error);
 						
 						// Display Step 2
 						EFCommon::$smarty->assign('step', 2);
@@ -857,26 +857,17 @@ class PanelController {
 					} else {
 						// Display Step 3
 						$this->makeNewEvent( $newEvent );
-						EFCommon::$smarty->assign('step', 3);
-						EFCommon::$smarty->display('create.tpl');
-						break;
 					}
-				} else if ( isset($_POST['step3']) ) {
-					
 				}
 				break;
-			case '/event/manage/cancel':
-				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
-					print("Event is successfully deleted");
-					// Add successful template for event cancellation
-					break;
+			case '/event/create/guests':		
+				if ( ! isset($_SESSION['newEvent']) ) {
+					header("Location: " . CURHOST . "/event/create");
+					exit;
 				}
-				// Add an error template for the invalid host
-				print("You are not the host for this event");
-				break;
-			case '/create/guests':
+			
 				EFCommon::$mailer = new EFMail();
-				EFCommon::$smarty->assign('step2', ' class="current"');
+				EFCommon::$smarty->assign('step', 3);
 				
 				// Store created event in a new session
 				$event = $this->buildEvent($_SESSION['new_eid'], true);
@@ -887,8 +878,16 @@ class PanelController {
 					exit;
 				}
 				
-				EFCommon::$smarty->assign('submitTo', '/create/guests');
 				EFCommon::$smarty->display('create.tpl');
+				break;
+			case '/event/manage/cancel':
+				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
+					print("Event is successfully deleted");
+					// Add successful template for event cancellation
+					break;
+				}
+				// Add an error template for the invalid host
+				print("You are not the host for this event");
 				break;
 			case '/event/image/upload':
 				// list of valid extensions, ex. array("jpeg", "xml", "bmp")

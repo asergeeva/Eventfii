@@ -695,7 +695,8 @@ class DBConfig {
 								type,
 								location_lat,
 								location_long,
-								twitter
+								twitter,
+								url_alias
 						FROM	ef_events
 						WHERE	id = " . $eid;
 		return $this->executeValidQuery( $GET_EVENT );
@@ -828,6 +829,11 @@ class DBConfig {
 	
 	// DEPRECATED: Paypal
 	
+	/* getAttendeesByEvent
+	 * Grabs all the invited users to a specific event.
+	 *
+	 * @param $eid | The ID of the event
+	 */
 	public function getAttendeesByEvent($eid) {
 		$GET_ATTENDEES = "	SELECT	* 
 							FROM 	ef_attendance a, 
