@@ -23,6 +23,7 @@ var MANAGE_EVENT = ( function() {
 					isFollowup: $('#is_followup').val(),
 					eid: $('#event_id').html()
 				}, function(retval) {
+					$('#notification-box').fadeIn('slow');
 					if(retval=="Success") {
 						$('#reminder_status').html(EFGLOBAL.isSucceed);
 					} else {
@@ -42,10 +43,12 @@ var MANAGE_EVENT = ( function() {
 					reminderContent: $('#text-message').val(),
 					eid: $('#event_id').html()
 				}, function(retval) {
-					if(retval=="Success")
-					$('#reminder_status').html(EFGLOBAL.isSucceed);
-					else
-					$('#reminder_status').html(retval);
+					$('#notification-box').fadeIn('slow');
+					if(retval=="Success") {
+						$('#reminder_status').html(EFGLOBAL.isSucceed);
+					} else {
+						$('#reminder_status').html(retval);
+					}
 				});
 			});
 			
