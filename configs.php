@@ -92,3 +92,8 @@ define('WSLOGAN', 'Flake-proof your event');
 
 $smarty->assign('WTITLE', WTITLE);
 $smarty->assign('WSLOGAN', WSLOGAN);
+
+// Turn on the error reporting if this is in the debug mode
+if (DEBUG) {
+	error_reporting(E_ALL);
+}

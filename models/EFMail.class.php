@@ -38,11 +38,12 @@ class EFMail {
 	}
 	
 	public function mapText($text, $eid) {
-		$GET_EVENT_INFO = "	SELECT 	u.fname, e.title, DATE_FORMAT(e.event_datetime, '%W %M %Y %r') AS datetime 
+		$GET_EVENT_INFO = "	SELECT 	u.fname, e.organizer, e.title, DATE_FORMAT(e.event_datetime, '%W %M %Y %r') AS datetime 
 							FROM 	ef_attendance a, ef_users u, ef_events e 
 							WHERE 	a.user_id = u.id AND a.event_id = e.id AND a.event_id = " . $eid;
+		
 		$mapEventInfo = EFCommon::$dbCon->executeQuery($GET_EVENT_INFO);
-		$hostInfo = EFCommon::$dbCon->getUserInfo($mapInfo['organizer']);
+		$hostInfo = EFCommon::$dbCon->getUserInfo($mapEventInfo['organizer']);
 		for ($i = 0; $i < sizeof(EFCommon::$efDict); ++$i) {
 			switch (EFCommon::$efDict[$i]) {
 				case "{Guest name}":
