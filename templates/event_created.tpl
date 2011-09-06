@@ -15,7 +15,11 @@
 					</li>{/foreach}
 
 				</ul>{else}
-
-				<p class="message">Create your first event!</p>{/if}
+				
+				<div style="margin-left: auto; margin-right: auto; text-align: center;">
+					<p class="message">Create your first event!</p>
+					<p class="buttons buttons-create"><a href="{$CURHOST}/event/create" class="btn btn-small"><span>Create New Event</span></a></p>
+				</div>
+				{/if}
 
 			</section>

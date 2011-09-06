@@ -86,9 +86,9 @@
 			</ul>
 		</section>
 	</section>
-	<p class="extra">
+	<p class="extra" id="notyet_container">
 		<span>Not planning an event just yet?</span> 
-		<span id="notyet_container">
+		<span>
 			<input type="text" name="e-mail" value="Leave us your e-mail and we'll remind you!" class="inputbox" id="email" /> 
 			<input type="submit" name="submit" value="Send" class="submit" id="not_planning_yet" />
 		</span>

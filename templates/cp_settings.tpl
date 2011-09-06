@@ -6,7 +6,7 @@
 	{include file="cp_header.tpl"}
 	<section id="main">{if isset($responseMsg['user_success'])}
 
-		<header class="block notification">
+		<header class="block notification" style="display:none" id="notification-box">
 			<p class="message">{$responseMsg['user_success']}</p>
 		</header>{/if}
 
