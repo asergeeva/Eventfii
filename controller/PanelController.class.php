@@ -113,9 +113,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	private function makeNewEvent( $newEvent ) {
-		$_SESSION['newEvent'] = $newEvent;
-	
+	private function makeNewEvent( $newEvent ) {	
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
@@ -125,7 +123,7 @@ class PanelController {
 		
 		EFCommon::$dbCon->createNewEvent($newEvent);
 		
-		$_SESSION['newEvent']->eid = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
+		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
 		
 		header("Location: " . CURHOST . "/event/create/guests");
 		exit;
@@ -870,14 +868,16 @@ class PanelController {
 				EFCommon::$smarty->assign('step', 3);
 				
 				// Store created event in a new session
-				$event = $this->buildEvent($_SESSION['new_eid'], true);
 				
 				if (isset($_POST['submit'])) {
 					$event->submitGuests();
-					header("Location: " . CURHOST . "/event/manage?eventId=".$_SESSION['new_eid']);
+					header("Location: " . CURHOST . "/event/manage?eventId=".$_SESSION['newEvent']->eid);
 					exit;
 				}
 				
+				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
+				EFCommon::$smarty->assign('fbSubmit', '/event/create/guests?tab=fb');
+				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$_SESSION['newEvent']->eid);
 				EFCommon::$smarty->display('create.tpl');
 				break;
 			case '/event/manage/cancel':
@@ -1069,6 +1069,7 @@ class PanelController {
 				}
 				
 				EFCommon::$smarty->assign('event', $event);
+				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&tab=fb");
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;

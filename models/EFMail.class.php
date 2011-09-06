@@ -296,7 +296,7 @@ class EFMail {
 					    "Content-Type: text/html;charset=UTF-8\n".    
 					    "From: ".$this->FROM."\n".
 					    "To: ".$event->guests[$i]->email."\n".
-					    "Subject: ".$event->organizer->fname." are invited to ".$event->title."\n".
+					    "Subject: ".$event->organizer->fname." invited you to ".$event->title."\n".
 					    "\n".$htmlEmail->saveXML();
 					
 					if (ENABLE_EMAIL) {

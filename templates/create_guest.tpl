@@ -1,31 +1,41 @@
 <section class="block">
 			<nav class="horizontal-nav">
 				<ul>
-					<li><a href="{$CURHOST}/event/create/guests?tab=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.tab) || $smarty.get.tab == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>
-					<li><a href="{$CURHOST}/event/create/guests?tab=manual" class="btn btn-manage{if $smarty.get.tab == 'manual'} current{/if}"><span>Manually Add</span></a></li>
-					<li><a href="{$CURHOST}/event/create/guests?tab=fb" class="btn btn-manage{if $smarty.get.tab == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
-					<li><a href="{$CURHOST}/event/create/guests?tab=csv" class="btn btn-manage{if $smarty.get.tab == 'csv'} current{/if}"><span>Import CSV</span></a></li>
-					<li><a href="{$CURHOST}/event/create/guests?tab=import" class="btn btn-manage{if $smarty.get.tab == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
+					<li><a href="#truersvp" class="btn btn-manage event_invite_oi{if ! isset($smarty.get.tab) || $smarty.get.tab == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>
+					<li><a href="{$CURHOST}{$fbSubmit}" class="btn btn-manage{if $smarty.get.tab == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
+					<li><a href="#" class="btn btn-manage{if $smarty.get.tab == 'csv'} current{/if}" id="csv_upload"><span>Import CSV</span></a></li>
+					<li><a href="#gmail" class="btn btn-manage event_invite_oi{if $smarty.get.tab == 'import'} current{/if}"><span>Gmail Import</span></a></li>
+					<li><a href="#yahoo" class="btn btn-manage event_invite_oi{if $smarty.get.tab == 'import'} current{/if}"><span>Yahoo Import</span></a></li>
 				</ul>
-			</nav>{if ! isset($smarty.get.tab) || $smarty.get.tab == 'trueRSVP'}
-
-			<div class="block notification">
-				<p class="message">Not implemented yet, sorry.</p>
-			</div>{elseif $smarty.get.tab == 'manual'}
-
-			<form method="post" action="{$CURHOST}/event/create/guests?tab=trueRSVP">
-			<fieldset>
-				
-			</fieldset>
-			</form>{elseif $smarty.get.tab == 'fb'}
-
-			{elseif $smarty.get.tab == 'csv'}
-
-			{else}
-
-			<div class="block notification">
-				<p class="message">Not implemented yet, sorry.</p>
-			</div>{/if}
+			</nav>
+			
+			<div id="oi_logo"></div>
+			<div id="oi_container">
+			{if $smarty.get.tab eq 'fb'}
+				<fb:serverFbml>
+			    <script type="text/fbml">
+			      <fb:fbml>
+			          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$CURHOST}/event/a/{$event->alias}' label='Accept' />">
+					  <fb:multi-friend-selector showborder="false" actiontext="Invite to {$event->title}" cols="3" max="35">
+			        </fb:request-form>
+			      </fb:fbml>
+			    </script>
+				</fb:serverFbml>
+				<div id="fb-root"></div>
+				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+				<fb:send href="{$EVENT_URL}/{$smarty.session.manage_event->eid}"></fb:send>
+			{/if}
+			</div>
+			
+			<form method="post" action="{$CURHOST}{$submitTo}">
+			<label for="emails">
+				<span>Enter e-mails separated by a comma</span>
+				<textarea class="inputbox autowidth" id="emails" name="emails" /></textarea>
+			</label>
+			<footer class="buttons buttons-submit">
+				<p><span class="btn btn-med"><input type="submit" name="submit" value="Done" /></span></p>
+			</footer>
+			</form>
 		</section>
 		{include file="manage_invites.tpl"}
 

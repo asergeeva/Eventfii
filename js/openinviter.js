@@ -10,7 +10,7 @@ var OPENINVITER = (function() {
 	jQuery.expr[':'].Contains = function(a,i,m){
 	  return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
 	};
-
+	
 	// OPENINVITER EMAIL PROVIDER
 	$('.event_invite_oi').live('click', function() {
 		$('#oi_container').html(EFGLOBAL.ajaxLoader);

@@ -20,7 +20,6 @@
 				<p class="message">Make changes to your event here.</p>
 			</header>
 			{include file="create_guest.tpl"}
-			{include file="manage_invites.tpl"}
 		</div>
 	</section>
 </div>
