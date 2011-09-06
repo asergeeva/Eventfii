@@ -523,7 +523,16 @@ class Event {
 		$this->time = $event_time[0] . ":" . $event_time[1];
 
 		$this->friendly_date = ( isset($eventInfo['friendly_event_date']) ) ? $eventInfo['friendly_event_date'] : NULL;
-		$this->friendly_time = ( isset($eventInfo['friendly_event_time']) ) ? $eventInfo['friendly_event_time'] : NULL;
+		if ( isset($eventInfo['friendly_event_time']) ) {
+			$friendly_event_time = explode(" ", $eventInfo['friendly_event_time']);
+			
+			$friendly_event_mid = $friendly_event_time[1];
+			$friendly_event_time = explode(":", $friendly_event_time[0]);
+			
+			$this->friendly_time = $friendly_event_time[0].":".$friendly_event_time[1]." ".$friendly_event_mid;
+		} else {
+			$this->friendly_time = NULL;
+		}
 
 		// If end time...
 		if ( strlen($eventInfo['event_end_datetime']) != 0 ) {

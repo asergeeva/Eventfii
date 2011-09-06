@@ -11,7 +11,7 @@ define('DB_USER', 'glaksmono');
 define('DB_PASS', '12345');
 define('DB_NAME', 'eventfii');
 define('DEBUG', true);
-define('ENABLE_EMAIL', false);
+define('ENABLE_EMAIL', true);
 
 define('PATH', '/Eventfii');
 define('CURHOST', 'https://localhost'.PATH);
