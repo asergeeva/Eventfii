@@ -21,4 +21,6 @@ define('FB_APP_SECRET', '2416d6b193a5c135c2c850b02a4dba78');
 
 define('GOOGLE_MAPS_API', 'ABQIAAAAYw9IaNOSbAwS1vK0gtJ__xT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRy3n3lZ15FCAqVglN8_EtnpZDXbg');
 
+define('TWITTER_API', 'NdOFEfRSe5BNdveGsWBIpg');
+
 define('ALL_REPORTING', false);

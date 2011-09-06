@@ -1526,7 +1526,8 @@ class PanelController {
 			case '/service/autocomplete':
 				break;
 			case '/twitter/update':
-				$responseMsg['user_success'] = "Your Twitter account is now connected."
+				$responseMsg['user_success'] = "Your Twitter account is now connected.";
+				EFCommon::$smarty->assign('responseMsg', $responseMsg);
 				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);

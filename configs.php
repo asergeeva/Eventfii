@@ -32,6 +32,7 @@ define('LAUNCH_PAGE', CURHOST.'/launch');
 
 $smarty->assign('CURHOST', CURHOST);
 $smarty->assign('FB_APP_ID', FB_APP_ID);
+$smarty->assign('TWITTER_API', TWITTER_API);
 $smarty->assign('IMG_PATH', IMG_PATH);
 $smarty->assign('IMG_UPLOAD', IMG_UPLOAD);
 $smarty->assign('CSV_UPLOAD', CSV_UPLOAD);
