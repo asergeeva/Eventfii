@@ -4,11 +4,10 @@
 {include file="header.tpl"}
 <div id="container">
 	{include file="cp_header.tpl"}
-	<section id="main">{if isset($responseMsg['user_success'])}
-
-		<header class="block notification" style="display:none" id="notification-box">
+	<section id="main">
+		<header class="block notification" {if !isset($responseMsg['user_success'])}style="display:none"{/if} id="notification-box">
 			<p class="message">{$responseMsg['user_success']}</p>
-		</header>{/if}
+		</header>
 
 		{include file="cp_user.tpl"}
 		<div class="content">

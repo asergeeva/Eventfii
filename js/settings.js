@@ -37,6 +37,8 @@ var EF_SETTINGS = (function() {
 						fbid: userInfo.id
 					}, function() {
 						$('#user_fbid').html(userInfo.id);
+						$('#notification-box p.message').html("Facebook account is now connected");
+						$('#notification-box').fadeIn('slow');
 					});
 				}
 			});
