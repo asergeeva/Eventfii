@@ -408,6 +408,9 @@ class DBConfig {
 	
 	public function dateToSql($date) {
 		$dateElem = explode("/", $date);
+		if ($dateElem[1] == "" || $dateElem[2] == "" || $dateElem[0] == "") {
+			return "";
+		}
 		return $dateElem[2]."-".$dateElem[0]."-".$dateElem[1];
 	}
 	
@@ -462,7 +465,7 @@ class DBConfig {
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
 						 " .$this->checkNullOrValSql($end_datetime).",
-						'" . mysql_real_escape_string($sqlDeadline) . "',
+						 " .$this->checkNullOrValSql($sqlDeadline) . ",
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . $newEvent->is_public . ",
 						" . $newEvent->type . ",

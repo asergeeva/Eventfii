@@ -200,17 +200,14 @@
 						<footer class="buttons buttons-submit">
 							<input type="hidden" name="title" value="{$smarty.post.title}" />
 							<input type="hidden" name="description" value="{$smarty.post.description}" />
-							<input type="hidden" name="type" value="{$smarty.post.type}" />{if isset($smarty.post.location)}
-
-							<input type="hidden" name="location" value="{$smarty.post.location}" />{/if}
-
+							<input type="hidden" name="type" value="{$smarty.post.type}" />
+							{if isset($smarty.post.location)}<input type="hidden" name="location" value="{$smarty.post.location}" />{/if}
 							<input type="hidden" name="address" value="{$smarty.post.address}" />
 							<input type="hidden" name="date" value="{$smarty.post.date}" />
-							<input type="hidden" name="time" value="{$smarty.post.time}" />{if isset($smarty.post.end_date)}
-
-							<input type="hidden" name="end_date" value="{$smarty.post.end_date}" />{/if}{if isset($smarty.post.end_time)}
-
-							<input type="hidden" name="end_time" value="{$smarty.post.end_time}" />{/if}
+							<input type="hidden" name="time" value="{$smarty.post.time}" />
+							{if isset($smarty.post.end_date)}<input type="hidden" name="end_date" value="{$smarty.post.end_date}" />{/if}
+							{if isset($smarty.post.end_time)}<input type="hidden" name="end_time" value="{$smarty.post.end_time}" />{/if}
+							{if isset($smarty.post.deadline)}<input type="hidden" name="deadline" value="{$smarty.post.deadline}" />{/if}
 
 							<p><span class="btn btn-med"><input type="submit" name="step2" value="Next" /></span></p> 
 						</footer> 

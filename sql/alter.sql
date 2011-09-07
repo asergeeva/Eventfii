@@ -9,3 +9,4 @@ ALTER TABLE ef_events MODIFY event_deadline DATE;
 ALTER TABLE ef_events MODIFY is_active TINYINT(1) NOT NULL DEFAULT 1;
 ALTER TABLE ef_events MODIFY reach_goal TINYINT(1) NOT NULL DEFAULT 1;
 ALTER TABLE ef_events MODIFY description VARCHAR(5000) NOT NULL;
+
