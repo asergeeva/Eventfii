@@ -128,10 +128,10 @@ class APIController {
 				$hostingEvents = $this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id);				
 				for($i=0; $i < count($hostingEvents); $i++)
 				{
-					$hostingEvents[$i]['score'] = $this->efCore->getTrueRSVP($hostingEvents[$i]->id);
+					$hostingEvents[$i]['score'] = $this->efCore->getTrueRSVP($hostingEvents[$i]['id']);
+					$hostingEvents[$i]['guestList'] = $this->dbCon->m_getGuestListByEvent($hostingEvents[$i]['id']);
 				}
 				echo json_encode($hostingEvents);
-				break;
 			case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
 				break; 
