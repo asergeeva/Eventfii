@@ -125,7 +125,12 @@ class APIController {
 				echo json_encode($this->dbCon->m_eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
 				break;
 			case 'getHostingEvents':
-				echo json_encode($this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id));				
+				$hostingEvents = $this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id);				
+				for($i=0; $i < count($hostingEvents); $i++)
+				{
+					$hostingEvents[$i]['score'] = $this->efCore->getTrueRSVP($hostingEvents[$i]->id);
+				}
+				echo json_encode($hostingEvents);
 				break;
 			case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
