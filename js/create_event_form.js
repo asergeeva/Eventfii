@@ -130,7 +130,7 @@ var CREATE_EVENT_FORM = (function() {
 			});
 			
 			$('#title').focus();
-			$('#date').datepicker();
+			$('#date').datepicker({altField: '#deadline'});
 			$('#end_date').datepicker();
 			$('#deadline').datepicker();
 			

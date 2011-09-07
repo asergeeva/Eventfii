@@ -867,14 +867,6 @@ class PanelController {
 				EFCommon::$mailer = new EFMail();
 				EFCommon::$smarty->assign('step', 3);
 				
-				// Store created event in a new session
-				
-				if (isset($_POST['submit'])) {
-					$event->submitGuests();
-					header("Location: " . CURHOST . "/event/manage?eventId=".$_SESSION['newEvent']->eid);
-					exit;
-				}
-				
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
 				EFCommon::$smarty->assign('fbSubmit', '/event/create/guests?tab=fb');
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$_SESSION['newEvent']->eid);

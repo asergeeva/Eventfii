@@ -302,7 +302,7 @@ class Event {
 		
 		$this->time = $time;
 		
-		if( is_null($this->time) ) {
+		if( $this->time == 0) {
 			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
 			$this->numErrors++;
 		}
@@ -408,12 +408,6 @@ class Event {
 		}
 		
 		$this->deadline = $deadline;
-	
-		// Optional
-		if ( strlen($this->deadline) == 0 ) {
-			$this->deadline = NULL;
-			return;
-		}
 		
 		$event_deadline = explode('/', $this->deadline);
 		$month = $event_deadline[0];
@@ -599,7 +593,7 @@ class Event {
 		$guest_array = EFCommon::$dbCon->getAttendeesByEvent($this->eid);
 		if ( sizeof($guest_array) > 0 ) {
 			foreach ( $guest_array as $guest ) {
-				$this->guests[] = new AbstractUser($guest);
+				$this->addGuestEmail($guest['email']);
 			}
 		}
 	}
@@ -675,24 +669,24 @@ class Event {
 	public function submitGuests() {
 		$csvFile = CSV_UPLOAD_PATH . '/' . $this->eid . '.csv';
 		
-		$numGuests = 0;
+		$newGuests = 0;
 		
 		// text area check
 		if (trim($_POST['emails']) != "") {
-			$numGuests = $this->setGuests($_POST['emails']);		
+			$newGuests = $this->setGuests($_POST['emails']);		
 		// CSV file check
 		} else if (file_exists($csvFile)) {
-			$numGuests = $this->setGuestsFromCSV($csvFile);
+			$newGuests = $this->setGuestsFromCSV($csvFile);
 		}
 		
 		// Send the email invites
-		EFCommon::$mailer->sendHtmlInvite($this);
+		EFCommon::$mailer->sendHtmlInvite($this, $newGuests);
 		
-		if ( $numGuests == 0 ) {
+		if ( sizeof($newGuests) == 0 ) {
 			return "No guests added.";
 		} else {
-			$plural_guest = ($numGuests == 1) ? "guest" : "guests";
-			return $numGuests . " " . $plural_guest . " added successfully";
+			$plural_guest = (sizeof($newGuests) == 1) ? "guest" : "guests";
+			return sizeof($newGuests) . " " . $plural_guest . " added successfully";
 		}
 	}
 	
@@ -731,10 +725,10 @@ class Event {
 		
 		if ( isset($addGuest) ) {
 			EFCommon::$dbCon->storeGuests($addGuest, $this->eid, $_SESSION['user']->id);
-			return sizeof($addGuest);
 		} else {
 			return 0;
 		}
+		return $addGuest;
 	}
 	
 	/**
@@ -768,7 +762,7 @@ class Event {
 		
 		if (sizeof($csv_contacts) > 0) {
 			EFCommon::$dbCon->storeGuests($csv_contacts, $this->eid, $_SESSION['user']->id);
-			return sizeof($csv_contacts);
+			return $csv_contacts;
 		}
 		return 0;
 	}

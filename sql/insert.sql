@@ -10,7 +10,6 @@ INSERT INTO ef_recipient_groups (name) VALUES ('Pretty sure, 50/50, Not likely')
 INSERT INTO ef_recipient_groups (name) VALUES ('Not Attending');
 INSERT INTO ef_recipient_groups (name) VALUES ('No Response Yet');
 
-
 -- Event types --
 -- Personal --
 INSERT INTO ef_event_type (name) VALUES ('Birthday');

@@ -92,7 +92,7 @@
 
 								</dd>
 								<dt>
-									<label for="deadline">Deadline to sign up</label> 
+									<label for="deadline">Deadline to sign up*</label> 
 									<em>Last day for anyone to reserve a spot</em>
 								</dt>
 								<dd>

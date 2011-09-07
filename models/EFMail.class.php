@@ -262,25 +262,25 @@ class EFMail {
 	 * $event     Event  the event object
 	 * We don't need transactions
 	 */
-	public function sendHtmlInvite($event) {
+	public function sendHtmlInvite($event, $newGuests) {
 		$htmlStr = file_get_contents(realpath(dirname(__FILE__))."/../templates/email/".$this->templates['invite']);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
 		$htmlEmail->loadXML($htmlStr);
 		
-		for ($i = 0; $i < sizeof($event->guests); ++$i) {
-			if ($event->guests[$i]->email != $_SESSION['user']->email) {
-				if (trim($event->guests[$i]->email) !== "") {		
-					$hash_key = md5($event->guests[$i]->email."-".$event->eid ."-". time());
+		for ($i = 0; $i < sizeof($newGuests); ++$i) {
+			if ($newGuests[$i] != $_SESSION['user']->email) {
+				if (trim($newGuests[$i]) !== "") {		
+					$hash_key = md5($newGuests[$i]."-".$event->eid ."-". time());
 							
-					EFCommon::$dbCon->createNewUser( NULL, NULL, $event->guests[$i]->email, NULL, NULL, NULL );
-					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($event->guests[$i]->email);
+					EFCommon::$dbCon->createNewUser( NULL, NULL, $newGuests[$i], NULL, NULL, NULL );
+					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($newGuests[$i]);
 		
 					$this->mapEventHtml($htmlEmail, $event, "?ref=".$hash_key);
 									
 					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
-										VALUES ('" . $hash_key . "', '" . $event->guests[$i]->email . "', " . $event->eid . ")";
+										VALUES ('" . $hash_key . "', '" . $newGuests[$i] . "', " . $event->eid . ")";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 					
 					$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
@@ -294,13 +294,13 @@ class EFMail {
 					    "X-Priority: 1 (Highest)\n".
 					    "X-Mailgun-Tag: truersvp\n".
 					    "Content-Type: text/html;charset=UTF-8\n".    
-					    "From: ".$this->FROM."\n".
-					    "To: ".$event->guests[$i]->email."\n".
+					    "From: ".$event->organizer->fname." ".$event->organizer->lname." <".$event->organizer->email.">\n".
+					    "To: ".$newGuests[$i]."\n".
 					    "Subject: ".$event->organizer->fname." invited you to ".$event->title."\n".
 					    "\n".$htmlEmail->saveXML();
 					
 					if (ENABLE_EMAIL) {
-						MailgunMessage::send_raw($this->FROM, $event->guests[$i]->email, $rawMime);
+						MailgunMessage::send_raw($this->FROM, $newGuests[$i], $rawMime);
 					}
 				}
 			}
