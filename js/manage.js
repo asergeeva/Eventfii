@@ -8,7 +8,9 @@
  *		- tinySort: http://tinysort.sjeiti.com/#usage
  */
 var MANAGE_EVENT = ( function() {
-	var _isAsc = true;
+	var _isAsc = true,
+		_maxTextChar = 135,
+		_curTextMessage = '';
 	
 	return {
 		init: function() {
@@ -85,6 +87,16 @@ var MANAGE_EVENT = ( function() {
 					'guestId': this.value.split('_')[1],
 					'eventId': this.value.split('_')[2]
 				});
+			});
+			
+			
+			$('#text-message').keyup(function() {
+				if ($('#text-message').val().length <= _maxTextChar) {
+					$('#character-count').html(_maxTextChar - $('#text-message').val().length);
+					_curTextMessage = $('#text-message').val();
+				} else {
+					$('#text-message').val(_curTextMessage);
+				}
 			});
 		}
 	}

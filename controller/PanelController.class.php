@@ -358,7 +358,9 @@ class PanelController {
 	private function getRedirectUrl() {
 		if (isset($_SESSION['ref'])) {
 			$inviteReference = EFCommon::$dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
-			$url = CURHOST."/event/".$inviteReference['event_id'];
+			if (is_numeric($inviteReference['event_id'])) {
+				$url = CURHOST."/event/".$inviteReference['event_id'];
+			}
 			unset($_SESSION['ref']);
 		} else {	
 			switch ($_GET['redirect']) {
