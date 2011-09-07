@@ -57,18 +57,14 @@ class DBAPI extends DBConfig {
 						FROM (
 								SELECT 	e.id, 
 										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
-										e.created, 
 										e.organizer,
 										e.title, 
-										e.goal, 
 										e.location_address, 
 										e.location_lat,
 										e.location_long,
 										e.event_datetime, 
-										e.event_deadline, 
 										e.twitter,
 										e.description, 
-										e.is_public,
 										a.is_attending,
 										a.confidence,
 										u.email
@@ -89,7 +85,11 @@ class DBAPI extends DBConfig {
 	
 	public function m_getGuestListByEvent($eid) 
 	{
-		$GET_ATTENDEES = "	SELECT	* 
+		$GET_ATTENDEES = "	SELECT	a.confidence,
+									u.id,
+									u.fname,
+									u.lname,
+									u.email
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
