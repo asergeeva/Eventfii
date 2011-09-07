@@ -91,8 +91,8 @@ var MANAGE_EVENT = ( function() {
 			
 			
 			$('#text-message').keyup(function() {
-				if ($('#text-message').val().length <= _maxTextChar) {
-					$('#character-count').html(_maxTextChar - $('#text-message').val().length);
+				if (_curTextMessage.length <= _maxTextChar) {
+					$('#character-count').html(_maxTextChar - _curTextMessage.length);
 					_curTextMessage = $('#text-message').val();
 				} else {
 					$('#text-message').val(_curTextMessage);
