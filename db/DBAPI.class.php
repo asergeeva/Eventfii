@@ -67,7 +67,9 @@ class DBAPI extends DBConfig {
 										e.event_datetime, 
 										e.event_deadline, 
 										e.twitter,
-										e.description, e.is_public 
+										e.description, 
+										e.is_public,
+										a.is_attending
 								FROM 	ef_attendance a, 
 										ef_events e 
 								WHERE 	a.event_id = e.id AND a.user_id = ".$uid."
