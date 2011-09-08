@@ -12,3 +12,7 @@ ALTER TABLE ef_events MODIFY description VARCHAR(5000) NOT NULL;
 
 -- 9/6/2011 --
 ALTER TABLE ef_events MODIFY event_deadline DATE NOT NULL;
+
+-- 9/7/2011 --
+ALTER TABLE ef_events ADD COLUMN global_ref VARCHAR(500) NOT NULL;
+UPDATE ef_events SET global_ref = MD5('global-event-' + id);

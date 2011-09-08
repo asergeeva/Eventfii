@@ -58,7 +58,8 @@ CREATE TABLE ef_events (
   is_active           TINYINT(1) NOT NULL DEFAULT 1,
   reach_goal          TINYINT(1) NOT NULL DEFAULT 1,
   twitter             VARCHAR(155),
-  url_alias           VARCHAR(250) UNIQUE
+  url_alias           VARCHAR(250) UNIQUE,
+  global_ref          VARCHAR(500) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE fb_friends (

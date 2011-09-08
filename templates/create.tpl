@@ -150,7 +150,7 @@
 
 							</dd>
 							<dt>
-								<label for="description">Event Details</label> 
+								<label for="description">Event Details<span>*</span></label> 
 							</dt>
 							<dd{if isset($error.desc)} class="error"{/if}>
 								<textarea name="description" class="inputbox{if ! isset($event_field.description)} default{/if}" id="description">{if isset($event_field.description)}{$event_field.description}{else}What should your guests know?{/if}</textarea>{if isset($error.desc)}

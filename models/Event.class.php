@@ -38,6 +38,8 @@ class Event {
 	public $type;
 	public $location_lat;
 	public $location_long;
+	public $global_ref;
+	
 	public $guests = array();
 	public $guest_emails = array();
 	
@@ -62,6 +64,7 @@ class Event {
 			$this->set_end_date(NULL);
 			$this->set_end_time(NULL);
 			$this->set_goal(NULL);
+			$this->global_ref = NULL;
 			
 			// For event creation some fields aren't checked
 			// until step 2. Keep those out of the validation loop.
@@ -557,6 +560,7 @@ class Event {
 		$this->reach_goal = $eventInfo['reach_goal'];
 		$this->is_public = $eventInfo['is_public'];
 		$this->twitter = $eventInfo['twitter'];
+		$this->global_ref = $eventInfo['global_ref'];
 	}
 	
 	// GOING TO BE REMOVED WHEN SMART ASSIGNMENTS ARE
@@ -587,6 +591,7 @@ class Event {
 		$eventInfo['location_long'] = $this->location_long;
 		$eventInfo['twitter'] = $this->twitter;
 		$eventInfo['alias'] = $this->alias;
+		$eventInfo['global_ref'] = $this->global_ref;
 		
 		return $eventInfo;
 	}
@@ -613,6 +618,15 @@ class Event {
 		if ( $this->is_public ) 
 			return true;
 	
+		if ( isset($_GET['gref'])) {
+			$grefEvent = EFCommon::$dbCon->isValidGlobalRef($_GET['gref']);
+			if (is_array($grefEvent)) {
+				$_SESSION['gref'] = new Event($grefEvent);
+				return true;
+			}
+			return false;
+		}
+	
 		if ( $userId == NULL ) {
 			if ( isset($_SESSION['user']) ) {
 				$userId = $_SESSION['user']->id;
@@ -630,7 +644,7 @@ class Event {
 			
 		if ( $this->is_guest($userId) )
 			return true;
-			
+		
 		return false;
 	}
 	
@@ -687,7 +701,7 @@ class Event {
 		// Send the email invites
 		EFCommon::$mailer->sendHtmlInvite($this, $newGuests);
 		
-		if ( sizeof($newGuests) == 0 ) {
+		if ( $newGuests == 0 ) {
 			return "No guests added.";
 		} else {
 			$plural_guest = (sizeof($newGuests) == 1) ? "guest" : "guests";

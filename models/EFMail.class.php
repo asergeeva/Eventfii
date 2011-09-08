@@ -277,15 +277,14 @@ class EFMail {
 					EFCommon::$dbCon->createNewUser( NULL, NULL, $newGuests[$i], NULL, NULL, NULL );
 					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($newGuests[$i]);
 		
-					$this->mapEventHtml($htmlEmail, $event, "?ref=".$hash_key);
+					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref);
 									
 					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 										VALUES ('" . $hash_key . "', '" . $newGuests[$i] . "', " . $event->eid . ")";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 					
-					$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
-												VALUES (" . $event->eid . ", " . $insertedUser['id'] . ")";
-					EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+					EFCommon::$dbCon->recordUnconfirmedAttendance($event, $insertedUser['id']);
+					
 					$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
 										VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ", '".$insertedUser['email']."')";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);

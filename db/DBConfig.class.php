@@ -289,6 +289,12 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
+	public function recordUnconfirmedAttendance($event, $userId) {
+		$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
+									VALUES (" . $event->eid . ", " . $userId . ")";
+		EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
+	}
+	
 	/**
 	 * Create a new user
 	 */
@@ -305,6 +311,8 @@ class DBConfig {
 			$this->saveFBFriends($fbFriends['data'], $_SESSION['fb']->id);
 		}
 		
+		$newUser = NULL;
+		
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, 
@@ -320,23 +328,27 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($session_key).",
 									   '".dechex(USER_ALIAS_OFFSET + $this->getNextUserId())."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
-			return $this->getUserInfoByEmail($email);
+			$newUser = $this->getUserInfoByEmail($email);
 			
 		// Update the reference
 		// The implementation is the same as without reference
 		// Future: may be we want to give credits to the inviter
 		} else if ( isset($_SESSION['ref']) && $this->isUserRegistered($this->getReferenceEmail($_SESSION['ref']))) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $this->getReferenceEmail($_SESSION['ref']));
-			return $this->getUserInfoByEmail($email);
+			$newUser = $this->getUserInfoByEmail($email);
 		} else if (isset($_SESSION['fb']) && $this->isUserRegistered($_SESSION['fb']->email)) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['fb']->email);
-			return $this->getUserInfoByEmail($email);
+			$newUser = $this->getUserInfoByEmail($email);
 		} else if ($this->isUserRegistered($email)) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email);
-			return $this->getUserInfoByEmail($email); 
+			$newUser = $this->getUserInfoByEmail($email); 
 		}
 		
-		return NULL;
+		if (isset($newUser) && isset($_SESSION['gref'])) {
+			$this->recordUnconfirmedAttendance($_SESSION['gref'], $newUser['id']);
+		}
+		
+		return $newUser;
 	}
 	
 	public function facebookAdd($fbid) {
@@ -454,7 +466,8 @@ class DBConfig {
 							location_lat,
 							location_long,
 							twitter,
-							url_alias
+							url_alias,
+							global_ref
 						) 
 			VALUES (	NOW(), 
 						" . mysql_real_escape_string($newEvent->organizer->id) . ",
@@ -472,7 +485,8 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						'" . dechex(EVENT_ALIAS_OFFSET + $this->getNextEventId()) . "'
+						'" . dechex(EVENT_ALIAS_OFFSET + $this->getNextEventId()) . "',
+						'" . md5('global-event-'.$this->getNextEventId()) . "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
@@ -668,6 +682,20 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
+	/**
+	 * Check whether this is a valid global reference to an event
+	 * @param $gref  String   reference string to an event (unique for each event)
+	 *
+	 * @return Array of event DB if it's valid global reference
+	 */
+	public function isValidGlobalRef($gref) {
+		$GREF_CHECK = "SELECT * FROM ef_events WHERE global_ref = '".$gref."'";
+		if ($this->getRowNum($GREF_CHECK) == 0) {
+			return false;
+		}
+		return $this->executeQuery($GREF_CHECK);
+	}
+	
 	/* getEventInfo
 	 * Grabs information about an event with the given
 	 * event ID from the Database.
@@ -694,7 +722,8 @@ class DBConfig {
 								location_lat,
 								location_long,
 								twitter,
-								url_alias
+								url_alias,
+								global_ref
 						FROM	ef_events
 						WHERE	id = " . $eid;
 		return $this->executeValidQuery( $GET_EVENT );

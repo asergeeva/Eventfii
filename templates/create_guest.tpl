@@ -15,7 +15,7 @@
 				<fb:serverFbml>
 			    <script type="text/fbml">
 			      <fb:fbml>
-			          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$CURHOST}/event/a/{$event->alias}' label='Accept' />">
+			          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}' label='Accept' />">
 					  <fb:multi-friend-selector showborder="false" actiontext="Invite to {$event->title}" cols="3" max="35">
 			        </fb:request-form>
 			      </fb:fbml>
@@ -23,7 +23,7 @@
 				</fb:serverFbml>
 				<div id="fb-root"></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-				<fb:send href="{$EVENT_URL}/{$smarty.session.manage_event->eid}"></fb:send>
+				<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>
 			{/if}
 			</div>
 			

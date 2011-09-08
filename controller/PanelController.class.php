@@ -1065,7 +1065,7 @@ class PanelController {
 				}
 				
 				EFCommon::$smarty->assign('event', $event);
-				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&tab=fb");
+				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&tab=fb&gref=".$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
