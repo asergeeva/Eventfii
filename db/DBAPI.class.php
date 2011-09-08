@@ -89,7 +89,8 @@ class DBAPI extends DBConfig {
 									u.id,
 									u.fname,
 									u.lname,
-									u.email
+									u.email,
+									a.is_attending
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
