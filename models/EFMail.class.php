@@ -185,7 +185,7 @@ class EFMail {
 		    "Content-Type: text/html;charset=UTF-8\n".    
 		    "From: ".$this->FROM."\n".
 		    "To: ".$guest->email."\n".
-		    "Subject: ".EFCommon::mapText($subject, $event, $guest)."\n".
+		    "Subject: ".stripslashes(EFCommon::mapText($subject, $event, $guest))."\n".
 		    "\n".$htmlEmail->saveXML();
 		
 		if (ENABLE_EMAIL) {
@@ -217,7 +217,7 @@ class EFMail {
 			    "Content-Type: text/html;charset=UTF-8\n".    
 			    "From: ".$this->FROM."\n".
 			    "To: ".$event->guests[$i]->email."\n".
-			    "Subject: ".EFCommon::mapText($subject, $event, $event->guests[$i])."\n".
+			    "Subject: ".stripslashes(EFCommon::mapText($subject, $event, $event->guests[$i]))."\n".
 			    "\n".$htmlEmail->saveXML();
 			
 			if (ENABLE_EMAIL) {
@@ -250,7 +250,7 @@ class EFMail {
 		    "Content-Type: text/html;charset=UTF-8\n".    
 		    "From: ".$this->FROM."\n".
 		    "To: ".$guest->email."\n".
-		    "Subject: ".EFCommon::mapText($subject, $event, $guest)."\n".
+		    "Subject: ".stripslashes(EFCommon::mapText($subject, $event, $guest))."\n".
 		    "\n".$htmlEmail->saveXML();
 		
 		if (ENABLE_EMAIL) {
@@ -296,7 +296,7 @@ class EFMail {
 					    "Content-Type: text/html;charset=UTF-8\n".    
 					    "From: ".$event->organizer->fname." ".$event->organizer->lname." <".$event->organizer->email.">\n".
 					    "To: ".$newGuests[$i]."\n".
-					    "Subject: ".$event->organizer->fname." invited you to ".$event->title."\n".
+					    "Subject: ".stripslashes($event->organizer->fname)." invited you to ".stripslashes($event->title)."\n".
 					    "\n".$htmlEmail->saveXML();
 					
 					if (ENABLE_EMAIL) {
