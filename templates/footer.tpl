@@ -4,7 +4,7 @@
 			<span>Learn</span>
 			<ul>
 				<li><a href="{$CURHOST}/method">How do we work?</a></li>
-				<li><a href="{$CURHOST}/press">Press</a></li>
+				<li><a href="{$CURHOST}/media">Media</a></li>
 			</ul>
 		</li>
 		<li>

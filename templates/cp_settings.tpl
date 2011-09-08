@@ -52,7 +52,7 @@
 					</label>
 				</fieldset>
 				<header class="block-title">
-					<h1>Social Network</h1>
+					<h1>Connect with Social Networks</h1>
 				</header>
 				<fieldset>
 					<label for="twitter" class="autowidth">
