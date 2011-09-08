@@ -119,6 +119,13 @@ var CREATE_EVENT_FORM = (function() {
 				return false;
 			});
 			
+			$('#add-location').click( function() {
+				$(this).fadeOut(0);
+				$('#add-location-name-title').fadeIn(500);
+				$('#add-location-name').fadeIn(500);
+				return false;
+			});
+			
 			// broken with datepicker
 			// $('#date').focusout( function() {
 			$('#time').click( function() {

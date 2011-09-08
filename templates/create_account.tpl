@@ -23,7 +23,7 @@
 
 					<p>{$smarty.session.user->email}</p>{else}
 
-					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox autowidth{if isset($smarty.session.fb->email)} input-facebook{/if}" id="ef_login_email_new" />{/if}
+					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->email)} input-facebook{/if}" id="ef_login_email_new" />{/if}
 
 				</div>{if isset($user_create_email)}
 
@@ -34,7 +34,7 @@
 			<label for="ef_login_pass_new">
 				<strong>Password</strong> 
 				<div>
-					<input type="password" class="inputbox autowidth" name="pass" id="ef_login_pass_new" />
+					<input type="password" class="inputbox" name="pass" id="ef_login_pass_new" />
 				</div>{if isset($user_create_pass)}
 
 				<p class="message-error">{$user_create_pass}</p>{/if}
@@ -47,7 +47,7 @@
 
 					<p>{$smarty.session.user->fname}</p>{/if}
 
-					<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} readonly="readonly"{/if} class="inputbox autowidth{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_fname_new" /></p>
+					<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_fname_new" /></p>
 				</div>{if isset($user_create_fname)}
 				<p class="message-error">{$user_create_fname}</p>{/if}
 
@@ -58,7 +58,7 @@
 
 					<p>{$smarty.session.user->lname}</p>{else}
 
-					<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)} readonly="readonly"{/if} class="inputbox autowidth{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_lname_new" />{/if}
+					<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_lname_new" />{/if}
 
 				</div>{if isset($user_create_lname)}
 				<p class="message-error">{$user_create_lname}</p>{/if}
@@ -67,7 +67,7 @@
 			<label for="ef_login_phone_new">
 				<strong>Cell Phone #</strong> 
 				<div>
-					<input type="text" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{/if}" class="inputbox autowidth" id="ef_login_phone_new" /> 
+					<input type="text" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{/if}" class="inputbox" id="ef_login_phone_new" /> 
 				</div>
 				<p>So you can easily receive event updates through texts!</p>{if isset($user_create_phone)}
 				<p class="message-error">{$user_create_phone}</p>{/if}
@@ -76,7 +76,7 @@
 			<label for="ef_zipcode_new">
 				<strong>Zip Code</strong>
 				<div>
-					<input type="text" name="zip" value="{if isset($smarty.post.zip)}{$smarty.post.zip}{/if}" class="inputbox autowidth" id="ef_zipcode_new" /> 
+					<input type="text" name="zip" value="{if isset($smarty.post.zip)}{$smarty.post.zip}{/if}" class="inputbox" id="ef_zipcode_new" /> 
 				</div>
 				<p>So we can tell you how close to your events you are.</p>{if isset($user_create_zipcode)}
 				<p class="message-error">{$user_create_zipcode}</p>{/if}

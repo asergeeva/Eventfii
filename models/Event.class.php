@@ -55,20 +55,20 @@ class Event {
 			$this->eid = NULL;
 			$this->organizer = ( isset($_SESSION['user']) ) ? $_SESSION['user'] : NULL;
 			$this->set_title(NULL);
-			$this->set_description(NULL);
-			$this->set_type(NULL);
 			$this->set_location(NULL);
 			$this->set_address(NULL);
 			$this->set_date(NULL);
 			$this->set_time(NULL);
 			$this->set_end_date(NULL);
 			$this->set_end_time(NULL);
-			$this->set_deadline(NULL);
+			$this->set_goal(NULL);
 			
 			// For event creation some fields aren't checked
 			// until step 2. Keep those out of the validation loop.
 			if ( ! $step1 ) {
-				$this->set_goal(NULL);
+				$this->set_description(NULL);
+				$this->set_type(NULL);
+				$this->set_deadline(NULL);
 				$this->reach_goal = $_POST['reach_goal'];
 				$this->is_public = $_POST['is_public'];
 				$this->set_twitter(NULL);
@@ -113,7 +113,7 @@ class Event {
 		$this->title = stripslashes($title);
 		
 		if( strtolower( $this->title ) == "i'm planning..." || $this->title == "Name of Event" ) {
-			$this->error['title'] = "Please enter an event title.";
+			$this->error['title'] = "Please enter an event title";
 			$this->numErrors++;
 		} else if ( strlen($this->title) < 5 ) {
 			$this->error['title'] = "Title must be at least 5 characters";
@@ -139,7 +139,7 @@ class Event {
 		
 		if ( $this->description == "What should your guests know?" ) {
 			$this->description = NULL;
-			$this->error['desc'] = "Please enter an event description.";
+			$this->error['desc'] = "Please enter an event description";
 			$this->numErrors++;
 		}
 		
@@ -169,7 +169,7 @@ class Event {
 		$this->type = $type;
 		
 		if ( $type == 0 ) {
-			$this->error['type'] = "Please select an event type.";
+			$this->error['type'] = "Please select an event type";
 			$this->numErrors++;
 		}
 	}
@@ -197,7 +197,7 @@ class Event {
 		}
 
 		if ( strlen($this->location) > 100 ) {
-			$this->error['desc'] = "Event location must be less than 100 characters.";
+			$this->error['desc'] = "Event location must be less than 100 characters";
 			$this->numErrors++;
 		}
 	}
@@ -282,7 +282,7 @@ class Event {
 		$check = @mktime(0, 0, 0, $month, $day, $year, -1);
 		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
 		if( $check < $today ) {
-			$this->error['date'] = "Event date should be a date in the future.";
+			$this->error['date'] = "Event date should be a date in the future";
 			$this->numErrors++;
 		}
 	}
@@ -303,7 +303,7 @@ class Event {
 		$this->time = $time;
 		
 		if( $this->time == 0 ) {
-			$this->error['time'] = "Please enter a time in 12 hour clock (12:30 PM) format.";
+			$this->error['time'] = "Please select a time for your event";
 			$this->numErrors++;
 		}
 	}
@@ -380,14 +380,14 @@ class Event {
 			if ( strlen($this->end_date) == 0 ) {
 				return;
 			} else {
-				$this->error['end_time'] = "Please select a time";
+				$this->error['end_time'] = "Please select an end time";
 				$this->numErrors++;
 				return;
 			}
 		}
 		
 		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
-			$this->error['end_time'] = "End time must be after event time.";
+			$this->error['end_time'] = "End time must be after event time";
 			$this->numErrors++;
 		}
 	}
@@ -408,6 +408,11 @@ class Event {
 		}
 		
 		$this->deadline = $deadline;
+		
+		if ( $this->deadline == "" ) {
+			$this->deadline = $this->date;
+			return;
+		}
 		
 		$event_deadline = explode('/', $this->deadline);
 		$month = $event_deadline[0];
@@ -460,7 +465,7 @@ class Event {
 		);
 
 		if( ! filter_var($this->goal, FILTER_VALIDATE_INT, $int_options) ) {
-			$this->error['goal'] = "Please enter a attendance goal between 1 and 1000000.";
+			$this->error['goal'] = "Please enter a attendance goal";
 			$this->numErrors++;
 		}
 			
