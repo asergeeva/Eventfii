@@ -48,7 +48,7 @@
 
 				</ul>
 				<footer class="link-extra">
-					<p><a href="#" id="all-guests">See All ({$curSignUp})</a></p>
+					<p><a href="#" id="all-guests">See All</a></p>
 				</footer>
 			</section>{/if}
 
