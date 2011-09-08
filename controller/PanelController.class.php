@@ -652,7 +652,7 @@ class PanelController {
 					unset($_SESSION['new_eid']);
 					unset($_SESSION['manage_event']);
 					unset($_SESSION['contact_form']);
-					isset($_SESSION['gref'])
+					isset($_SESSION['gref']);
 					
 					$this->assignCPEvents($_SESSION['user']->id);
 					
