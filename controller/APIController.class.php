@@ -205,7 +205,9 @@ class APIController {
 				session_destroy();
 				break;
 			case 'ping':
-				echo 'pong';
+				if (isset($_SESSION['user'])) {
+					echo 'pong';
+				}
 				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
