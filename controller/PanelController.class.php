@@ -762,6 +762,7 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
+				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?tab=fb');
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
