@@ -762,7 +762,7 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
-				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?tab=fb');
+				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?tab=fb&gref='.$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
@@ -872,7 +872,7 @@ class PanelController {
 				EFCommon::$smarty->assign('step', 3);
 				
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->assign('fbSubmit', '/event/create/guests?tab=fb');
+				EFCommon::$smarty->assign('fbSubmit', '/event/create/guests?tab=fb&gref='.$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$_SESSION['newEvent']->eid);
 				EFCommon::$smarty->display('create.tpl');
 				break;
