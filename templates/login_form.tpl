@@ -1,7 +1,7 @@
 <div class="form">
 	<form method="post" action="{$CURHOST}/login{if isset($redirect)}{$redirect}{/if}" autocomplete="off">
 	<fieldset id="existing_user_login_form" class="one-col">
-		<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button></p>
+		<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button>
 		<div id="invalid_credentials"></div>
 		<p class="message-small">or</p> 
 		<label for="ef_login_email_exist">

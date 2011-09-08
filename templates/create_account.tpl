@@ -12,7 +12,7 @@
 
 			<p class="message">Facebook login makes signing up 75% faster!</p>
 			<div id="fb-root"></div>
-			<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>  
+			<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button> 
 			<div id="invalid_credentials"></div>
 			<p class="message-small">or</p> 
 			<p class="message-small">Create New Account</p>{/if}
