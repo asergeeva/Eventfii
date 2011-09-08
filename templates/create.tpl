@@ -91,7 +91,12 @@
 								<span>{$error.goal}</span>{/if}
 
 							</dd>
-						</dl>
+						</dl>{if ! isset($error.goal)}
+
+						<aside class="turtle">
+							<p>I'm so excited to see your event!</p>
+						</aside>{/if}
+
 						<footer class="buttons buttons-submit">
 							<p><span class="btn btn-med"><input type="submit" name="step1" value="Next" /></span></p> 
 						</footer> 
@@ -197,6 +202,9 @@
 								<span>{$error.twitter}</span>{/if}
 							</dd>
 						</dl>
+						<aside class="turtle">
+							<p>You can always come back and edit these later!</p>
+						</aside>
 						<footer class="buttons buttons-submit">
 							<input type="hidden" name="title" value="{$smarty.post.title}" />{if isset($smarty.post.location)}<input type="hidden" name="location" value="{$smarty.post.location}" />{/if}
 
