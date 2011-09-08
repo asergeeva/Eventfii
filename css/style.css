@@ -94,9 +94,6 @@ header#page-header {
 	height: 16px; /* 20 - 4 */
 	padding: 4px 4px 0 25px;
 	display: block; }
-.form .fb-login {
-	text-align: center;
-	margin: 15px 0 0; }
 fieldset { position: relative; }
 #settings fieldset { padding: 0 10px 10px; }
 fieldset legend { display: none; }

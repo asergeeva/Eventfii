@@ -17,11 +17,13 @@
 		<form method="post" action="{$CURHOST}/event/create">
 			<fieldset>
 				<legend>Free to get started!</legend>
-				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <span>and I want <input class="inputbox-small" type="text" value="max" name="goal" id="goal" /> people to come.</span></p>
-				<p class="submit"><span class="btn btn-med"><input type="submit" name="submit" value="Go!" /></span></p>
+				<p>I'm planning <input type="text" class="inputbox" name="title" value="name of event" id="title" /> <em>and I want <input class="inputbox-small" type="text" value="max" name="goal" id="goal" /> people to come.</em></p>
+				<footer class="buttons buttons-submit">
+					<p><span class="btn btn-med"><input type="submit" name="submit" value="Go!" /></span></p>
+				</footer>
 			</fieldset>
 		</form>
-		<aside>
+		<aside class="buttons">
 			<p><a href="{$CURHOST}/register" class="btn btn-large"><span>Sign up here</span></a> <a href="{$CURHOST}/method" class="btn btn-large"><span>Find out more</span></a></p>
 		</aside>
 	</section>
