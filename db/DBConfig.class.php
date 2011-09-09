@@ -748,9 +748,32 @@ class DBConfig {
 		return NULL;
 	}
 	
+	/**
+	 * Check whether the user is alreay been invited 
+	 * 		to an event, but has not yet responded
+	 *
+	 * @param $uid  Integer  the user ID
+	 * @param $eid  Integer  the event ID
+	 *
+	 * @return Boolean true if the user had been invited, 
+	 *		and has not yet responded false otherwise
+	 */
+	public function isInvitedNoResp($uid, $eid) {
+		$IS_INVITED = "	SELECT	* 
+						FROM	ef_attendance a 
+						WHERE	a.event_id = " . $eid . " 
+						AND		a.user_id = " . $uid . " AND a.confidence = ".CONFELSE;
+		if ($this->getRowNum($IS_INVITED) > 0) {
+			return $this->executeValidQuery($IS_INVITED);
+		}
+		return NULL;
+	}
+	
 	public function eventSignUp($uid, $event, $conf) {
 		$signedUp = $this->hasAttend($uid, $event->eid);
-		if ( ! isset($signedUp) ) {
+		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
+		
+		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
 			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
 								VALUES(
 									" . $event->eid . ", 
@@ -765,8 +788,11 @@ class DBConfig {
 								SET 	confidence = " . $conf . " 
 								WHERE 	event_id = " . $event->eid . " 
 								AND 	user_id = " . $uid;
-
+			
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
+			if (!isset($invitedNoResp)) {
+				EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVPing to {Event name}');
+			}
 		}
 	}
 	
