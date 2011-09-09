@@ -117,6 +117,7 @@ class PanelController {
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
+			$_SESSION['newEvent'] = $newEvent;
 			header("Location: " . CURHOST . "/login");
 			exit;
 		}

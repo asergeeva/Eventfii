@@ -28,7 +28,7 @@
 								<label for="title">What are you planning?<span>*</span></label>
 							</dt>
 							<dd{if isset($error.title)} class="error"{/if}>
-								<input type="text" name="title" value="{if isset($event_field.title)}{$event_field.title}{else}Name of Event{/if}" class="inputbox{if ! isset($event_field.title)} default{/if}" id="title" />{if isset($error.title)}
+								<input type="text" name="title" value="{if isset($event_field.title)}{$event_field.title}{elseif isset($smarty.post.title)}{$smarty.post.title}{else}Name of Event{/if}" class="inputbox{if ! isset($event_field.title)} default{/if}" id="title" />{if isset($error.title)}
 
 								<em>{$error.title}</em>{/if}
 

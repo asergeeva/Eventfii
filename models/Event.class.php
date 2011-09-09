@@ -305,7 +305,17 @@ class Event {
 		
 		$this->time = $time;
 		
-		if( $this->time == 0 ) {
+		$valid_time = filter_var(
+	 		$this->time, 
+	 		FILTER_VALIDATE_REGEXP, 
+	 		array(
+	 			"options" => array(
+	 				"regexp" => "/(\d{2}):(\d{2})/"
+	 			)
+	 		)
+	 	);
+		
+		if( !$valid_time ) {
 			$this->error['time'] = "Please select a time for your event";
 			$this->numErrors++;
 		}
