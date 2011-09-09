@@ -75,9 +75,11 @@ header#page-header {
 
 /* Forms
  -------------------------*/
-.form { 
-	text-align: center;
-	overflow: auto; }
+.form { overflow: auto; }
+fieldset { position: relative; }
+fieldset dl { padding: 18px 0 0; }
+
+/*----- Facebook Messages ----------*/
 .form .fb-connected {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
@@ -94,35 +96,32 @@ header#page-header {
 	height: 16px; /* 20 - 4 */
 	padding: 4px 4px 0 25px;
 	display: block; }
-fieldset { position: relative; }
-#settings fieldset { padding: 0 10px 10px; }
-fieldset legend { display: none; }
+
+/*----- Form Title ----------*/
+fieldset legend {
+	color: #404040;
+	font-weight: bold; 
+	font-size: 30px;
+	line-height: 36px;
+	width: 100%;
+	padding: 0 0 8px;
+	border-bottom: 1px solid #ccc;
+	display: block; }
+#event_create legend { display: none; }
+
+/*----- Input title ----------*/
 fieldset dt { 
-	text-align: left;
-	margin: 0;
-	padding: 0 10px; }
-fieldset dd { 
-	text-align: left;
-	margin: 4px 0 20px;
-	padding: 0 10px; }
-fieldset dd.error { 
-	background: #fae5e3;
-	padding: 10px;
-	margin: 10px 0;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px; }
-fieldset dd.error span { 
-	color: #9d261d;
-	font-size: 12px;
-	line-height: 18px;
-	padding-left: 5px;
-	vertical-align: middle; }
-fieldset dd p#add-end-time { margin: 4px 0 0; }
-fieldset dt label {
+	padding: 0 10px;
+	clear: left; }
+/* Inline option */
+fieldset dt.inline { float: left; }
+fieldset dt label { 
 	color: #464646;
 	font-size: 16px;
-	padding: 0; }
+	line-height: 18px;
+	padding: 0;
+	display: block; }
+/* Star */
 fieldset dt label span {
 	color: #ff0000;
 	font-weight: bold;
@@ -130,43 +129,40 @@ fieldset dt label span {
 fieldset dt em {
 	font-size: 12px; 
 	color: #959595; }
-fieldset label {
+
+/*----- Forms Title ----------*/
+fieldset dd { 
 	text-align: left;
+	margin: 4px 0 20px;
+	padding: 0 10px;
+	clear: right; }
+fieldset dd label { display: block; }
+fieldset dd span { 
+	cursor: pointer;
+	vertical-align: middle; }
+fieldset dd p#add-end-time { margin: 4px 0 0; }
+
+/*----- Error message ----------*/
+fieldset dd.error { 
+	background: #fae5e3;
+	padding: 10px;
+	margin: 10px 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px; }
+fieldset dd.error em { 
+	color: #9d261d;
 	font-size: 12px;
 	line-height: 18px;
-	padding: 0;
-	display: block; }
+	padding-left: 5px;
+	vertical-align: middle; }
+
+
 fieldset footer label { 
 	padding: 0;
 	display: inline; }
-#settings fieldset label { 
-	width: 94px;
-	margin: 0 5px;
-	vertical-align: top;
-	display: inline-block; }
-#settings fieldset label.autowidth { width: auto; }
-#settings fieldset label.fullwidth {
-	width: 100%;
-	margin: 0;
-	display: block; }
-fieldset label span { vertical-align: middle; }
-fieldset label strong {
-	float: left;
-	width: 100px;
-	display: block; }
-fieldset label p { text-align: left; }
-fieldset label p.counter { text-align: right; }
-fieldset label div {
-	padding: 0 0 0 100px;
-	display: block; }
-fieldset label div p { margin: 0 0 3px; }
-#settings fieldset label em { display: inline; }
-fieldset label.autowidth span { padding: 0 34px 0 0; }
-fieldset label p select { width: 110px; }
-fieldset input, fieldset textarea { 
-	font-size: 12px;
-	color: #333; }
-#settings fieldset label input { font-size: 10px; }
+	
+/* Turtle */
 fieldset .turtle {
 	background: url(../images/turtle_med.png) 0 0 no-repeat;
 	width: 133px;
@@ -233,8 +229,8 @@ input.input-facebook {
 input.default, textarea.default {
 	color: #666; }
 input.datebox { 
-	background: #fff url(../images/icon_date.gif) 86px 3px no-repeat;
-	width: 76px;
+	background: #fff url(../images/icon_date.gif) 89px 3px no-repeat;
+	width: 79px;
 	margin: 0 3px 0 0;
 	padding: 4px 28px 4px 5px;
 	cursor: pointer; }
@@ -441,11 +437,8 @@ header.block .message { margin: 0; }
 
 /* Title */
 .block .block-title {
-	border-bottom: 1px solid #ccc;
-	margin: 0 -5px 3px; }
-.centered-title {
-	font-size: 16px;
-	text-align: center; }
+	margin: 0 0 8px;
+	border-bottom: 1px solid #ccc; }
 .navigation .block .block-title { 
 	text-align: center;
 	padding: 0; }
@@ -456,9 +449,11 @@ header.block .message { margin: 0; }
 	height: 27px; /* 33 - 6 */
 	margin: -15px -15px 7px;
 	padding: 10px 0 0 20px; }
-.block .block-title h1 { 
-	font-size: 16px;
-	padding: 0 0 6px 5px;
+.block .block-title h1 {
+	color: #404040;
+	font-weight: bold; 
+	font-size: 30px;
+	line-height: 36px;
 	display: inline-block; }
 .block .block-title h2 {
 	font-size: 11px;

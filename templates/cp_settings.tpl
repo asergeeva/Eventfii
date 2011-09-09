@@ -11,32 +11,45 @@
 
 		{include file="cp_user.tpl"}
 		<div class="content">
-			<header class="block">
-				<p class="message">Settings</p>
-			</header>
 			<section class="block" id="settings">
-				<header class="block-title">
-					<h1>Account Info</h1>
-				</header>
 				<form method="post" action="{$CURHOST}/settings" autocomplete="off">
 				<fieldset>
-					<label for="fname">
-						<span>First Name</span> 
-						<input type="text" class="inputbox autowidth" name="fname" id="fname" value="{$smarty.session.user->fname}" />{if isset($error.fname)}
-						<p class="message-error" id="titleErr">{$error.fname}</p>{/if}
+					<legend>Account Info</legend>
+					<dl>
+						<dt>
+							<label for="fname">First Name</label>
+						</dt>
+						<dd>
+							<input type="text" name="fname" value="{$smarty.session.user->fname}" class="inputbox" id="fname" />{if isset($error.fname)}
 
-					</label>
+							<em>{$error.fname}</em>{/if}
+						</dd>
+						<dt>
+							<label for="lname">Last Name</label>
+						</dt>
+						<dd>
+							<input type="text" name="lname" value="{$smarty.session.user->lname}" class="inputbox"  id="lname" />{if isset($error.lname)}
+
+							<em>{$error.lname}</em>{/if}
+
+						</dd>
+						<dt>
+							<label for="email">Email</label>
+						</dt>
+						<dd>
+							<input type="text" name="email" value="{$smarty.session.user->email}" class="inputbox" id="email" disabled="disabled" />{if isset($error.email)}
+
+							<em>{$error.email}</em>{/if}
+
+					</dl>
 					<label for="lname">
 						<span>Last Name</span> 
-						<input type="text" class="inputbox autowidth" name="lname" id="lname" value="{$smarty.session.user->lname}" />{if isset($error.lname)}
-						<p class="message-error" id="titleErr">{$error.lname}</p>{/if}
+					</label>
 
 					</label>
 					<label for="email">
 						<span>Email</span> 
-						<input type="text" class="inputbox autowidth" name="email" id="email" disabled="disabled" value="{$smarty.session.user->email}" />{if isset($error.email)}
-						<p class="message-error" id="titleErr">{$error.email}</p>{/if}
-
+						
 					</label>
 					<label for="user-cell">
 						<span>Cell #</span> 
@@ -51,10 +64,8 @@
 
 					</label>
 				</fieldset>
-				<header class="block-title">
-					<h1>Connect with Social Networks</h1>
-				</header>
 				<fieldset>
+					<legend>Connect with Social Networks</legend>
 					<label for="twitter" class="autowidth">
 						<a href="#"><span id="connect_twitter"></span></a>
 					</label>
@@ -66,10 +77,8 @@
 					</label>
 
 				</fieldset>
-				<header class="block-title">
-					<h1>Notification Options</h1>
-				</header>
 				<fieldset>
+					<legend>Notification Options</legend>
 					<label for="features" class="fullwidth">
 						<input type="checkbox" name="email-feature" value="1"  id="features" {if $smarty.session.user->notif_opt1 eq '1'}checked="checked"{/if} /> <em>Tell me about new features every month</em>
 					</label>
@@ -80,10 +89,8 @@
 						<input type="checkbox" name="email-friend" value="1"  id="attend" {if $smarty.session.user->notif_opt3 eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
 					</label>
 				</fieldset>
-				<header class="block-title">
-					<h1>Password Change</h1>
-				</header>
 				<fieldset>
+					<legend>Password Change</legend>
 					<label for="password-current" class="autowidth">
 						<span>Enter current password</span> 
 						<input type="password" class="inputbox autowidth" name="user-curpass" id="password-current" />
