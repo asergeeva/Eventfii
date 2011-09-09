@@ -14,13 +14,15 @@ var OPENINVITER = (function() {
 	// OPENINVITER EMAIL PROVIDER
 	$('.event_invite_oi').live('click', function() {
 		$('#oi_container').html(EFGLOBAL.ajaxLoader);
-				
+		var emailProvider = this.href.split('#')[1];
+		
 		$.get(EFGLOBAL.baseUrl + '/guest/inviter', {
-			provider: this.href.split('#')[1]
+			provider: emailProvider
 		}, function(providerLoginPage) {
 			$('#oi_container').html(providerLoginPage).ready(function() {
 				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
 			});
+			$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider + '_logo.png" />');
 		});
 	});
 	

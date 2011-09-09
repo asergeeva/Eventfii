@@ -12,18 +12,18 @@
 			<div id="oi_logo"></div>
 			<div id="oi_container">
 			{if $smarty.get.tab eq 'fb'}
+				<div id="fb-root"></div>
+				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+				<fb:send href="{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}"></fb:send>
 				<fb:serverFbml>
 			    <script type="text/fbml">
 			      <fb:fbml>
-			          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}' label='Accept' />">
-					  <fb:multi-friend-selector showborder="false" actiontext="Invite to {$event->title}" cols="3" max="35">
+			          <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}' label='Accept' />">
+					  <fb:multi-friend-selector showborder="false" actiontext="{if isset($event->title)}Invite to {$event->title}{else}{$smarty.session.user->fname} added you as a contact at trueRSVP{/if}" cols="3" max="35">
 			        </fb:request-form>
 			      </fb:fbml>
 			    </script>
 				</fb:serverFbml>
-				<div id="fb-root"></div>
-				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-				<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>
 			{/if}
 			</div>
 			
