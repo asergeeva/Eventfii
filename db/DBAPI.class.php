@@ -63,6 +63,7 @@ class DBAPI extends DBConfig {
 										e.location_lat,
 										e.location_long,
 										e.event_datetime, 
+										e.event_deadline,
 										e.twitter,
 										e.description, 
 										a.is_attending,
