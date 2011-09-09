@@ -22,7 +22,8 @@ CREATE TABLE ef_users (
   reputation      DOUBLE,
   fb_access_token VARCHAR(500),
   fb_session_key  VARCHAR(500),
-  url_alias       VARCHAR(250) UNIQUE
+  url_alias       VARCHAR(250) UNIQUE,
+  user_cookie     VARCHAR(500) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (

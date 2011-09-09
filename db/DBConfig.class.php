@@ -387,6 +387,7 @@ class DBConfig {
 			$this->executeUpdateQuery($UPDATE_USER);
 			
 			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
+			setcookie('truersvp_user', $_SESSION['user']->cookie);
 		}
 		return $this->getUserInfoByEmail($email);
 	}
@@ -415,6 +416,21 @@ class DBConfig {
 		$GET_EMAIL_ID = "SELECT email AS email_id FROM ef_users WHERE email = '$email'";
 		$emailExists = $this->executeQuery($GET_EMAIL_ID);
 		return $emailExists['email_id'];
+	}
+	
+	/**
+	 * Get the user from the DB given the cookie value of that user
+	 *
+	 * @param $cookieVal  String the cookie value for that user
+	 *
+	 * @return Array of the user row from the DB
+	 */
+	public function getUserByCookie($cookieVal) {
+		$GET_USER_COOKIE = "SELECT * FROM ef_users WHERE user_cookie = '".$cookieVal."'";
+		if ($this->getRowNum($GET_USER_COOKIE) == 0) {
+			return NULL;
+		}
+		return $this->executeQuery($GET_USER_COOKIE);
 	}
 	
 	
