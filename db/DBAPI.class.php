@@ -187,6 +187,8 @@ class DBAPI extends DBConfig {
 									e.reach_goal, 
 									e.location_name,
 									e.location_address, 
+									e.location_lat,
+									e.location_long,
 									e.event_datetime, 
 									e.event_end_datetime,
 									e.event_deadline, 
