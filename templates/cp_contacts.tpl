@@ -21,7 +21,7 @@
 				<p class="message">Make your event well known! Add your contacts.</p>
 			</header>{if isset($page.addcontacts)}
 
-			{include file="contacts_add.tpl"}{else}
+			{include file="create_guest.tpl"}{else}
 			
 			{include file="contacts.tpl"}{/if}
 

@@ -8,47 +8,51 @@
 
 class AbstractUser {
 	// Base user information
-	public $alias;
-	
 	public $id;
 	public $fname;
 	public $lname;
-	public $about;
 	public $email;
+	public $about;
 	public $pic;
+	public $twitter;
+	public $facebook;
 	
-	public $exists;
+	public $verified;
+	public $alias;
 	
 	public $is_attending;
 	public $friendly_confidence;
 	public $confidence;
-	
+
 	public $cookie;
+	public $exists;
 	
 	protected $error;
 	protected $numErrors;
 	
-	public function __construct($userInfo) {
+	public function __construct($info) {
 		$this->numErrors = 0;
 		
 		// Settings page
-		if ( $userInfo == NULL ) {
-			$this->alias = $_SESSION['user']->alias;
+		if ( $info === NULL ) {
 			$this->id = $_SESSION['user']->id;
 			$this->set_fname();
 			$this->set_lname();
 			$this->email = $_SESSION['user']->email;
+			$this->about = $_SESSION['user']->about;
+			$this->pic = $_SESSION['user']->pic;
+			$this->twitter = $_SESSION['user']->twitter;
+			$this->facebook = $_SESSION['user']->facebook;
+			$this->alias = $_SESSION['user']->alias;
+			$this->verified = 1;
 		} else {
-			if ( ! is_array($userInfo) ) {
-				if ( is_numeric($userInfo) ) {
-					$userId = $userInfo;
-					$userInfo = EFCommon::$dbCon->getUserInfo($userId);
-				} else {
-					$userEmail = $userInfo;
-					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($userEmail);
-				}
+			if ( ! is_array($info) ) {
+			// Fetch info from database if necessary
+				$info = EFCommon::$dbCon->getBasicUserInfo($info);
 			}
-			$this->makeUserFromArray($userInfo);
+		
+			// Make the user object from the array
+			$this->makeUserFromArray($info);
 		}
 	}
 	
@@ -57,15 +61,22 @@ class AbstractUser {
 	}
 	
 	protected function makeUserFromArray($userInfo) {
-		$this->alias = $userInfo['url_alias'];
 		$this->id = $userInfo['id'];
 		$this->set_fname($userInfo['fname']);
 		$this->set_lname($userInfo['lname']);
-		$this->set_email($userInfo['email']);
+		$this->email = $userInfo['email'];
 		$this->about = $userInfo['about'];
-		$this->pic = $this->setUserPic($userInfo['facebook']);
-		$this->is_attending = $userInfo['is_attending'];
+		if ( $userInfo['pic'] === NULL ) {
+			$this->pic = $this->setUserPic($userInfo['facebook']);
+		} else {
+			$this->pic = $this->setUserPic($userInfo['pic']);
+		}
+		$this->twitter = $userInfo['twitter'];
+		$this->facebook = $userInfo['facebook'];
+		$this->alias = $userInfo['url_alias'];
+		$this->verified = $userInfo['verified'];
 		$this->cookie = $userInfo['user_cookie'];
+		$this->exists = true;
 	}
 	
 	private function setUserPic($facebook = NULL) {
@@ -92,7 +103,7 @@ class AbstractUser {
 		$this->numErrors++;
 	}
 	
-	public function set_fname($fname = NULL) {
+	protected function set_fname($fname = NULL) {
 		if ( $fname == NULL ) {
 			if ( isset($_POST['fname']) ) {
 				$fname = $_POST['fname']; 
@@ -122,7 +133,7 @@ class AbstractUser {
 		}
 	}
 	
-	public function set_lname($lname = NULL) {
+	protected function set_lname($lname = NULL) {
 		if ( $lname == NULL ) {
 			if ( isset($_POST['lname']) ) {
 				$lname = $_POST['lname']; 
@@ -150,30 +161,5 @@ class AbstractUser {
 		if( ! $valid_lname ) {
 			$this->addError("lname", "Invalid last name.");
 		}
-	}
-	
-	protected function set_email($email = NULL) {
-		if ( $email == NULL ) {
-			if ( isset($_POST['email']) ) {
-				$email = $_POST['email']; 
-			}
-		}
-		
-		if ( strlen($email) == 0 ) {
-			$this->email = NULL;
-			$this->addError("lname", "Please enter your email.");
-			return;
-		}
-		
-		$this->email = $email;
-		
- 		$valid_email = filter_var(
-	 		$this->email, 
-	 		FILTER_VALIDATE_EMAIL
-	 	);
-	 	
-		if( ! $valid_email ) {
-			$this->addError("email", "Invalid email.");
-		}	
 	}
 }

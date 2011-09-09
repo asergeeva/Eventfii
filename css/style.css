@@ -107,7 +107,8 @@ fieldset legend {
 	padding: 0 0 8px;
 	border-bottom: 1px solid #ccc;
 	display: block; }
-#event_create legend { display: none; }
+#event_create legend,
+#create_guests legend { display: none; }
 
 /*----- Input title ----------*/
 fieldset dt { 
@@ -179,9 +180,13 @@ fieldset .turtle p {
 
 /* Some nice input boxes taken from
    http://twitter.github.com/bootstrap/ */
-input.autowidth, textarea.autowidth, select.autowidth { width: 100%; }
+input.autowidth, textarea.autowidth, select.autowidth { 
+	width: 100%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box; }
 input, textarea, select {
-	color: #808080;
+	color: #666;
 	font-size: 13px;
 	line-height: 18px;
 	border: 1px solid #ccc;
@@ -227,7 +232,7 @@ input.input-facebook {
 	color: #666;
 	padding: 0 4px 0 24px; }
 input.default, textarea.default {
-	color: #666; }
+	color: #808080; }
 input.datebox { 
 	background: #fff url(../images/icon_date.gif) 89px 3px no-repeat;
 	width: 79px;
@@ -351,10 +356,7 @@ article h2 { font-size: 16px; }
 .message {
 	font-size: 18px;
 	text-align: center; }
-.block .message { 
-	font-size: 13px;
-	margin: 12px 0; }
-header.block .message { margin: 0; }
+.block .message { font-size: 13px; }
 .message em { color: #ff9933; }
 .message strong { 
 	font-size: 12px;
@@ -434,10 +436,9 @@ header.block .message { margin: 0; }
 	border-color: #c43c35 #c43c35 #882a25;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); }
 
-
 /* Title */
 .block .block-title {
-	margin: 0 0 8px;
+	margin: 0 -5px 3px;
 	border-bottom: 1px solid #ccc; }
 .navigation .block .block-title { 
 	text-align: center;
@@ -450,10 +451,8 @@ header.block .message { margin: 0; }
 	margin: -15px -15px 7px;
 	padding: 10px 0 0 20px; }
 .block .block-title h1 {
-	color: #404040;
-	font-weight: bold; 
-	font-size: 30px;
-	line-height: 36px;
+	font-size: 16px;
+	padding: 0 0 6px 5px;
 	display: inline-block; }
 .block .block-title h2 {
 	font-size: 11px;
@@ -482,7 +481,9 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .steps li { text-indent: -10000px; }
 
 /* Horizontal Navigation */
-.horizontal-nav { overflow: hidden; }
+.horizontal-nav { 
+	margin: 0 0 18px;
+	overflow: hidden; }
 .horizontal-nav ul {
 	float: left;
 	position: relative;
@@ -984,7 +985,7 @@ a.btn { text-decoration: none; }
 	background-position: 100% -57px;
 	font-size: 30px;
 	height: 57px;
-	padding: 0 28px 10px 10px; }
+	padding: 0 28px 6px 10px; }
 .btn-large {
 	background-image: url(../images/btn_large_left.png);
 	background-position: 0 -91px;

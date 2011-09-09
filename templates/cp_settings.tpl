@@ -4,10 +4,27 @@
 {include file="header.tpl"}
 <div id="container">
 	{include file="cp_header.tpl"}
-	<section id="main">
-		<header class="block notification" {if !isset($responseMsg['user_success'])}style="display:none"{/if} id="notification-box">
+	<section id="main">{if isset($notification)}
+
+		<header class="block notification">
+			<p class="message">{$notification}</p>
+		</header>{elseif isset($error)}
+
+		<header class="block error">
+			<p class="message">User settings not updated. Please fix the errors before continuing.</p>
+		</header>{elseif isset($responseMsg['user_success'])}
+
+		<header class="block notification" id="notification-box">
 			<p class="message">{$responseMsg['user_success']}</p>
-		</header>
+		</header>{/if}{if isset($responseMsg['password_success'])}
+
+		<header class="block notification">
+			<p class="message">{$responseMsg['password_success']}</p>
+		</header>{elseif isset($responseMsg['password_error'])}
+
+		<header class="block error">
+			<p class="message">Password not changed. Please correct the errors before re-submitting the form.</p>
+		</header>{/if}
 
 		{include file="cp_user.tpl"}
 		<div class="content">
@@ -19,7 +36,7 @@
 						<dt>
 							<label for="fname">First Name</label>
 						</dt>
-						<dd>
+						<dd{if isset($error.fname)} class="error"{/if}>
 							<input type="text" name="fname" value="{$smarty.session.user->fname}" class="inputbox" id="fname" />{if isset($error.fname)}
 
 							<em>{$error.fname}</em>{/if}
@@ -27,7 +44,7 @@
 						<dt>
 							<label for="lname">Last Name</label>
 						</dt>
-						<dd>
+						<dd{if isset($error.lname)} class="error"{/if}>
 							<input type="text" name="lname" value="{$smarty.session.user->lname}" class="inputbox"  id="lname" />{if isset($error.lname)}
 
 							<em>{$error.lname}</em>{/if}
@@ -36,33 +53,31 @@
 						<dt>
 							<label for="email">Email</label>
 						</dt>
-						<dd>
+						<dd{if isset($error.email)} class="error"{/if}>
 							<input type="text" name="email" value="{$smarty.session.user->email}" class="inputbox" id="email" disabled="disabled" />{if isset($error.email)}
 
 							<em>{$error.email}</em>{/if}
 
+						</dd>
+						<dt>
+							<label for="user-phone">Cell #</label>
+						</dt>
+						<dd{if isset($error.phone)} class="error"{/if}>
+							<input type="text" name="phone" value="{$smarty.session.user->phone}" class="inputbox" id="user-phone" />{if isset($error.phone)}
+
+						<em>{$error.phone}</em>{/if}
+
+						</dd>
+						<dt>
+							<label for="user-zip">Zip</label>
+						<dt>
+						<dd{if isset($error.zip)} class="error"{/if}>
+							<input type="text" name="zip" value="{$smarty.session.user->zip}" class="inputbox" id="user-zip" maxlength="5" />{if isset($error.zip)}
+
+							<em>{$error.zip}</em>{/if}
+
+						</dd>
 					</dl>
-					<label for="lname">
-						<span>Last Name</span> 
-					</label>
-
-					</label>
-					<label for="email">
-						<span>Email</span> 
-						
-					</label>
-					<label for="user-cell">
-						<span>Cell #</span> 
-						<input type="text" class="inputbox autowidth" name="phone" id="user-cell" value="{$smarty.session.user->phone}" />{if isset($error.phone)}
-						<p class="message-error" id="titleErr">{$error.phone}</p>{/if}
-
-					</label>
-					<label for="user-zip">
-						<span>Zip</span> 
-						<input type="text" class="inputbox autowidth" name="zip" id="user-zip" value="{$smarty.session.user->zip}" maxlength="5" />{if isset($error.zip)}
-						<p class="message-error" id="titleErr">{$error.zip}</p>{/if}
-
-					</label>
 				</fieldset>
 				<fieldset>
 					<legend>Connect with Social Networks</legend>
@@ -71,40 +86,52 @@
 					</label>
 					<label for="fbconnect" class="autowidth">
 						<div id="fb-root"></div>
-						<p class="fb-login"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button></p>
+						<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
 						<span id="user_fbid">{$smarty.session.user->facebook}</span>
-						<!-- Facebook Code -->
 					</label>
-
 				</fieldset>
 				<fieldset>
 					<legend>Notification Options</legend>
-					<label for="features" class="fullwidth">
-						<input type="checkbox" name="email-feature" value="1"  id="features" {if $smarty.session.user->notif_opt1 eq '1'}checked="checked"{/if} /> <em>Tell me about new features every month</em>
-					</label>
-					<label for="updates" class="fullwidth">
-						<input type="checkbox" name="email-updates" value="1" id="updates" {if $smarty.session.user->notif_opt2 eq '1'}checked="checked"{/if} /> <em>Send me daily updates about my event when I’m the host</em>
-					</label>
-					<label for="attend" class="fullwidth">
-						<input type="checkbox" name="email-friend" value="1"  id="attend" {if $smarty.session.user->notif_opt3 eq '1'}checked="checked"{/if} /> <em>Notify me when my friends are highly likely to attend the same event as I</em>
-					</label>
+					<dl>
+						<dt></dt>
+						<dd>
+							<label for="features">
+								<p><input type="checkbox" name="notif_opt1" value="1"{if $smarty.session.user->notif_opt1 == 1} checked="checked"{/if} id="features" /> Tell me about new features every month</p>
+							</label>
+							<label for="updates">
+								<p><input type="checkbox" name="notif_opt2" value="1"{if $smarty.session.user->notif_opt2 == 1} checked="checked"{/if} id="updates" /> Send me daily updates about my event when I’m the host</p>
+							</label>
+							<label for="attend">
+								<p><input type="checkbox" name="notif_opt3" value="1"{if $smarty.session.user->notif_opt3 == 1} checked="checked"{/if} id="attend" /> Notify me when my friends are highly likely to attend the same event as I</p>
+							</label>
+						</dd>
+					</dl>
 				</fieldset>
 				<fieldset>
 					<legend>Password Change</legend>
-					<label for="password-current" class="autowidth">
-						<span>Enter current password</span> 
-						<input type="password" class="inputbox autowidth" name="user-curpass" id="password-current" />
-					</label>
-					<label for="password-new" class="autowidth">
-						<span>Enter new password</span> 
-						<input type="password" class="inputbox autowidth" name="user-newpass" id="password-new" />
-					</label>
-					<label for="password-confirm" class="autowidth">
-						<span>Confirm new password</span> 
-						<input type="password" class="inputbox autowidth" name="user-confpass" id="password-confirm" />
-					</label>{if isset($responseMsg['password'])}
-						<p class="message-error" id="titleErr">{$responseMsg['password']}</p>{/if}
+					<dl>
+						<dt>
+							<label for="password-current">Enter current password</label>
+						</dt>
+						<dd{if isset($responseMsg['password_error'])} class="error"{/if}>
+							<input type="password" name="user-curpass" class="inputbox" id="password-current" />{if isset($responseMsg['password_error'])}
 
+							<em>{$responseMsg['password_error']}</em>{/if}
+
+						</dd>
+						<dt>
+							<label for="password-new">Enter new password</label>
+						</dt>
+						<dd>
+							<input type="password" name="user-newpass" class="inputbox" id="password-new" />
+						</dd>
+						<dt>
+							<label for="password-confirm">Confirm new password</label>
+						</dt>
+						<dd>
+							<input type="password" name="user-confpass" class="inputbox" id="password-confirm" />
+						</dd>
+					</dl>
 				</fieldset>
 				<footer class="buttons buttons-submit">
 					<p><span class="btn btn-small"><input type="submit" name="submit" value="Save All" /></span></p>

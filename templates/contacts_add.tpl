@@ -1,1 +1,0 @@
-{include file="create_guest.tpl"}

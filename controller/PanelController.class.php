@@ -771,16 +771,20 @@ class PanelController {
 				$page['addcontacts'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
-				// No functions to add to address book
 				if (isset($_POST['submit'])) {
 					$_SESSION['user']->addContacts();
 				}
 				
-				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?tab=fb&gref='.$event->global_ref);
+				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?option=fb&gref='.$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
 			case '/settings':
+				if ( ! isset($_SESSION['user']) ) {
+					header("Location: " . CURHOST);
+					exit;
+				} 
+				
 				$page['settings'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
@@ -788,14 +792,12 @@ class PanelController {
 					$responseMsg = array();
 					
 					$user = new User(NULL);
-					$user->id = $_SESSION['user']->id;
-					
 					$error = $user->get_errors();
 					
 					// UPDATE DB
 					if ( ! $error ) {
-						$user->updateDb();
-						$responseMsg['user_success'] = "User settings updated successfully.";
+						$notification = "User settings updated successfully.";
+						EFCommon::$smarty->assign('notification', $notification);
 					} else {
 						EFCommon::$smarty->assign("error", $error);
 					}
@@ -803,20 +805,15 @@ class PanelController {
 					// RESET PASSWORD
 					if ( $_REQUEST['user-curpass'] != '' || $_REQUEST['user-newpass'] != '' || $_REQUEST['user-confpass'] != '' ) {
 						if ( EFCommon::$dbCon->resetPassword( md5($_REQUEST['user-curpass']), md5($_REQUEST['user-newpass']), md5($_REQUEST['user-confpass']) )) {
-							$responseMsg['password'] = 'Password has been updated';
+							$responseMsg['password_success'] = 'Password has been updated';
 						} else {
-							$responseMsg['password'] = 'Invalid old password, not updated';
+							$responseMsg['password_error'] = 'Invalid password';
 						}
 					}
 					EFCommon::$smarty->assign('responseMsg', $responseMsg);
 				}
 				
-				
-				if ( isset($_SESSION['user']) ) {
-					EFCommon::$smarty->display('cp_settings.tpl');
-				} else {
-					header("Location: " . CURHOST);
-				}
+				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
 			case '/event/create':
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
@@ -877,17 +874,28 @@ class PanelController {
 				}
 				break;
 			case '/event/create/guests':		
-				if ( ! isset($_SESSION['newEvent']) ) {
+				if ( ! isset($_GET['eventId']) || strlen($_GET['eventId']) == 0 ) {
 					header("Location: " . CURHOST . "/event/create");
 					exit;
 				}
-			
-				EFCommon::$mailer = new EFMail();
-				EFCommon::$smarty->assign('step', 3);
 				
+				if ( ! isset($_SESSION['newEvent']) ) {
+					$_SESSION['newEvent'] = new Event($_GET['eventId']);
+				}
+				
+				if ( isset($_POST['submit']) ) {
+					if ( $_GET['option'] == "manual" || $_GET['option'] == "csv" ) {
+						$num_added = $_SESSION['newEvent']->submitGuests();
+						if ( $num_added == 0 ) {
+							EFCommon::$smarty->assign('error', "No guests added.");
+						} else {
+							EFCommon::$smarty->assign('notification', "Yay!");
+						}	
+					}
+				}
+								
+				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->assign('fbSubmit', '/event/create/guests?tab=fb&gref='.$event->global_ref);
-				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$_SESSION['newEvent']->eid);
 				EFCommon::$smarty->display('create.tpl');
 				break;
 			case '/event/manage/cancel':
@@ -1079,7 +1087,7 @@ class PanelController {
 				}
 				
 				EFCommon::$smarty->assign('event', $event);
-				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&tab=fb&gref=".$event->global_ref);
+				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
@@ -1369,26 +1377,29 @@ class PanelController {
 				// if the user submits the login form
 				} else if ( isset( $_POST['login'] ) ) {
 					if ( ! isset( $_POST['email'] ) ) {
-						EFCommon::$smarty->assign('user_login_email', "Please enter an e-mail");
+						$error['email'] = "Please enter an e-mail";
+						EFCommon::$smarty->assign('error', $error);
 						EFCommon::$smarty->display("login.tpl");
 						break;
 					}
 					if ( ! isset( $_POST['pass'] ) ) {
-						EFCommon::$smarty->assign('user_login_password', "Please enter a password");
+						$error['password'] = "Please enter a password";
+						EFCommon::$smarty->assign('error', $error);
 						EFCommon::$smarty>display("login.tpl");
 						break;
 					} 
 					
-					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
+					$userInfo = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
 					
-					if ( ! isset( $userId ) ) {
+					if ( ! isset( $userInfo ) ) {
 						// Invalid e-mail/password combination
-						EFCommon::$smarty->assign('user_login_email', "Invalid e-mail or password");
+						$error['login'] = "Invalid e-mail or password";
+						EFCommon::$smarty->assign('error', $error);
 						EFCommon::$smarty->display("login.tpl");
 						break;
 					}
 					
-					$_SESSION['user'] = new User($userId);
+					$_SESSION['user'] = new User($userInfo);
 					setcookie('truersvp_user', $_SESSION['user']->cookie);
 					
 					// Create user's event if valid

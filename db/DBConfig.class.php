@@ -100,26 +100,6 @@ class DBConfig {
 		return $dbResult;
 	}
 	
-	/* function getMaxEventId
-	 * Get the current maximum event ID. 
-	 * Useful when trying to find latest event 
-	 * added to the database.
- 	 *
-	 * @return Integer | the max event ID stored in the DB
-	 */
-	public function getMaxEventId() {
-		$GET_MAX_EFID = "	SELECT	MAX(e.id) AS max_id 
-							FROM 	ef_events e
-							WHERE	e.organizer = " . $_SESSION['user']->id;
-		
-		$maxId = $this->executeQuery($GET_MAX_EFID);
-		
-		if ( is_null($maxId['max_id']) ) {
-			return 1;
-		}
-		return $maxId['max_id'];
-	}
-	
 	/**
 	 * Get the next event ID
 	 * @return   Integer  the next event ID
@@ -137,49 +117,72 @@ class DBConfig {
 	}
 	
 	/**
-	 * Get the next user ID
-	 * @return   Integer  the next user ID
+	 * Checks to see if user login credentials are valid
+	 * @return	$userInfo if valid, NULL if not
 	 */
-	public function getNextUserId() {
-		$GET_MAX_UID = "	SELECT	MAX(u.id) AS max_id 
-							FROM 	ef_users u";
-		
-		$maxId = $this->executeQuery($GET_MAX_UID);
-		
-		if ( is_null($maxId['max_id']) ) {
-			return 1;
-		}
-		return intval($maxId['max_id']) + 1;
-	}
-	
-	public function getMaxRecipientTokenId() {
-		$GET_MAX_EFID = "SELECT MAX(e.id) AS max_id FROM ef_recipient_token e";
-		$maxId = $this->executeQuery($GET_MAX_EFID);
-		if (is_null($maxId['max_id'])) {
-			return 1;
-		}
-		return $maxId['max_id'] + 1;
-	}
-	
 	public function checkValidUser($email, $pass) {
 		$CHECK_VALID_USER = "	SELECT	* 
 								FROM 	ef_users
-								WHERE 	email = '".$email."' 
-								AND 	password = '".md5($pass)."'";
+								WHERE 	email = '" . $email . "' 
+								AND 	password = '" . md5($pass) . "'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
-		if (isset($userInfo['id'])) {
-			return $userInfo['id'];
+		if ( isset($userInfo) ) {
+			return $userInfo;
 		}
 		return NULL;
 	}
 	
-	public function getUserInfo($uid) {
+	/**
+	 * Pulls the entire user object from the database,
+	 * which is only useful for when you need info about
+	 * the logged in user.
+	 *
+	 * Will be depreciated soon, since checkValidUser
+	 * already does this now.
+	 *
+	 * @param	$info | Either the user's ID or email
+	 * @return	$userInfo if valid, NULL if not
+	 */
+	public function getUserInfo($info) {
+		if ( is_numeric($info) ) {
+			$where = "id = " . $info;
+		} else {
+			$where = "email = " . $info;
+		}
 		$GET_USER_INFO = "	SELECT	* 
 							FROM 	ef_users
-							WHERE 	id = " . $uid;
+							WHERE 	" . $where;
 		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
+	
+	/**
+	 * Pulls only the most basic user information from the database.
+	 * @param	$info | Either the user's ID or email
+	 * @return	$userInfo if valid, NULL if not
+	 */
+	public function getBasicUserInfo($info) {
+		if ( is_numeric($info) ) {
+			$where = "id = " . $info;
+		} else {
+			$where = "email = " . $info;
+		}
+		$GET_USER_INFO = "	SELECT	id,
+									fname,
+									lname,
+									email,
+									about,
+									verified,
+									pic,
+									twitter,
+									facebook,
+									url_alias
+							FROM 	ef_users
+							WHERE 	" . $where;
+		$userInfo = $this->executeValidQuery($GET_USER_INFO);
+		return $userInfo;
+	}
+	
 	
 	public function getUserInfoByEmail( $email ) {
 		$GET_USER_INFO = "	SELECT	* 
@@ -187,6 +190,30 @@ class DBConfig {
 							WHERE 	email = '" . $email . "'";
 		$userInfo = $this->executeQuery($GET_USER_INFO);
 		return $userInfo;
+	}
+	
+	/**
+	 * Given the URI alias, get the user row in the DB
+	 * @param $url_alias   String   the alias URI of an user
+	 */
+	public function getUserByURIAlias($url_alias) {
+		$GET_USER_URI_ALIAS = "	SELECT	* 
+								FROM 	ef_users 
+								WHERE 	url_alias = '" . mysql_real_escape_string($url_alias) . "'";
+		return $this->executeQuery($GET_USER_URI_ALIAS);
+	}
+	
+	public function updateUserInfo( $fname, $lname, $phone, $zip, $notif_opt1, $notif_opt2, $notif_opt3 ) {
+		$UPDATE_USER = "UPDATE	ef_users 
+						SET 	fname 		= '" . mysql_real_escape_string($fname) . "', 
+								lname 		= '" . mysql_real_escape_string($lname) . "',
+								phone 		= '" . mysql_real_escape_string($phone) . "',
+								zip 		= '" . mysql_real_escape_string($zip) . "',
+								notif_opt1 	= " . $notif_opt1 . ",
+								notif_opt2 	= " . $notif_opt2 . ",
+								notif_opt3 	= " . $notif_opt3 . "
+						WHERE	id = " . $_SESSION['user']->id;
+		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
 	public function getReferenceEmail($hashKey) {
@@ -247,20 +274,6 @@ class DBConfig {
 										phone	= '$cell' 
 								WHERE	id = $uid";
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
-	}
-	
-	public function updateUserInfo( $fname, $lname, $email, $phone, $zip, $twitter, $notif_opt1 = 1, $notif_opt2 = 1, $notif_opt3 = 1 ) {
-		$UPDATE_USER = "UPDATE	ef_users 
-						SET 	fname 		= '" . mysql_real_escape_string($fname) . "', 
-								lname 		= '" . mysql_real_escape_string($lname) . "',
-								email 		= '".mysql_real_escape_string($email)."', 
-								phone 		= '" . mysql_real_escape_string($phone) . "',
-								zip 		= '" . mysql_real_escape_string($zip) . "',
-								notif_opt1 	= " . $notif_opt1 . ",
-								notif_opt2 	= " . $notif_opt2 . ",
-								notif_opt3 	= " . $notif_opt3 . "
-						WHERE	id = " . $_SESSION['user']->id;
-		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
 	private function checkNullOrValSql($val) {
@@ -834,34 +847,12 @@ class DBConfig {
 		}
 	}
 	
-	public function preapprovePayment($uid, $eid, $pkey, $pemail) {
-		$PREAPPROVE_PAYMENT = "INSERT INTO ef_event_preapprovals (uid, eid, pkey, pemail) 
-		                          VALUES (".$uid.", '".$eid."', '".$pkey."', '".$pemail."')";
-		$this->executeUpdateQuery($PREAPPROVE_PAYMENT);
-	}
-	
-	public function getPaypalEmail($uid) {
-		$GET_PAYPAL_EMAIL = "SELECT * FROM ef_paypal_accounts e WHERE e.uid = ".$uid;
-		return $this->executeQuery($GET_PAYPAL_EMAIL);
-	}
-	
 	public function updateuserStatus($status) {
 		$uid = $_SESSION['user']->id;
 		$UPDATE_USER_STATUS = "	UPDATE	ef_users e 
 								SET 	e.about = '" . $status . "' 
 								WHERE 	e.id = " . $uid;
 		$this->executeUpdateQuery($UPDATE_USER_STATUS);
-	}
-	
-	
-	public function updatePaypalEmail($uid, $pemail) {
-		if ($this->getPaypalEmail($uid) > 0) {
-			$UPDATE_PAYPAL_EMAIL = "UPDATE ef_paypal_accounts e SET e.pemail = '".$pemail."' WHERE e.uid = ".$uid;
-			$this->executeUpdateQuery($UPDATE_PAYPAL_EMAIL);
-		} else {
-			$INSERT_PAYPAL_EMAIL = "INSERT INTO ef_paypal_accounts (uid, pemail) VALUES (".$uid.", '".$pemail."')";
-			$this->executeUpdateQuery($INSERT_PAYPAL_EMAIL);
-		}
 	}
 	
 	public function storeContacts($contactEmails, $uid) {
@@ -895,8 +886,6 @@ class DBConfig {
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}
-	
-	// DEPRECATED: Paypal
 	
 	/* getAttendeesByEvent
 	 * Grabs all the invited users to a specific event.
@@ -1257,14 +1246,5 @@ class DBConfig {
 	public function getEventByURIAlias($url_alias) {
 		$GET_EVENT_URI_ALIAS = "SELECT * FROM ef_events WHERE url_alias = '".mysql_real_escape_string($url_alias)."'";
 		return $this->executeQuery($GET_EVENT_URI_ALIAS);
-	}
-	
-	/**
-	 * Given the URI alias, get the user row in the DB
-	 * @param $url_alias   String   the alias URI of an user
-	 */
-	public function getUserByURIAlias($url_alias) {
-		$GET_USER_URI_ALIAS = "SELECT * FROM ef_users WHERE url_alias = '".mysql_real_escape_string($url_alias)."'";
-		return $this->executeQuery($GET_USER_URI_ALIAS);
 	}
 }

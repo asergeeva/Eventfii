@@ -22,35 +22,26 @@ class User extends AbstractUser {
 	public $fb_access_token;
 	public $fb_session_key;
 	
-	public function __construct($userInfo) {
+	public function __construct($info) {
 		// Settings page
-		if ( $userInfo === NULL ) {
+		if ( $info === NULL ) {
 			parent::__construct(NULL);
 			$this->set_phone();
 			$this->set_zip();
-			$this->twitter = $_SESSION['user']->twitter;
-			$this->facebook = $_SESSION['user']->facebook;
-			$this->notif_opt1 = ( isset($_POST['email-feature']) ) ? 1 : 0;
-			$this->notif_opt2 = ( isset($_POST['email-updates']) == 1 ) ? 1 : 0;		
-			$this->notif_opt3 = ( isset($_POST['email-friend']) == 1 ) ? 1 : 0;
+			$this->notif_opt1 = ( isset($_POST['notif_opt1']) && $_POST['notif_opt1'] == 1) ? 1 : 0;
+			$this->notif_opt2 = ( isset($_POST['notif_opt2']) && $_POST['notif_opt2'] == 1 ) ? 1 : 0;		
+			$this->notif_opt3 = ( isset($_POST['notif_opt3']) && $_POST['notif_opt3'] == 1 ) ? 1 : 0;
 		} else {
-			if ( ! is_array($userInfo) ) {
-				if ( is_numeric($userInfo) ) {
-					$userId = $userInfo;
-					$userInfo = EFCommon::$dbCon->getUserInfo($userId);
-				} else {
-					$userEmail = $userInfo;
-					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($userEmail);
-				}
-				
-				// Make sure a user was pulled from the db
-				if ( ! $userInfo ) {
-					$this->exists = false;
-				} else {
-					$this->exists = true;
-				}
+			if ( ! is_array($info) ) {
+				$info = EFCommon::$dbCon->getUserInfo($info);
 			}
-			$this->makeUserFromArray($userInfo);
+			$this->makeUserFromArray($info);
+		}
+		if ( $numErrors == 0 ) {
+			if ( $info === NULL ) {
+				$this->updateUser();
+			}
+			$_SESSION['user'] == $this;
 		}
 	}
 	
@@ -63,8 +54,6 @@ class User extends AbstractUser {
 		
 		$this->set_phone($userInfo['phone']);
 		$this->set_zip($userInfo['zip']);
-		$this->twitter = $userInfo['twitter'];
-		$this->facebook = $userInfo['facebook'];
 		$this->notif_opt1 = $userInfo['notif_opt1'];
 		$this->notif_opt2 = $userInfo['notif_opt2'];
 		$this->notif_opt3 = $userInfo['notif_opt3'];
@@ -73,13 +62,11 @@ class User extends AbstractUser {
 		$this->fb_session_key = $userInfo['fb_session_key'];	
 	}
 	
-	private function getUserInfoFromDb() {
-		return EFCommon::$dbCon->getUserInfo($this->uid);
-	}
-	
-	public function updateDb() {
-		EFCommon::$dbCon->updateUserInfo( $this->fname, $this->lname, $this->email, $this->phone, $this->zip, $this->twitter, isset($this->notif_opr1) ? 1 : 0, isset($this->notif_opt2) ? 1 : 0, isset($this->notif_opt3) ? 1 : 0 );
-		$_SESSION['user'] = $this;
+	public function updateUser() {
+		if ( $this->numErrors == 0 ) {
+			EFCommon::$dbCon->updateUserInfo( $this->fname, $this->lname, $this->phone, $this->zip, $this->notif_opt1, $this->notif_opt2, notif_opt3 );
+			$_SESSION['user'] = $this;
+		}
 	}
 	
 	public function setContacts($contact_email) {
@@ -194,35 +181,6 @@ class User extends AbstractUser {
 	 	
 		if( ! $valid_zip ) {
 			$this->addError("zip", "Please enter a valid zip code.");
-		}
-	}
-	
-	public function set_twitter($twitter = NULL) {
-		if ( $twitter == NULL ) {
-			if ( isset($_POST['twitter']) ) {
-				$twitter = $_POST['twitter']; 
-			}
-		}
-		
-		if ( strlen($twitter) == 0 ) {
-			$this->twitter = NULL;
-			return;
-		}
-		
-		$this->twitter = $twitter;
-
- 		$valid_twitter = filter_var(
-	 		$this->twitter, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
-	 			)
-	 		)
-	 	);
-	 	
-		if( ! $valid_twitter ) {
-			$this->addError("twitter", "Please enter a valid twitter username.");
 		}
 	}
 }
