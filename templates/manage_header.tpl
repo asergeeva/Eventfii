@@ -1,6 +1,6 @@
 <header id="header">
 		<h1>{$smarty.session.manage_event->title}</h1>
-		<h2><a href="{$CURHOST}/event/{$smarty.get.eventId}">See public event page</a></h2>
+		<h2><a href="{$CURHOST}/event/a/{$event->alias}?live=true">See public event page</a></h2>
 		<span id="event-id" style="display: none">{$smarty.get.eventId}</span>
 		<nav>
 			<ul>

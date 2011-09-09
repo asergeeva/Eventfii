@@ -398,7 +398,7 @@ class PanelController {
 			} else if (isset($_SESSION['page_redirect'])) { 
 				header("Location: " . $_SESSION['page_redirect']);
 				unset($_SESSION['page_redirect']);
-			} else if (isset($_SESSION['fb'])) {
+			} else if(isset($_SESSION['fb'])) {
 				header("Location: " . CURHOST . "/home?loggedIn=true");
 			} else {
 				header("Location: " . CURHOST . "/home?loggedIn=false");
@@ -1410,7 +1410,7 @@ class PanelController {
 						}
 					}
 					
-					header("Location: " . $this->getRedirectUrl());
+					header("Location: " . CURHOST . "/home?loggedin=true");
 					exit;
 
 				/* User used trueRSVP register */

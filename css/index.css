@@ -23,7 +23,7 @@ a:hover {
 /* Forms
 -------------------------*/
 input, textarea, select {
-	color: #808080;
+	color: #666;
 	font-size: 13px;
 	line-height: 18px;
 	border: 1px solid #ccc;
@@ -34,7 +34,6 @@ input, textarea, select {
 	display: inline-block; }
 input.inputbox, input.inputbox-small {
 	background: #fff;
-	color: #999;
 	font-size: 14px;
 	width: 280px;
 	height: 23px;
@@ -42,6 +41,7 @@ input.inputbox, input.inputbox-small {
 	border: 1px solid #999;
 	display: inline-block; }
 input.inputbox-small { width: 72px; }
+.default { color: #808080; }
 
 /*----- Buttons ----------*/
 .buttons { clear: both; }

@@ -7,13 +7,13 @@
 		<h1 id="event-{$event->eid}">{$event->title}</h1>		
 		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
 		<!--div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div-->
-		<span id="event-id" style="display: none">{$event->eid}</span>{if isset($smarty.session.user)}{if $smarty.session.user->id == $event->organizer->id}
+		<span id="event-id" style="display: none">{$event->eid}</span>{if isset($smarty.session.user) && isset($preview)}{if $smarty.session.user->id == $event->organizer->id}
 
 		<nav>
 			<ul>
 				<li id="manage"><a href="{$CURHOST}/event/manage?eventId={$event->eid}"><span>Manage</span></a></li>
 				<li id="edit"><a href="{$CURHOST}/event/manage/edit?eventId={$event->eid}" id="update_event_edit"><span>Edit</span></a></li>
-				<li class="current"><a href="{$CURHOST}/event/a/{$event->alias}" id="update_event_preview"><span>Preview</span></a></li>
+				<li class="current"><a href="{$CURHOST}/event/a/{$event->alias}?preview=true" id="update_event_preview"><span>Preview</span></a></li>
 			</ul>
 		</nav>{/if}{/if}
 

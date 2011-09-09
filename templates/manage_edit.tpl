@@ -5,16 +5,17 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		<header class="block">
-			<p class="message">{if isset($saved)}Event Saved.{else}Make changes to your event here.{/if}</p>
-		</header>
-		<div class="form">{if isset($error)}
+		<div class="form">
+			<section class="block">{if isset($error)}
 
-			<header class="block">
-				<p class="message">Please fix the errors below before continuing.</p>
-			</header>{/if}
+				<header class="block error">
+					<p class="message">Please fix the errors below to update your event.</p>
+				</header>{elseif isset($saved)}
 
-			<section class="block">
+				<header class="block notification">
+					<p class="message">Event Updated.</p>
+				</header>{/if}
+
 				<form method="post" action="{$CURHOST}/event/manage/edit?eventId={$smarty.session.manage_event->eid}">
 					{include file="create_form.tpl"}
 				</form>
