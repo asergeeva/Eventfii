@@ -393,8 +393,10 @@ class PanelController {
 		// if the user already logged in
 		if ( isset($_SESSION['user']) ) {
 			// If there is a page to be redirected to
-			if (isset($_SESSION['page_redirect'])) { 
-				header("Location: ". $_SESSION['page_redirect']);
+			if (isset($_SESSION['eventViewed'])) {
+				header("Location: " . EVENT_URL . "/a/".$_SESSION['eventViewed']->alias);
+			} else if (isset($_SESSION['page_redirect'])) { 
+				header("Location: " . $_SESSION['page_redirect']);
 				unset($_SESSION['page_redirect']);
 			} else if (isset($_SESSION['fb'])) {
 				header("Location: " . CURHOST . "/home?loggedIn=true");
@@ -482,6 +484,7 @@ class PanelController {
 	 */
 	private function displayEventById($eventId) {
 		$event = $this->buildEvent($eventId);
+		$_SESSION['eventViewed'] = $event;
 		
 		EFCommon::$smarty->assign("event", $event);
 		
@@ -653,7 +656,8 @@ class PanelController {
 					unset($_SESSION['new_eid']);
 					unset($_SESSION['manage_event']);
 					unset($_SESSION['contact_form']);
-					isset($_SESSION['gref']);
+					unset($_SESSION['gref']);
+					unset($_SESSION['eventViewed']);
 					
 					$this->assignCPEvents($_SESSION['user']->id);
 					
