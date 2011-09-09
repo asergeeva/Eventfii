@@ -105,7 +105,7 @@ class DBAPI extends DBConfig {
 		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
-	
+	//Deprecate
 	public function m_checkInGuestWithDate($isAttend, $uid, $eid, $date) 
 	{
 		$getRSVPDate = $this->m_getCheckInDate($eid, $uid);
@@ -141,6 +141,7 @@ class DBAPI extends DBConfig {
 					AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
+	//Deprecate
 	public function m_eventSignUp($uid, $event, $conf)
 	{
 		$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
@@ -148,6 +149,21 @@ class DBAPI extends DBConfig {
 							WHERE 	event_id = " . $event->eid . " 
 							AND 	user_id = " . $uid;
 		return $this->executeUpdateQuery($UPDATE_SIGN_UP);
+	}
+	public function m_eventSignUpWithDate($uid, $event, $conf, $date)
+	{
+		$getRSVPDate = $this->m_getCheckInDate($event-eid, $uid);
+		$rsvpDate = new DateTime($getRSVPDate['rsvp_time']);
+		$incomingRSVPDate = new DateTime($date);
+		if($incomingRSVPDate >= $rsvpDate)
+		{
+			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
+								SET 	confidence = " . $conf . " ,
+								rsvp_time = \"".$date."\"
+								WHERE 	event_id = " . $event->eid . " 
+								AND 	user_id = " . $uid;
+			return $this->executeUpdateQuery($UPDATE_SIGN_UP);
+		}
 	}
 	public function m_hasAttend($uid, $eid) {
 		$HAS_ATTEND = "	SELECT	* 

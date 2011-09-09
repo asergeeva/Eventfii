@@ -124,6 +124,10 @@ class APIController {
 				$event = new Event($_REQUEST['eid']);
 				echo json_encode($this->dbCon->m_eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
 				break;
+			case 'setAttendanceForEventWithDate':
+				$event = new Event($_REQUEST['eid']);
+				echo json_encode($this->dbCon->m_eventSignUpWithDate(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence'], $_REQUEST['date']));
+				break;
 			case 'getHostingEvents':
 				$hostingEvents = $this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id);				
 				for($i=0; $i < count($hostingEvents); $i++)
