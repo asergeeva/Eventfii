@@ -108,9 +108,15 @@ class DBAPI extends DBConfig {
 	
 	public function m_checkInGuestWithDate($isAttend, $uid, $eid, $date) 
 	{
-		$CHECKIN_GUEST = "UPDATE ef_attendance a SET a.is_attending = ".$isAttend." , a.rsvp_time = ".$date."
-												WHERE a.user_id = ".$uid." AND a.event_id = ".$eid."";
-		$this->executeUpdateQuery($CHECKIN_GUEST);
+		$getRSVPDate = $this->m_getCheckInDate($eid, $uid);
+		$rsvpDate = new DateTime($getRSVPDate['rsvp_time']);
+		$checkInDate = new DateTime($date);
+		if($checkInDate >= $rsvpDate)
+		{
+			$CHECKIN_GUEST = "UPDATE ef_attendance a SET a.is_attending = ".$isAttend.", a.rsvp_time = \"".$date."\"
+													WHERE a.user_id = ".$uid." AND a.event_id = ".$eid."";
+			$this->executeUpdateQuery($CHECKIN_GUEST);
+		}
 	}
 	public function m_getCheckInDate($eid, $uid)
 	{
