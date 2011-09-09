@@ -759,7 +759,7 @@ class DBConfig {
 									NOW()
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
-			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVP to {Event name}');
+			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVPing to {Event name}');
 		} else {
 			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
 								SET 	confidence = " . $conf . " 

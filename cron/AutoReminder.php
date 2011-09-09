@@ -12,12 +12,12 @@
  *      e.g. php AutoReminder.php 1 2 1
  */
 
-require_once(realpath(dirname(__FILE__)).'/../html/configs.php');
-require_once(realpath(dirname(__FILE__)).'/../html/models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../html/libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../html/db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../html/models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../html/models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/configs.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/db/DBConfig.class.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/Event.class.php');
 
 class AutoReminder {
 	private $dbCon;
