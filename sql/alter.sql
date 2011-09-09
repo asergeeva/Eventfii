@@ -16,3 +16,7 @@ ALTER TABLE ef_events MODIFY event_deadline DATE NOT NULL;
 -- 9/7/2011 --
 ALTER TABLE ef_events ADD COLUMN global_ref VARCHAR(500) NOT NULL;
 UPDATE ef_events SET global_ref = MD5('global-event-' + id);
+
+-- 9/9/2011 --
+ALTER TABLE ef_users ADD COLUMN user_cookie VARCHAR(500) NOT NULL;
+UPDATE ef_users SET user_cookie = MD5('cookie-user-' + id);

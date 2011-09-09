@@ -23,6 +23,8 @@ class AbstractUser {
 	public $friendly_confidence;
 	public $confidence;
 	
+	public $cookie;
+	
 	protected $error;
 	protected $numErrors;
 	
@@ -63,6 +65,7 @@ class AbstractUser {
 		$this->about = $userInfo['about'];
 		$this->pic = $this->setUserPic($userInfo['facebook']);
 		$this->is_attending = $userInfo['is_attending'];
+		$this->cookie = $userInfo['user_cookie'];
 	}
 	
 	private function setUserPic($facebook = NULL) {

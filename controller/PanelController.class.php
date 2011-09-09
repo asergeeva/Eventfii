@@ -556,6 +556,14 @@ class PanelController {
 		EFCommon::$smarty->assign("current_page", $uri);
 		$requestUri = str_replace(PATH, '', $uri);
 		
+		// Check for cookie
+		if (isset($_COOKIE['truersvp_user'])) {
+			$userCookie = EFCommon::$dbCon->getUserByCookie($_COOKIE['truersvp_user']);
+			if (isset($userCookie)) {
+				$_SESION['user'] = new User($userCookie);
+			}
+		}
+		
 		// If mail invite reference, save in Session
 		if (isset($_REQUEST['ref'])) {
 			$_SESSION['ref'] = $_REQUEST['ref'];
@@ -1381,6 +1389,7 @@ class PanelController {
 					}
 					
 					$_SESSION['user'] = new User($userId);
+					setcookie('truersvp_user', $_SESSION['user']->cookie);
 					
 					// Create user's event if valid
 					if ( isset($_SESSION['newEvent']) ) {
@@ -1508,6 +1517,11 @@ class PanelController {
 				}
 				session_unset();
 				session_destroy();
+				
+				// Remove cookies
+				unset($_COOKIE['truersvp_user']);
+				setcookie('truersvp_user', NULL, -1);
+				
 				EFCommon::$smarty->display('index.tpl');
 				break;
 			case '/notyet':
