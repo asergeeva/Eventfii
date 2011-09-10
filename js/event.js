@@ -16,7 +16,7 @@ var EVENT = (function() {
 						conf: $(this).children("input").val()
 				}, function(resultPage) {
 					$('#notification-message').html(resultPage);
-					$('#notification-container').fadeIn();
+					$('#notification-container').fadeIn('slow');
 				});
 				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
 			});

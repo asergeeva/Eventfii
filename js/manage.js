@@ -41,7 +41,6 @@ var MANAGE_EVENT = ( function() {
 			
 			// EMAIL
 			$('#send_email_reminder').live('click', function() {
-				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/email/send', {
 					autoReminder: $('#automatic_email_send_cb').attr('checked'),
 					reminderDate: $('#automatic_email_event_date').val(),
@@ -52,18 +51,17 @@ var MANAGE_EVENT = ( function() {
 					isFollowup: $('#is_followup').val(),
 					eid: $('#event_id').html()
 				}, function(retval) {
-					$('#notification-box').fadeIn('slow');
 					if(retval=="Success") {
-						$('#reminder_status').html(EFGLOBAL.isSucceed);
+						$('#notification-message').html(EFGLOBAL.isSucceed);
 					} else {
- 						$('#reminder_status').html(retval);
+ 						$('#notification-message').html(retval);
  					}
+ 					$('#notification-box').fadeIn('slow');
 				});
 			});
 			
 			// TEXT
 			$('#send_text_reminder').live('click', function() {
-				$('#reminder_status').html(EFGLOBAL.ajaxLoader);
 				$.post(EFGLOBAL.baseUrl + '/event/text/send', {
 					autoReminder: $('#automatic_text_send_cb').attr('checked'),
 					reminderDate: $('#automatic_text_event_date').val(),
@@ -72,12 +70,12 @@ var MANAGE_EVENT = ( function() {
 					reminderContent: $('#text-message').val(),
 					eid: $('#event_id').html()
 				}, function(retval) {
-					$('#notification-box').fadeIn('slow');
 					if(retval=="Success") {
-						$('#reminder_status').html(EFGLOBAL.isSucceed);
+						$('#notification-message').html(EFGLOBAL.isSucceed);
 					} else {
-						$('#reminder_status').html(retval);
+						$('#notification-message').html(retval);
 					}
+					$('#notification-box').fadeIn('slow');
 				});
 			});
 			

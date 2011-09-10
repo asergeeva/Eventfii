@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		<header class="block notification" style="display:none" id="notification-box">
-			<p class="message">Text sent successfully.</p>
+			<p class="message" id="notification-message">Text sent successfully.</p>
 		</header>
 		{include file="manage_nav.tpl"}
 		<div class="content">
