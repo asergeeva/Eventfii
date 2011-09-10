@@ -731,6 +731,10 @@ class PanelController {
 		switch ($current_page) {
 			case '/':
 			case '/home':
+				if (isset($_SESSION['isNewUser'])) {
+					EFCommon::$smarty->assign('isNewUser', true);
+					unset($_SESSION['isNewUser']);
+				}
 				if (isset($_SESSION['user'])) {
 					$page['cp'] = true;
 					EFCommon::$smarty->assign('page', $page);

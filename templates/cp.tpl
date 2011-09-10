@@ -4,6 +4,9 @@
 {include file="header.tpl"}
 <div id="container">
 	{include file="cp_header.tpl"}
+	{if isset($isNewUser)}
+		<p>foo</p>
+	{/if}
 	<section id="main">{if isset($smarty.get.loggedIn)}
 
 		<header class="block notification">{if $smarty.get.loggedIn == 'true'}

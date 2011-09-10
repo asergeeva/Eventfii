@@ -374,6 +374,8 @@ class DBConfig {
 			$this->recordUnconfirmedAttendance($_SESSION['gref'], $newUser['id']);
 		}
 		
+		$_SESSION['isNewUser'] = true;
+		
 		return $newUser;
 	}
 	
