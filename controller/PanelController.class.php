@@ -755,6 +755,9 @@ class PanelController {
 			case '/demo':
 				header("Location: ".EVENT_URL."/a/1af");
 				break;
+			case '/media':
+				EFCommon::$smarty->display('media.tpl');
+				break;
 			case '/terms':
 				EFCommon::$smarty->display('terms.tpl');
 				break;

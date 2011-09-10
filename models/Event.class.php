@@ -115,7 +115,7 @@ class Event {
 		
 		$this->title = stripslashes($title);
 		
-		if( strtolower( $this->title ) == "i'm planning..." || $this->title == "Name of Event" ) {
+		if( strtolower( $this->title ) == "i'm planning..." || $this->title == "name of event" ) {
 			$this->error['title'] = "Please enter an event title";
 			$this->numErrors++;
 		} else if ( strlen($this->title) < 5 ) {
@@ -305,17 +305,7 @@ class Event {
 		
 		$this->time = $time;
 		
-		$valid_time = filter_var(
-	 		$this->time, 
-	 		FILTER_VALIDATE_REGEXP, 
-	 		array(
-	 			"options" => array(
-	 				"regexp" => "/(\d{2}):(\d{2})/"
-	 			)
-	 		)
-	 	);
-		
-		if( !$valid_time ) {
+		if( $this->time == 0 ) {
 			$this->error['time'] = "Please select a time for your event";
 			$this->numErrors++;
 		}
@@ -499,21 +489,6 @@ class Event {
 		if( strlen($this->twitter) == 0 || $this->twitter == "Ex: #TurtlesRock" ) {
 			$this->twitter = NULL;
 			return;
-		} else {
-			$valid_twitter = filter_var(
-		 		$this->twitter, 
-		 		FILTER_VALIDATE_REGEXP, 
-		 		array(
-		 			"options" => array(
-		 				"regexp" => "/\#([a-zA-Z0-9_]{1,15})$/"
-		 			)
-		 		)
-		 	);
-		 	
-			if( ! $valid_twitter ) {
-				$this->error['twitter'] = "Please enter a valid Twitter hashtag";
-				$this->numErrors++;
-			}
 		}
 	}
 	
@@ -726,12 +701,7 @@ class Event {
 		// Send the email invites
 		EFCommon::$mailer->sendHtmlInvite($this, $newGuests);
 		
-		if ( $newGuests == 0 ) {
-			return "No guests added.";
-		} else {
-			$plural_guest = (sizeof($newGuests) == 1) ? "guest" : "guests";
-			return sizeof($newGuests) . " " . $plural_guest . " added successfully";
-		}
+		return $newGuests;
 	}
 	
 	/**
