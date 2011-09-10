@@ -283,13 +283,15 @@ class PanelController {
 			}
 		}
 
-		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($eventId));
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
 		EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
 		EFCommon::$smarty->assign('eventInfo', $eventInfo);
 		EFCommon::$smarty->display('manage_event_on.tpl');
 	}
 	
 	public function assignManageVars($eventId) {
+		$event = new Event($eventId);
+	
 		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
 		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
 		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
@@ -307,7 +309,7 @@ class PanelController {
 		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
 		
 		EFCommon::$smarty->assign('guestimate', EFCommon::$core->computeGuestimate($eventId));
-		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($eventId));
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
 	}
 
 	/* function getEventIdByUri
