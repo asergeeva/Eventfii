@@ -308,6 +308,17 @@ class DBConfig {
 		EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
 	}
 	
+	public function getNextUserId() {
+		$GET_MAX_UID = "  	SELECT	MAX(u.id) AS max_id 
+							FROM	ef_users u";
+		$maxId = $this->executeQuery($GET_MAX_UID);
+		if ( is_null($maxId['max_id']) ) {
+			return 1;
+		}
+		
+		return intval($maxId['max_id']) + 1;
+	}
+	
 	/**
 	 * Create a new user
 	 */

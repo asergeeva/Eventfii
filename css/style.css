@@ -47,18 +47,24 @@ header#page-header {
 	margin: 0 auto; }
 
 /*----- Logo ----------*/
-#page-header h1 {
-	background: url(../images/logo.png) 0 0 no-repeat;
+#page-header #logo { 
 	float: left;
-	width: 243px;
-	height: 72px;
 	margin: 4px 0 0; }
-#page-header h1 a {
+#logo a {
+	background: url(../images/logo.png) 0 0 no-repeat;
 	width: 243px;
 	height: 72px;
+	vertical-align: text-bottom;
 	text-indent: -10000px;
-	display: block; }
-
+	display: inline-block; }
+#logo em {
+	background: url(../images/beta.png) 0 0 no-repeat;
+	width: 31px;
+	height: 12px;
+	margin: 0 0 15px -15px;
+	text-indent: -10000px;
+	vertical-align: text-bottom;
+	display: inline-block; }
 /*----- Links ----------*/
 #page-header aside {
 	float: right;
@@ -74,9 +80,14 @@ header#page-header {
 
 /* Forms
  -------------------------*/
+.form-login { 
+	text-align: center;
+	width: 350px;
+	margin: 0 auto; }
 .form { overflow: auto; }
-fieldset { position: relative; }
-fieldset dl { padding: 18px 0 0; }
+fieldset { 
+	padding: 18px 0 0;
+	position: relative; }
 
 /*----- Facebook Messages ----------*/
 .form .fb-connected {
@@ -117,6 +128,7 @@ fieldset dt {
 fieldset dt.inline { float: left; }
 fieldset dt label { 
 	color: #464646;
+	text-align: left;
 	font-size: 16px;
 	line-height: 18px;
 	padding: 0;
@@ -363,7 +375,8 @@ article h2 { font-size: 16px; }
 .message-small {
 	text-align: center;
 	font-size: 13px;
-	margin: 15px 0; }
+	margin: 15px 0 0; }
+.form-login .message-small { margin: 5px 0 -13px; }
 
 /*----- Block ----------*/
 .block {
@@ -860,8 +873,7 @@ ul.contacts-list li p {
 #user-pic p.user-name { text-align: center; }
 #user-pic p.user-img {
 	text-align: center;
-	width: 100%;
-	margin: 8px 0 0; }
+	width: 100%; }
 p.user-img img { 
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
@@ -881,7 +893,7 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
-	width: 190px; }
+	width: 220px; }
 #main .navigation .block { padding: 8px; }
 #main .navigation .block a { color: #3399cc; }
 #main .navigation .block a:hover { color: #fff; }
