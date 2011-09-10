@@ -43,7 +43,7 @@ class EFCommon {
 		CONFOPT4 => "Not likely",
 		CONFOPT5 => "Raincheck",
 		CONFOPT6 => "Spam",
-		CONFELSE => "Not Responding"
+		CONFELSE => "No Response"
 	);
 	
 	public static $smarty;

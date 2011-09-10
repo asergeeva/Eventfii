@@ -7,7 +7,7 @@
 
 					<li>
 						<a href="{$CURHOST}/event/{$event->eid}">
-							<h2><strong>{$event->title}</strong></h2>
+							<h2><strong>{$event->title}</strong> {$event->getHumanReadableEventTime()}</h2>
 						</a>
 					</li>{/foreach}
 

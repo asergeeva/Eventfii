@@ -463,7 +463,7 @@ article h2 { font-size: 16px; }
  -------------------------*/
 #main .content {
 	float: left;
-	width: 600px;
+	width: 580px;
 	vertical-align: top; }
 	
 /*----- Create Event ----------*/
@@ -657,51 +657,53 @@ nav.steps.step-3 { background-position: 0 -100px; }
 	text-align: center;
 	margin: 0 0 10px; }
 .rsvp-message em { color: #ff9933; }
+#rsvp fieldset { margin: 0 -12px; }
 ol.rsvp-list { margin: 0; }
 .rsvp-list li {
 	position: relative;
 	text-decoration: none;
 	color: #fff;
 	width: 100%;
-	margin: 0 0 8px;
 	display: block; }
 .rsvp-list li label {
+	background: none 50% 0 no-repeat;
 	text-align: center;
 	font-size: inherit;
 	padding: 0;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
 	cursor: pointer;
 	display: block; }
 .rsvp-list .rsvp-1 { 
-	background: #2799d8;
+	background-image: url(../images/btn_rsvp_1.png);
 	font-size: 18px;
-	padding: 6px 0; }
+	height: 42px; /* 52 - 10 */
+	padding: 10px 0 0; }
 .rsvp-list .rsvp-2 { 
-	background: #66afd8;
+	background-image: url(../images/btn_rsvp_2.png);
 	font-size: 16px;
-	margin: 0 6px 8px;
-	padding: 6px 0; }
+	height: 39px; /* 47 - 8 */
+	padding: 8px 0 0; }
 .rsvp-list .rsvp-3 { 
-	background: #95c0d8;
+	background-image: url(../images/btn_rsvp_3.png);
 	font-size: 15px;
-	margin: 0 12px 8px;
-	padding: 6px 0; }
+	height: 38px; /* 46 - 8 */
+	padding: 8px 0 0; }
 .rsvp-list .rsvp-4 {
-	background: #b5ccd8;
+	background-image: url(../images/btn_rsvp_4.png);
 	font-size: 15px;
-	margin: 0 18px 8px;
-	padding: 6px 0; }
+	height: 36px; /* 43 - 7 */
+	padding: 7px 0 0; }
 .rsvp-list .rsvp-5 {
-	background: #cbd4d8;
+	background-image: url(../images/btn_rsvp_5.png);
 	font-size: 13px;
-	margin: 0 26px 8px;
-	padding: 6px 0; }
+	height: 33px; /* 40 - 7 */
+	padding: 7px 0 0; }
+.rsvp-list li label.selected, .rsvp-list li label:hover { background-position: 50% 100%; }
 .rsvp-list .rsvp-6, .rsvp-list .rsvp-6:hover { 
-	background: none;
+	background-image: none;
 	font-size: 9px; }
-.rsvp-list li label.selected, .rsvp-list li label:hover { background: #ff9933; }
+.rsvp-list .rsvp-6 span { color: #3399cc; }
+
+/* Input boxes that are checked */
 .rsvp-list li label input { 
 	position: absolute;
 	visibility: hidden; }
@@ -711,7 +713,8 @@ ol.rsvp-list { margin: 0; }
 	vertical-align: middle;
 	margin: 0;
 	display: inline-block; }
-.rsvp-list .rsvp-6 span { color: #3399cc; }
+
+/* Popup window */
 .rsvp-list li label em { 
 	background: url(../images/rsvp_bubble.png) 0 0 no-repeat;
 	font-size: 11px;
@@ -720,9 +723,9 @@ ol.rsvp-list { margin: 0; }
 	position: absolute;
 	top: 0;
 	right: -145px;
-	width: 138px; /* 169 - 31 */
+	width: 128px; /* 169 - 31 - 10 */
 	height: 32px; /* 42 - 10 */
-	padding: 10px 0 0 31px;
+	padding: 10px 10px 0 31px;
 	display: none; }
 .rsvp-list li:hover label em { display: block; }
 
@@ -851,7 +854,7 @@ ul.contacts-list li p {
  -------------------------*/
 #main .extra {
 	float: left;
-	width: 200px; }
+	width: 220px; }
 #main .extra .block { padding: 12px; }
 
 /*----- Profile Panels ----------*/

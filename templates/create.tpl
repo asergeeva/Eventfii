@@ -195,6 +195,7 @@
 							</dd>
 							<dt>
 								<label>Twitter Hash Tag</label>
+								<em>To share tweets &amp; photos</em>
 							</dt>
 							<dd{if isset($error.twitter)} class="error"{/if}>
 								<input type="text" name="twitter" value="{if isset($event_field.twitter)}{$event_field.twitter}{else}Ex: #TurtlesRock{/if}" class="inputbox{if ! isset($event_field.twitter)} default{/if}" id="twitter" />{if isset($error.twitter)}
