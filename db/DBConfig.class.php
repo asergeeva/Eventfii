@@ -413,7 +413,7 @@ class DBConfig {
 			$this->executeUpdateQuery($UPDATE_USER);
 			
 			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
-			setcookie('truersvp_user', $_SESSION['user']->cookie);
+			setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 		}
 		return $this->getUserInfoByEmail($email);
 	}

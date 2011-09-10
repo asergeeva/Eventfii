@@ -29,6 +29,7 @@ define('USER_ALIAS_OFFSET', 505);
 define('USER_COOKIE_PREFIX', 'cookie-user-');
 define('EVENT_REF_PREFIX', 'global-event-');
 define('EVENT_ALIAS_OFFSET', 403);
+define('USER_COOKIE', 'truersvp_user');
 
 define('LAUNCH_PAGE', CURHOST.'/launch');
 

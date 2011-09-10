@@ -635,8 +635,8 @@ class PanelController {
 		$requestUri = str_replace(PATH, '', $uri);
 		
 		// Check for cookie
-		if (isset($_COOKIE['truersvp_user'])) {
-			$userCookie = EFCommon::$dbCon->getUserByCookie($_COOKIE['truersvp_user']);
+		if (isset($_COOKIE[USER_COOKIE])) {
+			$userCookie = EFCommon::$dbCon->getUserByCookie($_COOKIE[USER_COOKIE]);
 			if (isset($userCookie)) {
 				$_SESION['user'] = new User($userCookie);
 			}
@@ -1393,7 +1393,7 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['pass']), $_POST['zip'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['password']), $_POST['zip'] );
 					
 					if (isset($userInfo)) {
 						// Assign user's SESSION variables
@@ -1460,7 +1460,7 @@ class PanelController {
 						EFCommon::$smarty->assign('error', $error);
 						EFCommon::$smarty->display("login.tpl");
 						break;
-					} 
+					}
 					
 					$userInfo = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['password'] );
 					
@@ -1473,7 +1473,7 @@ class PanelController {
 					}
 					
 					$_SESSION['user'] = new User($userInfo);
-					setcookie('truersvp_user', $_SESSION['user']->cookie);
+					setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 					
 					// Create user's event if valid
 					if ( isset($_SESSION['newEvent']) ) {
@@ -1606,8 +1606,8 @@ class PanelController {
 				session_destroy();
 				
 				// Remove cookies
-				unset($_COOKIE['truersvp_user']);
-				setcookie('truersvp_user', NULL, -1);
+				unset($_COOKIE[USER_COOKIE]);
+				setcookie(USER_COOKIE, NULL, -1);
 				
 				EFCommon::$smarty->display('index.tpl');
 				break;
