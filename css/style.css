@@ -111,8 +111,8 @@ fieldset {
 fieldset legend {
 	color: #404040;
 	font-weight: bold; 
-	font-size: 30px;
-	line-height: 36px;
+	font-size: 22px;
+	line-height: 26px;
 	width: 100%;
 	padding: 0 0 8px;
 	border-bottom: 1px solid #ccc;
@@ -129,8 +129,8 @@ fieldset dt.inline { float: left; }
 fieldset dt label { 
 	color: #464646;
 	text-align: left;
-	font-size: 16px;
-	line-height: 18px;
+	font-size: 12px;
+	line-height: 16px;
 	padding: 0;
 	display: block; }
 /* Star */
@@ -145,7 +145,7 @@ fieldset dt em {
 /*----- Forms Title ----------*/
 fieldset dd { 
 	text-align: left;
-	margin: 4px 0 20px;
+	margin: 4px 0 10px;
 	padding: 0 10px;
 	clear: right; }
 fieldset dd label { display: block; }
@@ -288,7 +288,7 @@ select.timebox { cursor: pointer; }
 	-webkit-border-top-right-radius: 8px;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px; }
-#header nav li.current, #header nav li:hover { background: #e8e8e8; }
+#header nav li.current, #header nav li:hover { background: url(../images/main_bg.gif); }
 #header nav li a {
 	text-decoration: none;
 	font-size: 14px;
@@ -355,7 +355,7 @@ article h2 { font-size: 16px; }
 /* Main
  -------------------------*/
 #main {
-	background: #e8e8e8;
+	background: url(../images/main_bg.gif);
 	width: 800px; /* 820 - 20 */
 	padding: 20px 10px 10px;
 	-moz-border-radius: 8px; 
@@ -383,12 +383,13 @@ article h2 { font-size: 16px; }
 	background: #fff;
 	margin: 0 10px 15px;
 	padding: 15px;
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	border: 2px solid #cacaca;
-	border-top-width: 1px;
-	border-left-width: 1px;
+	border: 1px solid #888;
 	overflow: hidden; }
 
 /* Some nice notification blocks taken from
@@ -458,6 +459,7 @@ article h2 { font-size: 16px; }
 .block .block-collapsable-title {
 	background: #3399cc;
 	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	font-size: 16px;
 	height: 27px; /* 33 - 6 */
 	margin: -15px -15px 7px;
@@ -610,7 +612,9 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .event-list li a h2 { 
 	float: left;
 	padding: 5px 0; }
-.event-list li a h2 strong { display: block; }
+.event-list li a h2 strong { 
+	color: #404040;
+	display: block; }
 .event-list li a:hover h2 strong { 
 	color: #ff9933;
 	text-decoration: underline; }
@@ -949,6 +953,7 @@ ul.network li a {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	line-height: 1;
 	margin: 0;
 	border: 0;
