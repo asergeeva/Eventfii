@@ -547,9 +547,22 @@ nav.steps.step-3 { background-position: 0 -100px; }
 	display: block; }
 
 /*----- Slider ----------*/
+#cp-manage .turtle {
+	background: url(../images/turtle_small.png) 0 0 no-repeat;
+	text-align: center;
+	font-size: 16px;
+	line-height: 24px;
+	width: 468px; /* 528 - 60 */
+	height: 58px; /* 68 - 10 */
+	margin: 0 auto;
+	padding: 10px 0 0 60px; }
+#cp-manage .turtle strong { font-weight: bold; }
+#cp-manage .turtle em {
+	color: #42b3d9;
+	font-weight: bold; }
 .rsvp-progress {
 	position: relative;
-	margin: 20px 40px 40px;
+	margin: 80px 40px 50px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -557,16 +570,25 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .rsvp-progress p {
 	position: absolute;
 	text-align: center;
-	top: -20px;
+	top: 33px;
 	right: 0;
-	width: 80px;
-	margin: 0 -40px 0 0; }
+	width: 120px;
+	margin: 0 -60px 0 0; }
+.rsvp-progress p.trueRSVP {
+	top: -85px;
+	width: 120px; }
 .rsvp-progress em {
+	font-size: 60px;
 	color: #3399cc;
-	margin: 0 0 45px;
 	display: block; }
-.rsvp-progress .goal em { color: #ff9933;}
-.rsvp-progress span { display: block; }
+.rsvp-progress .goal em { 
+	color: #ff9933;
+	font-size: 16px; }
+.rsvp-progress span { 
+	font-size: 15px;
+	font-weight: bold;
+	display: block; }
+.rsvp-progress .trueRSVP span { margin: -10px 0 0; }
 .rsvp-progress .meter {
 	background: #3399cc;
 	position: relative;
@@ -813,6 +835,7 @@ ol.rsvp-list { margin: 0; }
 	border: 1px solid #ccc; }
 
 /*----- Response Table ----------*/
+#cp-breakdown { margin: 10px 0 0; }
 .table { font-size: 13px; }
 .table dt {
 	float: left;
