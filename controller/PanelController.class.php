@@ -225,10 +225,6 @@ class PanelController {
 			$error[$type] = $msg;
 			EFCommon::$smarty->append('error', $error, true);
 			$flag = 2;
-		} else if ( EFCommon::$dbCon->isUserEmailExist( $_POST['email'] ) ) {
-			$error[$type] = "There is already an account associated with this e-mail";
-			EFCommon::$smarty->append('error', $error, true);
-			$flag = 2;
 		}
 		return $flag;
 	}

@@ -26,6 +26,8 @@ define('CSS_PATH', CURHOST.'/css');
 define('EVENT_URL', CURHOST.'/event');
 define('NUM_TWEETS', 25);
 define('USER_ALIAS_OFFSET', 505);
+define('USER_COOKIE_PREFIX', 'cookie-user-');
+define('EVENT_REF_PREFIX', 'global-event-');
 define('EVENT_ALIAS_OFFSET', 403);
 
 define('LAUNCH_PAGE', CURHOST.'/launch');

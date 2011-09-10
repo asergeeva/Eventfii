@@ -339,8 +339,9 @@ class DBConfig {
 		
 		// If the email hasn't yet been found in the system
 		if ( ! $this->isUserEmailExist($email) ) {
+			$nextUserId = $this->getNextUserId();
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, 
-															zip, facebook, fb_access_token, fb_session_key, url_alias) 
+															zip, facebook, fb_access_token, fb_session_key, url_alias, user_cookie) 
 								VALUES(".$this->checkNullOrValSql($fname).", 
 									   ".$this->checkNullOrValSql($lname).", 
 									   '".mysql_real_escape_string($email)."', 
@@ -350,7 +351,8 @@ class DBConfig {
 									   ".$this->checkNullOrValSql($fbid).",
 									   ".$this->checkNullOrValSql($access_token).",
 									   ".$this->checkNullOrValSql($session_key).",
-									   '".dechex(USER_ALIAS_OFFSET + $this->getNextUserId())."')";
+									   '".dechex(USER_ALIAS_OFFSET + $nextUserId)."',
+									   '".md5(USER_COOKIE_PREFIX.$nextUserId)."')";
 			$this->executeUpdateQuery($CREATE_NEW_USER);
 			$newUser = $this->getUserInfoByEmail($email);
 			
@@ -488,6 +490,7 @@ class DBConfig {
 			$twitter = substr($newEvent->twitter, strpos($newEvent->twitter, '#') + 1);
 		}
 		
+		$nextEventId = $this->getNextEventId();
 		$CREATE_NEW_EVENT = "
 			INSERT INTO ef_events (	
 							created, 
@@ -525,8 +528,8 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						'" . dechex(EVENT_ALIAS_OFFSET + $this->getNextEventId()) . "',
-						'" . md5('global-event-'.$this->getNextEventId()) . "'
+						'" . dechex(EVENT_ALIAS_OFFSET + $nextEventId) . "',
+						'" . md5(EVENT_REF_PREFIX.$nextEventId) . "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
