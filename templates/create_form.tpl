@@ -104,7 +104,7 @@
 
 							</dd>
 							<dt> 
-								<label for="type">Event Type<span>*</span>1</label>
+								<label for="type">Event Type<span>*</span></label>
 							</dt>
 							<dd{if isset($error.type)} class="error"{/if}>
 								<select name="type" id="type"> 
