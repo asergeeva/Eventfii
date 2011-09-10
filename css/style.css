@@ -80,11 +80,27 @@ header#page-header {
 
 /* Forms
  -------------------------*/
+.form { overflow: auto; }
 .form-login { 
 	text-align: center;
 	width: 350px;
 	margin: 0 auto; }
-.form { overflow: auto; }
+.form-register .turtle {
+	background: url(../images/turtle_large.png) 0 0 no-repeat;
+	float: left;
+	width: 269px; /* 335 - 66 */
+	height: 417px; /* 429 - 12 */
+	margin: 64px 0 0;
+	padding: 12px 55px 0 11px; }
+.form-register .turtle h2 { 
+	font-size: 14px;
+	font-weight: bold; }
+.form-register .turtle p { 
+	font-size: 12px;
+	margin: 8px 0 0; }
+.form-register .block {
+	float: left;
+	width: 360px; }
 fieldset { 
 	padding: 18px 0 0;
 	position: relative; }
