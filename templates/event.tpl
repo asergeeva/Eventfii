@@ -18,6 +18,7 @@
 		</nav>{/if}{/if}
 
 	</header>
+
 	<section id="main">
 		{include file="event_side.tpl"}
 		{include file="event_main.tpl"}

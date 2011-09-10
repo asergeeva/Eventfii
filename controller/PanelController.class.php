@@ -517,6 +517,16 @@ class PanelController {
 		$event = $this->buildEvent($eventId);
 		$_SESSION['eventViewed'] = $event;
 		
+		if (isset($_SESSION['attemptValue'])) {
+			// Make sure that it only select one choice
+			if (sizeof($_SESSION['attemptValue']) == 1) {
+				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
+					$this->attendEvent($eid, $conf, false);
+					unset($_SESSION['attemptValue']);
+				}
+			}
+		}
+		
 		EFCommon::$smarty->assign("event", $event);
 		
 		// Check to see if the event exists
@@ -570,6 +580,47 @@ class PanelController {
 			EFCommon::$smarty->assign("profile", $profile);
 			EFCommon::$smarty->assign("is_following", $is_following);
 			EFCommon::$smarty->display('profile.tpl');
+		}
+	}
+	
+	/**
+	 * The current user session would like to sign up specified event 
+	 * 		with specified confidence
+	 *
+	 * @param $eid  Integer event ID
+	 * @param $conf Integer confidence value
+	 *
+	 */
+	private function attendEvent($eid, $conf, $isAjax = true) {
+		$event = $this->buildEvent($eid);
+		$notification = NULL;
+		
+		// Waiting list
+		if (sizeof($event->guests) >= $event->goal) {
+			switch($event->reach_goal) {
+				case 1:
+					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
+					$notification = "Success!";
+					break;
+				case 2:
+					$notification = "Event is full, host decided not to take anymore attendees";
+					break;
+				case 3:
+					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $conf);
+					$notification = "You have been added to the waiting list for this event";
+					break;
+			}
+		} else {
+			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
+			$notification = "Success!";
+		}
+		
+		if (isset($notification)) {
+			if ($isAjax) {
+				print($notification);
+			} else {
+				EFCommon::$smarty->assign('attendNotification', $notification);
+			}
 		}
 	}
 	
@@ -986,27 +1037,11 @@ class PanelController {
 				}
 				break;
 			case '/event/attend':
-				$event = $this->buildEvent($_POST['eid']);
-				
-				// Waiting list
-				if (sizeof($event->guests) >= $event->goal) {
-					switch($event->reach_goal) {
-						case 1:
-							EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $_POST['conf']);
-							print("Success!");
-							break;
-						case 2:
-							print("Event is full, host decided not to take anymore attendees");
-							break;
-						case 3:
-							EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $_POST['conf']);
-							print("You have been added to the waiting list for this event");
-							break;
-					}
-				} else {
-					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $_POST['conf']);
-					print("Success!");
-				}
+				$this->attendEvent($_POST['eid'], $_POST['conf']);
+				break;
+			case '/event/attend/attempt':
+				unset($_SESSION['attemptValue']);
+				$_SESSION['attemptValue'] = array($_POST['eid'] => $_POST['conf']);
 				break;
 			case '/event/checkin':
 				$isAttend = 1;
@@ -1451,6 +1486,9 @@ class PanelController {
 							$this->makeNewEvent( $newEvent );
 						}
 					}
+					
+					// Check if the user needs to be redirected instead
+					$this->loggedInRedirect();
 					
 					header("Location: " . CURHOST . "/home?loggedin=true");
 					exit;

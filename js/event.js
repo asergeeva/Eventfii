@@ -15,7 +15,8 @@ var EVENT = (function() {
 						eid: $('#event-id').text(),
 						conf: $(this).children("input").val()
 				}, function(resultPage) {
-					$('#response_stat_msg').html(resultPage);
+					$('#notification-message').html(resultPage);
+					$('#notification-container').fadeIn();
 				});
 				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
 			});
@@ -26,6 +27,10 @@ var EVENT = (function() {
 $(document).ready(function() {
 	EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
+		$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {
+				eid: $('#event-id').text(),
+				conf: $(this).children("input").val()
+		});
 		$("#log-in").fadeIn(500);
 		return false;
 	});
