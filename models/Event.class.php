@@ -499,6 +499,21 @@ class Event {
 		if( strlen($this->twitter) == 0 || $this->twitter == "Ex: #TurtlesRock" ) {
 			$this->twitter = NULL;
 			return;
+		} else {
+			$valid_twitter = filter_var(
+		 		$this->twitter, 
+		 		FILTER_VALIDATE_REGEXP, 
+		 		array(
+		 			"options" => array(
+		 				"regexp" => "/\#([a-zA-Z0-9_]{1,15})$/"
+		 			)
+		 		)
+		 	);
+		 	
+			if( ! $valid_twitter ) {
+				$this->error['twitter'] = "Please enter a valid Twitter hashtag";
+				$this->numErrors++;
+			}
 		}
 	}
 	
