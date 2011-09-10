@@ -131,29 +131,52 @@ class PanelController {
 	}
 
 	// checkUserCreationForm
-	public function checkUserCreationForm($req) {
+	public function checkUserCreationForm($userInfo) {
 		$flag = 1;
-		$fname = $req['fname'];
-		$lname = $req['lname'];
-		$email = $req['email'];
-		$phone = $req['phone'];
-		$pass = $req['pass'];
-		$zip = $req['zip'];
+		$email = $userInfo['email'];
+		$password = $userInfo['password'];
+		$fname = $userInfo['fname'];
+		$lname = $userInfo['lname'];
+		$phone = $userInfo['phone'];
+		$zip = $userInfo['zip'];
 
-		$zipcode_val = $this->valUsingRegExp($zip,"/^\d{5}(-\d{4})?$/","user_create_zipcode","Please enter a valid zip code.");
-		$f_name_val = $this->valUsingRegExp($fname,"/^[A-Za-z0-9']*$/","user_create_fname","First name can only contain A-Z 0-9 '");
-		$l_name_val = $this->valUsingRegExp($lname,"/^[A-Za-z0-9']*$/","user_create_lname","Last name can only contain A-Z 0-9 '");
-		$email_val = $this->valEmail($email,"user_create_email","Email entered is invalid.");
-		$ph_val = $this->valUsingRegExp($phone,"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/","user_create_phone","Phone number is not in valid format");
-		$pass_val = $this->valUsingRegExp($pass,"/^[A-Za-z0-9]*$/","user_create_pass","Password can only contain A-Z 0-9");
-
-		if( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $pass_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
+		$email_val = 	$this->valEmail(
+							$email,
+							"email",
+							"Email entered is invalid."
+						);
+		if ( strlen($password) < 6 ) {
 			$flag = 2;
+			$error['password'] = "Password should be at least 6 characters";
+			EFCommon::$smarty->append("error", $error, true);
 		}
+		$f_name_val = 	$this->valUsingRegExp(
+							$fname,
+							"/^[A-Za-z']*$/",
+							"fname",
+							"First name should only contain letters"
+						);
+		$l_name_val = 	$this->valUsingRegExp(
+							$lname,
+							"/^[A-Za-z']*$/",
+							"lname",
+							"Last name should only contain letters"
+						);
+		$ph_val = 		$this->valUsingRegExp(
+							$phone,
+							"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",
+							"phone",
+							"Phone number is not in valid format"
+						);
+		$zipcode_val = 	$this->valUsingRegExp(
+							$zip, 
+							"/^\d{5}(-\d{4})?$/", 
+							"zip", 
+							"Please enter a valid zip code"
+						);
 
-		if( strlen($pass) < 6 ) {
+		if ( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
 			$flag = 2;
-			EFCommon::$smarty->assign("user_create_pass","Please enter a password of atleast 6 characters in length");
 		}
 		
 		// Flag = 2, error = true, else, error = false
@@ -196,21 +219,27 @@ class PanelController {
 		return $msg;
 	}
 
-	public function valEmail($email,$tmp_var,$msg) {
-		$flag=1;
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			EFCommon::$smarty->assign($tmp_var,$msg);
-			$flag=2;
+	public function valEmail($email, $type, $msg) {
+		$flag = 1;
+		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			$error[$type] = $msg;
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
+		} else if ( EFCommon::$dbCon->isUserEmailExist( $_POST['email'] ) ) {
+			$error[$type] = "There is already an account associated with this e-mail";
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
 		}
 		return $flag;
 	}
 
-	public function valUsingRegExp($val,$regex,$tmp_var,$msg) {
-		$flag=1;
-		$res=filter_var($val, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>$regex)));
-		if(!($res)) {
-			EFCommon::$smarty->assign($tmp_var,$msg);
-			$flag=2;
+	public function valUsingRegExp($val,$regex,$type,$msg) {
+		$flag = 1;
+		$res = filter_var( $val, FILTER_VALIDATE_REGEXP, array( "options" => array( "regexp" => $regex ) ) );
+		if( ! $res ) {
+			$error[$type] = $msg;
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
 		}
 		return $flag;
 	}
@@ -1315,15 +1344,13 @@ class PanelController {
 					break;
 				// if the user submits the register form
 				} else if ( isset ( $_POST['register'] ) ) {
-					$req['fname'] = $_POST['fname']; 	
-					$req['lname'] = $_POST['lname'];
-					$req['email'] = $_POST['email'];
-					$req['phone'] = $_POST['phone'];
-					$req['pass'] = $_POST['pass'];
-					$req['zip'] = $_POST['zip'];
-					$errors = $this->checkUserCreationForm($req);
-					
-					$user = new User( NULL );
+					$userInfo['email'] = $_POST['email'];
+					$userInfo['password'] = $_POST['password'];
+					$userInfo['fname'] = $_POST['fname']; 	
+					$userInfo['lname'] = $_POST['lname'];
+					$userInfo['phone'] = $_POST['phone'];
+					$userInfo['zip'] = $_POST['zip'];
+					$errors = $this->checkUserCreationForm($userInfo);
 					
 					// Check if any errors
 					if( $errors ) {
@@ -1378,22 +1405,32 @@ class PanelController {
 					break;
 				// if the user submits the login form
 				} else if ( isset( $_POST['login'] ) ) {
-					if ( ! isset( $_POST['email'] ) ) {
+					if ( strlen($_POST['email']) == 0 ) {
 						$error['email'] = "Please enter an e-mail";
 						EFCommon::$smarty->assign('error', $error);
 						EFCommon::$smarty->display("login.tpl");
 						break;
+					} else if ( ! filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ) {
+						$error['email'] = "Please enter a valid e-mail address";
+						EFCommon::$smarty->assign('error', $error);
+						EFCommon::$smarty->display("login.tpl");
+						break;
+					} else if ( ! EFCommon::$dbCon->isUserEmailExist( $_POST['email'] ) ) {
+						$error['email'] = "E-mail is not registered in our system";
+						EFCommon::$smarty->assign('error', $error);
+						EFCommon::$smarty->display("login.tpl");
+						break;
 					}
-					if ( ! isset( $_POST['pass'] ) ) {
+					if ( strlen($_POST['password']) == 0 ) {
 						$error['password'] = "Please enter a password";
 						EFCommon::$smarty->assign('error', $error);
-						EFCommon::$smarty>display("login.tpl");
+						EFCommon::$smarty->display("login.tpl");
 						break;
 					} 
 					
-					$userInfo = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );
+					$userInfo = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['password'] );
 					
-					if ( ! isset( $userInfo ) ) {
+					if ( ! $userInfo ) {
 						// Invalid e-mail/password combination
 						$error['login'] = "Invalid e-mail or password";
 						EFCommon::$smarty->assign('error', $error);

@@ -3,11 +3,17 @@
 
 {include file="header.tpl"}
 <div id="container">{if isset($smarty.get.redirect)}
-	<header class="block">
+	<header class="block error">
 		<p class="message">You must be logged in to access this page.</p>		
+	</header>{/if}{if isset($error.login)}
+
+	<header class="block error">
+		<p class="message">{$error.login}</p>
 	</header>{/if}
 
-	{include file="login_form.tpl"}
+	<section class="form-login">
+		{include file="login_form.tpl"}
+	</section>
 </div>
 {include file="footer.tpl"}
 

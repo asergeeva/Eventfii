@@ -16,72 +16,65 @@
 			<div id="invalid_credentials"></div>
 			<p class="message-small">or</p> 
 			<p class="message-small">Create New Account</p>{/if}
+			
+			<dl>
+				<dt>
+					<label for="email">Email</label>
+				</dt>
+				<dd{if isset($error.email)} class="error"{/if}>
+					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->email)} input-facebook{/if}" />{if isset($error.email)}
 
-			<label for="ef_login_email_new">
-				<strong>Email</strong> 
-				<div>{if isset($smarty.session.user)}
+					<em>{$error.email}</em>{/if}
 
-					<p>{$smarty.session.user->email}</p>{else}
+				</dd>
+				<dt>
+					<label for="password">Password</label>
+				</dt>
+				<dd{if isset($error.password)} class="error"{/if}>
+					<input type="password" name="password" class="inputbox" />{if isset($error.password)}
 
-					<input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->email)} input-facebook{/if}" id="ef_login_email_new" />{/if}
+					<em>{$error.password}</em>{/if}
 
-				</div>{if isset($user_create_email)}
+				</dd>
+				<dt>
+					<label for="fname">First Name</label>
+				</dt>
+				<dd{if isset($error.fname)} class="error"{/if}>
+					<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.fname)}
 
-				<p class="message-error">{$user_create_email}</p>{/if}
+					<em>{$error.fname}</em>{/if}
 
-			</label>{if ! isset($smarty.session.user)}
+				</dd>
+				<dt>
+					<label for="lname">Last Name</label>
+				</dt>
+				<dd{if isset($error.lname)} class="error"{/if}>
+					<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.lname)}
 
-			<label for="ef_login_pass_new">
-				<strong>Password</strong> 
-				<div>
-					<input type="password" class="inputbox" name="pass" id="ef_login_pass_new" />
-				</div>{if isset($user_create_pass)}
+					<em>{$error.lname}</em>{/if}
 
-				<p class="message-error">{$user_create_pass}</p>{/if}
+				</dd>
+				<dt>
+					<label for="phone">Cell Phone #</label>
+				</dt>
+				<dd{if isset($error.phone)} class="error"{/if}>
+					<input type="text" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{/if}" class="inputbox" />{if isset($error.phone)}
 
-			</label>{/if}
+					<em>{$error.phone}</em>{/if}
 
-			<label for="ef_fname_new">
-				<strong>First Name</strong> 
-				<div>{if isset($smarty.session.user)}
+					<p>So you can easily receive event updates through texts!</p>
+				</dd>
+				<dt>
+					<label>Zip Code</label>
+				</dt>
+				<dd{if isset($error.zip)} class="error"{/if}>
+					<input type="text" name="zip" value="{if isset($smarty.post.zip)}{$smarty.post.zip}{/if}" class="inputbox" />{if isset($error.zip)}
 
-					<p>{$smarty.session.user->fname}</p>{/if}
+					<em>{$error.zip}</em>{/if}
 
-					<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_fname_new" /></p>
-				</div>{if isset($user_create_fname)}
-				<p class="message-error">{$user_create_fname}</p>{/if}
-
-			</label>
-			<label for="ef_lname_new">
-				<strong>Last Name</strong> 
-				<div>{if isset($smarty.session.user)}
-
-					<p>{$smarty.session.user->lname}</p>{else}
-
-					<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" id="ef_lname_new" />{/if}
-
-				</div>{if isset($user_create_lname)}
-				<p class="message-error">{$user_create_lname}</p>{/if}
-
-			</label>
-			<label for="ef_login_phone_new">
-				<strong>Cell Phone #</strong> 
-				<div>
-					<input type="text" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{/if}" class="inputbox" id="ef_login_phone_new" /> 
-				</div>
-				<p>So you can easily receive event updates through texts!</p>{if isset($user_create_phone)}
-				<p class="message-error">{$user_create_phone}</p>{/if}
-
-			</label>
-			<label for="ef_zipcode_new">
-				<strong>Zip Code</strong>
-				<div>
-					<input type="text" name="zip" value="{if isset($smarty.post.zip)}{$smarty.post.zip}{/if}" class="inputbox" id="ef_zipcode_new" /> 
-				</div>
-				<p>So we can tell you how close to your events you are.</p>{if isset($user_create_zipcode)}
-				<p class="message-error">{$user_create_zipcode}</p>{/if}
-
-			</label>
+					<p>So we can tell you how close to your events you are.</p>
+				</dd>
+			</dl>
 			<footer class="buttons-submit"> 
 				<p><span class="btn btn-med"><input type="submit" name="register" value="Done" /></span></p>
 				<!--a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a-->
