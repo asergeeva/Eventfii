@@ -30,3 +30,5 @@ INSERT INTO ef_event_type (name) VALUES ('Professional event/networking');
 INSERT INTO ef_event_type (name) VALUES ('Meeting');
 INSERT INTO ef_event_type (name) VALUES ('Club');
 INSERT INTO ef_event_type (name) VALUES ('Conference');
+-- Others --
+INSERT INTO ef_event_type (name) VALUES ('Others');

@@ -144,6 +144,9 @@
 										<option value="15"{if $event_field.type eq '15'} selected{/if}>Club</option> 
 										<option value="16"{if $event_field.type eq '16'} selected{/if}>Conference</option> 
 									</optgroup> 
+									<optgroup label="Others">
+										<option value="17"{if $event_field.type eq '17'} selected{/if}>Others</option> 
+									</optgroup> 
 								</select>{if isset($error.type)}
 
 								<em>{$error.type}</em>{/if}

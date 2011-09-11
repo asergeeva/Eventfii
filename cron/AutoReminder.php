@@ -28,8 +28,8 @@ class AutoReminder {
 	private $interval_hour;
 	private $type;
 	
-	private const EMAIL_TYPE = 1;
-	private const SMS_TYPE = 2;
+	const EMAIL_TYPE = 1;
+	const SMS_TYPE = 2;
 		
 	public function __construct($interval_day, $interval_hour, $type) {
 		$this->interval_day = $interval_day;
