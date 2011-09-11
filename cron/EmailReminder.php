@@ -76,5 +76,5 @@ class EmailReminder {
 	}
 }
 
-$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
+$emailCron = new EmailReminder($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
 $emailCron->sendReminders();
