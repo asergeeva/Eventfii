@@ -844,7 +844,6 @@ class PanelController {
 				$page['contacts'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
-				// Please implement
 				$contacts = array();
 				$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
 				for ($i = 0; $i < sizeof($contactList); ++$i) {
@@ -968,7 +967,7 @@ class PanelController {
 				}
 				break;
 			case '/event/create/guests':
-				if ( ! isset($_SESSION['newEvent']) ) {
+				if ( ! isset($_GET['eventId']) ) {
 					header("Location: " . CURHOST . "/event/create");
 					exit;
 				}
@@ -988,11 +987,24 @@ class PanelController {
 					}
 				}
 								
-				$contacts = $this->getAttendees(NULL);
+				$signedUp = $this->getAttendees(NULL);
+				EFCommon::$smarty->assign('signedUp', $signedUp);
+				
+				$contacts = array();
+				$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+				for ($i = 0; $i < sizeof($contactList); ++$i) {
+					$contact = new User($contactList[$i]);
+					array_push($contacts, $contact);
+				}
+				
+				if ( sizeof($contacts) > 0 )
+					EFCommon::$smarty->assign('contacts', $contacts);
+				else
+					EFCommon::$smarty->assign('contacts', NULL);
+				
 				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->assign('contacts', $contacts);
 				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &amp;option=manual");
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;

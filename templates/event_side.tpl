@@ -54,7 +54,6 @@
 						</li>
 					</ol>
 				</fieldset>
-				<div id="response_stat_msg"></div>
 			</section>{/if}
 
 			<section class="block" id="twitter">

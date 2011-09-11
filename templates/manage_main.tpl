@@ -12,7 +12,7 @@
 			<section class="block" id="cp-manage">
 				<header class="turtle">
 					<p><strong>Your trueRSVP #</strong> = how many people will actually show up!</p>
-					<p>We’ve calculated that your <strong>trueRSVP</strong> number is <em>25</em></p>
+					<p>We’ve calculated that your <strong>trueRSVP</strong> number is <em>{$trsvpVal}</em></p>
 				</header>
 				<div class="rsvp-progress">
 					<div class="meter" style="width: {$trsvpVal / $smarty.session.manage_event->goal * 100}%">

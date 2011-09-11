@@ -24,7 +24,7 @@
 				</ul>
 			</nav>{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
-			<section class="block">{if isset($contacts)}
+			<section class="block">{if isset($contacts) && false}
 
 				<header class="block-title">
 					<h1>Contacts</h1>
@@ -39,7 +39,7 @@
 
 							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
-							<p><a href="#/{$contact->email}/">{$contact->email}</a></p>
+							<p>{$contact->email}</p>
 						</label>
 					</li>{/foreach}
 
@@ -48,8 +48,8 @@
 				<header class="block error">
 					<p class="message">No contacts</p>
 				</header>
-				<footer class="message"1>
-					<p>Use the options above to add guests to your event. Guests added to your event will automatically be added to your trueRSVP contact list. You can also <a href={$CURHOST}/contacts/add">add guests</a> to your contact list through your <a href="{$CURHOST}">control panel</a>.</p>
+				<footer class="message">
+					<p>Use the options above to add guests to your event. Guests added to your event will automatically be added to your trueRSVP contact list. You can also <a href="{$CURHOST}/contacts/add">add guests</a> to your contact list through your control panel.</p>
 				</footer>{/if}
 
 			</section>{elseif $smarty.get.option == 'manual' || ($page.addcontacts && ! isset($smarty.get.option))}
@@ -61,7 +61,7 @@
 						<label>Enter e-mails separated by a comma</label>
 						<textarea name="emails" class="inputbox autowidth"></textarea>
 						<footer class="buttons buttons-submit"> 
-							<p><span class="btn btn-med"><input type="submit" name="submit" value="Add" /></span></p>
+							<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
 						</footer>
 					</fieldset>
 				</form>
@@ -84,4 +84,7 @@
 
 			{/if}
 
+			<footer class="buttons buttons-submit">
+				<p><a href="{$CURHOST}/$event/a/{$event->alias}?created=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
+			</footer>
 		</section>

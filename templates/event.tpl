@@ -20,7 +20,7 @@
 			<p class="event-link">{if $event->alias == "1af"}{$CURHOST}/demo{else}{$CURHOST}/event/a/{$event->alias}{/if}</p>
 		</div>
 		<footer class="buttons">
-			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/register" class="btn btn-med"><span>Sign Up</span></a></p>
+			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/register" class="btn btn-med"><span>Sign Up</span></a> or <a href="#">Skip</a></p>
 		</footer>
 	</header>{/if}
 
