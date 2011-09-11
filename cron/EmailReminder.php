@@ -37,7 +37,7 @@ class EmailReminder {
 		$this->interval_day = $interval_day;
 		$this->interval_hour = $interval_hour;
 		$this->subject = $subject;
-		$this->forGuest = if (strtolower($forGuest) == 'guest') ? true : false;
+		$this->forGuest = (strtolower($forGuest) == 'guest') ? true : false;
 	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
@@ -60,19 +60,19 @@ class EmailReminder {
 						WHERE e.event_datetime = DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
-		fwrite($this->logger, "-- Sending ".sizeof($events)." email reminders --\n");
+		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email reminders --\n");
 		for ($i = 0; $i < sizeof($events); ++$i) {
 			$event = new Event($events[$i]);
 			
 			if (!$this->forGuest) {
 				$this->mailer->sendHtmlEmail($this->template, $event->organizer, $this->subject, $event);
-				fwrite($this->logger, "Sent host reminder email for event_id = ".$event->eid."\n");
+				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent host reminder email for event_id = ".$event->eid."\n");
 			} else {
 				$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
-				fwrite($this->logger, "Sent guest reminder email for event_id = ".$event->eid."\n");
+				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guest reminder email for event_id = ".$event->eid."\n");
 			}
 		}
-		fwrite($this->logger, "-- Cron job for sending Email reminders COMPLETED --\n");
+		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email reminders COMPLETED --\n");
 	}
 }
 
