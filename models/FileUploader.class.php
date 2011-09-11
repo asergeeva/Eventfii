@@ -1,4 +1,5 @@
 <?php
+require_once(realpath(dirname(__FILE__)).'/ImageResizer.class.php');
 
 /**
  * Handle file uploads via XMLHttpRequest
@@ -63,6 +64,7 @@ class qqFileUploader {
     private $allowedExtensions = array();
     private $sizeLimit = 10485760;
     private $file;
+    private $imageResizer;
 
     function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760){        
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
@@ -70,6 +72,7 @@ class qqFileUploader {
         $this->allowedExtensions = $allowedExtensions;        
         $this->sizeLimit = $sizeLimit;
         
+        $this->imageResizer = new ImageResizer();;
         $this->checkServerSettings();       
 
         if (isset($_GET['qqfile'])) {
@@ -145,15 +148,20 @@ class qqFileUploader {
             return array('error' => 'File has an invalid extension, it should be one of '. $these . '.');
         }
         
+        $imagePath = $uploadDirectory . $filename . '.' . $ext;
         if(!$replaceOldFile){
             /// don't overwrite previous files that were uploaded
-            while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
+            while (file_exists($imagePath)) {
                 $filename .= rand(10, 99);
             }
         }
         
 		if (trim($filename) != "") {
-			if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
+			if ($this->file->save($imagePath)){
+					$this->imageResizer->load($imagePath);
+					$this->imageResizer->resize(96, 96);
+					$this->imageResizer->save($imagePath);
+					
 					return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
 			} else {
 					return array('error'=> 'Could not save uploaded file.' .
