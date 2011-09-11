@@ -3,7 +3,7 @@
 
 {include file="header.tpl"}
 <div id="container">
-	<div class="error">
+	<div class="page-error">
 		<h1>Uh oh! The page you requested does not exist.</h1>
     <p>{$current_page}</p>
     <p>{$error_message}</p>

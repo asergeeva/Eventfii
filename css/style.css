@@ -599,7 +599,8 @@ nav.steps.step-3 { background-position: 0 -100px; }
 
 /*----- Event Information ----------*/
 .event-info .event-desc {
-	padding: 0 0 30px; }
+	padding: 0 0 30px;
+	white-space: pre; }
 .event-info .event-more {
 	float: left;
 	width: 50%; }
@@ -812,9 +813,13 @@ ol.rsvp-list { margin: 0; }
 .twitter-info span { 
 	color: #ff9933;
 	font-weight: bold; }
+.twitStream {
+	max-height: 500px;
+	margin: 0 -8px 0 0;
+	overflow: auto; }
 .tweet {
 	font-size: 10px;
-	margin: 8px -4px 0;
+	margin: 8px 0 0;
 	overflow: auto; }
 .tweet .tweet-left { 
 	float: left;
