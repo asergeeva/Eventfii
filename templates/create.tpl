@@ -221,13 +221,11 @@
 
 							<p><span class="btn btn-med"><input type="submit" name="step2" value="Next" /></span></p> 
 						</footer> 
-					</fieldset>
+					</fieldset>{/if}
+
 				</form>
 			</div>
-		</section>{elseif $step == 3}
-
-		{include file="create_guest.tpl"}{/if}
-
+		</section>
 	</div>
 </div>
 {include file="footer.tpl"}

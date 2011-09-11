@@ -84,9 +84,12 @@ class PanelController {
 	}
 	
 	private function getAttendees($eventId) {
+		if ( $eventId == NULL ) {
+			$eventId = $_GET['eventId'];
+		}
 		$user_array = EFCommon::$dbCon->getAttendeesByEvent($eventId);
 		foreach($user_array as $userInfo) {
-			$attendees[] = new User($userInfo);
+			$attendees[] = new AbstractUser($userInfo);
 		}
 		return $attendees;
 	}
@@ -125,8 +128,9 @@ class PanelController {
 		EFCommon::$dbCon->createNewEvent($newEvent);
 		
 		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
-		
-		header("Location: " . CURHOST . "/event/create/guests");
+		$_SESSION['newEvent']->setGuests(NULL);
+				
+		header("Location: " . CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid );
 		exit;
 	}
 
@@ -620,9 +624,9 @@ class PanelController {
 		}
 	}
 	
-	/* private function setPage($page) {
-	
-	} */
+	public static function clearExtraUserSessions() {
+		unset($_SESSION['newEvent']);
+	}
 	
 	/* function getView
 	 * Determines which template files to display
@@ -904,6 +908,8 @@ class PanelController {
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
 			case '/event/create':
+				$this->clearExtraUserSessions();
+			
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
@@ -961,8 +967,8 @@ class PanelController {
 					}
 				}
 				break;
-			case '/event/create/guests':		
-				if ( ! isset($_GET['eventId']) || strlen($_GET['eventId']) == 0 ) {
+			case '/event/create/guests':
+				if ( ! isset($_SESSION['newEvent']) ) {
 					header("Location: " . CURHOST . "/event/create");
 					exit;
 				}
@@ -973,18 +979,20 @@ class PanelController {
 				
 				if ( isset($_POST['submit']) ) {
 					if ( $_GET['option'] == "manual" || $_GET['option'] == "csv" ) {
-						$num_added = $_SESSION['newEvent']->submitGuests();
-						if ( $num_added == 0 ) {
+						$guest_emails = $_SESSION['newEvent']->submitGuests();
+						if ( sizeof($guest_emails) == 0 ) {
 							EFCommon::$smarty->assign('error', "No guests added.");
 						} else {
 							EFCommon::$smarty->assign('notification', "Yay!");
-						}	
+						}
 					}
 				}
 								
+				$signedUp = $this->getAttendees(NULL);
 				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->display('create.tpl');
+				EFCommon::$smarty->assign('signedUp', $signedUp);
+				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
 				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
@@ -1146,11 +1154,11 @@ class PanelController {
 				}
 				
 				// Fetch the users who have signed up
-				$curSignUp = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+				$invited_users_array = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 
-				$signedUp = NULL;
+				$invitedUser = NULL;
 				foreach( $curSignUp as $guest ) {
-					$signedUp[] = new User($guest);
+					$signedUp[] = new AbstractUser($guest);
 				}
 				EFCommon::$smarty->assign( 'signedUp', $signedUp );
 				

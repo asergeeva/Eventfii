@@ -8,7 +8,7 @@
 			<h2>Why sign up for trueRSVP?</h2>
 			<p>For hosts, finally get an accurate attendance count.</p>
 			<p>For guests, access immediate updates from events you care about!</p>
-			<p><a href="{$CURHOST}/tour">Take a tour</a> to find out more!</p>
+			<p><a href="{$CURHOST}/method">Take a tour</a> to find out more!</p>
 		</div>
 		<div class="form block">
 			<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}" autocomplete="off">

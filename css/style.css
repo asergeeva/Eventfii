@@ -271,7 +271,7 @@ select.timebox { cursor: pointer; }
 /* Container
  -------------------------*/
 #container {
-	width: 820px;
+	width: 930px;
 	margin: 40px auto 0;
 	padding: 0 0 70px;
 	overflow: auto; }
@@ -356,7 +356,6 @@ article h2 { font-size: 16px; }
 
 
 /*----- Method ----------*/
-.method { margin: 0 -30px; }
 .method section { 
 	padding: 0 0 10px;
 	overflow: auto;
@@ -732,9 +731,11 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .rsvp-message {
 	font-size: 14px;
 	text-align: center;
-	margin: 0 0 10px; }
+	margin: 4px 0; }
 .rsvp-message em { color: #ff9933; }
-#rsvp fieldset { margin: 0 -12px; }
+#rsvp fieldset { 
+	margin: 0 -12px;
+	padding: 0; }
 ol.rsvp-list { margin: 0; }
 .rsvp-list li {
 	position: relative;

@@ -688,7 +688,7 @@ class Event {
 	public function submitGuests() {
 		$csvFile = CSV_UPLOAD_PATH . '/' . $this->eid . '.csv';
 		
-		$newGuests = 0;
+		$newGuests = array();
 		
 		// text area check
 		if (trim($_POST['emails']) != "") {
@@ -696,7 +696,7 @@ class Event {
 		// CSV file check
 		} else if (file_exists($csvFile)) {
 			$newGuests = $this->setGuestsFromCSV($csvFile);
-		}
+		} 
 		
 		// Send the email invites
 		EFCommon::$mailer->sendHtmlInvite($this, $newGuests);
@@ -719,26 +719,33 @@ class Event {
 	}
 	
 	public function setGuests($guest_email) {
-		$guests = explode(",", $guest_email);
+		$addGuest = array();
 		
-		// Reset the errors
-		unset($this->error);
-		$this->error["add_guest"] = "";
-		$this->numErrors = 0;
-		
-		if (sizeof($guests) > 1) {
-			foreach($guests as $guest) {
-				$guest = trim($guest);
-				if ($this->addGuestEmail($guest)) {
-					$addGuest[] = $guest;
-				}
+		// Inviting the guest organizer for new event
+		if ( $guest_email == NULL ) {	
+			$addGuest[0] = $_SESSION['user']->email;
+			if ( $this->addGuestEmail($guest_email) ) {
+				$addGuest[] = $guest_email;
 			}
-		} else if ($this->addGuestEmail($guest_email)) {
-			$addGuest[] = $guest_email;
+		} else {
+		// Inviting any other user(s)
+			$guests = explode(",", $guest_email);
+			
+			unset($this->error);
+			$this->numErrors = 0;
+			
+			if (sizeof($guests) >= 1) {
+				foreach($guests as $guest) {
+					$guest = trim($guest);
+					if ($this->addGuestEmail($guest)) {
+						$addGuest[] = $guest;
+					}
+				}
+			} 
 		}
-		
+			
 		if ( isset($addGuest) ) {
-			EFCommon::$dbCon->storeGuests($addGuest, $this->eid, $_SESSION['user']->id);
+			EFCommon::$dbCon->storeGuests($addGuest, $this->eid);
 		} else {
 			return 0;
 		}

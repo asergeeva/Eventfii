@@ -1,4 +1,4 @@
-<section class="block" id="events-created">
+	<section class="block" id="events-created">
 				<header class="block-collapsable-title">
 					<h1>I'm hosting...</h1>
 				</header>{assign var=createdEvents_counts value=$createdEvents|@count}{if $createdEvents_counts gt 0}
