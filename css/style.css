@@ -271,7 +271,7 @@ select.timebox { cursor: pointer; }
 /* Container
  -------------------------*/
 #container {
-	width: 930px;
+	width: 820px;
 	margin: 40px auto 0;
 	padding: 0 0 70px;
 	overflow: auto; }

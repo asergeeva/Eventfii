@@ -21,6 +21,9 @@
 
 				<header class="block error">
 					<p class="message">No contacts</p>
-				</header>{/if}
+				</header>
+				<footer class="buttons buttons-submit">
+					<p><a href="{$CURHOST/contacts/add}"
+				</footer>{/if}
 
 			</section>

@@ -990,6 +990,7 @@ class PanelController {
 								
 				$signedUp = $this->getAttendees(NULL);
 				EFCommon::$smarty->assign('step', 3);
+				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
 				EFCommon::$smarty->assign('signedUp', $signedUp);
 				EFCommon::$smarty->display('create_guest.tpl');
@@ -1169,6 +1170,7 @@ class PanelController {
 				EFCommon::$smarty->assign('event', $event);
 				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
 				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
+				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
 			case '/guest/inviter':
