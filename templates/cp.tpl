@@ -1,13 +1,20 @@
+{$isNewUser}
 {include file="head.tpl"}
 <body>
 
 {include file="header.tpl"}
-<div id="container">
+<div id="container">{if isset($isNewUser)}
+
+	<header class="block info-message">
+		<h1>Hi {$smarty.session.user->fname}, welcome to trueRSVP!</h1>
+		<h2>Check out what you can do first:</h2>
+		<footer class="buttons">
+			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/create" class="btn btn-med"><span>Create New Event</span></a> <a href="{$CURHOST}/settings" class="btn btn-med"><span>Update Profile</span></a></p>
+		</footer>
+	</header>{/if}
+
 	{include file="cp_header.tpl"}
-	{if isset($isNewUser)}
-		<p>foo</p>
-	{/if}
-	<section id="main">{if isset($smarty.get.loggedIn)}
+	<section id="main">{if isset($smarty.get.loggedIn) && ! isset($isNewUser)}
 
 		<header class="block notification">{if $smarty.get.loggedIn == 'true'}
 

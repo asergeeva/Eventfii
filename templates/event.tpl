@@ -2,7 +2,28 @@
 <body>
 
 {include file="header.tpl"}
-<div id="container">
+<div id="container">{if isset($smarty.get.created)}
+
+	<header class="block info-message">
+		<h1>Wahoo! Here's your awesome event page!</h1>
+		<h2>And your event link to share with everyone:</h2>
+		<p class="event-link">{$CURHOST}/event/a/{$event->alias}</p>
+		<footer class="buttons">
+			<p><a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="btn btn-med"><span>Manage</span></a></p>
+		</footer>
+	</header>{/if}{if ! isset($_SESSION['user'])}
+
+	<header class="block info-message">
+		<div class="turtle">
+			<h1>Welcome to trueRSVP!</h1>
+			<h2>Share this event link with everyone you know:</h2>
+			<p class="event-link">{if $event->alias == "1af"}{$CURHOST}/demo{else}{$CURHOST}/event/a/{$event->alias}{/if}</p>
+		</div>
+		<footer class="buttons">
+			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/register" class="btn btn-med"><span>Sign Up</span></a></p>
+		</footer>
+	</header>{/if}
+
 	<header id="header">
 		<h1 id="event-{$event->eid}">{$event->title}</h1>		
 		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
@@ -18,7 +39,6 @@
 		</nav>{/if}{/if}
 
 	</header>
-
 	<section id="main">
 		<header class="block notification" {if !isset($attendNotification)}style="display:none"{/if} id="notification-container">
 			<p class="message" id="notification-message">{if isset($attendNotification)}{$attendNotification}{/if}</p>
