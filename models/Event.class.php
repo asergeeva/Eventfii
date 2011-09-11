@@ -306,7 +306,7 @@ class Event {
 		
 		$this->time = $time;
 		
-		if( $this->time == 0 ) {
+		if( $this->time == 0 && $this->time != "00:00" ) {
 			$this->error['time'] = "Please select a time for your event";
 			$this->numErrors++;
 		}

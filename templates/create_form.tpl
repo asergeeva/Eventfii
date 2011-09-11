@@ -43,12 +43,12 @@
 								<label for="date">When<span>*</span></label> 
 								<em>Date &amp; Time</em>
 							</dt>
-							<dd{if ! isset($event_field.date) or $event_field.date == ""} class="error"{/if}>
-								<p><input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox id="time">{include file="timeselect.tpl" time=$event_field.time}</select></p>{if isset($error.date)}
+							<dd{if ( ! isset($event_field.date) or $event_field.date == "") || isset($error.time)} class="error"{/if}>
+								<input type="text" name="date" value="{$event_field.date}" class="inputbox datebox" id="date" /> <select name="time" class="timebox id="time">{include file="timeselect.tpl" time=$event_field.time}</select>{if isset($error.date)}
 
-								<p class="message-error">{$error.date}</p>{/if}{if isset($error.time)}
+								<em>{$error.date}</em>{/if}{if isset($error.time)}
 
-								<p class="message-error">{$error.time}</p>{/if}{if ! isset($event_field.end_date) or $event_field.end_date == ""}
+								<em>{$error.time}</em>{/if}{if ! isset($event_field.end_date) or $event_field.end_date == ""}
 								
 								<p><a href="#" id="end-date">Add End Time</a></p>{/if}
 

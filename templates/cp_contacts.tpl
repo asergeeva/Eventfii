@@ -16,14 +16,14 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="content">
+		<div class="content">{if isset($page.contacts)}
+
+			{include file="contacts.tpl"}{elseif isset($page.addcontacts)}
+
 			<header class="block">
 				<p class="message">Make your event well known! Add your contacts.</p>
-			</header>{if isset($page.addcontacts)}
-
-			{include file="guest_add.tpl"}{else}
-			
-			{include file="contacts.tpl"}{/if}
+			</header>
+			{include file="guest_add.tpl"}{/if}
 
 		</div>
 	</section>

@@ -19,7 +19,7 @@
 
 				<legend>Create new Account</legend>
 				<div id="fb-root"></div>
-				<p class="message-small"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>
+				<p class="message-sma	œll"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>
 				<div id="invalid_credentials"></div>
 				<p class="message-small">or</p> 
 				<p class="message-small">Use our Safe and Secure Form</p>{/if}

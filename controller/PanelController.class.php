@@ -867,8 +867,8 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
-				EFCommon::$smarty->assign('fbSubmit', '/contacts/add?option=fb&gref='.$event->global_ref);
-				EFCommon::$smarty->assign('submitTo', '/contacts/add');
+				EFCommon::$smarty->assign('fbSubmit', CURHOST . '/contacts/add?option=fb&gref='.$event->global_ref);
+				EFCommon::$smarty->assign('submitTo', CURHOST . '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
 			case '/settings':
@@ -988,11 +988,12 @@ class PanelController {
 					}
 				}
 								
-				$signedUp = $this->getAttendees(NULL);
+				$contacts = $this->getAttendees(NULL);
 				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->assign('signedUp', $signedUp);
+				EFCommon::$smarty->assign('contacts', $contacts);
+				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &amp;option=manual");
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
@@ -1157,11 +1158,10 @@ class PanelController {
 				// Fetch the users who have signed up
 				$invited_users_array = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 
-				$invitedUser = NULL;
-				foreach( $curSignUp as $guest ) {
-					$signedUp[] = new AbstractUser($guest);
+				foreach( $invited_users_array as $guest ) {
+					$contacts[] = new AbstractUser($guest);
 				}
-				EFCommon::$smarty->assign( 'signedUp', $signedUp );
+				EFCommon::$smarty->assign( 'contacts', $contacts );
 				
 				if( $event->numErrors > 0 ) {
 					EFcommon::$smarty->assign( 'error', $event->error );

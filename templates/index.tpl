@@ -3,7 +3,7 @@
 
 <div id="fb-root"></div>
 <header id="site-header">
-	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a></h1>
+	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a> <em>Beta</em></h1>
 	<nav>
 		<p><a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | <a href="{$CURHOST}/method">How Does It Work?</a></p>
 	</nav>

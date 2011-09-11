@@ -1,4 +1,4 @@
-<aside class="extra">{if $event->rsvp_days_left > 0}
+<aside class="extra">{if $event->days_left >= 0}
 
 			<section class="block" id="rsvp">
 				<header class="block-title">

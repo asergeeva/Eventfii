@@ -48,14 +48,14 @@
 				<header class="block error">
 					<p class="message">No contacts</p>
 				</header>
-				<footer class="buttons buttons-submit">
-					<p><a href="{$CURHOST/contacts/add}" class="btn btn-small"><span>Add contacts</span></a></p>
+				<footer class="message"1>
+					<p>Use the options above to add guests to your event. Guests added to your event will automatically be added to your trueRSVP contact list. You can also <a href={$CURHOST}/contacts/add">add guests</a> to your contact list through your <a href="{$CURHOST}">control panel</a>.</p>
 				</footer>{/if}
 
 			</section>{elseif $smarty.get.option == 'manual' || ($page.addcontacts && ! isset($smarty.get.option))}
 
 			<section class="block">
-				<form method="post" action="{$CURHOST}/event/create/guests?eventId={$event->eid}&amp;option=manual" id="create_guests">
+				<form method="post" action="{$submitTo}" id="create_guests">
 					<fieldset>
 						<legend>Manually add guests</legend>
 						<label>Enter e-mails separated by a comma</label>

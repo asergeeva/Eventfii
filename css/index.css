@@ -127,8 +127,17 @@ header#site-header {
 	background: url(../images/index_logo.png) 0 0 no-repeat;
 	width: 292px;
 	height: 81px;
+	vertical-align: text-bottom;
 	text-indent: -10000px;
-	display: block; }
+	display: inline-block; }
+#logo em {
+	background: url(../images/beta.png) 0 0 no-repeat;
+	width: 31px;
+	height: 12px;
+	margin: 0 0 15px -15px;
+	text-indent: -10000px;
+	vertical-align: text-bottom;
+	display: inline-block; }
 
 /*----- Site navigation ----------*/
 #site-header nav {

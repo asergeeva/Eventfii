@@ -356,6 +356,7 @@ article h2 { font-size: 16px; }
 
 
 /*----- Method ----------*/
+.method#container { width: 930px; }
 .method section { 
 	padding: 0 0 10px;
 	overflow: auto;

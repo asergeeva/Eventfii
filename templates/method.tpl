@@ -2,8 +2,8 @@
 <body>
 
 {include file="header.tpl"}
-<div id="container">
-	<div class="method">
+<div class="method" id="container">
+	<div>
 		<header id="header">
 			<h1>How does it work?</h1>
 		</header>

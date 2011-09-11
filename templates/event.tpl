@@ -20,6 +20,9 @@
 	</header>
 
 	<section id="main">
+		<header class="block notification" {if !isset($attendNotification)}style="display:none"{/if} id="notification-container">
+			<p class="message" id="notification-message">{if isset($attendNotification)}{$attendNotification}{/if}</p>
+		</header>
 		{include file="event_side.tpl"}
 		{include file="event_main.tpl"}
 	</section>

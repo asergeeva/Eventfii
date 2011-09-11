@@ -60,7 +60,7 @@ class AbstractUser {
 	
 	}
 	
-	protected function makeUserFromArray($userInfo) {
+	protected function makeUserFromArray($userInfo) {	
 		$this->id = $userInfo['id'];
 		$this->set_fname($userInfo['fname']);
 		$this->set_lname($userInfo['lname']);
