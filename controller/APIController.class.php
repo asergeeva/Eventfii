@@ -14,12 +14,12 @@ require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 class APIController {
 	private $dbCon;
 	private $result;
-	private $efCore;
+	//private $efCore;
 	private $DEBUG = true;
 	
 	public function __construct() {
 		$this->dbCon = new DBAPI();
-		$this->efCore = new EFCore();
+		//$this->efCore = new EFCore();
 	}
 	
 	public function __destruct() {
@@ -133,7 +133,7 @@ class APIController {
 				for($i=0; $i < count($hostingEvents); $i++)
 				{
 					$event = new Event($hostingEvents[$i]['id']);
-					$hostingEvents[$i]['score'] = $this->efCore->getTrueRSVP($event);
+					$hostingEvents[$i]['score'] = EFCommon::$core->getTrueRSVP($event);
 					$hostingEvents[$i]['guestList'] = $this->dbCon->m_getGuestListByEvent($hostingEvents[$i]['id']);
 				}
 				echo json_encode($hostingEvents);
@@ -154,7 +154,7 @@ class APIController {
 				echo json_encode($this->dbCon->m_getCheckInDate($_REQUEST['eid'], $_REQUEST['uid']));
 				break;
 			case 'computeTrueRSVP':
-				echo json_encode($this->efCore->getTrueRSVP($_REQUEST['eid']));
+				echo json_encode(EFCommon::$core->getTrueRSVP($_REQUEST['eid']));
 				break;
 			case 'sendMessage':
 				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
