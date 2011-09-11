@@ -11,7 +11,7 @@
 		<footer class="buttons">
 			<p><a href="{$CURHOST}/event/manage?eventId={$event->eid}" class="btn btn-med"><span>Manage</span></a></p>
 		</footer>
-	</header>{/if}{if ! isset($_SESSION['user'])}
+	</header>{/if}{if ! isset($smarty.session.user)}
 
 	<header class="block info-message">
 		<div class="turtle">
