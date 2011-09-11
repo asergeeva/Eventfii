@@ -3,6 +3,8 @@
 <script type="text/javascript" src="{$JS_PATH}/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
+<script type="text/javascript" src="http://anygoogle.com/contactable/jquery.validate.pack.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/contactable.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/json2.js"></script>
 <script src="https://connect.facebook.net/en_US/all.js#appId={$FB_APP_ID}&amp;xfbml=1"></script>
@@ -23,3 +25,4 @@ var EFGLOBAL = (function() {
 	}
 }());{/literal}
 </script>
+<script type="text/javascript">{literal}$(function(){$('#contactable').contactable({subject: 'feedback URL:'+location.href});});{/literal}</script>
