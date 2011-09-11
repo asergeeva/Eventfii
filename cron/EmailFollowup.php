@@ -28,6 +28,8 @@ class EmailFollowup {
 	private $interval_hour;
 	private $subject;
 	private $forGuest;
+	
+	private $logger;
 		
 	public function __construct($template, $interval_day, $interval_hour, $subject, $forGuest) {
 		$this->template = $template;
@@ -38,10 +40,12 @@ class EmailFollowup {
 	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
+		
+		$this->logger = fopen(realpath(dirname(__FILE__)).'/logs/'.EMAIL_FOLLOWUP_CRON_LOG, 'a');
 	}
 	
 	public function __destruct() {
-		
+		fclose($this->logger);
 	}
 	
 	public function sendFollowups() {
@@ -55,18 +59,19 @@ class EmailFollowup {
 						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
+		fwrite($this->logger, "-- Sending ".sizeof($events)." email followups --\n");
 		for ($i = 0; $i < sizeof($events); ++$i) {
 			$event = new Event($events[$i]);
 						
 			if (!$this->forGuest) {
 				$this->mailer->sendHtmlEmail($this->template, $event->organizer, $this->subject, $event);
-				print("Sent host followup email for event_id = ".$event->eid."\n");
+				fwrite($this->logger, "Sent host followup email for event_id = ".$event->eid."\n");
 			} else {
 				$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
-				print("Sent guest followup email for event_id = ".$event->eid."\n");
+				fwrite($this->logger, "Sent guest followup email for event_id = ".$event->eid."\n");
 			}
 		}
-		print("-- Cron job for sending Email followup COMPLETED --\n");
+		fwrite($this->logger, "-- Cron job for sending Email followup COMPLETED --\n");
 	}
 }
 

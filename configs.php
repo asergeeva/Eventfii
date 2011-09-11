@@ -7,6 +7,7 @@
  */
 require_once(realpath(dirname(__FILE__)).'/baseconfig.php');
 require_once(realpath(dirname(__FILE__)).'/libs/Smarty.class.php');
+
 $smarty = new Smarty();
 
 $smarty->setTemplateDir(realpath(dirname(__FILE__)).'/templates');
@@ -30,8 +31,14 @@ define('USER_COOKIE_PREFIX', 'cookie-user-');
 define('EVENT_REF_PREFIX', 'global-event-');
 define('EVENT_ALIAS_OFFSET', 403);
 define('USER_COOKIE', 'truersvp_user');
-
 define('LAUNCH_PAGE', CURHOST.'/launch');
+
+
+// Cron constants
+define('AUTO_REMINDER_CRON_LOG', 'auto_reminder_cron_log.txt');
+define('EMAIL_FOLLOWUP_CRON_LOG', 'email_followup_cron_log.txt');
+define('EMAIL_REMINDER_CRON_LOG', 'email_reminder_cron_log.txt');
+
 
 $smarty->assign('CURHOST', CURHOST);
 $smarty->assign('FB_APP_ID', FB_APP_ID);

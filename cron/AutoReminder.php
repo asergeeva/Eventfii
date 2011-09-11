@@ -28,6 +28,8 @@ class AutoReminder {
 	private $interval_hour;
 	private $type;
 	
+	private $logger;
+	
 	const EMAIL_TYPE = 1;
 	const SMS_TYPE = 2;
 		
@@ -39,10 +41,12 @@ class AutoReminder {
 		$this->dbCon = new DBConfig();
 		$this->sms = new EFSMS();
 		$this->mailer = new EFMail();
+		
+		$this->logger = fopen(realpath(dirname(__FILE__)).'/logs/'.AUTO_REMINDER_CRON_LOG, 'a');
 	}
 	
 	public function __destruct() {
-		
+		fclose($this->logger);
 	}
 	
 	public function sendReminders() {
@@ -58,6 +62,8 @@ class AutoReminder {
 						e.event_datetime = DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$event_messages = $this->dbCon->getQueryResultAssoc($GET_EVENT);
+		
+		fwrite($this->logger, "-- Sending ".sizeof($event_messages)." auto reminders --\n");
 		for ($i = 0; $i < sizeof($event_messages); ++$i) {
 			$event = new Event($event_messages[$i]);
 			
@@ -70,15 +76,16 @@ class AutoReminder {
 												      $event, 
 												      $event_message['message']);
 					}
-					print("Sent guests reminder Email for event_id = ".$event->eid."\n");
+					fwrite($this->logger, "Sent guests reminder Email for event_id = ".$event->eid."\n");
 					break;
 				case self::SMS_TYPE:
 					$this->sms->sendSMSReminder($event->guests, $event, $event_message['message']);
-					print("Sent guests reminder SMS for event_id = ".$event->eid."\n");
+					fwrite($this->logger, "Sent guests reminder SMS for event_id = ".$event->eid."\n");
 					break;
 			}
 		}
-		print("-- Cron job for sending Automated message reminders COMPLETED --\n");
+		
+		fwrite($this->logger, "-- Cron job for sending Automated message reminders COMPLETED --\n");
 	}
 }
 $emailCron = new AutoReminder($argv[1], $argv[2], $argv[3]);
