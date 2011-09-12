@@ -97,6 +97,9 @@ class EFMail {
 				case "event_link":
 					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
 					break;
+				case "event_description":
+					$replaceItems->item($j)->nodeValue = $event->description;
+					break;
 				case "host_name":
 					$replaceItems->item($j)->nodeValue = $event->organizer->fname . " " . $event->organizer->lname;
 					break;

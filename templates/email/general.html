@@ -23,6 +23,8 @@
 		.btn-rsvp:hover{color: #F93;}
 		.btn-attend{background: url(images/btn_attend.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 128px; height: 18px; padding: 6px 0 0; margin: 0 0 2px; display: block;}
 		.btn-attend:hover{color: #F93;}
+		
+		#event_info {width: 300px;}
 	</style>
 </head>
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
@@ -35,6 +37,11 @@
 		<td style="padding: 10px">
 			<p>Hi <span id="guest_name">Guest Name</span></p>
 			<p><span id="message">[Message content]</span></p>
+			<p>This message is regarding:</p>
+			<p id="event_info"><a href="#"><span id="event_name">Event Name</span></a><br />
+				<span id="event_date">Event Date</span> at <span id="event_time">Event Time</span><br />
+				<span id="event_location">Event Location</span><br /><br />
+				<span id="event_description">Event Description</span></p>
 			<p>Thanks,<br /><span id="event_host">[Host name]</span></p>
 			<p>Spread the love! <a href="http://www.facebook.com/pages/trueRSVP/245102305531976" target="_blank"><img src="images/icon_facebook.gif" alt="Share on Facebook" /></a> <a href="http://twitter.com/#!/trueRSVP" target="_blank"><img src="images/icon_twitter.gif" alt="Share on Twitter" /></a></p>
 		</td>
