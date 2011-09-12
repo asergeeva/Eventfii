@@ -735,7 +735,6 @@ class PanelController {
 		switch ($current_page) {
 			case '/':
 			case '/home':
-				print_r($_SESSION['user']);
 				if (isset($_SESSION['isNewUser'])) {
 					EFCommon::$smarty->assign('isNewUser', true);
 					unset($_SESSION['isNewUser']);
