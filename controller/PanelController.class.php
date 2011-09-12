@@ -774,32 +774,30 @@ class PanelController {
 				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
-				if ( isset($_POST['submit']) ) {
+				if ( isset($_POST['submit']) && ! isset($_GET['success']) ) {
 					
 					// Validate input
-					$inputValid = true;
+					$error = NULL;
 					
 					// Check user credentials
 					if ( ! isset($_SESSION['user']) ) {
 						if ( ! isset($_POST['email']) || $_POST['email'] === '' ) {
-							$inputValid = false;
-							EFCommon::$smarty->assign('invalid_email_message', 'You must enter an email address in this field, so we can get back to you!');
-						}
-						else if ( !preg_match('/^[A-Za-z0-9._%+]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,5}$/', $_POST['email']) ){
-							$inputValid = false;
-							EFCommon::$smarty->assign('invalid_email_message', 'The email address you entered appears to be invalid!');
-						}
+							$error['email'] = 'You must enter an email address in this field so we can get back to you!';
+						} else if ( !preg_match('/^[A-Za-z0-9._%+]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,5}$/', $_POST['email']) ){
+							$error['email'] = 'The email address you entered appears to be invalid!';
+						}	
 					}
 					
 					// Verify message was entered
 					if ( ! isset($_POST['message']) || $_POST['message'] === '' ) {
-						$inputValid = false;
-						EFCommon::$smarty->assign('invalid_message_content_message', 'You must enter a message!');
+						$error['message'] = 'You must enter a message!';
 					}
+
+					// Assign errors
+					
 					
 					// at this point we know whether the input is valid or not
-					if ( $inputValid ){
-						unset($_SESSION['contact_form']);
+					if ( $error === NULL ){
 						$subject = ( isset($_POST['subject']) ) ? $_POST['subject'] : "";
 						$rawMime = "X-Mailgun-Tag: truersvp\n" . 
 								   "Content-Type: plaintext;charset=UTF-8\n" . 
@@ -809,28 +807,14 @@ class PanelController {
 						MailgunMessage::send_raw($_POST['email'], 'support@truersvp.com', $rawMime);
 
 						// let's thank the user for contacting us
-						EFCommon::$smarty->assign('thank_you_message', 'Thank you for your feedback!');
-						EFCommon::$smarty->display('contact.tpl');
-
-						exit;
+						header("Location: " . CURHOST . "/contact?success=true");
 					} else {
-						// if the form input wasn't valid, let's save
-						// the input so that the user can continue where
-						// they left off
-						$contact_form = array('name' => $_POST['name'], 'email' => $_POST['email'], 'subject' => $_POST['subject'], 'message' => $_POST['message']);
-						$_SESSION['contact_form'] = $contact_form;
+						EFCommon::$smarty->assign('error', $error);
 					}
+				} else if ( $_GET['success'] == true ) {
+					EFCommon::$smarty->assign('notification', 'Thank you for your feedback!');
 				}
 				
-				// if we have the saved form from before,
-				// let's restore it
-				if( isset($_SESSION['contact_form']) ){
-					$contact_form = $_SESSION['contact_form'];
-					EFCommon::$smarty->assign('name_value', $contact_form['name']);
-					EFCommon::$smarty->assign('email_value', $contact_form['email']);
-					EFCommon::$smarty->assign('subject_value', $contact_form['subject']);
-					EFCommon::$smarty->assign('message_value', $contact_form['message']);
-				}
 				EFCommon::$smarty->display('contact.tpl');
 				
 				break;

@@ -85,6 +85,9 @@ header#page-header {
 	text-align: center;
 	width: 350px;
 	margin: 0 auto; }
+.block.form-contact {
+	width: 450px;
+	margin: 0 auto; }
 .form-register .turtle {
 	background: url(../images/turtle_large.png) 0 0 no-repeat;
 	float: left;

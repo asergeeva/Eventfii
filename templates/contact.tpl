@@ -3,59 +3,62 @@
 
 {include file="header.tpl"}
 <div id="container">
-	<section id="main">
-		<section class="block">
-			<header class="centered-title">
-				<h1>{if isset($thank_you_message)}{$thank_you_message}{else}Contact Us{/if}</h1>
-		</section>{if ! isset($thank_you_message)}
+	<section class="block form-contact">
+		<header class="block">
+			<p class="message">Contact Us</p>
+		</header>{if isset($notification)}
+
+		<header class="block notification">
+			<p>{$notification}</p>
+		</header>{else}{if isset($error)}
+
+		<header class="block error">
+			<p>Please fix the errors below.</p>
+		</header>{/if}
 
 		<p class="message-small">Have any questions or concerns?<br />We'd love to hear from you!</p>
 		<div class="form">
 			<form method="post" action="{$CURHOST}/contact">
-				<fieldset id="contact_form" class="one-col">
-					<label for="name_input">
-						<strong>Your name</strong>
-						<div>{if isset($smarty.session.user)}
-							
-							<input type="text" class="inputbox autowidth" name="name" id="name_input" value="{$smarty.session.user->fname} {$smarty.session.user->lname}" readonly="readonly">
-							{else}
-							<input type="text" class="inputbox autowidth" name="name" id="name_input" value="{if isset($name)}{$name}{/if}">{/if}
+				<fieldset id="contact_form">
+					<dl>
+						<dt>
+							<label for="name">Your name</label>
+						</dt>
+						<dd>
+							<input type="text" name="name"{if isset($smarty.session.user)} value="{$smarty.session.user->fname} {$smarty.session.user->lname}" readonly="readonly"{elseif isset($smarty.post.name)} value="{$smarty.post.name}"{/if} class="inputbox" id="name" />
+						</dd>
+						<dt>
+							<label for="email">Email<span>*</span></label>
+						</dt>
+						<dd{if isset($error.email)} class="error"{/if}>
+							<input type="text" name="email"{if isset($smarty.session.user)} value="{$smarty.session.user->email}" readonly="readonly"{elseif isset($smarty.post.email)} value="{$smarty.post.email}"{/if} class="inputbox" id="email" />{if isset($error.email)}
 
-						</div>
-					</label>
-					<label for="email_input">
-						<strong>Your e-mail</strong>
-						<div>{if isset($smarty.session.user)}
-							<input type="text" class="inputbox autowidth" name="email" id="email_input" value="{$smarty.session.user->email}" readonly="readonly">
-							{else}
-							<input type="text" class="inputbox autowidth" name="email" id="email_input" value="{if isset($email)}{$email}{/if}">{/if}
+							<em>{$error.email}</em>{/if}
 
-						</div>{if isset($invalid_email_message)}
-						<p class="message-error">{$invalid_email_message}</p>{/if}
-					</label>
-					<label for="subject_input">
-						<strong>Subject</strong>
-						<div>
-							<input type="text" class="inputbox autowidth" name="subject" id="subject_input"
-									value="{if isset($subject_value)}{$subject_value}{/if}">
-						</div>
-					</label>
-					<label for="message_input">
-						<strong>Message</strong>
-						<div>
-							<textarea type="text" class="inputbox autowidth" name="message" id="message_input">{if isset($message_value)}{$message_value}{/if}</textarea>
-						</div>{if isset($invalid_message_content_message)}
-						<p class="message-error">{$invalid_message_content_message}</p>{/if}
-					</label>
+						</dd>
+						<dt>
+							<label for="subject">Subject</label>
+						</dt>
+						<dd>
+							<input type="text" name="subject"{if isset($smarty.post.subject)} value="{$smarty.post.subject}"{/if} class="inputbox" id="subject" />
+						</dd>
+						<dt>
+							<label for="message">Message<span>*</span></label>
+						</dt>
+						<dd{if isset($error.message)} class="error"{/if}>
+							<textarea name="message" class="inputbox" id="message">{if isset($smarty.post.message)}{$smarty.post.message}{/if}</textarea>{if isset($error.message)}
+
+							<em>{$error.message}</em>{/if}
+
+						</dd>
+					</dl>
 					<footer class="buttons buttons-submit">
-						<p>
-							<input type="submit" name="submit" value="Submit">
-						</p>
+						<p><span class="btn btn-med"><input type="submit" name="submit" value="Submit"></span></p>
 					</footer>
 				</fieldset>
-			</form>
+			</form>{/if}
+
 		</div>
-		{/if}
 	</section>
 </div>
 {include file="footer.tpl"}
