@@ -103,15 +103,15 @@ class EFCore {
 			$attendeeProb = 0;
 			
 			if (!$attendee->get_errors()) {
-				$attendeeProb += $this->getProbByDistance($attendee, $event);
-				$attendeeProb += $this->getProbByFriends($attendee, $event);
-				$attendeeProb += $this->getProbByUserReputation($attendee);
-				$attendeeProb += $this->getUserProb($attendee, $event);
+				$attendeeProb += ($this->getProbByDistance($attendee, $event) * 0.5);
+				$attendeeProb += ($this->getProbByFriends($attendee, $event) * 0.1);
+				$attendeeProb += ($this->getProbByUserReputation($attendee) * 0.1);
+				$attendeeProb += ($this->getUserProb($attendee, $event) * 0.1);
 			}
-			$attendeeProb += $goalProb;
-			$attendeeProb += $typeProb;
+			$attendeeProb += ($goalProb * 0.1);
+			$attendeeProb += ($typeProb * 0.1);
 			
-			$result += ($attendeeProb / 6.0);
+			$result += $attendeeProb;
 		}
 		
 		return round($result) + 1;
@@ -255,7 +255,7 @@ class EFCore {
 		$YES = floatval($YES['cnt']);
 		$ATTENDED = floatval($ATTENDED['cnt']);
 		
-		return ($ATTENDED == 0) ? 0 : ($YES / $ATTENDED);
+		return ($ATTENDED == 0) ? 0 : ($ATTENDED / $YES);
 	}
 	
 	/**
