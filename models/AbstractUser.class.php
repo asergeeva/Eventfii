@@ -67,7 +67,11 @@ class AbstractUser {
 		$this->email = $userInfo['email'];
 		$this->about = $userInfo['about'];
 		if ( $userInfo['pic'] === NULL ) {
-			$this->pic = $this->setUserPic($userInfo['facebook']);
+			if ( sizeof($userInfo['facebook']) == 0 ) {
+				$this->pic = $this->setUserPic(NULL);
+			} else {
+				$this->pic = $this->setUserPic($userInfo['facebook']);
+			}
 		} else {
 			$this->pic = $this->setUserPic($userInfo['pic']);
 		}
@@ -84,7 +88,7 @@ class AbstractUser {
 			return CURHOST . "/upload/user/" . $this->id . ".png";
 		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
-		} else if ( isset($facebook) ) {
+		} else if ( $facebook != NULL ) {
 			return "http://graph.facebook.com/" . $facebook . "/picture?type=large";
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
