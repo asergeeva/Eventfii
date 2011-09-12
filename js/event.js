@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#create-acc .popup-close a").click( function() {
+	/* $("#create-acc .popup-close a").click( function() {
 		$("#create-acc").fadeOut(500);
 		return false;
 	});
@@ -59,5 +59,5 @@ $(document).ready(function() {
 		$("#log-in").fadeOut(500);
 		$("#create-acc").fadeIn(500);
 		return false;
-	});
+	});*/
 });

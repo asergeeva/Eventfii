@@ -52,8 +52,8 @@
 </div>
 {include file="footer.tpl"}
 <div class="popup-container" id="log-in">
-	<div class="popup block popup-small">
-		<p class="message">Log in to RSVP/<a href="#">Don't have an account yet?</a></p>
+	<div class="popup block">
+		<p class="message"><a href="{$CURHOST}/login">Log in to trueRSVP</a> / <a href="{$CURHOST}/register">Don't have an account yet?</a></p>
 		{include file="login_form.tpl"}
 		<p class="popup-close"><a href="#">X</a></p>
 	</div>
