@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="Author" content="trueRSVP" />
 	<meta property="fb:app_id" content="123284527755183" />
-	<meta property="fb:admins" content="1164166702" />
+	{if !isset($event)}<meta property="fb:admins" content="1164166702" />{/if}
 	<meta property="og:title" content="{if !isset($event->title)}trueRSVP{else}{$event->title}{/if}"/> 
 	<meta property="og:type" content="event" /> 
 	<meta property="og:url" content="{if !isset($event->title)}{$CURHOST}{else}{$EVENT_URL}/a/{$event->alias}{/if}" /> 
