@@ -671,7 +671,8 @@ class DBConfig {
 										ef_events e 
 								WHERE 	a.event_id = e.id 
 								AND 	a.user_id = " . $uid . " 
-								AND 	a.confidence <> " . CONFOPT6 . " AND e.is_active = 1
+								AND 	a.confidence <> " . CONFOPT6 . "
+								AND     a.confidence <> " . CONFELSE . " AND e.is_active = 1
 						) el
 						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
