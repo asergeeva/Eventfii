@@ -88,7 +88,8 @@ class APIController {
 					}
 				} else {
 					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
-					if( isset($userId)) {
+					echo $userId;
+					if( isset($userId) && is_array($userId)) {
 						$_SESSION['user'] = serialize(new User($userId));
 						echo 'status_loginSuccess';
 					}

@@ -96,13 +96,13 @@ header#page-header {
 	font-size: 14px;
 	font-weight: bold; }
 .form-register .turtle p { 
-	font-size: 12px;
 	margin: 8px 0 0; }
 .form-register .block {
 	float: left;
 	width: 320px; }
-fieldset { 
-	padding: 18px 0 0;
+fieldset {
+	font-size: 12px;
+	padding: 12px 0 0;
 	position: relative; }
 
 /*----- Facebook Messages ----------*/
@@ -138,14 +138,14 @@ fieldset legend {
 
 /*----- Input title ----------*/
 fieldset dt { 
-	padding: 0 10px;
+	padding: 6px 10px 0;
 	clear: left; }
 /* Inline option */
 fieldset dt.inline { float: left; }
+#manage-text dt, #manage-email dt { width: 100px; }
 fieldset dt label { 
 	color: #464646;
 	text-align: left;
-	font-size: 12px;
 	line-height: 16px;
 	padding: 0;
 	display: block; }
@@ -154,11 +154,9 @@ fieldset dt label span {
 	color: #ff0000;
 	font-weight: bold;
 	vertical-align: baseline; }
-fieldset dt em {
-	font-size: 12px; 
-	color: #959595; }
+fieldset dt em { color: #959595; }
 
-/*----- Forms Title ----------*/
+/*----- Forms input ----------*/
 fieldset dd { 
 	text-align: left;
 	margin: 4px 0 10px;
@@ -169,6 +167,8 @@ fieldset dd span {
 	cursor: pointer;
 	vertical-align: middle; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
+fieldset dd div { overflow: auto; }
+fieldset dd div p { margin: 6px 0; }
 
 /*----- Error message ----------*/
 fieldset dd.error { 
@@ -180,12 +180,9 @@ fieldset dd.error {
 	border-radius: 4px; }
 fieldset dd.error em { 
 	color: #9d261d;
-	font-size: 12px;
 	line-height: 18px;
 	padding-left: 5px;
 	vertical-align: middle; }
-
-
 fieldset footer label { 
 	padding: 0;
 	display: inline; }
@@ -213,6 +210,7 @@ input.autowidth, textarea.autowidth, select.autowidth {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box; }
 input, textarea, select {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #666;
 	font-size: 13px;
 	line-height: 18px;
@@ -1193,7 +1191,7 @@ a.btn { text-decoration: none; }
 	width:360px;
 	*width:394px;
 	z-index:99; }
-#contactable form#contactForm input, textarea {
+#contactable form#contactForm input, #contactable textarea {
 	background:#FFFFFF none repeat scroll 0 0;
 	text-align: left;
 	font-size: 12px;
