@@ -103,10 +103,10 @@ class EFCore {
 			$attendeeProb = 0;
 			
 			if (!$attendee->get_errors()) {
-				$attendeeProb += ($this->getProbByDistance($attendee, $event) * 0.5);
+				$attendeeProb += ($this->getProbByDistance($attendee, $event) * 0.1);
 				$attendeeProb += ($this->getProbByFriends($attendee, $event) * 0.1);
 				$attendeeProb += ($this->getProbByUserReputation($attendee) * 0.1);
-				$attendeeProb += ($this->getUserProb($attendee, $event) * 0.1);
+				$attendeeProb += ($this->getUserProb($attendee, $event) * 0.5);
 			}
 			$attendeeProb += ($goalProb * 0.1);
 			$attendeeProb += ($typeProb * 0.1);
@@ -114,7 +114,7 @@ class EFCore {
 			$result += $attendeeProb;
 		}
 		
-		return round($result) + 1;
+		return round($result);
 	}
 	
 	/**
