@@ -705,6 +705,9 @@ nav.steps.step-3 { background-position: 0 -100px; }
 	margin: 6px 0 0 10px; }
 .event-more .user-info .user-name { font-size: 11px; }
 
+/*----- Facebook Comments ----------*/
+#event-comments iframe { margin: 0 0 0 -10px; }
+
 /*----- Icons ----------*/
 .icons-full { margin: 0 -53px; }
 .icons a { 
