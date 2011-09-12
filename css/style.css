@@ -983,8 +983,8 @@ ul.contacts-list li {
 .contacts-list li h3 { 
 	font-size: 14px;
 	line-height: 1;
-	margin: 3px 0 4px; }
-.contacts-list li:hover h3 {  }
+	margin: 3px 0 4px;
+	white-space: nowrap; }
 ul.contacts-list li p { 
 	line-height: 1;
 	white-space: nowrap;
