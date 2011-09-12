@@ -90,7 +90,7 @@ class AbstractUser {
 		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
 		} else if ( $facebook != NULL ) {
-			return "http://graph.facebook.com/" . $facebook . "/picture?type=large";
+			return "https://graph.facebook.com/" . $facebook . "/picture?type=large";
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
 		}
