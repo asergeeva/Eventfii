@@ -1198,10 +1198,13 @@ a.btn { text-decoration: none; }
 	background: #fff;
 	float: left;
 	position: relative;
-	width: 350px;
-	margin: 0 0 0 -175px;
+	width: 374px;
+	margin: 0 0 0 -187px;
 	padding: 20px 10px;
 	overflow: visible; }
+.popup .thumbs { 
+	max-height: 365px;
+	overflow: auto; }
 .popup-close {
 	position: absolute;
 	top: -25px;

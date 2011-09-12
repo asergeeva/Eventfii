@@ -42,7 +42,7 @@ $(document).ready(function() {
 	$("#all-guests").click( function() {
 		$("#see-all").fadeIn(500);
 		var position = $("#event-attendants").position();
-		var top = position.top - 50;
+		var top = position.top - 150;
 		$("#see-all").css("top", top + "px");
 		return false;
 	});
