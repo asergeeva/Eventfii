@@ -129,6 +129,7 @@
 										<option value="4"{if $event_field.type eq '4'} selected{/if}>Social gathering</option> 
 										<option value="5"{if $event_field.type eq '5'} selected{/if}>Shared travel/trip</option> 
 										<option value="6"{if $event_field.type eq '6'} selected{/if}>Wedding related</option> 
+										<option value="17"{if $event_field.type eq '17'} selected{/if}>Other</option>
 									</optgroup> 
 									<optgroup label="Educational"> 
 										<option value="7"{if $event_field.type eq '7'} selected{/if}>Club meetup</option> 
@@ -136,6 +137,7 @@
 										<option value="9"{if $event_field.type eq '9'} selected{/if}>Recruiting/career</option> 
 										<option value="10"{if $event_field.type eq '10'} selected{/if}>School-sponsored event</option> 
 										<option value="11"{if $event_field.type eq '11'} selected{/if}>Greek</option> 
+										<option value="18"{if $event_field.type eq '18'} selected{/if}>Other</option>
 									</optgroup> 
 									<optgroup label="Professional"> 
 										<option value="12"{if $event_field.type eq '12'} selected{/if}>Fundraiser</option> 
@@ -143,9 +145,7 @@
 										<option value="14"{if $event_field.type eq '14'} selected{/if}>Meeting</option> 
 										<option value="15"{if $event_field.type eq '15'} selected{/if}>Club</option> 
 										<option value="16"{if $event_field.type eq '16'} selected{/if}>Conference</option> 
-									</optgroup> 
-									<optgroup label="Others">
-										<option value="17"{if $event_field.type eq '17'} selected{/if}>Others</option> 
+										<option value="19"{if $event_field.type eq '19'} selected{/if}>Other</option>
 									</optgroup> 
 								</select>{if isset($error.type)}
 

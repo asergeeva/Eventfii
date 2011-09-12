@@ -916,10 +916,10 @@ class PanelController {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
 						if (isset($_POST['title']) && $_POST['title'] != "name of event") {
-							$event_field['title'] = $_POST['title'];
+							$event_field['title'] = stripslashes($_POST['title']);
 						}
 						if (isset($_POST['goal']) && $_POST['goal'] != "max") {
-							$event_field['goal'] = $_POST['goal'];
+							$event_field['goal'] = stripslashes($_POST['goal']);
 						}
 					} else if ( isset($_POST['step1']) ) {
 						$newEvent = new Event(NULL, true);
