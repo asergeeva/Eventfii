@@ -678,58 +678,6 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	/***** USER PROFILE ASSIGN EVENTS ********/
-	public function getEventByEOProfile($uid) {		
-		$GET_EVENTS = "	SELECT	* 
-						FROM (
-							SELECT	e.id, 
-									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
-									e.created, 
-									e.title, 
-									e.goal,
-									e.reach_goal, 
-									e.location_name,
-									e.location_address, 
-									e.event_datetime, 
-									e.event_end_datetime,
-									e.event_deadline, 
-									e.description, 
-									e.is_public,
-									e.type
-							FROM	ef_events e 
-							WHERE	e.organizer = " . $uid . " AND e.is_active = 1 AND e.is_public = 1
-						) el
-						ORDER BY el.days_left ASC";
-		return $this->getQueryResultAssoc($GET_EVENTS);
-	}
-	
-	public function getEventAttendingByUidProfile($uid) {
-		$GET_EVENTS = "	SELECT	* 
-						FROM (
-								SELECT 	e.id, 
-										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
-										e.created, 
-										e.title, 
-										e.goal, 
-										e.reach_goal,
-										e.location_name,
-										e.location_address, 
-										e.event_datetime, 
-										e.event_end_datetime,
-										e.event_deadline, 
-										e.description, 
-										e.is_public,
-										e.type 
-								FROM 	ef_attendance a, 
-										ef_events e 
-								WHERE 	a.event_id = e.id 
-								AND 	a.user_id = " . $uid . " 
-								AND 	a.confidence <> " . CONFOPT6 . " AND e.is_active = 1 AND e.is_public = 1
-						) el
-						ORDER BY el.days_left ASC";
-		return $this->getQueryResultAssoc($GET_EVENTS);
-	}
-	
 	/**
 	 * Check whether this is a valid global reference to an event
 	 * @param $gref  String   reference string to an event (unique for each event)

@@ -16,6 +16,10 @@
  * All rights reserved
  */
 var EFGLOBAL = (function() {
+	$('#contactable').contactable({
+		subject: 'feedback URL:'+location.href
+	});
+	
 	return {
 		ajaxLoader: '<img src="images/ajax-loader.gif" alt="loading" class="ajax-loader" />',
 		baseUrl: '{/literal}{$CURHOST}{literal}',
@@ -25,4 +29,3 @@ var EFGLOBAL = (function() {
 	}
 }());{/literal}
 </script>
-<script type="text/javascript">{literal}$(function(){$('#contactable').contactable({subject: 'feedback URL:'+location.href});});{/literal}</script>
