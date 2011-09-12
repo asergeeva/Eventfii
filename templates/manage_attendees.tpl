@@ -25,7 +25,7 @@
 					<ul class="list" id="attendee-list"> 
 						{foreach $eventAttendees as $guest}
 						<li><label for="attendee-{$guest->id}"><strong title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em title="{$guest->confidence}">{$guest->friendly_confidence}</em> 
-						<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span></label></li>{/foreach}
+						<span><input type="checkbox" name="selecteditems" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $smarty.session.manage_event->days_left > 0} disabled="disabled"{elseif $guest->is_attending eq 1} checked="checked"{/if} class="event_attendees" id="attendee-{$guest->id}" /></span></label></li>{/foreach}
 
 					</ul>
 					<!--footer class="buttons buttons-submit">
