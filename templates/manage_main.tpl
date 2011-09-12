@@ -20,8 +20,8 @@
 					</div>
 					<p class="goal"><em>{$smarty.session.manage_event->goal}</em> <span>Your Goal</span></p>
 				</div>
-				<p class="message">Want to increase your trueRSVP? <a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}">Add more guests</a> or <a href="{$CURHOST}/event/manage/email?eventId={$smarty.session.manage_event->eid}">remind</a> your  guests to RSVP.</p>
-				<!--p class="message">Click on the response type to see who has RSVP’d to your event.</p-->
+				<p class="message">Want to increase your trueRSVP? <a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}">Add more guests</a> or <a href="{$CURHOST}/event/manage/email?eventId={$smarty.session.manage_event->eid}">remind</a> your  guests to RSVP.</p>{*
+				<p class="message">Click on the response type to see who has RSVP’d to your event.</p>*}
 				<section class="block" id="cp-breakdown">
 					<header class="block-collapsable-title">
 						<h1>RSVP Breakdown</h1>

@@ -15,7 +15,7 @@
 			<fieldset>{if isset($smarty.session.fb)}
 				
 				<p class="fb-connected"><span>Your trueRSVP account has been created.</span></p>
-				<p class="message-small">Enter New Account Details</p>{else}
+				<p class="message-small">Enter remaining account details</p>{else}
 
 				<legend>Create a new account</legend>
 				<div id="fb-root"></div>

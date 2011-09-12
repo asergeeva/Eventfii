@@ -110,17 +110,18 @@ fieldset {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
 	height: 20px;
-	margin: 0 0 20px;
+	margin: 0 auto;
 	border: 1px solid #3f598b;
 	cursor: default;
-	display: inline-block; }
+	display: block; }
 .form .fb-connected span {
 	background: url(../images/facebook_icon.png) 0 0 no-repeat;
 	position: relative;
 	color: #fff;
+	text-align: center;
 	font-weight: bold;
-	height: 16px; /* 20 - 4 */
-	padding: 4px 4px 0 25px;
+	height: 18px; /* 20 - 2 */
+	padding: 2px 4px 0 25px;
 	display: block; }
 
 /*----- Form Title ----------*/
@@ -227,7 +228,7 @@ select {
 	cursor: pointer; }
 textarea.inputbox { height: 126px; }
 .inputbox { 
-	width: 270px;
+	width: 262px; /* 270 - 8 */
 	height: 18px;
 	padding: 4px;
 	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -253,9 +254,10 @@ textarea.inputbox { height: 126px; }
 	-moz-box-shadow: 0 0 6px rgba(171, 41, 32, 0.5);
 	box-shadow: 0 0 6px rgba(171, 41, 32, 0.5); }
 input.input-facebook { 
-	background: url(../images/icon_facebook.gif) 3px 3px no-repeat;
+	background: url(../images/icon_facebook.gif) 3px 4px no-repeat;
 	color: #666;
-	padding: 0 4px 0 24px; }
+	width: 242px; /* 270 - 28 */
+	padding: 4px 4px 4px 24px; }
 input.default, textarea.default {
 	color: #808080; }
 input.datebox { 
