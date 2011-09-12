@@ -147,7 +147,7 @@ class DBConfig {
 		if ( is_numeric($info) ) {
 			$where = "id = " . $info;
 		} else {
-			$where = "email = " . $info;
+			$where = "email = '" . $info . "'";
 		}
 		$GET_USER_INFO = "	SELECT	* 
 							FROM 	ef_users
@@ -165,7 +165,7 @@ class DBConfig {
 		if ( is_numeric($info) ) {
 			$where = "id = " . $info;
 		} else {
-			$where = "email = " . $info;
+			$where = "email = '" . $info . "'";
 		}
 		$GET_USER_INFO = "	SELECT	id,
 									fname,
