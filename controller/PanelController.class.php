@@ -840,6 +840,9 @@ class PanelController {
 			case '/method':
 				EFCommon::$smarty->display('method.tpl');
 				break;
+			case '/feedback/send':
+				EFCommon::$mailer->sendFeedback();
+				break;
 			case '/contacts':
 				$page['contacts'] = true;
 				EFCommon::$smarty->assign('page', $page);

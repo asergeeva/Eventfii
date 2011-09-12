@@ -311,9 +311,33 @@ class EFMail {
 	 */
 	public function sendResetPassLink($uriPath, $hash_key, $user_email) {
 		$this->sendHtmlEmail('general', 
-							  $$user_email, 
+							  $user_email, 
 							  "Reset Password", 
 							  NULL, 
 							  "This is the link to reset your password: ".CURHOST.$uriPath."?ref=".$hash_key);
+	}
+	
+	public function sendFeedback() {
+		//declare our assets 
+		$name = stripcslashes($_POST['name']);
+		$emailAddr = stripcslashes($_POST['email']);
+		$comment = stripcslashes($_POST['message']);
+		$contactMessage =  
+			"$comment 
+	
+			Name: $name
+			E-mail: $emailAddr
+	
+			Sending IP:$_SERVER[REMOTE_ADDR]
+			Sending Script: $_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
+		
+		//send the email 
+		$rawMime = "X-Mailgun-Tag: truersvp\n" . 
+				   "Content-Type: plaintext;charset=UTF-8\n" . 
+				   "From: " . $name . "<" . $emailAddr . ">\n" . 
+				   "To: support@truersvp.com\n" . 
+				   "Subject: [trueRSVP Feedback] \n\n". $contactMessage;
+		MailgunMessage::send_raw($emailAddr, 'support@truersvp.com', $rawMime);
+		echo('Success'); //return success callback
 	}
 }

@@ -77,11 +77,11 @@
 					$(this_id_prefix+'#loading').show();
 $.ajax({
   type: 'POST',
-  url: options.url,
+  url: EFGLOBAL.baseUrl + '/feedback/send',
   data: {subject:options.subject, name:$(this_id_prefix+'#name').val(), email:$(this_id_prefix+'#email').val(), message:$(this_id_prefix+'#message').val()},
   success: function(data){
 						$(this_id_prefix+'#loading').css({display:'none'}); 
-						if( data == 'success') {
+						if( data == 'Success') {
 							$(this_id_prefix+'#callback').show().append(options.recievedMsg);
 							if(options.hideOnSubmit == true) {
 								//hide the tab after successful submition if requested
