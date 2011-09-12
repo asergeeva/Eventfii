@@ -18,7 +18,7 @@
 
 		<header class="block notification">{if $smarty.get.loggedIn == 'true'}
 
-			<p class="message">You are now logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{else}
+			<p class="message">You are logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{else}
 			
 			<p class="message">You are already logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{/if}
 
