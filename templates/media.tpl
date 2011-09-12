@@ -36,7 +36,7 @@
 				<li><a href="{$CURHOST}/user/a/201" title="Anna Sergeeva"><img src="{$CURHOST}/images/team_anna.jpg" alt="Anna Sergeeva" /></a></li>
 				<li><a href="{$CURHOST}/user/a/1FF" title="Fei Xiao"><img src="{$CURHOST}/images/team_fei.jpg" alt="Fei Xiao4" /></a></li>
 				<li><a href="{$CURHOS}/user/a/21A" title="Grady Laksmono"><img src="{$CURHOST}/images/team_grady.jpg" alt="Grady Laksmono" /></a></li>
-				<li><a href="{$CURHOST}/user/a/" title="Adam Wexler"><img src="{$CURHOST}/images/team_adam.jpg" alt="Adam Wexler" /></a></li>
+				<li><a href="{$CURHOST}/user/a/210" title="Adam Wexler"><img src="{$CURHOST}/images/team_adam.jpg" alt="Adam Wexler" /></a></li>
 				<li><a href="{$CURHOST}/user/a/202" title="Scott Sangster"><img src="{$CURHOST}/images/team_scott.jpg" alt="Scott Sangster" /></a></li>
 				<li><a href="{$CURHOST}/user/a/203" title="Nick Chan"><img src="{$CURHOST}/images/team_nick.jpg" alt="Nick Chan" /></a></li>
 			</ul>
