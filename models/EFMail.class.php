@@ -320,7 +320,7 @@ class EFMail {
 	public function sendFeedback() {
 		//declare our assets 
 		$name = stripcslashes($_POST['name']);
-		$emailAddr = stripcslashes($_POST['email']);
+		$emailAddr = trim(stripcslashes($_POST['email'])) ? '' : $this->FROM;
 		$comment = stripcslashes($_POST['message']);
 		$contactMessage =  
 			"$comment 
