@@ -276,6 +276,9 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 	}
 	
+	/**
+	 * Check whether the value should use NULL
+	 */
 	private function checkNullOrValSql($val) {
 		if (isset($val) && trim($val) != "") {
 			return "'".mysql_real_escape_string($val)."'";
@@ -297,14 +300,14 @@ class DBConfig {
 								fb_access_token = ".$this->checkNullOrValSql($access_token).",
 								fb_session_key = ".$this->checkNullOrValSql($session_key).",
 								url_alias = HEX(".USER_ALIAS_OFFSET." + id)
-						WHERE	email = '" . $email . "'";
+						WHERE	email = '" . mysql_real_escape_string($email) . "'";
 	
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
 	
 	public function recordUnconfirmedAttendance($event, $userId) {
 		$RECORD_ATTEND_UNCONFO = "	INSERT IGNORE INTO ef_attendance (event_id, user_id) 
-									VALUES (" . $event->eid . ", " . $userId . ")";
+									VALUES (" . mysql_real_escape_string($event->eid) . ", " . mysql_real_escape_string($userId) . ")";
 		EFCommon::$dbCon->executeUpdateQuery($RECORD_ATTEND_UNCONFO);
 	}
 	
@@ -525,13 +528,13 @@ class DBConfig {
 						 " . $this->checkNullOrValSql($end_datetime) . ",
 						'" . mysql_real_escape_string($sqlDeadline) . "',
 						'" . mysql_real_escape_string($newEvent->description) . "',	
-						" . $newEvent->is_public . ",
-						" . $newEvent->type . ",
+						" . mysql_real_escape_string($newEvent->is_public) . ",
+						" . mysql_real_escape_string($newEvent->type) . ",
 						" . mysql_real_escape_string($newEvent->location_lat) . ",
 						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
-						'" . dechex(EVENT_ALIAS_OFFSET + $nextEventId) . "',
-						'" . md5(EVENT_REF_PREFIX.$nextEventId) . "'
+						'" .dechex(EVENT_ALIAS_OFFSET + $nextEventId). "',
+						'" .md5(EVENT_REF_PREFIX.$nextEventId). "'
 			)";
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
@@ -775,18 +778,18 @@ class DBConfig {
 		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
 			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
 								VALUES(
-									" . $event->eid . ", 
-									" . $uid . ", 
-									" . $conf . ",
+									" . mysql_real_escape_string($event->eid) . ", 
+									" . mysql_real_escape_string($uid) . ", 
+									" . mysql_real_escape_string($conf) . ",
 									NOW()
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 			EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $_SESSION['user'], $event, 'Thank you for RSVPing to {Event name}');
 		} else {
 			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
-								SET 	confidence = " . $conf . " 
-								WHERE 	event_id = " . $event->eid . " 
-								AND 	user_id = " . $uid;
+								SET 	confidence = " . mysql_real_escape_string($conf) . " 
+								WHERE 	event_id = " . mysql_real_escape_string($event->eid) . " 
+								AND 	user_id = " . mysql_real_escape_string($uid);
 			
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 			if (!isset($invitedNoResp)) {
@@ -800,18 +803,18 @@ class DBConfig {
 		if ( ! isset($signedUp) ) {
 			$SIGN_UP_WAITLIST_EVENT = "	INSERT INTO ef_waitinglist (event_id, user_id, confidence) 
 										VALUES(
-											" . $event->eid . ", 
-											" . $uid . ", 
-											" . $conf . ",
+											" . mysql_real_escape_string($event->eid) . ", 
+											" . mysql_real_escape_string($uid) . ", 
+											" . mysql_real_escape_string($conf) . ",
 											NOW()
 										)";
 			
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
 			$UPDATE_WAITLIST = "	UPDATE 	ef_waitinglist 
-									SET 	confidence = " . $conf . " 
-									WHERE 	event_id = " . $event->eid . " 
-									AND 	user_id = " . $uid;
+									SET 	confidence = " . mysql_real_escape_string($conf) . " 
+									WHERE 	event_id = " . mysql_real_escape_string($event->eid) . " 
+									AND 	user_id = " . mysql_real_escape_string($uid);
 
 			$this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
@@ -829,12 +832,12 @@ class DBConfig {
 		for ($i = 0; $i < sizeof($contactEmails); ++$i) {
 			if (!$this->isUserEmailExist($contactEmails[$i])) {
 				$STORE_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
-											VALUES ('" . $contactEmails[$i] . "', " . $uid . ")";
+											VALUES ('" . mysql_real_escape_string($contactEmails[$i]) . "', " . mysql_real_escape_string($uid) . ")";
 				$this->executeUpdateQuery($STORE_EMAIL_USERS);
 			}
 			$new_user = new User($contactEmails[$i]);
 			$STORE_CONTACT = "INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
-							  VALUES (" . $uid . ", " . $new_user->id . ", '".$new_user->email."')";
+							  VALUES (" . mysql_real_escape_string($uid) . ", " . mysql_real_escape_string($new_user->id) . ", '".mysql_real_escape_string($new_user->email)."')";
 			$this->executeUpdateQuery($STORE_CONTACT);
 		}
 	}
@@ -847,10 +850,10 @@ class DBConfig {
 		for ($i = 0; $i < sizeof($guestEmails); $i++) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
 				$STORE_GUEST_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
-												VALUES ('" . $guestEmails[$i] . "', " . $_SESSION['user']->id . ")";
+												VALUES ('" . mysql_real_escape_string($guestEmails[$i]) . "', " . mysql_real_escape_string($_SESSION['user']->id) . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
-			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . $eid . ", " . $_SESSION['user']->id . ")";
+			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . mysql_real_escape_string($eid) . ", " . mysql_real_escape_string($_SESSION['user']->id) . ")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);
 		}
 	}
@@ -948,11 +951,11 @@ class DBConfig {
 			  subject = '" . mysql_real_escape_string($subject) . "', 
 			  message = '" . mysql_real_escape_string($msg) . "', 
 			  delivery_time = '" . mysql_real_escape_string($deliveryDateTime) . "', 
-			  is_activated = ".$autoReminder.",
+			  is_activated = ".mysql_real_escape_string($autoReminder).",
 			  recipient_group = ".mysql_real_escape_string($group)."
 			WHERE
-			  event_id = ".$eid." AND
-			  type = ".$reminderType;
+			  event_id = ".mysql_real_escape_string($eid)." AND
+			  type = ".mysql_real_escape_string($reminderType);
 			$this->executeUpdateQuery($UPDATE_REMINDER);
 
 		} else {
@@ -973,9 +976,9 @@ class DBConfig {
 							'" . mysql_real_escape_string($subject) . "', 
 							'" . mysql_real_escape_string($msg) . "', 
 							'" . mysql_real_escape_string($deliveryDateTime) . "', 
-							" . $eid.",
-							" . $reminderType.",
-							" . $autoReminder.",
+							" .mysql_real_escape_string($eid).",
+							" . mysql_real_escape_string($reminderType).",
+							" . mysql_real_escape_string($autoReminder).",
 							".mysql_real_escape_string($group)."
 						)";
 			$this->executeUpdateQuery($SAVE_REMINDER);
@@ -991,10 +994,10 @@ class DBConfig {
 			  subject =  NULL, 
 			  message = '" . mysql_real_escape_string($msg) . "', 
 			  delivery_time = '" . mysql_real_escape_string($deliveryDateTime) . "', 
-			  is_activated = ".$autoReminder.",
+			  is_activated = ".mysql_real_escape_string($autoReminder).",
 			  recipient_group = ".mysql_real_escape_string($group)."
 			WHERE
-			  event_id = ".$eid." AND
+			  event_id = ".mysql_real_escape_string($eid)." AND
 			  type = ".SMS_REMINDER_TYPE;
 			$this->executeUpdateQuery($UPDATE_REMINDER);
 
@@ -1014,9 +1017,9 @@ class DBConfig {
 							NOW(),
 							'" . mysql_real_escape_string($msg) . "', 
 							'" . mysql_real_escape_string($deliveryDateTime) . "', 
-							" . $eid.",
+							" . mysql_real_escape_string($eid).",
 							" . SMS_REMINDER_TYPE.",
-							" . $autoReminder.",
+							" . mysql_real_escape_string($autoReminder).",
 							".mysql_real_escape_string($group)."
 						)";
 			$this->executeUpdateQuery($SAVE_REMINDER);
@@ -1095,17 +1098,17 @@ class DBConfig {
 	}
 	
 	public function requestPasswordReset($hash_key, $email) {
-		$CHECK_VALID_EMAIL = "SELECT * FROM ef_users u WHERE u.email = '".$email."'";
+		$CHECK_VALID_EMAIL = "SELECT * FROM ef_users u WHERE u.email = '".mysql_real_escape_string($email)."'";
 		if ($this->getRowNum($CHECK_VALID_EMAIL) == 0) {
 			return NULL;
 		}
-		$REQUEST_PASS_RESET = "INSERT INTO ef_password_reset (hash_key, email) VALUES ('".$hash_key."', '".$email."')";
+		$REQUEST_PASS_RESET = "INSERT INTO ef_password_reset (hash_key, email) VALUES ('".mysql_real_escape_string($hash_key)."', '".mysql_real_escape_string($email)."')";
 		$this->executeUpdateQuery($REQUEST_PASS_RESET);
 		return new User($this->getUserInfoByEmail($email));;
 	}
 	
 	public function isValidPassResetRequest($hash_key) {
-		$IS_VALID_PASS_RESET_REQUEST = "SELECT * FROM ef_password_reset r WHERE r.hash_key = '".$hash_key."'";
+		$IS_VALID_PASS_RESET_REQUEST = "SELECT * FROM ef_password_reset r WHERE r.hash_key = '".mysql_real_escape_string($hash_key)."'";
 		if ($this->getRowNum($IS_VALID_PASS_RESET_REQUEST) == 0) {
 			return false;
 		}
@@ -1146,16 +1149,16 @@ class DBConfig {
 	 * Determine whether $uid should be following $fid
 	 */
 	public function followUser($uid, $fid) {
-		$IS_FOLLOW = "SELECT * FROM ef_friendship WHERE uid = ".$uid." AND fid = ".$fid;
+		$IS_FOLLOW = "SELECT * FROM ef_friendship WHERE uid = ".mysql_real_escape_string($uid)." AND fid = ".mysql_real_escape_string($fid);
 		if ($this->getRowNum($IS_FOLLOW) == 0) { 
-			$FOLLOW_USER = "INSERT INTO ef_friendship (uid, fid) VALUES (".$uid.", ".$fid.")";
+			$FOLLOW_USER = "INSERT INTO ef_friendship (uid, fid) VALUES (".mysql_real_escape_string($uid).", ".mysql_real_escape_string($fid).")";
 			$this->executeUpdateQuery($FOLLOW_USER);
 			
 			return 1;
 		} else {
 			$followInfo = $this->executeQuery($IS_FOLLOW);
 			$isFollow = (intval($followInfo['is_follow']) == 1) ? 0 : 1;
-			$UPDATE_FOLLOW = "UPDATE ef_friendship SET is_follow = ".$isFollow." WHERE uid = ".$uid." AND fid = ".$fid;
+			$UPDATE_FOLLOW = "UPDATE ef_friendship SET is_follow = ".$isFollow." WHERE uid = ".mysql_real_escape_string($uid)." AND fid = ".mysql_real_escape_string($fid);
 			$this->executeUpdateQuery($UPDATE_FOLLOW);
 			
 			return $isFollow;

@@ -283,13 +283,13 @@ class EFMail {
 					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref);
 									
 					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
-										VALUES ('" . $hash_key . "', '" . $newGuests[$i] . "', " . $event->eid . ")";
+										VALUES ('" . mysql_real_escape_string($hash_key) . "', '" . mysql_real_escape_string($newGuests[$i]) . "', " . $event->eid . ")";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 					
 					EFCommon::$dbCon->recordUnconfirmedAttendance($event, $insertedUser['id']);
 					
 					$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
-										VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ", '".$insertedUser['email']."')";
+										VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ", '".mysql_real_escape_string($insertedUser['email'])."')";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
 					
 					$rawMime = 
