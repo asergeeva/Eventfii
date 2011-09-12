@@ -17,7 +17,7 @@
 				<p class="fb-connected"><span>Your trueRSVP account has been created.</span></p>
 				<p class="message-small">Enter New Account Details</p>{else}
 
-				<legend>Create new Account</legend>
+				<legend>Create a new account</legend>
 				<div id="fb-root"></div>
 				<p class="message-small"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>
 				<div id="invalid_credentials"></div>
