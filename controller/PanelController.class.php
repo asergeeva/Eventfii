@@ -129,6 +129,7 @@ class PanelController {
 		
 		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
 		$_SESSION['newEvent']->setGuests(NULL);
+		$this->attendEvent($_SESSION['newEvent']->eid, 90, false);
 				
 		header("Location: " . CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid );
 		exit;
