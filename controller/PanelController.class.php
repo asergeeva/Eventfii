@@ -596,14 +596,14 @@ class PanelController {
 		$notification = NULL;
 		
 		// Waiting list
-		if (sizeof($event->guests) >= $event->goal) {
+		if (EFCommon::$core->getTrueRSVP($event) >= $event->goal) {
 			switch($event->reach_goal) {
 				case 1:
 					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-					$notification = "Success!";
+					$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
 					break;
 				case 2:
-					$notification = "Event is full, host decided not to take anymore attendees";
+					$notification = "Sorry! The event has reached capacity.";
 					break;
 				case 3:
 					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $conf);
@@ -612,7 +612,7 @@ class PanelController {
 			}
 		} else {
 			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-			$notification = "Success!";
+			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
 		}
 		
 		if (isset($notification)) {
