@@ -689,7 +689,8 @@ nav.steps.step-3 { background-position: 0 -100px; }
 /*----- Event Information ----------*/
 .event-info .event-desc {
 	padding: 0 0 30px;
-	white-space: pre; }
+	white-space: pre;
+	word-wrap: break-word; }
 .event-info .event-more {
 	float: left;
 	width: 50%; }
