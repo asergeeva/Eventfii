@@ -3,7 +3,7 @@
 <script type="text/javascript" src="{$JS_PATH}/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
-<script type="text/javascript" src="http://anygoogle.com/contactable/jquery.validate.pack.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/jquery.validate.pack.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/contactable.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/fileuploader.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/json2.js"></script>
@@ -16,10 +16,6 @@
  * All rights reserved
  */
 var EFGLOBAL = (function() {
-	$('#contactable').contactable({
-		subject: 'feedback URL:'+location.href
-	});
-	
 	return {
 		ajaxLoader: '<img src="images/ajax-loader.gif" alt="loading" class="ajax-loader" />',
 		baseUrl: '{/literal}{$CURHOST}{literal}',
@@ -27,5 +23,12 @@ var EFGLOBAL = (function() {
 		attendSucceed: '<h2>Success!</h2>',
 		isSucceed: '<span class="succeed_text">Success</span>'
 	}
-}());{/literal}
+}());
+
+$(document).ready(function() {
+	$('#contactable').contactable({
+		subject: 'feedback URL:'+location.href
+	});
+});
+{/literal}
 </script>
