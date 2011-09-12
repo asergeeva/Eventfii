@@ -9,7 +9,7 @@
 			<p class="message" id="notification-message">Text sent successfully.</p>
 		</header>
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="manage">
 			<header class="block">
 				<p class="message">Text your guests here.</p>
 				<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>

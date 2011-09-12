@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="manage">
 			<header class="block">
 				<p class="message">Confirm who showed up to improve your trueRSVP accuracy for your next event!</p>
 			</header>

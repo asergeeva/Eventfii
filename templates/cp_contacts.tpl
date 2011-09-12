@@ -16,7 +16,7 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="content">{if isset($page.contacts)}
+		<div class="manage">{if isset($page.contacts)}
 
 			{include file="contacts.tpl"}{elseif isset($page.addcontacts)}
 

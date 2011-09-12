@@ -45,13 +45,13 @@
 								<span>Raincheck</span>
 								<em>Can’t make it this time</em>
 							</label>
-						</li>
+						</li>{*
 						<li>
 							<label class="rsvp-6{if isset($select1)} selected{/if}" for="event_attending_response_6">
 								<input type="radio" name="event_attending_response" value="{$CONFOPT6}"{if isset($conf1)}{$conf1}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_6" /> 
 								<span>Spam. Take me off this host’s list.</span>
 							</label>
-						</li>
+						</li>*}
 					</ol>
 				</fieldset>
 			</section>{/if}

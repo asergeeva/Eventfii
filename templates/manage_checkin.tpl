@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="manage">
 			<header class="block">
 				<p class="message">Pick the check-in option that's right for your event.</p>
 			</header>

@@ -105,9 +105,10 @@
 			    </tr>
 			  </table>
 			</div>
-			{/if}
+			{/if}{if ! isset($page.contacts) && ! isset($page.manage)}
 
 			<footer class="buttons buttons-submit">
 				<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
-			</footer>
+			</footer>{/if}
+
 		</section>

@@ -6,7 +6,7 @@
 	{include file="manage_header.tpl"}
 	<section id="main">
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="manage">
 			{include file="guest_add.tpl"}
 			{include file="manage_invites.tpl"}
 		</div>

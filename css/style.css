@@ -571,10 +571,11 @@ article h2 { font-size: 16px; }
 
 /* Primary Sections
  -------------------------*/
-.content {
+.content, .manage {
 	float: left;
 	width: 580px;
 	vertical-align: top; }
+.manage { width: 634px; }
 	
 /*----- Create Event ----------*/
 .create {
@@ -1023,7 +1024,7 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 #main .navigation {
 	float: left;
-	width: 220px; }
+	width: 166px; }
 #main .navigation .block { padding: 8px; }
 #main .navigation .block a { color: #3399cc; }
 #main .navigation .block a:hover { color: #fff; }

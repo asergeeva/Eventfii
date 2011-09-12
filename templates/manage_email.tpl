@@ -9,7 +9,7 @@
 			<p class="message">Email sent successfully</p>
 		</header>
 		{include file="manage_nav.tpl"}
-		<div class="content">
+		<div class="manage">
 			<header class="block">
 				<p class="message">Send reminders and followup emails here</p>
 			</header>

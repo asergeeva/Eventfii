@@ -1,5 +1,5 @@
 		{include file="manage_nav.tpl"}
-		<div class="content">{if $smarty.session.manage_event->days_left > 0}
+		<div class="manage">{if $smarty.session.manage_event->days_left > 0}
 
 			<header class="block">{if $smarty.session.manage_event->days_left == 1}
 
