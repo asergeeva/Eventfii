@@ -625,8 +625,8 @@ class DBConfig {
 	}
 	
 	/***** CONTROL PANEL ASSIGN EVENTS ********/
-	public function getEventByEO($uid, $showPrivate = true) {
-		$privateFilter = ($showPrivate) ? "AND is_public = 0" : "";
+	public function getEventByEO($uid, $publicOnly = false) {
+		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
 			
 		$GET_EVENTS = "	SELECT	* 
 						FROM (

@@ -254,7 +254,7 @@ class PanelController {
 	}
 	
 	private function assignCreatedEventsProfile($uid) {
-		$created_event = EFCommon::$dbCon->getEventByEO($uid, false);
+		$created_event = EFCommon::$dbCon->getEventByEO($uid, true);
 		$createdEvents = NULL;
 		foreach ( $created_event as $event ) {
 			$createdEvents[] = new Event($event);
