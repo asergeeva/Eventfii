@@ -83,8 +83,9 @@
 					</dd>
 				</dl>
 				<footer class="buttons-submit"> 
-					<p><span class="btn btn-med"><input type="submit" name="register" value="Done" /></span></p>
-					<!--a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a-->
+					<p><span class="btn btn-med"><input type="submit" name="register" value="Done" /></span></p>{*
+					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>*}
+
 				</footer> 
 			</fieldset>
 			</form>

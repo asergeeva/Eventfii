@@ -16,35 +16,8 @@
 		{include file="manage_invites.tpl"}
 	</div>
 </div>
-{include file="footer.tpl"}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<!--div id="oi_logo"></div>
+{include file="footer.tpl"}{*
+		<div id="oi_logo"></div>
 			<div id="oi_container">
 			{if $smarty.get.option eq 'fb'}
 				<fb:serverFbml>
@@ -70,8 +43,8 @@
 			</footer>
 			</form>
 		</section-->
-		{*include file="manage_invites.tpl"*}
-		<!--section class="block">
+		<!-- include file="manage_invites.tpl" -->
+		<section class="block">
 				<header class="block-title">
 					<h1>Add Guests</h1>
 				</header>
@@ -118,7 +91,7 @@
 					<p><span class="btn btn-med"><input type="submit" name="submit" value="Done" /></span></p>
 				</footer>
 				</form>
-			</section-->
+			</section>*}
 
 {include file="js_global.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>

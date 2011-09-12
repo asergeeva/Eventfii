@@ -547,12 +547,12 @@ article h2 { font-size: 16px; }
 	
 /*----- Create Event ----------*/
 .create {
-	width: 620px;
+	width: 634px;
 	margin: 0 auto; }
 
 nav.steps {
 	background: url(../images/steps_bg.gif) 0 0 repeat-x;
-	width: 600px;
+	width: 614px;
 	height: 50px;
 	margin: 0 auto 2px; }
 nav.steps.step-2 { background-position: 0 -50px; }
