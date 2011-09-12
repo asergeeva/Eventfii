@@ -3,8 +3,25 @@
 
 {include file="header.tpl"}
 <div class="method" id="container">
-	<div>
-		<header id="header">
+	<section>
+		<header>
+			<h1>Take a tour</h1>
+		</header>
+		<div id="tour">
+			<figure>
+				<img src="images/tour_1.gif" alt title />
+				<img src="images/tour_2.gif" alt title />
+				<img src="images/tour_3.gif" alt title />
+				<img src="images/tour_4.gif" alt title />
+				<img src="images/tour_5.gif" alt title />
+			</figure>
+		</div>
+		<footer>
+			<p><a href="#"></a></p>
+		</footer>
+	</section>
+	<section>
+		<header>
 			<h1>How does it work?</h1>
 		</header>
 		<section>
@@ -76,11 +93,12 @@
 				<p>Your trueRSVP is more accurate and your guests are more committed if you use our system!</p>
 			</aside>
 		</section>
-	</div>
+	</section>
 </div>
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/method.js"></script>
 
 </body>
 </html>

@@ -273,8 +273,7 @@ select.timebox { cursor: pointer; }
 #container {
 	width: 820px;
 	margin: 40px auto 0;
-	padding: 0 0 70px;
-	overflow: auto; }
+	padding: 0 0 70px; }
 
 /*----- Header ----------*/
 #header { height: 55px; }
@@ -361,18 +360,48 @@ article h2 { font-size: 16px; }
 	padding: 0 0 10px;
 	overflow: auto;
 	clear: both; }
-.method section > header { 
-	font-size: 20px;
+.method section header { 
+	font-size: 32px;
 	font-weight: bold;
-	padding: 18px 5px;
-	border-top: 1px solid #ebebeb; }
-.method aside {
+	padding: 0 5px 18px;
+	border-bottom: 1px solid #ebebeb; }
+.method section section {
+	padding: 0 0 25px;
+	border-bottom: 1px solid #ebebeb;}
+.method section section header {
+	font-size: 20px;
+	padding: 20px 5px;
+	border: 0; }
+	
+/* Tour */
+.method section #tour {
+	background: url(../images/tour_bg.png) 0 0 no-repeat;
+	position: relative;
+	width: 835px; /* 865 - 30 */
+	height: 355px;
+	margin: 20px auto;
+	padding: 15px 15px 0;
+	overflow: hidden; }
+#tour figure {
+	float: left;
+	width: 10000px;
+	height: 340px; /* 355 - 15 */ }
+.method section figure img {
+	float: left;
+	margin: 0 51px 0 52px; }
+	
+/* How does it work */
+.method section aside {
 	background-repeat: no-repeat;
 	float: left;
 	width: 270px; /* 290 - 20 */
 	margin: 0 1px;
 	padding: 236px 10px 0;
 	display: inline; }
+.method section aside header {
+	font-size: 16px;
+	padding: 0; }
+.method section aside p { font-size: 12px; }
 
 /* Images */
 .method aside.method-invite { background-image: url(../images/method_invite.png); }
