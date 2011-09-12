@@ -9,4 +9,6 @@
 										</label>
 									</li>{/foreach}
 								</ul>
-								<p class="message"><a href="#emails" id="add_import_contact_list">Add</a></p>
+								<form method="post" action="{$submitTo}" id="create_guests">
+								<textarea name="emails" id="emails-hidden" class="inputbox autowidth" style="display:none"></textarea>
+								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p></form>

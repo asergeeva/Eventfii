@@ -26,46 +26,6 @@ var OPENINVITER = (function() {
 		});
 	});
 	
-	$('#oi_import').live('click', function() {
-		$.post(EFGLOBAL.baseUrl + '/guest/inviter', {
-			oi_provider: $('#oi_provider').val(),
-			oi_email: $('#oi_email').val(),
-			oi_pass: $('#oi_pass').val()
-		}, function(contactListPage) {
-			$('#oi_container').html(contactListPage).ready(function() {
-				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
-			});
-		});
-	});
-	
-	$('#add_import_contact_list').live('click', function() {
-		var selected_contacts = $('input:checkbox.selected_contact:checked'),
-				guest_email = [],
-				entered_email,
-				merged_email = '',
-				i;
-		for (i = 0; i < selected_contacts.length; ++i) {
-			if (typeof selected_contacts[i].value != 'undefined') {
-				guest_email[selected_contacts[i].value] = 1;
-			}
-		}
-		
-		entered_email = $('#emails').val().split(',');
-		for (i = 0; i < entered_email.length; ++i) {
-			if (entered_email[i] && guest_email[entered_email[i]] != 1) {
-				guest_email[entered_email[i]] = 1;
-			}
-		}
-		
-		for (i in guest_email) {
-			if (i && typeof i != 'undefined') {
-				merged_email += (i + ',');
-			}
-		}
-	
-		$('#emails').val(merged_email.substring(0, merged_email.length - 1));
-	});
-	
 	return {
 		listFilter: function (header, list) {
 		    // create and add the filter form to the header
@@ -93,3 +53,53 @@ var OPENINVITER = (function() {
 		}
 	}
 }());
+
+$(document).ready(function() {
+	// Search for add contacts
+	OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+	
+	// Gmail & Yahoo Importer
+	$('#oi_import').live('click', function() {
+		var emailProvider = $('#oi_email').val().split("@");
+		emailProvider = emailProvider[1].split(".");
+		
+		$.post(EFGLOBAL.baseUrl + '/guest/inviter', {
+			oi_provider: emailProvider[0],
+			oi_email: $('#oi_email').val(),
+			oi_pass: $('#oi_pass').val()
+		}, function(contactListPage) {
+			$('#oi_container').html(contactListPage).ready(function() {
+				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+			});
+		});
+	});
+	
+	// Before submitting, add it to the text area first
+	$('#add_import_contact_list').live('click', function() {
+		var selected_contacts = $('input:checkbox.selected_contact:checked'),
+				guest_email = [],
+				entered_email,
+				merged_email = '',
+				i;
+		for (i = 0; i < selected_contacts.length; ++i) {
+			if (typeof selected_contacts[i].value != 'undefined') {
+				guest_email[selected_contacts[i].value] = 1;
+			}
+		}
+		
+		entered_email = $('#emails-hidden').val().split(',');
+		for (i = 0; i < entered_email.length; ++i) {
+			if (entered_email[i] && guest_email[entered_email[i]] != 1) {
+				guest_email[entered_email[i]] = 1;
+			}
+		}
+		
+		for (i in guest_email) {
+			if (i && typeof i != 'undefined') {
+				merged_email += (i + ',');
+			}
+		}
+	
+		$('#emails-hidden').val(merged_email.substring(0, merged_email.length - 1));
+	});
+});

@@ -95,6 +95,7 @@
 
 {include file="js_global.tpl"}
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/contacts.js"></script>
 
 </body>

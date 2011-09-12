@@ -978,15 +978,13 @@ class PanelController {
 				if ( ! isset($_SESSION['newEvent']) ) {
 					$_SESSION['newEvent'] = new Event($_GET['eventId']);
 				}
-				
+								
 				if ( isset($_POST['submit']) ) {
-					if ( $_GET['option'] == "manual" || $_GET['option'] == "csv" ) {
-						$guest_emails = $_SESSION['newEvent']->submitGuests();
-						if ( sizeof($guest_emails) == 0 ) {
-							EFCommon::$smarty->assign('error', "No guests added.");
-						} else {
-							EFCommon::$smarty->assign('notification', "Yay!");
-						}
+					$guest_emails = $_SESSION['newEvent']->submitGuests();
+					if ( sizeof($guest_emails) == 0 ) {
+						EFCommon::$smarty->assign('error', "No guests added.");
+					} else {
+						EFCommon::$smarty->assign('notification', "Yay!");
 					}
 				}
 								
@@ -1005,10 +1003,11 @@ class PanelController {
 				else
 					EFCommon::$smarty->assign('contacts', NULL);
 				
+				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/a/'.$_SESSION['newEvent']->alias.'?created=true');
 				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &amp;option=manual");
+				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &option=".$_GET['option']);
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
@@ -1164,7 +1163,7 @@ class PanelController {
 				
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				EFCommon::$smarty->assign("event", $event);
-				
+								
 				if ( isset($_POST['submit']) ) {
 					$message = $event->submitGuests();
 					EFCommon::$smarty->assign("message", $message);
@@ -1173,18 +1172,29 @@ class PanelController {
 				// Fetch the users who have signed up
 				$invited_users_array = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 
-				foreach( $invited_users_array as $guest ) {
-					$contacts[] = new AbstractUser($guest);
+				$contacts = array();
+				$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+				for ($i = 0; $i < sizeof($contactList); ++$i) {
+					$contact = new User($contactList[$i]);
+					array_push($contacts, $contact);
 				}
-				EFCommon::$smarty->assign( 'contacts', $contacts );
+				
+				$signedUp = $this->getAttendees(NULL);
+				EFCommon::$smarty->assign('signedUp', $signedUp);
+				
+				if ( sizeof($contacts) > 0 )
+					EFCommon::$smarty->assign('contacts', $contacts);
+				else
+					EFCommon::$smarty->assign('contacts', NULL);
 				
 				if( $event->numErrors > 0 ) {
 					EFcommon::$smarty->assign( 'error', $event->error );
 				}
 				
 				EFCommon::$smarty->assign('event', $event);
-				EFCommon::$smarty->assign('fbSubmit', '/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
-				EFCommon::$smarty->assign('submitTo', '/event/manage/guests?eventId='.$event->eid);
+				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
+				EFCommon::$smarty->assign('fbSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
+				EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;

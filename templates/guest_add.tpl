@@ -24,7 +24,7 @@
 				</ul>
 			</nav>{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
-			<section class="block">{if isset($contacts) && false}
+			<section class="block">{if isset($contacts)}
 
 				<header class="block-title">
 					<h1>Contacts</h1>
@@ -42,8 +42,13 @@
 							<p>{$contact->email}</p>
 						</label>
 					</li>{/foreach}
-
-				</ul>{else}
+					
+				</ul>
+				<form method="post" action="{$submitTo}" id="create_guests">
+				<textarea name="emails" id="emails-hidden" class="inputbox autowidth" style="display:none"></textarea>
+				<p><span class="btn btn-med"><input type="submit" name="submit" id="add_import_contact_list" value="Invite" /></span></p>
+				</form>
+				{else}
 
 				<header class="block error">
 					<p class="message">No contacts</p>
@@ -80,12 +85,29 @@
 			  </fb:fbml>
 			</script>
 			</fb:serverFbml>{elseif $smarty.get.option == 'csv'}
-
+				<p><a href="#" id="csv_upload"><span>Upload</span></a></p>
 			{else}
-
+			<div id="oi_container">
+				<h2>Import Contacts</h2>
+				<input type="hidden" name="oi_provider" id="oi_provider" value="{$provider}" />
+				<table>
+			  	<tr>
+			    	<th>Email:</th>
+			      <td><input type="text" name="oi_email" id="oi_email" /></td>
+			   	</tr>
+			    <tr>
+			    	<th>Password:</th>
+			      <td><input type="password" name="oi_pass" id="oi_pass" /></td>
+			    </tr>
+			    <tr>
+			    	<th></th>
+			      <td><a href="#search-container" id="oi_import">Import</a></td>
+			    </tr>
+			  </table>
+			</div>
 			{/if}
 
 			<footer class="buttons buttons-submit">
-				<p><a href="{$CURHOST}/$event/a/{$event->alias}?created=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
+				<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 			</footer>
 		</section>
