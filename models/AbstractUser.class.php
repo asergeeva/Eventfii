@@ -80,6 +80,7 @@ class AbstractUser {
 		$this->alias = $userInfo['url_alias'];
 		$this->verified = $userInfo['verified'];
 		$this->cookie = $userInfo['user_cookie'];
+		$this->is_attending = $userInfo['is_attending'];
 		$this->exists = true;
 	}
 	
