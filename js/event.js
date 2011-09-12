@@ -42,7 +42,7 @@ $(document).ready(function() {
 	$("#all-guests").click( function() {
 		$("#see-all").fadeIn(500);
 		var position = $("#event-attendants").position();
-		var top = position.top - 50;
+		var top = position.top - 150;
 		$("#see-all").css("top", top + "px");
 		return false;
 	});
@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#create-acc .popup-close a").click( function() {
+	/* $("#create-acc .popup-close a").click( function() {
 		$("#create-acc").fadeOut(500);
 		return false;
 	});
@@ -59,5 +59,5 @@ $(document).ready(function() {
 		$("#log-in").fadeOut(500);
 		$("#create-acc").fadeIn(500);
 		return false;
-	});
+	});*/
 });
