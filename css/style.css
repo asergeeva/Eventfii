@@ -317,9 +317,7 @@ select.timebox { cursor: pointer; }
 	display: block; }
 
 /*----- Media ----------*/
-section.media {
-
-}
+section.media { padding: 0 0 6px; }
 section.media header {
 	background: url(../images/media_title_bg.gif) 0 0 no-repeat;
 	color: #fff;
@@ -328,14 +326,43 @@ section.media header {
 	height: 48px; /* 58 - 10 */
 	margin: 0 0 8px;
 	padding: 10px 15px 0; }
+section.media a { color: #666666; }
 section.media p {
 	font-size: 14px;
 	font-family: Georgia;
 	margin: 0 100px 8px 8px }
-footer.media { 
-	clear: both;
-}
 
+/* Team */
+section.media ul.team { 
+	list-style: none;
+	width: 200px;
+	margin: 0 0 18px; }
+section.media .team li { display: inline-block; }
+section.media .team img { display: block; }
+
+/* Screenshots */
+section.media ul.screenshots { 
+	list-style: none;
+	padding: 0 0 50px; }
+section.media .screenshots li {
+	text-align: center;
+	width: 200px;
+	height: 180px;
+	margin: 0 10px;
+	display: inline-block; }
+section.media .screenshots li img {
+	margin: 0 auto;
+	display: block; }
+
+/* Contact */
+footer.media { 
+	font-family: Georgia;
+	font-size: 14px;
+	clear: both; }
+footer.media p { margin: 0 0 10px; }
+footer.media p span { 
+	margin: 0 20px 0 0;
+	display: inline-block; }
 
 /*----- Terms and Privacy ----------*/
 article { font-size: 12px; }
