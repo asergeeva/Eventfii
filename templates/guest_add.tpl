@@ -15,11 +15,12 @@
 		<section class="block">
 			<nav class="horizontal-nav">
 				<ul>{if !isset($page.addcontacts)}
+
 					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>{/if}
 
 					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if $smarty.get.option == 'manual' || ($page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>
-					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=fb" class="btn btn-manage{if $smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
-					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>
+					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=fb" class="btn btn-manage{if $smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>{*
+					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
 					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 				</ul>
 			</nav>{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
@@ -45,10 +46,9 @@
 					
 				</ul>
 				<form method="post" action="{$submitTo}" id="create_guests">
-				<textarea name="emails" id="emails-hidden" class="inputbox autowidth" style="display:none"></textarea>
-				<p><span class="btn btn-med"><input type="submit" name="submit" id="add_import_contact_list" value="Invite" /></span></p>
-				</form>
-				{else}
+					<textarea name="emails" id="emails-hidden" class="inputbox autowidth" style="display:none"></textarea>
+					<p><span class="btn btn-med"><input type="submit" name="submit" id="add_import_contact_list" value="Invite" /></span></p>
+				</form>{else}
 
 				<header class="block error">
 					<p class="message">No contacts</p>
@@ -71,11 +71,9 @@
 					</fieldset>
 				</form>
 			</section>{elseif $smarty.get.option == 'fb'}{*
-
 			<div id="fb-root"></div>
 			<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 			<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>*}
-
 			<fb:serverFbml width="582">
 			<script type="text/fbml">
 			  <fb:fbml>
@@ -85,8 +83,9 @@
 			  </fb:fbml>
 			</script>
 			</fb:serverFbml>{elseif $smarty.get.option == 'csv'}
-				<p><a href="#" id="csv_upload"><span>Upload</span></a></p>
-			{else}
+
+				<p><a href="#" id="csv_upload"><span>Upload</span></a></p>{else}
+
 			<div id="oi_container">
 				<h2>Import Contacts</h2>
 				<input type="hidden" name="oi_provider" id="oi_provider" value="{$provider}" />
@@ -105,7 +104,7 @@
 			    </tr>
 			  </table>
 			</div>
-			{/if}{if ! isset($page.contacts) && ! isset($page.manage)}
+			{/if}{if ! isset($page.contacts) && ! isset($page.addcontacts) && ! isset($page.manage)}
 
 			<footer class="buttons buttons-submit">
 				<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
