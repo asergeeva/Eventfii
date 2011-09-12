@@ -43,7 +43,7 @@
 			<p>Click <a href="#">here</a> if you want to be reminded of this event again in a week. </p>
 			<p>Thanks,<br />[Host Name]<br />[Host E-mail]</p>
 			<p>Spread the love! <a href="http://www.facebook.com/pages/trueRSVP/245102305531976" target="_blank"><img src="images/icon_facebook.gif" alt="Share on Facebook" /></a> <a href="http://twitter.com/#!/trueRSVP" target="_blank"><img src="images/icon_twitter.gif" alt="Share on Twitter" /></a></p>
-			<p class="extra">trueRSVP is the first RSVP system based on reputation. FInd out how many people are actually coming to your event. Learn more.</p>
+			<p class="extra">trueRSVP is the first RSVP system based on reputation. FInd out how many people are actually coming to your event. <a href="https://truersvp.com" target="_blank">Learn more</a>.</p>
 		</td>
 	</tr>
 </table>
