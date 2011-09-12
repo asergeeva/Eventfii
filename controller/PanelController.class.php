@@ -575,10 +575,10 @@ class PanelController {
 		if ( ! $profile->exists ) {
 			EFCommon::$smarty->display('error_user_notexist.tpl');
 		} else {
-			$is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
+			// $is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
+			// EFCommon::$smarty->assign("is_following", $is_following);
 			$this->assignProfileEvents($userId);
 			EFCommon::$smarty->assign("profile", $profile);
-			EFCommon::$smarty->assign("is_following", $is_following);
 			EFCommon::$smarty->display('profile.tpl');
 		}
 	}

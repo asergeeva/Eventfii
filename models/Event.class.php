@@ -309,7 +309,7 @@ class Event {
 		
 		$this->time = $time;
 		
-		if( $this->time == 0 && $this->time != "00:00" ) {
+		if( $this->time == 0 && $this->time != "00:00" && $this->time != "00:30" ) {
 			$this->error['time'] = "Please select a time for your event";
 			$this->numErrors++;
 		}
@@ -382,7 +382,7 @@ class Event {
 		$this->end_time = $_POST['end_time'];
 		
 		// Optional
-		if ( $this->end_time == 0 ) {
+		if ( $this->end_time == 0 && $this->time != "00:00" && $this->time != "00:30" ) {
 			$this->end_time = NULL;
 			if ( strlen($this->end_date) == 0 ) {
 				return;
