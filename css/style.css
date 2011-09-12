@@ -1046,6 +1046,8 @@ ul.network li a {
 .buttons-submit { margin: 15px 0 0; }
 .buttons-create { clear: none; }
 
+.buttons a { vertical-align: middle; display: inline-block; }
+
 .btn, .btn input, .btn span, .btn em {
 	background-color: transparent;
 	background-repeat: no-repeat;

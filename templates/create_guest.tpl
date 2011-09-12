@@ -14,7 +14,9 @@
 	<div class="create">
 		{include file="guest_add.tpl"}
 		{include file="manage_invites.tpl"}
-		
+	</div>
+</div>
+{include file="footer.tpl"}
 		
 		
 		
@@ -117,3 +119,10 @@
 				</footer>
 				</form>
 			</section-->
+
+{include file="js_global.tpl"}
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/contacts.js"></script>
+
+</body>
+</html>
