@@ -15,12 +15,14 @@
 
 	<header class="block info-message">
 		<div class="turtle">
-			<h1>Welcome to trueRSVP!</h1>
+			<h1>Welcome to trueRSVP!</h1>{if $event->is_public}
+
 			<h2>Share this event link with everyone you know:</h2>
-			<p class="event-link">{if $event->alias == "1af"}{$CURHOST}/demo{else}{$CURHOST}/event/a/{$event->alias}{/if}</p>
+			<p class="event-link">{if $event->alias == "1af"}{$CURHOST}/demo{else}{$CURHOST}/event/a/{$event->alias}{/if}</p>{/if}
+
 		</div>
 		<footer class="buttons">
-			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/register" class="btn btn-med"><span>Sign Up</span></a> or <a href="#">Skip</a></p>
+			<p><a href="{$CURHOST}/method" class="btn btn-med"><span>Take a Tour</span></a> <a href="{$CURHOST}/register" class="btn btn-med"><span>Sign Up</span></a></p>
 		</footer>
 	</header>{/if}
 

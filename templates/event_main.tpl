@@ -16,10 +16,10 @@
 							<h1>Hosted by:</h1>
 						</header>
 						<p class="user-img">
-							<a href="{$CURHOST}/user/{$event->organizer->id}"><img src="{$event->organizer->pic}" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
+							<a href="{$CURHOST}/user/a/{$event->organizer->alias}"><img src="{$event->organizer->pic}" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
 						</p>
 						<footer class="user-info">
-							<p class="user-name"><a href="{$CURHOST}/user/{$event->organizer->id}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
+							<p class="user-name"><a href="{$CURHOST}/user/a/{$event->organizer->alias}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
 							<p class="user-contact"><a href="mailto:{$event->organizer->email}">Send {$event->organizer->fname} an email</a></p>
 						</footer>
 					</section>
@@ -39,7 +39,7 @@
 
 					<li>
 						<figure>
-							<a href="{$CURHOST}/user/{$guest->id}">
+							<a href="{$CURHOST}/user/a/{$guest->alias}">
 								<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
 								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 							</a>
@@ -48,7 +48,7 @@
 
 				</ul>
 				<footer class="link-extra">
-					<p><a href="#" id="all-guests">See All ({$curSignUp})</a></p>
+					<p><a href="#" id="all-guests">See All ({sizeof($attending)})</a></p>
 				</footer>
 			</section>{/if}
 
