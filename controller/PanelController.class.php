@@ -517,7 +517,7 @@ class PanelController {
 		$event = $this->buildEvent($eventId);
 		$_SESSION['eventViewed'] = $event;
 		
-		if (isset($_SESSION['attemptValue'])) {
+		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user'])) {
 			// Make sure that it only select one choice
 			if (sizeof($_SESSION['attemptValue']) == 1) {
 				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
