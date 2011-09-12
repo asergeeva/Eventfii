@@ -622,7 +622,9 @@ class DBConfig {
 	}
 	
 	/***** CONTROL PANEL ASSIGN EVENTS ********/
-	public function getEventByEO($uid) {	
+	public function getEventByEO($uid, $showPrivate = true) {
+		$privateFilter = ($showPrivate) ? "" : "AND is_public = 0";
+			
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 							SELECT	e.id, 
@@ -642,13 +644,13 @@ class DBConfig {
 									e.type,
 									e.url_alias
 							FROM	ef_events e 
-							WHERE	e.organizer = " . $uid . " AND e.is_active = 1
+							WHERE	e.organizer = " . $uid . " AND e.is_active = 1 ".$privateFilter."
 						) el
 						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	public function getEventAttendingByUid($uid) {
+	public function getEventAttendingByUid($uid) {		
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 								SELECT 	e.id, 
