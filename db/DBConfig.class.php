@@ -627,6 +627,7 @@ class DBConfig {
 						FROM (
 							SELECT	e.id, 
 									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+									UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
 									e.created, 
 									e.title, 
 									e.goal,
@@ -643,7 +644,7 @@ class DBConfig {
 							FROM	ef_events e 
 							WHERE	e.organizer = " . $uid . " AND e.is_active = 1
 						) el
-						ORDER BY el.days_left ASC";
+						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -651,7 +652,8 @@ class DBConfig {
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 								SELECT 	e.id, 
-										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
+										TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+										UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
 										e.created, 
 										e.title, 
 										e.goal, 
@@ -671,7 +673,7 @@ class DBConfig {
 								AND 	a.user_id = " . $uid . " 
 								AND 	a.confidence <> " . CONFOPT6 . " AND e.is_active = 1
 						) el
-						ORDER BY el.days_left ASC";
+						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
@@ -749,6 +751,7 @@ class DBConfig {
 		$GET_EVENT = "	SELECT	id, 
 								DATEDIFF ( event_deadline, CURDATE() ) AS rsvp_days_left,
 								DATEDIFF ( event_datetime, CURDATE() ) AS days_left,
+								UNIX_TIMESTAMP(event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
 								DATE_FORMAT(event_datetime, '%M %d, %Y') AS friendly_event_date,
 								DATE_FORMAT(event_datetime, '%r') AS friendly_event_time,
 								created,

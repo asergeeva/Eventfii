@@ -3,7 +3,7 @@
 			<section class="block" id="rsvp">
 				<header class="block-title">
 					<h1>Your RSVP</h1>
-				</header>{if $event->rsvp_days_left == 1}
+				</header>{if $event->time_left > 0}
 
 				<p class="rsvp-message"><em>1</em> day left to RSVP</p>{else}
 				

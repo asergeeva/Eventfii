@@ -31,8 +31,11 @@ class Event {
 	public $end_date;
 	public $end_time;
 	public $deadline;
+	
 	public $rsvp_days_left;
 	public $days_left;
+	public $time_left;
+	
 	public $description;
 	public $is_public;
 	public $type;
@@ -549,6 +552,7 @@ class Event {
 		$this->deadline = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
 
 		$this->days_left = $eventInfo['days_left'];
+		$this->time_left = $eventInfo['time_left'];
 
 		if ( isset($eventInfo['rsvp_days_left']) ) {
 			$this->rsvp_days_left = $eventInfo['rsvp_days_left'];
