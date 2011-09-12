@@ -9,20 +9,66 @@
 	<title>Event Title</title>
 	<style type="text/css">
 		/* Client-specific Styles */
-		#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" button. */
-		body{-webkit-text-size-adjust:none;} /* Prevent Webkit platforms from changing default text sizes. */
+		#outlook a { padding: 0; } /* Force Outlook to provide a "view in browser" button. */
+		body { -webkit-text-size-adjust: none; } /* Prevent Webkit platforms from changing default text sizes. */
 
 		/* Reset Styles */
-		body{margin:0; padding:0;}
-		a{color: #3399cc; cursor: pointer;}
-		img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;vertical-align: middle;}
-		table td{border-collapse:collapse;}
-		#backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important;}
+		body { 
+			margin: 0; 
+			padding: 0; }
+		a { 
+			color: #3399cc; 
+			cursor: pointer; }
+		img { 
+			border: 0; 
+			height: auto; 
+			line-height: 100%; 
+			outline: none; 
+			text-decoration: none;
+			vertical-align: middle; }
+		table td { border-collapse: collapse; }
+		#backgroundTable{
+			height: 100% !important; 
+			margin: 0; 
+			padding: 0; 
+			width: 100% !important; }
 		
-		.btn-rsvp{background: url(images/btn_rsvp.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 207px; height: 16px; padding: 4px 0 0; margin: 0 0 2px; display: block;}
-		.btn-rsvp:hover{color: #F93;}
-		.btn-attend{background: url(images/btn_attend.gif) 0 0 no-repeat; text-align: center; text-decoration: none; color: #fff; width: 128px; height: 18px; padding: 6px 0 0; margin: 0 0 2px; display: block;}
-		.btn-attend:hover{color: #F93;}
+		.rsvp { text-align: center; }
+		.rsvp p span { 
+			color: #404040;
+			font-weight: bold;
+			font-size: 16px; }
+		.rsvp a { 
+			color: #3399cc;
+			text-decoration: none;
+			margin: 3px 0;
+			display: block; }
+		.rsvp a:hover { 
+			color: #ff9933;
+			text-decoration: underline; }
+		
+		.btn-rsvp{ 
+			background: url(images/btn_rsvp.gif) 0 0 no-repeat; 
+			text-align: center; 
+			text-decoration: none; 
+			color: #fff; 
+			width: 207px; 
+			height: 16px; 
+			padding: 4px 0 0; 
+			margin: 0 0 2px; 
+			display: block;}
+		.btn-rsvp:hover{ color: #F93; }
+		.btn-attend{ 
+			background: url(images/btn_attend.gif) 0 0 no-repeat; 
+			text-align: center; 
+			text-decoration: none; 
+			color: #fff; 
+			width: 128px; 
+			height: 18px; 
+			padding: 6px 0 0; 
+			margin: 0 0 2px; 
+			display: block; }
+		.btn-attend:hover{ color: #F93; }
 		
 		#event_info {width: 300px;}
 	</style>
@@ -35,16 +81,31 @@
 	</tr>
 	<tr>
 		<td style="padding: 10px">
-			<p>You're invited to:</p>
-			<p id="event_info"><a href="#"><span id="event_name">Event Name</span></a><br />
-				<span id="event_date">Event Date</span> at <span id="event_time">Event Time</span><br />
-				<span id="event_location">Event Location</span><br /><br />
-				<span id="event_description">Event Description</span></p>
-			<h3><a href="#"><span id="event_link">RSVP now</span></a></h3>
-			<p>The sooner you RSVP, the more reputation points you will earn!</p>
-			<p>Thanks,<br /><span id="host_name">[Host Name]</span><br /><span id="host_email">[Host E-mail]</span></p>
-			<p>Share this event on Twitter &amp; Facebook! <a href="http://www.facebook.com/pages/trueRSVP/245102305531976" target="_blank"><img src="images/icon_facebook.gif" alt="Share on Facebook" /></a> <a href="http://twitter.com/#!/trueRSVP" target="_blank"><img src="images/icon_twitter.gif" alt="Share on Twitter" /></a></p>
-			<p>trueRSVP is the first RSVP system based on reputation. Find out how many people are actually coming to your event &amp; stop last minute flakes for good! <a href="https://truersvp.com" target="_blank">Learn more.</a></p>
+			<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" style="font-family: Arial; font-size: 12px; ">
+				<tr>
+					<td class="rsvp" width="170px" style="padding: 10px; vertical-align: middle;">
+						<p><span>RSVP Now:</span></p>
+						<p>
+							<a href="#">Absolutely</a> 
+							<a href="#">Pretty Sure</a> 
+							<a href="#">50/50</a> 
+							<a href="#">Not likely</a> 
+							<a href="#">Raincheck</a>
+						</p>
+					</td>
+					<td>
+						<p>You're invited to:</p>
+						<p id="event_info"><a href="#"><span id="event_name">Event Name</span></a><br />
+							<span id="event_date">Event Date</span> at <span id="event_time">Event Time</span><br />
+							<span id="event_location">Event Location</span><br /><br />
+							<span id="event_description">Event Description</span></p>
+						<p>The sooner you RSVP, the more reputation points you will earn!</p>
+						<p>Thanks,<br /><span id="host_name">[Host Name]</span><br /><span id="host_email">[Host E-mail]</span></p>
+						<p>Share this event on <a href="http://www.facebook.com/pages/trueRSVP/245102305531976" target="_blank">Twitter</a> &amp; <a href="http://twitter.com/#!/trueRSVP" target="_blank">Facebook!</a></p>
+						<p>trueRSVP is the first RSVP system based on reputation. Find out how many people are actually coming to your event &amp; stop last minute flakes for good! <a href="http://truersvp.com/method" target="_blank">Learn more.</a></p>
+					</td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 </table>
