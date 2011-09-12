@@ -14,7 +14,7 @@ define('DEBUG', true);
 define('ENABLE_EMAIL', true);
 
 define('PATH', '/Eventfii');
-define('CURHOST', 'http://localhost'.PATH);
+define('CURHOST', 'https://localhost'.PATH);
 
 define('FB_APP_ID', '122732554481304');
 define('FB_APP_SECRET', '2416d6b193a5c135c2c850b02a4dba78');
