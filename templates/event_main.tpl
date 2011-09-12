@@ -66,10 +66,5 @@
 					<h1>Comments</h1>
 				</header>
 				<fb:comments href="{$CURHOST}/event/{$event->eid}"></fb:comments>
-				<!-- Consider adding to header:
-					 Ability for users to receive notifications when their event gets comments
-
-				<meta property="fb:admins" content="{*YOUR_USER_ID*}">
-				-->
 			</section>
 		</div>

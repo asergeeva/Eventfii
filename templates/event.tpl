@@ -27,10 +27,8 @@
 	</header>{/if}
 
 	<header id="header">
-		<h1 id="event-{$event->eid}">{$event->title}</h1>		
-		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
-		<!--div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div-->
-		<span id="event-id" style="display: none">{$event->eid}</span>{if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id ) && ( isset($smarty.get.preview) || isset($smarty.get.created))}{if $smarty.session.user->id == $event->organizer->id}
+		<h1 id="event-{$event->eid}"><a href="{$CURHOST}/event/a/{$event->alias}">{$event->title}</a></h1>		
+		<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>{if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id ) && ( isset($smarty.get.preview) || isset($smarty.get.created))}
 
 		<nav>
 			<ul>
@@ -38,8 +36,11 @@
 				<li id="edit"><a href="{$CURHOST}/event/manage/edit?eventId={$event->eid}" id="update_event_edit"><span>Edit</span></a></li>
 				<li class="current"><a href="{$CURHOST}/event/a/{$event->alias}?preview=true" id="update_event_preview"><span>Preview</span></a></li>
 			</ul>
-		</nav>{/if}{/if}
+		</nav>{else}
 
+		<div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>{/if}
+
+		<span id="event-id" style="display: none">{$event->eid}</span>
 	</header>
 	<section id="main">
 		<header class="block notification" {if !isset($attendNotification)}style="display:none"{/if} id="notification-container">

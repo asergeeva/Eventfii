@@ -85,10 +85,10 @@
 								</label> 
 								<label for="reach_goal_2">
 									<p><input type="radio" name="reach_goal" value="2"{if $event_field.reach_goal eq '2'} checked="checked"{/if} id="reach_goal_2" /> Don't allow anymore RSVPs</p>
-								</label> 
-								<!--label for="reach_goal_3">
+								</label>{* 
+								<label for="reach_goal_3">
 									<p><input type="radio" name="reach_goal" value="3"{if $event_field.reach_goal eq '3'} checked="checked"{/if} id="reach_goal_3" /> Start a waitlist</p>
-								</label-->{if isset($error.pub)}
+								</label>*}{if isset($error.pub)}
 
 								<em>{$error.pub}</em>{/if}
 

@@ -65,12 +65,13 @@
 						</footer>
 					</fieldset>
 				</form>
-			</section>{elseif $smarty.get.option == 'fb'}
+			</section>{elseif $smarty.get.option == 'fb'}{*
 
-			<!--div id="fb-root"></div>
+			<div id="fb-root"></div>
 			<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-			<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send-->
-			<fb:serverFbml width="600">
+			<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>*}
+
+			<fb:serverFbml width="582">
 			<script type="text/fbml">
 			  <fb:fbml>
 				  <fb:request-form action="{$CURHOST}/fb/invite" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}' label='Accept' />">
