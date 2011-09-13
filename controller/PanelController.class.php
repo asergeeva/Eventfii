@@ -264,7 +264,7 @@ class PanelController {
 	}
 	
 	private function assignAttendingEventsProfile($uid) {
-		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid);
+		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid, true);
 		$attendingEvents = NULL;
 		foreach( $attending_event as $event ) {
 			$attendingEvents[] = new Event($event);

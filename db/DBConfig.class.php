@@ -653,7 +653,9 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	public function getEventAttendingByUid($uid) {		
+	public function getEventAttendingByUid($uid, $publicOnly = false) {
+		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
+			
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
 								SELECT 	e.id, 
@@ -677,7 +679,7 @@ class DBConfig {
 								WHERE 	a.event_id = e.id 
 								AND 	a.user_id = " . $uid . " 
 								AND 	a.confidence <> " . CONFOPT6 . "
-								AND     a.confidence <> " . CONFELSE . " AND e.is_active = 1
+								AND     a.confidence <> " . CONFELSE . " AND e.is_active = 1 ".$privateFilter."
 						) el
 						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
