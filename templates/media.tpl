@@ -46,6 +46,7 @@
 				<h1>Recent News</h1>
 			</header>
 			<ol>
+				<li><a href="http://www.marketwatch.com/story/truersvp-launches-new-online-event-planning-service-at-demo-fall-conference-2011-09-13">MarketWatch: trueRSVP Launches New Online Event Planning Service at DEMO Fall Conference</a></li>
 				<li><a href="http://www.ubergizmo.com/2011/09/truersvp-event-planning-service">Ubergizmo: trueRSVP: New Online Event Planning Service</a></li>
 				<li><a href="http://www.reuters.com/article/2011/09/13/idUS43989+13-Sep-2011+MW20110913">Reuters: trueRSVP Launches New Online Event Planning Service at DEMO Fall Conference</a></li>
 				<li><a href="http://venturebeat.com/2011/09/12/heres-the-list-of-demo-fall-2011-presenting-companies/">VentureBeat: Here's the list of Demo Fall 2011 presenting companies</a></li>
