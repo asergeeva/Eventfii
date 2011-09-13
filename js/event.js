@@ -27,13 +27,16 @@ var EVENT = (function() {
 $(document).ready(function() {
 	EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
-		$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {
-				eid: $('#event-id').text(),
-				conf: $(this).children("input").val()
-		});
-		$("#log-in").fadeIn(500);
+		if (!$('#rsvp_days_left').hasClass('loggedIn')) {
+			$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {
+					eid: $('#event-id').text(),
+					conf: $(this).children("input").val()
+			});
+			$("#log-in").fadeIn(500);		
+		}
 		return false;
 	});
+	
 	$("#log-in .popup-close a").click( function() {
 		$("#log-in").fadeOut(500);
 		return false;

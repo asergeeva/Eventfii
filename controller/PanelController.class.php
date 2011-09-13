@@ -518,7 +518,7 @@ class PanelController {
 		$event = $this->buildEvent($eventId);
 		$_SESSION['eventViewed'] = $event;
 		
-		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user'])) {
+		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user']) && $event->rsvp_days_left >= 0) {
 			// Make sure that it only select one choice
 			if (sizeof($_SESSION['attemptValue']) == 1) {
 				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
@@ -553,6 +553,12 @@ class PanelController {
 			$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
 			EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
 			EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
+			
+			// If the deadline passed, disable the input
+			if ($event->rsvp_days_left < 0) {
+				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
+				EFCommon::$smarty->assign('loggedIn', true);
+			}
 		} else {
 			EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
 			EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
