@@ -331,6 +331,7 @@ section.media p {
 	font-size: 14px;
 	font-family: Georgia;
 	margin: 0 100px 8px 8px }
+section.media li { margin-bottom: 10px; }
 
 /* Team */
 section.media ul.team { 
