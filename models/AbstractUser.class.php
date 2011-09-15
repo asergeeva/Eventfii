@@ -128,7 +128,7 @@ class AbstractUser {
 	 		FILTER_VALIDATE_REGEXP, 
 	 		array(
 	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
+	 				"regexp" => "/^[A-Za-z0-9\s']{2,100}$/"
 	 			)
 	 		)
 	 	);
@@ -158,7 +158,7 @@ class AbstractUser {
 	 		FILTER_VALIDATE_REGEXP, 
 	 		array(
 	 			"options" => array(
-	 				"regexp" => "/^[A-Za-z0-9\s]{2,100}$/"
+	 				"regexp" => "/^[A-Za-z0-9\s']{2,100}$/"
 	 			)
 	 		)
 	 	);
