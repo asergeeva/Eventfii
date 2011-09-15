@@ -190,7 +190,7 @@ class Event {
 	private function set_location( $location = NULL ) {
 		if ( $location == NULL ) {
 			if ( isset($_POST['location']) ) {
-				$location = $_POST['location'];
+				$this->location = $_POST['location'];
 			}
 		}
 		
