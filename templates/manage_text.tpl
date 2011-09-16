@@ -26,7 +26,6 @@
 								<option value="4" selected="selected">Not Attending</option>
 								<option value="5" selected="selected">No Response Yet</option>
 							</select>
-
 						</dd>
 						<dt class="inline">
 							<label for="text-message">SMS Message: (140 characters or less)</label>
@@ -40,7 +39,6 @@
 					</dl>
 					<footer class="buttons buttons-send">{*
 						<label for="automatic_text_send_cb"><input type="checkbox" name="automatically" id="automatic_email_send_cb" /> Send automatically on</label> <input type="text" name="date" class="inputbox datebox" id="automatic_text_event_date" value="{if !isset($eventDate)}{$smarty.session.manage_event->date}{else}{$eventDate}{/if}" /> at <select name="time" id="automatic_text_send_time">{include file="timeselect.tpl" time="{$eventTime}"}</select>*}
-
 						<p><span class="btn btn-small"><input type="submit" name="send" value="Send" id="send_text_reminder" /></span></p>
 					</footer>
 					<span id="reminder_status"></span>

@@ -86,7 +86,7 @@
 			</script>
 			</fb:serverFbml>{elseif $smarty.get.option == 'csv'}
 
-				<p><a href="#" id="csv_upload"><span>Upload</span></a></p>{else}
+			<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>{else}
 
 			<div id="oi_container">
 				<h2>Import Contacts</h2>
