@@ -153,10 +153,6 @@ class Event {
 			$this->error['desc'] = "Event description must be at least 5 characters";
 			$this->numErrors++;
 		}
-		if ( strlen($this->description) > 500 ) {
-			$this->error['desc'] = "Event description must be less than 500 characters";
-			$this->numErrors++;
-		}
 	}
 	
 	/* set_type
