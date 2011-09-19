@@ -6,7 +6,7 @@
 
 			<section class="block" id="event-info">
 				<header class="block-title">
-					<h1>Find out more</h1>
+					<h1 id="test">Find out more</h1>
 					<h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2>
 				</header>
 				<div class="event-info">

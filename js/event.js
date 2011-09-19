@@ -6,26 +6,25 @@
  */
 
 var EVENT = (function() {
+	$('.rsvp-opt').live('click', function() {
+		$('.rsvp-label').removeClass('selected');
+		$(this).parent('label').addClass('selected');
+		$.post(EFGLOBAL.baseUrl + '/event/attend', {
+				eid: $('#event-id').text(),
+				conf: $(this).val()
+		}, function(resultPage) {
+			$('#notification-message').html(resultPage);
+			$('#notification-container').fadeIn('slow');
+		});
+		$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
+	});
+			
 	return {
-		init: function() {
-			$('#event_attending_response label').live('click', function() {
-				$('#event_attending_response label').removeClass('selected');
-				$(this).addClass('selected');
-				$.post(EFGLOBAL.baseUrl + '/event/attend', {
-						eid: $('#event-id').text(),
-						conf: $(this).children("input").val()
-				}, function(resultPage) {
-					$('#notification-message').html(resultPage);
-					$('#notification-container').fadeIn('slow');
-				});
-				$('#response_stat_msg').html(EFGLOBAL.ajaxLoader);
-			});
-		}
+
 	}
 })();
 
 $(document).ready(function() {
-	EVENT.init();
 	$("#event_attending_response input:disabled").parent("label").click( function() {
 		if (!$('#rsvp_days_left').hasClass('loggedIn')) {
 			$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {
@@ -49,6 +48,7 @@ $(document).ready(function() {
 		$("#see-all").css("top", top + "px");
 		return false;
 	});
+	
 	$("#see-all .popup-close a").click( function() {
 		$("#see-all").fadeOut(500);
 		return false;
