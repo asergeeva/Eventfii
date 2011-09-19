@@ -159,7 +159,10 @@ class qqFileUploader {
 		if (trim($filename) != "") {
 			if ($this->file->save($imagePath)){
 					$this->imageResizer->load($imagePath);
-					$this->imageResizer->resize(96, 96);
+					
+					$this->imageResizer->resizeToHeight(96);
+					$this->imageResizer->resizeToWidth(96);
+					
 					$this->imageResizer->save($imagePath);
 					
 					return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);

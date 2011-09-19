@@ -124,4 +124,11 @@ class EFCommon {
 		}
 		return $text;
 	}
+	
+	public static function gcd($n,$m){
+		if($m == 0) {
+			return $n;
+		}
+		return self::gcd($m, $n%$m);
+	}
 }
