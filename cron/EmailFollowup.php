@@ -36,7 +36,7 @@ class EmailFollowup {
 		$this->interval_day = $interval_day;
 		$this->interval_hour = $interval_hour;
 		$this->subject = $subject;
-		$this->forGuest = if (strtolower($forGuest) == 'guest') ? true : false;
+		$this->forGuest = (strtolower($forGuest) == 'guest') ? true : false;
 	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
