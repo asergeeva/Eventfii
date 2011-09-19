@@ -19,7 +19,8 @@
 				<section class="block" id="cp-attendees">
 
 					<header class="block-collapsable-title">
-						<h1>Attendees</h1>
+						<h1 style="float:left;margin-right:10px">Attendees</h1>
+						<span id="attendee-header" style="float:left"></span>
 					</header>
 					<ul class="list"><li class="list-head"><strong id="head-name"><a href="#">Name</a></strong> <em id="head-rsvp"><a href="#">RSVP</a></em> <span id="head-show">Showed Up?</span></li></ul>
 					<ul class="list" id="attendee-list"> 
