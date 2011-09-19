@@ -10,3 +10,4 @@
 			</ul>
 		</nav>
 	</header>
+	<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>

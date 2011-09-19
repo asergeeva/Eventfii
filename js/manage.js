@@ -11,6 +11,15 @@ var MANAGE_EVENT = ( function() {
 	var _isAsc = true,
 		_maxTextChar = 135,
 		_curTextMessage = '';
+		
+	$('#cancel-event').live('click', function() {
+		$.post(EFGLOBAL.baseUrl + '/event/manage/cancel', {
+			eventId: $('#event_id').html()
+		}, function(responseText) {
+			$('#notification-message').html(responseText);
+			$('#notification-box').fadeIn('slow');
+		});
+	});
 	
 	return {
 		init: function() {

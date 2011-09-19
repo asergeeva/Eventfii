@@ -501,7 +501,7 @@ class PanelController {
 			if (!isset($_SESSION['user'])) {
 				header("Location: ".CURHOST."/login");
 			}
-			else if (!EFCommon::$dbCon->checkValidHost($_GET['eventId'], $_SESSION['user']->id)) {
+			else if (!EFCommon::$dbCon->checkValidHost($_REQUEST['eventId'], $_SESSION['user']->id)) {
 				$this->displayError("You're not the host of this event");
 				return false;
 			}
@@ -699,11 +699,11 @@ class PanelController {
 		
 		// Quick check for permissions for editing events
 		if ( preg_match("/event\/manage*/", $current_page) > 0 ) {
-			if ( ! isset ( $_GET['eventId'] ) ) {
+			if ( ! isset ( $_REQUEST['eventId'] ) ) {
 				EFCommon::$smarty->display('error.tpl');
 				return;
 			}
-			$eventId = $_GET['eventId'];
+			$eventId = $_REQUEST['eventId'];
 			if ( ! isset ( $_SESSION['user'] ) ) {
 				if ( $eventId ) {
 					header("Location: " . CURHOST . "/login?redirect=manage&eventId=" . $eid);
@@ -738,6 +738,7 @@ class PanelController {
 			$this->displayUserById($userId);			
 			return;
 		}
+
 
 		switch ($current_page) {
 			case '/':
@@ -1002,7 +1003,7 @@ class PanelController {
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
-				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
+				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
 					print("Event is successfully deleted");
 					// Add successful template for event cancellation
 					break;
