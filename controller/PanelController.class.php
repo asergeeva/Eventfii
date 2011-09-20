@@ -907,12 +907,14 @@ class PanelController {
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
-						if (isset($_POST['title']) && $_POST['title'] != "name of event") {
+						if (isset($_POST['title']) && strtolower($_POST['title']) != "name of event") {
 							$event_field['title'] = stripslashes($_POST['title']);
 						}
-						if (isset($_POST['goal']) && $_POST['goal'] != "max") {
+						if (isset($_POST['goal']) && strtolower($_POST['goal']) != "max") {
 							$event_field['goal'] = stripslashes($_POST['goal']);
 						}
+						
+						EFCommon::$smarty->assign('event_field', $event_field);
 					} else if ( isset($_POST['step1']) ) {
 						$newEvent = new Event(NULL, true);
 						
