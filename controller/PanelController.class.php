@@ -1570,7 +1570,7 @@ class PanelController {
 				$user = EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email']);
 				
 				if (isset($user)) {
-					EFCommon::$mailer->sendHtmlEmail('general', $user, "Reset Password", NULL, "This is the link to reset your password: ".CURHOST."/login/reset?ref=".$hash_key);
+					EFCommon::$mailer->sendHtmlEmail('forgot_pass', $user, "Reset Password", NULL, "This is the link to reset your password: ".CURHOST."/login/reset?ref=".$hash_key);
 					header('Location: ' . CURHOST . '/login/forgot/sent');
 					exit;
 				} else {
