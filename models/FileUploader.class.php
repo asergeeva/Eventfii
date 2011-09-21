@@ -1,6 +1,4 @@
 <?php
-require_once(realpath(dirname(__FILE__)).'/ImageResizer.class.php');
-
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -64,7 +62,6 @@ class qqFileUploader {
     private $allowedExtensions = array();
     private $sizeLimit = 10485760;
     private $file;
-    private $imageResizer;
 
     function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760){        
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
@@ -72,7 +69,6 @@ class qqFileUploader {
         $this->allowedExtensions = $allowedExtensions;        
         $this->sizeLimit = $sizeLimit;
         
-        $this->imageResizer = new ImageResizer();;
         $this->checkServerSettings();       
 
         if (isset($_GET['qqfile'])) {
@@ -158,12 +154,7 @@ class qqFileUploader {
         
 		if (trim($filename) != "") {
 			if ($this->file->save($imagePath)){
-					$this->imageResizer->load($imagePath);
-					
-					$this->imageResizer->resizeToHeight(96);
-					$this->imageResizer->resizeToWidth(96);
-					
-					$this->imageResizer->save($imagePath);
+					EFCommon::resizeImage($imagePath);
 					
 					return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
 			} else {

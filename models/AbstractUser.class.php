@@ -90,7 +90,15 @@ class AbstractUser {
 		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
 		} else if ( $facebook != NULL ) {
-			return "https://graph.facebook.com/" . $facebook . "/picture?type=large";
+			$imageUrl = "http://graph.facebook.com/" . $facebook . "/picture?type=large";
+			$filename = realpath(dirname(__FILE__))."/../upload/fb/".$this->id.".png";
+			$imageContent = file_get_contents($imageUrl);
+			
+			file_put_contents($filename, $imageContent);
+			
+			EFCommon::resizeImage($filename);
+			
+			return CURHOST . "/upload/fb/" . $this->id . ".png";
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
 		}
