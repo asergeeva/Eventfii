@@ -66,6 +66,7 @@ class DBAPI extends DBConfig {
 										e.event_deadline,
 										e.twitter,
 										e.description, 
+										e.is_active,
 										a.is_attending,
 										a.confidence,
 										u.email
@@ -195,6 +196,7 @@ class DBAPI extends DBConfig {
 									e.description, 
 									e.is_public,
 									e.type,
+									e.is_active,
 									e.twitter
 							FROM	ef_events e 
 							WHERE	e.organizer = " . $uid . " AND e.is_active = 1 AND e.is_public = 1
