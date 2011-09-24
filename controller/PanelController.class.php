@@ -1669,6 +1669,9 @@ class PanelController {
 				$responseMsg['user_success'] = "Your Twitter account is now connected.";
 				EFCommon::$smarty->assign('responseMsg', $responseMsg);
 				break;
+			case '/cron':
+				print("FOO");
+				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);
 				EFCommon::$smarty->display('error.tpl');
