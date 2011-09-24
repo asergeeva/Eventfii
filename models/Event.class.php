@@ -186,12 +186,10 @@ class Event {
 	private function set_location( $location = NULL ) {
 		if ( $location == NULL ) {
 			if ( isset($_POST['location']) ) {
-				$this->location = $_POST['location'];
+				$this->location = stripslashes($_POST['location']);
 			}
 		}
-		
-		$this->location = stripslashes($location);
-		
+				
 		// Optional
 		if( $this->location == "Ex: Jim's House" ) {
 			$this->location = NULL;

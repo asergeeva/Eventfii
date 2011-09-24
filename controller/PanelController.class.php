@@ -116,7 +116,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	private function makeNewEvent( $newEvent ) {	
+	private function makeNewEvent( $newEvent ) {
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
@@ -572,6 +572,7 @@ class PanelController {
 		foreach($event_attendees as $guest) {
 			$attending[] = new User($guest);
 		}
+		
 		EFCommon::$smarty->assign( 'attending', $attending );
 		
 		EFCommon::$smarty->display('event.tpl');
@@ -629,10 +630,6 @@ class PanelController {
 				EFCommon::$smarty->assign('attendNotification', $notification);
 			}
 		}
-	}
-	
-	public static function clearExtraUserSessions() {
-		unset($_SESSION['newEvent']);
 	}
 	
 	/* function getView
@@ -771,6 +768,9 @@ class PanelController {
 			case '/demo':
 				header("Location: ".EVENT_URL."/a/1af");
 				break;
+			case '/sw':
+				header("Location: ".EVENT_URL."/a/1dc");
+				break;
 			case '/media':
 				EFCommon::$smarty->display('media.tpl');
 				break;
@@ -901,9 +901,7 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
-			case '/event/create':
-				$this->clearExtraUserSessions();
-			
+			case '/event/create':			
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
