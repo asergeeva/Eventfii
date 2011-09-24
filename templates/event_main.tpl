@@ -35,8 +35,9 @@
 				<header class="block-title">
 					<h1>Who's coming?</h1>
 				</header>
-				<ul class="thumbs">{foreach $attending as $guest}
-
+				<ul class="thumbs">
+				{foreach from=$attending key=index item=guest}
+					{if $index lte {$MAX_DISPLAY_GUEST}}
 					<li>
 						<figure>
 							<a href="{$CURHOST}/user/a/{$guest->alias}">
@@ -44,8 +45,9 @@
 								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 							</a>
 						</figure>
-					</li>{/foreach}
-
+					</li>
+					{/if}
+				{/foreach}
 				</ul>
 				<footer class="link-extra">
 					<p><a href="#" id="all-guests">See All ({sizeof($attending)})</a></p>
