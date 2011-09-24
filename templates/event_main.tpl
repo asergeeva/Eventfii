@@ -37,7 +37,7 @@
 				</header>
 				<ul class="thumbs">
 				{foreach from=$attending key=index item=guest}
-					{if $index lte {$MAX_DISPLAY_GUEST}}
+					{if $index lt {$MAX_DISPLAY_GUEST}}
 					<li>
 						<figure>
 							<a href="{$CURHOST}/user/a/{$guest->alias}">

@@ -1,4 +1,4 @@
-<aside class="extra">{if $event->days_left >= 0}
+<aside class="extra">
 
 			<section class="block" id="rsvp">
 				<header class="block-title">
@@ -58,7 +58,7 @@
 						</li>*}
 					</ol>
 				</fieldset>
-			</section>{/if}
+			</section>
 
 			<section class="block" id="twitter">
 				<header class="block-title">
