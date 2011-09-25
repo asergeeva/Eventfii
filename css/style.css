@@ -1025,6 +1025,7 @@ ul.contacts-list li p {
 .thumbs li a { display: block; }
 .thumbs li a:hover figcaption { text-decoration: underline; }
 .thumbs li figure img {
+
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
