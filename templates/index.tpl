@@ -29,7 +29,7 @@
 	</section>
 	<section class="more">
 		<aside>
-			<p>At USC StartupWeekend?</p>
+			<p>At USC Startup Weekend?</p>
 			<p>Check out the <a href="{$CURHOST}/sw">live event page</a>!</p>
 		</aside>
 		<aside class="more-iphone">
@@ -43,7 +43,7 @@
 			<h1>As featured in</h1>
 		</header>
 		<ul>
-			<li><a href="http://venturebeat.com/2011/09/12/heres-the-list-of-demo-fall-2011-presenting-companies/"><span></span><img src="images/ft_venturebeat.gif" alt="VentureBeat" /></a></li>
+			<li><a href="http://venturebeat.com/2011/09/13/demo-pinevio-truersvp-consumer-technologies/"><span></span><img src="images/ft_venturebeat.gif" alt="VentureBeat" /></a></li>
 			<li><a href="http://content.usatoday.com/communities/technologylive/post/2011/09/i-postmortem-a-demo-company-to-die-for/1"><span></span><img src="images/ft_usatoday.gif" alt="USA Today" /></a></li>
 			<li><a href="http://www.gadgetizer.com/2011/09/13/truersvp-com-to-kick-evites-ass-at-long-last/"><span></span><img src="images/ft_gadgetizer.gif" alt="Gadgetizer" /></a></li>
 			<li><a href="http://www.ubergizmo.com/2011/09/truersvp-event-planning-service"><span></span><img src="images/ft_ubergizmo.gif" alt="Ubergizmo" /></a></li>
