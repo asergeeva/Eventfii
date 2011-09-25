@@ -38,6 +38,19 @@
 	</section>
 </header>
 <div id="main">
+	<section class="block" id="featured">
+		<header class="block-title">
+			<h1>As featured in</h1>
+		</header>
+		<ul>
+			<li><a href="http://venturebeat.com/2011/09/12/heres-the-list-of-demo-fall-2011-presenting-companies/"><span></span><img src="images/ft_venturebeat.gif" alt="VentureBeat" /></a></li>
+			<li><a href="http://content.usatoday.com/communities/technologylive/post/2011/09/i-postmortem-a-demo-company-to-die-for/1"><span></span><img src="images/ft_usatoday.gif" alt="USA Today" /></a></li>
+			<li><a href="http://www.gadgetizer.com/2011/09/13/truersvp-com-to-kick-evites-ass-at-long-last/"><span></span><img src="images/ft_gadgetizer.gif" alt="Gadgetizer" /></a></li>
+			<li><a href="http://www.ubergizmo.com/2011/09/truersvp-event-planning-service"><span></span><img src="images/ft_ubergizmo.gif" alt="Ubergizmo" /></a></li>
+			<li><a href="http://www.socaltech.com/truersvp_takes_on_online_event_planning/s-0038078.html"><span></span><img src="images/ft_socaltech.gif" alt="Socal Tech" /></a></li>
+			<li><a href="http://www.marketwatch.com/story/truersvp-launches-new-online-event-planning-service-at-demo-fall-conference-2011-09-13"><span></span><img src="images/ft_marketwatch.gif" width="100px" alt="Market Watch" /></a></li>
+		</ul>
+	</section>
 	<section class="block" id="reasons">
 		<header class="block-title">
 			<h1>Why use trueRSVP?</h1>

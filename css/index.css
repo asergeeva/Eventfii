@@ -117,7 +117,7 @@ header#site-header {
 	width: 948px;
 	margin: 0 auto;
 	padding: 0 0 100px;
-	overflow: hidden;
+	overflow: auto;
 	border-bottom: 1px solid #8b8b8d; }
 
 /*----- Logo ----------*/
@@ -261,7 +261,7 @@ header#site-header {
 	padding: 20px 30px;
 	border-radius: 8px;
 	border: 2px solid #acacaf;
-	overflow: auto; }
+	overflow: hidden; }
 .block header.block-title {
 	font-size: 30px;
 	padding: 0 0 10px;
@@ -273,8 +273,30 @@ header#site-header {
 	font-weight: bold;
 	color: #646464; }
 
+/*----- Featured ----------*/
+#featured { margin: -25px auto 9px; }
+#featured ul {
+	position: relative;
+	float: left;
+	left: 50%; }
+#featured li { 
+	position: relative;
+	float: left;
+	right: 50%;
+	margin: 0 5px;
+	vertical-align: middle;
+	display: inline-block; }
+#featured li a { display: block; }
+#featured li span { 
+	vertical-align: middle;
+	height: 75px;
+	display: inline-block; }
+#featured li img { 
+	vertical-align: middle;
+	display: inline-block; }
+
 /*----- Reasons ----------*/
-#reasons { margin: -75px auto 0; }
+#reasons { margin: 0 auto; }
 #reasons section {
 	background: none 40px 65px no-repeat;
 	height: 232px; /* 252 - 20 */
