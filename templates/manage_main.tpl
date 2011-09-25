@@ -1,5 +1,11 @@
 		{include file="manage_nav.tpl"}
-		<div class="manage">{if $smarty.session.manage_event->days_left > 0}
+		
+		<div class="manage">
+			<header class="block notification" style="display:none" id="notification-box">
+				<p class="message" id="notification-message">Manage event notification</p>
+			</header>
+			
+			{if $smarty.session.manage_event->days_left > 0}
 
 			<header class="block">{if $smarty.session.manage_event->days_left == 1}
 

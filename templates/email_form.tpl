@@ -17,8 +17,7 @@
 						<label for="subject">Subject:</label>
 					</dt>
 					<dd>
-						<input type="text" name="subject" class="inputbox" value="Update about {$smarty.session.manage_event->title}!" />
-						<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
+						<input type="text" name="subject" id="subject" class="inputbox" value="Update about {$smarty.session.manage_event->title}!" />
 					</dd>
 					<dt class="inline">
 						<label for="message">Message:</label>

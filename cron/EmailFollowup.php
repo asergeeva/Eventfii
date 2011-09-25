@@ -12,12 +12,12 @@
  *			- reminder_after (Host)
  */
 
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/configs.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../configs.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 
 class EmailFollowup {
 	private $dbCon;
@@ -36,7 +36,7 @@ class EmailFollowup {
 		$this->interval_day = $interval_day;
 		$this->interval_hour = $interval_hour;
 		$this->subject = $subject;
-		$this->forGuest = if (strtolower($forGuest) == 'guest') ? true : false;
+		$this->forGuest = (strtolower($forGuest) == 'guest') ? true : false;
 	
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
@@ -74,6 +74,3 @@ class EmailFollowup {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email followup COMPLETED --\n");
 	}
 }
-
-$emailCron = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
-$emailCron->sendFollowups();

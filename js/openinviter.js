@@ -57,6 +57,7 @@ var OPENINVITER = (function() {
 $(document).ready(function() {
 	// Search for add contacts
 	OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+	OPENINVITER.listFilter($("#attendee-header"), $("#attendee-list"));
 	
 	// Gmail & Yahoo Importer
 	$('#oi_import').live('click', function() {

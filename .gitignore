@@ -2,6 +2,7 @@ templates_c/
 upload/user/
 upload/event/images/
 upload/event/csv/
+upload/fb/
 logs/
 .DS_Store
 libs/OpenInviter/openinviter_stats.sqlite

@@ -12,7 +12,6 @@
 		<div class="manage">
 			<header class="block">
 				<p class="message">Text your guests here.</p>
-				<span id="event_id" style="display:none">{$smarty.session.manage_event->eid}</span>
 			</header>
 			<section class="block" id="manage-text">
 				<fieldset>

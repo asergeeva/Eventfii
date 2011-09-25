@@ -116,7 +116,7 @@ class PanelController {
 	 * @return true | The information is valid
 	 * @return false | Infomration is bad
 	 */
-	private function makeNewEvent( $newEvent ) {	
+	private function makeNewEvent( $newEvent ) {
 		// Make sure user is logged in before they can
 		// create the event
 		if ( ! isset($_SESSION['user']) ) {
@@ -501,7 +501,7 @@ class PanelController {
 			if (!isset($_SESSION['user'])) {
 				header("Location: ".CURHOST."/login");
 			}
-			else if (!EFCommon::$dbCon->checkValidHost($_GET['eventId'], $_SESSION['user']->id)) {
+			else if (!EFCommon::$dbCon->checkValidHost($_REQUEST['eventId'], $_SESSION['user']->id)) {
 				$this->displayError("You're not the host of this event");
 				return false;
 			}
@@ -572,6 +572,7 @@ class PanelController {
 		foreach($event_attendees as $guest) {
 			$attending[] = new User($guest);
 		}
+		
 		EFCommon::$smarty->assign( 'attending', $attending );
 		
 		EFCommon::$smarty->display('event.tpl');
@@ -629,10 +630,6 @@ class PanelController {
 				EFCommon::$smarty->assign('attendNotification', $notification);
 			}
 		}
-	}
-	
-	public static function clearExtraUserSessions() {
-		unset($_SESSION['newEvent']);
 	}
 	
 	/* function getView
@@ -699,11 +696,11 @@ class PanelController {
 		
 		// Quick check for permissions for editing events
 		if ( preg_match("/event\/manage*/", $current_page) > 0 ) {
-			if ( ! isset ( $_GET['eventId'] ) ) {
+			if ( ! isset ( $_REQUEST['eventId'] ) ) {
 				EFCommon::$smarty->display('error.tpl');
 				return;
 			}
-			$eventId = $_GET['eventId'];
+			$eventId = $_REQUEST['eventId'];
 			if ( ! isset ( $_SESSION['user'] ) ) {
 				if ( $eventId ) {
 					header("Location: " . CURHOST . "/login?redirect=manage&eventId=" . $eid);
@@ -739,6 +736,7 @@ class PanelController {
 			return;
 		}
 
+
 		switch ($current_page) {
 			case '/':
 			case '/home':
@@ -769,6 +767,9 @@ class PanelController {
 				break;
 			case '/demo':
 				header("Location: ".EVENT_URL."/a/1af");
+				break;
+			case '/sw':
+				header("Location: ".EVENT_URL."/a/1dc");
 				break;
 			case '/media':
 				EFCommon::$smarty->display('media.tpl');
@@ -900,18 +901,18 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
-			case '/event/create':
-				$this->clearExtraUserSessions();
-			
+			case '/event/create':			
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
-						if (isset($_POST['title']) && $_POST['title'] != "name of event") {
+						if (isset($_POST['title']) && strtolower($_POST['title']) != "name of event") {
 							$event_field['title'] = stripslashes($_POST['title']);
 						}
-						if (isset($_POST['goal']) && $_POST['goal'] != "max") {
+						if (isset($_POST['goal']) && strtolower($_POST['goal']) != "max") {
 							$event_field['goal'] = stripslashes($_POST['goal']);
 						}
+						
+						EFCommon::$smarty->assign('event_field', $event_field);
 					} else if ( isset($_POST['step1']) ) {
 						$newEvent = new Event(NULL, true);
 						
@@ -1002,7 +1003,7 @@ class PanelController {
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
-				if (EFcommon::$dbCon->deleteEvent($_GET['eventId'])) {
+				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
 					print("Event is successfully deleted");
 					// Add successful template for event cancellation
 					break;
@@ -1567,7 +1568,7 @@ class PanelController {
 				$user = EFCommon::$dbCon->requestPasswordReset($hash_key, $_REQUEST['login_forgot_email']);
 				
 				if (isset($user)) {
-					EFCommon::$mailer->sendHtmlEmail('general', $user, "Reset Password", NULL, "This is the link to reset your password: ".CURHOST."/login/reset?ref=".$hash_key);
+					EFCommon::$mailer->sendHtmlEmail('forgot_pass', $user, "Reset Password", NULL, "This is the link to reset your password: ".CURHOST."/login/reset?ref=".$hash_key);
 					header('Location: ' . CURHOST . '/login/forgot/sent');
 					exit;
 				} else {
@@ -1665,6 +1666,9 @@ class PanelController {
 			case '/twitter/update':
 				$responseMsg['user_success'] = "Your Twitter account is now connected.";
 				EFCommon::$smarty->assign('responseMsg', $responseMsg);
+				break;
+			case '/cron':
+				print("FOO");
 				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);

@@ -29,8 +29,8 @@
 	</section>
 	<section class="more">
 		<aside>
-			<p>At DEMO conference?</p>
-			<p>Check out the <a href="{$CURHOST}/demo">live event page</a>!</p>
+			<p>At USC StartupWeekend?</p>
+			<p>Check out the <a href="{$CURHOST}/sw">live event page</a>!</p>
 		</aside>
 		<aside class="more-iphone">
 			<p><a href="#">Get the iPhone App</a></p>

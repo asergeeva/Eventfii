@@ -153,10 +153,6 @@ class Event {
 			$this->error['desc'] = "Event description must be at least 5 characters";
 			$this->numErrors++;
 		}
-		if ( strlen($this->description) > 500 ) {
-			$this->error['desc'] = "Event description must be less than 500 characters";
-			$this->numErrors++;
-		}
 	}
 	
 	/* set_type
@@ -190,12 +186,10 @@ class Event {
 	private function set_location( $location = NULL ) {
 		if ( $location == NULL ) {
 			if ( isset($_POST['location']) ) {
-				$this->location = $_POST['location'];
+				$this->location = stripslashes($_POST['location']);
 			}
 		}
-		
-		$this->location = stripslashes($location);
-		
+				
 		// Optional
 		if( $this->location == "Ex: Jim's House" ) {
 			$this->location = NULL;

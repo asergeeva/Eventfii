@@ -12,12 +12,12 @@
  *      e.g. php AutoReminder.php 1 2 1
  */
 
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/configs.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../configs.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
+require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 
 class AutoReminder {
 	private $dbCon;
@@ -88,5 +88,3 @@ class AutoReminder {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Automated message reminders COMPLETED --\n");
 	}
 }
-$emailCron = new AutoReminder($argv[1], $argv[2], $argv[3]);
-$emailCron->sendReminders();

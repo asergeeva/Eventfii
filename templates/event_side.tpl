@@ -1,4 +1,4 @@
-<aside class="extra">{if $event->days_left >= 0}
+<aside class="extra">
 
 			<section class="block" id="rsvp">
 				<header class="block-title">
@@ -16,36 +16,36 @@
 				<fieldset>				
 					<ol class="rsvp-list" id="event_attending_response">
 						<li>
-							<label class="rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">
-								<input type="radio" name="event_attending_response" value="{$CONFOPT1}"{if isset($conf90)}{$conf90}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_1" /> 
+							<label class="rsvp-label rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT1}"{if isset($conf90)}{$conf90}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_1" class="rsvp-opt" /> 
 								<span>Absolutely</span>
 								<em>I’ll definitely be there</em>
 							</label>
 						</li>
 						<li>
-							<label class="rsvp-2{if isset($select65)} selected{/if}" for="event_attending_response_2">
-								<input type="radio" name="event_attending_response" value="{$CONFOPT2}"{if isset($conf65)}{$conf65}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_2" /> 
+							<label class="rsvp-label rsvp-2{if isset($select65)} selected{/if}" for="event_attending_response_2">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT2}"{if isset($conf65)}{$conf65}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_2" class="rsvp-opt" /> 
 								<span>Pretty sure</span>
 								<em>I’ll have to check my schedule</em>
 							</label>
 						</li>
 						<li>
-							<label class="rsvp-3{if isset($select35)} selected{/if}" for="event_attending_response_3">
-								<input type="radio" name="event_attending_response" value="{$CONFOPT3}"{if isset($conf35)}{$conf35}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_3" /> 
+							<label class="rsvp-label rsvp-3{if isset($select35)} selected{/if}" for="event_attending_response_3">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT3}"{if isset($conf35)}{$conf35}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_3" class="rsvp-opt" /> 
 								<span>50/50</span>
 								<em>Interested, but not ready to commit</em>
 							</label>
 						</li>
 						<li>
-							<label class="rsvp-4{if isset($select15)} selected{/if}" for="event_attending_response_4">
-								<input type="radio" name="event_attending_response" value="{$CONFOPT4}"{if isset($conf15)}{$conf15}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_4" /> 
+							<label class="rsvp-label rsvp-4{if isset($select15)} selected{/if}" for="event_attending_response_4">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT4}"{if isset($conf15)}{$conf15}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_4" class="rsvp-opt" /> 
 								<span>Not likely</span>
 								<em>I probably won’t go</em>
 							</label>
 						</li>
 						<li>
-							<label class="rsvp-5{if isset($select4)} selected{/if}" for="event_attending_response_5">
-								<input type="radio" name="event_attending_response" value="{$CONFOPT5}"{if isset($conf4)}{$conf4}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_5" /> 
+							<label class="rsvp-label rsvp-5{if isset($select4)} selected{/if}" for="event_attending_response_5">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT5}"{if isset($conf4)}{$conf4}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_5" class="rsvp-opt" /> 
 								<span>Raincheck</span>
 								<em>Can’t make it this time</em>
 							</label>
@@ -58,7 +58,7 @@
 						</li>*}
 					</ol>
 				</fieldset>
-			</section>{/if}
+			</section>
 
 			<section class="block" id="twitter">
 				<header class="block-title">

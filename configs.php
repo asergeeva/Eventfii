@@ -32,6 +32,7 @@ define('EVENT_REF_PREFIX', 'global-event-');
 define('EVENT_ALIAS_OFFSET', 403);
 define('USER_COOKIE', 'truersvp_user');
 define('LAUNCH_PAGE', CURHOST.'/launch');
+define('MAX_DISPLAY_GUEST', -1);
 
 
 // Cron constants
@@ -50,6 +51,7 @@ $smarty->assign('JS_PATH', JS_PATH);
 $smarty->assign('CSS_PATH', CSS_PATH);
 $smarty->assign('EVENT_URL', EVENT_URL);
 $smarty->assign('NUM_TWEETS', NUM_TWEETS);
+$smarty->assign('MAX_DISPLAY_GUEST', 10);
 
 // Yes
 define('CONFOPT1', 90);

@@ -6,7 +6,7 @@
 
 			<section class="block" id="event-info">
 				<header class="block-title">
-					<h1>Find out more</h1>
+					<h1 id="test">Find out more</h1>
 					<h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2>
 				</header>
 				<div class="event-info">
@@ -35,8 +35,9 @@
 				<header class="block-title">
 					<h1>Who's coming?</h1>
 				</header>
-				<ul class="thumbs">{foreach $attending as $guest}
-
+				<ul class="thumbs">
+				{foreach from=$attending key=index item=guest}
+					{if $index lt {$MAX_DISPLAY_GUEST}}
 					<li>
 						<figure>
 							<a href="{$CURHOST}/user/a/{$guest->alias}">
@@ -44,8 +45,9 @@
 								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 							</a>
 						</figure>
-					</li>{/foreach}
-
+					</li>
+					{/if}
+				{/foreach}
 				</ul>
 				<footer class="link-extra">
 					<p><a href="#" id="all-guests">See All ({sizeof($attending)})</a></p>
@@ -57,7 +59,7 @@
 					<h1>Location</h1>
 				</header>
 				<figure>
-					<figcaption><address>{$event->address}</address></figcaption>
+					<figcaption><address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}<br />{/if}{$event->address}</address></figcaption>
 					<iframe width="525" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
 				</figure>
 			</section>

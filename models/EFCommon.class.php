@@ -7,6 +7,9 @@
  */
 require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/ImageResizer.class.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/Facebook/facebook.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/GoogleMapAPI.class.php');
 
@@ -61,6 +64,8 @@ class EFCommon {
 	
 	public static $core;
 	
+	public static $imageResizer;
+	
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -89,6 +94,8 @@ class EFCommon {
 		self::$google->setAPIKey(GOOGLE_MAPS_API);
 		
 		self::$core = new EFCore();
+		
+		self::$imageResizer = new ImageResizer();
 	}
 	
 	public function __destruct() {
@@ -123,5 +130,19 @@ class EFCommon {
 			}
 		}
 		return $text;
+	}
+	
+	public static function gcd($n,$m){
+		if($m == 0) {
+			return $n;
+		}
+		return self::gcd($m, $n%$m);
+	}
+	
+	public static function resizeImage($filename) {
+		self::$imageResizer->load($filename);
+		self::$imageResizer->resizeToHeight(96);
+		self::$imageResizer->resizeToWidth(96);
+		self::$imageResizer->save($filename);
 	}
 }

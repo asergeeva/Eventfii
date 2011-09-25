@@ -255,7 +255,7 @@ class EFCore {
 		$YES = floatval($YES['cnt']);
 		$ATTENDED = floatval($ATTENDED['cnt']);
 		
-		return ($ATTENDED == 0) ? 0 : ($ATTENDED / $YES);
+		return ($YES == 0) ? 0 : ($ATTENDED / $YES);
 	}
 	
 	/**
