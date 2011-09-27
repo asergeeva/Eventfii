@@ -630,8 +630,7 @@ class DBConfig {
 			
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
-							SELECT	e.id, 
-									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+							SELECT	TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 									UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
 									e.*
 							FROM	ef_events e 
@@ -646,8 +645,7 @@ class DBConfig {
 			
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
-								SELECT 	e.id, 
-										TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+								SELECT 	TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 										UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
 										e.*
 								FROM 	ef_attendance a, 
