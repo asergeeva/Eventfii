@@ -23,4 +23,4 @@ define('GOOGLE_MAPS_API', 'ABQIAAAAYw9IaNOSbAwS1vK0gtJ__xT2yXp_ZAY8_ufC3CFXhHIE1
 
 define('TWITTER_API', 'NdOFEfRSe5BNdveGsWBIpg');
 
-define('ALL_REPORTING', 0);
+define('ALL_REPORTING', E_ALL);
