@@ -633,19 +633,7 @@ class DBConfig {
 							SELECT	e.id, 
 									TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 									UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
-									e.created, 
-									e.title, 
-									e.goal,
-									e.reach_goal, 
-									e.location_name,
-									e.location_address, 
-									e.event_datetime, 
-									e.event_end_datetime,
-									e.event_deadline, 
-									e.description, 
-									e.is_public,
-									e.type,
-									e.url_alias
+									e.*
 							FROM	ef_events e 
 							WHERE	e.organizer = " . $uid . " AND e.is_active = 1 ".$privateFilter."
 						) el
@@ -661,19 +649,7 @@ class DBConfig {
 								SELECT 	e.id, 
 										TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
 										UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
-										e.created, 
-										e.title, 
-										e.goal, 
-										e.reach_goal,
-										e.location_name,
-										e.location_address, 
-										e.event_datetime, 
-										e.event_end_datetime,
-										e.event_deadline, 
-										e.description, 
-										e.is_public,
-										e.type,
-										e.url_alias 
+										e.*
 								FROM 	ef_attendance a, 
 										ef_events e 
 								WHERE 	a.event_id = e.id 

@@ -66,21 +66,18 @@ class AbstractUser {
 		$this->set_lname($userInfo['lname']);
 		$this->email = $userInfo['email'];
 		$this->about = $userInfo['about'];
-		if ( $userInfo['pic'] === NULL ) {
-			if ( sizeof($userInfo['facebook']) == 0 ) {
-				$this->pic = $this->setUserPic(NULL);
-			} else {
-				$this->pic = $this->setUserPic($userInfo['facebook']);
-			}
+		if ( sizeof($userInfo['facebook']) == 0 ) {
+			$this->pic = $this->setUserPic(NULL);
 		} else {
-			$this->pic = $this->setUserPic($userInfo['pic']);
+			$this->pic = $this->setUserPic($userInfo['facebook']);
 		}
+
 		$this->twitter = $userInfo['twitter'];
 		$this->facebook = $userInfo['facebook'];
 		$this->alias = $userInfo['url_alias'];
 		$this->verified = $userInfo['verified'];
 		$this->cookie = $userInfo['user_cookie'];
-		$this->is_attending = $userInfo['is_attending'];
+		$this->is_attending = (isset($userInfo['is_attending'])) ? $userInfo['is_attending'] : NULL;
 		$this->exists = true;
 	}
 	
@@ -91,14 +88,16 @@ class AbstractUser {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
 		} else if ( $facebook != NULL ) {
 			$imageUrl = "http://graph.facebook.com/" . $facebook . "/picture?type=large";
+/*
 			$filename = realpath(dirname(__FILE__))."/../upload/fb/".$this->id.".png";
 			$imageContent = file_get_contents($imageUrl);
 			
 			file_put_contents($filename, $imageContent);
 			
 			EFCommon::resizeImage($filename);
+*/
 			
-			return CURHOST . "/upload/fb/" . $this->id . ".png";
+			return $imageUrl;
 		} else {
 			return CURHOST . "/images/default_thumb.jpg";
 		}

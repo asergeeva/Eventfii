@@ -38,7 +38,7 @@ class User extends AbstractUser {
 			}
 			$this->makeUserFromArray($info);
 		}
-		if ( $numErrors == 0 ) {
+		if ( $this->numErrors == 0 ) {
 			if ( $info === NULL ) {
 				$this->updateUser();
 			}

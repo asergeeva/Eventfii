@@ -1041,7 +1041,8 @@ ul.contacts-list li p {
 #user-pic p.user-name { text-align: center; }
 #user-pic p.user-img {
 	text-align: center;
-	width: 100%; }
+	width: 100%; 
+	overflow: hidden; }
 p.user-img img { 
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
