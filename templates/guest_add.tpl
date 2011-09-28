@@ -18,10 +18,10 @@
 
 					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>{/if}
 
-					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if $smarty.get.option == 'manual' || ($page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>
-					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=fb" class="btn btn-manage{if $smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>{*
+					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>
+					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=fb" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>{*
 					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
-					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
+					<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 				</ul>
 			</nav>{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
@@ -59,7 +59,7 @@
 					<p>Use the options above to add guests to your event. Guests added to your event will automatically be added to your trueRSVP contact list. You can also <a href="{$CURHOST}/contacts/add">add guests</a> to your contact list through your control panel.</p>
 				</footer>{/if}
 
-			</section>{elseif $smarty.get.option == 'manual' || ($page.addcontacts && ! isset($smarty.get.option))}
+			</section>{elseif $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))}
 
 			<section class="block">
 				<form method="post" action="{$submitTo}" id="create_guests">
