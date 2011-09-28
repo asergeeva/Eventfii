@@ -1088,15 +1088,23 @@ class PanelController {
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
 				$eventAttendees = array();
+				$noResponseAttendees = array();
+				
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$attendee = new User($attendees[$i]);
 					
 					$attendee->friendly_confidence = EFCommon::$confidenceMap[$attendees[$i]['confidence']];
 					$attendee->confidence = $attendees[$i]['confidence'];
-					$eventAttendees[] = $attendee;
+					
+					if ($attendee->confidence == CONFELSE) {
+						$noResponseAttendees[] = $attendee;
+					} else {
+						$eventAttendees[] = $attendee;
+					}
 				}
 				
 				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+				EFCommon::$smarty->assign('noResponseAttendees', $noResponseAttendees);
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
 			case '/event/manage/checkin':
@@ -1184,9 +1192,12 @@ class PanelController {
 				}
 				
 				EFCommon::$smarty->assign('event', $event);
-				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
+				
+				if (isset($_GET['option'])) {
+					EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
+					EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
+				}
 				EFCommon::$smarty->assign('fbSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
-				EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;

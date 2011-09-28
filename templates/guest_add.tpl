@@ -2,11 +2,11 @@
 
 		<header class="block notification">
 			<p class="message">Congrats, your event has been created! Add guests now or come back to this step later.</p>
-		</header>{elseif strlen($error) > 0}
+		</header>{elseif isset($error) && strlen($error) > 0}
 
 		<header class="block error">
 			<p class="message">{$error}</p>
-		</header>{else if strlen($notification) > 0}
+		</header>{else if isset($notification) && strlen($notification) > 0}
 
 		<header class="block notification">
 			<p class="message">{$notification}</p>

@@ -76,7 +76,7 @@ class AbstractUser {
 		$this->facebook = $userInfo['facebook'];
 		$this->alias = $userInfo['url_alias'];
 		$this->verified = $userInfo['verified'];
-		$this->cookie = $userInfo['user_cookie'];
+		$this->cookie = (isset($userInfo['user_cookie'])) ? $userInfo['user_cookie'] : NULL;
 		$this->is_attending = (isset($userInfo['is_attending'])) ? $userInfo['is_attending'] : NULL;
 		$this->exists = true;
 	}
