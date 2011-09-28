@@ -1118,17 +1118,24 @@ class PanelController {
 				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
+				$eventAttendees = array();
+				$noResponseAttendees = array();
+				
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
 					$attendee = new User($attendees[$i]);
 					
-					if ($attendees[$i]['is_attending'] == 1) {
-						// $attendee->checkedIn = true;
-						$attendee->confidence = $attendees[$i]['confidence'];
+					$attendee->friendly_confidence = EFCommon::$confidenceMap[$attendees[$i]['confidence']];
+					$attendee->confidence = $attendees[$i]['confidence'];
+					
+					if ($attendee->confidence == CONFELSE) {
+						$noResponseAttendees[] = $attendee;
+					} else {
 						$eventAttendees[] = $attendee;
 					}
 				}
 				
 				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+				EFCommon::$smarty->assign('noResponseAttendees', $noResponseAttendees);
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
 			case '/event/manage/edit':
