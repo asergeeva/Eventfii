@@ -40,7 +40,7 @@
 						<h1 style="float:left;margin-right:10px">No Response</h1>
 						<span id="nr-attendee-header" style="float:left"></span>
 					</header>
-					<ul class="list"><li class="list-head"><strong id="head-name"><a href="#">Email</a></strong> <em id="nr-head-rsvp"><a href="#">RSVP</a></em> <span id="nr-head-show">Showed Up?</span></li></ul>
+					<ul class="list"><li class="list-head"><strong id="nr-head-name"><a href="#">Email</a></strong> <em id="nr-head-rsvp"><a href="#">RSVP</a></em> <span id="nr-head-show">Showed Up?</span></li></ul>
 					<ul class="list" id="nr-attendee-list"> 
 						{foreach $noResponseAttendees as $guest}
 						<li><label for="attendee-{$guest->id}"><strong title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em title="{$guest->confidence}">{$guest->friendly_confidence}</em> 
