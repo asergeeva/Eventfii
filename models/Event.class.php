@@ -490,6 +490,15 @@ class Event {
 		}
 	}
 	
+	private function shortFriendlyTime($friendlyTime) {
+		$friendly_event_time = explode(" ", $friendlyTime);
+		
+		$friendly_event_mid = $friendly_event_time[1];
+		$friendly_event_time = explode(":", $friendly_event_time[0]);
+		
+		$this->friendly_time = $friendly_event_time[0].":".$friendly_event_time[1]." ".$friendly_event_mid;
+	}
+	
 	
 	/* makeEventFromArray
 	 * Takes event info from an array and
@@ -522,16 +531,12 @@ class Event {
 		$event_time = explode(":", $event_datetime[1]);
 		$this->time = $event_time[0] . ":" . $event_time[1];
 
-		$this->friendly_date = ( isset($eventInfo['friendly_event_date']) ) ? $eventInfo['friendly_event_date'] : NULL;
+		$this->friendly_date = ( isset($eventInfo['friendly_event_date']) ) ? $eventInfo['friendly_event_date'] : EFCommon::$dbCon->getFriendlyDate($this->datetime);
+		
 		if ( isset($eventInfo['friendly_event_time']) ) {
-			$friendly_event_time = explode(" ", $eventInfo['friendly_event_time']);
-			
-			$friendly_event_mid = $friendly_event_time[1];
-			$friendly_event_time = explode(":", $friendly_event_time[0]);
-			
-			$this->friendly_time = $friendly_event_time[0].":".$friendly_event_time[1]." ".$friendly_event_mid;
+			$this->shortFriendlyTime($eventInfo['friendly_event_time']);
 		} else {
-			$this->friendly_time = NULL;
+			$this->shortFriendlyTime(EFCommon::$dbCon->getFriendlyTime($this->datetime));
 		}
 
 		// If end time...
@@ -545,8 +550,8 @@ class Event {
 
 		$this->deadline = EFCommon::$dbCon->dateToRegular($eventInfo['event_deadline']);
 
-		$this->days_left = $eventInfo['days_left'];
-		$this->time_left = $eventInfo['time_left'];
+		$this->days_left = (isset($eventInfo['days_left'])) ? $eventInfo['days_left'] : NULL;
+		$this->time_left = (isset($eventInfo['time_left'])) ? $eventInfo['time_left'] : NULL;
 
 		if ( isset($eventInfo['rsvp_days_left']) ) {
 			$this->rsvp_days_left = $eventInfo['rsvp_days_left'];

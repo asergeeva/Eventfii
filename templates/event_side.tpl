@@ -6,11 +6,11 @@
 				</header>
 				
 				{if $event->rsvp_days_left > 0}
-				<p class="rsvp-message"><em id="rsvp_days_left" {if ($loggedIn)}class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
+				<p class="rsvp-message"><em id="rsvp_days_left" {if isset($loggedIn) && ($loggedIn)}class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
 				{else if $event->rsvp_days_left == 0}
-				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none" {if ($loggedIn)}class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>
+				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none" {if isset($loggedIn) && ($loggedIn)}class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>
 				{else}
-				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none" {if ($loggedIn)}class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>
+				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none" {if isset($loggedIn) && ($loggedIn)}class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>
 				{/if}
 				
 				<fieldset>				

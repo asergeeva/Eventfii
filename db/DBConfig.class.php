@@ -679,32 +679,43 @@ class DBConfig {
 	 */
 	public function getEventInfo($eid) {
 		$GET_EVENT = "	SELECT	id, 
-								DATEDIFF ( event_deadline, CURDATE() ) AS rsvp_days_left,
-								DATEDIFF ( event_datetime, CURDATE() ) AS days_left,
-								UNIX_TIMESTAMP(event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
-								DATE_FORMAT(event_datetime, '%M %d, %Y') AS friendly_event_date,
-								DATE_FORMAT(event_datetime, '%r') AS friendly_event_time,
-								created,
-								organizer, 
-								title, 
-								goal, 
-								reach_goal,
-								location_name,
-								location_address, 
-								event_datetime, 
-								event_end_datetime,
-								event_deadline, 
-								description, 
-								is_public, 
-								type,
-								location_lat,
-								location_long,
-								twitter,
-								url_alias,
-								global_ref
-						FROM	ef_events
+								DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
+								DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
+								UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+								DATE_FORMAT(e.event_datetime, '%M %d, %Y') AS friendly_event_date,
+								DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
+								e.*
+						FROM	ef_events e
 						WHERE	id = " . $eid;
 		return $this->executeValidQuery( $GET_EVENT );
+	}
+	
+	/**
+	 * Get the friendly date given a MySQL timestamp (e.g. 2011-09-30 00:30:00)
+	 *
+	 * @param $date String MySQL timestamp
+	 *
+	 * @return String friendly date (e.g. September 30, 2011, 12:30:00 AM) 
+	 */
+	public function getFriendlyDate($date) {
+		$FRIENDLY_DATE = "SELECT DATE_FORMAT('".mysql_escape_string($date)."', '%M %d, %Y') AS friendly_event_date";
+		
+		$friendlyDate = $this->executeQuery($FRIENDLY_DATE);
+		return $friendlyDate['friendly_event_date'];
+	}
+	
+	/**
+	 * Get the friendly time given a MySQL timestamp (e.g. 2011-09-30 00:30:00)
+	 *
+	 * @param $time String MySQL timestamp
+	 *
+	 * @return String friendly time (e.g. 12:30:00 AM) 
+	 */
+	public function getFriendlyTime($time) {
+		$FRIENDLY_TIME = "SELECT DATE_FORMAT('".mysql_escape_string($time)."', '%r') AS friendly_event_time";
+		
+		$friendlyTime = $this->executeQuery($FRIENDLY_TIME);
+		return $friendlyTime['friendly_event_time'];
 	}
 	
 	/**

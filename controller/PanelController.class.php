@@ -999,7 +999,10 @@ class PanelController {
 				EFCommon::$smarty->assign('step', 3);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
+				
+				if (isset($_GET['option'])) {
 				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &option=".$_GET['option']);
+				}
 				EFCommon::$smarty->display('create_guest.tpl');
 				break;
 			case '/event/manage/cancel':
