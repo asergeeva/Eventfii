@@ -37,25 +37,6 @@ $(document).ready(function() {
 	USER_IMAGE_UPLOADER.init();
 	$("img[rel]").overlay();
 	$("a[rel]").overlay();
-	
-	$('#editBtn').click(function(){
-		$('.edit').click();
-		$('#editBtn').hide();
-	});
-	
-	$('.edit').click(function(){$('#editBtn').hide();});
-	$('.edit').editable('user/status/update', {
-			type:'textarea',
-			indicator : 'Saving...',
-			tooltip   : 'Click to edit...',
-			style: 'border-style: inset; border-width: 2px',
-			onblur: 'submit',
-			callback : function(value, settings) {
-				$('#editBtn').show();
-				$('#div_2').html(value);
-				$('#div_2').css('left','25px');
-			}
-	});
     
 	$('#dtls_update').live('click', function() {
 			$.post(EFGLOBAL.baseUrl + '/user/profile-dtls/update',{

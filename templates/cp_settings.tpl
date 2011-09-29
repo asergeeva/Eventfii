@@ -148,6 +148,7 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/twitter.js"></script>
+<script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.jeditable.mini.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
 </body>
 </html>

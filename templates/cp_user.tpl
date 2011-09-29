@@ -9,7 +9,7 @@
 				</footer>
 			</section>
 			<section class="block" id="user-desc">
-				<p class="user-info edit">{if $smarty.session.user->about}{$smarty.session.user->about}{else}Click here to edit{/if}</p>
+				<p class="user-info edit" id="user-bio">{if $smarty.session.user->about}{$smarty.session.user->about}{else}Click here to edit{/if}</p>
 			</section>{else}
 
 			</section>{/if}

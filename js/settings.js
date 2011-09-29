@@ -28,6 +28,16 @@ var EF_SETTINGS = (function() {
 	return {
 		init: function() {
 			USER_IMAGE_UPLOADER.init();
+			$('#user-bio').editable('user/status/update', {
+					type:'textarea',
+					indicator : 'Saving...',
+					tooltip   : 'Click to edit...',
+					style: 'border-style: inset; border-width: 2px',
+					onblur: 'submit',
+					callback : function(value, settings) {
+						// Do nothing
+					}
+			});
 		},
 		
 		fbconnect: function() {
