@@ -8,6 +8,7 @@
 require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/MetricsTracker.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/ImageResizer.class.php');
 require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/../libs/Facebook/facebook.php');
@@ -66,6 +67,8 @@ class EFCommon {
 	
 	public static $imageResizer;
 	
+	public static $metricsTracker;
+	
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -96,6 +99,8 @@ class EFCommon {
 		self::$core = new EFCore();
 		
 		self::$imageResizer = new ImageResizer();
+		
+		self::$metricsTracker = new MetricsTracker(MIXPANEL_TOKEN);
 	}
 	
 	public function __destruct() {

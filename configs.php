@@ -33,7 +33,7 @@ define('EVENT_ALIAS_OFFSET', 403);
 define('USER_COOKIE', 'truersvp_user');
 define('LAUNCH_PAGE', CURHOST.'/launch');
 define('MAX_DISPLAY_GUEST', -1);
-
+define('MIXPANEL_TOKEN', '90a81dc86956434fc4a155802fac19fc');
 
 // Cron constants
 define('AUTO_REMINDER_CRON_LOG', 'auto_reminder_cron_log.txt');
