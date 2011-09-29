@@ -42,7 +42,10 @@ class User extends AbstractUser {
 			if ( $info === NULL ) {
 				$this->updateUser();
 			}
-			$_SESSION['user'] == $this;
+			
+			if (isset($_SESION['user'])) {
+				$_SESSION['user'] == $this;
+			}
 		}
 	}
 	

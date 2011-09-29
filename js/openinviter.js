@@ -29,14 +29,24 @@ var OPENINVITER = (function() {
 	return {
 		listFilter: function (header, list) {
 		    // create and add the filter form to the header
-		    var form = $("<form>").attr({"class":"filterform","action":"#"}),
-		        input = $("<input>").attr({"class":"filterinput","type":"text"});
+		    var initVal = "Search by name",
+		    	form = $("<form>").attr({"class":"filterform","action":"#"}),
+		        input = $("<input>").attr({"class":"filterinput","type":"text","value":initVal});
 		    $(form).append(input).appendTo(header);
+		    
+		    input.focus(function() {
+		    	console.log('foo');
+		    	$(this).val('');
+		    });
+		    
+		    input.focusout(function() {
+		    	input.val(initVal);
+		    });
 		 
 		    $(input)
 		      .change( function () {
 		        var filter = $(this).val();
-		        if(filter) {
+		        if(filter && filter !== initVal) {
 		          // this finds all links in a list that contain the input,
 		          // and hide the ones not containing the input while showing the ones that do
 		          $(list).find("label:not(:Contains(" + filter + "))").parent().hide();

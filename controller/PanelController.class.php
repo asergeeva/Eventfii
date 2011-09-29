@@ -88,6 +88,7 @@ class PanelController {
 			$eventId = $_GET['eventId'];
 		}
 		$user_array = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+		$attendees = array();
 		foreach($user_array as $userInfo) {
 			$attendees[] = new AbstractUser($userInfo);
 		}
