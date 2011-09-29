@@ -925,6 +925,7 @@ class PanelController {
 						// Valid Step 1
 						} else {
 							// Display Step 2
+							EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[1]);
 							EFCommon::$smarty->assign('step', 2);
 							EFCommon::$smarty->display('create.tpl');
 							break;
@@ -934,6 +935,7 @@ class PanelController {
 					}
 					
 					// Display Step 1
+					EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[0]);
 					EFCommon::$smarty->assign('step', 1);
 					EFCommon::$smarty->display('create.tpl');
 					break;
@@ -957,6 +959,7 @@ class PanelController {
 					// Valid Step 2
 					} else {
 						// Display Step 3
+						EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[2]);
 						$this->makeNewEvent( $newEvent );
 					}
 				}
