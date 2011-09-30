@@ -9,9 +9,6 @@
 						<a href="{$CURHOST}/event/a/{$event->alias}">
 							<h2><strong>{$event->title}</strong> {$event->getHumanReadableEventTime()}</h2> 
 						</a>
-						<a href="{$CURHOST}/event/a/{$event->alias}" class="event-manage">
-							<span class="btn btn-manage"><em>update RSVP</em></span>
-						</a>
 					</li>{/foreach}
 
 				</ul>{else}
