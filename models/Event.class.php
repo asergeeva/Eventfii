@@ -513,10 +513,10 @@ class Event {
 		$this->exists = true;
 		
 		$this->organizer = new AbstractUser($eventInfo['organizer']);
-		$this->title = $eventInfo['title'];
-		$this->description = $eventInfo['description'];
-		$this->location = $eventInfo['location_name'];
-		$this->address = $eventInfo['location_address'];
+		$this->title = stripslashes($eventInfo['title']);
+		$this->description = stripslashes($eventInfo['description']);
+		$this->location = stripslashes($eventInfo['location_name']);
+		$this->address = stripslashes($eventInfo['location_address']);
 		if ( isset($eventInfo['location_lat']) ) {
 			$this->location_lat = $eventInfo['location_lat'];
 		}
