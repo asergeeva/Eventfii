@@ -624,7 +624,11 @@ class DBConfig {
 		return mysql_num_rows($sqlResult);
 	}
 	
-	/***** CONTROL PANEL ASSIGN EVENTS ********/
+	/******* CONTROL PANEL ASSIGN EVENTS ********/
+	
+	/**
+	 * Get all of the events that is hosted by $uid
+	 */
 	public function getEventByEO($uid, $publicOnly = false) {
 		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
 			
@@ -640,6 +644,9 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
+	/**
+	 * Get all of the events that is attended by the $uid
+	 */
 	public function getEventAttendingByUid($uid, $publicOnly = false) {
 		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
 			
@@ -656,6 +663,41 @@ class DBConfig {
 								AND     a.confidence <> " . CONFELSE . " AND e.is_active = 1 ".$privateFilter."
 						) el
 						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
+		return $this->getQueryResultAssoc($GET_EVENTS);
+	}
+	
+	/**
+	 * Get all of the events that the $uid is invited to
+	 */
+	public function getEventInvited($uid) {
+		$GET_INVITED = "SELECT	* FROM 
+						  (SELECT TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+						          UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+						          e.*,
+						          a.*
+						   FROM ef_attendance a, ef_events e 
+						   WHERE a.event_id = e.id AND a.user_id = ".$uid." AND a.confidence = ".CONFELSE." AND e.is_active = 1) el
+						WHERE el.time_left > 0 ORDER BY el.days_left ASC";
+		return $this->getQueryResultAssoc($GET_INVITED);
+	}
+	
+	/**
+	 * Get all of the events that was attended by $uid
+	 */
+	public function getEventAttended($uid) {
+		$GET_EVENTS = "	SELECT	* 
+						FROM (
+								SELECT 	TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+										UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+										e.*
+								FROM 	ef_attendance a, 
+										ef_events e 
+								WHERE 	a.event_id = e.id 
+								AND 	a.user_id = " . $uid . " 
+								AND 	a.confidence <> " . CONFOPT6 . "
+								AND     a.confidence <> " . CONFELSE . " AND e.is_active = 1
+						) el
+						WHERE el.time_left < 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	

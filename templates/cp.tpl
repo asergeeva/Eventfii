@@ -29,7 +29,9 @@
 				<p class="message">You can manage all of your upcoming events from this home page.</p>
 			</header>
 			{include file="event_created.tpl"}
+			{include file="event_invited.tpl"}
 			{include file="event_attending.tpl"}
+			{include file="event_attended.tpl"}
 		</div>
 	</section>
 </div>

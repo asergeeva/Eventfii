@@ -277,6 +277,8 @@ class PanelController {
 	private function assignCPEvents($uid) {
 		$this->assignCreatedEvents($uid);
 		$this->assignAttendingEvents($uid);
+		$this->assignInvitedEvents($uid);
+		$this->assignAttendedEvents($uid);
 	}
 	
 	private function assignCreatedEvents($uid) {
@@ -295,6 +297,24 @@ class PanelController {
 			$attendingEvents[] = new Event($event);
 		}
 		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
+	}
+	
+	private function assignInvitedEvents($uid) {
+		$invited_event = EFCommon::$dbCon->getEventInvited($uid);
+		$invitedEvents = NULL;
+		foreach( $invited_event as $event ) {
+			$invitedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('invitedEvents', $invitedEvents);
+	}
+	
+	private function assignAttendedEvents($uid) {
+		$attended_event = EFCommon::$dbCon->getEventAttended($uid);
+		$attendedEvents = NULL;
+		foreach( $attended_event as $event ) {
+			$attendedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('attendedEvents', $attendedEvents);
 	}
 
 	/* printEvent
