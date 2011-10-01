@@ -1,6 +1,6 @@
 <section class="block" id="events-attended">
 				<header class="block-collapsable-title">
-					<h1>I attended...</h1>
+					<h1>Past events...</h1>
 				</header>{assign var=attendedEvents_counts value=$attendedEvents|@count}{if $attendedEvents_counts gt 0}
 
 				<ul class="event-list">{foreach $attendedEvents as $event}
@@ -13,6 +13,6 @@
 
 				</ul>{else}
 
-				<p class="message">You have not attended to any events</p>{/if}
+				<p class="message">There are no past events.</p>{/if}
 
 			</section>

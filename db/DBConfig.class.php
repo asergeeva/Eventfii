@@ -800,6 +800,12 @@ class DBConfig {
 		return NULL;
 	}
 	
+	/**
+	 * Sign up the user for an event with certain confidence level.
+	 * Send the thank you email to the user that is attending the event.
+	 * @param $uid   | Integer | The user ID that is signing up to the event
+	 * @param $event | Event   | The event
+	 */
 	public function eventSignUp($uid, $event, $conf) {
 		$signedUp = $this->hasAttend($uid, $event->eid);
 		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
