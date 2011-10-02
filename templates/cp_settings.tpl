@@ -26,7 +26,7 @@
 			<p class="message">Password not changed. Please correct the errors before re-submitting the form.</p>
 		</header>{/if}
 
-		{include file="cp_user.tpl"}
+		{include file="block_cp_user.tpl"}
 		<div class="content">
 			<section class="block" id="settings">
 				<form method="post" action="{$CURHOST}/settings" autocomplete="off">
@@ -40,6 +40,7 @@
 							<input type="text" name="fname" value="{$smarty.session.user->fname}" class="inputbox" id="fname" />{if isset($error.fname)}
 
 							<em>{$error.fname}</em>{/if}
+
 						</dd>
 						<dt>
 							<label for="lname">Last Name</label>

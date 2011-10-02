@@ -47,38 +47,150 @@
 		<header class="block notification" {if !isset($attendNotification)}style="display:none"{/if} id="notification-container">
 			<p class="message" id="notification-message">{if isset($attendNotification)}{$attendNotification}{/if}</p>
 		</header>
-		{include file="event_side.tpl"}
-		{include file="event_main.tpl"}
+		<aside class="extra">
+			<section class="block" id="rsvp">
+				<header class="block-title">
+					<h1>Your RSVP</h1>
+				</header>{if $event->rsvp_days_left > 0}
+
+				<p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>{else if $event->rsvp_days_left == 0}
+
+				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}
+
+				<p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
+
+				<fieldset>				
+					<ol class="rsvp-list" id="event_attending_response">
+						<li>
+							<label class="rsvp-label rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT1}"{if isset($conf90)}{$conf90}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_1" class="rsvp-opt" /> 
+								<span>Absolutely</span>
+								<em>I’ll definitely be there</em>
+							</label>
+						</li>
+						<li>
+							<label class="rsvp-label rsvp-2{if isset($select65)} selected{/if}" for="event_attending_response_2">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT2}"{if isset($conf65)}{$conf65}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_2" class="rsvp-opt" /> 
+								<span>Pretty sure</span>
+								<em>I’ll have to check my schedule</em>
+							</label>
+						</li>
+						<li>
+							<label class="rsvp-label rsvp-3{if isset($select35)} selected{/if}" for="event_attending_response_3">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT3}"{if isset($conf35)}{$conf35}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_3" class="rsvp-opt" /> 
+								<span>50/50</span>
+								<em>Interested, but not ready to commit</em>
+							</label>
+						</li>
+						<li>
+							<label class="rsvp-label rsvp-4{if isset($select15)} selected{/if}" for="event_attending_response_4">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT4}"{if isset($conf15)}{$conf15}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_4" class="rsvp-opt" /> 
+								<span>Not likely</span>
+								<em>I probably won’t go</em>
+							</label>
+						</li>
+						<li>
+							<label class="rsvp-label rsvp-5{if isset($select4)} selected{/if}" for="event_attending_response_5">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT5}"{if isset($conf4)}{$conf4}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_5" class="rsvp-opt" /> 
+								<span>Raincheck</span>
+								<em>Can’t make it this time</em>
+							</label>
+						</li>{*
+						<li>
+							<label class="rsvp-6{if isset($select1)} selected{/if}" for="event_attending_response_6">
+								<input type="radio" name="event_attending_response" value="{$CONFOPT6}"{if isset($conf1)}{$conf1}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_6" /> 
+								<span>Spam. Take me off this host’s list.</span>
+							</label>
+						</li>*}
+					</ol>
+				</fieldset>
+			</section>
+			<section class="block" id="twitter">
+				<header class="block-title">
+					<h1>Live Feed</h1>
+				</header>
+				<p class="twitter-info">Use <span>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</span> to post your tweet & pics here!</p>
+				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}"></div>
+			</section>
+		</aside>
+		<!--footer class="links-extra">
+			<p><a href="#">Flag this event</a></p>
+		</footer-->
+		<div class="content">{if $event->days_left > 0}
+
+			<header class="block">
+				<p class="message"><em>{$event->days_left}</em> {if $event->days_left == 1}day{else}days{/if} left until the event.{if $event->days_left == 1} Get exited!{/if}<br /><br />Use <em>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</em> to post your tweet & pics here!</p>
+			</header>{/if}
+
+			<section class="block" id="event-info">
+				<header class="block-title">
+					<h1 id="test">Find out more</h1>
+					<h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2>
+				</header>
+				<div class="event-info">
+					<p class="event-desc">{$event->description}</p>
+					<section class="event-more" id="event-hosted">
+						<header>
+							<h1>Hosted by:</h1>
+						</header>
+						<p class="user-img">
+							<a href="{$CURHOST}/user/a/{$event->organizer->alias}"><img src="{$event->organizer->pic}" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
+						</p>
+						<footer class="user-info">
+							<p class="user-name"><a href="{$CURHOST}/user/a/{$event->organizer->alias}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
+							<p class="user-contact"><a href="mailto:{$event->organizer->email}">Send {$event->organizer->fname} an email</a></p>
+						</footer>
+					</section>
+					<section class="event-more" id="event-cal">
+						<header>
+							<h1>Add event to:</h1>
+						</header>
+						<p class="icons"><a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" class="icon-ical" target="_blank">iCal</a> <a href="http://www.google.com/calendar/event?action=TEMPLATE&amp;text={$event->title}&amp;dates={if isset($event->end_date) && isset($event->end_time)}{$event->getCalDate($event->date, $event->time)}/{$event->getCalDate($event->end_date, $event->end_time)}{else}{$event->getCalDate($event->date, $event->time)}/{$event->getCalDate($event->date, $event->time)}{/if}&amp;details={$event->description}&amp;location={$event->address}&amp;trp=false&amp;sprop={$EVENT_URL}/{$event->eid}&amp;sprop={$event->description}" class="icon-gcal" target="_blank">Google</a> <a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" class="icon-outlook" target="_blank">Outlook</a></p>
+					</section>
+				</div>
+			</section>
+			{if isset($attending)}<section class="block" id="event-attendants">
+				<header class="block-title">
+					<h1>Who's coming?</h1>
+				</header>
+				<ul class="thumbs">{foreach from=$attending key=index item=guest}{if $index lt {$MAX_DISPLAY_GUEST}}
+
+					<li>
+						<figure>
+							<a href="{$CURHOST}/user/a/{$guest->alias}">
+								<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
+								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
+							</a>
+						</figure>
+					</li>{/if}{/foreach}
+
+				</ul>
+				<footer class="link-extra">
+					<p><a href="#" id="all-guests">See All ({sizeof($attending)})</a></p>
+				</footer>
+			</section>{/if}
+
+			<section class="block" id="event-location">
+				<header class="block-title">
+					<h1>Location</h1>
+				</header>
+				<figure>
+					<figcaption><address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}<br />{/if}{$event->address}</address></figcaption>
+					<iframe width="525" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
+				</figure>
+			</section>
+			<section class="block" id="event-comments">
+				<header class="block-title">
+					<h1>Comments</h1>
+				</header>
+				<fb:comments href="{$CURHOST}/event/{$event->eid}"></fb:comments>
+			</section>
+		</div>
 	</section>
 </div>
 {include file="footer.tpl"}
-<div class="popup-container" id="log-in">
-	<div class="popup block">
-		<p class="message"><a href="{$CURHOST}/login">Log in to trueRSVP</a> / <a href="{$CURHOST}/register">Don't have an account yet?</a></p>
-		{include file="login_form.tpl"}
-		<p class="popup-close"><a href="#">X</a></p>
-	</div>
-</div>
-<div class="popup-container" id="see-all">
-	<div class="popup block">
-		<header class="block-title">
-			<h1>Who's coming?</h1>
-		</header>
-		<ul class="thumbs">{foreach $attending as $guest}
-
-			<li>
-				<figure>
-					<a href="{$CURHOST}/user/{$guest->id}">
-						<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
-						<figcaption>{$guest->fname} {$guest->lname}</figcaption>
-					</a>
-				</figure>
-			</li>{/foreach}
-
-		</ul>
-		<p class="popup-close"><a href="#">X</a></p>
-	</div>
-</div>
+{include file="popup_login.tpl"}
+{include file="popup_seeall.tpl"}
 
 {include file="js_global.tpl"}
 {include file="js_event.tpl"}

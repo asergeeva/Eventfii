@@ -23,16 +23,23 @@
 
 		</header>{/if}
 
-		{include file="cp_user.tpl"}
+		{include file="block_cp_user.tpl"}
 		<div class="content">
 			<header class="block">
 				<p class="message">You can manage all of your upcoming events from this home page.</p>
 			</header>
+<<<<<<< HEAD
 			{include file="event_created.tpl"}
 			{include file="event_invited.tpl"}
 			{include file="event_attending.tpl"}
 			{include file="event_created_past.tpl"}
 			{include file="event_attended.tpl"}
+=======
+			{include file="block_events_created.tpl"}
+			{include file="block_events_invited.tpl"}
+			{include file="block_events_attending.tpl"}
+			{include file="block_events_attended.tpl"}
+>>>>>>> File reorganization
 		</div>
 	</section>
 </div>

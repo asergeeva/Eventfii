@@ -15,654 +15,6 @@ class PanelController {
 
 	}
 	
-	/* buildEvent
-	 * Returns an Event Object given an Event ID
-	 *
-	 * @param $eventId | The event ID
-	 * @return $event | The event object
-	 */
-	private function buildEvent($eventId, $manage = false ) {
-		
-		if ( $manage ) {
-			if ( isset($_SESSION['manage_event']) ) {				
-				if ( $_SESSION['manage_event']->eid == $eventId ) {
-					return $_SESSION['manage_event'];
-				} else {
-					unset( $_SESSION['manage_event'] );
-				}
-			}
-		}
-		
-		$event = new Event($eventId);
-		
-		if($manage) {
-			$_SESSION['manage_event'] = $event;
-		}
-		
-		return $event;
-	}
-
-	/* validateEventInfo
-	 * Makes sure event info is valid
-	 *
-	 * @param $newEvent | The event object
-	 * @return true | The information is valid
-	 * @return false | Infomration is bad
-	 */
-	private function validateEventInfo ( &$newEvent ) {
-		// Check for errors
-		$error = $newEvent->get_errors();
-		
-		$is_valid = ( $error === false ) ? true : false;
-		
-		// If there are errors
-		if ( ! $is_valid ) {
-			if ( $error !== true )
-				EFCommon::$smarty->assign('error', $error);
-			return false;
-		} 
-
-		// Looks like it's valid ;)
-		return true;
-	}
-	
-	private function validateUserInfo ( &$userInfo ) {
-		// Check for errors
-		$error = $userInfo->get_errors();
-		
-		$is_valid = ( $error === false ) ? true : false;
-		
-		// If there are errors
-		if ( ! $is_valid ) {
-			if ( $error !== true )
-				EFCommon::$smarty->assign('error', $error);
-			return false;
-		} 
-
-		// Looks like it's valid ;)
-		return true;
-	}
-	
-	private function getAttendees($eventId) {
-		if ( $eventId == NULL ) {
-			$eventId = $_GET['eventId'];
-		}
-		$user_array = EFCommon::$dbCon->getAttendeesByEvent($eventId);
-		$attendees = array();
-		foreach($user_array as $userInfo) {
-			$attendees[] = new AbstractUser($userInfo);
-		}
-		return $attendees;
-	}
-
-	/* saveEventFields
-     * Stores the current values for the new event
-     * in an array that can be assigned in SMARTY
-     * 
-     * @param $newEvent | The event being saved
-     * @return $event_field | The array of event information
-	 */
-	private function saveEventFields( $newEvent ) {
-
-		// Save the current fields
-		$event_field = $newEvent->get_array();
-		
-		EFCommon::$smarty->assign('event_field', $event_field);
-	}
-
-	/* makeNewEvent
-	 * Adds the event to the database, then switches to step 2
-	 *
-	 * @param $newEvent | The VALIDATED event object
-	 * @return true | The information is valid
-	 * @return false | Infomration is bad
-	 */
-	private function makeNewEvent( $newEvent ) {
-		// Make sure user is logged in before they can
-		// create the event
-		if ( ! isset($_SESSION['user']) ) {
-			$_SESSION['newEvent'] = $newEvent;
-			header("Location: " . CURHOST . "/login");
-			exit;
-		}
-		
-		EFCommon::$dbCon->createNewEvent($newEvent);
-		
-		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
-		$_SESSION['newEvent']->setGuests(NULL);
-		$this->attendEvent($_SESSION['newEvent']->eid, 90, false);
-				
-		header("Location: " . CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid );
-		exit;
-	}
-
-	// checkUserCreationForm
-	public function checkUserCreationForm($userInfo) {
-		$flag = 1;
-		$email = $userInfo['email'];
-		$password = $userInfo['password'];
-		$fname = $userInfo['fname'];
-		$lname = $userInfo['lname'];
-		$phone = $userInfo['phone'];
-		$zip = $userInfo['zip'];
-
-		$email_val = 	$this->valEmail(
-							$email,
-							"email",
-							"Email entered is invalid."
-						);
-		if ( strlen($password) < 6 ) {
-			$flag = 2;
-			$error['password'] = "Password should be at least 6 characters";
-			EFCommon::$smarty->append("error", $error, true);
-		}
-		$f_name_val = 	$this->valUsingRegExp(
-							$fname,
-							"/^[A-Za-z']*$/",
-							"fname",
-							"First name should only contain letters"
-						);
-		$l_name_val = 	$this->valUsingRegExp(
-							$lname,
-							"/^[A-Za-z']*$/",
-							"lname",
-							"Last name should only contain letters"
-						);
-		$ph_val = 		$this->valUsingRegExp(
-							$phone,
-							"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",
-							"phone",
-							"Phone number is not in valid format"
-						);
-		$zipcode_val = 	$this->valUsingRegExp(
-							$zip, 
-							"/^\d{5}(-\d{4})?$/", 
-							"zip", 
-							"Please enter a valid zip code"
-						);
-
-		if ( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
-			$flag = 2;
-		}
-		
-		// Flag = 2, error = true, else, error = false
-		return ( $flag == 2 ) ? true : false;
-	}
-
-	// BEGIN OLD FUNCTIONS
-	//////////////////////
-	public function validateSaveEmail($req) {
-		$msg="<br />";
-		$flag=0;
-		$dt=$req['date'];
-		$a_date = explode('/', $dt);
-		$month = $a_date[0];
-		$day = $a_date[1];
-		$year = $a_date[2]; 
-		if(!@checkdate($month,$day,$year)) {
-			$msg.="Please enter a date in mm/dd/yyyy format. <br>";
-			$flag=1;
-		}
-		
-		// Make sure date is in the future
-		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
-		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
-		if( $check < $today ) {
-			$msg.="Date must be in the future<br />";
-			$flag=1;
-		}
-
-		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[\{A-Za-z 0-9'\}]*$/")));
-		if(!($res)) {
-			$flag=1;
-			$msg.="Content can only contain characters A-Z or numbers 0-9 <br />";
-		}
-
-		if($flag==0) {
-			$msg="Success";
-		}
-
-		return $msg;
-	}
-
-	public function valEmail($email, $type, $msg) {
-		$flag = 1;
-		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-			$error[$type] = $msg;
-			EFCommon::$smarty->append('error', $error, true);
-			$flag = 2;
-		}
-		return $flag;
-	}
-
-	public function valUsingRegExp($val,$regex,$type,$msg) {
-		$flag = 1;
-		$res = filter_var( $val, FILTER_VALIDATE_REGEXP, array( "options" => array( "regexp" => $regex ) ) );
-		if( ! $res ) {
-			$error[$type] = $msg;
-			EFCommon::$smarty->append('error', $error, true);
-			$flag = 2;
-		}
-		return $flag;
-	}
-
-	////////////////
-	// End OLD FUNCTIONS
-	
-	/***** USER PROFILE ASSIGN EVENTS ********/
-	private function assignProfileEvents($uid) {
-		$this->assignCreatedEventsProfile($uid);
-		$this->assignAttendingEventsProfile($uid);
-	}
-	
-	private function assignCreatedEventsProfile($uid) {
-		$created_event = EFCommon::$dbCon->getEventByEO($uid, true);
-		$createdEvents = NULL;
-		foreach ( $created_event as $event ) {
-			$createdEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('createdEvents', $createdEvents);
-	}
-	
-	private function assignAttendingEventsProfile($uid) {
-		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid, true);
-		$attendingEvents = NULL;
-		foreach( $attending_event as $event ) {
-			$attendingEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
-	}
-
-	/* CONTROL PANEL ASSIGN EVENTS */
-	private function assignCPEvents($uid) {
-		$this->assignCreatedEvents($uid);
-		$this->assignAttendingEvents($uid);
-		$this->assignInvitedEvents($uid);
-		$this->assignAttendedEvents($uid);
-		$this->assignPastCreatedEvents($uid);
-	}
-	
-	private function assignPastCreatedEvents($uid) {
-		$past_created_event = EFCommon::$dbCon->getPastEventByEO($uid);
-		$pastCreatedEvents = NULL;
-		foreach ( $past_created_event as $event ) {
-			$pastCreatedEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('pastCreatedEvents', $pastCreatedEvents);
-	}
-	
-	private function assignCreatedEvents($uid) {
-		$created_event = EFCommon::$dbCon->getEventByEO($uid);
-		$createdEvents = NULL;
-		foreach ( $created_event as $event ) {
-			$createdEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('createdEvents', $createdEvents);
-	}
-	
-	private function assignAttendingEvents($uid) {
-		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid);
-		$attendingEvents = NULL;
-		foreach( $attending_event as $event ) {
-			$attendingEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
-	}
-	
-	private function assignInvitedEvents($uid) {
-		$invited_event = EFCommon::$dbCon->getEventInvited($uid);
-		$invitedEvents = NULL;
-		foreach( $invited_event as $event ) {
-			$invitedEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('invitedEvents', $invitedEvents);
-	}
-	
-	private function assignAttendedEvents($uid) {
-		$attended_event = EFCommon::$dbCon->getEventAttended($uid);
-		$attendedEvents = NULL;
-		foreach( $attended_event as $event ) {
-			$attendedEvents[] = new Event($event);
-		}
-		EFCommon::$smarty->assign('attendedEvents', $attendedEvents);
-	}
-
-	/* printEvent
-	 * Used to print out an event
-	 */
-	public function printEvent() {
-		require_once('models/EFCore.class.php');
-		
-		$eventId = $_GET['eventId'];
-		$event = new Event($eventId);
-		
-		$eventAttendees = EFCommon::$dbCon->getAttendeesByEvent($eventId);
-
-		for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
-			if ($eventAttendees[$i]['is_attending'] == 1) {
-				$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
-			}
-		}
-
-		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
-		EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
-		EFCommon::$smarty->assign('eventInfo', $eventInfo);
-		EFCommon::$smarty->display('manage_event_on.tpl');
-	}
-	
-	public function assignManageVars($eventId) {
-		$event = new Event($eventId);
-	
-		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
-		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
-		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
-		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT4);
-		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT5);
-		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT6);
-		$numGuestNoResp = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFELSE);
-
-		EFCommon::$smarty->assign('guestConf1', $numGuestConf1['guest_num']);
-		EFCommon::$smarty->assign('guestConf2', $numGuestConf2['guest_num']);
-		EFCommon::$smarty->assign('guestConf3', $numGuestConf3['guest_num']);
-		EFCommon::$smarty->assign('guestConf4', $numGuestConf4['guest_num']);
-		EFCommon::$smarty->assign('guestConf5', $numGuestConf5['guest_num']);
-		EFCommon::$smarty->assign('guestConf6', $numGuestConf6['guest_num']);
-		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
-		
-		EFCommon::$smarty->assign('guestimate', EFCommon::$core->computeGuestimate($eventId));
-		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
-	}
-
-	/* function getEventIdByUri
-	 * Gets the Event ID given a URI, returns
-	 * false if invalid URI
-	 *
-	 * @param requestUri | The URI of the page to be displayed
-	 * @return eventId | The event ID
-	 * @return false | If invalid URI
-	 */
-	public function getEventIdByUri( $requestUri ) {
-		$eventId = explode('/', $requestUri);
-		
-		// Verify that format of URL is http://{$CURHOST}/event/{$eventId}
-		if (sizeof($eventId) != 3 ) {
-			return false;
-		}
-		
-		$eventId = $eventId[sizeof($eventId) - 1];
-		
-		return $eventId;
-	}
-	
-	private function getUserIdByUri( $requestUri ) {
-		$userId = explode('/', $requestUri);		
-
-		// Verify that format of URL is http://{$CURHOST}/user/{$userId}
-		if (sizeof($userId) != 3 ) {
-			return false;
-		}
-		
-		$userId = $userId[sizeof($userId)-1];
-		
-		return $userId;
-	}
-	
-	// Check if there's a new event session
-	// create that event if the session exist
-	private function checkCreateEventSession() {
-		if ( isset($_SESSION['newEvent']) && ! isset($_SESSION['newEvent']->eid) ) {
-			if ( $this->validateEventInfo( $_SESSION['newEvent'] )) {
-				$newEvent = $_SESSION['newEvent'];
-				$newEvent->organizer = $_SESSION['user'];
-				$this->makeNewEvent( $newEvent );
-			}
-		}
-	}
-	
-	private function getRedirectUrl() {
-		if (isset($_SESSION['ref'])) {
-			$inviteReference = EFCommon::$dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
-			if (is_numeric($inviteReference['event_id'])) {
-				$url = CURHOST."/event/".$inviteReference['event_id'];
-			}
-			unset($_SESSION['ref']);
-		} else {	
-			switch ($_GET['redirect']) {
-				case 'cp':
-					$url = CURHOST . "?loggedIn=true";
-				case 'event':
-					if ( $_GET['eventId'] ) {
-						$url = CURHOST . "/event/" . $_GET['eventId'];
-					}
-					break;
-				case 'manage':
-					if ( $_GET['eventId'] ) {
-						$url = CURHOST . "/event/manage?eventId=" . $_GET['eventId'];
-					}
-					break;
-				default:
-					$url = CURHOST;
-			}
-		}
-		
-		return $url;
-	}
-
-	/*
-	 * Redirect the user home if he's logged in
-     */
-	private function loggedInRedirect() {
-		
-		// if the user already logged in
-		if ( isset($_SESSION['user']) ) {
-			// If there is a page to be redirected to
-			if (isset($_SESSION['eventViewed'])) {
-				header("Location: " . EVENT_URL . "/a/".$_SESSION['eventViewed']->alias);
-			} else if (isset($_SESSION['page_redirect'])) { 
-				header("Location: " . $_SESSION['page_redirect']);
-				unset($_SESSION['page_redirect']);
-			} else if(isset($_SESSION['fb'])) {
-				header("Location: " . CURHOST . "/home?loggedIn=true");
-			} else {
-				header("Location: " . CURHOST . "/home?loggedIn=false");
-			}
-			exit;
-		}
-	}
-	
-	/*
-	 * The user has just logged in to FB,
-	 * so let's take him to his profile page
-	 */
-	private function handleFBLogin() {
-		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], 
-													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
-		if ( $userInfo ) {
-			$_SESSION['fb'] = new User($userInfo);
-			
-			echo 3;
-		} else {
-			echo 0;
-		}
-	}
-	
-	/**
-	 * Create the user object for each user that is retrieved from the DB
-	 * &$array  Array  the reference array that we want to append the user object into
-	 * $userDb  Array  the array of users from the DB
-	 */
-	private function appendGuests(&$array, $userDb) {
-		for ($i = 0; $i < sizeof($userDb); ++$i) {
-			array_push($array, new User($userDb[$i]));
-		}
-	}
-	
-	/**
-	 * Given the current page URI, get its alias
-	 * @return String alias of the event URI
-	 */
-	private function getAliasByUri($requestUri) {
-		$alias = explode('/', $requestUri);
-		
-		// Verify that format of URL is http://{$CURHOST}/event/a/{$alias}
-		if (sizeof($alias) != 4 ) {
-			return false;
-		}
-		
-		$alias = $alias[sizeof($alias) - 1];
-		
-		return $alias;
-	}
-	
-	/**
-	 * Display the error page with the specified error message
-	 * @param $error_message  String  the error message to be displayed
-	 */
-	private function displayError($error_message) {
-		EFCommon::$smarty->assign('error_message', $error_message);
-		EFCommon::$smarty->display('error.tpl');
-	}
-	
-	/**
-	 * Make sure that the user is valid seeing the current page
-	 */
-	private function securityValidate($current_page) {
-		// /event/manage/* pages are protected
-		if (preg_match("/event\/manage*/", $current_page) > 0) {
-			if (!isset($_SESSION['user'])) {
-				header("Location: ".CURHOST."/login");
-			}
-			else if (!EFCommon::$dbCon->checkValidHost($_REQUEST['eventId'], $_SESSION['user']->id)) {
-				$this->displayError("You're not the host of this event");
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Displaying the event given its ID
-	 * @param $eventId  Integer event ID
-	 */
-	private function displayEventById($eventId) {
-		$event = $this->buildEvent($eventId);
-		$_SESSION['eventViewed'] = $event;
-		
-		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user']) && $event->rsvp_days_left >= 0) {
-			// Make sure that it only select one choice
-			if (sizeof($_SESSION['attemptValue']) == 1) {
-				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
-					$this->attendEvent($eid, $conf, false);
-					unset($_SESSION['attemptValue']);
-				}
-			}
-		}
-		
-		EFCommon::$smarty->assign("event", $event);
-		
-		// Check to see if the event exists
-		if ( ! $event->exists ) {
-			EFCommon::$smarty->display( 'error_event_notexist.tpl' );
-			return;
-		}
-		
-		// Check permissions
-		if ( ! $event->can_view(NULL) ) {
-			EFCommon::$smarty->display( 'error_event_private.tpl' );
-			return;
-		}
-	
-		// Prepare the twitter feed
-		$twitter = new EFTwitter();
-		$twitterHash = $twitter->getTwitterHash($eventId);
-		EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
-		
-		
-		// See if the user has responded
-		if ( isset($_SESSION['user']->id) ) {
-			$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
-			EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-			EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
-			
-			// If the deadline passed, disable the input
-			if ($event->rsvp_days_left < 0) {
-				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
-				EFCommon::$smarty->assign('loggedIn', true);
-			}
-		} else {
-			EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
-			EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
-		}
-		
-		$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
-		EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
-		
-		$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
-		$attending = NULL;
-		foreach($event_attendees as $guest) {
-			$attending[] = new User($guest);
-		}
-		
-		EFCommon::$smarty->assign( 'attending', $attending );
-		
-		EFCommon::$smarty->display('event.tpl');
-	}
-	
-	private function displayUserById($userId) {
-		$profile = new User($userId);
-		if ( ! $profile->exists ) {
-			EFCommon::$smarty->display('error_user_notexist.tpl');
-		} else {
-			// $is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
-			// EFCommon::$smarty->assign("is_following", $is_following);
-			$this->assignProfileEvents($userId);
-			EFCommon::$smarty->assign("profile", $profile);
-			EFCommon::$smarty->display('profile.tpl');
-		}
-	}
-	
-	/**
-	 * The current user session would like to sign up specified event 
-	 * 		with specified confidence
-	 *
-	 * @param $eid  Integer event ID
-	 * @param $conf Integer confidence value
-	 *
-	 */
-	private function attendEvent($eid, $conf, $isAjax = true) {
-		$event = $this->buildEvent($eid);
-		$notification = NULL;
-		
-		// Waiting list
-		if (EFCommon::$core->getTrueRSVP($event) >= $event->goal) {
-			switch($event->reach_goal) {
-				case 1:
-					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-					$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
-					break;
-				case 2:
-					$notification = "Sorry! The event has reached capacity.";
-					break;
-				case 3:
-					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $conf);
-					$notification = "You have been added to the waiting list for this event";
-					break;
-			}
-		} else {
-			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
-		}
-		
-		if (isset($notification)) {
-			if ($isAjax) {
-				print($notification);
-			} else {
-				EFCommon::$smarty->assign('attendNotification', $notification);
-			}
-		}
-	}
-	
 	/* function getView
 	 * Determines which template files to display
 	 * given a certain parameter.
@@ -779,8 +131,15 @@ class PanelController {
 					$page['cp'] = true;
 					EFCommon::$smarty->assign('page', $page);
 
-					// Check new event
-					$this->checkCreateEventSession();
+					// Check if there's a new event session
+					// create that event if the session exist
+					if ( isset($_SESSION['newEvent']) && ! isset($_SESSION['newEvent']->eid) ) {
+						if ( $this->validateEventInfo( $_SESSION['newEvent'] )) {
+							$newEvent = $_SESSION['newEvent'];
+							$newEvent->organizer = $_SESSION['user'];
+							$this->makeNewEvent( $newEvent );
+						}
+					}
 			
 					unset($_SESSION['newEvent']);
 					unset($_SESSION['new_eid']);
@@ -803,13 +162,13 @@ class PanelController {
 				header("Location: ".EVENT_URL."/a/1dc");
 				break;
 			case '/media':
-				EFCommon::$smarty->display('media.tpl');
+				EFCommon::$smarty->display('static_media.tpl');
 				break;
 			case '/terms':
-				EFCommon::$smarty->display('terms.tpl');
+				EFCommon::$smarty->display('static_terms.tpl');
 				break;
 			case '/privacy':
-				EFCommon::$smarty->display('privacy.tpl');
+				EFCommon::$smarty->display('static_privacy.tpl');
 				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
@@ -854,14 +213,14 @@ class PanelController {
 					EFCommon::$smarty->assign('notification', 'Thank you for your feedback!');
 				}
 				
-				EFCommon::$smarty->display('contact.tpl');
+				EFCommon::$smarty->display('static_contact.tpl');
 				
 				break;
 			case '/share':
-				EFCommon::$smarty->display('share.tpl');
+				EFCommon::$smarty->display('static_share.tpl');
 				break;
 			case '/method':
-				EFCommon::$smarty->display('method.tpl');
+				EFCommon::$smarty->display('static_method.tpl');
 				break;
 			case '/feedback/send':
 				EFCommon::$mailer->sendFeedback();
@@ -892,7 +251,7 @@ class PanelController {
 					$_SESSION['user']->addContacts();
 				}
 				
-				EFCommon::$smarty->assign('fbSubmit', CURHOST . '/contacts/add?option=fb&gref='.$event->global_ref);
+				// EFCommon::$smarty->assign('fbSubmit', CURHOST . '/contacts/add?option=fb&gref=' . $event->global_ref);
 				EFCommon::$smarty->assign('submitTo', CURHOST . '/contacts/add');
 				EFCommon::$smarty->display('cp_contacts.tpl');
 				break;
@@ -1037,7 +396,7 @@ class PanelController {
 				if (isset($_GET['option'])) {
 				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &option=".$_GET['option']);
 				}
-				EFCommon::$smarty->display('create_guest.tpl');
+				EFCommon::$smarty->display('create_addguest.tpl');
 				break;
 			case '/event/manage/cancel':
 				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
@@ -1212,24 +571,21 @@ class PanelController {
 					$message = $event->submitGuests();
 					EFCommon::$smarty->assign("message", $message);
 				}
-				
-				// Fetch the users who have signed up
-				$invited_users_array = EFCommon::$dbCon->getAttendeesByEvent($event->eid);
 
-				$contacts = array();
+				// Build the user contact list
 				$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+				$contacts = array();
 				for ($i = 0; $i < sizeof($contactList); ++$i) {
 					$contact = new User($contactList[$i]);
 					array_push($contacts, $contact);
 				}
-				
-				$signedUp = $this->getAttendees(NULL);
-				EFCommon::$smarty->assign('signedUp', $signedUp);
-				
 				if ( sizeof($contacts) > 0 )
 					EFCommon::$smarty->assign('contacts', $contacts);
 				else
 					EFCommon::$smarty->assign('contacts', NULL);
+				
+				$signedUp = $this->getAttendees(NULL);
+				EFCommon::$smarty->assign('signedUp', $signedUp);
 				
 				if( $event->numErrors > 0 ) {
 					EFcommon::$smarty->assign( 'error', $event->error );
@@ -1267,29 +623,26 @@ class PanelController {
 
 					$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
 					$contactList = $inviter->getMyContacts();
+					
+					// print_r($contactList);
 
 					EFCommon::$smarty->assign('contactList', $contactList);
 					EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
 				} else {
-					if ($_REQUEST['provider'] == 'truersvp') {
-						$contacts = array();
-						$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
-						for ($i = 0; $i < sizeof($contactList); ++$i) {
-							$contact = new User($contactList[$i]);
-							array_push($contacts, $contact);
-						}
-						
-						if ( sizeof($contacts) > 0 )
-							EFCommon::$smarty->assign('contacts', $contacts);
-						else
-							EFCommon::$smarty->assign('contacts', NULL);
-						
-						EFCommon::$smarty->assign('addButton', true);
-						EFCommon::$smarty->display('contacts.tpl');
-					} else {
-						EFCommon::$smarty->assign('provider', $_REQUEST['provider']);
-						EFCommon::$smarty->display('event_add_guest_right.tpl');
+					$contacts = array();
+					$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+					for ($i = 0; $i < sizeof($contactList); ++$i) {
+						$contact = new User($contactList[$i]);
+						array_push($contacts, $contact);
 					}
+					
+					if ( sizeof($contacts) > 0 )
+						EFCommon::$smarty->assign('contacts', $contacts);
+					else
+						EFCommon::$smarty->assign('contacts', NULL);
+					
+					EFCommon::$smarty->assign('addButton', true);
+					EFCommon::$smarty->display('block_contacts.tpl');
 				}
 				break;
 			case '/event/manage/email':
@@ -1485,7 +838,7 @@ class PanelController {
 					
 					// Check if any errors
 					if( $errors ) {
-						EFCommon::$smarty->display('create_account.tpl');
+						EFCommon::$smarty->display('register.tpl');
 						break;
 					}
 					
@@ -1503,11 +856,11 @@ class PanelController {
 						$this->loggedInRedirect();
 					} else {
 						EFCommon::$smarty->assign('user_create_email', 'This email has been used');
-						EFCommon::$smarty->display('create_account.tpl');
+						EFCommon::$smarty->display('register.tpl');
 						break;
 					}
 				} else {
-					EFCommon::$smarty->display('create_account.tpl');
+					EFCommon::$smarty->display('register.tpl');
 					break;
 				}
 
@@ -1739,4 +1092,624 @@ class PanelController {
 				break;
 		}
 	}
+	
+	/**
+	 * Create the user object for each user that is retrieved from the DB
+	 * &$array  Array  the reference array that we want to append the user object into
+	 * $userDb  Array  the array of users from the DB
+	 */
+	private function appendGuests(&$array, $userDb) {
+		for ($i = 0; $i < sizeof($userDb); ++$i) {
+			array_push($array, new User($userDb[$i]));
+		}
+	}
+	
+	/**
+	 * The current user session would like to sign up specified event 
+	 * 		with specified confidence
+	 *
+	 * @param $eid  Integer event ID
+	 * @param $conf Integer confidence value
+	 *
+	 */
+	private function attendEvent($eid, $conf, $isAjax = true) {
+		$event = $this->buildEvent($eid);
+		$notification = NULL;
+		
+		// Waiting list
+		if (EFCommon::$core->getTrueRSVP($event) >= $event->goal) {
+			switch($event->reach_goal) {
+				case 1:
+					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
+					$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
+					break;
+				case 2:
+					$notification = "Sorry! The event has reached capacity.";
+					break;
+				case 3:
+					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $conf);
+					$notification = "You have been added to the waiting list for this event";
+					break;
+			}
+		} else {
+			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
+			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
+		}
+		
+		if (isset($notification)) {
+			if ($isAjax) {
+				print($notification);
+			} else {
+				EFCommon::$smarty->assign('attendNotification', $notification);
+			}
+		}
+	}
+	
+	/* Permission and login functions */
+		
+	private function getRedirectUrl() {
+		if (isset($_SESSION['ref'])) {
+			$inviteReference = EFCommon::$dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
+			if (is_numeric($inviteReference['event_id'])) {
+				$url = CURHOST."/event/".$inviteReference['event_id'];
+			}
+			unset($_SESSION['ref']);
+		} else {	
+			switch ($_GET['redirect']) {
+				case 'cp':
+					$url = CURHOST . "?loggedIn=true";
+				case 'event':
+					if ( $_GET['eventId'] ) {
+						$url = CURHOST . "/event/" . $_GET['eventId'];
+					}
+					break;
+				case 'manage':
+					if ( $_GET['eventId'] ) {
+						$url = CURHOST . "/event/manage?eventId=" . $_GET['eventId'];
+					}
+					break;
+				default:
+					$url = CURHOST;
+			}
+		}
+		
+		return $url;
+	}
+
+	/*
+	 * Redirect the user home if he's logged in
+     */
+	private function loggedInRedirect() {
+		
+		// if the user already logged in
+		if ( isset($_SESSION['user']) ) {
+			// If there is a page to be redirected to
+			if (isset($_SESSION['eventViewed'])) {
+				header("Location: " . EVENT_URL . "/a/" . $_SESSION['eventViewed']->alias);
+			} else if (isset($_SESSION['page_redirect'])) { 
+				$redirect = $_SESSION['page_redirect'];
+				unset($_SESSION['page_redirect']);
+				header("Location: " . $redirect);
+			} else if(isset($_SESSION['fb'])) {
+				header("Location: " . CURHOST . "/home?loggedIn=true");
+			} else {
+				header("Location: " . CURHOST . "/home?loggedIn=false");
+			}
+			exit;
+		}
+	}
+	
+	/*
+	 * The user has just logged in to FB,
+	 * so let's take him to his profile page
+	 */
+	private function handleFBLogin() {
+		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], 
+													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
+		if ( $userInfo ) {
+			$_SESSION['fb'] = new User($userInfo);
+			
+			echo 3;
+		} else {
+			echo 0;
+		}
+	}
+	
+	/* Display functions */
+	
+	/* printEvent
+	 * Used to print out an event
+	 */
+	public function printEvent() {
+		require_once('models/EFCore.class.php');
+		
+		$eventId = $_GET['eventId'];
+		$event = new Event($eventId);
+		
+		$eventAttendees = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+
+		for ($i = 0; $i < sizeof($eventAttendees); ++$i) {
+			if ($eventAttendees[$i]['is_attending'] == 1) {
+				$eventAttendees[$i]['checkedIn'] = 'checked = "checked"';
+			}
+		}
+
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
+		EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+		EFCommon::$smarty->assign('eventInfo', $eventInfo);
+		EFCommon::$smarty->display('manage_event_on.tpl');
+	}
+	
+	/**
+	 * Displaying the event given its ID
+	 * @param $eventId  Integer event ID
+	 */
+	private function displayEventById($eventId) {
+		$event = $this->buildEvent($eventId);
+		$_SESSION['eventViewed'] = $event;
+		
+		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user']) && $event->rsvp_days_left >= 0) {
+			// Make sure that it only select one choice
+			if (sizeof($_SESSION['attemptValue']) == 1) {
+				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
+					$this->attendEvent($eid, $conf, false);
+					unset($_SESSION['attemptValue']);
+				}
+			}
+		}
+		
+		EFCommon::$smarty->assign("event", $event);
+		
+		// Check to see if the event exists
+		if ( ! $event->exists ) {
+			EFCommon::$smarty->display( 'error_event_notexist.tpl' );
+			return;
+		}
+		
+		// Check permissions
+		if ( ! $event->can_view(NULL) ) {
+			EFCommon::$smarty->display( 'error_event_private.tpl' );
+			return;
+		}
+	
+		// Prepare the twitter feed
+		$twitter = new EFTwitter();
+		$twitterHash = $twitter->getTwitterHash($eventId);
+		EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
+		
+		
+		// See if the user has responded
+		if ( isset($_SESSION['user']->id) ) {
+			$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
+			EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
+			EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
+			
+			// If the deadline passed, disable the input
+			if ($event->rsvp_days_left < 0) {
+				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
+				EFCommon::$smarty->assign('loggedIn', true);
+			}
+		} else {
+			EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
+			EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
+		}
+		
+		$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
+		EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
+		
+		$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
+		$attending = NULL;
+		foreach($event_attendees as $guest) {
+			$attending[] = new User($guest);
+		}
+		
+		EFCommon::$smarty->assign( 'attending', $attending );
+		
+		EFCommon::$smarty->display('event.tpl');
+	}
+	
+	private function displayUserById($userId) {
+		$profile = new User($userId);
+		if ( ! $profile->exists ) {
+			EFCommon::$smarty->display('error_user_notexist.tpl');
+		} else {
+			// $is_following = isset($_SESSION['user']) ? EFCommon::$dbCon->isFollowing($_SESSION['user']->id, $profile->id) : 0;
+			// EFCommon::$smarty->assign("is_following", $is_following);
+			$this->assignProfileEvents($userId);
+			EFCommon::$smarty->assign("profile", $profile);
+			EFCommon::$smarty->display('profile.tpl');
+		}
+	}
+	
+	/**
+	 * Display the error page with the specified error message
+	 * @param $error_message  String  the error message to be displayed
+	 */
+	private function displayError($error_message) {
+		EFCommon::$smarty->assign('error_message', $error_message);
+		EFCommon::$smarty->display('error.tpl');
+	}
+	
+	/* DB Query functions */
+	
+	/* buildEvent
+	 * Returns an Event Object given an Event ID
+	 *
+	 * @param $eventId | The event ID
+	 * @return $event | The event object
+	 */
+	private function buildEvent($eventId, $manage = false ) {
+		
+		if ( $manage ) {
+			if ( isset($_SESSION['manage_event']) ) {				
+				if ( $_SESSION['manage_event']->eid == $eventId ) {
+					return $_SESSION['manage_event'];
+				} else {
+					unset( $_SESSION['manage_event'] );
+				}
+			}
+		}
+		
+		$event = new Event($eventId);
+		
+		if($manage) {
+			$_SESSION['manage_event'] = $event;
+		}
+		
+		return $event;
+	}
+	
+	/* getAttendees
+	 * Grabs the invited users for a given event
+	 *
+	 * @param	$eventId | The ID of the event, or null if using $_GET['eventId']
+	 * @return	$attendees | An array of AbstractUsers who are invited to the Event
+	 */
+	private function getAttendees($eventId) {
+		if ( $eventId == NULL ) {
+			$eventId = $_GET['eventId'];
+		}
+		$user_array = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+		$attendees = array();
+		foreach($user_array as $userInfo) {
+			$attendees[] = new AbstractUser($userInfo);
+		}
+		return $attendees;
+	}
+	
+	/***** PROFILE ASSIGN EVENTS ********/
+	private function assignProfileEvents($uid) {
+		$this->assignCreatedEvents($uid, true);
+		$this->assignAttendingEvents($uid, true);
+	}
+	
+	/***** CONTROL PANEL ASSIGN EVENTS ********/
+	private function assignCPEvents($uid) {
+		$this->assignCreatedEvents($uid);
+		$this->assignAttendingEvents($uid);
+		$this->assignInvitedEvents($uid);
+		$this->assignAttendedEvents($uid);
+		$this->assignPastCreatedEvents($uid);
+	}
+	
+	private function assignPastCreatedEvents($uid) {
+		$past_created_event = EFCommon::$dbCon->getPastEventByEO($uid);
+		$pastCreatedEvents = NULL;
+		foreach ( $past_created_event as $event ) {
+			$pastCreatedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('pastCreatedEvents', $pastCreatedEvents);
+	}
+	
+	private function assignCreatedEvents($uid, $publicOnly = false) {
+		$created_event = EFCommon::$dbCon->getEventByEO($uid, $publicOnly);
+		$createdEvents = NULL;
+		foreach ( $created_event as $event ) {
+			$createdEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('createdEvents', $createdEvents);
+	}
+	
+	private function assignAttendingEvents($uid, $publicOnly = false) {
+		$attending_event = EFCommon::$dbCon->getEventAttendingByUid($uid, $publicOnly);
+		$attendingEvents = NULL;
+		foreach( $attending_event as $event ) {
+			$attendingEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
+	}
+	
+	private function assignInvitedEvents($uid) {
+		$invited_event = EFCommon::$dbCon->getEventInvited($uid);
+		$invitedEvents = NULL;
+		foreach( $invited_event as $event ) {
+			$invitedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('invitedEvents', $invitedEvents);
+	}
+	
+	private function assignAttendedEvents($uid) {
+		$attended_event = EFCommon::$dbCon->getEventAttended($uid);
+		$attendedEvents = NULL;
+		foreach( $attended_event as $event ) {
+			$attendedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('attendedEvents', $attendedEvents);
+	}
+	
+	public function assignManageVars($eventId) {
+		$event = new Event($eventId);
+	
+		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
+		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
+		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
+		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT4);
+		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT5);
+		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT6);
+		$numGuestNoResp = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFELSE);
+
+		EFCommon::$smarty->assign('guestConf1', $numGuestConf1['guest_num']);
+		EFCommon::$smarty->assign('guestConf2', $numGuestConf2['guest_num']);
+		EFCommon::$smarty->assign('guestConf3', $numGuestConf3['guest_num']);
+		EFCommon::$smarty->assign('guestConf4', $numGuestConf4['guest_num']);
+		EFCommon::$smarty->assign('guestConf5', $numGuestConf5['guest_num']);
+		EFCommon::$smarty->assign('guestConf6', $numGuestConf6['guest_num']);
+		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
+		
+		EFCommon::$smarty->assign('guestimate', EFCommon::$core->computeGuestimate($eventId));
+		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));
+	}	
+	
+	/* Save / Create functions */
+
+	/* saveEventFields
+     * Stores the current values for the new event
+     * in an array that can be assigned in SMARTY
+     * 
+     * @param $newEvent | The event being saved
+     * @return $event_field | The array of event information
+	 */
+	private function saveEventFields( $newEvent ) {
+
+		// Save the current fields
+		$event_field = $newEvent->get_array();
+		
+		EFCommon::$smarty->assign('event_field', $event_field);
+	}
+
+	/* makeNewEvent
+	 * Adds the event to the database, then switches to step 2
+	 *
+	 * @param $newEvent | The VALIDATED event object
+	 * @return true | The information is valid
+	 * @return false | Infomration is bad
+	 */
+	private function makeNewEvent( $newEvent ) {
+		// Make sure user is logged in before they can
+		// create the event
+		if ( ! isset($_SESSION['user']) ) {
+			$_SESSION['newEvent'] = $newEvent;
+			header("Location: " . CURHOST . "/login");
+			exit;
+		}
+		
+		EFCommon::$dbCon->createNewEvent($newEvent);
+		
+		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
+		$_SESSION['newEvent']->setGuests(NULL);
+		$this->attendEvent($_SESSION['newEvent']->eid, 90, false);
+				
+		header("Location: " . CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid );
+		exit;
+	}
+	
+	/* URL Parsing */
+
+	/* function getEventIdByUri
+	 * Gets the Event ID given a URI, returns
+	 * false if invalid URI
+	 *
+	 * @param requestUri | The URI of the page to be displayed
+	 * @return eventId | The event ID
+	 * @return false | If invalid URI
+	 */
+	public function getEventIdByUri( $requestUri ) {
+		$eventId = explode('/', $requestUri);
+		
+		// Verify that format of URL is http://{$CURHOST}/event/{$eventId}
+		if (sizeof($eventId) != 3 ) {
+			return false;
+		}
+		
+		$eventId = $eventId[sizeof($eventId) - 1];
+		
+		return $eventId;
+	}
+	
+	private function getUserIdByUri( $requestUri ) {
+		$userId = explode('/', $requestUri);		
+
+		// Verify that format of URL is http://{$CURHOST}/user/{$userId}
+		if (sizeof($userId) != 3 ) {
+			return false;
+		}
+		
+		$userId = $userId[sizeof($userId)-1];
+		
+		return $userId;
+	}
+	
+	/**
+	 * Given the current page URI, get its alias
+	 * @return String alias of the event URI
+	 */
+	private function getAliasByUri($requestUri) {
+		$alias = explode('/', $requestUri);
+		
+		// Verify that format of URL is http://{$CURHOST}/event/a/{$alias}
+		if (sizeof($alias) != 4 ) {
+			return false;
+		}
+		
+		$alias = $alias[sizeof($alias) - 1];
+		
+		return $alias;
+	}
+	
+	/* Validation functions */
+
+	/**
+	 * Make sure that the user is valid seeing the current page
+	 */
+	private function securityValidate($current_page) {
+		// /event/manage/* pages are protected
+		if (preg_match("/event\/manage*/", $current_page) > 0) {
+			if (!isset($_SESSION['user'])) {
+				header("Location: ".CURHOST."/login");
+			}
+			else if (!EFCommon::$dbCon->checkValidHost($_REQUEST['eventId'], $_SESSION['user']->id)) {
+				$this->displayError("You're not the host of this event");
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/* validateEventInfo
+	 * Makes sure event info is valid
+	 *
+	 * @param $newEvent | The event object
+	 * @return true | The information is valid
+	 * @return false | Infomration is bad
+	 */
+	private function validateEventInfo ( &$newEvent ) {
+		// Check for errors
+		$error = $newEvent->get_errors();
+		
+		$is_valid = ( $error === false ) ? true : false;
+		
+		// If there are errors
+		if ( ! $is_valid ) {
+			if ( $error !== true )
+				EFCommon::$smarty->assign('error', $error);
+			return false;
+		} 
+
+		// Looks like it's valid ;)
+		return true;
+	}
+	
+	// checkUserCreationForm
+	public function checkUserCreationForm($userInfo) {
+		$flag = 1;
+		$email = $userInfo['email'];
+		$password = $userInfo['password'];
+		$fname = $userInfo['fname'];
+		$lname = $userInfo['lname'];
+		$phone = $userInfo['phone'];
+		$zip = $userInfo['zip'];
+
+		$email_val = 	$this->valEmail(
+							$email,
+							"email",
+							"Email entered is invalid."
+						);
+		if ( strlen($password) < 6 ) {
+			$flag = 2;
+			$error['password'] = "Password should be at least 6 characters";
+			EFCommon::$smarty->append("error", $error, true);
+		}
+		$f_name_val = 	$this->valUsingRegExp(
+							$fname,
+							"/^[A-Za-z']*$/",
+							"fname",
+							"First name should only contain letters"
+						);
+		$l_name_val = 	$this->valUsingRegExp(
+							$lname,
+							"/^[A-Za-z']*$/",
+							"lname",
+							"Last name should only contain letters"
+						);
+		$ph_val = 		$this->valUsingRegExp(
+							$phone,
+							"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",
+							"phone",
+							"Phone number is not in valid format"
+						);
+		$zipcode_val = 	$this->valUsingRegExp(
+							$zip, 
+							"/^\d{5}(-\d{4})?$/", 
+							"zip", 
+							"Please enter a valid zip code"
+						);
+
+		if ( $f_name_val == 2 || $l_name_val == 2 || $email_val == 2 || $ph_val == 2 || $zipcode_val == 2 ) {
+			$flag = 2;
+		}
+		
+		// Flag = 2, error = true, else, error = false
+		return ( $flag == 2 ) ? true : false;
+	}
+	
+	// BEGIN OLD FUNCTIONS
+	//////////////////////
+	public function validateSaveEmail($req) {
+		$msg="<br />";
+		$flag=0;
+		$dt=$req['date'];
+		$a_date = explode('/', $dt);
+		$month = $a_date[0];
+		$day = $a_date[1];
+		$year = $a_date[2]; 
+		if(!@checkdate($month,$day,$year)) {
+			$msg.="Please enter a date in mm/dd/yyyy format. <br>";
+			$flag=1;
+		}
+		
+		// Make sure date is in the future
+		$check = @mktime(0, 0, 0, $month, $day, $year,-1);
+		$today = @mktime(0, 0, 0, date("m"), date("d"), date("y"), -1);
+		if( $check < $today ) {
+			$msg.="Date must be in the future<br />";
+			$flag=1;
+		}
+
+		$res=filter_var($req['content'], FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[\{A-Za-z 0-9'\}]*$/")));
+		if(!($res)) {
+			$flag=1;
+			$msg.="Content can only contain characters A-Z or numbers 0-9 <br />";
+		}
+
+		if($flag==0) {
+			$msg="Success";
+		}
+
+		return $msg;
+	}
+
+	public function valEmail($email, $type, $msg) {
+		$flag = 1;
+		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			$error[$type] = $msg;
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
+		}
+		return $flag;
+	}
+
+	public function valUsingRegExp($val,$regex,$type,$msg) {
+		$flag = 1;
+		$res = filter_var( $val, FILTER_VALIDATE_REGEXP, array( "options" => array( "regexp" => $regex ) ) );
+		if( ! $res ) {
+			$error[$type] = $msg;
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
+		}
+		return $flag;
+	}
+
+	////////////////
+	// End OLD FUNCTIONS
 }

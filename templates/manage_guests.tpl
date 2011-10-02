@@ -7,7 +7,7 @@
 	<section id="main">
 		{include file="manage_nav.tpl"}
 		<div class="manage">
-			{include file="guest_add.tpl"}
+			{include file="block_addguests.tpl"}
 			{include file="manage_invites.tpl"}
 		</div>
 	</section>

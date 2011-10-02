@@ -14,4 +14,5 @@
 				</ul>{else}
 
 				<p class="message">{$profile->fname} hasn't created any public events yet.</p>{/if}
+
 			</section>
