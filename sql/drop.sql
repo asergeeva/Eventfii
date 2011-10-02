@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS ef_waitinglist;
 DROP TABLE IF EXISTS ef_addressbook;
 
 DROP TABLE IF EXISTS fb_friends;
+DROP TABLE IF EXISTS fb_invited;
 
 DROP TABLE IF EXISTS ef_users;
 DROP TABLE IF EXISTS ef_paypal_accounts;

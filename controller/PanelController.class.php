@@ -1241,6 +1241,14 @@ class PanelController {
 					EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
 					EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
 				}
+								
+				// The FB ID's that is being invited by the user
+				if (isset($_REQUEST['ids']) && sizeof($_REQUEST['ids']) > 0) {
+					foreach ($_REQUEST['ids'] as $fbid) {
+						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid);
+					}
+				}
+				
 				EFCommon::$smarty->assign('fbSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
