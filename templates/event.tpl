@@ -37,8 +37,9 @@
 				<li class="current"><a href="{$CURHOST}/event/a/{$event->alias}?preview=true" id="update_event_preview"><span>Preview</span></a></li>
 			</ul>
 		</nav>{else}
-
-		<div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>{/if}
+		
+		{if $event->is_public}
+		<div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>{/if}{/if}
 
 		<span id="event-id" style="display: none">{$event->eid}</span>
 	</header>
