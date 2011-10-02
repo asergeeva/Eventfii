@@ -119,19 +119,26 @@ class EFCommon {
 	
 	public static function mapText($text, &$event, &$guest) {
 		for ($i = 0; $i < sizeof(self::$efDict); ++$i) {
-			switch (EFCommon::$efDict[$i]) {
-				case "{Guest name}":
-					$text = str_replace(EFCommon::$efDict[$i], $guest->fname, $text);
-					break;
-				case "{Host name}":
-					$text = str_replace(EFCommon::$efDict[$i], $event->organizer->fname, $text);
-					break;
-				case "{Event name}":
-					$text = str_replace(EFCommon::$efDict[$i], $event->title, $text);
-					break;
-				case "{Event time}":
-					$text = str_replace(EFCommon::$efDict[$i], $event->time, $text);
-					break;
+			if (isset($guest)) {
+				switch (EFCommon::$efDict[$i]) {
+					case "{Guest name}":
+						$text = str_replace(EFCommon::$efDict[$i], $guest->fname, $text);
+						break;
+				}
+			}
+			
+			if (isset($event)) {
+				switch (EFCommon::$efDict[$i]) {
+					case "{Host name}":
+						$text = str_replace(EFCommon::$efDict[$i], $event->organizer->fname, $text);
+						break;
+					case "{Event name}":
+						$text = str_replace(EFCommon::$efDict[$i], $event->title, $text);
+						break;
+					case "{Event time}":
+						$text = str_replace(EFCommon::$efDict[$i], $event->time, $text);
+						break;
+				}
 			}
 		}
 		return $text;

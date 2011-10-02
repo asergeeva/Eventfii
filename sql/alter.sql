@@ -20,3 +20,7 @@ UPDATE ef_events SET global_ref = MD5('global-event-' + id);
 -- 9/9/2011 --
 ALTER TABLE ef_users ADD COLUMN user_cookie VARCHAR(500) NOT NULL;
 UPDATE ef_users SET user_cookie = MD5('cookie-user-' + id);
+
+-- 10/2/2011 --
+ALTER TABLE fb_friends ADD COLUMN fname VARCHAR(150);
+ALTER TABLE fb_friends ADD COLUMN lname VARCHAR(150);

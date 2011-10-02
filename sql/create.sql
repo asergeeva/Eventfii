@@ -67,6 +67,8 @@ CREATE TABLE fb_friends (
   user_id     INTEGER NOT NULL REFERENCES ef_users(id),
   fb_name     VARCHAR(500) NOT NULL,
   fb_id       VARCHAR(500) NOT NULL,
+  fname       VARCHAR(150),
+  lname       VARCHAR(150),
   CONSTRAINT PRIMARY KEY (user_id, fb_id)
 ) ENGINE=InnoDB;
 
