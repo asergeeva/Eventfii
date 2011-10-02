@@ -8,7 +8,7 @@
 			<li>
 				<figure>
 					<a href="{$CURHOST}/user/{$guest->id}">
-						<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
+						<span></span><img src="{$guest->pic}?type=normal" width="64px" alt="{$guest->fname} {$guest->lname}" />
 						<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 					</a>
 				</figure>

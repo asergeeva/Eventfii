@@ -9,7 +9,7 @@
 							<li>
 								<label for="contact-{$smarty.foreach.contacts.index}">{*
 									<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />*}
-									<img src="{$guest->pic}" width="36px" height="36px" alt="{$guest->fname} {$guest->lname}" />
+									<img src="{$guest->pic}?type=square" width="36px" height="36px" alt="{$guest->fname} {$guest->lname}" />
 									<h3>{$guest->fname} {$guest->lname}</h3>
 									<p>{$guest->email}</p>
 								</label>

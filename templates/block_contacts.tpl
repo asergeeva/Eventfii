@@ -11,7 +11,7 @@
 						
 							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />{/if}
 
-							<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
+							<img src="{$contact->pic}?type=square" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
 							<p><a href="#/{$contact->email}/">{$contact->email}</a></p>
 						</label>

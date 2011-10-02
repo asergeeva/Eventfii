@@ -1,7 +1,7 @@
 <aside class="extra">
 			<section class="block" id="user-pic">
 				<p class="user-img">
-					<a href="{$CURHOST}/user/a/{$smarty.session.user->alias}" class="info-pic"><img id="user_pic" src="{$smarty.session.user->pic}" alt="{$smarty.session.user->fname} {$smarty.session.user->lname}" /></a>
+					<a href="{$CURHOST}/user/a/{$smarty.session.user->alias}" class="info-pic"><img id="user_pic" src="{$smarty.session.user->pic}?type=large" alt="{$smarty.session.user->fname} {$smarty.session.user->lname}" /></a>
 				</p>{if isset($page.settings)}
 
 				<footer class="buttons buttons-extra">

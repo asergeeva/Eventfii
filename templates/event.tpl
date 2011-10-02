@@ -134,7 +134,7 @@
 							<h1>Hosted by:</h1>
 						</header>
 						<p class="user-img">
-							<a href="{$CURHOST}/user/a/{$event->organizer->alias}"><img src="{$event->organizer->pic}" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
+							<a href="{$CURHOST}/user/a/{$event->organizer->alias}"><img src="{$event->organizer->pic}?type=square" width="36px" height="36px" alt="{$event->organizer->fname} {$event->organizer->lname}" /></a>
 						</p>
 						<footer class="user-info">
 							<p class="user-name"><a href="{$CURHOST}/user/a/{$event->organizer->alias}">{$event->organizer->fname} {$event->organizer->lname}</a></p>
@@ -158,7 +158,7 @@
 					<li>
 						<figure>
 							<a href="{$CURHOST}/user/a/{$guest->alias}">
-								<img src="{$guest->pic}" width="64px" height="64px" alt="{$guest->fname} {$guest->lname}" />
+								<span></span><img src="{$guest->pic}?type=normal" width="64px" alt="{$guest->fname} {$guest->lname}" />
 								<figcaption>{$guest->fname} {$guest->lname}</figcaption>
 							</a>
 						</figure>

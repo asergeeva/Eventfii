@@ -1024,7 +1024,12 @@ ul.contacts-list li p {
 	overflow: hidden; }
 .thumbs li a { display: block; }
 .thumbs li a:hover figcaption { text-decoration: underline; }
+.thumbs li figure span {
+	height: 66px;
+	vertical-align: middle;
+	display: inline-block; }
 .thumbs li figure img {
+	vertical-align: middle;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -1044,6 +1049,7 @@ ul.contacts-list li p {
 	width: 100%; 
 	overflow: hidden; }
 p.user-img img { 
+	max-width: 174px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px; }
