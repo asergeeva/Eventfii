@@ -49,6 +49,19 @@ class DBConfig {
 		return $resultArr;
 	}
 	
+	/* Get the list of the query results multiple than one row */
+	public function getQueryResultAssoc($sqlQuery) {
+		$sqlResult = $this->getQueryResult($sqlQuery);
+		$sqlRows = array();
+		if ( $sqlResult != 0 ) {
+			while ($row = mysql_fetch_array($sqlResult, MYSQL_ASSOC)) {
+				array_push($sqlRows, $row);
+			}
+			mysql_free_result($sqlResult);
+		}
+		return $sqlRows;
+	}
+	
 	/* executeValidQuery
 	 * Executes a query
 	 *
@@ -183,7 +196,11 @@ class DBConfig {
 		return $userInfo;
 	}
 	
-	
+	/**
+	 * Get the a specific user based on the email
+	 * @param $email | String | A valid email address
+	 * @return Array the user row in the database
+	 */
 	public function getUserInfoByEmail( $email ) {
 		$GET_USER_INFO = "	SELECT	* 
 							FROM 	ef_users 
@@ -606,28 +623,18 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_EVENT);
 	}
 	
-	/* Get the list of the query results multiple than one row */
-	public function getQueryResultAssoc($sqlQuery) {
-		$sqlResult = $this->getQueryResult($sqlQuery);
-		$sqlRows = array();
-		if ( $sqlResult != 0 ) {
-			while ($row = mysql_fetch_array($sqlResult, MYSQL_ASSOC)) {
-				array_push($sqlRows, $row);
-			}
-			mysql_free_result($sqlResult);
-		}
-		return $sqlRows;
-	}
-	
 	public function getRowNum($sqlQuery) {
 		$sqlResult = $this->getQueryResult($sqlQuery);
 		return mysql_num_rows($sqlResult);
 	}
 	
-	/******* CONTROL PANEL ASSIGN EVENTS ********/
+	/* CONTROL PANEL ASSIGN EVENTS */
 	
 	/**
 	 * Get all of the events that is hosted by $uid
+	 * @param $uid        | Integer | The user ID
+	 * @param $publicOnly | Boolean | Whether we want the public event only or not
+	 * @return Array the rows for all of the events that is hosted by the user
 	 */
 	public function getEventByEO($uid, $publicOnly = false) {
 		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
@@ -645,7 +652,28 @@ class DBConfig {
 	}
 	
 	/**
+	 * Get all of the past events that is hosted by $uid
+	 * @param $uid | Integer | The user ID
+	 * @return Array the rows for all of the past events that is hosted by the user
+	 */
+	public function getPastEventByEO($uid) {			
+		$GET_EVENTS = "	SELECT	* 
+						FROM (
+							SELECT	TIMEDIFF( e.event_datetime, NOW() ) AS days_left,
+									UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+									e.*
+							FROM	ef_events e 
+							WHERE	e.organizer = " . $uid . " AND e.is_active = 1
+						) el
+						WHERE el.time_left < 0 ORDER BY el.days_left ASC";
+		return $this->getQueryResultAssoc($GET_EVENTS);
+	}
+	
+	/**
 	 * Get all of the events that is attended by the $uid
+	 * @param $uid        | Integer | The user ID
+	 * @param $publicOnly | Boolean | Whether we want the public event only or not
+	 * @return Array the rows for all of the events that is attended by the user
 	 */
 	public function getEventAttendingByUid($uid, $publicOnly = false) {
 		$privateFilter = ($publicOnly) ? "AND is_public = 1" : "";
@@ -668,6 +696,8 @@ class DBConfig {
 	
 	/**
 	 * Get all of the events that the $uid is invited to
+	 * @param $uid        | Integer | The user ID
+	 * @return Array the rows for all of the events that the user is invited to
 	 */
 	public function getEventInvited($uid) {
 		$GET_INVITED = "SELECT	* FROM 

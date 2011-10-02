@@ -273,12 +273,22 @@ class PanelController {
 		EFCommon::$smarty->assign('attendingEvents', $attendingEvents);
 	}
 
-	/***** CONTROL PANEL ASSIGN EVENTS ********/
+	/* CONTROL PANEL ASSIGN EVENTS */
 	private function assignCPEvents($uid) {
 		$this->assignCreatedEvents($uid);
 		$this->assignAttendingEvents($uid);
 		$this->assignInvitedEvents($uid);
 		$this->assignAttendedEvents($uid);
+		$this->assignPastCreatedEvents($uid);
+	}
+	
+	private function assignPastCreatedEvents($uid) {
+		$past_created_event = EFCommon::$dbCon->getPastEventByEO($uid);
+		$pastCreatedEvents = NULL;
+		foreach ( $past_created_event as $event ) {
+			$pastCreatedEvents[] = new Event($event);
+		}
+		EFCommon::$smarty->assign('pastCreatedEvents', $pastCreatedEvents);
 	}
 	
 	private function assignCreatedEvents($uid) {

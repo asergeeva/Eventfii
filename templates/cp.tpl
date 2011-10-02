@@ -31,6 +31,7 @@
 			{include file="event_created.tpl"}
 			{include file="event_invited.tpl"}
 			{include file="event_attending.tpl"}
+			{include file="event_created_past.tpl"}
 			{include file="event_attended.tpl"}
 		</div>
 	</section>
