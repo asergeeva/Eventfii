@@ -16,7 +16,7 @@
 
 				</ul>{else}
 				
-				<p class="message">No past hosted events.</p>
+				<p class="message">There are no past hosted events.</p>
 				{/if}
 
 			</section>
