@@ -579,10 +579,19 @@ class PanelController {
 					$contact = new User($contactList[$i]);
 					array_push($contacts, $contact);
 				}
-				if ( sizeof($contacts) > 0 )
+				if ( sizeof($contacts) > 0 ) {
 					EFCommon::$smarty->assign('contacts', $contacts);
-				else
+				} else {
 					EFCommon::$smarty->assign('contacts', NULL);
+				}	
+				
+				// Build the user contact list from FB friends
+				$fbContacts = EFCommon::$dbCon->getFBFriends($_SESSION['user']->id);
+				if ( sizeof($fbContacts) > 0 ) {
+					EFCommon::$smarty->assign('fbContacts', $fbContacts);
+				} else {
+					EFCommon::$smarty->assign('fbContacts', NULL);
+				}
 				
 				$signedUp = $this->getAttendees(NULL);
 				EFCommon::$smarty->assign('signedUp', $signedUp);
@@ -593,10 +602,13 @@ class PanelController {
 				
 				EFCommon::$smarty->assign('event', $event);
 				
+				$optionParam = "";
 				if (isset($_GET['option'])) {
-					EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
-					EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.'&option='.$_GET['option']);
+					$optionParam = '&option='.$_GET['option'];
 				}
+				
+				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.$optionParam);
+				EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.$optionParam);
 								
 				// The FB ID's that is being invited by the user
 				if (isset($_REQUEST['ids']) && sizeof($_REQUEST['ids']) > 0) {

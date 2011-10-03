@@ -12,7 +12,9 @@ var FBCON = (function() {
 				appId  : EFGLOBAL.fbAppId,
 				status : true, // check login status
 				cookie : true, // enable cookies to allow the server to access the session
-				xfbml  : true  // parse XFBML
+				xfbml  : true,  // parse XFBML
+				frictionlessRequests : true,
+				oauth: true
 			});
 		},
 		

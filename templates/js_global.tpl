@@ -1,6 +1,6 @@
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="https://platform.twitter.com/anywhere.js?id={$TWITTER_API}&v=1"></script>
-<script type="text/javascript" src="{$JS_PATH}/jquery-1.5.2.min.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/jquery-1.6.4.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.validate.pack.js"></script>

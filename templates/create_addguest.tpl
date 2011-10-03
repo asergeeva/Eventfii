@@ -12,7 +12,7 @@
 		</ol>
 	</nav>
 	<div class="create">
-		{include file="guest_add.tpl"}
+		{include file="block_addguests.tpl"}
 		{include file="manage_invites.tpl"}
 	</div>
 </div>

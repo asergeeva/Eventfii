@@ -26,6 +26,8 @@ var OPENINVITER = (function() {
 		});
 	});
 	
+	
+	
 	return {
 		listFilter: function (header, list) {
 		    // create and add the filter form to the header
@@ -60,6 +62,11 @@ var OPENINVITER = (function() {
 		        // fire the above change event after every letter
 		        $(this).change();
 		    });
+		},
+		
+		fbRequestCallback: function(response) {
+			console.log(response);
+			$('#submit_create_guests').trigger('click');
 		}
 	}
 }());
@@ -89,12 +96,17 @@ $(document).ready(function() {
 	$('#add_import_contact_list').live('click', function() {
 		var selected_contacts = $('input:checkbox.selected_contact:checked'),
 				guest_email = [],
+				fb_ids = [],
 				entered_email,
 				merged_email = '',
 				i;
 		for (i = 0; i < selected_contacts.length; ++i) {
 			if (typeof selected_contacts[i].value != 'undefined') {
-				guest_email[selected_contacts[i].value] = 1;
+				if ($(selected_contacts[i]).hasClass('contact-email')) {
+					guest_email[selected_contacts[i].value] = 1;
+				} else {
+					fb_ids.push(selected_contacts[i].value);
+				}
 			}
 		}
 		
@@ -110,7 +122,17 @@ $(document).ready(function() {
 				merged_email += (i + ',');
 			}
 		}
-	
+			
 		$('#emails-hidden').val(merged_email.substring(0, merged_email.length - 1));
+		
+		if (fb_ids.length > 0) {
+			var fbids = fb_ids.join(',');
+			FB.ui({method: 'apprequests',
+				message: 'My Great Request',
+				to: fbids
+			}, OPENINVITER.fbRequestCallback);
+		} else {
+			$('#submit_create_guests').trigger('click');
+		}
 	});
 });

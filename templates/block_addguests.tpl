@@ -61,30 +61,48 @@
 					</table>
 				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
-				<section class="block">{if isset($contacts)}
+				<section class="block">{if isset($contacts) || isset($fbContacts)}
 
 					<header class="block-title">
 						<h1>Contacts</h1>
 					</header>
 					<div id="search-container">Search: <div id="contacts-header"></div></div>
-					<ul class="contacts-list" id="contacts-list">{foreach $contacts as $contact}
-
+					<ul class="contacts-list" id="contacts-list">
+						{if isset($contacts)}
+						{foreach $contacts as $contact}
 						<li>
 							<label for="contact-{$contact->id}">{if isset($addButton)}
 							
-								<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />{/if}
+								<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact contact-email" />{/if}
 
 								<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
 								<h3>{$contact->fname} {$contact->lname}</h3>{/if}
 								<p>{$contact->email}</p>
 							</label>
-						</li>{/foreach}
+						</li>
+						{/foreach}
+						{/if}
 						
+						{if isset($fbContacts)}
+						{foreach $fbContacts as $contact}
+						<li>
+							<label for="fb-contact-{$contact['fb_id']}">{if isset($addButton)}
+							
+								<input type="checkbox" id="fb-contact-{$contact['fb_id']}" value="{$contact['fb_id']}" class="selected_contact contact-fb" />{/if}
+
+								<img src="http://graph.facebook.com/{$contact['fb_id']}/picture" width="36px" height="36px" alt="{$contact['fb_id']}" />
+								<h3>{$contact['fb_name']}</h3>
+								<p>{$contact['fb_id']}</p>
+							</label>
+						</li>
+						{/foreach}
+						{/if}
 					</ul>
 					<form method="post" action="{if isset($submitTo)}{$submitTo}{/if}" id="create_guests">
 						<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
+						<input type="submit" name="submit" id="submit_create_guests" style="display:none" />
 						<footer class="buttons buttons-submit">
-							<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p>
+							<p><span class="btn btn-med"><input type="button" name="invite" value="Invite" id="add_import_contact_list" /></span></p>
 						</footer>
 					</form>{else}
 
