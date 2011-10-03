@@ -30,7 +30,7 @@
 					<!--label for="remember"><input type="checkbox" name="remember" id="remember" /> Sign in automatically next time?</label-->
 				</footer>
 				<footer class="buttons buttons-submit"> 
-					<p><span class="btn btn-med"><input type="submit" name="login" value="Log In" /></span></p>
+					<p><span class="btn btn-med"><input type="submit" name="login" value="Go" /></span></p>
 				</footer>
 			</fieldset>
 		</form>
