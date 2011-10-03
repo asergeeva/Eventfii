@@ -347,9 +347,9 @@ class DBConfig {
 	/**
 	 * If the user is inviting friends through Facebook, record the invites
 	 */
-	public function inviteUserFB($uid, $fbid) {
-		$INVITE_FB = "INSERT IGNORE INTO fb_invited (user_id, fb_id) 
-						VALUES (".mysql_real_escape_string($uid).", ".mysql_real_escape_string($fbid).")";
+	public function inviteUserFB($uid, $fbid, $eid) {
+		$INVITE_FB = "INSERT IGNORE INTO fb_invited (user_id, fb_id, event_id) 
+						VALUES (".mysql_real_escape_string($uid).", '".mysql_real_escape_string($fbid)."', ".mysql_real_escape_string($eid).")";
 		$this->executeUpdateQuery($INVITE_FB);
 	}
 	

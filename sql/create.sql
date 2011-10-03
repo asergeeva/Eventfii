@@ -73,9 +73,10 @@ CREATE TABLE fb_friends (
 ) ENGINE=InnoDB;
 
 CREATE TABLE fb_invited (
-  user_id INTEGER NOT NULL REFERENCES ef_users(id),
-  fb_id   VARCHAR(500) NOT NULL,
-  CONSTRAINT PRIMARY KEY (user_id, fb_id)
+  user_id  INTEGER NOT NULL REFERENCES ef_users(id),
+  fb_id    VARCHAR(500) NOT NULL,
+  event_id INTEGER NOT NULL REFERENCES ef_events(id),
+  CONSTRAINT PRIMARY KEY (user_id, fb_id, event_id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_waitinglist (

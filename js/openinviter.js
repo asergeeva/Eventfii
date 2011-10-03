@@ -65,8 +65,10 @@ var OPENINVITER = (function() {
 		},
 		
 		fbRequestCallback: function(response) {
-			console.log(response);
-			$('#submit_create_guests').trigger('click');
+			$.post(EFGLOBAL.baseUrl + '/fb/invite', {
+				ids: JSON.stringify(response)
+			});
+			//$('#submit_create_guests').trigger('click');
 		}
 	}
 }());

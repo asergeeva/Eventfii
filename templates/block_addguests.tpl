@@ -92,7 +92,7 @@
 
 								<img src="http://graph.facebook.com/{$contact['fb_id']}/picture" width="36px" height="36px" alt="{$contact['fb_id']}" />
 								<h3>{$contact['fb_name']}</h3>
-								<p>{$contact['fb_id']}</p>
+								<p>Facebook contact</p>
 							</label>
 						</li>
 						{/foreach}

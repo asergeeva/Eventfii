@@ -613,7 +613,7 @@ class PanelController {
 				// The FB ID's that is being invited by the user
 				if (isset($_REQUEST['ids']) && sizeof($_REQUEST['ids']) > 0) {
 					foreach ($_REQUEST['ids'] as $fbid) {
-						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid);
+						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid, $event->eid);
 					}
 				}
 				
@@ -824,6 +824,15 @@ class PanelController {
 				EFCommon::$dbCon->saveFBFriends($fbFriends->data, $_SESSION['user']->id);
 				break;
 			case '/fb/invite':
+				// The FB ID's that is being invited by the user
+				$event = $_SESSION['manage_event'];
+				$fbids = json_decode($_REQUEST['ids']);
+				
+				if (isset($fbids->request_ids) && sizeof($fbids) > 0) {
+					foreach ($fbids->request_ids as $fbid) {
+						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid, $event->eid);
+					}
+				}
 				break;
 			case '/register':
 				// Logged in user doesn't need to create an account!
