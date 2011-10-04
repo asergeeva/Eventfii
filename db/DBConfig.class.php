@@ -1278,20 +1278,16 @@ class DBConfig {
 	public function saveFBFriends($fbFriends, $userId) {
 		for ($i = 0; $i < sizeof($fbFriends); ++$i) {
 			if (is_array($fbFriends[$i])) {
-				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id, fname, lname) 
+				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
 										VALUES (".$userId.", 
 												'".mysql_real_escape_string($fbFriends[$i]['name'])."', 
-												'".$fbFriends[$i]['id']."',
-												'".mysql_real_escape_string($fbFriends[$i]['first_name'])."', 
-												'".mysql_real_escape_string($fbFriends[$i]['last_name'])."')";
+												'".$fbFriends[$i]['id']."')";
 				$this->executeUpdateQuery($STORE_FB_FRIEND);
 			} else {
 				$STORE_FB_FRIEND = "INSERT IGNORE INTO fb_friends (user_id, fb_name, fb_id) 
 										VALUES (".$userId.", 
 												'".mysql_real_escape_string($fbFriends[$i]->name)."', 
-												'".$fbFriends[$i]->id."',
-												'".mysql_real_escape_string($fbFriends[$i]->first_name)."',
-												'".mysql_real_escape_string($fbFriends[$i]->last_name)."')";
+												'".$fbFriends[$i]->id."')";
 				$this->executeUpdateQuery($STORE_FB_FRIEND);
 			}
 		}
