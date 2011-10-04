@@ -18,9 +18,11 @@
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>{/if}
 
-						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>{if !isset($page.addcontacts)}
-
-						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=fb" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>{/if}{*
+						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>
+						{if !isset($page.addcontacts)}
+						<li><a href="#" id="guest_facebook_add" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
+						{/if}
+						{*
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
@@ -29,11 +31,17 @@
 				<div id="fb-root"></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 				<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>*}
-
+				
 				<fb:serverFbml width="582">
 				<script type="text/fbml">
 				  <fb:fbml>
-					  <fb:request-form action="{if isset($submitTo)}{$submitTo}{/if}" target="_top" method="POST" invite="true" type="event" content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}' label='Accept' />">
+					  <fb:request-form 
+					  	action="{if isset($submitTo)}{$submitTo}{/if}" 
+					  	target="_top" 
+					  	method="POST" 
+					  	invite="true" 
+					  	type="event" 
+					  	content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}' label='Accept' />">
 					  <fb:multi-friend-selector showborder="false" actiontext="{if isset($event->title)}Invite to {$event->title}{else}{$smarty.session.user->fname} added you as a contact at trueRSVP{/if}" cols="3" max="35">
 					</fb:request-form>
 				  </fb:fbml>
@@ -83,7 +91,7 @@
 						{/foreach}
 						{/if}
 						
-						{if isset($fbContacts)}
+						{*if isset($fbContacts)}
 						{foreach $fbContacts as $contact}
 						<li>
 							<label for="fb-contact-{$contact['fb_id']}">{if isset($addButton)}
@@ -96,7 +104,7 @@
 							</label>
 						</li>
 						{/foreach}
-						{/if}
+						{/if*}
 					</ul>
 					<form method="post" action="{if isset($submitTo)}{$submitTo}{/if}" id="create_guests">
 						<textarea name="emails" id="emails-hidden" style="display:none"></textarea>

@@ -26,7 +26,13 @@ var OPENINVITER = (function() {
 		});
 	});
 	
-	
+	$('#guest_facebook_add').live('click', function() {
+		FB.ui({method: 'apprequests',
+			title: "Invitation to " + $('#manage-title').html(),
+			message: "Hello, I'm inviting you to the event that I created, " + $('#manage-title').html() + ", at trueRSVP!",
+			data: 'event-' + $('#event-id').html()
+		}, OPENINVITER.fbRequestCallback);
+	});
 	
 	return {
 		listFilter: function (header, list) {
@@ -65,6 +71,7 @@ var OPENINVITER = (function() {
 		},
 		
 		fbRequestCallback: function(response) {
+			console.log(response);
 			$.post(EFGLOBAL.baseUrl + '/fb/invite', {
 				ids: JSON.stringify(response)
 			});

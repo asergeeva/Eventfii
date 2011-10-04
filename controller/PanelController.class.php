@@ -586,12 +586,14 @@ class PanelController {
 				}	
 				
 				// Build the user contact list from FB friends
+				/* We're going to use the MFS while waiting to get whitelisted
 				$fbContacts = EFCommon::$dbCon->getFBFriends($_SESSION['user']->id);
 				if ( sizeof($fbContacts) > 0 ) {
 					EFCommon::$smarty->assign('fbContacts', $fbContacts);
 				} else {
 					EFCommon::$smarty->assign('fbContacts', NULL);
 				}
+				*/
 				
 				$signedUp = $this->getAttendees(NULL);
 				EFCommon::$smarty->assign('signedUp', $signedUp);
