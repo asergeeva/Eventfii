@@ -77,7 +77,7 @@ CREATE TABLE fb_invited (
   to_fbid     VARCHAR(50) NOT NULL,
   event_id    INTEGER NOT NULL REFERENCES ef_events(id),
   invite_data VARCHAR(150),
-  CONSTRAINT PRIMARY KEY (from_fbid, to_fbid, event_id)
+  CONSTRAINT PRIMARY KEY (from_fbid, to_fbid, event_id, request_id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_waitinglist (

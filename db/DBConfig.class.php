@@ -436,7 +436,7 @@ class DBConfig {
 	 * @param $email | Email Address
 	 * @return $userInfo | Array containing user information 
 	 */
-	public function facebookConnect( $fname, $lname, $email, $fbid, $access_token, $session_key ) {
+	public function facebookConnect( $fname, $lname, $email, $fbid, $access_token = NULL, $session_key = NULL ) {
 		if ( ! $this->isUserEmailExist($email) ) {
 			// If the user is new, create their account
 			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL, $fbid, $access_token, $session_key );
@@ -446,15 +446,12 @@ class DBConfig {
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
 										lname = '" . mysql_real_escape_string($lname) . "',
 										facebook = '".mysql_real_escape_string($fbid)."',
-										fb_access_token = '".mysql_real_escape_string($access_token)."',
-										fb_session_key = '".mysql_real_escape_string($session_key)."' 
+										fb_access_token = ".$this->checkNullOrValSql($access_token).",
+										fb_session_key = ".$this->checkNullOrValSql($session_key)." 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			
 			// The user must have already registered
 			$this->executeUpdateQuery($UPDATE_USER);
-			
-			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
-			setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 		}
 		return $this->getUserInfoByEmail($email);
 	}

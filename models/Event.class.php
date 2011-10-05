@@ -630,7 +630,7 @@ class Event {
 			}
 			return false;
 		}
-	
+			
 		if ( $userId == NULL ) {
 			if ( isset($_SESSION['user']) ) {
 				$userId = $_SESSION['user']->id;
