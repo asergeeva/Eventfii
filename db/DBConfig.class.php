@@ -450,6 +450,8 @@ class DBConfig {
 										fb_session_key = ".$this->checkNullOrValSql($session_key)." 
 								WHERE	email = '" . mysql_real_escape_string($email) . "'";
 			
+			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
+			// setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 			// The user must have already registered
 			$this->executeUpdateQuery($UPDATE_USER);
 		}
