@@ -10,11 +10,12 @@
 
 			<header class="block notification" id="message-notification">
 				<p class="message" id="message-notification-content">{$notification}</p>
-			</header>{/if}
+			</header>{else}
 			
 			<header class="block notification" style="display:none" id="fb-notification-box">
 				<p class="message" id="fb-notification-message">Facebook requests is sent successfully</p>
 			</header>
+			{/if}
 
 			<section class="block">
 				<nav class="horizontal-nav">
