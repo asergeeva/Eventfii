@@ -827,14 +827,12 @@ class PanelController {
 				break;
 			case '/fb/invite':
 				// The FB ID's that is being invited by the user
-				$event = $_SESSION['manage_event'];
-				$fbids = json_decode($_REQUEST['ids']);
-				
-				if (isset($fbids->request_ids) && sizeof($fbids) > 0) {
-					foreach ($fbids->request_ids as $fbid) {
-						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid, $event->eid);
-					}
-				}
+				EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id,
+											   $_REQUEST['from_fbid'],
+											   $_REQUEST['to_fbid'],
+											   $_REQUEST['request_id'], 
+											   $_REQUEST['data'], 
+											   $_SESSION['manage_event']->eid);
 				break;
 			case '/register':
 				// Logged in user doesn't need to create an account!

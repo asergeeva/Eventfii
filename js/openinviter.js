@@ -70,10 +70,18 @@ var OPENINVITER = (function() {
 		    });
 		},
 		
-		fbRequestCallback: function(response) {
-			console.log(response);
-			$.post(EFGLOBAL.baseUrl + '/fb/invite', {
-				ids: JSON.stringify(response)
+		fbRequestCallback: function(requestIds) {
+			var i,
+				requestInfo;
+			FB.api('', {"ids": requestIds.request_ids.join(',') }, function(requestInfo) {
+				for (requestId in requestInfo) {
+					$.post(EFGLOBAL.baseUrl + '/fb/invite', {
+						request_id: requestId,
+						from_fbid: requestInfo[requestId].from.id,
+						to_fbid: requestInfo[requestId].to.id,
+						data: requestInfo[requestId].data
+					});
+				}
 			});
 			//$('#submit_create_guests').trigger('click');
 		}

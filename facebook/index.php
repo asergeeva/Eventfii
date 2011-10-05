@@ -13,3 +13,4 @@ if ($user) {
   header('Location: '.$loginUrl);
 }
 print($user);
+print_r(EFCommon::$facebook->api('/me'));
