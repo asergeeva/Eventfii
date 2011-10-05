@@ -82,6 +82,7 @@ var OPENINVITER = (function() {
 						data: requestInfo[requestId].data
 					});
 				}
+				$('#fb-notification-box').fadeIn();
 			});
 			//$('#submit_create_guests').trigger('click');
 		}
