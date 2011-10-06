@@ -1,6 +1,6 @@
 <section class="block" id="events-attended">
 				<header class="block-title">
-					<h1>Past invited events...</h1>
+					<h1>Past attended events</h1>
 				</header>{assign var=attendedEvents_counts value=$attendedEvents|@count}{if $attendedEvents_counts gt 0}
 
 				<ul class="event-list">{foreach $attendedEvents as $event}
