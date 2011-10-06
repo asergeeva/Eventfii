@@ -1,5 +1,5 @@
 <section class="block" id="events-attended">
-				<header class="block-collapsable-title">
+				<header class="block-title">
 					<h1>I'm invited to...</h1>
 				</header>{assign var=invitedEvents_counts value=$invitedEvents|@count}{if $invitedEvents_counts gt 0}
 

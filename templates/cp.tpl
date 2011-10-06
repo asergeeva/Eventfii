@@ -23,16 +23,18 @@
 
 		</header>{/if}
 
-		{include file="block_cp_user.tpl"}
+		<aside class="extra">
+			{include file="block_cp_user.tpl"}
+			{include file="block_events_invited.tpl"}
+			{include file="block_events_created_past.tpl"}
+			{include file="block_events_attended.tpl"}
+		</aside>
 		<div class="content">
 			<header class="block">
 				<p class="message">You can manage all of your upcoming events from this home page.</p>
 			</header>
 			{include file="block_events_created.tpl"}
-			{include file="block_events_invited.tpl"}
 			{include file="block_events_attending.tpl"}
-			{include file="block_events_created_past.tpl"}
-			{include file="block_events_attended.tpl"}
 		</div>
 	</section>
 </div>

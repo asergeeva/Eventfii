@@ -6,11 +6,11 @@
 				<ul class="event-list">{foreach $attendingEvents as $event}
 
 					<li>
-						<a href="{$CURHOST}/event/a/{$event->alias}">
-							<h2><strong>{$event->title}</strong> {$event->getHumanReadableEventTime()}</h2> 
-						</a>
 						<a href="{$CURHOST}/event/a/{$event->alias}" class="event-manage">
 							<span class="btn btn-manage"><em>update RSVP</em></span>
+						</a>
+						<a href="{$CURHOST}/event/a/{$event->alias}">
+							<h2><strong>{$event->title}</strong> {$event->getHumanReadableEventTime()}</h2> 
 						</a>
 					</li>{/foreach}
 

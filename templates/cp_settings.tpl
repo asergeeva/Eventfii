@@ -26,7 +26,9 @@
 			<p class="message">Password not changed. Please correct the errors before re-submitting the form.</p>
 		</header>{/if}
 
-		{include file="block_cp_user.tpl"}
+		<aside class="extra">
+			{include file="block_cp_user.tpl"}
+		</aside>
 		<div class="content">
 			<section class="block" id="settings">
 				<form method="post" action="{$CURHOST}/settings" autocomplete="off">
