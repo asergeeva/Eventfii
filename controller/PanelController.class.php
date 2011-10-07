@@ -209,7 +209,7 @@ class PanelController {
 					} else {
 						EFCommon::$smarty->assign('error', $error);
 					}
-				} else if ( $_GET['success'] == true ) {
+				} else if ( isset($_GET['success']) && $_GET['success'] == true ) {
 					EFCommon::$smarty->assign('notification', 'Thank you for your feedback!');
 				}
 				

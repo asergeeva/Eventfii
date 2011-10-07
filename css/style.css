@@ -210,6 +210,7 @@ fieldset .turtle p {
    http://twitter.github.com/bootstrap/ */
 input.autowidth, textarea.autowidth, select.autowidth { 
 	width: 100%;
+	height: 26px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box; }
