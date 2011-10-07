@@ -61,9 +61,9 @@
 					</header>
 					<fieldset>
 						<dl>
-							<dt>Email:</dt>
+							<dt><label for="oi_email">Email:</label></dt>
 							<dd><input type="text" name="oi_email" class="inputbox" id="oi_email" /></dd>
-							<dt>Password:</dt>
+							<dt><label for="oi_pass"Password:</label></dt>
 							<dd><input type="password" name="oi_pass" class="inputbox" id="oi_pass" /></dd>
 						</dl>
 						<footer class="buttons buttons-submit">
