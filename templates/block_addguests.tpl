@@ -55,24 +55,26 @@
 
 				<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
 
-				<div id="oi_container">
-					<h2>Import Contacts</h2>
+				<div class="block" id="oi_container">
+					<header class="block-title">
+						<h1>Import Contacts</h1>
+					</header>
 					<input type="hidden" name="oi_provider" id="oi_provider" value="{if isset($provider)}{$provider}{/if}" />
-					<table>
-						<tr>
-							<th>Email:</th>
-							<td><input type="text" name="oi_email" id="oi_email" /></td>
-						</tr>
-						<tr>
-							<th>Password:</th>
-							<td><input type="password" name="oi_pass" id="oi_pass" /></td>
-						</tr>
-						<tr>
-							<th></th>
-							<td><a href="#search-container" id="oi_import">Import</a></td>
-						</tr>
-					</table>
-				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+					<fieldset>
+						<dl>
+							<dt>
+								<label for="oi_email">Email:</label>
+							</dt>
+							<dd><input type="text" name="oi_email" class="inputbox" id="oi_email" /></dd>
+							<dt>
+								<label for="oi_pass">Password:</label>
+							</dt>
+							<dd><input type="password" name="oi_pass" class="inputbox" id="oi_pass" /></dd>
+						</dl>
+						<footer class="buttons buttons-submit">
+							<p><a href="#search-container" class="btn btn-small" id="oi_import"><span>Import</span></a></p>
+						</footer>
+					</fieldset>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
 				<section class="block">{if isset($contacts) || isset($fbContacts)}
 

@@ -964,7 +964,7 @@ ol.rsvp-list { margin: 0; }
 
 /*----- Contacts List ----------*/
 ul.contacts-list { 
-	margin: 8px 0 0;
+	margin: 8px -7px 0;
 	max-height: 216px;
 	overflow: auto; }
 ul.contacts-list li {
