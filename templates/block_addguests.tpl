@@ -72,6 +72,8 @@
 						</footer>
 					</fieldset>
 				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+						</footer>
+					</fieldset>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
 				<section class="block">{if isset($contacts) || isset($fbContacts)}
 
