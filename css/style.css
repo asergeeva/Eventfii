@@ -964,7 +964,7 @@ ol.rsvp-list { margin: 0; }
 
 /*----- Contacts List ----------*/
 ul.contacts-list { 
-	margin: 8px 0 0;
+	margin: 8px -8px 0;
 	max-height: 216px;
 	overflow: auto; }
 ul.contacts-list li {
@@ -1001,7 +1001,8 @@ ul.contacts-list li {
 .contacts-list li h3 { 
 	font-size: 14px;
 	line-height: 1;
-	margin: 3px 0 4px;
+	height: 15px;
+	margin: 3px 0;
 	white-space: nowrap;
 	overflow: hidden; }
 ul.contacts-list li p { 
