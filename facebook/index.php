@@ -26,7 +26,7 @@ $user = EFCommon::$facebook->getUser();
 if ($user) {
   try {
   	$fbController = new FBController();
-  	$fbController::renderPage();
+  	FBController::renderPage();
   } catch (FacebookApiException $e) {
   	print_r($e);
     $user = null;
