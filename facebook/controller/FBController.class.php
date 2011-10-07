@@ -70,6 +70,7 @@ class FBController {
 	public static function renderPage() {
 	    EFCommon::$smarty->assign('fbUser', self::$fbUserInfo);
 	    EFCommon::$smarty->assign('event', self::$event);
+	    
 	    EFCommon::$smarty->display('facebook_index.tpl');
 	    
 	    // Always do this at the end
