@@ -80,11 +80,12 @@ var OPENINVITER = (function() {
 							from_fbid: requestInfo[requestId].from.id,
 							to_fbid: requestInfo[requestId].to.id,
 							data: requestInfo[requestId].data
+						}, function() {
+							$('#submit_create_guests').trigger('click');
 						});
 					}
 					$('#fb-notification-box').fadeIn();
 				});
-				$('#submit_create_guests').trigger('click');
 			}
 		}
 	}

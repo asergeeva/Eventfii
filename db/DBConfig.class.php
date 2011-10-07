@@ -960,6 +960,21 @@ class DBConfig {
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
+	/* getAttendeesByEvent
+	 * Grabs all the invited FB users to a specific event.
+	 *
+	 * @param $eid | The ID of the event
+	 */
+	public function getFBInvitedByEvent($eid) {
+		$GET_ATTENDEES = "	SELECT	f.* 
+							FROM 	fb_invited i, 
+									fb_friends f 
+							WHERE 	i.to_fbid = f.fb_id 
+							AND i.event_id = " . $eid;
+		print($GET_ATTENDEES);
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
 	/**
 	 * Get all of the guests who already RSVP'ed
 	 * $eid   Integer   the ID of the event

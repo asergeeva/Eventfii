@@ -14,6 +14,20 @@
 									<p>{$guest->email}</p>
 								</label>
 							</li>{/foreach}
+							
+							{if isset($invitedFBUsers)}
+								{foreach $invitedFBUsers as $guest name=contacts}
+	
+								<li>
+									<label for="contact-{$smarty.foreach.contacts.index}">{*
+										<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />*}
+										<img src="http://graph.facebook.com/{$guest['fb_id']}/picture" width="36px" height="36px" alt="{$guest['fb_id']}" />
+										<h3>{$guest['fb_name']}</h3>
+										<p>Facebook contact</p>
+									</label>
+								</li>{/foreach}
+							
+							{/if}
 
 						</ul>{*
 					<footer class="buttons buttons-submit">
