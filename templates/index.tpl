@@ -29,11 +29,11 @@
 	</section>
 	<section class="more">
 		<aside>
-			<p>At USC Startup Weekend?</p>
-			<p>Check out the <a href="{$CURHOST}/sw">live event page</a>!</p>
+			<p><a href="http://www.demo.com/alumni/demogods.html"><img src="{$CURHOST}/images/demogod.png" alt="Demogod" /></a></p>
 		</aside>
-		<aside class="more-iphone">
-			<p><a href="#">Get the iPhone App</a></p>
+		<aside class="more-testimonial">
+			<blockquote>“Very valuable... this would have saved me $1000 in catering.”</blockuote>
+			<p>- Garrett E, Palo Alto</p>
 		</aside>
 	</section>
 </header>

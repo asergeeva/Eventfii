@@ -116,14 +116,14 @@ a.btn { text-decoration: none; }
 header#site-header {
 	width: 948px;
 	margin: 0 auto;
-	padding: 0 0 100px;
+	padding: 0 0 50px;
 	overflow: auto;
 	border-bottom: 1px solid #8b8b8d; }
 
 /*----- Logo ----------*/
 #site-header h1#logo { 
 	float: left;
-	margin: 15px 0 0; }
+	margin: 5px 0 0; }
 #logo a {
 	background: url(../images/index_logo.png) 0 0 no-repeat;
 	width: 292px;
@@ -145,7 +145,7 @@ header#site-header {
 	float: right;
 	font-size: 12px;
 	color: #fff;
-	margin: 75px 0 0; }
+	margin: 60px 0 0; }
 #site-header nav a {
 	color: inherit;
 	padding: 0 3px;
@@ -171,7 +171,7 @@ header#site-header {
 /*----- Start ----------*/
 .start { 
 	background: url(../images/index_mascot.png) 0 25px no-repeat;
-	margin: 50px 0 0 56px;
+	margin: 25px 0 0 56px;
 	padding: 0 0 25px 330px;
 	overflow: auto;
 	clear: both; }
@@ -219,9 +219,23 @@ header#site-header {
 
 /*----- More ----------*/
 .more { 
-	margin: 0 165px 0 57px;
+	margin: 10px 50px;
 	overflow: auto; }
-.more aside { float: left; }
+.more aside { 
+	float: left;
+	margin: 0; }
+.more aside.more-testimonial {
+	font-size: 24px;
+	float: right;
+	width: 450px;
+	margin: 0;
+	color: #fff; }
+.more .more-testimonial blockquote { 
+	font-weight: bold;
+	margin: 0; }
+.more .more-testimonial p { 
+	font-weight: normal;
+	font-size: 14px; }
 .more aside.more-iphone { float: right; }
 .more aside p {
 	font-size: 25px;
@@ -234,7 +248,7 @@ header#site-header {
 	color: #ffcc66;
 	text-decoration: none;
 	padding: 0 0 1px;
-	border-bottom: 1px solid #ffcc66;
+	/* border-bottom: 1px solid #ffcc66; */
 	display: inline-block; }
 .more aside.more-iphone p a {
 	background: url(../images/index_iphone.png) 0 0 no-repeat;
