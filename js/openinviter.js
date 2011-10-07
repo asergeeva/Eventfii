@@ -43,7 +43,6 @@ var OPENINVITER = (function() {
 		    $(form).append(input).appendTo(header);
 		    
 		    input.focus(function() {
-		    	console.log('foo');
 		    	$(this).val('');
 		    });
 		    
@@ -71,20 +70,22 @@ var OPENINVITER = (function() {
 		},
 		
 		fbRequestCallback: function(requestIds) {
-			var i,
-				requestInfo;
-			FB.api('', {"ids": requestIds.request_ids.join(',') }, function(requestInfo) {
-				for (requestId in requestInfo) {
-					$.post(EFGLOBAL.baseUrl + '/fb/invite', {
-						request_id: requestId,
-						from_fbid: requestInfo[requestId].from.id,
-						to_fbid: requestInfo[requestId].to.id,
-						data: requestInfo[requestId].data
-					});
-				}
-				$('#fb-notification-box').fadeIn();
-			});
-			//$('#submit_create_guests').trigger('click');
+			if (requestIds != null) {
+				var i,
+					requestInfo;
+				FB.api('', {"ids": requestIds.request_ids.join(',') }, function(requestInfo) {
+					for (requestId in requestInfo) {
+						$.post(EFGLOBAL.baseUrl + '/fb/invite', {
+							request_id: requestId,
+							from_fbid: requestInfo[requestId].from.id,
+							to_fbid: requestInfo[requestId].to.id,
+							data: requestInfo[requestId].data
+						});
+					}
+					$('#fb-notification-box').fadeIn();
+				});
+				$('#submit_create_guests').trigger('click');
+			}
 		}
 	}
 }());
