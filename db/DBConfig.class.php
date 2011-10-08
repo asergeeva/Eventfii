@@ -970,8 +970,7 @@ class DBConfig {
 							FROM 	fb_invited i, 
 									fb_friends f 
 							WHERE 	i.to_fbid = f.fb_id 
-							AND i.event_id = " . $eid;
-		print($GET_ATTENDEES);
+							AND i.event_id = " . $eid . " AND f.user_id = ". $_SESSION['user']->id;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	
