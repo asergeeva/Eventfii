@@ -25,6 +25,19 @@ class DBFB extends DBConfig {
 						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time, 
 						e.* FROM fb_invited i, ef_events e 
 						WHERE i.event_id = e.id AND i.request_id = '".mysql_real_escape_string($requestId)."'";
+		print($GET_EVENT);
+		return $this->executeQuery($GET_EVENT);
+	}
+	
+	public function getEventByLastRequestId($fbid) {
+		$GET_EVENT = "SELECT
+						DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
+						DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
+						UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+						DATE_FORMAT(e.event_datetime, '%M %d, %Y') AS friendly_event_date,
+						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time, 
+						e.* FROM fb_invited i, ef_events e 
+						WHERE i.event_id = e.id AND i.to_fbid = '".mysql_real_escape_string($fbid)."' LIMIT 1";
 		return $this->executeQuery($GET_EVENT);
 	}
 }

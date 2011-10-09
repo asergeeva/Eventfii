@@ -28,7 +28,7 @@ class FBController {
 	    } else {
 	    	self::$requestIds = explode(',', $_GET['request_ids']);
 	    }
-	    
+	    	    
 	    // Create an account for the user
 		self::$userInfo = EFCommon::$dbCon->facebookConnect( self::$fbUserInfo['first_name'], 
 													   self::$fbUserInfo['last_name'], 
@@ -40,7 +40,12 @@ class FBController {
 		self::$fbFriends = self::$fbFriends['data'];
 		
 		EFCommon::$dbCon->saveFBFriends(self::$fbFriends, self::$userInfo['id']);
-	    self::$event = new Event(self::$dbfb->getEventByRequestId(self::$requestIds[0]));
+		
+		if (isset($requestIds[0])) {
+	    	self::$event = new Event(self::$dbfb->getEventByRequestId(self::$requestIds[0]));
+	    } else {
+	    	self::$event = new Event(self::$dbfb->getEventByLastRequestId(self::$fbUserInfo['id']));
+	    }
 	}
 	
 	public function __destruct() {
