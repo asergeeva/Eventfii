@@ -83,19 +83,19 @@
 						{if isset($contacts)}
 						{foreach $contacts as $contact}
 						<li>
-							<label for="contact-{$contact->id}">{if isset($addButton)}
+							<label for="{$contact->cid}">{if isset($addButton)}
 							
-								<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact contact-email" />{/if}
+								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}
 
-								<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->email}" />{if isset($contact->fname)}
-								<h3>{$contact->fname} {$contact->lname}</h3>{/if}
-								<p>{$contact->email}</p>
+								<img src="{$contact->pic}" width="36px" height="36px" alt="{$contact->name}" />
+								<h3>{$contact->name}</h3>
+								<p>{$contact->friendly_cid}</p>
 							</label>
 						</li>
 						{/foreach}
 						{/if}
 						
-						{if isset($fbContacts)}
+						{*if isset($fbContacts)}
 						{foreach $fbContacts as $contact}
 						<li>
 							<label for="fb-contact-{$contact['fb_id']}">{if isset($addButton)}
@@ -108,7 +108,7 @@
 							</label>
 						</li>
 						{/foreach}
-						{/if}
+						{/if*}
 					</ul>
 					<form method="post" action="{if isset($submitTo)}{$submitTo}{/if}" id="create_guests">
 						<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
@@ -141,7 +141,7 @@
 				</section>{/if}{/if}{if ! isset($page.contacts) && ! isset($page.addcontacts) && ! isset($page.manage)}
 
 				<footer class="buttons buttons-submit">
-					<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($signedUp) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
+					<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 				</footer>{/if}
 
 			</section>

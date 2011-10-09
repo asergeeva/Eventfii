@@ -236,7 +236,7 @@ class DBConfig {
 	public function getReferenceEmail($hashKey) {
 		$GET_REF_EMAIL = "	SELECT	* 
 							FROM 	ef_event_invites i 
-							WHERE 	i.hash_key = '" . $hashKey . "'";
+							WHERE 	i.hash_key = '" . mysql_real_escape_string($hashKey) . "'";
 		$invitedEmail = $this->executeQuery($GET_REF_EMAIL);
 		return $invitedEmail['email_to'];
 	}
@@ -247,7 +247,7 @@ class DBConfig {
 		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . $email . "'";
+							WHERE 	e.email = '" . mysql_real_escape_string($email) . "'";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -260,7 +260,7 @@ class DBConfig {
 		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . $email . "' AND password IS NULL";
+							WHERE 	e.email = '" . mysql_real_escape_string($email) . "' AND password IS NULL";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -278,6 +278,20 @@ class DBConfig {
 	public function getFBFriends($uid) {
 		$GET_FB_FRIENDS = "SELECT * FROM fb_friends f WHERE f.user_id = ".$uid. " ORDER BY fb_name";
 		return $this->getQueryResultAssoc($GET_FB_FRIENDS);
+	}
+	
+	/**
+	 * Get the combined email and FB contacts sorted by its name
+	 */
+	public function getContactsUnion($uid) {
+		$GET_ALL_CONTACTS = "SELECT c.name, c.email AS id FROM (
+							  (SELECT CONCAT_WS(' ', u.fname, u.lname) AS name, u.email FROM ef_addressbook a, ef_users u WHERE a.contact_id = u.id 
+							                AND a.user_id <> u.id 
+							                AND a.user_id = ".mysql_real_escape_string($uid).")
+							  UNION
+							  (SELECT f.fb_name, f.fb_id FROM fb_friends f WHERE f.user_id = ".mysql_real_escape_string($uid)." ORDER BY fb_name)
+							) c ORDER BY c.name";
+		return $this->getQueryResultAssoc($GET_ALL_CONTACTS);
 	}
 	
 	public function saveUserPic($file)
@@ -975,6 +989,27 @@ class DBConfig {
 							WHERE 	i.to_fbid = f.fb_id 
 							AND i.event_id = " . $eid . " AND f.user_id = ". $_SESSION['user']->id;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	/**
+	 * Get the combined email and FB invited guests sorted by its name
+	 */
+	public function getUnionInvitedByEvent($eid) {
+		$GET_ALL_INVITED = "SELECT c.name, c.email AS id FROM (
+							  (SELECT	CONCAT_WS(' ', u.fname, u.lname) AS name, u.email 
+							                FROM 	ef_attendance a, 
+							                    ef_users u 
+							                WHERE 	a.user_id = u.id 
+							                AND 	a.event_id = ".$eid.")
+							  UNION
+							  (SELECT	f.fb_name, f.fb_id 
+							                FROM 	fb_invited i, 
+							                    fb_friends f 
+							                WHERE 	i.to_fbid = f.fb_id 
+							                AND i.event_id = ".$eid." AND f.user_id = ".$_SESSION['user']->id.")
+							) c WHERE c.email <> '".$_SESSION['user']->email."' 
+								AND c.email <> '".$_SESSION['user']->facebook."' ORDER BY c.name";
+		return $this->getQueryResultAssoc($GET_ALL_INVITED);
 	}
 	
 	/**

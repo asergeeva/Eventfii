@@ -372,10 +372,8 @@ class PanelController {
 						EFCommon::$smarty->assign('notification', "Yay!");
 					}
 				}
-								
-				$signedUp = $this->getAttendees(NULL);
-				EFCommon::$smarty->assign('signedUp', $signedUp);
 				
+				$this->assignInvited($_SESSION['newEvent']->eid);
 				$this->assignContacts();
 				
 				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/a/'.$_SESSION['newEvent']->alias.'?created=true');
@@ -563,10 +561,7 @@ class PanelController {
 				}
 				
 				$this->assignContacts();
-				
-				$signedUp = $this->getAttendees(NULL);
-				EFCommon::$smarty->assign('signedUp', $signedUp);
-				EFCommon::$smarty->assign('invitedFBUsers', EFCommon::$dbCon->getFBInvitedByEvent($eventId));
+				$this->assignInvited($event->eid);
 				
 				if( $event->numErrors > 0 ) {
 					EFcommon::$smarty->assign( 'error', $event->error );
@@ -1360,12 +1355,26 @@ class PanelController {
 		if ( $eventId == NULL ) {
 			$eventId = $_GET['eventId'];
 		}
-		$user_array = EFCommon::$dbCon->getAttendeesByEvent($eventId);
+		$user_array = EFCommon::$dbCon->getUnionInvitedByEvent($eventId);
 		$attendees = array();
 		foreach($user_array as $userInfo) {
-			$attendees[] = new AbstractUser($userInfo);
+			$attendees[] = new Contact($userInfo);
 		}
 		return $attendees;
+	}
+	
+	/**
+	 * Assign all of the invited guests.
+	 * Including FB and email address contacts.
+	 */
+	private function assignInvited($eventId) {
+		$invited = EFCommon::$dbCon->getUnionInvitedByEvent($eventId);
+		$guests = array();
+		for ($i = 0; $i < sizeof($invited); ++$i) {
+			$guest = new Contact($invited[$i]['name'], $invited[$i]['id']);
+			$guests[] = $guest;
+		}
+		EFCommon::$smarty->assign('guests', $guests);
 	}
 	
 	/**
@@ -1374,24 +1383,16 @@ class PanelController {
 	 */
 	private function assignContacts() {
 		// Build the user contact list
-		$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+		$contactList = EFCommon::$dbCon->getContactsUnion($_SESSION['user']->id);
 		$contacts = array();
 		for ($i = 0; $i < sizeof($contactList); ++$i) {
-			$contact = new User($contactList[$i]);
-			array_push($contacts, $contact);
+			$contact = new Contact($contactList[$i]['name'], $contactList[$i]['id']);
+			$contacts[] = $contact;
 		}
 		if ( sizeof($contacts) > 0 ) {
 			EFCommon::$smarty->assign('contacts', $contacts);
 		} else {
 			EFCommon::$smarty->assign('contacts', NULL);
-		}	
-		
-		// Build the user contact list from FB friends
-		$fbContacts = EFCommon::$dbCon->getFBFriends($_SESSION['user']->id);
-		if ( sizeof($fbContacts) > 0 ) {
-			EFCommon::$smarty->assign('fbContacts', $fbContacts);
-		} else {
-			EFCommon::$smarty->assign('fbContacts', NULL);
 		}
 	}
 	

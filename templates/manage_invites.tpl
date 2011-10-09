@@ -1,33 +1,33 @@
 <section class="block"> 
 					<header class="block-title"> 
 						<h1>Invited Guests</h1> 
-					</header>{if isset($signedUp)}
+					</header>{if isset($guests)}
 
 					<fieldset>					
-						<ul class="contacts-list">{foreach $signedUp as $guest name=contacts}
+						<ul class="contacts-list">{foreach $guests as $guest name=guests}
 
 							<li>
-								<label for="contact-{$smarty.foreach.contacts.index}">{*
+								<label for="contact-{$smarty.foreach.guests.index}">{*
 									<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />*}
-									<img src="{$guest->pic}?type=square" width="36px" height="36px" alt="{$guest->fname} {$guest->lname}" />
-									<h3>{$guest->fname} {$guest->lname}</h3>
-									<p>{$guest->email}</p>
+									<img src="{$guest->pic}?type=square" width="36px" height="36px" alt="{$guest->name}" />
+									<h3>{$guest->name}</h3>
+									<p>{$guest->friendly_cid}</p>
 								</label>
 							</li>{/foreach}
 							
-							{if isset($invitedFBUsers)}
+							{*if isset($invitedFBUsers)}
 								{foreach $invitedFBUsers as $guest name=contacts}
 	
 								<li>
 									<label for="contact-{$smarty.foreach.contacts.index}">{*
-										<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />*}
+										<input type="checkbox" id="contact-{$smarty.foreach.contacts.index}" checked="checked" />}
 										<img src="http://graph.facebook.com/{$guest['fb_id']}/picture" width="36px" height="36px" alt="{$guest['fb_id']}" />
 										<h3>{$guest['fb_name']}</h3>
 										<p>Facebook contact</p>
 									</label>
 								</li>{/foreach}
 							
-							{/if}
+							{/if*}
 
 						</ul>{*
 					<footer class="buttons buttons-submit">

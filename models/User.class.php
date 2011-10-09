@@ -6,7 +6,7 @@
  * All rights reserved
  
  */
-require_once(realpath(dirname(__FILE__)).'/../models/AbstractUser.class.php');
+require_once(realpath(dirname(__FILE__)).'/AbstractUser.class.php');
 
 class User extends AbstractUser {
 	public $verified;
