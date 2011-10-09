@@ -268,12 +268,15 @@ class DBConfig {
 	}
 	
 	public function getUserContacts($uid) {
-		$GET_CONTACT = "SELECT u.* FROM ef_addressbook a, ef_users u WHERE a.contact_id = u.id AND a.user_id <> u.id AND a.user_id = ".$uid;
+		$GET_CONTACT = "SELECT u.* FROM ef_addressbook a, ef_users u WHERE a.contact_id = u.id 
+							AND a.user_id <> u.id 
+							AND a.user_id = ".$uid." 
+							ORDER BY u.fname";
 		return $this->getQueryResultAssoc($GET_CONTACT);
 	}
 	
 	public function getFBFriends($uid) {
-		$GET_FB_FRIENDS = "SELECT * FROM fb_friends f WHERE f.user_id = ".$uid;
+		$GET_FB_FRIENDS = "SELECT * FROM fb_friends f WHERE f.user_id = ".$uid. " ORDER BY fb_name";
 		return $this->getQueryResultAssoc($GET_FB_FRIENDS);
 	}
 	
