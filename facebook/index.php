@@ -8,7 +8,7 @@
 require_once(realpath(dirname(__FILE__)).'/../configs.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 
-require_once(realpath(dirname(__FILE__)).'/controller/FBController.class.php');
+require_once(realpath(dirname(__FILE__)).'/../controller/FBController.class.php');
 
 if (isset($_GET['code'])){
 	header("Location: ".FB_BASE_URL."?request_ids=".$_GET['request_ids']);
