@@ -55,6 +55,7 @@
 
 				<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
 
+<<<<<<< HEAD
 				<div class="block">
 					<div id="oi_logo"></div>
 					<div id="oi_container">
@@ -85,6 +86,25 @@
 				</div>
 				
 				{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+=======
+				<div class="block" id="oi_container">
+					<header class="block-title">
+						<h1>Import Contacts</h1>
+					</header>
+					<fieldset>
+						<dl>
+							<dt><label for="oi_email">Email:</label></dt>
+							<dd><input type="text" name="oi_email" class="inputbox" id="oi_email" /></dd>
+							<dt><label for="oi_pass">Password:</label></dt>
+							<dd><input type="password" name="oi_pass" class="inputbox" id="oi_pass" /></dd>
+						</dl>
+						<footer class="buttons buttons-submit">
+							<p><a href="#search-container" class="btn btn-small" id="oi_import"><span>Import</span></a></p>
+							<input type="hidden" name="oi_provider" id="oi_provider" value="{if isset($provider)}{$provider}{/if}" />
+						</footer>
+					</fieldset>
+				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+>>>>>>> 2741279dd9c1ab5a04bac1e84725a2930e019f6d
 
 				<section class="block">{if isset($contacts) || isset($fbContacts)}
 
