@@ -130,7 +130,7 @@
 									<option value="0">Please Select</option> 
 									<optgroup label="Personal"> 
 										<option value="1"{if isset($event_field) && $event_field.type eq '1'} selected{/if}>Birthday</option> 
-										<option value="2"{if isset($event_field) && $event_field.type eq '2'} selected{/if}>Other party</option> 
+										{*<option value="2"{if isset($event_field) && $event_field.type eq '2'} selected{/if}>Other party</option>*} 
 										<option value="3"{if isset($event_field) && $event_field.type eq '3'} selected{/if}>Dinner</option> 
 										<option value="4"{if isset($event_field) && $event_field.type eq '4'} selected{/if}>Social gathering</option> 
 										<option value="5"{if isset($event_field) && $event_field.type eq '5'} selected{/if}>Shared travel/trip</option> 

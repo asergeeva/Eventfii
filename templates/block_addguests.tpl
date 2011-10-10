@@ -153,7 +153,7 @@
 				</section>{/if}{/if}{if ! isset($page.contacts) && ! isset($page.addcontacts) && ! isset($page.manage)}
 
 				<footer class="buttons buttons-submit">
-					<p><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
+					<p style="float:right"><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 				</footer>{/if}
 
 			</section>
