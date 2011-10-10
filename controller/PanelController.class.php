@@ -339,6 +339,7 @@ class PanelController {
 					// Invalid Step 2
 					if ( ! $is_valid ) {
 						EFCommon::$smarty->assign('error', $newEvent->error);
+						
 						$this->saveEventFields( $newEvent );
 						
 						// Display Step 2

@@ -191,7 +191,7 @@ class Event {
 		}
 				
 		// Optional
-		if( $this->location == "Ex: Jim's House" ) {
+		if( stripslashes($this->location) == "Ex: Jim's House" ) {
 			$this->location = NULL;
 			return;
 		}
