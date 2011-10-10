@@ -22,7 +22,6 @@ var OPENINVITER = (function() {
 			$('#oi_container').html(providerLoginPage).ready(function() {
 				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
 			});
-			$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider + '_logo.png" />');
 		});
 	});
 	
@@ -108,6 +107,8 @@ $(document).ready(function() {
 		}, function(contactListPage) {
 			$('#oi_container').html(contactListPage).ready(function() {
 				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+				$('#import_form_container').css('display', 'block');
+				$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
 			});
 		});
 	});

@@ -575,9 +575,9 @@ class PanelController {
 					$optionParam = '&option='.$_GET['option'];
 				}
 				
-				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid.$optionParam);
-				EFCommon::$smarty->assign('submitTo', CURHOST.'/event/manage/guests?eventId='.$event->eid.$optionParam);
-								
+				EFCommon::$smarty->assign('finishSubmit', CURHOST.$current_page.'?eventId='.$event->eid.$optionParam);
+				EFCommon::$smarty->assign('submitTo', CURHOST.$current_page.'?eventId='.$event->eid.$optionParam);
+				
 				// The FB ID's that is being invited by the user
 				if (isset($_REQUEST['ids']) && sizeof($_REQUEST['ids']) > 0) {
 					foreach ($_REQUEST['ids'] as $fbid) {
@@ -589,7 +589,7 @@ class PanelController {
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
-			case '/guest/inviter':
+			case '/guest/inviter':			
 				$inviter = new OpenInviter();
 				$oi_services = $inviter->getPlugins();
 
@@ -604,8 +604,6 @@ class PanelController {
 					$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
 					$contactList = $inviter->getMyContacts();
 					
-					// print_r($contactList);
-
 					EFCommon::$smarty->assign('contactList', $contactList);
 					EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
 				} else {
