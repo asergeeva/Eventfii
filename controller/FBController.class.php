@@ -25,7 +25,7 @@ class FBController {
 	    self::$fbUserInfo = EFCommon::$facebook->api('/me');
 	    if (isset($_GET['request_id'])) {
 	    	self::$requestIds = array($_GET['request_ids']);
-	    } else {
+	    } else if (isset($_GET['request_ids'])) {
 	    	self::$requestIds = explode(',', $_GET['request_ids']);
 	    }
 	    	    
@@ -54,21 +54,23 @@ class FBController {
 	
 	public static function deleteRequests() {
 	   //for each request_id, build the full_request_id and delete request  
-	   foreach (self::$requestIds as $request_id)
-	   {
-	      $full_request_id = $request_id."_".self::$fbUserInfo['id'];  	  
-	      try {
-	        $delete_success = EFCommon::$facebook->api("/$full_request_id", 'DELETE');
-	        if (DEBUG) {
-		        if ($delete_success) {
-					echo "Successfully deleted " . $full_request_id. "<br />";
-		        } else {
-					echo "Delete failed".$full_request_id. "<br />";
+	   if (sizeof(self::$requestIds) > 0) {
+		   foreach (self::$requestIds as $request_id)
+		   {
+		      $full_request_id = $request_id."_".self::$fbUserInfo['id'];  	  
+		      try {
+		        $delete_success = EFCommon::$facebook->api("/$full_request_id", 'DELETE');
+		        if (DEBUG) {
+			        if ($delete_success) {
+						echo "Successfully deleted " . $full_request_id. "<br />";
+			        } else {
+						echo "Delete failed".$full_request_id. "<br />";
+			        }
 		        }
-	        }
-	      } catch (FacebookApiException $e) {
-			// echo "error";
-	      }
+		      } catch (FacebookApiException $e) {
+				// echo "error";
+		      }
+		    }
 	    }
 	}
 	

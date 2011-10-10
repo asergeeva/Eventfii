@@ -27,8 +27,7 @@
 						{*if !isset($page.addcontacts)}
 						<li><a href="#" id="guest_facebook_add" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
 						{/if*}
-						{*
-						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
+						{*<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 					</ul>
