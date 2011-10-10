@@ -63,7 +63,7 @@
 						<dl>
 							<dt><label for="oi_email">Email:</label></dt>
 							<dd><input type="text" name="oi_email" class="inputbox" id="oi_email" /></dd>
-							<dt><label for="oi_pass"Password:</label></dt>
+							<dt><label for="oi_pass">Password:</label></dt>
 							<dd><input type="password" name="oi_pass" class="inputbox" id="oi_pass" /></dd>
 						</dl>
 						<footer class="buttons buttons-submit">
