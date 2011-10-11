@@ -37,7 +37,3 @@ var FBCON = (function() {
 	
 	FBCON.fbInit();
 })();
-
-$(document).ready(function() {
-	FB.Event.subscribe('auth.login', FBCON.loginUser);
-});

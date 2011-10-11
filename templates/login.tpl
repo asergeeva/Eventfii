@@ -21,6 +21,10 @@
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
 <script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
-
+<script type="text/javascript">
+$(document).ready(function() {
+	FB.Event.subscribe('auth.login', FBCON.loginUser);
+});
+</script>
 </body>
 </html>
