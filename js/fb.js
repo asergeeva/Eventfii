@@ -18,20 +18,26 @@ var FBCON = (function() {
 			});
 		},
 		
+		loginUser: function(sessionInfo) {
+			if (sessionInfo.session) {
+				FB.api('/me', function(userInfo) {
+					if (typeof userInfo.error == 'undefined') {
+						LOGIN_FORM.fbUserLogin(userInfo, sessionInfo.session);
+					}
+				});
+			} else {
+				console.log('FB session is unavailable');
+			}
+		},
+		
 		onlogin: function() {
-			FB.getLoginStatus(function(sessionInfo) {
-				if (sessionInfo.session) {
-					FB.api('/me', function(userInfo) {
-						if (typeof userInfo.error == 'undefined') {
-							LOGIN_FORM.fbUserLogin(userInfo, sessionInfo.session);
-						}
-					});
-				} else {
-					
-				}
-			});
+			FB.getLoginStatus(this.loginUser);
 		}
 	}
 	
 	FBCON.fbInit();
 })();
+
+$(document).ready(function() {
+	FB.Event.subscribe('auth.login', FBCON.loginUser);
+});
