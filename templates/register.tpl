@@ -35,6 +35,15 @@
 
 					</dd>
 					<dt>
+						<label for="email">Re-type Email<span>*</span></label>
+					</dt>
+					<dd{if isset($error.email)} class="error"{/if}>
+						<input type="text" name="check_email" value="{if isset($smarty.post.check_email)}{$smarty.post.check_email}{elseif isset($smarty.session.fb->email)}{$smarty.session.fb->email}{/if}"{if isset($smarty.session.fb->email)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->email)} input-facebook{/if}" />{if isset($error.email)}
+
+						<em>{$error.email}</em>{/if}
+
+					</dd>
+					<dt>
 						<label for="password">Password<span>*</span></label>
 					</dt>
 					<dd{if isset($error.password)} class="error"{/if}>

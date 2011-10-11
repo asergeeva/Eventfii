@@ -825,6 +825,7 @@ class PanelController {
 				// if the user submits the register form
 				} else if ( isset ( $_POST['register'] ) ) {
 					$userInfo['email'] = $_POST['email'];
+					$userInfo['check_email'] = $_POST['check_email'];
 					$userInfo['password'] = $_POST['password'];
 					$userInfo['fname'] = $_POST['fname']; 	
 					$userInfo['lname'] = $_POST['lname'];
@@ -1633,17 +1634,20 @@ class PanelController {
 	public function checkUserCreationForm($userInfo) {
 		$flag = 1;
 		$email = $userInfo['email'];
+		$check_email = $userInfo['check_email'];
 		$password = $userInfo['password'];
 		$fname = $userInfo['fname'];
 		$lname = $userInfo['lname'];
 		$phone = $userInfo['phone'];
 		$zip = $userInfo['zip'];
 
-		$email_val = 	$this->valEmail(
+		$email_val = $this->valEmail(
 							$email,
+							$check_email,
 							"email",
 							"Email entered is invalid."
 						);
+		
 		if ( strlen($password) < 6 ) {
 			$flag = 2;
 			$error['password'] = "Password should be at least 6 characters";
@@ -1718,13 +1722,20 @@ class PanelController {
 		return $msg;
 	}
 
-	public function valEmail($email, $type, $msg) {
+	public function valEmail($email, $check_email, $type, $msg) {
 		$flag = 1;
 		if( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
 			$error[$type] = $msg;
 			EFCommon::$smarty->append('error', $error, true);
 			$flag = 2;
 		}
+		
+		if (strtolower($email) != strtolower($check_email)) {
+			$error[$type] = "Email does not match";
+			EFCommon::$smarty->append('error', $error, true);
+			$flag = 2;
+		}
+		
 		return $flag;
 	}
 
