@@ -176,7 +176,7 @@
 				</header>
 				<figure>
 					<figcaption><address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}<br />{/if}{$event->address}</address></figcaption>
-					<iframe width="525" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
+					<iframe width="525" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{$GOOGLE_MAP_URL}?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
 				</figure>
 			</section>
 			<section class="block" id="event-comments">

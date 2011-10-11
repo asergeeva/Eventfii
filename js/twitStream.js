@@ -25,7 +25,7 @@ function fetch_tweets(elem){
 	elem=$(elem);
 	keyword=escape(elem.attr('title'));
 	num=elem.attr('class').split(' ').slice(-1);
-	var url="http://search.twitter.com/search.json?q="+keyword+"&rpp="+num+"&callback=?";
+	var url="https://search.twitter.com/search.json?q="+keyword+"&rpp="+num+"&callback=?";
 	$.getJSON(url,function(json){
 		$(json.results).each(function(){
 			var tTime=new Date(Date.parse(this.created_at));
@@ -66,6 +66,8 @@ function fetch_tweets(elem){
 				var sinceDay=Math.round(sinceMin/1440);
 				var since=sinceDay+' days ago';
 			}
+			
+			console.log(this);
 			var tweetBy='<a class="tweet-user" target="_blank" href="http://twitter.com/'+this.from_user+'">@'+this.from_user+'</a> <span class="tweet-time">'+since+'</span>';
 			if(showTweetLinks.indexOf('reply')!=-1)
 				tweetBy=tweetBy+' &middot; <a class="tweet-reply" target="_blank" href="http://twitter.com/?status=@'+this.from_user+' &in_reply_to_status_id='+this.id+'&in_reply_to='+this.from_user+'">Reply</a>';
