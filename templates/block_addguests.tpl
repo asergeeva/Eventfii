@@ -17,6 +17,8 @@
 			</header>
 			{/if}
 
+			<div style="display:none" id="fb-message">Hi, I'm inviting you to an event that I'm organizing at trueRSVP: {$event->title}</div>
+			
 			<section class="block">
 				<nav class="horizontal-nav">
 					<ul>{if !isset($page.addcontacts)}

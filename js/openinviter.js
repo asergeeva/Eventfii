@@ -149,7 +149,7 @@ $(document).ready(function() {
 		if (fb_ids.length > 0) {
 			var fbids = fb_ids.join(',');
 			FB.ui({method: 'apprequests',
-				message: 'My Great Request',
+				message: $('#fb-message').html(),
 				to: fbids
 			}, OPENINVITER.fbRequestCallback);
 		} else {
