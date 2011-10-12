@@ -57,7 +57,10 @@ class EmailReminder {
 						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
 						e.*
 					  FROM ef_events e
-						WHERE e.event_datetime = DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
+						WHERE e.event_datetime BETWEEN 
+							DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)
+							AND 
+							DATE_ADD(NOW(), INTERVAL '".($this->interval_day + 1)." ".$this->interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email reminders --\n");
