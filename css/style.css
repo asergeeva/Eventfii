@@ -145,11 +145,12 @@ fieldset dt {
 	padding: 6px 10px 0;
 	clear: left; }
 /* Inline option */
-fieldset dt.inline { float: left; }
-#manage-text dt, #manage-email dt { width: 100px; }
+fieldset dt.inline { 
+	float: left;
+	text-align: right;
+	width: 100px; }
 fieldset dt label { 
 	color: #464646;
-	text-align: left;
 	line-height: 16px;
 	padding: 0;
 	display: block; }
@@ -600,6 +601,23 @@ article h2 { font-size: 16px; }
 	font-size: 11px;
 	float: right;
 	padding: 3px 5px 0 0; }
+	
+/* Import Contacts */
+.block .import { text-align: center; }
+.block .import h1 {
+	background: url(../images/icon_lock.gif) 0 50% no-repeat;
+	font-size: 14px;
+	color: #636363;
+	height: 16px; /* 18 - 2 */
+	padding: 2px 0 0 20px;
+	display: inline-block; }
+.block .import h2 { 
+	color: #999;
+	margin: 5px 0 10px; }
+.block .import-options { text-align: center; }
+.block .import-options img, .block .import-options span {
+	vertical-align: middle;
+	display: inline-block; }
 
 /* Primary Sections
  -------------------------*/
@@ -994,7 +1012,7 @@ ul.contacts-list li {
 	left: 0; }
 .contacts-list li img {
 	float: left;
-	margin: 0 4px 0 -12px; 
+	margin: 0 4px 0 -12px;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px; }
@@ -1047,6 +1065,7 @@ ul.contacts-list li p {
 	display: inline-block; }
 .thumbs li figure img {
 	vertical-align: middle;
+	max-height: 66px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -1359,8 +1378,7 @@ a.btn { text-decoration: none; }
 footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
-	margin: 0 15px 0 0; }
-/* .links-extra p { margin: 0 0 15px; } */
+	margin: 0 15px 0 0; } }
 .links-extra label { 
 	text-align: left;
 	margin: 0 0 0 100px; }
