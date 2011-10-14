@@ -112,20 +112,24 @@
 				<p class="twitter-info">Use <span>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</span> to post your tweet & pics here!</p>
 				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}"></div>
 			</section>
+			<section class="block" id="sponsors">
+				<header class="block-title">
+					<h1>Sponsors</h1>
+				</header>
+			</section>
 		</aside>
 		<!--footer class="links-extra">
 			<p><a href="#">Flag this event</a></p>
 		</footer-->
-		<div class="content">{if $event->days_left > 0}
+		<div class="content">{*if $event->days_left > 0}
 
 			<header class="block">
 				<p class="message"><em>{$event->days_left}</em> {if $event->days_left == 1}day{else}days{/if} left until the event.{if $event->days_left == 1} Get exited!{/if}<br /><br />Use <em>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->eid}{/if}</em> to post your tweet & pics here!</p>
-			</header>{/if}
-
+			</header>{/if*}
 			<section class="block" id="event-info">
 				<header class="block-title">
 					<h1 id="test">Find out more</h1>
-					<h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2>
+					<!--h2><a href="{$CURHOST}/contact?flagId={$event->eid}">Flag this event</a></h2-->
 				</header>
 				<div class="event-info">
 					<p class="event-desc">{$event->description}</p>
@@ -165,7 +169,7 @@
 					</li>{/if}{/foreach}
 
 				</ul>
-				<footer class="link-extra">
+				<footer class="links-extra">
 					<p><a href="#" id="all-guests">See All ({sizeof($attending)})</a></p>
 				</footer>
 			</section>{/if}
@@ -175,7 +179,7 @@
 					<h1>Location</h1>
 				</header>
 				<figure>
-					<figcaption><address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}<br />{/if}{$event->address}</address></figcaption>
+					<figcaption><address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}, {/if}{$event->address}</address></figcaption>
 					<iframe width="525" height="203" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{$GOOGLE_MAP_URL}?q={$event->address|urlencode}&amp;hnear={$event->address|urlencode}&amp;hl=en&amp;sll={$event->location_lat},{$event->location_long}&amp;ie=UTF8&amp;hq=&amp;z=14&amp;output=embed&amp;iwloc=near"></iframe>
 				</figure>
 			</section>

@@ -63,18 +63,22 @@
 				<div class="block">
 					<div id="oi_logo"></div>
 					<div id="oi_container">
-						<header class="block-title">
-							<h1>Import Contacts</h1>
+						<header class="import">
+							<h1>Secure Contact Importer</h1>
+							<h2>trueRSVP will not store your e-mail and password</h2>
 						</header>
+						<div class="import-options">
+							<img src="{$CURHOST}/images/icon_gmail.gif" alt="Gmail" /> <span>or</span> <img src="{$CURHOST}/images/icon_yahoo.gif" alt="Yahoo Mail" />
+						</div>
 						<fieldset>
 							<dl>
-								<dt><label for="oi_email">Email:</label></dt>
+								<dt class="inline"><label for="oi_email">Email:</label></dt>
 								<dd><input type="text" name="oi_email" class="inputbox" id="oi_email" /></dd>
-								<dt><label for="oi_pass"Password:</label></dt>
+								<dt class="inline"><label for="oi_pass">Password:</label></dt>
 								<dd><input type="password" name="oi_pass" class="inputbox" id="oi_pass" /></dd>
 							</dl>
 							<footer class="buttons buttons-submit">
-								<p><a href="#search-container" class="btn btn-small" id="oi_import"><span>Import</span></a></p>
+								<p><a href="#search-container" class="btn btn-small" id="oi_import"><span>Grab Contacts</span></a></p>
 								<input type="hidden" name="oi_provider" id="oi_provider" value="{if isset($provider)}{$provider}{/if}" />
 							</footer>
 						</fieldset>
