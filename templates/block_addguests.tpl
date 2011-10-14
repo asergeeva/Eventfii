@@ -151,12 +151,13 @@
 
 				<section class="block">
 					<form method="post" action="{if isset($submitTo)}{$submitTo}{/if}" id="create_guests">
+						<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
 						<fieldset>
 							<legend>Manually add guests</legend>
 							<label>Enter e-mails separated by a comma</label>
 							<textarea name="emails" class="inputbox autowidth"></textarea>
 							<footer class="buttons buttons-submit"> 
-								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
+								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p>
 							</footer>
 						</fieldset>
 					</form>
