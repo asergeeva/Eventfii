@@ -489,6 +489,12 @@ qq.FileUploader = function(o){
                 '<div class="qq-upload-button"><span>Upload</span></div>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>',
+             
+        csv_template: '<div class="qq-uploader">' + 
+                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                '<div class="qq-upload-button"><span>Import CSV</span></div>' +
+                '<ul class="qq-upload-list"></ul>' + 
+             '</div>',
 
         // template for one item in file list
         fileTemplate: '<li>' +
@@ -520,8 +526,16 @@ qq.FileUploader = function(o){
     // overwrite options with user supplied    
     qq.extend(this._options, o);       
 
-    this._element = this._options.element;
-    this._element.innerHTML = this._options.template;        
+	this._element = this._options.element;
+    
+    
+	if (this._element.id == 'csv_upload') {
+		this._element.innerHTML = this._options.csv_template;
+	} else {
+		this._element.innerHTML = this._options.template;
+	}
+
+    
     this._listElement = this._options.listElement || this._find(this._element, 'list');
     
     this._classes = this._options.classes;

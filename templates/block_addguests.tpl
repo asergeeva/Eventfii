@@ -15,8 +15,12 @@
 			<header class="block notification" style="display:none" id="fb-notification-box">
 				<p class="message" id="fb-notification-message">Facebook requests is sent successfully</p>
 			</header>
+			
+			<header class="block notification" style="display:none" id="csv-notification-box">
+				<p class="message" id="csv-notification-message">CSV is successfully uploaded</p>
+			</header>
 			{/if}
-
+			
 			<div style="display:none" id="fb-message">Hi, I'm inviting you to an event that I'm organizing at trueRSVP: {$event->title}</div>
 			
 			<section class="block">
@@ -29,7 +33,7 @@
 						{*if !isset($page.addcontacts)}
 						<li><a href="#" id="guest_facebook_add" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
 						{/if*}
-						{*<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'csv'} current{/if}"><span>Import CSV</span></a></li>*}
+						<li><a href="#" class="btn btn-manage" id="csv_upload" style="width:70px"><span>Import CSV</span></a></li>
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 					</ul>
@@ -54,7 +58,7 @@
 				</script>
 				</fb:serverFbml>{elseif isset($smarty.get.option) && $smarty.get.option == 'csv'}
 
-				<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
+				{*<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>*}{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
 
 				<div class="block">
 					<div id="oi_logo"></div>
