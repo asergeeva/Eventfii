@@ -24,6 +24,6 @@ class EFTwitter {
 	 */
 	public function getTwitterHash($eid) {
 		$eventInfo = EFCommon::$dbCon->getEventInfo($eid);
-		return $this->PREFIX.$eventInfo['id'];
+		return $this->PREFIX.$eventInfo['url_alias'];
 	}
 }
