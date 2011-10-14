@@ -125,7 +125,7 @@ class qqFileUploader {
         
         $pathinfo = pathinfo($this->file->getName());
 				
-		$eventId = $_SESSION['new_eid'];
+		$eventId = (isset($_SESSION['new_eid'])) ? $_SESSION['new_eid'] : NULL;
 		if (isset($_SESSION['manage_event'])) {
 			$eventId = $_SESSION['manage_event']->eid;
 			$filename = $eventId;
@@ -154,12 +154,13 @@ class qqFileUploader {
         
 		if (trim($filename) != "") {
 			if ($this->file->save($imagePath)){
+				if ($ext != 'csv') {
 					EFCommon::resizeImage($imagePath);
-					
-					return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
+				}
+				return array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
 			} else {
-					return array('error'=> 'Could not save uploaded file.' .
-							'The upload was cancelled, or server error encountered');
+				return array('error'=> 'Could not save uploaded file.' .
+						'The upload was cancelled, or server error encountered');
 			}
 		}
     }    

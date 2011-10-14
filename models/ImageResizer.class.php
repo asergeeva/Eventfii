@@ -73,7 +73,7 @@ class ImageResizer {
       return imagesx($this->image);
    }
    function getHeight() {
- 
+ 		
       return imagesy($this->image);
    }
    function resizeToHeight($height) {

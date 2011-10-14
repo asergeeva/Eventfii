@@ -152,6 +152,7 @@ class EFCommon {
 	}
 	
 	public static function resizeImage($filename) {
+		
 		self::$imageResizer->load($filename);
 		self::$imageResizer->resizeToHeight(96);
 		self::$imageResizer->resizeToWidth(96);
