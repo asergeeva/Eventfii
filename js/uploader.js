@@ -42,22 +42,3 @@ var CSV_UPLOADER = (function() {
 		}
 	}
 })();
-
-var CONTACTS_UPLOADER = (function() {
-	var _uploader;
-	
-	return {
-		init: function() {
-			if ($('#csv_upload').length > 0) {
-				_uploader = new qq.FileUploader({
-					element: $('#csv_upload')[0],
-					action: EFGLOBAL.baseUrl + '/user/csv/upload',
-					onComplete: function(id, fileName, responseJSON) {
-						$('#csv-notification-box').fadeIn();
-						setTimeout("$('#add_import_contact_list').trigger('click')", 3000);
-					}
-				});
-			}
-		}
-	}
-})();

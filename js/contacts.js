@@ -7,7 +7,7 @@
 var EF_CONTACTS = (function() {
 	return {
 		init: function() {
-			CONTACTS_UPLOADER.init();
+			CSV_UPLOADER.init();
 		}
 	}
 })();

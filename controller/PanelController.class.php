@@ -404,7 +404,7 @@ class PanelController {
 				$sizeLimit = 10 * 1024 * 1024;
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/event/images/', TRUE);
+				$result = $uploader->handleUpload('upload/event/images/', TRUE, $current_page);
 				// to pass data through iframe you will need to encode all html tags
 				
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
@@ -417,7 +417,7 @@ class PanelController {
 				$sizeLimit = 10 * 1024 * 1024;
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/event/csv/', TRUE);
+				$result = $uploader->handleUpload('upload/event/csv/', TRUE, $current_page);
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
@@ -429,7 +429,7 @@ class PanelController {
 				$sizeLimit = 10 * 1024 * 1024;
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/user/csv/', TRUE);
+				$result = $uploader->handleUpload('upload/user/csv/', TRUE, $current_page);
 				// to pass data through iframe you will need to encode all html tags
 				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;

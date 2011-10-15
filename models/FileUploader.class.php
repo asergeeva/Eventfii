@@ -104,7 +104,7 @@ class qqFileUploader {
     /**
      * Returns array('success'=>true) or array('error'=>'error message')
      */
-    function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
+    function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $current_page){
         if (!is_writable($uploadDirectory)){
             return array('error' => "Server error. Upload directory isn't writable.");
         }
@@ -125,17 +125,20 @@ class qqFileUploader {
         
         $pathinfo = pathinfo($this->file->getName());
 				
-		$eventId = (isset($_SESSION['new_eid'])) ? $_SESSION['new_eid'] : NULL;
-		if (isset($_SESSION['manage_event'])) {
+		if (isset($_SESSION['newEvent']->eid)) {
+			$eventId = $_SESSION['newEvent']->eid;
+			$filename = $eventId;
+		} else if (isset($_SESSION['manage_event'])) {
 			$eventId = $_SESSION['manage_event']->eid;
 			$filename = $eventId;
 		}
+		
 		//$filename = $pathinfo['filename'];
 		//$filename = md5(uniqid());
-		if(!isset($filename)) {
+		if (!isset($filename)) {
 			$filename=$_SESSION['user']->id;
 		}
-				
+		
 				
         $ext = $pathinfo['extension'];
 

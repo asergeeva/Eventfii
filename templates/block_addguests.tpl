@@ -11,6 +11,7 @@
 			<header class="block notification" id="message-notification">
 				<p class="message" id="message-notification-content">{$notification}</p>
 			</header>{else}
+			{/if}
 			
 			<header class="block notification" style="display:none" id="fb-notification-box">
 				<p class="message" id="fb-notification-message">Facebook requests is sent successfully</p>
@@ -19,7 +20,6 @@
 			<header class="block notification" style="display:none" id="csv-notification-box">
 				<p class="message" id="csv-notification-message">CSV is successfully uploaded</p>
 			</header>
-			{/if}
 			
 			<div style="display:none" id="fb-message">Hi, I'm inviting you to an event that I'm organizing at trueRSVP: {$event->title}</div>
 			
