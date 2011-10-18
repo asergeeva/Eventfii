@@ -24,7 +24,7 @@ class AdminDB extends DBConfig {
 							LEFT JOIN
 								ef_event_invites i
 							ON ev.id = i.event_id
-							GROUP BY i.event_id";
+							GROUP BY ev.id";
 		return $this->getQueryResultAssoc($GET_EVENT_LIST);
 	}
 	

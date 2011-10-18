@@ -29,6 +29,12 @@ class AdminController {
 	public function getView($requestUri) {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		$requestUri = explode('/', $requestUri);
+		
+		// Make sure that HTTPS is always on
+		if (!isset($_SERVER['HTTPS'])) {
+			header('Location: '.CURHOST.'/'.$requestUri[1]);
+		}
+		
 		$requestUri = '/'.$requestUri[2];
 				
 		$getParamStartPos = strpos($requestUri, '?');
