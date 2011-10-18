@@ -14,6 +14,7 @@
 				</table>
 				<table id="events_stats_container" style="width:100%; text-align:center">
 				<tr>
+					<th>{counter start=0 skip=1}</th>
 					<th>Event name</th>
 					<th>Date of event</th>
 					<th>Host name</th>
@@ -21,6 +22,7 @@
 				</tr>
 				{foreach $events as $event}
 				<tr>
+					<td>{counter}</td>
 					<td>{$event['title']}</td>
 					<td>{$event['event_datetime']}</td>
 					<td>{$event['fname']} {$event['lname']}</td>
