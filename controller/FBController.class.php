@@ -78,7 +78,7 @@ class FBController {
 	    EFCommon::$smarty->assign('fbUser', self::$fbUserInfo);
 	    EFCommon::$smarty->assign('event', self::$event);
 	    
-	    EFCommon::$smarty->display('facebook_index.tpl');
+	    EFCommon::$smarty->display('facebook/index.tpl');
 	    
 	    // Always do this at the end
 	    self::deleteRequests();
