@@ -418,20 +418,6 @@ class PanelController {
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 				$result = $uploader->handleUpload('upload/event/csv/', TRUE, $current_page);
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-				break;
-			case '/user/csv/upload':
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = array("csv");
-
-				// max file size in bytes
-				$sizeLimit = 10 * 1024 * 1024;
-
-				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload('upload/user/csv/', TRUE, $current_page);
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				break;
 			case '/user/follow':
 				if ($_SESSION['user']->id != $_POST['fid']) {

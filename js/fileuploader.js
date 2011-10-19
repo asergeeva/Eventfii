@@ -529,11 +529,13 @@ qq.FileUploader = function(o){
 	this._element = this._options.element;
     
     
+/*
 	if (this._element.id == 'csv_upload') {
 		this._element.innerHTML = this._options.csv_template;
 	} else {
+*/
 		this._element.innerHTML = this._options.template;
-	}
+	//}
 
     
     this._listElement = this._options.listElement || this._find(this._element, 'list');
@@ -1235,9 +1237,9 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
             try {
                 response = eval("(" + xhr.responseText + ")");
             } catch(err){
-                response = {};
+                response = xhr.responseText;
             }
-            
+                        
             this._options.onComplete(id, name, response);
                         
         } else {                   

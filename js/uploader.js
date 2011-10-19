@@ -33,9 +33,12 @@ var CSV_UPLOADER = (function() {
 				_uploader = new qq.FileUploader({
 					element: $('#csv_upload')[0],
 					action: EFGLOBAL.baseUrl + '/event/csv/upload',
-					onComplete: function(id, fileName, responseJSON) {
-						$('#csv-notification-box').fadeIn();
-						setTimeout("$('#add_import_contact_list').trigger('click')", 3000);
+					onComplete: function(id, fileName, csvList) {
+						$('#csv_upload').css('display', 'none');
+						$('#add_import_contact_list').css('display', 'block');
+						$('#csv_container').html(csvList);
+						$('.contact-email').attr('checked', 'checked');
+						OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
 					}
 				});
 			}

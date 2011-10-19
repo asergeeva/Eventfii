@@ -33,7 +33,7 @@
 						{*if !isset($page.addcontacts)}
 						<li><a href="#" id="guest_facebook_add" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
 						{/if*}
-						<li><a href="#" class="btn btn-manage" id="csv_upload" style="width:70px"><span>Import CSV</span></a></li>
+						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage"><span>Import CSV</span></a></li>
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 					</ul>
@@ -57,8 +57,17 @@
 				  </fb:fbml>
 				</script>
 				</fb:serverFbml>{elseif isset($smarty.get.option) && $smarty.get.option == 'csv'}
-
-				{*<p><a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a></p>*}{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
+				
+				<form method="post" action="{$submitTo}" id="create_guests">
+				<div id="csv_container"></div>
+				<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
+				<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
+				<p style="text-align:center">
+					<a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a>
+				</p>
+				</form>
+				
+				{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
 
 				<div class="block">
 					<div id="oi_logo"></div>
