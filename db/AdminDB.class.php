@@ -17,14 +17,24 @@ class AdminDB extends DBConfig {
 	}
 	
 	public function admin_getEventList() {
-		$GET_EVENT_LIST = "SELECT ev.*, COUNT(i.event_id) AS num_invites FROM
-								(SELECT e.id, e.title, e.event_datetime, u.fname, u.lname 
-								FROM ef_events e, ef_users u
-								WHERE e.organizer = u.id) ev
+		$GET_EVENT_LIST = "SELECT sl.*, COUNT(a.is_attending) AS num_checked FROM
+							  (SELECT fl.*, COUNT(fi.event_id) AS fb_invite FROM
+							    (SELECT ev.*, COUNT(i.event_id) AS num_invites FROM
+							      (SELECT e.id, e.title, e.event_datetime, u.fname, u.lname 
+							      FROM ef_events e, ef_users u
+							      WHERE e.organizer = u.id) ev
+							    LEFT JOIN
+							    ef_event_invites i
+							    ON ev.id = i.event_id
+							    GROUP BY ev.id) fl
+							  LEFT JOIN
+							  fb_invited fi
+							  ON fl.id = fi.event_id
+							  GROUP BY fl.id) sl
 							LEFT JOIN
-								ef_event_invites i
-							ON ev.id = i.event_id
-							GROUP BY ev.id";
+							ef_attendance a
+							ON sl.id = a.event_id
+							GROUP BY sl.id";
 		return $this->getQueryResultAssoc($GET_EVENT_LIST);
 	}
 	

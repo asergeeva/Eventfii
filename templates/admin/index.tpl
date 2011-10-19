@@ -19,6 +19,8 @@
 					<th>Date of event</th>
 					<th>Host name</th>
 					<th># of invites</th>
+					<th># of FB invites</th>
+					<th># of checked off</th>
 				</tr>
 				{foreach $events as $event}
 				<tr>
@@ -27,6 +29,8 @@
 					<td>{$event['event_datetime']}</td>
 					<td>{$event['fname']} {$event['lname']}</td>
 					<td>{$event['num_invites']}</td>
+					<td>{$event['fb_invite']}</td>
+					<td>{$event['num_checked']}</td>
 				</tr>
 				{/foreach}
 				</table>
