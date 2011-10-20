@@ -14,7 +14,7 @@ var MANAGE_EVENT = ( function() {
 		
 	$('#cancel-event').live('click', function() {
 		$.post(EFGLOBAL.baseUrl + '/event/manage/cancel', {
-			eventId: $('#event_id').html()
+			eventId: $('#event-id').html()
 		}, function(responseText) {
 			$('#notification-message').html(responseText);
 			$('#notification-box').fadeIn('slow');
