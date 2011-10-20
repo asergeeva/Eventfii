@@ -25,7 +25,6 @@ class DBFB extends DBConfig {
 						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time, 
 						e.* FROM fb_invited i, ef_events e 
 						WHERE i.event_id = e.id AND i.request_id = '".mysql_real_escape_string($requestId)."'";
-		print($GET_EVENT);
 		return $this->executeQuery($GET_EVENT);
 	}
 	

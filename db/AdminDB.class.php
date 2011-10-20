@@ -53,6 +53,12 @@ class AdminDB extends DBConfig {
 	public function admin_getNumInvites() {
 		$GET_NUM_INVITES = "SELECT COUNT(*) AS num_invites FROM ef_event_invites";
 		$numInvites = $this->executeQuery($GET_NUM_INVITES);
-		return $numInvites['num_invites'];
+		return $numInvites['num_invites'] + $this->admin_getNumFBInvites();
+	}
+	
+	public function admin_getNumFBInvites() {
+		$GET_NUM_FB_INVITES = "SELECT COUNT(*) AS fb_invites FROM fb_invited";
+		$numInvites = $this->executeQuery($GET_NUM_FB_INVITES);
+		return $numInvites['fb_invites'];
 	}
 }

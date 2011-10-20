@@ -41,7 +41,7 @@ class FBController {
 		
 		EFCommon::$dbCon->saveFBFriends(self::$fbFriends, self::$userInfo['id']);
 		
-		if (isset($requestIds[0])) {
+		if (isset(self::$requestIds[0])) {
 	    	self::$event = new Event(self::$dbfb->getEventByRequestId(self::$requestIds[0]));
 	    } else {
 	    	self::$event = new Event(self::$dbfb->getEventByLastRequestId(self::$fbUserInfo['id']));
