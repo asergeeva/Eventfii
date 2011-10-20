@@ -59,7 +59,7 @@
 				</fb:serverFbml>{elseif isset($smarty.get.option) && $smarty.get.option == 'csv'}
 				
 				<form method="post" action="{$submitTo}" id="create_guests">
-				<div id="csv_container"></div>
+				<div id="csv_container" style="margin-bottom:10px"></div>
 				<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
 				<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
 				<p style="text-align:center">

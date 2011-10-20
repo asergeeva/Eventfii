@@ -34,11 +34,18 @@ var CSV_UPLOADER = (function() {
 					element: $('#csv_upload')[0],
 					action: EFGLOBAL.baseUrl + '/event/csv/upload',
 					onComplete: function(id, fileName, csvList) {
-						$('#csv_upload').css('display', 'none');
-						$('#add_import_contact_list').css('display', 'block');
-						$('#csv_container').html(csvList);
-						$('.contact-email').attr('checked', 'checked');
-						OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+						if (csvList == false) {
+							$('#csv_container').html('No more new guests can be added from this CSV');
+							$('#csv_container').css({'text-align': 'center'});
+						} else {
+							$('#csv_upload').css('display', 'none');
+							$('#add_import_contact_list').css({'display': 'block', 'text-align': 'center'});
+						
+							$('#csv_container').html(csvList);
+							$('.contact-email').attr('checked', 'checked');
+						
+							OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+						}
 					}
 				});
 			}

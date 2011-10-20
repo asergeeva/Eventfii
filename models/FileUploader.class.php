@@ -180,8 +180,9 @@ class qqFileUploader {
 					if (sizeof($csvList) > 0) {
 						EFCommon::$smarty->assign('contactList', $csvList);
 						EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
+						return;
 					}
-					print("No more new guests can be added from this CSV");
+					print(false);
 				}
 				return $result;
 			} else {
