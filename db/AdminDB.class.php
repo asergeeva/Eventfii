@@ -46,13 +46,13 @@ class AdminDB extends DBConfig {
 	
 	public function admin_getNumUsers() {
 		$GET_NUM_USERS = "SELECT COUNT(*) AS num_users FROM ef_users WHERE fname IS NOT NULL AND lname IS NOT NULL";
-		$numUsers = $this->getRowNum($GET_NUM_USERS);
+		$numUsers = $this->executeQuery($GET_NUM_USERS);
 		return $numUsers['num_users'];
 	}
 	
 	public function admin_getNumInvites() {
 		$GET_NUM_INVITES = "SELECT COUNT(*) AS num_invites FROM ef_event_invites";
-		$numInvites = $this->getRowNum($GET_NUM_INVITES);
+		$numInvites = $this->executeQuery($GET_NUM_INVITES);
 		return $numInvites['num_invites'];
 	}
 }
