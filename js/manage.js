@@ -112,4 +112,13 @@ var MANAGE_EVENT = ( function() {
 $(document).ready(function() {
 	MANAGE_EVENT.init();
 	CSV_UPLOADER.init();
+	
+	// Accordian Function
+	$(".table a").click(function(){
+		$(this).parent("dt").next("dd").next("dd").slideToggle("slow").siblings(".table-extra").slideUp("slow");
+		$(this).toggleClass("active");
+		$(this).parent("dt").siblings().find("a").removeClass("active");
+		return false;
+	});
+
 });

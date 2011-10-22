@@ -4,7 +4,7 @@
 					<h1>Contacts</h1>
 				</header>
 				<div id="search-container">Search: <div id="contacts-header"></div></div>
-				<ul class="contacts-list" id="contacts-list">{foreach $contacts as $contact}
+				<ul class="user-list" id="contacts-list">{foreach $contacts as $contact}
 
 					<li>
 						<label for="contact-{$contact->id}">{if isset($addButton)}

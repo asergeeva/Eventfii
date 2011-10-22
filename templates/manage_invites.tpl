@@ -4,7 +4,7 @@
 					</header>{if isset($guests)}
 
 					<fieldset>					
-						<ul class="contacts-list">{foreach $guests as $guest name=guests}
+						<ul class="user-list">{foreach $guests as $guest name=guests}
 
 							<li>
 								<label for="contact-{$smarty.foreach.guests.index}">{*

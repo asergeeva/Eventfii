@@ -991,23 +991,38 @@ ol.rsvp-list { margin: 0; }
 
 /*----- Response Table ----------*/
 #cp-breakdown { margin: 10px 0 0; }
-.table { font-size: 13px; }
-.table dt {
-	float: left;
-	clear: left; }
-.table dt.list-head { 
-	font-weight: bold;
-	margin: 0 0 10px; }
+.table { 
+	font-size: 13px;
+	border-bottom: 1px solid #ebebeb; }
+.table dt { border-top: 1px solid #ebebeb; }
+.table dt:first-child { 
+	font-weight: bold; 
+	padding: 9px 10px;
+	border: 0; }
+.table dt a { 
+	text-decoration: none;
+	padding: 9px 10px;
+	display: block; }
+.table dt a:hover, .table dt a.active { 
+	background: #ff9933;
+	color: #fff; }
 .table dd {
 	float: right;
-	text-align: center; }
+	margin: -25px 10px 0 0; }
+.table dd.table-extra { 
+	float: none;
+	height: 216px;
+	margin: 0;
+	padding: 0 10px;
+	clear: both;
+	display: none; }
 
 /*----- Contacts List ----------*/
-ul.contacts-list { 
+.user-list { 
 	margin: 8px -7px 0;
 	max-height: 216px;
 	overflow: auto; }
-ul.contacts-list li {
+.user-list li {
 	float: left;
 	color: #333;
 	position: relative;
@@ -1018,34 +1033,34 @@ ul.contacts-list li {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	clear: none; }
-.contacts-list li:hover { 
+.user-list li:hover { 
 	background: #3399cc;
 	color: #fff; }
-.contacts-list li label { 
+.user-list li label { 
 	width: 146px; /* 166 - 20 */
 	height: 36px; /* 44 - 8 */
 	padding: 4px 4px 4px 16px;
 	overflow: hidden;
 	cursor: pointer;
 	display: block; }
-.contacts-list li input {
+.user-list li input {
 	position: absolute; 
 	top: 0;
 	left: 0; }
-.contacts-list li img {
+.user-list li img {
 	float: left;
 	margin: 0 4px 0 -12px;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px; }
-.contacts-list li h3 { 
+.user-list li h3 { 
 	font-size: 14px;
 	line-height: 1;
 	height: 15px;
 	margin: 3px 0;
 	white-space: nowrap;
 	overflow: hidden; }
-ul.contacts-list li p { 
+.user-list li p { 
 	line-height: 1;
 	white-space: nowrap;
 	font-size: 11px;
