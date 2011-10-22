@@ -170,6 +170,9 @@ class PanelController {
 			case '/privacy':
 				EFCommon::$smarty->display('static_privacy.tpl');
 				break;
+			case '/faq':
+				EFCommon::$smarty->display('static_faq.tpl');
+				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
 				if ( isset($_POST['submit']) && ! isset($_GET['success']) ) {

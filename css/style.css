@@ -318,6 +318,9 @@ select.timebox { cursor: pointer; }
 	padding: 6px 10px 0;
 	display: block; }
 
+/* Static Pages
+ -------------------------*/
+
 /*----- Media ----------*/
 section.media { padding: 0 0 6px; }
 section.media header {
@@ -386,6 +389,25 @@ article section section h1 {
 	margin: 0; }
 article h2 { font-size: 16px; }
 
+/*----- FAQ ----------*/
+.faq header { 
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 0 35px; }
+.faq header h1 {
+	background: url(../images/turtle_mini.png) 0 50% no-repeat;
+	font-size: inherit;
+	height: 38px; /* 58 - 20 */
+	padding: 20px 0 0 60px;
+	display: inline-block; }
+.faq section { margin: 0 0 20px; }
+.faq h2 {
+	font-size: 12px;
+	font-weight: bold; }
+.faq footer {
+	text-align: center;
+	font-weight: bold; }
 
 /*----- Method ----------*/
 .method#container { width: 930px; }
@@ -1149,8 +1171,6 @@ ul.network li a {
 
 /* Buttons
  -------------------------*/
-
-/*----- Buttons ----------*/
 .buttons { clear: both; }
 .buttons-submit, .buttons-send { text-align: center; }
 .buttons-submit { margin: 15px 0 0; }

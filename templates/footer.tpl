@@ -10,6 +10,7 @@
 		<li>
 			<span>Help</span> 
 			<ul>
+				<li><a href="{$CURHOST}/faq">FAQ</a></li>
 				<li><a href="{$CURHOST}/contact">Contact Us</a></li>
 			</ul>
 		</li>
