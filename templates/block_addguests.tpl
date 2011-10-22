@@ -166,7 +166,7 @@
 							<label>Enter e-mails separated by a comma</label>
 							<textarea name="emails" class="inputbox autowidth"></textarea>
 							<footer class="buttons buttons-submit"> 
-								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p>
+								<p><span class="btn btn-med"><input type="submit" name="submit" value="{if ! isset($page.manage)}Add{else}Invite{/if}" id="add_import_contact_list" /></span></p>
 							</footer>
 						</fieldset>
 					</form>
