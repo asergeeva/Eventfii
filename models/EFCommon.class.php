@@ -69,6 +69,8 @@ class EFCommon {
 	
 	public static $metricsTracker;
 	
+	public static $experimentManager;
+		
 	public function __construct($smarty = NULL) {
 		date_default_timezone_set('America/Los_Angeles');
 	
@@ -101,6 +103,8 @@ class EFCommon {
 		self::$imageResizer = new ImageResizer();
 		
 		self::$metricsTracker = new MetricsTracker(MIXPANEL_TOKEN);
+		
+		self::$experimentManager = new Experiment();
 	}
 	
 	public function __destruct() {

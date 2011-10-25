@@ -294,7 +294,7 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
-			case '/event/create':			
+			case '/event/create':
 				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
 					// Check to see if coming off of the index page
 					if ( isset($_POST['submit']) ) {
