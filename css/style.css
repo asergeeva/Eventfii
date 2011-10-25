@@ -81,12 +81,11 @@ header#page-header {
 /* Forms
  -------------------------*/
 .form { overflow: auto; }
-.form-login { 
-	text-align: center;
-	width: 350px;
+.block.form-login { 
+	width: 402px;
 	margin: 0 auto; }
 .block.form-contact {
-	width: 450px;
+	width: 402px;
 	margin: 0 auto; }
 .form-register .turtle {
 	background: url(../images/turtle_large.png) 0 0 no-repeat;
@@ -102,14 +101,15 @@ header#page-header {
 	margin: 8px 0 0; }
 .form-register .block {
 	float: left;
-	width: 320px; }
+	width: 402px; }
 fieldset {
 	font-size: 12px;
 	padding: 12px 0 0;
 	position: relative; }
 
 /*----- Facebook Messages ----------*/
-.form .fb-connected {
+.fb { text-align: center; }
+.fb-connected {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
 	height: 20px;
@@ -117,7 +117,7 @@ fieldset {
 	border: 1px solid #3f598b;
 	cursor: default;
 	display: block; }
-.form .fb-connected span {
+.fb-connected span {
 	background: url(../images/facebook_icon.png) 0 0 no-repeat;
 	position: relative;
 	color: #fff;
@@ -142,7 +142,7 @@ fieldset legend {
 
 /*----- Input title ----------*/
 fieldset dt { 
-	padding: 6px 10px 0;
+	padding: 16px 10px 0;
 	clear: left; }
 /* Inline option */
 fieldset dt.inline { 
@@ -165,12 +165,14 @@ fieldset dt em { color: #959595; }
 fieldset dd { 
 	text-align: left;
 	margin: 4px 0 10px;
-	padding: 0 10px;
+	padding: 10px 10px 0;
 	clear: right; }
 fieldset dd label { display: block; }
 fieldset dd span { 
 	cursor: pointer;
 	vertical-align: middle; }
+fieldset dd p { margin: 4px 0 0; }
+fieldset dd p.extra { text-align: right; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dd div { overflow: auto; }
 fieldset dd div p { margin: 6px 0; }
@@ -186,8 +188,9 @@ fieldset dd.error {
 fieldset dd.error em { 
 	color: #9d261d;
 	line-height: 18px;
-	padding-left: 5px;
-	vertical-align: middle; }
+	padding: 4px 0 0 111px;
+	vertical-align: middle;
+	display: block; }
 fieldset footer label { 
 	padding: 0;
 	display: inline; }
@@ -486,6 +489,10 @@ article h2 { font-size: 16px; }
 	overflow: hidden; }
 
 /*----- Main Message ----------*/
+.message-extra { 
+	font-size: 13px;
+	text-align: center;
+	margin: 10px 0 0; }
 .message {
 	font-size: 18px;
 	text-align: center; }
@@ -498,7 +505,9 @@ article h2 { font-size: 16px; }
 	text-align: center;
 	font-size: 13px;
 	margin: 15px 0 0; }
-.form-login .message-small { margin: 5px 0 -13px; }
+.form-login .message-small { 
+	margin: 0;
+	padding: 10px 0; }
 
 /*----- Block ----------*/
 .block {
@@ -1139,41 +1148,45 @@ ul.network li a {
 .network li a.icon-twitter { background-image: url(../images/icon_twitter.gif); }
 
 /*----- Navigation Panel ----------*/
-#main .navigation {
+.navigation {
 	float: left;
-	width: 166px; }
-#main .navigation .block { padding: 8px; }
-#main .navigation .block a { color: #3399cc; }
-#main .navigation .block a:hover { color: #fff; }
-#main .navigation .block ul,
-#main .navigation .block ol { margin: 0 -8px 0; }
-#main .navigation .block ol {
+	width: 166px; } 
+	
+/* Image Navigation */
+.manage-nav { 
+
+}
+
+/* Simple Navigation */
+.navigation .block { padding: 8px; }
+.navigation .block a { color: #3399cc; }
+.navigation .block a:hover { color: #fff; }
+.navigation .block ul,
+.navigation .block ol { margin: 0 -8px 0; }
+.navigation .block ol {
 	list-style-type: decimal;
 	list-style-position: inside; }
-#main .navigation .block li {
+.navigation .block li {
 	background: #fff;
 	text-align: center;
 	font-size: 11px;
 	margin: 0 0 5px; }
-#main .navigation .block ol li { text-align: left; }
-#main .navigation .block li span { font-size: 11px; }
+.navigation .block ol li { text-align: left; }
+.navigation .block li span { font-size: 11px; }
 #cp-nav ol li { padding: 8px 0 8px 8px; }
-#main .navigation .block li.current,
-#main .navigation .block li a:hover { 
+.navigation .block li.current,
+.navigation .block li a:hover { 
 	background: #ff9933;
 	color: #fff; }
-#main .navigation .block li.broken a {
-	background: red;
-	color: #fff; }
-#main .navigation .block li a {
+.navigation .block li a {
 	text-decoration: none;
 	height: 21px; /* 30 - 9 */
 	padding: 9px 0 0;
 	display: block; }
-#main .navigation .block ol li a { padding: 8px 0 0 8px; }
-#main .navigation .block li.current span,
-#main .navigation .block li a:hover span { color: #fff; }
-#main .navigation .block ol li a span { font-size: 11px; }
+.navigation .block ol li a { padding: 8px 0 0 8px; }
+.navigation .block li.current span,
+.navigation .block li a:hover span { color: #fff; }
+.navigation .block ol li a span { font-size: 11px; }
 
 /* Error Pages
  -------------------------*/
@@ -1214,6 +1227,34 @@ a.btn { text-decoration: none; }
 .btn:focus span, .btn:focus input, .btn:focus em,
 .btn:active span, .btn:active input, .btn:active em,
 .btn.current span, .btn.current input, .btn.current em { background-position: 100% 0; }
+
+/* Navigation for manage page */
+.btn-nav { 
+	background-image: url(../images/btn_nav_left.png);
+	background-position: 0 -75px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	height: 75px;
+	margin: 0 0 5px;
+	padding: 0 0 0 7px;
+	display: block; }
+.btn-nav span {
+	background-image: url(../images/btn_nav_right.png);
+	background-position: 100% -75px;
+	height: 65px; /* 75 - 10 */
+	width: 142px; /* 166 - 7 - 12 - 5 */
+	padding: 10px 12px 0 5px; }
+.btn-nav span em {
+	background: none 50% 100% no-repeat;
+	padding: 0 0 36px;
+	display: inline-block; }
+.btn-nav:hover span em,
+.btn-nav.current span em { background-position: 50% 100%; }
+.btn-nav.nav-guestlist em { background-image: url(../images/icon_manage_guestlist.png); }
+.btn-nav.nav-addguests em { background-image: url(../images/icon_manage_addguests.png); }
+.btn-nav.nav-email em { background-image: url(../images/icon_manage_email.png); }
+.btn-nav.nav-text em { background-image: url(../images/icon_manage_text.png); }
 
 .btn-manage { 
 	background-image: url(../images/btn_manage_left.png);
@@ -1279,8 +1320,8 @@ a.btn { text-decoration: none; }
 	background: #fff;
 	float: left;
 	position: relative;
-	width: 374px;
-	margin: 0 0 0 -187px;
+	width: 402px;
+	margin: 0 0 0 -201px;
 	padding: 20px 10px;
 	overflow: visible; }
 .popup .thumbs { 
@@ -1300,8 +1341,8 @@ a.btn { text-decoration: none; }
 	font-size: 30px;
 	color: #fff;
 	width: 50px;
-	height: 41px; /* 50 - 9 */
-	padding: 9px 0 0;
+	height: 43px; /* 50 - 7 */
+	padding: 7px 0 0;
 	-moz-border-radius: 25px; 
 	-webkit-border-radius: 25px;
 	border-radius: 25px;

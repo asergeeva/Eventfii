@@ -11,7 +11,7 @@
 		<p class="message">{$error.login}</p>
 	</header>{/if}
 
-	<section class="form-login">
+	<section class="form-login block">
 		{include file="login_form.tpl"}
 	</section>
 </div>

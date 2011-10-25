@@ -111,12 +111,12 @@
 				</header>
 				<p class="twitter-info">Use <span>#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->alias}{/if}</span> to post your tweet & pics here!</p>
 				<div class="twitStream {$NUM_TWEETS}" id="tweets" title="#{if isset($event->twitter)}{$event->twitter}{else}trueRSVP{$event->alias}{/if}"></div>
-			</section>
+			</section>{*
 			<section class="block" id="sponsors">
 				<header class="block-title">
 					<h1>Sponsors</h1>
 				</header>
-			</section>
+			</section>*}
 		</aside>
 		<!--footer class="links-extra">
 			<p><a href="#">Flag this event</a></p>

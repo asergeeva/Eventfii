@@ -1,4 +1,4 @@
-	<section class="block" id="events-created">
+<section class="block" id="events-created">
 				<header class="block-collapsable-title">
 					<h1>I'm hosting...</h1>
 				</header>{assign var=createdEvents_counts value=$createdEvents|@count}{if $createdEvents_counts gt 0}
@@ -15,7 +15,9 @@
 					</li>{/foreach}
 
 				</ul>{else}
+
+				<p class="message-extra">You are not hosting any events.</p>{/if}
 				
-				<p class="message">You are not hosting any events.</p>{/if}
+				<p class="message-extra"><a href="#">View past events you've hosted</a></p>
 
 			</section>
