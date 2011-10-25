@@ -10,7 +10,7 @@
 			<p>For guests, access immediate updates from events you care about!</p>
 			<p><a href="{$CURHOST}/method">Take a tour</a> to find out more!</p>
 		</div>
-		<div class="form block">
+		<div class="block">
 			<form method="post" action="{$CURHOST}/register{if isset($redirect)}{$redirect}{/if}" autocomplete="off">
 			<fieldset>{if isset($smarty.session.fb)}
 				
@@ -25,7 +25,7 @@
 				<p class="message-small">Use our Safe and Secure Form</p>{/if}
 				
 				<dl>
-					<dt>
+					<dt class="inline">
 						<label for="email">Email<span>*</span></label>
 					</dt>
 					<dd{if isset($error.email)} class="error"{/if}>
@@ -34,7 +34,7 @@
 						<em>{$error.email}</em>{/if}
 
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label for="email">Re-type Email<span>*</span></label>
 					</dt>
 					<dd{if isset($error.email)} class="error"{/if}>
@@ -43,7 +43,7 @@
 						<em>{$error.email}</em>{/if}
 
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label for="password">Password<span>*</span></label>
 					</dt>
 					<dd{if isset($error.password)} class="error"{/if}>
@@ -52,7 +52,7 @@
 						<em>{$error.password}</em>{/if}
 
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label for="fname">First Name<span>*</span></label>
 					</dt>
 					<dd{if isset($error.fname)} class="error"{/if}>
@@ -61,7 +61,7 @@
 						<em>{$error.fname}</em>{/if}
 
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label for="lname">Last Name<span>*</span></label>
 					</dt>
 					<dd{if isset($error.lname)} class="error"{/if}>
@@ -70,7 +70,7 @@
 						<em>{$error.lname}</em>{/if}
 
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label for="phone">Cell Phone #<span>*</span></label>
 					</dt>
 					<dd{if isset($error.phone)} class="error"{/if}>
@@ -78,9 +78,9 @@
 
 						<em>{$error.phone}</em>{/if}
 
-						<p>So you can easily receive event updates through texts!</p>
+						<p class="extra">So you can easily receive event updates through texts!</p>
 					</dd>
-					<dt>
+					<dt class="inline">
 						<label>Zip Code<span>*</span></label>
 					</dt>
 					<dd{if isset($error.zip)} class="error"{/if}>
@@ -88,7 +88,7 @@
 
 						<em>{$error.zip}</em>{/if}
 
-						<p>So we can tell you how close to your events you are.</p>
+						<p class="extra">So we can tell you how close to your events you are.</p>
 					</dd>
 				</dl>
 				<footer class="buttons-submit"> 

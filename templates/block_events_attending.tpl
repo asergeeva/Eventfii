@@ -16,6 +16,8 @@
 
 				</ul>{else}
 
-				<p class="message">You haven't RSVP'd to any events yet.</p>{/if}
+				<p class="message-extra">You haven't RSVP'd to any events yet.</p>{/if}
+
+				<p class="message-extra"><a href="#">View past events you've attended</a></p>
 
 			</section>
