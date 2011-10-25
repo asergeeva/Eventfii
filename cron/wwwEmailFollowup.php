@@ -76,3 +76,5 @@ class EmailFollowup {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email followup COMPLETED --\n");
 	}
 }
+$emailReminder = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
+$emailReminder->sendFollowups();

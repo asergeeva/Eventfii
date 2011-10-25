@@ -91,3 +91,5 @@ class AutoReminder {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Automated message reminders COMPLETED --\n");
 	}
 }
+$autoReminder = new AutoReminder($argv[1], $argv[2], $argv[3]);
+$autoReminder->sendReminders();
