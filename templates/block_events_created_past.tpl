@@ -1,5 +1,5 @@
 	<section class="block" id="events-created">
-				<header class="block-title">
+				<header class="block-collapsable-title">
 					<h1>Past hosted events</h1>
 				</header>{assign var=pastCreatedEvents_counts value=$pastCreatedEvents|@count}{if $pastCreatedEvents_counts gt 0}
 
@@ -18,5 +18,6 @@
 				
 				<p class="message">There are no past hosted events.</p>
 				{/if}
-
+				
+				<p class="message-extra"><a href="{$CURHOST}">View events you're scheduled to host</a></p>
 			</section>

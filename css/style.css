@@ -751,6 +751,9 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .event-more .user-img { 
 	float: left;
 	margin: 0 0 0 5px; }
+.event-more .user-img img {
+	max-width: 36px;
+	max-height: 36px; }
 .event-more .user-info {
 	float: left;
 	font-size: 10px;
@@ -1111,7 +1114,8 @@ ol.rsvp-list { margin: 0; }
 	display: inline-block; }
 .thumbs li figure img {
 	vertical-align: middle;
-	max-height: 66px;
+	max-width: 64px;
+	max-height: 64px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;

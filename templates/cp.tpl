@@ -26,15 +26,18 @@
 		<aside class="extra">
 			{include file="block_cp_user.tpl"}
 			{include file="block_events_invited.tpl"}
-			{include file="block_events_created_past.tpl"}
-			{include file="block_events_attended.tpl"}
 		</aside>
-		<div class="content">
+		<div class="content">{if isset($smarty.get.view) && $smarty.get.view == "past"}
+
+			{include file="block_events_created_past.tpl"}
+			{include file="block_events_attended.tpl"}{else}
+
 			<header class="block">
 				<p class="message">You can manage all of your upcoming events from this home page.</p>
 			</header>
 			{include file="block_events_created.tpl"}
-			{include file="block_events_attending.tpl"}
+			{include file="block_events_attending.tpl"}{/if}
+
 		</div>
 	</section>
 </div>
