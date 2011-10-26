@@ -107,7 +107,9 @@ fieldset {
 	position: relative; }
 
 /*----- Facebook Messages ----------*/
-.fb { text-align: center; }
+.fb { 
+	text-align: center;
+	margin: 12px 0 0; }
 .fb-connected {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
