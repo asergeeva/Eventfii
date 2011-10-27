@@ -140,7 +140,11 @@ class EFCommon {
 						$text = str_replace(EFCommon::$efDict[$i], $event->title, $text);
 						break;
 					case "{Event time}":
-						$text = str_replace(EFCommon::$efDict[$i], $event->time, $text);
+						if (isset($event->friendly_time) && trim($event->friendly_time) != "") {
+							$text = str_replace(EFCommon::$efDict[$i], $event->friendly_time, $text);
+						} else {
+							$text = str_replace(EFCommon::$efDict[$i], $event->time, $text);
+						}
 						break;
 				}
 			}
