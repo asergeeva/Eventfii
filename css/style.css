@@ -104,11 +104,14 @@ header#page-header {
 	width: 402px; }
 fieldset {
 	font-size: 12px;
-	padding: 12px 0 0;
-	position: relative; }
+	position: relative;
+	padding: 1px 0; }
 
 /*----- Facebook Messages ----------*/
-.fb { text-align: center; }
+.fb { 
+	text-align: center;
+	margin: 12px 0 0;
+	overflow: auto; }
 .fb-connected {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
@@ -165,14 +168,15 @@ fieldset dt em { color: #959595; }
 fieldset dd { 
 	text-align: left;
 	margin: 4px 0 10px;
-	padding: 10px 10px 0;
-	clear: right; }
+	padding: 10px 0 0 10px;
+	clear: right;
+	overflow: hidden; }
 fieldset dd label { display: block; }
 fieldset dd span { 
 	cursor: pointer;
 	vertical-align: middle; }
 fieldset dd p { margin: 4px 0 0; }
-fieldset dd p.extra { text-align: right; }
+fieldset dd p.information1 { text-align: right; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
 fieldset dd div { overflow: auto; }
 fieldset dd div p { margin: 6px 0; }
@@ -188,7 +192,7 @@ fieldset dd.error {
 fieldset dd.error em { 
 	color: #9d261d;
 	line-height: 18px;
-	padding: 4px 0 0 111px;
+	padding: 4px 0 0;
 	vertical-align: middle;
 	display: block; }
 fieldset footer label { 
@@ -535,7 +539,6 @@ article h2 { font-size: 16px; }
 	background-image: -webkit-linear-gradient(top, #fceec1, #eedc94);
 	background-image: -o-linear-gradient(top, #fceec1, #eedc94);
 	background-image: linear-gradient(top, #fceec1, #eedc94);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fceec1', endColorstr='#eedc94', GradientType=0);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	border-color: #eedc94 #eedc94 #e4c652;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -751,6 +754,9 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .event-more .user-img { 
 	float: left;
 	margin: 0 0 0 5px; }
+.event-more .user-img img {
+	max-width: 36px;
+	max-height: 36px; }
 .event-more .user-info {
 	float: left;
 	font-size: 10px;
@@ -838,7 +844,7 @@ nav.steps.step-3 { background-position: 0 -100px; }
 .event-list li a.event-manage { 
 	float: right;
 	margin: 7px 0 0;
-	overflow: none; }
+	overflow: visible; }
 .event-list li a span.event-daysleft { 
 	float: right;
 	margin: 5px 0 0; }
@@ -1111,7 +1117,8 @@ ol.rsvp-list { margin: 0; }
 	display: inline-block; }
 .thumbs li figure img {
 	vertical-align: middle;
-	max-height: 66px;
+	max-width: 64px;
+	max-height: 64px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -1357,14 +1364,11 @@ a.btn { text-decoration: none; }
 	cursor:pointer;
 	height:102px;
 	left:0;
-	margin-left:-5px; 
-	*margin-left:-5px; 
+	margin-left:-5px;
 	overflow:hidden;
 	position:fixed;
-	*position:absolute;
 	text-indent:-100000px;
 	top:102px;
-	*margin-top:10px;
 	width:44px;
 	z-index:100000; }
 #contactable #contactForm {
@@ -1374,14 +1378,12 @@ a.btn { text-decoration: none; }
 	height:450px;
 	left:0;
 	margin-left:-400px;
-	*margin-left:-434px;
 	margin-top:-160px;
 	overflow:hidden;
 	padding-left:30px;
 	position:fixed;
 	top:200px;
 	width:360px;
-	*width:394px;
 	z-index:99; }
 #contactable form#contactForm input, #contactable textarea {
 	background:#FFFFFF none repeat scroll 0 0;
@@ -1413,7 +1415,7 @@ a.btn { text-decoration: none; }
 	margin-top:10px; }
 #contactable form#contactForm p {
 	width:325px; }
-#contactable form#contactForm .disclaimer { *margin-left:20px; }
+#contactable form#contactForm .disclaimer { margin-left:20px; }
 #contactable #contactForm .red { color:	#F5410F; }
 #contactable #overlay {
 	background-color:#666666;
@@ -1446,7 +1448,7 @@ a.btn { text-decoration: none; }
 	display:none; }
 #contactable .holder {
 	margin:0 auto;
-	*margin-left:20px;
+	margin-left:20px;
 	padding-top:20px; }	
 
 /* Footer
@@ -1454,7 +1456,7 @@ a.btn { text-decoration: none; }
 footer.links-extra {
 	text-align: right; 
 	font-size: 11px;
-	margin: 0 15px 0 0; } }
+	margin: 0 15px 0 0; }
 .links-extra label { 
 	text-align: left;
 	margin: 0 0 0 100px; }

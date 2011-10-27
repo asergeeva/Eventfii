@@ -78,7 +78,7 @@
 
 						<em>{$error.phone}</em>{/if}
 
-						<p class="extra">So you can easily receive event updates through texts!</p>
+						<p class="information">So you can easily receive event updates through texts!</p>
 					</dd>
 					<dt class="inline">
 						<label>Zip Code<span>*</span></label>
@@ -88,7 +88,7 @@
 
 						<em>{$error.zip}</em>{/if}
 
-						<p class="extra">So we can tell you how close to your events you are.</p>
+						<p class="information">So we can tell you how close to your events you are.</p>
 					</dd>
 				</dl>
 				<footer class="buttons-submit"> 

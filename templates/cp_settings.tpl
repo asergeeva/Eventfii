@@ -35,7 +35,7 @@
 				<fieldset>
 					<legend>Account Info</legend>
 					<dl>
-						<dt>
+						<dt class="inline">
 							<label for="fname">First Name</label>
 						</dt>
 						<dd{if isset($error.fname)} class="error"{/if}>
@@ -44,7 +44,7 @@
 							<em>{$error.fname}</em>{/if}
 
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="lname">Last Name</label>
 						</dt>
 						<dd{if isset($error.lname)} class="error"{/if}>
@@ -53,7 +53,7 @@
 							<em>{$error.lname}</em>{/if}
 
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="email">Email</label>
 						</dt>
 						<dd{if isset($error.email)} class="error"{/if}>
@@ -62,41 +62,47 @@
 							<em>{$error.email}</em>{/if}
 
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="user-phone">Cell #</label>
 						</dt>
 						<dd{if isset($error.phone)} class="error"{/if}>
 							<input type="text" name="phone" value="{$smarty.session.user->phone}" class="inputbox" id="user-phone" />{if isset($error.phone)}
 
-						<em>{$error.phone}</em>{/if}
+							<em>{$error.phone}</em>{/if}
 
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="user-zip">Zip</label>
-						<dt>
+						</dt>
 						<dd{if isset($error.zip)} class="error"{/if}>
 							<input type="text" name="zip" value="{$smarty.session.user->zip}" class="inputbox" id="user-zip" maxlength="5" />{if isset($error.zip)}
 
-							<em>{$error.zip}</em>{/if}
+						<em>{$error.zip}</em>{/if}
 
-						</dd>
+						</dd>						
 					</dl>
 				</fieldset>
 				<fieldset>
 					<legend>Connect with Social Networks</legend>
-					<label for="twitter" class="autowidth">
-						<a href="#"><span id="connect_twitter"></span></a>
-					</label>
-					<label for="fbconnect" class="autowidth">
-						<div id="fb-root"></div>
-						<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
-						<span id="user_fbid">{$smarty.session.user->facebook}</span>
-					</label>
+					<dl>
+						<dt class="inline">
+							<label>Twitter:</label>
+						</dt>
+						<dd><a href="#"><span id="connect_twitter"></span></a></dd>
+						<dt class="inline">
+							<label>Facebook:</label>
+						</dt>
+						<dd>
+							<div id="fb-root"></div>
+							<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
+						</dd>
 				</fieldset>
 				<fieldset>
 					<legend>Notification Options</legend>
 					<dl>
-						<dt></dt>
+						<dt class="inline">
+							<label>Please select:</label>
+						</dt>
 						<dd>
 							<label for="features">
 								<p><input type="checkbox" name="notif_opt1" value="1"{if $smarty.session.user->notif_opt1 == 1} checked="checked"{/if} id="features" /> Tell me about new features every month</p>
@@ -105,7 +111,7 @@
 								<p><input type="checkbox" name="notif_opt2" value="1"{if $smarty.session.user->notif_opt2 == 1} checked="checked"{/if} id="updates" /> Send me daily updates about my event when I’m the host</p>
 							</label>
 							<label for="attend">
-								<p><input type="checkbox" name="notif_opt3" value="1"{if $smarty.session.user->notif_opt3 == 1} checked="checked"{/if} id="attend" /> Notify me when my friends are highly likely to attend the same event as I</p>
+								<p><input type="checkbox" name="notif_opt3" value="1"{if $smarty.session.user->notif_opt3 == 1} checked="checked"{/if} id="attend" /> Notify me when my friends are likely to attend the same event as I</p>
 							</label>
 						</dd>
 					</dl>
