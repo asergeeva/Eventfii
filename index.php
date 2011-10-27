@@ -22,6 +22,7 @@ require_once(realpath(dirname(__FILE__)).'/db/DBConfig.class.php');
 require_once(realpath(dirname(__FILE__)).'/libs/OpenInviter/openinviter.php');
 require_once(realpath(dirname(__FILE__)).'/libs/QR/qrlib.php');
 require_once(realpath(dirname(__FILE__)).'/libs/Facebook/facebook.php');
+//require_once(realpath(dirname(__FILE__)).'/libs/Couchbase/Couchbase.php');
 //require_once(realpath(dirname(__FILE__)).'/libs/GoogleMapAPI.class.php');
 
 // header("Location: ". LAUNCH_PAGE);
