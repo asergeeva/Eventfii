@@ -58,7 +58,7 @@ var MANAGE_EVENT = ( function() {
 					reminderSubject: $('#subject').val(),
 					reminderContent: $('#message').val(),
 					isFollowup: $('#is_followup').val(),
-					eid: $('#event_id').html()
+					eid: $('#event-id').html()
 				}, function(retval) {
 					if(retval=="Success") {
 						$('#notification-message').html(EFGLOBAL.isSucceed);
@@ -77,7 +77,7 @@ var MANAGE_EVENT = ( function() {
 					reminderTime: $('#automatic_text_send_time').val(),
 					reminderRecipient: $('#text-to option:selected').val(),
 					reminderContent: $('#text-message').val(),
-					eid: $('#event_id').html()
+					eid: $('#event-id').html()
 				}, function(retval) {
 					if(retval=="Success") {
 						$('#notification-message').html(EFGLOBAL.isSucceed);
@@ -120,5 +120,4 @@ $(document).ready(function() {
 		$(this).parent("dt").siblings().find("a").removeClass("active");
 		return false;
 	});
-
 });

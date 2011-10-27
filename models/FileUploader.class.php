@@ -124,19 +124,16 @@ class qqFileUploader {
         }
         
         $pathinfo = pathinfo($this->file->getName());
-				
-		$event = NULL;
+		
 		// Handle the create event
 		if (isset($_SESSION['newEvent']->eid)) {
 			$eventId = $_SESSION['newEvent']->eid;
 			$filename = $eventId;
-			$event = new Event($eventId);
 		
 		// Handle the manage event
 		} else if (isset($_SESSION['manage_event'])) {
 			$eventId = $_SESSION['manage_event']->eid;
 			$filename = $eventId;
-			$event = new Event($eventId);
 		}
 		
 		//$filename = $pathinfo['filename'];
@@ -167,23 +164,11 @@ class qqFileUploader {
 					EFCommon::resizeImage($imagePath);
 				}
 				
-				$result = array('success'=>true, 'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext);
-				if ($ext == 'csv' && isset($event)) {
-					$contactList = $event->setGuestsFromCSV(CSV_UPLOAD_PATH.'/'.$filename.'.csv');
-					$csvList = array();
-					for ($i = 0; $i < sizeof($contactList); ++$i) {
-						if (trim($contactList[$i]) != '') { 
-							$csvList[$contactList[$i]] = '';
-						}
-					}
-					
-					if (sizeof($csvList) > 0) {
-						EFCommon::$smarty->assign('contactList', $csvList);
-						EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
-						return;
-					}
-					print(false);
-				}
+				$result = array(
+					'success'=>true, 
+					'file' => CURHOST.'/'.$uploadDirectory . $filename . '.' . $ext, 
+					'filename' => $filename . '.' . $ext
+				);
 				return $result;
 			} else {
 				return array('error'=> 'Could not save uploaded file.' .

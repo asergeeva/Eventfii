@@ -421,6 +421,32 @@ class PanelController {
 
 				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 				$result = $uploader->handleUpload('upload/event/csv/', TRUE, $current_page);
+				
+				// Handle the create event
+				$event = NULL;
+				if (isset($_SESSION['newEvent'])) {
+					$event = $_SESSION['newEvent'];
+				// Handle the manage event
+				} else if (isset($_SESSION['manage_event'])) {
+					$event = $_SESSION['manage_event'];
+				}
+				
+				if (isset($event)) {
+					$contactList = $event->setGuestsFromCSV(CSV_UPLOAD_PATH.'/'.$result['filename']);
+					$csvList = array();
+					for ($i = 0; $i < sizeof($contactList); ++$i) {
+						if (trim($contactList[$i]) != '') { 
+							$csvList[$contactList[$i]] = '';
+						}
+					}
+					
+					if (sizeof($csvList) > 0) {
+						EFCommon::$smarty->assign('contactList', $csvList);
+						EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
+					} else {
+						print(false);
+					}
+				}
 				break;
 			case '/user/follow':
 				if ($_SESSION['user']->id != $_POST['fid']) {
@@ -690,23 +716,18 @@ class PanelController {
 				$event = $_SESSION['manage_event'];
 				
 				// Determine whether the auto reminder is activated
-				$autoReminder = 0;
-				if ($_REQUEST['autoReminder'] == 'true') {
-					$autoReminder = 1;
-				}
+				if (isset($_REQUEST['autoReminder']) && $_REQUEST['autoReminder'] == 'true') {
+					// Validation
+					$sms = new AbstractMessage($_POST['reminderContent'],
+										   	   $_POST['reminderTime'],
+										   	   $_POST['reminderDate'],
+										   	   $_POST['reminderRecipient']);
+					
+					if($sms->get_errors($autoReminder)) {
+						die($sms->print_errors());
+					}
 				
-				// Validation
-				$sms = new AbstractMessage($_POST['reminderContent'],
-									   	   $_POST['reminderTime'],
-									   	   $_POST['reminderDate'],
-									   	   $_POST['reminderRecipient']);
-				
-				if($sms->get_errors($autoReminder)) {
-					die($sms->print_errors());
-				}
-				
-				// If the auto reminder is enabled, we will only save it (sending it through cron job)
-				if ($autoReminder == 1) {
+					// If the auto reminder is enabled, we will only save it (sending it through cron job)
 					$sqlDate = EFCommon::$dbCon->dateToSql($_REQUEST['reminderDate']);
 					$dateTime = $sqlDate." ".date("H:i:s", strtotime($_REQUEST['reminderTime']));
 					EFCommon::$dbCon->saveText( $_POST['eid'], 
