@@ -104,12 +104,14 @@ header#page-header {
 	width: 402px; }
 fieldset {
 	font-size: 12px;
-	position: relative; }
+	position: relative;
+	padding: 1px 0; }
 
 /*----- Facebook Messages ----------*/
 .fb { 
 	text-align: center;
-	padding: 12px 0 0; }
+	margin: 12px 0 0;
+	overflow: auto; }
 .fb-connected {
 	background: url(../images/facebook_bg.png) 0 0 repeat-x;
 	position: relative;
