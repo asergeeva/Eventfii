@@ -32,6 +32,22 @@ var FBCON = (function() {
 		
 		onlogin: function() {
 			FB.getLoginStatus(this.loginUser);
+		},
+		
+		harvestFriends: function() {
+			FB.getLoginStatus(function(sessionInfo) {
+				if (sessionInfo.session) {
+					FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
+						if (typeof userFriends.error == 'undefined') {
+							$.post(EFGLOBAL.baseUrl + '/fb/friends', {
+								fbFriends: JSON.stringify(userFriends)
+							});
+						}
+					});
+				} else {
+					
+				}
+			});
 		}
 	}
 	

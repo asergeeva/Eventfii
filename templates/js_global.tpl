@@ -21,7 +21,8 @@ var EFGLOBAL = (function() {
 		baseUrl: '{/literal}{$CURHOST}{literal}',
 		fbAppId: '{/literal}{$FB_APP_ID}{literal}',
 		attendSucceed: '<h2>Success!</h2>',
-		isSucceed: '<span class="succeed_text">Success</span>'
+		isSucceed: '<span class="succeed_text">Success</span>',
+		fbGraph: '{/literal}{$FB_GRAPH_URL}{literal}'
 	}
 }());
 

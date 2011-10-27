@@ -440,6 +440,7 @@ class DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER_FB);
 		
 		$_SESSION['user']->facebook = $fbid;
+		$_SESSION['user']->setUserPic($fbid);
 	}
 	
 	/* facebookConnect

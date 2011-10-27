@@ -53,6 +53,7 @@ $smarty->assign('EVENT_URL', EVENT_URL);
 $smarty->assign('NUM_TWEETS', NUM_TWEETS);
 $smarty->assign('MAX_DISPLAY_GUEST', 10);
 $smarty->assign('GOOGLE_MAP_URL', GOOGLE_MAP_URL);
+$smarty->assign('FB_GRAPH_URL', FB_GRAPH_URL);
 
 // Yes
 define('CONFOPT1', 90);

@@ -46,12 +46,15 @@ var EF_SETTINGS = (function() {
 					$.post(EFGLOBAL.baseUrl + '/fb/user/update', {
 						fbid: userInfo.id
 					}, function() {
+						$('#user_pic').attr('src', EFGLOBAL.fbGraph + '/' + userInfo.id + '/picture?type=large');
 						$('#user_fbid').html(userInfo.id);
 						$('#notification-box p.message').html("Your Facebook account is now connected.");
 						$('#notification-box').fadeIn('slow');
 					});
 				}
 			});
+			
+			FBCON.harvestFriends();
 		}
 	}
 })();

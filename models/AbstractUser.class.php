@@ -81,21 +81,14 @@ class AbstractUser {
 		$this->exists = true;
 	}
 	
-	private function setUserPic($facebook = NULL) {
+	public function setUserPic($facebook = NULL) {
 		if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".png") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".png";
 		} else if ( file_exists(realpath(dirname(__FILE__))."/../upload/user/" . $this->id . ".jpg") ) {
 			return CURHOST . "/upload/user/" . $this->id . ".jpg";
 		} else if ( $facebook != NULL ) {
 			$imageUrl = FB_GRAPH_URL . "/" . $facebook . "/picture";
-/*
-			$filename = realpath(dirname(__FILE__))."/../upload/fb/".$this->id.".png";
-			$imageContent = file_get_contents($imageUrl);
-			
-			file_put_contents($filename, $imageContent);
-			
-			EFCommon::resizeImage($filename);
-*/
+			$this->pic = $imageUrl;
 			
 			return $imageUrl;
 		} else {

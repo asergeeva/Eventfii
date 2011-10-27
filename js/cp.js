@@ -52,17 +52,5 @@ $(document).ready(function() {
 		$("input[name=file]").click();
 	});
 	
-	FB.getLoginStatus(function(sessionInfo) {
-		if (sessionInfo.session) {
-			FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
-				if (typeof userFriends.error == 'undefined') {
-					$.post(EFGLOBAL.baseUrl + '/fb/friends', {
-						fbFriends: JSON.stringify(userFriends)
-					});
-				}
-			});
-		} else {
-			
-		}
-	});
+	FBCON.harvestFriends();
 });
