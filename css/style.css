@@ -1021,12 +1021,13 @@ ol.rsvp-list { margin: 0; }
 .table dt a:hover, .table dt a.active { 
 	background: #ff9933;
 	color: #fff; }
+.table dt a.active { font-weight: bold; }
 .table dd {
 	float: right;
 	margin: -25px 10px 0 0; }
 .table dd.table-extra { 
 	float: none;
-	height: 216px;
+	/* height: 216px; */
 	margin: 0;
 	padding: 0 10px;
 	clear: both;
