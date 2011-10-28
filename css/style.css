@@ -1041,11 +1041,16 @@ ol.rsvp-list { margin: 0; }
 .user-list li {
 	float: left;
 	position: relative;
+	width: 166px;
+	height: 44px;
 	margin: 0 4px 8px; }
 .user-list li label { 
-	width: 146px; /* 166 - 20 */
+	position: absolute;
+	white-space: nowrap;
+	line-height: 1;
+	width: 158px; /* 166 - 8 */
 	height: 36px; /* 44 - 8 */
-	padding: 4px 4px 4px 16px;
+	padding: 4px;
 	overflow: hidden;
 	cursor: pointer;
 	border: 1px solid #cacaca;
@@ -1053,32 +1058,36 @@ ol.rsvp-list { margin: 0; }
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	display: block; }
-.user-list label:hover { background: #3399cc; }
+.user-list label:hover { 
+	background: #3399cc;
+	width: auto;
+	min-width: 158px;
+	z-index: 5; }
 .user-list li a { 
 	color: #333;
 	text-decoration: none; }	
 .user-list label:hover a { color: #fff; }
-.user-list li input {
+.user-list label input {
 	position: absolute; 
 	top: 0;
 	left: 0; }
-.user-list li img {
+.user-list label img {
 	float: left;
-	margin: 0 4px 0 -12px;
+	margin: 0 4px 0 0;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px; }
-.user-list li h3 { 
+.user-list label h3 { 
 	font-size: 14px;
-	line-height: 1;
 	height: 15px;
 	margin: 3px 0;
-	white-space: nowrap;
-	overflow: hidden; }
-.user-list li span { 
-	line-height: 1;
-	white-space: nowrap;
-	font-size: 11px; }
+	padding: 0 0 0 40px;
+	display: block; }
+.user-list label span { 
+	font-size: 11px;
+	padding: 0 0 0 40px;
+	display: block; }
+.user-list label .no-pic { padding: 0; }
 	
 /*----- Checkin Options ----------*/
 #manage-checkin header {

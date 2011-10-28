@@ -8,12 +8,17 @@
 
 					<li>
 						<label{if ! isset($addButton)}>{else} for="contact-{$contact->id}">						
-							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />{/if}
+							<input type="checkbox" id="contact-{$contact->id}" value="{$contact->email}" class="selected_contact" />{/if}{if $contact->pic == "{$CURHOST}/images/default_thumb.jpg"}{if isset($contact->fname)}
+							
+							<h3 class="no-pic">{$contact->fname} {$contact->lname}</h3>{/if}
+
+							<span class="no-pic"><a href="#/{$contact->email}/">{$contact->email}</a></span>{else}
 
 							<img src="{$contact->pic}?type=square" width="36" height="36" alt="{$contact->email}" />{if isset($contact->fname)}
+
 							<h3>{$contact->fname} {$contact->lname}</h3>{/if}
 
-							<span><a href="#/{$contact->email}/">{$contact->email}</a></span>
+							<span><a href="#/{$contact->email}/">{$contact->email}</a></span>{/if}
 						</label>
 					</li>{/foreach}
 
