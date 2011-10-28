@@ -213,7 +213,7 @@
 							</dd>
 						</dl>
 						<aside class="turtle">
-							<p>You can always come back and edit these later!</p>
+							<p>You're almost done!</p>
 						</aside>
 						<footer class="buttons buttons-submit">
 							<input type="hidden" name="title" value="{$smarty.post.title}" />{if isset($smarty.post.location)}<input type="hidden" name="location" value="{$smarty.post.location}" />{/if}

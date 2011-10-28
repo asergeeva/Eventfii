@@ -153,11 +153,11 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/twitter.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/jquery.jeditable.mini.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/settings.js"></script>
+<script src="{$JS_PATH}/md5-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/uploader.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/fb.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/twitter.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/jquery.jeditable.mini.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/settings.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

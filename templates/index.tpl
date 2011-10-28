@@ -112,7 +112,7 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/home_event.js"></script>
+<script src="{$JS_PATH}/home_event.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

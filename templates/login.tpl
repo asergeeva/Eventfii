@@ -18,9 +18,9 @@
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/md5-min.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/fb.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/login.js"></script>
+<script src="{$JS_PATH}/md5-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/fb.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/login.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	FB.Event.subscribe('auth.login', FBCON.loginUser);

@@ -1040,25 +1040,24 @@ ol.rsvp-list { margin: 0; }
 	overflow: auto; }
 .user-list li {
 	float: left;
-	color: #333;
 	position: relative;
-	width: 166px; /* 176 - 10 */
-	margin: 0 4px 8px;
-	border: 1px solid #cacaca;
-	-moz-border-radius: 4px; 
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	clear: none; }
-.user-list li:hover { 
-	background: #3399cc;
-	color: #fff; }
+	margin: 0 4px 8px; }
 .user-list li label { 
 	width: 146px; /* 166 - 20 */
 	height: 36px; /* 44 - 8 */
 	padding: 4px 4px 4px 16px;
 	overflow: hidden;
 	cursor: pointer;
+	border: 1px solid #cacaca;
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	display: block; }
+.user-list label:hover { background: #3399cc; }
+.user-list li a { 
+	color: #333;
+	text-decoration: none; }	
+.user-list label:hover a { color: #fff; }
 .user-list li input {
 	position: absolute; 
 	top: 0;
@@ -1076,12 +1075,10 @@ ol.rsvp-list { margin: 0; }
 	margin: 3px 0;
 	white-space: nowrap;
 	overflow: hidden; }
-.user-list li p { 
+.user-list li span { 
 	line-height: 1;
 	white-space: nowrap;
-	font-size: 11px;
-	float: none;
-	clear: none; }
+	font-size: 11px; }
 	
 /*----- Checkin Options ----------*/
 #manage-checkin header {

@@ -1,7 +1,7 @@
 <div class="navigation">
 			<nav class="manage-nav">
 				<ul class="buttons">
-					<li><a href="{$CURHOST}/event/manage/attendees?eventId={$smarty.session.manage_event->eid}" class="{if isset($page.attendeelist)}current {/if}btn btn-nav nav-guestlist"><span><em>Guest List</em></span></a></li>{if $smarty.session.manage_event->days_left < 0}
+					<li><a href="{$CURHOST}/event/manage/attendees?eventId={$smarty.session.manage_event->eid}" class="{if isset($page.attendeelist)}current {/if}btn btn-nav nav-guestlist"><span><em>Guest List</em></span></a></li>{if $smarty.session.manage_event->days_left > 0}
 
 					<li><a href="{$CURHOST}/event/manage/guests?eventId={$smarty.session.manage_event->eid}" class="{if isset($page.addguests)}current {/if}btn btn-nav nav-addguests"><span><em>Add Guests</em></span></a></li>{/if}
 
