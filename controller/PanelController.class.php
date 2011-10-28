@@ -94,7 +94,7 @@ class PanelController {
 			}
 			
 			// Fetch the event information if necessary
-			$event = $this->buildEvent($eventId, true);
+			$this->buildEvent($eventId, true);
 			
 			$page['manage'] = true;
 			EFCommon::$smarty->assign('page', $page);
@@ -476,7 +476,7 @@ class PanelController {
 				$page['cp'] = true;
 				EFCommon::$smarty->assign('page', $page);
 				
-				$this->buildEvent( $_GET['eventId'], true );
+				// $this->buildEvent( $_GET['eventId'], true );
 				
 				$this->assignManageVars( $_GET['eventId'] );
 				
@@ -568,39 +568,39 @@ class PanelController {
 				$page['addguests'] = true;
 				EFCommon::$smarty->append('page', $page, TRUE);
 				
-				$event = $this->buildEvent( $_GET['eventId'], true );
-				EFCommon::$smarty->assign("event", $event);
-								
+				if ( $_SESSION['manage_event']->days_left < 0 ) {
+					EFCommon::$smarty->display("error_event_passed.tpl");
+					break;
+				}
+				
 				if ( isset($_POST['submit']) ) {
-					$message = $event->submitGuests();
+					$message = $_SESSION['manage_event']->submitGuests();
 					EFCommon::$smarty->assign("message", $message);
 				}
 				
 				$this->assignContacts();
 				$this->assignInvited($event->eid);
 				
-				if( $event->numErrors > 0 ) {
+				if( $_SESSION['manage_event']->numErrors > 0 ) {
 					EFcommon::$smarty->assign( 'error', $event->error );
 				}
-				
-				EFCommon::$smarty->assign('event', $event);
 				
 				$optionParam = "";
 				if (isset($_GET['option'])) {
 					$optionParam = '&option='.$_GET['option'];
 				}
 				
-				EFCommon::$smarty->assign('finishSubmit', CURHOST.$current_page.'?eventId='.$event->eid.$optionParam);
-				EFCommon::$smarty->assign('submitTo', CURHOST.$current_page.'?eventId='.$event->eid.$optionParam);
+				EFCommon::$smarty->assign('finishSubmit', CURHOST.$current_page.'?eventId='.$_SESSION['manage_event']->eid.$optionParam);
+				EFCommon::$smarty->assign('submitTo', CURHOST.$current_page.'?eventId='.$_SESSION['manage_event']->eid.$optionParam);
 				
 				// The FB ID's that is being invited by the user
 				if (isset($_REQUEST['ids']) && sizeof($_REQUEST['ids']) > 0) {
 					foreach ($_REQUEST['ids'] as $fbid) {
-						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid, $event->eid);
+						EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id, $fbid, $_SESSION['manage_event']->eid);
 					}
 				}
 				
-				EFCommon::$smarty->assign('fbSubmit', CURHOST.'/event/manage/guests?eventId='.$event->eid."&option=fb&gref=".$event->global_ref);
+				EFCommon::$smarty->assign('fbSubmit', CURHOST.'/event/manage/guests?eventId='.$_SESSION['manage_event']->eid."&option=fb&gref=".$event->global_ref);
 				EFCommon::$smarty->assign('addButton', true);
 				EFCommon::$smarty->display('manage_guests.tpl');
 				break;
