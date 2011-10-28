@@ -121,7 +121,7 @@ $(document).ready(function() {
 		link.addClass('active');		
 		link.parent("dt").siblings().find("a").removeClass("active");
 		
-		if ( ! list.is("animated") && list.height() > 0 ) {
+		if ( ! list.is("animated") ) {
 			list.slideToggle('slow', function() {
 			  if ( ! list.is(":visible") ) {
 				link.removeClass('active');
