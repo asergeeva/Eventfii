@@ -114,7 +114,7 @@ $(document).ready(function() {
 	CSV_UPLOADER.init();
 	
 	// Accordian Function
-	$(".table a").click( function() {
+	$(".table a.manage-accord").click( function() {
 		var link = $(this);
 		var list = link.parent("dt").next("dd").next("dd");
 

@@ -1483,21 +1483,26 @@ class PanelController {
 	public function assignManageVars($eventId) {
 		$event = new Event($eventId);
 	
-		$numGuestConf1 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT1);
-		$numGuestConf2 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT2);
-		$numGuestConf3 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT3);
-		$numGuestConf4 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT4);
-		$numGuestConf5 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT5);
-		$numGuestConf6 = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFOPT6);
-		$numGuestNoResp = EFCommon::$dbCon->getNumAttendeesByConfidence($eventId, CONFELSE);
-
-		EFCommon::$smarty->assign('guestConf1', $numGuestConf1['guest_num']);
-		EFCommon::$smarty->assign('guestConf2', $numGuestConf2['guest_num']);
-		EFCommon::$smarty->assign('guestConf3', $numGuestConf3['guest_num']);
-		EFCommon::$smarty->assign('guestConf4', $numGuestConf4['guest_num']);
-		EFCommon::$smarty->assign('guestConf5', $numGuestConf5['guest_num']);
-		EFCommon::$smarty->assign('guestConf6', $numGuestConf6['guest_num']);
-		EFCommon::$smarty->assign('guestNoResp', $numGuestNoResp['guest_num']);
+		$guestConf1 = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFOPT1);
+		$guestConf2 = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFOPT2);
+		$guestConf3 = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFOPT3);
+		$guestConf4 = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFOPT4);
+		$guestConf5 = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFOPT5);
+		$guestNoResp = EFCommon::$dbCon->getConfirmedGuestsByConfidence($eventId, CONFELSE);
+		
+		EFCommon::$smarty->assign('guestConf1Count', sizeof($guestConf1));
+		EFCommon::$smarty->assign('guestConf2Count', sizeof($guestConf2));
+		EFCommon::$smarty->assign('guestConf3Count', sizeof($guestConf3));
+		EFCommon::$smarty->assign('guestConf4Count', sizeof($guestConf4));
+		EFCommon::$smarty->assign('guestConf5Count', sizeof($guestConf5));
+		EFCommon::$smarty->assign('guestNoRespCount', sizeof($guestNoResp));
+		
+		EFCommon::$smarty->assign('guestConf1', $guestConf1);
+		EFCommon::$smarty->assign('guestConf2', $guestConf2);
+		EFCommon::$smarty->assign('guestConf3', $guestConf3);
+		EFCommon::$smarty->assign('guestConf4', $guestConf4);
+		EFCommon::$smarty->assign('guestConf5', $guestConf5);
+		EFCommon::$smarty->assign('guestNoResp', $guestNoResp);
 		
 		EFCommon::$smarty->assign('guestimate', EFCommon::$core->computeGuestimate($eventId));
 		EFCommon::$smarty->assign('trsvpVal', EFCommon::$core->getTrueRSVP($event));

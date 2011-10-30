@@ -38,132 +38,96 @@
 					<dl class="table"> 
 						<dt>Response</dt> 
 						<dd>#</dd>
-						<dt><a href="#">Absolutely - I'll definitely be there!</a></dt> 
-						<dd>{$guestConf1}</dd> 
+						<dt><a href="#" {if $guestConf1Count > 0}class="manage-accord"{/if}>Absolutely - I'll definitely be there!</a></dt> 
+						<dd>{$guestConf1Count}</dd> 
 						<dd class="table-extra">
 							<ul class="user-list">
+								{foreach from=$guestConf1 item=guest}
 								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
 									</label>
 								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
-								<li>
-									<label for="contact-1">
-										<img src="{$CURHOST}/images/default_thumb.jpg" width="36px" height="36px" alt="Guest Name" />
-										<h3>Guest Name</h3>
-										<p>Whatever goes here</p>
-									</label>
-								</li>
+								{/foreach}
 							</ul>
 						</dd>
-						<dt><a href="#">Pretty sure - I'll have to check my schedule</a></dt> 
-						<dd>{$guestConf2}</dd> 
-						<dd class="table-extra"></dd>						
-						<dt><a href="#">50/50 - Interested, but not ready to commit</a></dt> 
-						<dd>{$guestConf3}</dd> 
-						<dd class="table-extra"></dd>						
-						<dt><a href="#">Most likely not - I probably won't go</a></dt> 
-						<dd>{$guestConf4}</dd> 
-						<dd class="table-extra"></dd>						
-						<dt><a href="#">Raincheck - Can't make it this time</a></dt> 
-						<dd>{$guestConf5}</dd>
-						<dd class="table-extra"></dd>						
-						<dt><a href="#">No Response</a></dt> 
-						<dd>{$guestNoResp}</dd> 
-						<dd class="table-extra"></dd>						
+						<dt><a href="#" {if $guestConf2Count > 0}class="manage-accord"{/if}>Pretty sure - I'll have to check my schedule</a></dt> 
+						<dd>{$guestConf2Count}</dd> 
+						<dd class="table-extra">
+							<ul class="user-list">
+								{foreach from=$guestConf2 item=guest}
+								<li>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
+									</label>
+								</li>
+								{/foreach}
+							</ul>
+						</dd>						
+						<dt><a href="#" {if $guestConf3Count > 0}class="manage-accord"{/if}>50/50 - Interested, but not ready to commit</a></dt> 
+						<dd>{$guestConf3Count}</dd> 
+						<dd class="table-extra">
+							<ul class="user-list">
+								{foreach from=$guestConf3 item=guest}
+								<li>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
+									</label>
+								</li>
+								{/foreach}
+							</ul>
+						</dd>						
+						<dt><a href="#" {if $guestConf4Count > 0}class="manage-accord"{/if}>Most likely not - I probably won't go</a></dt> 
+						<dd>{$guestConf4Count}</dd> 
+						<dd class="table-extra">
+							<ul class="user-list">
+								{foreach from=$guestConf4 item=guest}
+								<li>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
+									</label>
+								</li>
+								{/foreach}
+							</ul>
+						</dd>						
+						<dt><a href="#" {if $guestConf5Count > 0}class="manage-accord"{/if}>Raincheck - Can't make it this time</a></dt> 
+						<dd>{$guestConf5Count}</dd>
+						<dd class="table-extra">
+							<ul class="user-list">
+								{foreach from=$guestConf5 item=guest}
+								<li>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
+									</label>
+								</li>
+								{/foreach}
+							</ul>
+						</dd>						
+						<dt><a href="#" {if $guestNoRespCount > 0}class="manage-accord"{/if}>No Response</a></dt> 
+						<dd>{$guestNoRespCount}</dd> 
+						<dd class="table-extra">
+							<ul class="user-list">
+								{foreach from=$guestNoResp item=guest}
+								<li>
+									<label for="{$guest.email}">
+										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
+										<h3>{$guest.fname} {$guest.lname}</h3>
+										<p>{$guest.email}</p>
+									</label>
+								</li>
+								{/foreach}
+							</ul>
+						</dd>						
 					</dl>
 					<div id="rsvp" style="display:none;">{{$guestConf1}+{$guestConf2}+{$guestConf3}}</div>
 					<div id="goal" style="display:none;">{$smarty.session.manage_event->goal}</div>

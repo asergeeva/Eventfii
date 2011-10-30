@@ -1,8 +1,8 @@
 <?php
 /*
  * Author : Grady Laksmono
- * Email : grady@eventfii.com
- * All code (c) 2011 Eventfii Inc. 
+ * Email : grady@truersvp.com
+ * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
  
@@ -463,6 +463,7 @@ class DBConfig {
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
 										lname = '" . mysql_real_escape_string($lname) . "',
+										pic = '". mysql_real_escape_string(FB_GRAPH_URL. "/" .$fbid. "/picture"). "',
 										facebook = '".mysql_real_escape_string($fbid)."',
 										fb_access_token = ".$this->checkNullOrValSql($access_token).",
 										fb_session_key = ".$this->checkNullOrValSql($session_key)." 
@@ -1039,7 +1040,8 @@ class DBConfig {
 							FROM 	ef_attendance a, 
 									ef_users u 
 							WHERE 	a.user_id = u.id 
-							AND 	a.event_id = " . $eid . " AND a.confidence = ".$conf;
+							AND 	a.confidence = " . $conf . " 
+							AND     a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
 	}
 	

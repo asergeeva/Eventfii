@@ -115,11 +115,13 @@
 						{foreach $contacts as $contact}
 						<li>
 							<label{if $contact->pic == "{$CURHOST}/images/default_thumb.jpg"} class="no-pic checkbox"{/if}{if ! isset($addButton)}>{else} for="{$contact->cid}">							
-								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}{if $contact->pic != "{$CURHOST}/images/default_thumb.jpg"}
-								
-								<img src="{$contact->pic}?type=square" width="36" height="36" alt="{$contact->email}" />{/if}{if isset($contact->name) && strlen($contact->name) > 0}
-
-								<h3>{$contact->name}</h3>{/if}
+								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}
+								{if $contact->pic != "{$CURHOST}/images/default_thumb.jpg"}
+									<img src="{$contact->pic}?type=square" width="36" height="36" alt="{$contact->email}" />
+								{/if}
+								{if isset($contact->name) && strlen($contact->name) > 0}
+									<h3>{$contact->name}</h3>
+								{/if}
 
 								<span>{$contact->friendly_cid}</span>
 							</label>
