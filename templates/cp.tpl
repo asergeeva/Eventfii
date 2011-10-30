@@ -27,9 +27,10 @@
 			{include file="block_cp_user.tpl"}
 			{include file="block_events_invited.tpl"}
 		</aside>
-		<div class="content">{if isset($smarty.get.view) && $smarty.get.view == "past"}
+		<div class="content">{if isset($smarty.get.view) && $smarty.get.view == "created"}
 
-			{include file="block_events_created_past.tpl"}
+			{include file="block_events_created_past.tpl"}{elseif isset($smarty.get.view) && $smarty.get.view == "attended"}
+
 			{include file="block_events_attended.tpl"}{else}
 
 			<header class="block">
@@ -45,8 +46,8 @@
 
 {include file="js_global.tpl"}
 {include file="js_cp.tpl"}
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/openinviter.js"></script>
-<script type="text/javascript" language="javascript" src="{$JS_PATH}/uploader.js"></script>
+<script src="{$JS_PATH}/openinviter.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/uploader.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

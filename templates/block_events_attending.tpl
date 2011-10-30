@@ -18,5 +18,5 @@
 
 				<p class="message-extra">You haven't RSVP'd to any events yet.</p>{/if}
 
-				<p class="message-extra"><a href="{$CURHOST}/home?view=past">View past events you've attended</a></p>
+				<p class="message-extra"><a href="{$CURHOST}/home?view=attended">View past events you've attended</a></p>
 			</section>

@@ -1021,12 +1021,13 @@ ol.rsvp-list { margin: 0; }
 .table dt a:hover, .table dt a.active { 
 	background: #ff9933;
 	color: #fff; }
+.table dt a.active { font-weight: bold; }
 .table dd {
 	float: right;
 	margin: -25px 10px 0 0; }
 .table dd.table-extra { 
 	float: none;
-	height: 216px;
+	/* height: 216px; */
 	margin: 0;
 	padding: 0 10px;
 	clear: both;
@@ -1039,48 +1040,58 @@ ol.rsvp-list { margin: 0; }
 	overflow: auto; }
 .user-list li {
 	float: left;
-	color: #333;
 	position: relative;
-	width: 166px; /* 176 - 10 */
-	margin: 0 4px 8px;
+	width: 166px;
+	height: 44px;
+	margin: 0 4px 8px; }
+.user-list li label { 
+	position: absolute;
+	white-space: nowrap;
+	line-height: 1;
+	width: 158px; /* 166 - 8 */
+	height: 36px; /* 44 - 8 */
+	padding: 4px;
+	overflow: hidden;
+	cursor: pointer;
 	border: 1px solid #cacaca;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	clear: none; }
-.user-list li:hover { 
-	background: #3399cc;
-	color: #fff; }
-.user-list li label { 
-	width: 146px; /* 166 - 20 */
-	height: 36px; /* 44 - 8 */
-	padding: 4px 4px 4px 16px;
-	overflow: hidden;
-	cursor: pointer;
 	display: block; }
-.user-list li input {
+.user-list label:hover { 
+	background: #3399cc;
+	color: #fff;
+	width: auto;
+	min-width: 158px;
+	z-index: 5; }
+.user-list label.checkbox {
+	padding: 14px 4px 4px;
+	height: 26px; }
+.user-list li a { 
+	color: #333;
+	text-decoration: none; }	
+.user-list label:hover a { color: #fff; }
+.user-list label input {
 	position: absolute; 
 	top: 0;
 	left: 0; }
-.user-list li img {
+.user-list label img {
 	float: left;
-	margin: 0 4px 0 -12px;
+	margin: 0 4px 0 0;
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
 	border-radius: 4px; }
-.user-list li h3 { 
+.user-list label h3 { 
 	font-size: 14px;
-	line-height: 1;
 	height: 15px;
 	margin: 3px 0;
-	white-space: nowrap;
-	overflow: hidden; }
-.user-list li p { 
-	line-height: 1;
-	white-space: nowrap;
+	padding: 0 0 0 40px;
+	display: block; }
+.user-list label span { 
 	font-size: 11px;
-	float: none;
-	clear: none; }
+	padding: 0 0 0 40px;
+	display: block; }
+.user-list label.no-pic h3, .user-list label.no-pic span { padding: 0; }
 	
 /*----- Checkin Options ----------*/
 #manage-checkin header {

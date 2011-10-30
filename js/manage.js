@@ -114,10 +114,20 @@ $(document).ready(function() {
 	CSV_UPLOADER.init();
 	
 	// Accordian Function
-	$(".table a").click(function(){
-		$(this).parent("dt").next("dd").next("dd").slideToggle("slow").siblings(".table-extra").slideUp("slow");
-		$(this).toggleClass("active");
-		$(this).parent("dt").siblings().find("a").removeClass("active");
+	$(".table a").click( function() {
+		var link = $(this);
+		var list = link.parent("dt").next("dd").next("dd");
+
+		link.addClass('active');		
+		link.parent("dt").siblings().find("a").removeClass("active");
+		
+		if ( ! list.is("animated") ) {
+			list.slideToggle('slow', function() {
+			  if ( ! list.is(":visible") ) {
+				link.removeClass('active');
+			  }
+			}).siblings(".table-extra").slideUp("slow");;
+		}
 		return false;
-	});
+	} );
 });

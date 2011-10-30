@@ -18,5 +18,5 @@
 
 				<p class="message-extra">You are not hosting any events.</p>{/if}
 				
-				<p class="message-extra"><a href="{$CURHOST}/home?view=past">View past events you've hosted</a></p>
+				<p class="message-extra"><a href="{$CURHOST}/home?view=created">View past events you've hosted</a></p>
 			</section>
