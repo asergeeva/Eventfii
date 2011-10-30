@@ -167,4 +167,22 @@ class EFCommon {
 		self::$imageResizer->resizeToWidth(96);
 		self::$imageResizer->save($filename);
 	}
+	
+	/**
+	 * Get all of the emails given the CSV file
+	 */
+	public static function getContactsFromCSV($csvFile) {
+		$csv_contacts = array();
+		if (($handle = fopen($csvFile, "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+				for ($i = 0; $i < sizeof($data); ++$i) {
+					if (filter_var($data[$i], FILTER_VALIDATE_EMAIL)) {
+						array_push($csv_contacts, $data[$i]);
+					}
+				}
+			}
+			fclose($handle);
+		}
+		return $csv_contacts;
+	}
 }

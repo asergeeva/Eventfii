@@ -772,7 +772,7 @@ class Event {
 		return CURHOST.'/temp/'.basename($filename);
 	}
 	
-	public function setGuestsFromCSV($csvFile) {
+	private function setGuestsFromCSV($csvFile) {
 		$csv_contacts = array();
 		if (($handle = fopen($csvFile, "r")) !== FALSE) {
 			while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {

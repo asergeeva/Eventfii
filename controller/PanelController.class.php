@@ -432,7 +432,7 @@ class PanelController {
 				}
 				
 				if (isset($event)) {
-					$contactList = $event->setGuestsFromCSV(CSV_UPLOAD_PATH.'/'.$result['filename']);
+					$contactList = EFCommon::getContactsFromCSV(CSV_UPLOAD_PATH.'/'.$result['filename']);
 					$csvList = array();
 					for ($i = 0; $i < sizeof($contactList); ++$i) {
 						if (trim($contactList[$i]) != '') { 
@@ -570,7 +570,7 @@ class PanelController {
 				
 				$event = $this->buildEvent( $_GET['eventId'], true );
 				EFCommon::$smarty->assign("event", $event);
-								
+				
 				if ( isset($_POST['submit']) ) {
 					$message = $event->submitGuests();
 					EFCommon::$smarty->assign("message", $message);
