@@ -52,6 +52,8 @@ class PanelController {
 		if (!$this->securityValidate($current_page)) {
 			return;
 		}
+		
+		$this->checkAPIEntry($current_page);
 
 		// If event has an alias URL
 		if (preg_match("/event\/a\/.*/", $current_page) > 0) {
@@ -1093,13 +1095,18 @@ class PanelController {
 				$responseMsg['user_success'] = "Your Twitter account is now connected.";
 				EFCommon::$smarty->assign('responseMsg', $responseMsg);
 				break;
-			case '/cron':
-				print("FOO");
-				break;
 			default:
 				EFCommon::$smarty->assign('current_page', $current_page);
 				EFCommon::$smarty->display('error.tpl');
 				break;
+		}
+	}
+	
+	private function checkAPIEntry($current_page) {
+		if (preg_match("/api\/.*/", $current_page) > 0) {
+			$apiController = new APIController();
+			$apiController->getView($current_page);
+			exit;
 		}
 	}
 	

@@ -6,10 +6,6 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/EFCore.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/FileUploader.class.php');
 
 class APIController {
 	private $dbCon;
@@ -64,6 +60,7 @@ class APIController {
 		$requestUri = str_replace(PATH, '', $requestUri);
 		$requestUri = explode('/', $requestUri);
 		$requestUri = $requestUri[2];
+		
 		$getParamStartPos = strpos($requestUri, '?');
 		if ($getParamStartPos) {
 			$current_page = substr($requestUri, 0, $getParamStartPos);
@@ -71,6 +68,7 @@ class APIController {
 		} else {
 			$current_page = $requestUri;
 		}
+		
 		switch ($current_page) {
 			case 'login':
 				if ( isset($_POST['isFB']) ) 
@@ -158,8 +156,6 @@ class APIController {
 				echo json_encode(EFCommon::$core->getTrueRSVP($_REQUEST['eid']));
 				break;
 			case 'sendMessage':
-				require_once(realpath(dirname(__FILE__)).'/../models/EFMail.class.php');
-				require_once(realpath(dirname(__FILE__)).'/../models/EFSMS.class.php');
 				$event = $this->buildEvent( $_REQUEST['eventId'] );	
 				$contacts = $_REQUEST['uid'];
  				$guests = array();
