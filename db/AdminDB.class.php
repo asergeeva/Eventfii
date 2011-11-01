@@ -13,7 +13,7 @@ class AdminDB extends DBConfig {
 		"fxiao05@gmail.com", "fei@truersvp.com", // Fei
 		"scott@truersvp.com", "scott@organicstartup.com", // Scott
 		"adamrwexler@gmail.com", "adam@truersvp.com", // Adam
-		"movingcircles@gmail.com", "nick@truersvp.com", // Nick
+		"movingcircles@gmail.com", "nick@truersvp.com", "iwantzcouponz@gmail.com", // Nick
 		"laksmono@usc.edu", "grady@truersvp.com", "grady.infolab@gmail.com" // Grady
 	);
 
