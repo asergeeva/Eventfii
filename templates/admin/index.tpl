@@ -21,16 +21,18 @@
 					<th># of invites</th>
 					<th># of FB invites</th>
 					<th># of checked off</th>
+					<th>trueRSVP</th>
 				</tr>
 				{foreach $events as $event}
 				<tr>
 					<td>{counter}</td>
-					<td>{$event['title']}</td>
-					<td>{$event['event_datetime']}</td>
-					<td>{$event['fname']} {$event['lname']}</td>
-					<td>{$event['num_invites']}</td>
-					<td>{$event['fb_invite']}</td>
-					<td>{$event['num_checked']}</td>
+					<td><a href="{$EVENT_URL}/a/{$event.url_alias}" target="_blank">{$event.title}</a></td>
+					<td>{$event.event_datetime}</td>
+					<td>{$event.fname} {$event.lname}</td>
+					<td>{$event.num_invites}</td>
+					<td>{$event.fb_invite}</td>
+					<td>{$event.num_checked}</td>
+					<td>{$event.truersvp}</td>
 				</tr>
 				{/foreach}
 				</table>
