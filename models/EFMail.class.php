@@ -346,7 +346,7 @@ class EFMail {
 	}
 	
 	/**
-	 * Validate email address that follows the RFC 822 specifications
+	 * Validate one or multiple separated by comma of email addresses that follows the RFC 2822 specifications
 	 * imap_rfc822_parse_adrlist
 	 * 		Input: foo@bar.com
 	 * 		Output: Array ( [0] => stdClass Object ( [mailbox] => foo [host] => bar.com ) )
