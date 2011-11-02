@@ -71,7 +71,7 @@ class Event {
 			
 			// For event creation some fields aren't checked
 			// until step 2. Keep those out of the validation loop.
-			if ( ! $step1 ) {
+			if ( ! $step1 ) {		
 				$this->set_description(NULL);
 				$this->set_type(NULL);
 				$this->set_deadline(NULL);
@@ -118,7 +118,8 @@ class Event {
 		
 		$this->title = stripslashes($title);
 		
-		if( strtolower( $this->title ) == "i'm planning..." || $this->title == "name of event" ) {
+		if( trim(strtolower($this->title)) == "i'm planning..." || 
+			trim(strtolower($this->title)) == "name of event" ) {
 			$this->error['title'] = "Please enter an event title";
 			$this->numErrors++;
 		} else if ( strlen($this->title) < 5 ) {
@@ -327,35 +328,34 @@ class Event {
 		$this->end_date = $end_date;
 	
 		// Optional
-		if ( strlen($this->end_date) == 0 ) {
-			$this->end_date = NULL;
-			return;
-		}
-		
-		$event_end_date = explode('/', $this->end_date);
-		$end_month = $event_end_date[0];
-		$end_day = $event_end_date[1];
-		$end_year = $event_end_date[2]; 
-
-		// Make sure date is valid
-		if( !@checkdate($end_month, $end_day, $end_year) ) {
-			$this->error['end_date'] = "Please enter a valid date in mm/dd/yyyy format";
-			$this->numErrors++;
-			return;
-		}
-		
-		if ( isset ( $this->date ) && ! isset ( $this->error['date'] ) ) {
-			$event_date = explode('/', $this->date);
-			$month = $event_date[0];
-			$day = $event_date[1];
-			$year = $event_date[2];
+		if ( isset($this->end_date) && trim($this->end_date) != "" ) {
+			print($this->end_date);
+			$event_end_date = explode('/', $this->end_date);
 			
-			// Make sure end date is on or after start date
-			$check = @mktime(0, 0, 0, $end_month, $end_day, $end_year, -1);
-			$event = @mktime(0, 0, 0, $month, $day, $year, -1);
-			if( $check < $event ) {
-				$this->error['end_date'] = "Event end date must be on or after start date";
+			$end_month = $event_end_date[0];
+			$end_day = $event_end_date[1];
+			$end_year = $event_end_date[2]; 
+	
+			// Make sure date is valid
+			if( !@checkdate($end_month, $end_day, $end_year) ) {
+				$this->error['end_date'] = "Please enter a valid date in mm/dd/yyyy format";
 				$this->numErrors++;
+				return;
+			}
+			
+			if ( isset ( $this->date ) && ! isset ( $this->error['date'] ) ) {
+				$event_date = explode('/', $this->date);
+				$month = $event_date[0];
+				$day = $event_date[1];
+				$year = $event_date[2];
+				
+				// Make sure end date is on or after start date
+				$check = @mktime(0, 0, 0, $end_month, $end_day, $end_year, -1);
+				$event = @mktime(0, 0, 0, $month, $day, $year, -1);
+				if( $check < $event ) {
+					$this->error['end_date'] = "Event end date must be on or after start date";
+					$this->numErrors++;
+				}
 			}
 		}
 	}
@@ -373,22 +373,16 @@ class Event {
 			}
 		}
 		
-		$this->end_time = $_POST['end_time'];
+		$this->end_time = $end_time;
 		
-		// Optional
-		if ( $this->end_time == 0 && $this->time != "00:00" && $this->time != "00:30" ) {
-			$this->end_time = NULL;
-			if ( strlen($this->end_date) == 0 ) {
-				return;
-			} else {
-				$this->error['end_time'] = "Please select an end time";
+		if (isset($this->end_time) && trim($this->end_time) != "") {
+			// Check if it's a valid time
+			if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
+				$this->error['end_time'] = "End time must be after event time";
 				$this->numErrors++;
-				return;
 			}
-		}
-		
-		if ( $this->date == $this->end_date && $this->time >= $this->end_time ) {
-			$this->error['end_time'] = "End time must be after event time";
+		} else if (strlen($this->end_date) > 0) {
+			$this->error['end_time'] = "Please select an end time";
 			$this->numErrors++;
 		}
 	}
@@ -877,5 +871,45 @@ class Event {
 	public function getHumanReadableEventTime(){
 		$date = date_create($this->datetime);
 		return date_format($date, 'F j, g:i A');
+	}
+	
+	/**
+	 * The current user session would like to sign up specified event 
+	 * 		with specified confidence
+	 *
+	 * @param $eid  Integer event ID
+	 * @param $conf Integer confidence value
+	 *
+	 */
+	public function currentUserAttend($conf, $isAjax = true) {
+		$notification = NULL;
+		
+		// Waiting list
+		if (EFCommon::$core->getTrueRSVP($this) >= $this->goal) {
+			switch($this->reach_goal) {
+				case 1:
+					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this, $conf);
+					$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
+					break;
+				case 2:
+					$notification = "Sorry! The event has reached capacity.";
+					break;
+				case 3:
+					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $this, $conf);
+					$notification = "You have been added to the waiting list for this event";
+					break;
+			}
+		} else {
+			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this, $conf);
+			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
+		}
+		
+		if (isset($notification)) {
+			if ($isAjax) {
+				print($notification);
+			} else {
+				EFCommon::$smarty->assign('attendNotification', $notification);
+			}
+		}
 	}
 }

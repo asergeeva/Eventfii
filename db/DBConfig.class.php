@@ -594,7 +594,15 @@ class DBConfig {
 	}
 	
 	public function getLastEventCreatedBy($uid) {
-		$GET_LAST_EVENT = "SELECT * FROM ef_events WHERE organizer = ".$uid." ORDER BY created DESC LIMIT 1";
+		$GET_LAST_EVENT = "SELECT 
+								id, 
+								DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
+								DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
+								UNIX_TIMESTAMP(e.event_datetime) - UNIX_TIMESTAMP(NOW()) AS time_left,
+								DATE_FORMAT(e.event_datetime, '%M %d, %Y') AS friendly_event_date,
+								DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
+								e.*
+		 				   FROM ef_events e WHERE organizer = ".$uid." ORDER BY created DESC LIMIT 1";
 		return new Event($this->executeQuery($GET_LAST_EVENT));
 	}
 	

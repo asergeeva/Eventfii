@@ -121,7 +121,8 @@ class PanelController {
 			return;
 		}
 		
-		EFMail::validateEmail('"Nancy Amberson" <ncamberson@aol.com>');
+		$createController = new CreateController();
+		$createController->getView($current_page);
 
 		switch ($current_page) {
 			case '/':
@@ -297,102 +298,6 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
-			case '/event/create':
-				if ( ! isset ( $_POST['step2'] ) && ! isset ( $_POST['step3'] ) ) {
-					// Check to see if coming off of the index page
-					if ( isset($_POST['submit']) ) {
-						if (isset($_POST['title']) && strtolower($_POST['title']) != "name of event") {
-							$event_field['title'] = stripslashes($_POST['title']);
-						}
-						if (isset($_POST['goal']) && strtolower($_POST['goal']) != "max") {
-							$event_field['goal'] = stripslashes($_POST['goal']);
-						}
-						
-						EFCommon::$smarty->assign('event_field', $event_field);
-					} else if ( isset($_POST['step1']) ) {
-						$newEvent = new Event(NULL, true);
-						
-						$is_valid = ( $newEvent->numErrors == 0 ) ? true : false;
-						
-						// Invalid Step 1
-						if ( ! $is_valid ) {
-							EFCommon::$smarty->assign('error', $newEvent->error);
-							$this->saveEventFields( $newEvent );
-						// Valid Step 1
-						} else {
-							// Display Step 2
-							EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[1]);
-							EFCommon::$smarty->assign('step', 2);
-							EFCommon::$smarty->display('create.tpl');
-							break;
-						}
-					} else if ( isset($_SESSION['user']) ) {
-						unset($_SESSION['newEvent']);
-					}
-					
-					// Display Step 1
-					EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[0]);
-					EFCommon::$smarty->assign('step', 1);
-					EFCommon::$smarty->display('create.tpl');
-					break;
-				
-				// Check Step 2
-				} else if ( isset($_POST['step2']) ) {
-					$newEvent = new Event(NULL);
-					
-					$is_valid = ( $newEvent->numErrors == 0 ) ? true : false;
-										
-					// Invalid Step 2
-					if ( ! $is_valid ) {
-						EFCommon::$smarty->assign('error', $newEvent->error);
-						
-						$this->saveEventFields( $newEvent );
-						
-						// Display Step 2
-						EFCommon::$smarty->assign('step', 2);
-						EFCommon::$smarty->display('create.tpl');
-						break;
-						
-					// Valid Step 2
-					} else {
-						// Display Step 3
-						EFCommon::$metricsTracker->track(Experiment::$EXPERIMENT_CREATE_EVENT[2]);
-						$this->makeNewEvent( $newEvent );
-					}
-				}
-				break;
-			case '/event/create/guests':
-				if ( ! isset($_GET['eventId']) ) {
-					header("Location: " . CURHOST . "/event/create");
-					exit;
-				}
-				
-				if ( ! isset($_SESSION['newEvent']) ) {
-					$_SESSION['newEvent'] = new Event($_GET['eventId']);
-				}
-								
-				if ( isset($_POST['submit']) ) {
-					$guest_emails = $_SESSION['newEvent']->submitGuests();
-					if ( sizeof($guest_emails) == 0 ) {
-						EFCommon::$smarty->assign('error', "No guests added.");
-					} else {
-						EFCommon::$smarty->assign('notification', "Yay!");
-					}
-				}
-				
-				$this->assignInvited($_SESSION['newEvent']->eid);
-				$this->assignContacts();
-				
-				EFCommon::$smarty->assign('finishSubmit', CURHOST.'/event/a/'.$_SESSION['newEvent']->alias.'?created=true');
-				EFCommon::$smarty->assign('step', 3);
-				EFCommon::$smarty->assign('addButton', true);
-				EFCommon::$smarty->assign('event', $_SESSION['newEvent']);
-				
-				if (isset($_GET['option'])) {
-				EFCommon::$smarty->assign('submitTo', CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid . " &option=".$_GET['option']);
-				}
-				EFCommon::$smarty->display('create_addguest.tpl');
-				break;
 			case '/event/manage/cancel':
 				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
 					print("Event is successfully deleted");
@@ -459,7 +364,8 @@ class PanelController {
 				}
 				break;
 			case '/event/attend':
-				$this->attendEvent($_POST['eid'], $_POST['conf']);
+				$event = new Event($_POST['eid']);
+				$event->currentUserAttend($_POST['conf']);
 				break;
 			case '/event/attend/attempt':
 				unset($_SESSION['attemptValue']);
@@ -1122,47 +1028,6 @@ class PanelController {
 		}
 	}
 	
-	/**
-	 * The current user session would like to sign up specified event 
-	 * 		with specified confidence
-	 *
-	 * @param $eid  Integer event ID
-	 * @param $conf Integer confidence value
-	 *
-	 */
-	private function attendEvent($eid, $conf, $isAjax = true) {
-		$event = $this->buildEvent($eid);
-		$notification = NULL;
-		
-		// Waiting list
-		if (EFCommon::$core->getTrueRSVP($event) >= $event->goal) {
-			switch($event->reach_goal) {
-				case 1:
-					EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-					$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
-					break;
-				case 2:
-					$notification = "Sorry! The event has reached capacity.";
-					break;
-				case 3:
-					EFCommon::$dbCon->eventWaitlist($_SESSION['user']->id, $event, $conf);
-					$notification = "You have been added to the waiting list for this event";
-					break;
-			}
-		} else {
-			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $event, $conf);
-			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
-		}
-		
-		if (isset($notification)) {
-			if ($isAjax) {
-				print($notification);
-			} else {
-				EFCommon::$smarty->assign('attendNotification', $notification);
-			}
-		}
-	}
-	
 	/* Permission and login functions */
 		
 	private function getRedirectUrl() {
@@ -1270,7 +1135,7 @@ class PanelController {
 			// Make sure that it only select one choice
 			if (sizeof($_SESSION['attemptValue']) == 1) {
 				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
-					$this->attendEvent($eid, $conf, false);
+					$event->currentUserAttend($conf, false);
 					unset($_SESSION['attemptValue']);
 				}
 			}
@@ -1399,7 +1264,7 @@ class PanelController {
 	 * Assign all of the invited guests.
 	 * Including FB and email address contacts.
 	 */
-	private function assignInvited($eventId) {
+	protected function assignInvited($eventId) {
 		$invited = EFCommon::$dbCon->getUnionInvitedByEvent($eventId);
 		$guests = array();
 		for ($i = 0; $i < sizeof($invited); ++$i) {
@@ -1413,7 +1278,7 @@ class PanelController {
 	 * Assign all of the contacts of the logged in user.
 	 * Including FB and email address contacts.
 	 */
-	private function assignContacts() {
+	protected function assignContacts() {
 		// Build the user contact list
 		$contactList = EFCommon::$dbCon->getContactsUnion($_SESSION['user']->id);
 		$contacts = array();
@@ -1517,47 +1382,6 @@ class PanelController {
 	}	
 	
 	/* Save / Create functions */
-
-	/* saveEventFields
-     * Stores the current values for the new event
-     * in an array that can be assigned in SMARTY
-     * 
-     * @param $newEvent | The event being saved
-     * @return $event_field | The array of event information
-	 */
-	private function saveEventFields( $newEvent ) {
-
-		// Save the current fields
-		$event_field = $newEvent->get_array();
-		
-		EFCommon::$smarty->assign('event_field', $event_field);
-	}
-
-	/* makeNewEvent
-	 * Adds the event to the database, then switches to step 2
-	 *
-	 * @param $newEvent | The VALIDATED event object
-	 * @return true | The information is valid
-	 * @return false | Infomration is bad
-	 */
-	private function makeNewEvent( $newEvent ) {
-		// Make sure user is logged in before they can
-		// create the event
-		if ( ! isset($_SESSION['user']) ) {
-			$_SESSION['newEvent'] = $newEvent;
-			header("Location: " . CURHOST . "/login");
-			exit;
-		}
-		
-		EFCommon::$dbCon->createNewEvent($newEvent);
-		
-		$_SESSION['newEvent'] = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
-		$_SESSION['newEvent']->setGuests(NULL);
-		$this->attendEvent($_SESSION['newEvent']->eid, 90, false);
-				
-		header("Location: " . CURHOST . "/event/create/guests?eventId=" . $_SESSION['newEvent']->eid );
-		exit;
-	}
 	
 	/* URL Parsing */
 

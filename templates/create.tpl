@@ -20,7 +20,7 @@
 			</header>{/if}
 
 			<div class="form" id="event_create">
-				<form method="post" action="{$CURHOST}/event/create">
+				<form method="post" action="{$CURHOST}/event/create/details">
 					<fieldset>
 						<legend>Create Event</legend> 
 						<dl>
@@ -118,7 +118,7 @@
 			</header>{/if}
 
 			<div class="form" id="event_create">
-				<form method="post" action="{$CURHOST}/event/create">
+				<form method="post" action="{$CURHOST}/event/create/guests">
 					<fieldset>
 						<legend>Create Event</legend> 
 						<dl>
