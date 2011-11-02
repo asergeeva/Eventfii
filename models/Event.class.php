@@ -713,7 +713,7 @@ class Event {
 	 * @param    $guest_email    String    the email of the guest
 	 */
 	private function addGuestEmail($guest_email) {
-		if ( filter_var($guest_email, FILTER_VALIDATE_EMAIL) &&
+		if ( EFMail::validateEmail($guest_email) &&
 				!in_array($guest_email, $this->guest_emails)) {
 			array_push($this->guest_emails, $guest_email);
 			array_push($this->guests, new AbstractUser($guest_email));

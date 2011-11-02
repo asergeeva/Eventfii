@@ -344,4 +344,33 @@ class EFMail {
 		MailgunMessage::send_raw($emailAddr, 'support@truersvp.com', $rawMime);
 		echo('Success'); //return success callback
 	}
+	
+	/**
+	 * Validate email address that follows the RFC 822 specifications
+	 * imap_rfc822_parse_adrlist
+	 * 		Input: foo@bar.com
+	 * 		Output: Array ( [0] => stdClass Object ( [mailbox] => foo [host] => bar.com ) )
+	 */
+	public static function validateEmail($email) {
+		$address_array  = imap_rfc822_parse_adrlist($email, $_SERVER['HTTP_HOST']);
+		if (!is_array($address_array) || count($address_array) < 1) {
+		    return false;
+		}
+		
+		foreach ($address_array as $id => $val) {
+			if (!isset($val->mailbox) || trim($val->mailbox) == "") {
+				return false;
+			}
+			
+			if (!isset($val->host) || trim($val->host) == "") {
+				return false;
+			}
+			
+			$emailVal = $val->mailbox . "@" . $val->host;
+			if (!filter_var($emailVal, FILTER_VALIDATE_EMAIL)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

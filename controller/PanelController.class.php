@@ -120,7 +120,8 @@ class PanelController {
 			$this->displayUserById($userId);			
 			return;
 		}
-
+		
+		EFMail::validateEmail('"Nancy Amberson" <ncamberson@aol.com>');
 
 		switch ($current_page) {
 			case '/':
