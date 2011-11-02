@@ -1091,7 +1091,6 @@ ol.rsvp-list { margin: 0; }
 	font-size: 11px;
 	padding: 0 0 0 40px;
 	display: block; }
-.user-list label.no-pic h3, .user-list label.no-pic span { padding: 0; }
 	
 /*----- Checkin Options ----------*/
 #manage-checkin header {
