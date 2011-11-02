@@ -941,31 +941,6 @@ class PanelController {
 
 				EFCommon::$smarty->display('user_profile.tpl');
 				break;
-			case '/user/profile-dtls/update':
-				$email = $_POST['email'];
-				$zip = $_POST['zip'];
-				$cell = $_POST['cell'];
-				$res = "";
-				if( ! filter_var($email, FILTER_VALIDATE_EMAIL) )
-					$res = $res."1,";
-				else
-					$res = $res."0,";
-				if( ! (filter_var($zip, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\d{5}(-\d{4})?$/")))) )
-					$res = $res."1,";
-				else
-					$res=$res."0,";
-				if( !(filter_var($cell, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/")))) )
-					$res = $res."1,";
-				else
-					$res = $res."0,";
-
-				if( $res == "0,0,0," ) {
-					EFCommon::$dbCon->updateUserProfileDtls($email,$zip,$cell);
-					echo $res;
-				} else {
-					echo $res;
-				}
-				break;
 			case '/logout':
 				if ( ! isset($_SESSION['user']) ) {
 					header('Location: ' . CURHOST);
