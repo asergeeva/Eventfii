@@ -479,7 +479,7 @@ abstract class openinviter_base
 	 */
 	public function stopPlugin($graceful=false)
 		{
-		if ($this->settings['transport']=='curl') { if (isset($this->curl)) curl_close($this->curl); }
+		if ($this->settings['transport']=='curl') { if (isset($this->curl) && is_resource($this->curl)) curl_close($this->curl); }
 		if (!$graceful) $this->endSession();
 		}
 

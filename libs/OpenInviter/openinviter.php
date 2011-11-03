@@ -144,7 +144,9 @@ class openinviter
 	 */	  
 	public function startPlugin($plugin_name,$getPlugins=false)
 		{
-		if (!$getPlugins) $this->currentPlugin=$this->availablePlugins[$plugin_name];
+		if (!$getPlugins && isset($this->availablePlugins[$plugin_name])) {
+			$this->currentPlugin=$this->availablePlugins[$plugin_name];
+		}
 		if (file_exists($this->basePath."/postinstall.php")) { $this->internalError="You have to delete postinstall.php before using OpenInviter";return false; }
 		elseif (!$this->configOK) return false;
 		elseif (!$this->statsCheck()) return false;
@@ -451,6 +453,7 @@ class openinviter
 	 */
 	private function checkLoginCredentials($user)
 		{
+		if (!isset($this->plugin)) return false;
 		$is_email=$this->plugin->isEmail($user);
 		if ($this->currentPlugin['requirement'])
 			{

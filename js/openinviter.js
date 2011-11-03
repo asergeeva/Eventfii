@@ -106,10 +106,14 @@ $(document).ready(function() {
 			oi_pass: $('#oi_pass').val()
 		}, function(contactListPage) {
 			$('#oi_container').html(contactListPage).ready(function() {
-				OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
-				$('#import_form_container').css('display', 'block');
-				$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
-				$('#contacts-list').find('input').attr('checked', 'checked');
+				if (contactListPage != false) {
+					OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+					$('#import_form_container').css('display', 'block');
+					$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
+					$('#contacts-list').find('input').attr('checked', 'checked');
+				} else {
+					// Do notification
+				}
 			});
 		});
 	});

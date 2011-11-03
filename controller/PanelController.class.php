@@ -529,11 +529,17 @@ class PanelController {
 					}
 					$inviter->login( $_REQUEST['oi_email'], $_REQUEST['oi_pass'] );
 
-					$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
-					$contactList = $inviter->getMyContacts();
-					
-					EFCommon::$smarty->assign('contactList', $contactList);
-					EFCommon::$smarty->display('import_contact_list.tpl');
+					if (isset($inviter->plugin)) {
+						$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
+						$contactList = $inviter->getMyContacts();
+						
+						if ($contactList) {
+							EFCommon::$smarty->assign('contactList', $contactList);
+							EFCommon::$smarty->display('import_contact_list.tpl');
+						} else {
+							print("Invalid username/password");
+						}
+					}
 				} else {
 					$contacts = array();
 					$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
