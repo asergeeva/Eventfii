@@ -95,6 +95,7 @@ var MANAGE_EVENT = ( function() {
 					'eventId': this.value.split('_')[2]
 				});
 			});
+			$('#contacts-list').find('input').attr('checked', 'checked');
 			
 			
 			$('#text-message').keyup(function() {
@@ -104,6 +105,15 @@ var MANAGE_EVENT = ( function() {
 				} else {
 					$('#text-message').val(_curTextMessage);
 				}
+			});
+			
+			/* SELECT CONTACTS ALL or NONE */
+			$('#select_contact_all').live('click', function() {
+				$('#contacts-list').find('input').attr('checked', 'checked');
+			});
+			
+			$('#select_contact_none').live('click', function() {
+				$('#contacts-list').find('input').removeAttr('checked');
 			});
 		}
 	}

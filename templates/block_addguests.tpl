@@ -37,7 +37,8 @@
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 					</ul>
-				</nav>{if isset($smarty.get.option) &&  $smarty.get.option == 'fb' && ! isset($page.addcontacts)}{*
+				</nav>
+				{if isset($smarty.get.option) &&  $smarty.get.option == 'fb' && ! isset($page.addcontacts)}{*
 				<div id="fb-root"></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 				<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>*}
@@ -105,7 +106,7 @@
 				{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
 				<section class="block">{if isset($contacts) || isset($fbContacts)}
-
+					<p style="float: right"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
 					<header class="block-title">
 						<h1>Contacts</h1>
 					</header>

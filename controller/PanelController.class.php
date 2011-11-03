@@ -121,6 +121,7 @@ class PanelController {
 			return;
 		}
 		
+		// Check if there's a create event
 		$createController = new CreateController();
 		$createController->getView($current_page);
 
@@ -350,7 +351,7 @@ class PanelController {
 					
 					if (sizeof($csvList) > 0) {
 						EFCommon::$smarty->assign('contactList', $csvList);
-						EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
+						EFCommon::$smarty->display('import_contact_list.tpl');
 					} else {
 						print(false);
 					}
@@ -532,7 +533,7 @@ class PanelController {
 					$contactList = $inviter->getMyContacts();
 					
 					EFCommon::$smarty->assign('contactList', $contactList);
-					EFCommon::$smarty->display('event_add_guest_import_contact_list.tpl');
+					EFCommon::$smarty->display('import_contact_list.tpl');
 				} else {
 					$contacts = array();
 					$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
