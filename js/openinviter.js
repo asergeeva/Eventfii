@@ -98,24 +98,31 @@ $(document).ready(function() {
 	// Gmail & Yahoo Importer
 	$('#oi_import').live('click', function() {
 		var emailProvider = $('#oi_email').val().split("@");
-		emailProvider = emailProvider[1].split(".");
 		
-		$.post(EFGLOBAL.baseUrl + '/guest/inviter', {
-			oi_provider: emailProvider[0],
-			oi_email: $('#oi_email').val(),
-			oi_pass: $('#oi_pass').val()
-		}, function(contactListPage) {
-			$('#oi_container').html(contactListPage).ready(function() {
-				if (contactListPage != false) {
-					OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
-					$('#import_form_container').css('display', 'block');
-					$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
-					$('#contacts-list').find('input').attr('checked', 'checked');
-				} else {
-					// Do notification
-				}
+		if (typeof(emailProvider[1]) != 'undefined') {
+			emailProvider = emailProvider[1].split(".");
+			
+			$.post(EFGLOBAL.baseUrl + '/guest/inviter', {
+				oi_provider: emailProvider[0],
+				oi_email: $('#oi_email').val(),
+				oi_pass: $('#oi_pass').val()
+			}, function(contactListPage) {
+				$('#oi_container').html(contactListPage).ready(function() {
+					if (contactListPage != 'Invalid username/password' &&
+						contactListPage != 'Invalid service provider') {
+						console.log('foo');
+						OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+						$('#import_form_container').css('display', 'block');
+						$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
+						$('#contacts-list').find('input').attr('checked', 'checked');
+					} else {
+						// Do notification
+					}
+				});
 			});
-		});
+		} else {
+			alert('Invalid email address');
+		}
 	});
 	
 	// Before submitting, add it to the text area first
