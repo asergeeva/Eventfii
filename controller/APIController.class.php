@@ -87,7 +87,7 @@ class APIController {
 				} else {
 					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
 					if( isset($userId) && is_array($userId)) {
-						$_SESSION['user'] = serialize(new User($userId));
+						$_SESSION['user'] = new User($userId);
 						echo 'status_loginSuccess';
 					}
 					else {
@@ -97,9 +97,9 @@ class APIController {
 				}
 				break;
 			case 'getUserInfo':
-				echo json_encode(unserialize($_SESSION['user']));
+				echo json_encode($_SESSION['user']);
 				break;
-			case 'setUserInfo':
+			/*case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['phone'],$_REQUEST['twitter']);
 				$_SESSION['user'] = unserialize($_SESSION['user']);
 				$_SESSION['user']->email = $_REQUEST['email'];
@@ -111,23 +111,23 @@ class APIController {
 				break;
 			case 'getOrganizerEmail':
 				echo json_encode($this->dbCon->getUserInfo($_REQUEST['oid']));
-				break;
+				break;*/
 			case 'getAttendingEvents':
-				echo json_encode($this->dbCon->m_getEventAttendingBy(unserialize($_SESSION['user'])->id));
+				echo json_encode($this->dbCon->m_getEventAttendingBy($_SESSION['user']->id));
 				break;
-			case 'getAttendanceForEvent':
+			/*case 'getAttendanceForEvent':
 				echo json_encode($this->dbCon->hasAttend(unserialize($_SESSION['user'])->id, $_REQUEST['eid']));
 				break;
 			case 'setAttendanceForEvent':
 				$event = new Event($_REQUEST['eid']);
 				echo json_encode($this->dbCon->m_eventSignUp(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence']));
-				break;
+				break;*/
 			case 'setAttendanceForEventWithDate':
 				$event = new Event($_REQUEST['eid']);
-				echo json_encode($this->dbCon->m_eventSignUpWithDate(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence'], $_REQUEST['date']));
+				echo json_encode($this->dbCon->m_eventSignUpWithDate($_SESSION['user']->id, $event, $_REQUEST['confidence'], $_REQUEST['date']));
 				break;
 			case 'getHostingEvents':
-				$hostingEvents = $this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id);				
+				$hostingEvents = $this->dbCon->m_getEventByEO($_SESSION['user']->id);				
 				for($i=0; $i < count($hostingEvents); $i++)
 				{
 					$event = new Event($hostingEvents[$i]['id']);
@@ -136,7 +136,7 @@ class APIController {
 				}
 				echo json_encode($hostingEvents);
 				break;
-			case 'getGuestList':
+			/*case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
 				break; 
 			case 'checkInByDistance':
@@ -145,13 +145,13 @@ class APIController {
 				break;
 			case 'checkIn':
 				echo json_encode($this->dbCon->checkInGuest($_REQUEST['checkIn'], $_REQUEST['uid'], $_REQUEST['eid']));
-				break;
+				break;*/
 			case 'checkInWithDate':
 				echo json_encode($this->dbCon->m_checkInGuestWithDate($_REQUEST['checkIn'], $_REQUEST['uid'], $_REQUEST['eid'], $_REQUEST['date']));
 				break;		
-			case 'getCheckInDate':
+			/*case 'getCheckInDate':
 				echo json_encode($this->dbCon->m_getCheckInDate($_REQUEST['eid'], $_REQUEST['uid']));
-				break;
+				break;*/
 			case 'computeTrueRSVP':
 				echo json_encode(EFCommon::$core->getTrueRSVP($_REQUEST['eid']));
 				break;
@@ -180,7 +180,7 @@ class APIController {
 			case 'getUsername':
 				echo json_encode($this->dbCon->m_getUsername($_REQUEST['uid']));
 				break;
-			case 'uploadImage':
+			/*case 'uploadImage':
 				$_SESSION['user'] = unserialize($_SESSION['user']);
 				$allowedExtensions = array("jpg");
 				$sizeLimit = 2 * 1024 * 1024;
@@ -192,7 +192,7 @@ class APIController {
 				
 				//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 				$_SESSION['user'] = serialize($_SESSION['user']);
-				break;
+				break;*/
 			case 'isAttending':
 				//$_SESSION['user'] = unserialize($_SESSION['user']);
 				echo json_encode($this->dbCon->m_isAttending($_REQUEST['eid']));
