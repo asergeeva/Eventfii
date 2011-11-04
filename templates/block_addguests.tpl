@@ -64,7 +64,7 @@
 				<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
 				<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
 				<p style="text-align:center">
-					<a href="#" class="btn btn-large" id="csv_upload"><span>Upload</span></a>
+					<a href="#" class="btn btn-manage" id="csv_upload"><span>Upload</span></a>
 				</p>
 				</form>
 				
