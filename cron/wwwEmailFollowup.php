@@ -25,17 +25,15 @@ class EmailFollowup {
 	private $efCom;
 	
 	private $template;
-	private $interval_day;
-	private $interval_hour;
+	private $interval_minute;
 	private $subject;
 	private $forGuest;
 	
 	private $logger;
 		
-	public function __construct($template, $interval_day, $interval_hour, $subject, $forGuest) {
+	public function __construct($template, $interval_minute, $subject, $forGuest) {
 		$this->template = $template;
-		$this->interval_day = $interval_day;
-		$this->interval_hour = $interval_hour;
+		$this->interval_minute = $interval_minute;
 		$this->subject = $subject;
 		$this->forGuest = (strtolower($forGuest) == 'guest') ? true : false;
 	
@@ -58,7 +56,7 @@ class EmailFollowup {
 						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
 						e.*
 					  FROM ef_events e
-						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
+						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL ".$this->interval_minute." MINUTE)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email followups --\n");
@@ -76,5 +74,5 @@ class EmailFollowup {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email followup COMPLETED --\n");
 	}
 }
-$emailReminder = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
+$emailReminder = new EmailFollowup($argv[1], $argv[2], $argv[3], $argv[4]);
 $emailReminder->sendFollowups();

@@ -7,9 +7,9 @@
  *
  * This is always going to be sent for guest
  * How to run this:
- *      php AutoReminder.php <interval_day> <interval_hour> <type>
+ *      php AutoReminder.php <interval_minute> <type>
  *		type - 1 for Email, 2 for SMS, 3 for Followup
- *      e.g. php AutoReminder.php 1 2 1
+ *      e.g. php AutoReminder.php 15 1
  */
 
 require_once(realpath(dirname(__FILE__)).'/../domains/truersvp.com/html/configs.php');
@@ -26,8 +26,7 @@ class AutoReminder {
 	private $mailer;
 	private $efCom;
 	
-	private $interval_day;
-	private $interval_hour;
+	private $interval_minute;
 	private $type;
 	
 	private $logger;
@@ -35,9 +34,8 @@ class AutoReminder {
 	const EMAIL_TYPE = 1;
 	const SMS_TYPE = 2;
 		
-	public function __construct($interval_day, $interval_hour, $type) {
-		$this->interval_day = $interval_day;
-		$this->interval_hour = $interval_hour;
+	public function __construct($interval_minute, $type) {
+		$this->interval_minute = $interval_minute;
 		$this->type = $type;
 	
 		$this->dbCon = new DBConfig();
@@ -62,7 +60,7 @@ class AutoReminder {
 						m.*
 					  FROM ef_events e, ef_event_messages m 
 						WHERE e.id = m.event_id AND m.type = ".$this->type." AND 
-						e.event_datetime = DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)";
+						e.event_datetime = DATE_ADD(NOW(), INTERVAL ".$this->interval_minute." MINUTE)";
 		
 		$event_messages = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		
@@ -91,5 +89,5 @@ class AutoReminder {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Automated message reminders COMPLETED --\n");
 	}
 }
-$autoReminder = new AutoReminder($argv[1], $argv[2], $argv[3]);
+$autoReminder = new AutoReminder($argv[1], $argv[2]);
 $autoReminder->sendReminders();
