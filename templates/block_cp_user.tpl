@@ -4,7 +4,7 @@
 				</p>{if isset($page.settings)}
 
 				<footer class="buttons buttons-extra">
-					<p><a href="#" id="user_image"><span>Upload</span></a></p>
+					<a href="#" class="btn btn-manage" id="user_image"><span>Upload</span></a>
 				</footer>
 			</section>
 			<section class="block" id="user-desc">
