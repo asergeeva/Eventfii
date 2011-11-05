@@ -8,10 +8,6 @@ CREATE TABLE ef_users (
   verified        TINYINT(1) NOT NULL DEFAULT 0,
   referrer        INTEGER REFERENCES ef_users(id),
   phone           VARCHAR(500),
-  email2          VARCHAR(500),
-  email3          VARCHAR(500),
-  email4          VARCHAR(500),
-  email5          VARCHAR(500),
   zip		          VARCHAR(15),
   pic		          VARCHAR(200),
   twitter 	      VARCHAR(20),
@@ -24,6 +20,11 @@ CREATE TABLE ef_users (
   fb_session_key  VARCHAR(500),
   url_alias       VARCHAR(250) UNIQUE,
   user_cookie     VARCHAR(500) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_users_email (
+  user_id  INTEGER REFERENCES ef_users(id),
+  email    VARCHAR(500) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_invites (
