@@ -629,8 +629,8 @@ class Event {
 			if ( isset($_SESSION['user']) ) {
 				$userId = $_SESSION['user']->id;
 			} else {
-				if ( isset($_SESSION['ref']) ) {
-					header("Location: " . CURHOST . "/login?ref=" . $_SESSION['ref']);
+				if ( isset($_SESSION['eref']) ) {
+					header("Location: " . CURHOST . "/login?ref=" . $_SESSION['eref']['hash_key']);
 					exit;
 				}
 				return false;

@@ -19,7 +19,7 @@ CREATE TABLE ef_users (
   fb_access_token VARCHAR(500),
   fb_session_key  VARCHAR(500),
   url_alias       VARCHAR(250) UNIQUE,
-  user_cookie     VARCHAR(500) NOT NULL
+  user_cookie     VARCHAR(500)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_users_email (

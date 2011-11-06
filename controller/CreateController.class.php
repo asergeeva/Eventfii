@@ -16,21 +16,6 @@ class CreateController extends PanelController {
 	
 	}
 	
-	/* saveEventFields
-     * Stores the current values for the new event
-     * in an array that can be assigned in SMARTY
-     * 
-     * @param $newEvent | The event being saved
-     * @return $event_field | The array of event information
-	 */
-	private function saveEventFields( $newEvent ) {
-
-		// Save the current fields
-		$event_field = $newEvent->get_array();
-		
-		EFCommon::$smarty->assign('event_field', $event_field);
-	}
-	
 	/* makeNewEvent
 	 * Adds the event to the database, then switches to step 2
 	 *

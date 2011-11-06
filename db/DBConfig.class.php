@@ -204,7 +204,8 @@ class DBConfig {
 	public function getUserInfoByEmail( $email ) {
 		$GET_USER_INFO = "	SELECT	* 
 							FROM 	ef_users 
-							WHERE 	email = '" . $email . "'";
+							WHERE 	
+							email = '" . mysql_real_escape_string($email) . "'";
 		$userInfo = $this->executeQuery($GET_USER_INFO);
 		return $userInfo;
 	}
@@ -238,16 +239,18 @@ class DBConfig {
 							FROM 	ef_event_invites i 
 							WHERE 	i.hash_key = '" . mysql_real_escape_string($hashKey) . "'";
 		$invitedEmail = $this->executeQuery($GET_REF_EMAIL);
-		return $invitedEmail['email_to'];
+		return $invitedEmail;
 	}
 	
 	public function isUserEmailExist($email) {
-		if (isset($_SESSION['ref'])) {
-			$email = $this->getReferenceEmail($_SESSION['ref']);
-		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . mysql_real_escape_string($email) . "'";
+							WHERE 	
+							e.email = '" . mysql_real_escape_string($email) . "'
+							OR e.email2 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email3 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email4 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email5 = '" . mysql_real_escape_string($email) . "'";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -255,12 +258,15 @@ class DBConfig {
 	}
 	
 	private function isUserRegistered($email) {
-		if (isset($_SESSION['ref'])) {
-			$email = $this->getReferenceEmail($_SESSION['ref']);
-		}
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
-							WHERE 	e.email = '" . mysql_real_escape_string($email) . "' AND password IS NULL";
+							WHERE 	
+							e.email = '" . mysql_real_escape_string($email) . "'
+							OR e.email2 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email3 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email4 = '" . mysql_real_escape_string($email) . "' 
+							OR e.email5 = '" . mysql_real_escape_string($email) . "' 
+							AND password IS NULL";
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -304,17 +310,6 @@ class DBConfig {
 		$_SESSION['user']->pic = $file;
 	}
 	
-	public function updateUserProfileDtls($email,$zip,$cell)
-	{
-		$uid = $_SESSION['user']->id;
-		$UPDATE_USER_PROFILE = "UPDATE 	ef_users 
-								SET		zip		= '$zip',
-										email	= '$email',
-										phone	= '$cell' 
-								WHERE	id = $uid";
-		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
-	}
-	
 	/**
 	 * Check whether the value should use NULL
 	 */
@@ -329,6 +324,21 @@ class DBConfig {
 	 * Update user
 	 */
 	private function updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email) {
+		$emailPredicate = "";
+		// Check for secondary emails
+		if (isset($_SESSION['eref'])) {
+			$userInfo = $this->getUserInfoByEmail($email);
+			if (!isset($userInfo['email2'])) {
+				$emailPredicate = ", email2 = '".mysql_real_escape_string($_SESSION['eref']['email_secondary'])."'";
+			} else if (!isset($userInfo['email3'])) {
+				$emailPredicate = ", email3 = '".mysql_real_escape_string($_SESSION['eref']['email_secondary'])."'";
+			} else if (!isset($userInfo['email4'])) {
+				$emailPredicate = ", email4 = '".mysql_real_escape_string($_SESSION['eref']['email_secondary'])."'";
+			} else {
+				$emailPredicate = ", email5 = '".mysql_real_escape_string($_SESSION['eref']['email_secondary'])."'";
+			}
+		}
+	
 		$UPDATE_USER = "UPDATE	ef_users SET
 								fname = ".$this->checkNullOrValSql($fname).", 
 								lname = ".$this->checkNullOrValSql($lname).",
@@ -339,7 +349,12 @@ class DBConfig {
 								fb_access_token = ".$this->checkNullOrValSql($access_token).",
 								fb_session_key = ".$this->checkNullOrValSql($session_key).",
 								url_alias = HEX(".USER_ALIAS_OFFSET." + id)
-						WHERE	email = '" . mysql_real_escape_string($email) . "'";
+								".$emailPredicate." 
+						WHERE email = '" . mysql_real_escape_string($email) . "' 
+						OR email2 = '" . mysql_real_escape_string($email) . "' 
+						OR email3 = '" . mysql_real_escape_string($email) . "' 
+						OR email4 = '" . mysql_real_escape_string($email) . "' 
+						OR email5 = '" . mysql_real_escape_string($email) . "'";
 	
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
@@ -394,7 +409,7 @@ class DBConfig {
 		$newUser = NULL;
 		
 		// If the email hasn't yet been found in the system
-		if ( ! $this->isUserEmailExist($email) ) {
+		if ( ! $this->isUserEmailExist($email) && !isset($_SESSION['eref'])) {
 			$nextUserId = $this->getNextUserId();
 			$CREATE_NEW_USER = "INSERT IGNORE INTO ef_users(fname, lname, email, phone, password, 
 															zip, facebook, fb_access_token, fb_session_key, url_alias, user_cookie) 
@@ -415,8 +430,8 @@ class DBConfig {
 		// Update the reference
 		// The implementation is the same as without reference
 		// Future: may be we want to give credits to the inviter
-		} else if ( isset($_SESSION['ref']) && $this->isUserRegistered($this->getReferenceEmail($_SESSION['ref']))) {
-			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $this->getReferenceEmail($_SESSION['ref']));
+		} else if ( isset($_SESSION['eref']) && $this->isUserRegistered($_SESSION['eref']['email_to'])) {
+			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['eref']['email_to']);
 			$newUser = $this->getUserInfoByEmail($email);
 		} else if (isset($_SESSION['fb']) && $this->isUserRegistered($_SESSION['fb']->email)) {
 			$this->updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $_SESSION['fb']->email);
@@ -455,10 +470,15 @@ class DBConfig {
 	 * @return $userInfo | Array containing user information 
 	 */
 	public function facebookConnect( $fname, $lname, $email, $fbid, $access_token = NULL, $session_key = NULL ) {
-		if ( ! $this->isUserEmailExist($email) ) {
+		if ( ! $this->isUserEmailExist($email) && !isset($_SESSION['eref'])) {
 			// If the user is new, create their account
 			$this->createNewUser( $fname, $lname, $email, NULL, NULL, NULL, $fbid, $access_token, $session_key );
 		} else {
+			if (isset($_SESSION['eref'])) {
+				$_SESSION['eref']['email_secondary'] = $email;
+				$email = $_SESSION['eref']['email_to'];
+			}
+			
 			// Check to see that current users info is up to date
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
@@ -466,14 +486,25 @@ class DBConfig {
 										pic = '". mysql_real_escape_string(FB_GRAPH_URL. "/" .$fbid. "/picture"). "',
 										facebook = '".mysql_real_escape_string($fbid)."',
 										fb_access_token = ".$this->checkNullOrValSql($access_token).",
-										fb_session_key = ".$this->checkNullOrValSql($session_key)." 
-								WHERE	email = '" . mysql_real_escape_string($email) . "'";
-			
-			$_SESSION['user'] = new User($this->getUserInfoByEmail($email));
+										fb_session_key = ".$this->checkNullOrValSql($session_key).",
+										url_alias = HEX(".USER_ALIAS_OFFSET." + id) 
+								WHERE	
+								email = '" . mysql_real_escape_string($email) . "'
+								OR email2 = '" . mysql_real_escape_string($email) . "'
+								OR email3 = '" . mysql_real_escape_string($email) . "'
+								OR email4 = '" . mysql_real_escape_string($email) . "'
+								OR email5 = '" . mysql_real_escape_string($email) . "'";
+								
 			// setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 			// The user must have already registered
 			$this->executeUpdateQuery($UPDATE_USER);
+			
+			$fbUser = $this->getUserInfoByEmail($email);
+			if (isset($fbUser['password'])) {
+				$_SESSION['user'] = new User($fbUser);
+			}
 		}
+		
 		return $this->getUserInfoByEmail($email);
 	}
 	
@@ -965,7 +996,9 @@ class DBConfig {
 		for ($i = 0; $i < sizeof($guestEmails); $i++) {
 			if (!$this->isUserEmailExist($guestEmails[$i])) {
 				$STORE_GUEST_EMAIL_USERS = "INSERT INTO ef_users (email, referrer)
-												VALUES ('" . mysql_real_escape_string($guestEmails[$i]) . "', " . mysql_real_escape_string($_SESSION['user']->id) . ")";
+												VALUES (
+													'" . mysql_real_escape_string($guestEmails[$i]) . "', 
+													 " . mysql_real_escape_string($_SESSION['user']->id) . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
 			}
 			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . mysql_real_escape_string($eid) . ", " . mysql_real_escape_string($_SESSION['user']->id) . ")";
@@ -1290,7 +1323,6 @@ class DBConfig {
 
 	public function getInviteReference($ref, $email) {
 		$GET_REF_EMAIL = "SELECT * FROM ef_event_invites i WHERE i.hash_key = '".$ref."' AND i.email_to = '".$email."'";
-		
 		return $this->executeQuery($GET_REF_EMAIL);
 	}
 	

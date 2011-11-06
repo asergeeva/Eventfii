@@ -8,6 +8,7 @@ var EF_CONTACTS = (function() {
 	return {
 		init: function() {
 			CSV_UPLOADER.init();
+			$('#contacts-list').find('input').attr('checked', 'checked');
 		}
 	}
 })();

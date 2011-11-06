@@ -111,6 +111,11 @@ class EventController extends PanelController {
 	 * @return false when it does not match the prefix
 	 */
 	public function getView($current_page) {
+		// If mail invite reference, save in Session
+		if (isset($_REQUEST['eref'])) {
+			$_SESSION['eref'] = EFCommon::$dbCon->getReferenceEmail($_REQUEST['eref']);
+		}
+	
 		// If event has an alias URL
 		if (preg_match("/event\/a\/.*/", $current_page) > 0) {
 			$alias = $this->getAliasByUri($current_page);

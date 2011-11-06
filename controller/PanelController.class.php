@@ -33,11 +33,6 @@ class PanelController {
 			}
 		}
 		
-		// If mail invite reference, save in Session
-		if (isset($_REQUEST['ref'])) {
-			$_SESSION['ref'] = $_REQUEST['ref'];
-		}
-		
 		// Remove GET parameters
 		// We need to use $current_page instead of $requestUri
 		$getParamStartPos = strpos($requestUri, '?');
@@ -728,7 +723,7 @@ class PanelController {
 				}
 
 				// If this is a Facebook form login
-				if ( isset($_POST['isFB']) ) {
+				if ( isset($_POST['isFB'])) {
 					$this->handleFBLogin();
 					break;
 				// if the user submits the register form
@@ -749,7 +744,12 @@ class PanelController {
 					}
 					
 					// Create the new user
-					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['phone'], md5($_POST['password']), $_POST['zip'] );
+					$userInfo = EFCommon::$dbCon->createNewUser( $_POST['fname'], 
+															     $_POST['lname'], 
+															     $_POST['email'], 
+															     $_POST['phone'], 
+															     md5($_POST['password']), 
+															     $_POST['zip'] );
 					
 					if (isset($userInfo)) {
 						// Assign user's SESSION variables
@@ -971,6 +971,21 @@ class PanelController {
 		}
 	}
 	
+	/* saveEventFields
+     * Stores the current values for the new event
+     * in an array that can be assigned in SMARTY
+     * 
+     * @param $newEvent | The event being saved
+     * @return $event_field | The array of event information
+	 */
+	protected function saveEventFields( $newEvent ) {
+
+		// Save the current fields
+		$event_field = $newEvent->get_array();
+		
+		EFCommon::$smarty->assign('event_field', $event_field);
+	}
+	
 	private function checkAPIEntry($current_page) {
 		if (preg_match("/api\/.*/", $current_page) > 0) {
 			$apiController = new APIController();
@@ -993,12 +1008,9 @@ class PanelController {
 	/* Permission and login functions */
 		
 	private function getRedirectUrl() {
-		if (isset($_SESSION['ref'])) {
-			$inviteReference = EFCommon::$dbCon->getInviteReference($_SESSION['ref'], $_POST['email']);
-			if (is_numeric($inviteReference['event_id'])) {
-				$url = CURHOST."/event/".$inviteReference['event_id'];
-			}
-			unset($_SESSION['ref']);
+		if (isset($_SESSION['eref'])) {
+			$url = CURHOST."/event/".$_SESSION['eref']['event_id'];
+			unset($_SESSION['eref']);
 		} else {	
 			switch ($_GET['redirect']) {
 				case 'cp':
@@ -1025,7 +1037,6 @@ class PanelController {
 	 * Redirect the user home if he's logged in
      */
 	private function loggedInRedirect() {
-		
 		// if the user already logged in
 		if ( isset($_SESSION['user']) ) {
 			// If there is a page to be redirected to
@@ -1053,7 +1064,6 @@ class PanelController {
 													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
 		if ( $userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
-			
 			echo 3;
 		} else {
 			echo 0;

@@ -278,19 +278,20 @@ class EFMail {
 				if (trim($newGuests[$i]) !== "") {		
 					$hash_key = md5($newGuests[$i]."-".$event->eid ."-". time());
 							
-					EFCommon::$dbCon->createNewUser( NULL, NULL, $newGuests[$i], NULL, NULL, NULL );
 					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($newGuests[$i]);
-		
-					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref."&eref=".$hash_key);
-									
-					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
-										VALUES ('" . mysql_real_escape_string($hash_key) . "', '" . mysql_real_escape_string($newGuests[$i]) . "', " . $event->eid . ")";
-					EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 					
+					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref."&eref=".$hash_key);				
+					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
+										VALUES ('" . mysql_real_escape_string($hash_key) . "', 
+												'" . mysql_real_escape_string($newGuests[$i]) . "', 
+												 " . $event->eid . ")";
+					EFCommon::$dbCon->executeUpdateQuery($RECORD_HASH_KEY);
 					EFCommon::$dbCon->recordUnconfirmedAttendance($event, $insertedUser['id']);
 					
 					$RECORD_CONTACT = "	INSERT IGNORE INTO ef_addressbook (user_id, contact_id, contact_email) 
-										VALUES (" . $_SESSION['user']->id . ", " . $insertedUser['id'] . ", '".mysql_real_escape_string($insertedUser['email'])."')";
+										VALUES (" . $_SESSION['user']->id . ", 
+												" . $insertedUser['id'] . ", 
+											   '".mysql_real_escape_string($insertedUser['email'])."')";
 					EFCommon::$dbCon->executeUpdateQuery($RECORD_CONTACT);
 					
 					$rawMime = 
