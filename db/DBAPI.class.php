@@ -16,7 +16,7 @@ class DBAPI extends DBConfig {
 		
 	}
 	
-	public function m_updateUserInfo($email,$about,$zip,$cell,$twitter)
+	/*public function m_updateUserInfo($email,$about,$zip,$cell,$twitter)
 	{
 		$uid = unserialize($_SESSION['user'])->id;
 		$UPDATE_USER_PROFILE="	UPDATE 	ef_users 
@@ -28,9 +28,9 @@ class DBAPI extends DBConfig {
 								WHERE	id = '$uid'";
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 		return 'status_updateCompleted';
-	}
+	}*/
 	
-	public function m_checkValidUser($email, $pass) 
+	/*public function m_checkValidUser($email, $pass) 
 	{
 		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
 		$userInfo = $this->executeQuery($CHECK_VALID_USER);
@@ -38,7 +38,7 @@ class DBAPI extends DBConfig {
 			return $userInfo['id'];
 		}
 		return NULL;
-	}
+	}*/
 	
 	public function m_checkFBUser($email)
 	{
@@ -79,11 +79,11 @@ class DBAPI extends DBConfig {
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
 	
-	public function m_getAttendees($eid) 
+	/*public function m_getAttendees($eid) 
 	{
 		$GET_ATTENDEES = "SELECT DISTINCT e.user_id FROM ef_attendance e WHERE e.event_id = '$eid'";
 		return $this->executeQuery($GET_ATTENDEES);
-	}
+	}*/
 	
 	public function m_getGuestListByEvent($eid) 
 	{
@@ -106,7 +106,6 @@ class DBAPI extends DBConfig {
 		$userInfo = $this->executeValidQuery($GET_USER_INFO);
 		return $userInfo;
 	}
-	//Deprecate
 	public function m_checkInGuestWithDate($isAttend, $uid, $eid, $date) 
 	{
 		$getRSVPDate = $this->m_getCheckInDate($eid, $uid);
@@ -119,12 +118,12 @@ class DBAPI extends DBConfig {
 			$this->executeUpdateQuery($CHECKIN_GUEST);
 		}
 	}
-	public function m_getCheckInDate($eid, $uid)
+	/*public function m_getCheckInDate($eid, $uid)
 	{
 		$GET_DATE = "SELECT e.rsvp_time FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";
 		$dateInfo = $this->executeValidQuery($GET_DATE);
 		return $dateInfo;
-	}
+	}*/
 	public function m_isAttending($eid)
 	{
 		$uid = unserialize($_SESSION['user'])->id;
@@ -132,7 +131,7 @@ class DBAPI extends DBConfig {
 		$isAttending = $this->executeValidQuery($IS_ATTENDING);
 		return $isAttending;
 	}
-	public function m_getGuestContactInfo($eid, $uid)
+	/*public function m_getGuestContactInfo($eid, $uid)
 	{
 		$GET_ATTENDEES = "	SELECT	* 
 					FROM 	ef_attendance a, 
@@ -141,16 +140,16 @@ class DBAPI extends DBConfig {
 					AND		a.user_id = u.id
 					AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
-	}
+	}*/
 	//Deprecate
-	public function m_eventSignUp($uid, $event, $conf)
+	/*public function m_eventSignUp($uid, $event, $conf)
 	{
 		$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
 							SET 	confidence = " . $conf . " 
 							WHERE 	event_id = " . $event->eid . " 
 							AND 	user_id = " . $uid;
 		return $this->executeUpdateQuery($UPDATE_SIGN_UP);
-	}
+	}*/
 	public function m_eventSignUpWithDate($uid, $event, $conf, $date)
 	{
 		$getRSVPDate = $this->m_getCheckInDate($event-eid, $uid);
@@ -166,7 +165,7 @@ class DBAPI extends DBConfig {
 			return $this->executeUpdateQuery($UPDATE_SIGN_UP);
 		}
 	}
-	public function m_hasAttend($uid, $eid) {
+	/*public function m_hasAttend($uid, $eid) {
 		$HAS_ATTEND = "	SELECT	* 
 						FROM	ef_attendance a 
 						WHERE	a.event_id = " . $eid . " 
@@ -175,7 +174,7 @@ class DBAPI extends DBConfig {
 			return $this->executeValidQuery($HAS_ATTEND);
 		}
 		return NULL;
-	}
+	}*/
 	public function m_getEventByEO($uid)
 	{
 		$GET_EVENTS = "	SELECT	* 
