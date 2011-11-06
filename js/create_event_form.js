@@ -16,9 +16,9 @@ var CREATE_EVENT_FORM = (function() {
 	var	_title = $('#title'),
 		_description = $('#description'),
 		_location = $('#location'),
-		_address = $('#address');
-		_goal = $('#goal')
-		_twitter = $('#twitter')
+		_address = $('#address'),
+		_goal = $('#goal'),
+		_twitter = $('#twitter');
 
 
 	if (typeof(_title) !== 'undefined') {
