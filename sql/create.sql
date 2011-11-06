@@ -22,11 +22,6 @@ CREATE TABLE ef_users (
   user_cookie     VARCHAR(500)
 ) ENGINE=InnoDB;
 
-CREATE TABLE ef_users_email (
-  user_id  INTEGER REFERENCES ef_users(id),
-  email    VARCHAR(500) NOT NULL UNIQUE
-) ENGINE=InnoDB;
-
 CREATE TABLE ef_event_invites (
   invited  TIMESTAMP NOT NULL DEFAULT NOW(),
   hash_key VARCHAR(500) PRIMARY KEY,

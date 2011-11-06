@@ -10,7 +10,6 @@ DROP TABLE IF EXISTS ef_password_reset;
 DROP TABLE IF EXISTS ef_waitinglist;
 DROP TABLE IF EXISTS ef_addressbook;
 DROP TABLE IF EXISTS ef_experiments;
-DROP TABLE IF EXISTS ef_users_email;
 
 DROP TABLE IF EXISTS fb_friends;
 DROP TABLE IF EXISTS fb_invited;
