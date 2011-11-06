@@ -22,6 +22,7 @@ require_once(realpath(dirname(__FILE__)).'/models/Experiment.class.php');
 
 require_once(realpath(dirname(__FILE__)).'/controller/APIController.class.php');
 require_once(realpath(dirname(__FILE__)).'/controller/CreateController.class.php');
+require_once(realpath(dirname(__FILE__)).'/controller/EventController.class.php');
 require_once(realpath(dirname(__FILE__)).'/controller/PanelController.class.php');
 
 require_once(realpath(dirname(__FILE__)).'/db/DBConfig.class.php');

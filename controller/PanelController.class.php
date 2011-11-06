@@ -54,30 +54,10 @@ class PanelController {
 		}
 		
 		$this->checkAPIEntry($current_page);
-
-		// If event has an alias URL
-		if (preg_match("/event\/a\/.*/", $current_page) > 0) {
-			$alias = $this->getAliasByUri($current_page);
-			if ( ! $alias ) {
-				EFCommon::$smarty->display( 'error.tpl' );
-				return;
-			}
-			$eventDb = EFCommon::$dbCon->getEventByURIAlias($alias);
-			$this->displayEventById($eventDb['id']);
-			return;
-		}
-	
-		// If /event in URI, display all event pages
-		if (preg_match("/event\/\d+/", $current_page) > 0) {
-			
-			$eventId = $this->getEventIdByUri( $current_page );
-			if ( ! $eventId ) {
-				EFCommon::$smarty->display( 'error.tpl' );
-				return;
-			}
-			$this->displayEventById($eventId);
-			return;
-		} // END /event
+		
+		/* Check whether we're on the event profile page */
+		$eventController = new EventController();
+		$eventController->getView($current_page);
 		
 		// Quick check for permissions for editing events
 		if ( preg_match("/event\/manage*/", $current_page) > 0 ) {
@@ -1105,74 +1085,6 @@ class PanelController {
 		EFCommon::$smarty->display('manage_event_on.tpl');
 	}
 	
-	/**
-	 * Displaying the event given its ID
-	 * @param $eventId  Integer event ID
-	 */
-	private function displayEventById($eventId) {
-		$event = $this->buildEvent($eventId);
-		$_SESSION['eventViewed'] = $event;
-		
-		if (isset($_SESSION['attemptValue']) && isset($_SESSION['user']) && $event->rsvp_days_left >= 0) {
-			// Make sure that it only select one choice
-			if (sizeof($_SESSION['attemptValue']) == 1) {
-				foreach ($_SESSION['attemptValue'] as $eid => $conf) {
-					$event->currentUserAttend($conf, false);
-					unset($_SESSION['attemptValue']);
-				}
-			}
-		}
-		
-		EFCommon::$smarty->assign("event", $event);
-		
-		// Check to see if the event exists
-		if ( ! $event->exists ) {
-			EFCommon::$smarty->display( 'error_event_notexist.tpl' );
-			return;
-		}
-		
-		// Check permissions
-		if ( ! $event->can_view(NULL) ) {
-			EFCommon::$smarty->display( 'error_event_private.tpl' );
-			return;
-		}
-	
-		// Prepare the twitter feed
-		$twitter = new EFTwitter();
-		$twitterHash = $twitter->getTwitterHash($eventId);
-		EFCommon::$smarty->assign( 'twitterHash', $twitterHash );
-		
-		
-		// See if the user has responded
-		if ( isset($_SESSION['user']->id) ) {
-			$hasAttend = EFCommon::$dbCon->hasAttend($_SESSION['user']->id, $eventId);
-			EFCommon::$smarty->assign('conf' . $hasAttend['confidence'],  ' checked="checked"');
-			EFCommon::$smarty->assign('select' . $hasAttend['confidence'], 'true');
-			
-			// If the deadline passed, disable the input
-			if ($event->rsvp_days_left < 0) {
-				EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
-				EFCommon::$smarty->assign('loggedIn', true);
-			}
-		} else {
-			EFCommon::$smarty->assign('disabled', ' disabled="disabled"');
-			EFCommon::$smarty->assign('redirect', "?redirect=event&eventId=" . $eventId);
-		}
-		
-		$curSignUp = EFCommon::$dbCon->getCurSignup($eventId);
-		EFCommon::$smarty->assign( 'curSignUp', $curSignUp );
-		
-		$event_attendees = EFCommon::$dbCon->getConfirmedGuests($eventId);
-		$attending = NULL;
-		foreach($event_attendees as $guest) {
-			$attending[] = new User($guest);
-		}
-		
-		EFCommon::$smarty->assign( 'attending', $attending );
-		
-		EFCommon::$smarty->display('event.tpl');
-	}
-	
 	private function displayUserById($userId) {
 		$profile = new User($userId);
 		if ( ! $profile->exists ) {
@@ -1203,7 +1115,7 @@ class PanelController {
 	 * @param $eventId | The event ID
 	 * @return $event | The event object
 	 */
-	private function buildEvent($eventId, $manage = false ) {
+	protected function buildEvent($eventId, $manage = false ) {
 		
 		if ( $manage ) {
 			if ( isset($_SESSION['manage_event']) ) {				
@@ -1366,27 +1278,6 @@ class PanelController {
 	/* Save / Create functions */
 	
 	/* URL Parsing */
-
-	/* function getEventIdByUri
-	 * Gets the Event ID given a URI, returns
-	 * false if invalid URI
-	 *
-	 * @param requestUri | The URI of the page to be displayed
-	 * @return eventId | The event ID
-	 * @return false | If invalid URI
-	 */
-	public function getEventIdByUri( $requestUri ) {
-		$eventId = explode('/', $requestUri);
-		
-		// Verify that format of URL is http://{$CURHOST}/event/{$eventId}
-		if (sizeof($eventId) != 3 ) {
-			return false;
-		}
-		
-		$eventId = $eventId[sizeof($eventId) - 1];
-		
-		return $eventId;
-	}
 	
 	private function getUserIdByUri( $requestUri ) {
 		$userId = explode('/', $requestUri);		
@@ -1405,7 +1296,7 @@ class PanelController {
 	 * Given the current page URI, get its alias
 	 * @return String alias of the event URI
 	 */
-	private function getAliasByUri($requestUri) {
+	protected function getAliasByUri($requestUri) {
 		$alias = explode('/', $requestUri);
 		
 		// Verify that format of URL is http://{$CURHOST}/event/a/{$alias}

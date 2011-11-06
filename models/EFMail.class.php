@@ -76,7 +76,7 @@ class EFMail {
 			switch ($replaceItems->item($j)->getAttribute("id")) {
 				case "event_name":
 					$replaceItems->item($j)->nodeValue = stripslashes($event->title);
-					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
+					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/a/".$event->alias.$reference);
 					break;
 				case "event_date":
 					if (isset($event->friendly_date) && trim($event->friendly_date) != "") {
@@ -96,7 +96,7 @@ class EFMail {
 					$replaceItems->item($j)->nodeValue = $event->address;
 					break;
 				case "event_link":
-					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/".$event->eid.$reference);
+					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/a/".$event->alias.$reference);
 					break;
 				case "event_description":
 					$replaceItems->item($j)->nodeValue = $event->description;
@@ -281,7 +281,7 @@ class EFMail {
 					EFCommon::$dbCon->createNewUser( NULL, NULL, $newGuests[$i], NULL, NULL, NULL );
 					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($newGuests[$i]);
 		
-					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref);
+					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref."&eref=".$hash_key);
 									
 					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 										VALUES ('" . mysql_real_escape_string($hash_key) . "', '" . mysql_real_escape_string($newGuests[$i]) . "', " . $event->eid . ")";
