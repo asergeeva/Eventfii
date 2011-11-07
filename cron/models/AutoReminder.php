@@ -11,33 +11,18 @@
  *		type - 1 for Email, 2 for SMS, 3 for Followup
  *      e.g. php AutoReminder.php 15 1
  */
-
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/configs.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/EFSMS.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/Event.class.php');
-
 class AutoReminder {
 	private $dbCon;
 	private $sms;
 	private $mailer;
 	private $efCom;
 	
-	private $interval_minute;
-	private $type;
-	
 	private $logger;
 	
 	const EMAIL_TYPE = 1;
 	const SMS_TYPE = 2;
 		
-	public function __construct($interval_minute, $type) {
-		$this->interval_minute = $interval_minute;
-		$this->type = $type;
-	
+	public function __construct() {
 		$this->dbCon = new DBConfig();
 		$this->sms = new EFSMS();
 		$this->mailer = new EFMail();
@@ -50,7 +35,7 @@ class AutoReminder {
 		fclose($this->logger);
 	}
 	
-	public function sendReminders() {
+	public function sendReminders($interval_minute, $type) {
 		$GET_EVENT = "SELECT
 						DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
 						DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
@@ -59,8 +44,8 @@ class AutoReminder {
 						e.*,
 						m.*
 					  FROM ef_events e, ef_event_messages m 
-						WHERE e.id = m.event_id AND m.type = ".$this->type." AND 
-						e.event_datetime = DATE_ADD(NOW(), INTERVAL ".$this->interval_minute." MINUTE)";
+						WHERE e.id = m.event_id AND m.type = ".$type." AND 
+						e.event_datetime = DATE_ADD(NOW(), INTERVAL ".$interval_minute." MINUTE)";
 		
 		$event_messages = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		
@@ -68,7 +53,7 @@ class AutoReminder {
 		for ($i = 0; $i < sizeof($event_messages); ++$i) {
 			$event = new Event($event_messages[$i]);
 			
-			switch ($this->type) {
+			switch ($type) {
 				case self::EMAIL_TYPE:
 					for ($i = 0; $i < sizeof($event->guests); ++$i) {
 						$this->mailer->sendHtmlEmail('general', 
@@ -89,5 +74,3 @@ class AutoReminder {
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Automated message reminders COMPLETED --\n");
 	}
 }
-$autoReminder = new AutoReminder($argv[1], $argv[2]);
-$autoReminder->sendReminders();

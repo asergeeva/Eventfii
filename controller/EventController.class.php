@@ -107,7 +107,8 @@ class EventController extends PanelController {
 	
 	/**
 	 * Controller for the following prefixes: 
-	 *		1. /event/create
+	 *		1. /event/a/{event alias}
+	 *		2. /event/{event id}
 	 * @return false when it does not match the prefix
 	 */
 	public function getView($current_page) {

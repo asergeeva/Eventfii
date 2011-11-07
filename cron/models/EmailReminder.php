@@ -12,35 +12,14 @@
  *			- reminder_4days (Host)
  *			- reminder_dayof (Host)
  */
-
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/configs.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/EFCommon.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/libs/Mailgun/Mailgun.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/db/DBConfig.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/EFMail.class.php');
-require_once(realpath(dirname(__FILE__)).'/../domains/qa.truersvp.com/html/models/Event.class.php');
-
 class EmailReminder {
 	private $dbCon;
 	private $mailer;
 	private $efCom;
 	
-	private $template;
-	private $interval_day;
-	private $interval_hour;
-	private $subject;
-	private $forGuest;
-	
-	
 	private $logger;
 		
-	public function __construct($template, $interval_day, $interval_hour, $subject, $forGuest) {
-		$this->template = $template;
-		$this->interval_day = $interval_day;
-		$this->interval_hour = $interval_hour;
-		$this->subject = $subject;
-		$this->forGuest = (strtolower($forGuest) == 'guest') ? true : false;
-	
+	public function __construct() {
 		$this->dbCon = new DBConfig();
 		$this->mailer = new EFMail();
 		$this->efCom = new EFCommon();
@@ -52,7 +31,9 @@ class EmailReminder {
 		fclose($this->logger);
 	}
 	
-	public function sendReminders() {
+	private function sendReminders($template, $interval_day, $interval_hour, $subject, $forGuest) {
+		$isForGuest = (strtolower($forGuest) == 'guest') ? true : false;
+	
 		$GET_EVENT = "SELECT
 						DATEDIFF ( e.event_deadline, CURDATE() ) AS rsvp_days_left,
 						DATEDIFF ( e.event_datetime, CURDATE() ) AS days_left,
@@ -61,9 +42,9 @@ class EmailReminder {
 						e.*
 					  FROM ef_events e
 						WHERE e.event_datetime BETWEEN 
-							DATE_ADD(NOW(), INTERVAL '".$this->interval_day." ".$this->interval_hour."' DAY_HOUR)
+							DATE_ADD(NOW(), INTERVAL '".$interval_day." ".$interval_hour."' DAY_HOUR)
 							AND 
-							DATE_ADD(NOW(), INTERVAL '".($this->interval_day + 1)." ".$this->interval_hour."' DAY_HOUR)";
+							DATE_ADD(NOW(), INTERVAL '".($interval_day + 1)." ".$interval_hour."' DAY_HOUR)";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email reminders --\n");
@@ -71,16 +52,14 @@ class EmailReminder {
 			print_r($events[$i]);
 			$event = new Event($events[$i]);
 			
-			if (!$this->forGuest) {
-				$this->mailer->sendHtmlEmail($this->template, $event->organizer, $this->subject, $event);
+			if (!$isForGuest) {
+				$this->mailer->sendHtmlEmail($template, $event->organizer, $subject, $event);
 				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent host reminder email for event_id = ".$event->eid."\n");
 			} else {
-				$this->mailer->sendGuestsHtmlEmailByEvent($this->template, $event, $this->subject);
+				$this->mailer->sendGuestsHtmlEmailByEvent($template, $event, $subject);
 				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guest reminder email for event_id = ".$event->eid."\n");
 			}
 		}
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email reminders COMPLETED --\n");
 	}
 }
-$emailReminder = new EmailReminder($argv[1], $argv[2], $argv[3], $argv[4], $argv[5]);
-$emailReminder->sendReminders();
