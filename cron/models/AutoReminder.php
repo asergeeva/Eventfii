@@ -28,7 +28,7 @@ class AutoReminder {
 		$this->mailer = new EFMail();
 		$this->efCom = new EFCommon();
 		
-		$this->logger = fopen(realpath(dirname(__FILE__)).'/logs/'.AUTO_REMINDER_CRON_LOG, 'a');
+		$this->logger = fopen(realpath(dirname(__FILE__)).'/../logs/'.AUTO_REMINDER_CRON_LOG, 'a');
 	}
 	
 	public function __destruct() {
