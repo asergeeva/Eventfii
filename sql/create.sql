@@ -108,6 +108,7 @@ CREATE TABLE ef_attendance (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_event_messages (
+  sender_id         INTEGER NOT NULL REFERENCES ef_users(id),
   created           TIMESTAMP NOT NULL DEFAULT NOW(),
   subject           VARCHAR(200),
   message           VARCHAR(5000) NOT NULL,
@@ -116,7 +117,14 @@ CREATE TABLE ef_event_messages (
   recipient_group   INTEGER NOT NULL REFERENCES ef_recipient_groups(id),
   type              TINYINT NOT NULL,
   is_activated      TINYINT NOT NULL DEFAULT 0,
-  CONSTRAINT pk_messages PRIMARY KEY (event_id, type)
+  is_sent           TINYINT NOT NULL DEFAULT 0,
+  CONSTRAINT pk_messages PRIMARY KEY (sender_id, event_id, type)
+) ENGINE=InnoDB;
+
+CREATE TABLE ef_cron_messages (
+  event_id         INTEGER NOT NULL REFERENCES ef_events(id),
+  sender_id        INTEGER NOT NULL REFERENCES ef_users(id),
+  message_template VARCHAR(500) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_recipient_groups (

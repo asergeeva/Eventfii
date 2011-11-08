@@ -23,7 +23,7 @@ class AutoReminder {
 	const SMS_TYPE = 2;
 		
 	public function __construct() {
-		$this->dbCon = new DBConfig();
+		$this->dbCon = new CronDB();
 		$this->sms = new EFSMS();
 		$this->mailer = new EFMail();
 		$this->efCom = new EFCommon();
@@ -33,6 +33,28 @@ class AutoReminder {
 	
 	public function __destruct() {
 		fclose($this->logger);
+	}
+	
+	private function isSending($event_message) {
+		$IS_SENDING = "SELECT FROM ef_event_messages WHERE sender_id = ".$event_message['sender_id']." 
+						AND event_id = ".$event_message['event_id']." 
+						AND type = ".$event_message['type'];
+		$is_sending = $this->dbCon->executeQuery($IS_SENDING);
+		if ($is_sending['is_sent'] == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	private function markSent($event_message) {
+		if ($this->isSending($event_message)) {
+			$MARK_SENT = "UPDATE ef_event_messages SET is_sent = 1 WHERE sender_id = ".$event_message['sender_id']." 
+							AND event_id = ".$event_message['event_id']." 
+							AND type = ".$event_message['type'];
+			$this->dbCon->executeUpdateQuery($MARK_SENT);
+			return true;
+		}
+		return false;
 	}
 	
 	public function sendReminders($interval_minute, $type) {
@@ -51,24 +73,26 @@ class AutoReminder {
 		
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($event_messages)." auto reminders --\n");
 		for ($i = 0; $i < sizeof($event_messages); ++$i) {
-			print_r($event_messages[$i]);
-			$event = new Event($event_messages[$i]);
-			
-			switch ($type) {
-				case self::EMAIL_TYPE:
-					for ($i = 0; $i < sizeof($event->guests); ++$i) {
-						$this->mailer->sendHtmlEmail('general', 
-												      $event->guests[$i], 
-												      $event_message['subject'], 
-												      $event, 
-												      $event_message['message']);
-					}
-					fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guests reminder Email for event_id = ".$event->eid."\n");
-					break;
-				case self::SMS_TYPE:
-					$this->sms->sendSMSReminder($event->guests, $event, $event_message['message']);
-					fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guests reminder SMS for event_id = ".$event->eid."\n");
-					break;
+			if ($this->markSent($event_messages[$i])) {
+				print_r($event_messages[$i]);
+				$event = new Event($event_messages[$i]);
+				
+				switch ($type) {
+					case self::EMAIL_TYPE:
+						for ($i = 0; $i < sizeof($event->guests); ++$i) {
+							$this->mailer->sendHtmlEmail('general', 
+													      $event->guests[$i], 
+													      $event_message['subject'], 
+													      $event, 
+													      $event_message['message']);
+						}
+						fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guests reminder Email for event_id = ".$event->eid."\n");
+						break;
+					case self::SMS_TYPE:
+						$this->sms->sendSMSReminder($event->guests, $event, $event_message['message']);
+						fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guests reminder SMS for event_id = ".$event->eid."\n");
+						break;
+				}
 			}
 		}
 		

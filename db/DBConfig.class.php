@@ -1146,6 +1146,7 @@ class DBConfig {
 			$SAVE_REMINDER = "
 			INSERT INTO	ef_event_messages 
 						(
+							sender_id,
 							created, 
 							subject, 
 							message, 
@@ -1156,6 +1157,7 @@ class DBConfig {
 							recipient_group
 						) 
 			VALUES		(
+							".$_SESSION['user']->id.",
 							NOW(), 
 							'" . mysql_real_escape_string($subject) . "', 
 							'" . mysql_real_escape_string($msg) . "', 
@@ -1189,6 +1191,7 @@ class DBConfig {
 			$SAVE_REMINDER = "
 			INSERT INTO	ef_event_messages 
 						(
+							sender_id,
 							created, 
 							message, 
 							delivery_time, 
@@ -1198,6 +1201,7 @@ class DBConfig {
 							recipient_group
 						) 
 			VALUES		(
+							".$_SESSION['user']->id.",
 							NOW(),
 							'" . mysql_real_escape_string($msg) . "', 
 							'" . mysql_real_escape_string($deliveryDateTime) . "', 
