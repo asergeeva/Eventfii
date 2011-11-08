@@ -73,7 +73,7 @@ class DBAPI extends DBConfig {
 								FROM 	ef_attendance a, 
 										ef_events e,
 										ef_users u
-								WHERE 	a.event_id = e.id AND e.organizer = u.id AND a.user_id = ".$uid."
+								WHERE 	a.event_id = e.id AND a.user_id = ".$uid." AND e.organizer <> ".$uid." 
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
