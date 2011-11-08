@@ -19,7 +19,7 @@ class EmailFollowup {
 	private $logger;
 		
 	public function __construct() {
-		$this->dbCon = new DBConfig();
+		$this->dbCon = new CronDB();
 		$this->mailer = new EFMail();
 		$this->efCom = new EFCommon();
 		
@@ -47,13 +47,15 @@ class EmailFollowup {
 		for ($i = 0; $i < sizeof($events); ++$i) {
 			print_r($events[$i]);
 			$event = new Event($events[$i]);
-						
-			if (!$isForGuest) {
-				$this->mailer->sendHtmlEmail($template, $event->organizer, $subject, $event);
-				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent host followup email for event_id = ".$event->eid."\n");
-			} else {
-				$this->mailer->sendGuestsHtmlEmailByEvent($template, $event, $subject);
-				fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guest followup email for event_id = ".$event->eid."\n");
+			
+			if ($this->dbCon->recordOutgoingMessage($event->eid, $event->organizer, $template)) {
+				if (!$isForGuest) {
+					$this->mailer->sendHtmlEmail($template, $event->organizer, $subject, $event);
+					fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent host followup email for event_id = ".$event->eid."\n");
+				} else {
+					$this->mailer->sendGuestsHtmlEmailByEvent($template, $event, $subject);
+					fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent guest followup email for event_id = ".$event->eid."\n");
+				}
 			}
 		}
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Cron job for sending Email followup COMPLETED --\n");
