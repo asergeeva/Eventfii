@@ -161,7 +161,7 @@ class APIController {
  				$guests = array();
  				for($i=0; $i < count($contacts); $i++)
  				{
- 					$newUser = new User($contacts[$i]);
+ 					$newUser = new User($this->dbCon->m_getUserInfo($_REQUEST['eventId'], $contacts[$i]));
  					array_push($guests, $newUser);
  				}		
 				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 

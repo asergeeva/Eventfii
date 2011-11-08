@@ -203,4 +203,13 @@ class DBAPI extends DBConfig {
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
+	public function m_getUserInfo($eid, $id)
+	{
+		$GET_ATTENDEES = "	SELECT	* 
+							FROM 	ef_attendance a, 
+									ef_users u 
+							WHERE 	a.user_id = " . $id .  " " .
+							"AND 	a.event_id = " . $eid . "";
+		$this->executeValidQuery($GET_ATTENDEES);
+	}
 }
