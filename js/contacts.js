@@ -9,6 +9,15 @@ var EF_CONTACTS = (function() {
 		init: function() {
 			CSV_UPLOADER.init();
 			$('#contacts-list').find('input').attr('checked', 'checked');
+			
+			/* SELECT CONTACTS ALL or NONE */
+			$('#select_contact_all').live('click', function() {
+				$('#contacts-list').find('input').attr('checked', 'checked');
+			});
+			
+			$('#select_contact_none').live('click', function() {
+				$('#contacts-list').find('input').removeAttr('checked');
+			});
 		}
 	}
 })();
