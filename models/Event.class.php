@@ -707,8 +707,9 @@ class Event {
 	 * @param    $guest_email    String    the email of the guest
 	 */
 	private function addGuestEmail($guest_email) {
-		if ( EFMail::validateEmail($guest_email) &&
-				!in_array($guest_email, $this->guest_emails)) {
+		$guest_email = EFMail::getRFCEmail($guest_email);
+		
+		if ( $guest_email && !in_array($guest_email, $this->guest_emails)) {			
 			array_push($this->guest_emails, $guest_email);
 			array_push($this->guests, new AbstractUser($guest_email));
 			return true;
@@ -736,7 +737,7 @@ class Event {
 				foreach($guests as $guest) {
 					$guest = trim($guest);
 					if ($this->addGuestEmail($guest)) {
-						$addGuest[] = $guest;
+						$addGuest[] = EFMail::getRFCEmail($guest);
 					}
 				}
 			} 

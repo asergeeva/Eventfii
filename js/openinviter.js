@@ -110,7 +110,6 @@ $(document).ready(function() {
 				$('#oi_container').html(contactListPage).ready(function() {
 					if (contactListPage != 'Invalid username/password' &&
 						contactListPage != 'Invalid service provider') {
-						console.log('foo');
 						OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
 						$('#import_form_container').css('display', 'block');
 						$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');

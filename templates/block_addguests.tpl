@@ -161,7 +161,7 @@
 
 				<section class="block">
 					<form method="post" action="{if isset($submitTo)}{$submitTo}{/if}" id="create_guests">
-						<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
+						<textarea name="emails" id="emails-hidden" style="display:none" enctype="multipart/form-data"></textarea>
 						<fieldset>
 							<legend>Manually add guests</legend>
 							<label>Enter e-mails separated by a comma</label>

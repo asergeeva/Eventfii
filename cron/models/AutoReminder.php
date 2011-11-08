@@ -51,6 +51,7 @@ class AutoReminder {
 		
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($event_messages)." auto reminders --\n");
 		for ($i = 0; $i < sizeof($event_messages); ++$i) {
+			print_r($event_messages[$i]);
 			$event = new Event($event_messages[$i]);
 			
 			switch ($type) {

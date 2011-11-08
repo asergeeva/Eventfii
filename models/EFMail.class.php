@@ -347,6 +347,21 @@ class EFMail {
 	}
 	
 	/**
+	 * Check for the valid RFC Email if it is valid
+	 * @return String of the email if it's valid, false otherwise
+	 */
+	public static function getRFCEmail($email) {
+		if (self::validateEmail($email)) {
+			$address_array  = imap_rfc822_parse_adrlist($email, $_SERVER['HTTP_HOST']);
+			
+			foreach ($address_array as $id => $val) {
+				return $val->mailbox . "@" . $val->host;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Validate one or multiple separated by comma of email addresses that follows the RFC 2822 specifications
 	 * imap_rfc822_parse_adrlist
 	 * 		Input: foo@bar.com

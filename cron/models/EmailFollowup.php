@@ -45,6 +45,7 @@ class EmailFollowup {
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email followups --\n");
 		for ($i = 0; $i < sizeof($events); ++$i) {
+			print_r($events[$i]);
 			$event = new Event($events[$i]);
 						
 			if (!$isForGuest) {
