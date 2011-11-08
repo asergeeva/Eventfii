@@ -8,7 +8,6 @@
 
 define('ENV', 'qa.truersvp.com');
 
-
 require_once(realpath(dirname(__FILE__)).'/../domains/'.ENV.'/html/configs.php');
 require_once(realpath(dirname(__FILE__)).'/../domains/'.ENV.'/html/models/EFCommon.class.php');
 require_once(realpath(dirname(__FILE__)).'/../domains/'.ENV.'/html/libs/Mailgun/Mailgun.php');

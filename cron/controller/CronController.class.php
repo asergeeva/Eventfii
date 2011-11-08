@@ -7,7 +7,7 @@
  */
 
 require_once(realpath(dirname(__FILE__)).'/../configs.php');
-require_once(realpath(dirname(__FILE__)).'/../db/CronDB.php');
+require_once(realpath(dirname(__FILE__)).'/../db/CronDB.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/AutoReminder.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EmailFollowup.php');
 require_once(realpath(dirname(__FILE__)).'/../models/EmailReminder.php');

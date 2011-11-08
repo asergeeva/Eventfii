@@ -121,10 +121,13 @@ CREATE TABLE ef_event_messages (
   CONSTRAINT pk_messages PRIMARY KEY (sender_id, event_id, type)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS ef_cron_messages;
 CREATE TABLE ef_cron_messages (
+  develiry_time    TIMESTAMP NOT NULL DEFAULT NOW(),
   event_id         INTEGER NOT NULL REFERENCES ef_events(id),
   sender_id        INTEGER NOT NULL REFERENCES ef_users(id),
-  message_template VARCHAR(500) NOT NULL
+  message_template VARCHAR(500) NOT NULL,
+  CONSTRAINT pk_messages PRIMARY KEY (event_id, sender_id, message_template)
 ) ENGINE=InnoDB;
 
 CREATE TABLE ef_recipient_groups (

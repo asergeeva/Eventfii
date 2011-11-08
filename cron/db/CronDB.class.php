@@ -7,7 +7,7 @@
  */
 class CronDB extends DBConfig {
 	public function __construct() {
-		
+		parent::__construct();
 	}
 	
 	public function __destruct() {
@@ -35,12 +35,11 @@ class CronDB extends DBConfig {
 	}
 	
 	private function isSending($eventId, $senderId, $messageTemplate) {
-		$IS_SENDING = "SELECT FROM ef_cron_messages
+		$IS_SENDING = "SELECT * FROM ef_cron_messages
 							WHERE event_id = ".$eventId." 
-								AND sender_id = ".$senderId.",
-								AND message_template = '".$messageTemplate."'
-							)";
-		if ($this->getRowNum($RECORD_OUTGOING) == 0) {
+								AND sender_id = ".$senderId."
+								AND message_template = '".$messageTemplate."'";
+		if ($this->getRowNum($IS_SENDING) == 0) {
 			return true;
 		}
 		return false;

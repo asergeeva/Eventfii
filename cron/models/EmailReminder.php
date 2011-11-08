@@ -50,10 +50,10 @@ class EmailReminder {
 		
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email reminders --\n");
 		for ($i = 0; $i < sizeof($events); ++$i) {
-				print_r($events[$i]);
-				$event = new Event($events[$i]);
+			print_r($events[$i]);
+			$event = new Event($events[$i]);
 				
-			if ($this->dbCon->recordOutgoingMessage($event->eid, $event->organizer, $template)) {
+			if ($this->dbCon->recordOutgoingMessage($event->eid, $event->organizer->id, $template)) {
 				if (!$isForGuest) {
 					$this->mailer->sendHtmlEmail($template, $event->organizer, $subject, $event);
 					fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] Sent host reminder email for event_id = ".$event->eid."\n");
