@@ -53,7 +53,7 @@ class DBAPI extends DBConfig {
 	
 	public function m_getEventAttendingBy($uid) 
 	{
-		$GET_EVENTS = "	SELECT	* 
+		$GET_EVENTS = "	SELECT * 
 						FROM (
 								SELECT 	e.id, 
 										DATEDIFF(e.event_datetime, CURDATE()) AS days_left,
@@ -69,11 +69,13 @@ class DBAPI extends DBConfig {
 										e.is_active,
 										a.is_attending,
 										a.confidence,
+										e.is_public,
+										e.reach_goal,
 										u.email
 								FROM 	ef_attendance a, 
 										ef_events e,
 										ef_users u
-								WHERE 	a.event_id = e.id AND a.user_id = ".$uid." AND e.organizer <> ".$uid." 
+								WHERE 	a.event_id = e.id AND u.id = a.user_id AND a.user_id = ".$uid." AND e.organizer <> ".$uid." 
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
@@ -203,7 +205,7 @@ class DBAPI extends DBConfig {
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}
-	public function m_getUserInfo($eid, $id)
+	public function m_getUserInfoFromEvent($eid, $id)
 	{
 		$GET_ATTENDEES = "	SELECT	* 
 							FROM 	ef_attendance a, 
@@ -211,5 +213,12 @@ class DBAPI extends DBConfig {
 							WHERE 	a.user_id = " . $id .  " " .
 							"AND 	a.event_id = " . $eid . "";
 		$this->executeValidQuery($GET_ATTENDEES);
+	}
+	public function m_checkEmailExists($email)
+	{
+		$CHECK_EMAIL = "	SELECT *
+							FROM	ef_users u
+							WHERE	u.email = " . $email;
+		return count($this->executeValidQuery($CHECK_EMAIL));
 	}
 }

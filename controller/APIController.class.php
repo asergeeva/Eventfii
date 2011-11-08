@@ -156,26 +156,28 @@ class APIController {
 				echo json_encode(EFCommon::$core->getTrueRSVP($_REQUEST['eid']));
 				break;
 			case 'sendMessage':
-				$event = $this->buildEvent( $_REQUEST['eventId'] );	
-				$contacts = $_REQUEST['uid'];
- 				$guests = array();
- 				for($i=0; $i < count($contacts); $i++)
- 				{
- 					$newUser = new User($this->dbCon->m_getUserInfo($_REQUEST['eventId'], $contacts[$i]));
- 					array_push($guests, $newUser);
- 				}		
-				if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
-				{
-					for ($i = 0; $i < sizeof($guests); ++$i) 
+				if (isset($_SESSION['user'])) {
+					$event = $this->buildEvent( $_REQUEST['eventId'] );	
+					$contacts = $_REQUEST['uid'];
+					$guests = array();
+					for($i=0; $i < count($contacts); $i++)
 					{
-						EFCommon::$mailer->sendHtmlEmail('general', $guests[$i], $_POST['reminderSubject'], $event, $_POST['reminderContent']);
+						$newUser = new User($this->dbCon->m_getUserInfoFromEvent($_REQUEST['eventId'], $contacts[$i]));
+						array_push($guests, $newUser);
+					}		
+					if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
+					{
+						for ($i = 0; $i < sizeof($guests); ++$i) 
+						{
+							EFCommon::$mailer->sendHtmlEmail('general', $guests[$i], $_POST['reminderSubject'], $event, $_POST['reminderContent']);
+						}
 					}
+					if($_REQUEST['form'] == 'text' || $_REQUEST['form'] == 'both') 
+					{
+						EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
+					}
+					echo("status_emailSuccess");
 				}
-				if($_REQUEST['form'] == 'text' || $_REQUEST['form'] == 'both') 
- 				{
-					EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
-				}
-				echo("status_emailSuccess");
 				break;
 			case 'getUsername':
 				echo json_encode($this->dbCon->m_getUsername($_REQUEST['uid']));
@@ -210,6 +212,10 @@ class APIController {
 				if (isset($_SESSION['user'])) {
 					echo 'pong';
 				}
+				break;
+			case 'addGuest':
+				$event = new Event($_POST['eid']);
+				echo $event->submitGuests();
 				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
