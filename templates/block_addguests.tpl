@@ -63,8 +63,9 @@
 				<div id="csv_container" style="margin-bottom:10px"></div>
 				<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
 				<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
+				<p style="text-align:center;margin-bottom:10px;">Upload a CSV with your guests' emails here.</p>
 				<p style="text-align:center">
-					<a href="#" class="btn btn-manage" id="csv_upload"><span>Upload</span></a>
+					<a href="#" class="btn btn-small" id="csv_upload"><span>Upload</span></a>
 				</p>
 				</form>
 				
