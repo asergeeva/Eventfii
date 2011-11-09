@@ -520,7 +520,7 @@ class PanelController {
 					$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
 					for ($i = 0; $i < sizeof($contactList); ++$i) {
 						$contact = new User($contactList[$i]);
-						array_push($contacts, $contact);
+						$contacts[] = $contact;
 					}
 					
 					if ( sizeof($contacts) > 0 )
