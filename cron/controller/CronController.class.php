@@ -44,6 +44,8 @@ class CronController {
 				$this->emailReminder->sendReminders("reminder_4days", 4, 0, 
 									 		  		"Reminder: {Event name} is coming up!",
 									 		  		"host");
+				// Database backup
+				exec("mysqldump --user ".DB_USER." --password=".DB_PASS." -h ".DB_HOST." ".DB_NAME." > ".realpath(dirname(__FILE__))."/../db/backup/".DB_NAME."_bkp_".date('Y-m-d').".sql");
 				break;
 			case self::TIME_DAILY_NOON:
 				break;
