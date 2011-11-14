@@ -76,6 +76,7 @@ class APIController {
 				{
 					if($this->dbCon->m_checkFBUser($_POST['email']))
 					{
+						session_start();
 						$this->handleFBLogin();
 						echo 'status_loginSuccess';
 						break;
@@ -88,6 +89,7 @@ class APIController {
 				} else {
 					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
 					if( isset($userId) && is_array($userId)) {
+						session_start();
 						$_SESSION['user'] = new User($userId);
 						echo 'status_loginSuccess';
 					}
