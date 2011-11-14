@@ -40,7 +40,10 @@ class EmailFollowup {
 						DATE_FORMAT(e.event_datetime, '%r') AS friendly_event_time,
 						e.*
 					  FROM ef_events e
-						WHERE e.event_datetime = DATE_SUB(NOW(), INTERVAL ".$interval_minute." MINUTE)";
+						WHERE e.event_datetime BETWEEN 
+						DATE_SUB(NOW(), INTERVAL ".$interval_minute." MINUTE)
+						AND
+						NOW()";
 		
 		$events = $this->dbCon->getQueryResultAssoc($GET_EVENT);
 		fwrite($this->logger, "[".date("Y-m-d H:i:s"). "] -- Sending ".sizeof($events)." email followups --\n");
