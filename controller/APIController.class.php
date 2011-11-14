@@ -7,7 +7,7 @@
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
-
+require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 class APIController {
 	private $dbCon;
 	private $result;
