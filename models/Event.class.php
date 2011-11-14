@@ -903,6 +903,9 @@ class Event {
 		} else {
 			EFCommon::$dbCon->eventSignUp($_SESSION['user']->id, $this, $conf);
 			$notification = "Thanks for your RSVP! Look forward to seeing you at the event!";
+			if ($conf == CONFOPT5) {
+				$notification = "Thanks for your RSVP. If you change your mind, make sure to update it here.";
+			}
 		}
 		
 		if (isset($notification)) {

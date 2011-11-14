@@ -55,16 +55,12 @@ $smarty->assign('MAX_DISPLAY_GUEST', 10);
 $smarty->assign('GOOGLE_MAP_URL', GOOGLE_MAP_URL);
 $smarty->assign('FB_GRAPH_URL', FB_GRAPH_URL);
 
-// Yes
-define('CONFOPT1', 90);
 
-// May be
-define('CONFOPT2', 65);
-define('CONFOPT3', 35);
-define('CONFOPT4', 15);
-
-// No
-define('CONFOPT5', 4);
+define('CONFOPT1', 90); // Absolutely
+define('CONFOPT2', 65); // Pretty sure
+define('CONFOPT3', 35); // 50/50
+define('CONFOPT4', 15); // Not likely
+define('CONFOPT5', 4);  // Raincheck
 
 // A spam
 define('CONFOPT6', 1);
