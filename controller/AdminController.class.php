@@ -30,7 +30,8 @@ class AdminController {
 		$newEvents = array();
 		foreach ($eventList as $eventInfo) {
 			$event = new Event($eventInfo['id']);
-		
+			
+			
 			$eventInfo['num_invites'] = $this->dbCon->admin_getNumInvites($event->eid);
 			$eventInfo['fb_invite'] = $this->dbCon->admin_getNumFbInvites($event->eid);
 			$eventInfo['num_checked'] = $this->dbCon->admin_getNumChecked($event->eid);

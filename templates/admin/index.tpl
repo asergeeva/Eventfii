@@ -16,8 +16,10 @@
 				<tr>
 					<th>{counter start=0 skip=1}</th>
 					<th>Event name</th>
+					<th>Created on</th>
 					<th>Date of event</th>
 					<th>Host name</th>
+					<th>Host email</th>
 					<th># of invites</th>
 					<th># of FB invites</th>
 					<th># of checked off</th>
@@ -27,8 +29,10 @@
 				<tr>
 					<td>{counter}</td>
 					<td><a href="{$EVENT_URL}/a/{$event.url_alias}" target="_blank">{$event.title}</a></td>
+					<td>{$event.created}</td>
 					<td>{$event.event_datetime}</td>
 					<td>{$event.fname} {$event.lname}</td>
+					<td>{$event.email}</td>
 					<td>{$event.num_invites}</td>
 					<td>{$event.fb_invite}</td>
 					<td>{$event.num_checked}</td>

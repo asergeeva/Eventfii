@@ -40,7 +40,7 @@ class AdminDB extends DBConfig {
 	}
 	
 	public function admin_getEventList() {
-		$GET_EVENT_LIST = "SELECT e.*, u.fname, u.lname FROM ef_events e, ef_users u WHERE e.organizer = u.id".$this->constructExcludeEmails();
+		$GET_EVENT_LIST = "SELECT e.*, u.fname, u.lname, u.email FROM ef_events e, ef_users u WHERE e.organizer = u.id".$this->constructExcludeEmails();
 		return $this->getQueryResultAssoc($GET_EVENT_LIST);
 	}
 	
