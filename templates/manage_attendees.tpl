@@ -34,7 +34,7 @@
 					</footer--> 
 				</section>
 				
-				<section class="block" id="nr-cp-attendees">
+				<!--section class="block" id="nr-cp-attendees">
 
 					<header class="block-collapsable-title">
 						<h1 style="float:left;margin-right:10px">No Response</h1>
@@ -47,14 +47,14 @@
 						<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span></label></li>{/foreach}
 
 					</ul>
-					<!--footer class="buttons buttons-submit">
+					<footer class="buttons buttons-submit">
 						<p><input type="submit" name="submit" value="Save" /></p> 
-					</footer--> 
+					</footer> 
 				</section>
-				<!--footer class="links-extra">
+				<footer class="links-extra">
 					<p><a href="{$CURHOST}/event/print?eventId={$smarty.session.manage_event->eid}" target="_blank">Print Attendance List</a></p> 
-				</footer-->
-			</section>{/if}
+				</footer>
+			</section-->{/if}
 
 		</div>
 	</section>
