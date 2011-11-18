@@ -30,6 +30,12 @@ class AbstractUser {
 	protected $error;
 	protected $numErrors;
 	
+	// Alternative emails
+	public $email2;
+	public $email3;
+	public $email4;
+	public $email5;
+	
 	public function __construct($info) {
 		$this->numErrors = 0;
 		

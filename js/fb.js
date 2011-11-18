@@ -19,10 +19,10 @@ var FBCON = (function() {
 		},
 		
 		loginUser: function(sessionInfo) {
-			if (sessionInfo.session) {
+			if (sessionInfo.authResponse) {
 				FB.api('/me', function(userInfo) {
 					if (typeof userInfo.error == 'undefined') {
-						LOGIN_FORM.fbUserLogin(userInfo, sessionInfo.session);
+						LOGIN_FORM.fbUserLogin(userInfo, sessionInfo);
 					}
 				});
 			} else {
@@ -36,8 +36,8 @@ var FBCON = (function() {
 		
 		harvestFriends: function() {
 			FB.getLoginStatus(function(sessionInfo) {
-				if (sessionInfo.session) {
-					FB.api('/me/friends?access_token=' + sessionInfo.access_token, function(userFriends) {
+				if (sessionInfo.authResponse) {
+					FB.api('/me/friends?access_token=' + sessionInfo.authResponse.accessToken, function(userFriends) {
 						if (typeof userFriends.error == 'undefined') {
 							$.post(EFGLOBAL.baseUrl + '/fb/friends', {
 								fbFriends: JSON.stringify(userFriends)

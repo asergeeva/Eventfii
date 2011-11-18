@@ -2,7 +2,7 @@
 		<fieldset>
 			<legend>Sign In</legend>
 			<div class="fb">
-				<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button>
+				<fb:login-button scope="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Login with Facebook</fb:login-button>
 			</div>
 			<div id="invalid_credentials"></div>
 			<p class="message-small">or</p>

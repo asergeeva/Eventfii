@@ -63,6 +63,19 @@
 
 						</dd>
 						<dt class="inline">
+							<label for="other-email">Other E-mails (associated with your account)</label>
+						</dt>
+						<dd{if isset($error.email)} class="error"{/if}>
+							<input type="text" name="email" value="{$smarty.session.user->email2}" class="inputbox" id="other-email-2" disabled="disabled" style="margin-bottom:10px" />
+							
+							<input type="text" name="email" value="{$smarty.session.user->email3}" class="inputbox" id="other-email-3" disabled="disabled" style="margin-bottom:10px" />
+							
+							<input type="text" name="email" value="{$smarty.session.user->email4}" class="inputbox" id="other-email-4" disabled="disabled" style="margin-bottom:10px" />
+							
+							<input type="text" name="email" value="{$smarty.session.user->email5}" class="inputbox" id="other-email-5" disabled="disabled" />
+
+						</dd>
+						<dt class="inline">
 							<label for="user-phone">Cell #</label>
 						</dt>
 						<dd{if isset($error.phone)} class="error"{/if}>
@@ -94,7 +107,7 @@
 						</dt>
 						<dd>
 							<div id="fb-root"></div>
-							<fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
+							<fb:login-button scope="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
 						</dd>
 				</fieldset>
 				<fieldset>

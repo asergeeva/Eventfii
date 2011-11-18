@@ -50,8 +50,8 @@ var LOGIN_FORM = (function() {
 				isFB: true,
 				fbid: userInfo.id,
 				curPage: window.location.href,
-				fb_access_token: sessionInfo.access_token,
-				fb_session_key: sessionInfo.session_key
+				fb_access_token: sessionInfo.authResponse.accessToken,
+				fb_session_key: sessionInfo.authResponse.signedRequest
 			}, LOGIN_FORM.loginRedirect);
 		},
 		
