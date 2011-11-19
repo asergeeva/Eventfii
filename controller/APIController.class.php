@@ -100,6 +100,9 @@ class APIController {
 			case 'getUserInfo':
 				echo json_encode(new User($_SESSION['user']));
 				break;
+			case 'getUserID':
+				echo $_SESSION['user'];
+				break;
 			/*case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['phone'],$_REQUEST['twitter']);
 				$_SESSION['user'] = unserialize($_SESSION['user']);
