@@ -177,6 +177,16 @@ class DBAPI extends DBConfig {
 		}
 		return NULL;
 	}*/
+	public function m_testHosting()
+	{
+		$TEST = "	SELECT	* FROM 	ef_events";
+		return $this->executeValidQuery($TEST);
+	}
+	public function m_testHosting2($uid)
+	{
+		$TEST = "	SELECT	* FROM 	ef_events e WHERE e.organizer = " . $uid . "";
+		return $this->executeValidQuery($TEST);
+	}
 	public function m_getEventByEO($uid)
 	{
 		$GET_EVENTS = "	SELECT	* 

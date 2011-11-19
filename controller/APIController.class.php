@@ -100,9 +100,9 @@ class APIController {
 			case 'getUserInfo':
 				echo json_encode(new User($_SESSION['user']));
 				break;
-			case 'getUserID':
+			/*case 'getUserID':
 				echo $_SESSION['user'];
-				break;
+				break;*/
 			/*case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['phone'],$_REQUEST['twitter']);
 				$_SESSION['user'] = unserialize($_SESSION['user']);
@@ -130,6 +130,13 @@ class APIController {
 				$event = new Event($_REQUEST['eid']);
 				echo json_encode($this->dbCon->m_eventSignUpWithDate($_SESSION['user'], $event, $_REQUEST['confidence'], $_REQUEST['date']));
 				break;
+			case 'testHostingEvents':
+				echo(json_encode($this->dbCon->m_testHosting()));
+				break;
+			case 'testHostingEvents2':
+				echo $_SESSION['user'];
+				echo(json_encode($this->dbCon->m_testHosting2($_SESSION['user'])));
+				break;				
 			case 'getHostingEvents':
 				$hostingEvents = $this->dbCon->m_getEventByEO($_SESSION['user']);				
 				for($i=0; $i < count($hostingEvents); $i++)
