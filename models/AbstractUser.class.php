@@ -71,6 +71,12 @@ class AbstractUser {
 		$this->set_fname($userInfo['fname']);
 		$this->set_lname($userInfo['lname']);
 		$this->email = $userInfo['email'];
+		
+		$this->email2 = isset($userInfo['email2']) ? $userInfo['email2'] : NULL;
+		$this->email3 = isset($userInfo['email3']) ? $userInfo['email3'] : NULL;
+		$this->email4 = isset($userInfo['email4']) ? $userInfo['email4'] : NULL;
+		$this->email5 = isset($userInfo['email5']) ? $userInfo['email5'] : NULL;
+		
 		$this->about = $userInfo['about'];
 		if ( sizeof($userInfo['facebook']) == 0 ) {
 			$this->pic = $this->setUserPic(NULL);

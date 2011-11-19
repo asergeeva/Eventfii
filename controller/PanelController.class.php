@@ -274,6 +274,18 @@ class PanelController {
 				
 				EFCommon::$smarty->display('cp_settings.tpl');
 				break;
+			case '/settings/email/update':
+				$secondaryEmail = $_POST['email'];
+				$secondaryEmailId = $_POST['id'];
+				
+				if (filter_var($secondaryEmail, FILTER_VALIDATE_EMAIL)) {
+					if (EFCommon::$dbCon->saveSecondaryEmail($secondaryEmail, $secondaryEmailId)) {
+						print(true);
+					}	
+					print(false);
+				}
+				print(false);
+				break;
 			case '/event/manage/cancel':
 				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
 					print("Event is successfully deleted");
