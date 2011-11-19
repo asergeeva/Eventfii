@@ -177,17 +177,7 @@ class DBAPI extends DBConfig {
 		}
 		return NULL;
 	}*/
-	public function m_testHosting()
-	{
-		$TEST = "	SELECT	* FROM 	ef_events";
-		return $this->executeValidQuery($TEST);
-	}
-	public function m_testHosting2($uid)
-	{
-		$TEST = "	SELECT	* FROM 	ef_events e WHERE e.organizer = " . $uid . "";
-		return $this->executeValidQuery($TEST);
-	}
-	public function m_getEventByEO($uid)
+	/*public function m_getEventByEO($uid)
 	{
 		$GET_EVENTS = "	SELECT	* 
 						FROM (
@@ -214,7 +204,7 @@ class DBAPI extends DBConfig {
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
-	}
+	}*/
 	public function m_getUserInfoFromEvent($eid, $id)
 	{
 		$GET_ATTENDEES = "	SELECT	* 

@@ -6,7 +6,7 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
-//require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 class APIController {
 	private $dbCon;
@@ -130,15 +130,8 @@ class APIController {
 				$event = new Event($_REQUEST['eid']);
 				echo json_encode($this->dbCon->m_eventSignUpWithDate($_SESSION['user'], $event, $_REQUEST['confidence'], $_REQUEST['date']));
 				break;
-			case 'testHostingEvents':
-				echo(json_encode($this->dbCon->m_testHosting()));
-				break;
-			case 'testHostingEvents2':
-				echo $_SESSION['user'];
-				echo(json_encode($this->dbCon->m_testHosting2($_SESSION['user'])));
-				break;				
 			case 'getHostingEvents':
-				$hostingEvents = $this->dbCon->m_getEventByEO($_SESSION['user']);				
+				$hostingEvents = $this->dbCon->getEventByEO($_SESSION['user']);				
 				for($i=0; $i < count($hostingEvents); $i++)
 				{
 					$event = new Event($hostingEvents[$i]['id']);
