@@ -51,7 +51,7 @@ class DBAPI extends DBConfig {
 		return false;		
 	}
 	
-	public function m_getEventAttendingBy($uid) 
+	/*public function m_getEventAttendingBy($uid) 
 	{
 		$GET_EVENTS = "	SELECT * 
 						FROM (
@@ -79,14 +79,12 @@ class DBAPI extends DBConfig {
 						) el
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
-	}
-	
+	}*/
 	/*public function m_getAttendees($eid) 
 	{
 		$GET_ATTENDEES = "SELECT DISTINCT e.user_id FROM ef_attendance e WHERE e.event_id = '$eid'";
 		return $this->executeQuery($GET_ATTENDEES);
 	}*/
-	
 	public function m_getGuestListByEvent($eid) 
 	{
 		$GET_ATTENDEES = "	SELECT	a.confidence,
@@ -126,12 +124,27 @@ class DBAPI extends DBConfig {
 		$dateInfo = $this->executeValidQuery($GET_DATE);
 		return $dateInfo;
 	}*/
-	public function m_isAttending($eid)
+	public function m_isAttending($uid, $eid)
 	{
-		$uid = unserialize($_SESSION['user'])->id;
-		$IS_ATTENDING="SELECT * FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid;
+		$IS_ATTENDING="SELECT e.is_attending FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
 		$isAttending = $this->executeValidQuery($IS_ATTENDING);
-		return $isAttending;
+		return $isAttending['is_attending'];
+	}
+	public function m_getConfidence($uid, $eid)
+	{
+		$CONFIDENCE="SELECT e.confidence FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
+		$CONFIDENCE = $this->executeValidQuery($CONFIDENCE);
+		return $CONFIDENCE['confidence'];	
+	}
+	public function m_getOrganizerEmail($uid, $eid)
+	{
+		$EMAIL="SELECT u.email FROM ef_attendance a, ef_users u, ef_events e 
+				WHERE a.event_id = ".$eid." 
+				AND a.user_id = ".$uid . "
+				AND e.id = a.event_id
+				AND u.id = e.organizer";
+		$EMAIL = $this->executeValidQuery($EMAIL);
+		return $EMAIL['email'];	
 	}
 	/*public function m_getGuestContactInfo($eid, $uid)
 	{

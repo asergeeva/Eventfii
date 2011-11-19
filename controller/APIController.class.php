@@ -117,7 +117,14 @@ class APIController {
 				echo json_encode($this->dbCon->getUserInfo($_REQUEST['oid']));
 				break;*/
 			case 'getAttendingEvents':
-				echo json_encode($this->dbCon->m_getEventAttendingBy($_SESSION['user']));
+				$attendingEvents = $this->dbCon->getEventAttendingByUid($_SESSION['user']);
+				for($i=0; $i < count($attendingEvents); $i++)
+				{
+					$attendingEvents[$i]['is_attending'] = $this->dbCon->m_isAttending($_SESSION['user'], $attendingEvents[$i]['id']);
+					$attendingEvents[$i]['confidence'] = $this->dbCon->m_getConfidence($_SESSION['user'], $attendingEvents[$i]['id']);
+					$attendingEvents[$i]['email'] = $this->dbCon->m_getOrganizerEmail($_SESSION['user'], $attendingEvents[$i]['id']);
+				}				
+				echo json_encode($attendingEvents);
 				break;
 			/*case 'getAttendanceForEvent':
 				echo json_encode($this->dbCon->hasAttend(unserialize($_SESSION['user'])->id, $_REQUEST['eid']));
@@ -201,7 +208,7 @@ class APIController {
 				break;*/
 			case 'isAttending':
 				//$_SESSION['user'] = unserialize($_SESSION['user']);
-				echo json_encode($this->dbCon->m_isAttending($_REQUEST['eid']));
+				echo json_encode($this->dbCon->m_isAttending($_SESSION['user'], $_REQUEST['eid']));
 				//$_SESSION['user'] = serialize($_SESSION['user']);
 				break;
 			case 'logout':
