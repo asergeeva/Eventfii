@@ -867,6 +867,7 @@ nav.steps.step-3 { background-position: 0 -100px; }
 	width: 100%;
 	overflow: auto;
 	clear: both; }
+.list li:nth-child(odd) { background: #f9f9f9; }
 .list li:hover { background: #ff9933; }
 .list li label { 
 	padding: 3px;
