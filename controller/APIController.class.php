@@ -6,7 +6,7 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/../db/DBAPI.class.php');
-require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
+//require_once(realpath(dirname(__FILE__)).'/../models/User.class.php');
 require_once(realpath(dirname(__FILE__)).'/../models/Event.class.php');
 class APIController {
 	private $dbCon;
@@ -46,7 +46,7 @@ class APIController {
 	private function handleFBLogin() {
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], $_POST['access'], $_POST['session'] );
 		if ( $userInfo ) {
-			$_SESSION['user'] = serialize(new User($userInfo));
+			$_SESSION['user'] = $userInfo['id'];
 			if ( isset ($params) ) {
 				echo $params;
 			} else {
@@ -88,7 +88,7 @@ class APIController {
 				} else {
 					$userId = EFCommon::$dbCon->checkValidUser( $_POST['email'], $_POST['pass'] );			
 					if( isset($userId) && is_array($userId)) {
-						$_SESSION['user'] = serialize(new User($userId));
+						$_SESSION['user'] = $userId['id'];
 						echo 'status_loginSuccess';
 					}
 					else {
@@ -98,7 +98,7 @@ class APIController {
 				}
 				break;
 			case 'getUserInfo':
-				echo json_encode(unserialize($_SESSION['user']));
+				echo json_encode(new User($_SESSION['user']));
 				break;
 			/*case 'setUserInfo':
 				echo $this->dbCon->m_updateUserInfo($_REQUEST['email'],$_REQUEST['about'],$_REQUEST['zip'],$_REQUEST['phone'],$_REQUEST['twitter']);
@@ -114,7 +114,7 @@ class APIController {
 				echo json_encode($this->dbCon->getUserInfo($_REQUEST['oid']));
 				break;*/
 			case 'getAttendingEvents':
-				echo json_encode($this->dbCon->m_getEventAttendingBy(unserialize($_SESSION['user'])->id));
+				echo json_encode($this->dbCon->m_getEventAttendingBy($_SESSION['user']));
 				break;
 			/*case 'getAttendanceForEvent':
 				echo json_encode($this->dbCon->hasAttend(unserialize($_SESSION['user'])->id, $_REQUEST['eid']));
@@ -125,10 +125,10 @@ class APIController {
 				break;*/
 			case 'setAttendanceForEventWithDate':
 				$event = new Event($_REQUEST['eid']);
-				echo json_encode($this->dbCon->m_eventSignUpWithDate(unserialize($_SESSION['user'])->id, $event, $_REQUEST['confidence'], $_REQUEST['date']));
+				echo json_encode($this->dbCon->m_eventSignUpWithDate($_SESSION['user'], $event, $_REQUEST['confidence'], $_REQUEST['date']));
 				break;
 			case 'getHostingEvents':
-				$hostingEvents = $this->dbCon->m_getEventByEO(unserialize($_SESSION['user'])->id);				
+				$hostingEvents = $this->dbCon->m_getEventByEO($_SESSION['user']);				
 				for($i=0; $i < count($hostingEvents); $i++)
 				{
 					$event = new Event($hostingEvents[$i]['id']);
