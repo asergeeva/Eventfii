@@ -168,6 +168,8 @@ class APIController {
 				break;
 			case 'sendMessage':
 				if (isset($_SESSION['user'])) {
+					$temp = $_SESSION['user'];
+					$_SESSION['user'] = new User($_SESSION['user']);
 					$event = $this->buildEvent( $_REQUEST['eventId'] );	
 					$contacts = $_REQUEST['uid'];
 					$guests = array();
@@ -188,6 +190,7 @@ class APIController {
 						EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 					}
 					echo("status_emailSuccess");
+					$_SESSION['user'] = $temp;
 				}
 				break;
 			case 'getUsername':
