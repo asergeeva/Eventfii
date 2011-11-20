@@ -96,6 +96,7 @@ class DBConfig {
 			print($query . "<br />");
 			die('Invalid query: ' . mysql_error());
 		}
+		return true;
 	}
 	
 	/* function getQueryResult
@@ -1169,6 +1170,16 @@ class DBConfig {
 						)";
 			$this->executeUpdateQuery($SAVE_REMINDER);
 		}
+	}
+	
+	/**
+	 * Save the secondary email (Max of secondary email is with index 5 [range: 1-5])
+	 */
+	public function saveSecondaryEmail($email, $index) {
+		$colName = 'email'.$index;
+		$UPDATE_SECOND_EMAIL = "UPDATE ef_users SET ".$colName." = ".$this->checkNullOrValSql($email)." WHERE id = ".$_SESSION['user']->id;
+		$_SESSION['user']->$colName = $email;
+		return $this->executeUpdateQuery($UPDATE_SECOND_EMAIL);
 	}
 	
 	public function saveText($eid, $msg, $deliveryDateTime, $autoReminder, $group) {

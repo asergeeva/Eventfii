@@ -6,7 +6,7 @@
  * All rights reserved
  */
 
-define('ENV', 'qa.truersvp.com');
+define('ENV', 'truersvp.com');
 
 require_once(realpath(dirname(__FILE__)).'/../domains/'.ENV.'/html/configs.php');
 require_once(realpath(dirname(__FILE__)).'/../domains/'.ENV.'/html/models/EFCommon.class.php');
