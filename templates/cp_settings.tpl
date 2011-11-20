@@ -61,7 +61,8 @@
 
 							<em>{$error.email}</em>{/if}
 
-						</dd>
+						</dd>{if strlen($smarty.session.user->email2) != 0}
+
 						<dt class="inline">
 							<label for="other-email">Other E-mails (associated with your account)</label>
 						</dt>
