@@ -126,12 +126,12 @@ class DBAPI extends DBConfig {
 		}
 	}
 	
-	/*public function m_getCheckInDate($eid, $uid)
+	public function m_getCheckInDate($eid, $uid)
 	{
 		$GET_DATE = "SELECT e.rsvp_time FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";
 		$dateInfo = $this->executeValidQuery($GET_DATE);
 		return $dateInfo;
-	}*/
+	}
 	public function m_isAttending($uid, $eid)
 	{
 		$IS_ATTENDING="SELECT e.is_attending FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
