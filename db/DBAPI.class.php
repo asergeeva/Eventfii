@@ -29,7 +29,14 @@ class DBAPI extends DBConfig {
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
 		return 'status_updateCompleted';
 	}*/
-	
+	public function m_updateUserNamesWithEmail($fname, $lname, $email)
+	{
+		$UPDATE_USER_PROFILE="	UPDATE 	ef_users 
+							SET 	fname 	= '$fname',
+							lname 	= '$lname'
+							WHERE	email = '$email'";
+		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
+	}
 	/*public function m_checkValidUser($email, $pass) 
 	{
 		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
@@ -118,6 +125,7 @@ class DBAPI extends DBConfig {
 			$this->executeUpdateQuery($CHECKIN_GUEST);
 		}
 	}
+	
 	/*public function m_getCheckInDate($eid, $uid)
 	{
 		$GET_DATE = "SELECT e.rsvp_time FROM ef_attendance e WHERE e.event_id = ".$eid." AND e.user_id = ".$uid."";

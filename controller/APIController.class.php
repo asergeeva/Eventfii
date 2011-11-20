@@ -147,10 +147,10 @@ class APIController {
 				}
 				echo json_encode($hostingEvents);
 				break;
-			/*case 'getGuestList':
+			case 'getGuestList':
 				echo json_encode($this->dbCon->m_getGuestListByEvent($_REQUEST['eid']));
 				break; 
-			case 'checkInByDistance':
+			/*case 'checkInByDistance':
 				$this->dbCon->checkInGuest('1', unserialize($_SESSION['user'])->id, $_REQUEST['eid']);
 				echo 'status_checkInSuccess';
 				break;
@@ -228,8 +228,22 @@ class APIController {
 				}
 				break;
 			case 'addGuest':
+				$temp = $_SESSION['user'];
+				$_SESSION['user'] = new User($_SESSION['user']);
+				$checkExists = FALSE;
+				if($this->dbCon->m_checkEmailExists($_REQUEST['emails']))
+				{
+					$checkExists = TRUE;
+				}
 				$event = new Event($_POST['eid']);
 				echo $event->submitGuests();
+				
+				if(strlen($_REQUEST['fname']) > 0 && strlen($_REQUEST['lname']) > 0 && $checkExists)
+				{
+					echo 'gogo-';
+					$this->dbCon->m_updateUserNamesWithEmail($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['emails']);
+				}
+				$_SESSION['user'] = $temp;
 				break;
 			default:
 				EFCommon::$smarty->assign('requestUri', $requestUri);
