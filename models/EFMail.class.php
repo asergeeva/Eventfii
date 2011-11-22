@@ -27,7 +27,8 @@ class EFMail {
 		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html",
 		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html",
 		"general" => "general.html",
-		"forgot_pass" => "forgot_pass.html"
+		"forgot_pass" => "forgot_pass.html",
+		"cancel" => "canceledevent.html"
 	);
 	
 	public function __construct() {

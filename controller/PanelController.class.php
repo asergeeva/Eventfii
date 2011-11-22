@@ -288,6 +288,10 @@ class PanelController {
 				break;
 			case '/event/manage/cancel':
 				if (EFcommon::$dbCon->deleteEvent($_POST['eventId'])) {
+					$event = $this->buildEvent($_POST['eventId']);
+					
+					EFCommon::$mailer->sendGuestsHtmlEmailByEvent('cancel', $event, $event->title.' was canceled');
+					
 					print("Event is successfully deleted");
 					// Add successful template for event cancellation
 					break;
