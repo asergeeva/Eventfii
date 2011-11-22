@@ -35,7 +35,7 @@
 	<tr>
 		<td style="padding: 10px">
 			<p>Hi [Attendee name],</p>
-			<p>The following event has been canceled:</p>
+			<p>We are sorry to be the bearers of bad news but <strong></strong><span id="event_name">Event Name</span></strong> has been canceled. Please make sure to remove it from your calendar:</p>
 			<p>
 				<a href="#"><span id="event_name">Event Name</span></a><br />
 				<span id="event_date">Event Date</span><br />
