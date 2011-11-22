@@ -864,32 +864,36 @@ nav.steps.step-3 { background-position: 0 -100px; }
 
 /*----- Response List ----------*/
 .list li { 
-	width: 100%;
-	overflow: auto;
-	clear: both; }
-.list li:nth-child(odd) { background: #f9f9f9; }
-.list li:hover { background: #ff9933; }
-.list li label { 
-	padding: 3px;
+	padding: 3px 10px;
+	clear: both;
 	display: block; }
+.list li:nth-child(odd) { background: #f9f9f9; }
+.list li:hover { 
+	background: #ff9933;
+	color: #fff; }
+.list li * { cursor: pointer; }
 .list li.list-head {
 	background: none;
+	color: inherit;
 	font-weight: bold;
 	margin: 0 0 10px;
 	cursor: default; }
-.list li strong {
-	float: left;
-	width: 60%; }
-.list li em {
-	float: left;
+.list li label, .list li.list-head div {
+	width: 100%;
+	display: block; }
+.list li em, .list li span, .list li strong {
+	vertical-align: middle;
+	display: inline-block; }
+.list li em { 
 	text-align: center;
-	width: 15%; }
-.list span {
-	float: right;
-	text-align: center;
-	width: 20%;
-	padding: 0; }
-.list span input { cursor: pointer; }
+	width: 16%; }
+.list li span { width: 56%; }
+.list li strong { width: 28%; }
+.list li.list-head span { margin: 0 ;}
+.list span input { 
+	cursor: pointer;
+	margin: -3px 0 0;
+	display: inline-block; }
 
 /*----- RSVP List ----------*/
 #rsvp { overflow: visible; }
@@ -1168,43 +1172,38 @@ ul.network li a {
 /*----- Navigation Panel ----------*/
 .navigation {
 	float: left;
-	width: 166px; } 
-	
-/* Image Navigation */
-.manage-nav { 
-
-}
+	width: 166px; }
 
 /* Simple Navigation */
-.navigation .block { padding: 8px; }
-.navigation .block a { color: #3399cc; }
-.navigation .block a:hover { color: #fff; }
-.navigation .block ul,
-.navigation .block ol { margin: 0 -8px 0; }
-.navigation .block ol {
+.manage-nav .block { padding: 8px; }
+.manage-nav .block a { color: #3399cc; }
+.manage-nav .block a:hover { color: #fff; }
+.manage-nav .block ul,
+.manage-nav .block ol { margin: 0 -8px 0; }
+.manage-nav .block ol {
 	list-style-type: decimal;
 	list-style-position: inside; }
-.navigation .block li {
+.manage-nav .block li {
 	background: #fff;
 	text-align: center;
 	font-size: 11px;
 	margin: 0 0 5px; }
-.navigation .block ol li { text-align: left; }
-.navigation .block li span { font-size: 11px; }
+.manage-nav .block ol li { text-align: left; }
+.manage-nav .block li span { font-size: 11px; }
 #cp-nav ol li { padding: 8px 0 8px 8px; }
-.navigation .block li.current,
-.navigation .block li a:hover { 
+.manage-nav .block li.current,
+.manage-nav .block li a:hover { 
 	background: #ff9933;
 	color: #fff; }
-.navigation .block li a {
+.manage-nav .block li a {
 	text-decoration: none;
 	height: 21px; /* 30 - 9 */
 	padding: 9px 0 0;
 	display: block; }
-.navigation .block ol li a { padding: 8px 0 0 8px; }
-.navigation .block li.current span,
-.navigation .block li a:hover span { color: #fff; }
-.navigation .block ol li a span { font-size: 11px; }
+.manage-nav .block ol li a { padding: 8px 0 0 8px; }
+.manage-nav .block li.current span,
+.manage-nav .block li a:hover span { color: #fff; }
+.manage-nav .block ol li a span { font-size: 11px; }
 
 /* Error Pages
  -------------------------*/

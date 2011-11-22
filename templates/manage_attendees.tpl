@@ -5,7 +5,11 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		{include file="manage_nav.tpl"}
+		<div class="navigation">
+			<nav class="attendee-nav">
+				
+			</nav>
+		</div>
 		<div class="manage">
 			<header class="block">
 				<p class="message">Confirm who showed up to improve your trueRSVP accuracy for your next event!</p>
@@ -19,22 +23,21 @@
 				<section class="block" id="cp-attendees">
 
 					<header class="block-collapsable-title">
-						<h1>Attendees</h1>
+						<h1>Guest List</h1>
 						<span id="attendee-header"></span>
 					</header>
 					<ul class="list">
 						<li class="list-head">
-							<span id="head-show">Showed Up?</span>
-							<strong id="head-name"><a href="#">Name</a></strong> 
-							<em id="head-rsvp"><a href="#">RSVP</a></em> 
+							<div>
+								<em id="head-show">Showed Up?</em><span id="head-name"><a href="#">Name</a></span><strong id="head-rsvp"><a href="#">RSVP</a></strong> 
+							</div>
 						</li>
 					</ul>
 					<ul class="list" id="attendee-list">{foreach $eventAttendees as $guest}
 
 						<li>
 							<label for="attendee-{$guest->id}">
-								<strong title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em title="{$guest->confidence}">{$guest->friendly_confidence}</em> 
-								<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span>
+								<em><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></em><span title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</span><strong title="{$guest->confidence}">{$guest->friendly_confidence}</strong>								
 							</label>
 						</li>{/foreach}
 

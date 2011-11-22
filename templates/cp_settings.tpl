@@ -61,12 +61,11 @@
 
 							<em>{$error.email}</em>{/if}
 
-						</dd>{if strlen($smarty.session.user->email2) != 0}
-
+						</dd>
 						<dt class="inline">
 							<label for="other-email">Other E-mails (associated with your account)</label>
 						</dt>
-						<dd{if isset($error.email)} class="error"{/if}>
+						<dd>
 							<span id="block-email-2">
 								<input type="text" name="email" value="{$smarty.session.user->email2}" class="inputbox" id="other-email-2" disabled="disabled" style="margin-bottom:10px" />
 								<a href="#" class="btn btn-manage" id="edit-email-2"><span>Edit</span></a>
@@ -75,7 +74,6 @@
 									<a href="#" class="btn btn-manage" id="add-email-2"><span>Add</span></a>
 								{/if}
 							</span>
-							
 							<span id="block-email-3" {if !isset($smarty.session.user->email3)}style="display:none"{/if}>
 								<input type="text" name="email" value="{$smarty.session.user->email3}" class="inputbox" id="other-email-3" disabled="disabled" style="margin-bottom:10px" />
 								<a href="#" class="btn btn-manage" id="edit-email-3"><span>Edit</span></a>
@@ -84,7 +82,6 @@
 									<a href="#" class="btn btn-manage" id="add-email-3"><span>Add</span></a>
 								{/if}
 							</span>
-							
 							<span id="block-email-4" {if !isset($smarty.session.user->email4)}style="display:none"{/if}>
 								<input type="text" name="email" value="{$smarty.session.user->email4}" class="inputbox" id="other-email-4" disabled="disabled" style="margin-bottom:10px" />
 								<a href="#" class="btn btn-manage" id="edit-email-4"><span>Edit</span></a>
@@ -93,7 +90,6 @@
 									<a href="#" class="btn btn-manage" id="add-email-4"><span>Add</span></a>
 								{/if}
 							</span>
-							
 							<span id="block-email-5" {if !isset($smarty.session.user->email4)}style="display:none"{/if}>
 								<input type="text" name="email" value="{$smarty.session.user->email5}" class="inputbox" id="other-email-5" disabled="disabled" style="margin-bottom:10px" />
 								<a href="#" class="btn btn-manage" id="edit-email-5"><span>Edit</span></a>
@@ -116,7 +112,6 @@
 							<input type="text" name="zip" value="{$smarty.session.user->zip}" class="inputbox" id="user-zip" maxlength="5" />{if isset($error.zip)}
 
 						<em>{$error.zip}</em>{/if}
-
 						</dd>						
 					</dl>
 				</fieldset>
@@ -134,7 +129,7 @@
 							<div id="fb-root"></div>
 							<fb:login-button scope="email,publish_stream" id="fb-login-button" onlogin="EF_SETTINGS.fbconnect()">Login with Facebook</fb:login-button>
 						</dd>
-				</fieldset>
+				</fieldset>{* NOT IMPLEMENTED
 				<fieldset>
 					<legend>Notification Options</legend>
 					<dl>
@@ -153,7 +148,7 @@
 							</label>
 						</dd>
 					</dl>
-				</fieldset>
+				</fieldset>*}
 				<fieldset>
 					<legend>Password Change</legend>
 					<dl>
