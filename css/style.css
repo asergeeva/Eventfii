@@ -518,13 +518,13 @@ article h2 { font-size: 16px; }
 	background: #fff;
 	margin: 0 10px 15px;
 	padding: 15px;
-	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	border: 1px solid #888;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	border: 1px solid #888;
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	overflow: hidden; }
 
 /* Some nice notification blocks taken from
@@ -1204,6 +1204,15 @@ ul.network li a {
 .manage-nav .block li.current span,
 .manage-nav .block li a:hover span { color: #fff; }
 .manage-nav .block ol li a span { font-size: 11px; }
+
+/* Back Button */
+.navigation .btn span { 
+	width: 145px;
+	text-align: center; }
+.navigation .btn span em.btn-back {
+	background: url(../images/icon_back.gif) 0 1px no-repeat;
+	padding: 0 0 5px 15px;
+	display: inline-block; }
 
 /* Error Pages
  -------------------------*/
