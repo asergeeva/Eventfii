@@ -16,31 +16,6 @@ class CreateController extends PanelController {
 	
 	}
 	
-	/* makeNewEvent
-	 * Adds the event to the database, then switches to step 2
-	 *
-	 * @param $newEvent | The VALIDATED event object
-	 * @return true | The information is valid
-	 * @return false | Infomration is bad
-	 */
-	private function makeNewEvent( $newEvent ) {
-		// Make sure user is logged in before they can
-		// create the event
-		if ( ! isset($_SESSION['user']) ) {
-			$_SESSION['newEvent'] = $newEvent;
-			header("Location: " . CURHOST . "/login");
-			exit;
-		}
-		
-		EFCommon::$dbCon->createNewEvent($newEvent);
-		
-		$newEvent = EFCommon::$dbCon->getLastEventCreatedBy($_SESSION['user']->id);
-		$newEvent->setGuests(NULL);
-		$newEvent->currentUserAttend(90, false);
-			
-		$_SESSION['newEvent'] = $newEvent;
-	}
-	
 	/**
 	 * Controller for the following prefixes: 
 	 *		1. /event/create
