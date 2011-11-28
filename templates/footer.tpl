@@ -5,6 +5,7 @@
 			<ul>
 				<li><a href="{$CURHOST}/method">How do we work?</a></li>
 				<li><a href="{$CURHOST}/media">Media</a></li>
+				<li><a href="http://truersvp.tumblr.com">Blog</a></li>
 			</ul>
 		</li>
 		<li>

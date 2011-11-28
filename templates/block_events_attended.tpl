@@ -15,5 +15,5 @@
 
 				<p class="message">There are no past events.</p>{/if}
 
-				<p class="message-extra"><a href="{$CURHOST}">View past events you're scheduled to attend</a></p>
+				<p class="message-extra"><a href="{$CURHOST}">View events you're scheduled to attend</a></p>
 			</section>
