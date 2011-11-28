@@ -172,7 +172,7 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendHtmlEmail($template, $guest, $subject, $event = NULL, $content = NULL) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).TPL_PATH.$this->templates[$template]);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates[$template]);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
@@ -207,7 +207,7 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendGuestsHtmlEmailByEvent($template, $event, $subject) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).TPL_PATH.$this->templates[$template]);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates[$template]);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
@@ -241,7 +241,7 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendAGuestHtmlEmailByEvent($template, $guest, $event, $subject) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).TPL_PATH.$this->templates[$template]);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates[$template]);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
@@ -270,7 +270,7 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendHtmlInvite($event, $newGuests) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).TPL_PATH.$this->templates['invite']);
+		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates['invite']);
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	

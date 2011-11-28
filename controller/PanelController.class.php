@@ -559,15 +559,18 @@ class PanelController {
 				
 				// Determine whether the auto reminder is activated
 				$autoReminder = 0;
-				if ($_REQUEST['autoReminder'] == 'true') {
+				if (isset($_REQUEST['autoReminder']) && $_REQUEST['autoReminder'] == 'true') {
 					$autoReminder = 1;
 				}
+				
+				$reminderTime = isset($_POST['reminderTime']) ? $_POST['reminderTime'] : NULL;
+				$reminderDate = isset($_POST['reminderDate']) ? $_POST['reminderDate'] : NULL;
 				
 				// Validation
 				$email = new EFEmailMessage($_POST['reminderSubject'],
 									   		$_POST['reminderContent'],
-									   		$_POST['reminderTime'],
-									   		$_POST['reminderDate'],
+									   		$reminderTime,
+									   		$reminderDate,
 									   		$_POST['reminderRecipient']);
 				
 				if($email->get_errors($autoReminder)) {
