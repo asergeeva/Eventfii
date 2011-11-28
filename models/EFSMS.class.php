@@ -45,6 +45,8 @@ class EFSMS {
 	}
 	
 	public function sendSMS(&$smsRecipient, &$eventInfo, $message) {
+		$message .= "\n\nSent by ".$eventInfo->organizer->fname." via trueRSVP";
+	
 		// Send a new outgoinging SMS by POSTing to the SMS resource */
 		$response = $this->client->request("/".$this->ApiVersion."/Accounts/".$this->AccountSid."/SMS/Messages", 
 			"POST", array(
