@@ -10,17 +10,14 @@
 
 			<header class="block notification" id="message-notification">
 				<p class="message" id="message-notification-content">{$notification}</p>
-			</header>{else}
-			{/if}
+			</header>{/if}
 			
 			<header class="block notification" style="display:none" id="fb-notification-box">
 				<p class="message" id="fb-notification-message">Facebook requests is sent successfully</p>
 			</header>
-			
 			<header class="block notification" style="display:none" id="csv-notification-box">
 				<p class="message" id="csv-notification-message">CSV is successfully uploaded</p>
 			</header>
-			
 			<div style="display:none" id="fb-message">Hi, I'm inviting you to an event that I'm organizing at trueRSVP: {$event->title}</div>
 			
 			<section class="block">
@@ -29,47 +26,24 @@
 
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=trueRSVP" class="btn btn-manage{if ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP'} current{/if}"><span>trueRSVP Contacts</span></a></li>{/if}
 
-						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>
-						{*if !isset($page.addcontacts)}
+						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=manual" class="btn btn-manage{if isset($smarty.get.option) && $smarty.get.option == 'manual' || (isset($page.addcontacts) && $page.addcontacts && ! isset($smarty.get.option))} current{/if}"><span>Manually Add</span></a></li>{*
+						if !isset($page.addcontacts)}
 						<li><a href="#" id="guest_facebook_add" class="btn btn-manage{if isset($smarty.get.option) &&$smarty.get.option == 'fb'} current{/if}"><span>Add from Facebook</span></a></li>
 						{/if*}
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=csv" class="btn btn-manage"><span>Import CSV</span></a></li>
-
 						<li><a href="?{if isset($event)}eventId={$event->eid}&amp;{/if}option=import" class="btn btn-manage{if isset($smarty.get.option)  && $smarty.get.option == 'import'} current{/if}"><span>Gmail/Yahoo Import</span></a></li>
 					</ul>
-				</nav>
-				{if isset($smarty.get.option) &&  $smarty.get.option == 'fb' && ! isset($page.addcontacts)}{*
-				<div id="fb-root"></div>
-				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-				<fb:send href="{$EVENT_URL}/a/{$event->alias}?gref={$smarty.get.gref}"></fb:send>*}
-				
-				<fb:serverFbml width="582">
-				<script type="text/fbml">
-				  <fb:fbml>
-					  <fb:request-form 
-					  	action="{if isset($submitTo)}{$submitTo}{/if}" 
-					  	target="_top" 
-					  	method="POST" 
-					  	invite="true" 
-					  	type="event" 
-					  	content="{$smarty.session.user->fname} invites you to {$event->title}.<fb:req-choice url='{if isset($event->alias)}{$EVENT_URL}/a/{$event->alias}{if $smarty.get.gref neq ''}?gref={$smarty.get.gref}{/if}{else}{$CURHOST}{/if}' label='Accept' />">
-					  <fb:multi-friend-selector showborder="false" actiontext="{if isset($event->title)}Invite to {$event->title}{else}{$smarty.session.user->fname} added you as a contact at trueRSVP{/if}" cols="3" max="35">
-					</fb:request-form>
-				  </fb:fbml>
-				</script>
-				</fb:serverFbml>{elseif isset($smarty.get.option) && $smarty.get.option == 'csv'}
+				</nav>{if isset($smarty.get.option) && $smarty.get.option == 'csv'}
 				
 				<form method="post" action="{$submitTo}" id="create_guests">
-				<div id="csv_container" style="margin-bottom:10px"></div>
-				<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
-				<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
-				<p style="text-align:center;margin-bottom:10px;">Upload a CSV with your guests' emails here.</p>
-				<p style="text-align:center">
-					<a href="#" class="btn btn-small" id="csv_upload"><span>Upload</span></a>
-				</p>
-				</form>
-				
-				{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
+					<div id="csv_container" style="margin-bottom:10px"></div>
+					<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
+					<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
+					<p style="text-align:center;margin-bottom:10px;">Upload a CSV with your guests' emails here.</p>
+					<p style="text-align:center">
+						<a href="#" class="btn btn-small" id="csv_upload"><span>Upload</span></a>
+					</p>
+				</form>{elseif isset($smarty.get.option) &&  $smarty.get.option == 'import'}
 
 				<div class="block">
 					<div id="oi_logo"></div>
@@ -102,19 +76,21 @@
 							</footer>
 						</form>
 					</div>
-				</div>
-				
-				{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
 
+				<aside class="facebook-connect">
+					<p>Import your Facebook friends</p>
+					<a href="#">Import your facebook friends</a>
+				</aside>
 				<section class="block">{if isset($contacts) || isset($fbContacts)}
+
 					<p style="float: right"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
 					<header class="block-title">
 						<h1>Contacts</h1>
 					</header>
 					<div id="search-container">Search: <div id="contacts-header"></div></div>
-					<ul class="user-list" id="contacts-list">
-						{if isset($contacts)}
-						{foreach $contacts as $contact}
+					<ul class="user-list" id="contacts-list">{if isset($contacts)}{foreach $contacts as $contact}
+
 						<li>
 							<label{if ! isset($addButton)}>{else} for="{$contact->cid}">							
 								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}
@@ -125,10 +101,10 @@
 
 								<span>{$contact->friendly_cid}</span>
 							</label>
-						</li>
-						{/foreach}
-						{/if}
-						{*if isset($fbContacts)}
+						</li>{/foreach}{/if}
+						
+{*
+						if isset($fbContacts)}
 						{foreach $fbContacts as $contact}
 						<li>
 							<label for="fb-contact-{$contact['fb_id']}">{if isset($addButton)}

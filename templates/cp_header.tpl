@@ -1,7 +1,9 @@
 <header id="header">
-		<h1>Welcome, {$smarty.session.user->fname}!</h1>
-		<h2><a href="{$CURHOST}/user/a/{$smarty.session.user->alias}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
-		<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
+		<hgroup>
+			<h1>Welcome, {$smarty.session.user->fname}!</h1>
+			<h2><a href="{$CURHOST}/user/a/{$smarty.session.user->alias}" id="user-{$smarty.session.user->id}">View your public profile</a></h2>
+			<span id="user-id" style="display:none;">{$smarty.session.user->id}</span>
+		</hgroup>
 		<nav>
 			<ul>
 				<li{if isset($page.cp)} class="current"{/if} id="cp"><a href="{$CURHOST}"><span>Home</span></a></li>
@@ -10,3 +12,4 @@
 			</ul>
 		</nav>
 	</header>
+	

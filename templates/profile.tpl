@@ -4,7 +4,9 @@
 {include file="header.tpl"}
 <div id="container">
 	<header id="header">
-		<h1>Meet {$profile->fname} {$profile->lname}!</h1>
+		<hgroup>
+			<h1>Meet {$profile->fname} {$profile->lname}!</h1>
+		</hgroup>
 	</header>
 	<section id="main">
 		<aside class="extra">

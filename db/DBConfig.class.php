@@ -702,6 +702,10 @@ class DBConfig {
 	
 	public function getRowNum($sqlQuery) {
 		$sqlResult = $this->getQueryResult($sqlQuery);
+
+		if ($sqlResult == NULL )
+			return 0;
+			
 		return mysql_num_rows($sqlResult);
 	}
 	

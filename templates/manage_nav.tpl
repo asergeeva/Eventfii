@@ -10,7 +10,7 @@
 				</ul>
 			</nav>
 			<footer class="links-extra">
-				<p>{if ! isset($page.cp)}<a href="{$CURHOST}/event/manage?eventId={$smarty.session.manage_event->eid}" class="btn btn-manage"><span><em class="btn-back">Back to manage page</em></span></a>{else}<a href="{$CURHOST}" class="btn btn-manage"><span><em class="btn-back">Back to home</em></span></a>{/if}</p>
+				<p>{if ! isset($page.cp)}<a href="{$CURHOST}/event/manage?eventId={$smarty.session.manage_event->eid}" class="btn btn-manage"><span><em class="btn-back">Back to manage page</em></span></a>{else}<a href="{$CURHOST}" class="btn btn-manage"><span><span class="btn-back">Back to home</span></span></a>{/if}</p>
 				<p><a href="#" id="cancel-event">Cancel this event</a></p>
 			</footer>
 		</div>
