@@ -13,24 +13,24 @@ class EFMail {
 
 	private $FROM = "trueRSVP <hello@truersvp.com>";
 	private $templates = array(
-		"welcome" => "welcome_userPOV.html",
-		"confirm_email" => "confirmemail_userPOV.html", //- not yet, we never confirm email, yet
-		"contact_us" => "contactus_userPOV.html", //-not yet
-		"daily_summary" => "dailysummary_eventcreatorPOV.html", //- cron - not yet
-		"attendance_check" => "didyoushowup_attendeePOV.html",  //- cron - not yet
-		"hosts_following" => "eventplannersyouarefollowing.html", //- not yet
-		"follow_up" => "followupemail_dayafter_attendeePOV.html",
-		"invite" => "inviteemail.html",
+		"welcome" 			=> "welcome_userPOV.html",
+		"confirm_email" 	=> "confirmemail_userPOV.html", //- not yet, we never confirm email, yet
+		"contact_us" 		=> "contactus_userPOV.html", //-not yet
+		"daily_summary" 	=> "dailysummary_eventcreatorPOV.html", //- cron - not yet
+		"attendance_check" 	=> "didyoushowup_attendeePOV.html",  //- cron - not yet
+		"hosts_following" 	=> "eventplannersyouarefollowing.html", //- not yet
+		"follow_up" 		=> "followupemail_dayafter_attendeePOV.html",
+		"invite" 			=> "inviteemail.html",
 		"friends_attending" => "notificationwhenfriendsRSVP_attendeePOV.html", //- not yet
-		"forgot_pw" => "recoverpassword_userPOV.html", //- we don't use this, yet
-		"reminder_4days" => "reminder_4daysbefore_eventcreator.html",
- 		"reminder_after" => "reminder_after_eventcreator.html",
-		"reminder_dayof" => "reminder_dayof_eventcreator.html",
+		"forgot_pw" 		=> "recoverpassword_userPOV.html", //- we don't use this, yet
+		"reminder_4days" 	=> "reminder_4daysbefore_eventcreator.html",
+ 		"reminder_after" 	=> "reminder_after_eventcreator.html",
+		"reminder_dayof" 	=> "reminder_dayof_eventcreator.html",
 		"reminder_attendee" => "reminderemail_24hrsaway_attendeePOV.html",
-		"thankyou_RSVP" => "thankyouforRSVPing_attendeePOV.html",
-		"general" => "general.html",
-		"forgot_pass" => "forgot_pass.html",
-		"cancel" => "canceledevent.html"
+		"thankyou_RSVP" 	=> "thankyouforRSVPing_attendeePOV.html",
+		"general" 			=> "general.html",
+		"forgot_pass" 		=> "forgot_pass.html",
+		"cancel" 			=> "canceledevent.html"
 	);
 	
 	public function __construct() {
