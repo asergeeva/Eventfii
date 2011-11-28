@@ -19,7 +19,7 @@
 
 			<p class="message">You are logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{else}
 			
-			<p class="message">You are already logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{/if}
+			<p class="message">You are logged in as {$smarty.session.user->fname} {$smarty.session.user->lname}</p>{/if}
 
 		</header>{/if}
 
