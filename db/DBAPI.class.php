@@ -226,14 +226,13 @@ class DBAPI extends DBConfig {
 						ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
 	}*/
-	public function m_getUserInfoFromEvent($eid, $id)
+	public function m_getUserInfoFromEvent($id)
 	{
 		$GET_ATTENDEES = "	SELECT	* 
-							FROM 	ef_attendance a, 
-									ef_users u 
-							WHERE 	a.user_id = " . $id .  " " .
-							"AND 	a.event_id = " . $eid . "";
-		$this->executeValidQuery($GET_ATTENDEES);
+							FROM 	ef_users u 
+							WHERE 	u.id = " . $id;
+		$info = $this->executeValidQuery($GET_ATTENDEES);
+		return $info;
 	}
 	public function m_checkEmailExists($email)
 	{

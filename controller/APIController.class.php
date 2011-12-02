@@ -175,7 +175,7 @@ class APIController {
 					$guests = array();
 					for($i=0; $i < count($contacts); $i++)
 					{
-						$newUser = new User($this->dbCon->m_getUserInfoFromEvent($_REQUEST['eventId'], $contacts[$i]));
+						$newUser = new User($this->dbCon->m_getUserInfoFromEvent($contacts[$i]));
 						array_push($guests, $newUser);
 					}		
 					if($_REQUEST['form'] == 'email' || $_REQUEST['form'] == 'both') 
@@ -187,6 +187,14 @@ class APIController {
 					}
 					if($_REQUEST['form'] == 'text' || $_REQUEST['form'] == 'both') 
 					{
+						for ($i = 0; $i < sizeof($guests); ++$i) 
+						{
+							if(strlen($guests[$i]->phone) < 7)
+							{
+								unset($guests[$i]);
+							}
+						}
+						$guests = array_values($guests);
 						EFCommon::$sms->sendSMSReminder($guests, $event, EFCommon::$mailer->mapText($_REQUEST['reminderContent'], $event->eid));
 					}
 					echo("status_emailSuccess");
