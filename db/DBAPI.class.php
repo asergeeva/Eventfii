@@ -140,7 +140,7 @@ class DBAPI extends DBConfig {
 	}
 	public function m_getConfidence($uid, $eid)
 	{
-		$CONFIDENCE="SELECT e.confidence FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
+		$CONFIDENCE="SELECT a.confidence FROM ef_attendance a WHERE a.event_id = ".$eid." AND a.user_id = ".$uid;
 		$CONFIDENCE = $this->executeValidQuery($CONFIDENCE);
 		return $CONFIDENCE['confidence'];	
 	}
