@@ -187,7 +187,6 @@ input, textarea, select {
 	color: #666;
 	font-size: 13px;
 	line-height: 18px;
-	border: 1px solid #ccc;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -203,6 +202,7 @@ textarea.inputbox { height: 126px; }
 	width: 262px; /* 270 - 8 */
 	height: 18px;
 	padding: 4px;
+	border: 1px solid #ccc;
 	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
 	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
 	transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -225,6 +225,24 @@ textarea.inputbox { height: 126px; }
 	-webkit-box-shadow: 0 0 6px rgba(171, 41, 32, 0.5);
 	-moz-box-shadow: 0 0 6px rgba(171, 41, 32, 0.5);
 	box-shadow: 0 0 6px rgba(171, 41, 32, 0.5); }
+	
+/* Other inputboxes */
+.quicksearch { margin: 0 0 19px 10px; }
+.quicksearch input {
+	background: transparent url(../images/inputbox_search.png) 0 0 no-repeat;
+	font-size: 12px;
+	line-height: 12px;
+	color: #6b6b6b;
+	width: 244px; /* 292 - 48 */
+	height: 33px;
+	padding: 0px 40px 0 8px;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+	-webkit-box-shadow: 0;
+	-moz-box-shadow: 0;
+	box-shadow: 0;
+	border: 0; }
 input.input-facebook { 
 	background: url(../images/icon_facebook.gif) 3px 4px no-repeat;
 	color: #666;
@@ -1158,7 +1176,8 @@ ol.rsvp-list li label span {
 	clear: both;
 	display: block; }
 .list li:nth-child(odd) { background: #f9f9f9; }
-.list li:hover { 
+.list li:hover,
+.list li.selected { 
 	background: #ff9933;
 	color: #fff; }
 .list li.list-head {

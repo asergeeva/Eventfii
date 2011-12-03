@@ -29,8 +29,12 @@
 					<p class="message">No attendees</p>
 				</header>
 			</section>{else}
-
-			<span id="attendee-header"></span>
+			
+			<form method="post" action="#" class="quicksearch" id="search-guestlist">
+				<fieldset>
+					<input type="text" value="Search by name" />
+				</fieldset>
+			</form>
 			<section class="block" id="cp-attendees">
 
 				<header class="block-collapsable-title">
