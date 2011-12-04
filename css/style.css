@@ -40,19 +40,20 @@ div.right-align {
 	margin: 0 auto; }
 .form-register .turtle {
 	background: url(../images/turtle_large.png) 0 0 no-repeat;
-	float: left;
 	width: 269px; /* 335 - 66 */
 	height: 417px; /* 429 - 12 */
-	margin: 64px 0 0;
-	padding: 12px 55px 0 11px; }
+	padding: 12px 55px 0 11px;
+	vertical-align: middle;
+	display: inline-block; }
 .form-register .turtle h2 { 
 	font-size: 14px;
 	font-weight: bold; }
 .form-register .turtle p { 
 	margin: 8px 0 0; }
 .form-register .block {
-	float: left;
-	width: 402px; }
+	width: 402px;
+	vertical-align: middle;
+	display: inline-block; }
 fieldset {
 	font-size: 12px;
 	position: relative;
@@ -102,7 +103,7 @@ fieldset dt {
 fieldset dt.inline { 
 	float: left;
 	text-align: right;
-	width: 100px; }
+	width: 90px; }
 fieldset dt label { 
 	color: #464646;
 	line-height: 16px;

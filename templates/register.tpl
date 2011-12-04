@@ -17,12 +17,13 @@
 				<p class="fb-connected"><span>Your trueRSVP account has been created.</span></p>
 				<p class="message-small">Enter remaining account details</p>{else}
 
-				<legend>Create a new account</legend>
+				<legend>Create a new account</legend>{if ! isset($smarty.get.step) || ($smarty.get.step != "create" && $smarty.get.step != "moreinfo")}
+
 				<div id="fb-root"></div>
 				<p class="message-small"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>
 				<div id="invalid_credentials"></div>
 				<p class="message-small">or</p> 
-				<p class="message-small">Use our Safe and Secure Form</p>{/if}
+				<p class="message-small"><a href="{$CURHOST}/register?step=create">Create an account without using Facebook</a></p>{/if}{/if}{if isset($smarty.get.step) && ($smarty.get.step == "create" || $smarty.get.step == "moreinfo")}
 				
 				<dl>
 					<dt class="inline">
@@ -71,7 +72,7 @@
 
 					</dd>
 					<dt class="inline">
-						<label for="phone">Cell Phone #<span>*</span></label>
+						<label for="phone">Cell Phone #</label>
 					</dt>
 					<dd{if isset($error.phone)} class="error"{/if}>
 						<input type="text" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{/if}" class="inputbox" />{if isset($error.phone)}
@@ -93,7 +94,7 @@
 				</dl>
 				<footer class="buttons-submit"> 
 					<p><span class="btn btn-med"><input type="submit" name="register" value="Go" /></span></p>{*
-					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>*}
+					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>*}{/if}
 
 				</footer> 
 			</fieldset>

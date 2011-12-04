@@ -1442,12 +1442,16 @@ class PanelController {
 							"lname",
 							"Last name should only contain letters"
 						);
-		$ph_val = 		$this->valUsingRegExp(
+						
+		if ( isset($ph_val) ) {
+			$ph_val = 	$this->valUsingRegExp(
 							$phone,
 							"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",
 							"phone",
 							"Phone number is not in valid format"
 						);
+		}
+		
 		$zipcode_val = 	$this->valUsingRegExp(
 							$zip, 
 							"/^\d{5}(-\d{4})?$/", 

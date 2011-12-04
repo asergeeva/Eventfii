@@ -149,6 +149,10 @@ class User extends AbstractUser {
 		
 		$this->phone = $phone;
 		
+		// Optional field
+		if ( strlen($this->phone) == 0 )
+			return;
+		
 		$valid_phone = filter_var(
 	 		$this->phone, 
 	 		FILTER_VALIDATE_REGEXP, 
