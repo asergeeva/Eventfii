@@ -244,13 +244,14 @@ class APIController {
 					$checkExists = TRUE;
 				}
 				$event = new Event($_POST['eid']);
-				echo $event->submitGuests();
+				$event->submitGuests();
 				
 				if(strlen($_REQUEST['fname']) > 0 && strlen($_REQUEST['lname']) > 0 && $checkExists)
 				{
-					echo 'gogo-';
 					$this->dbCon->m_updateUserNamesWithEmail($_REQUEST['fname'], $_REQUEST['lname'], $_REQUEST['emails']);
 				}
+				$guestID = $this->dbCon->m_getIDFromEmail($_REQUEST['emails']);
+				$this->dbCon->m_eventSignUpWithDate($guestID, $event, 90, $_REQUEST['date']);
 				$_SESSION['user'] = $temp;
 				break;
 			default:
