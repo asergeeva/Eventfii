@@ -97,36 +97,40 @@ fieldset legend {
 
 /*----- Input title ----------*/
 fieldset dt { 
-	padding: 16px 10px 0;
+	padding: 8px 5px 0;
 	clear: left; }
 /* Inline option */
 fieldset dt.inline { 
 	float: left;
 	text-align: right;
-	width: 90px; }
+	width: 130px; }
 fieldset dt label { 
 	color: #464646;
-	line-height: 16px;
+	font-size: 14px;
 	padding: 0;
 	display: block; }
-/* Star */
+fieldset dt.inline label { font-size: 12px; }
+/* Required Field */
 fieldset dt label span {
 	color: #ff0000;
 	font-weight: bold;
 	vertical-align: baseline; }
+/* Note */
 fieldset dt em { color: #959595; }
 
 /*----- Forms input ----------*/
 fieldset dd { 
 	text-align: left;
 	margin: 4px 0 10px;
-	padding: 10px 0 0 10px;
+	padding: 0 0 0 10px;
 	clear: right;
 	overflow: hidden; }
+fieldset dd.extra { margin: 0 0 0 110px; }
 fieldset dd label { display: block; }
 fieldset dd span { 
 	cursor: pointer;
 	vertical-align: middle; }
+fieldset dd > p { width: 100%; }
 fieldset dd p { margin: 4px 0 0; }
 fieldset dd p.information1 { text-align: right; }
 fieldset dd p#add-end-time { margin: 4px 0 0; }
@@ -316,7 +320,10 @@ select.timebox { cursor: pointer; }
 .buttons { clear: both; }
 .buttons-submit, .buttons-send { text-align: center; }
 .buttons-submit { margin: 15px 0 0; }
-.buttons-create { clear: none; }
+.buttons-create { 
+	vertical-align: middle;
+	display: inline-block;
+	clear: none; }
 
 .buttons a { vertical-align: middle; display: inline-block; }
 
@@ -332,6 +339,7 @@ select.timebox { cursor: pointer; }
 	-webkit-border-radius: 0;
 	border-radius: 0;
 	cursor: pointer;
+	vertical-align: middle;
 	display: inline-block; }
 a.btn { text-decoration: none; }
 .btn input, .btn span { float: left; }
@@ -576,9 +584,8 @@ a.btn { text-decoration: none; }
 	background: #fff;
 	float: left;
 	position: relative;
-	width: 402px;
-	margin: 0 0 0 -201px;
-	padding: 20px 10px;
+	width: 442px;
+	margin: 0 0 0 -221px;
 	overflow: visible; }
 .popup .thumbs { 
 	max-height: 365px;
@@ -595,10 +602,10 @@ a.btn { text-decoration: none; }
 	text-align: center;
 	text-decoration: none;
 	font-size: 30px;
+	line-height: 50px;
 	color: #fff;
 	width: 50px;
-	height: 43px; /* 50 - 7 */
-	padding: 7px 0 0;
+	height: 50px;
 	-moz-border-radius: 25px; 
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
@@ -732,15 +739,17 @@ header#page-header {
 /*----- Links ----------*/
 #page-header aside {
 	float: right;
+	text-align: right;
 	margin: 43px 0 0;
 	overflow: auto; }
-#page-header nav { padding: 6px 4px 0 0; }
-#page-header nav, #page-header p { float: left; }
+#page-header nav { 
+	padding: 0 4px 0 0;
+	vertical-align: middle;
+	display: inline-block; }
 #page-header nav p a {
 	color: #fff;
 	font-size: 12px;
-	padding: 0 4px;
-	display: inline-block; }
+	padding: 0 4px; }
 
 /* Container
  -------------------------*/
@@ -928,7 +937,7 @@ header#page-header {
 .rsvp-message {
 	font-size: 14px;
 	text-align: center;
-	margin: 4px 0; }
+	margin: 6px 0; }
 .rsvp-message em { color: #ff9933; }
 #rsvp fieldset { 
 	margin: 0 -12px;
@@ -1227,20 +1236,27 @@ ol.rsvp-list li label span {
 	font-weight: bold; }
 .rsvp-progress {
 	position: relative;
-	margin: 80px 40px 50px;
+	margin: 75px 60px 50px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	border: 1px solid #b5cad4; }
+.rsvp-progress .meter {
+	background: #3399cc;
+	position: relative;
+	height: 30px;
+	-moz-border-radius: 6px; 
+	-webkit-border-radius: 6px;
+	border-radius: 6px;  }
 .rsvp-progress p {
 	position: absolute;
 	text-align: center;
-	top: 33px;
+	top: 37px;
 	right: 0;
 	width: 120px;
 	margin: 0 -60px 0 0; }
 .rsvp-progress p.trueRSVP {
-	top: -85px;
+	top: -75px;
 	width: 120px; }
 .rsvp-progress em {
 	font-size: 60px;
@@ -1254,13 +1270,6 @@ ol.rsvp-list li label span {
 	font-weight: bold;
 	display: block; }
 .rsvp-progress .trueRSVP span { margin: -10px 0 0; }
-.rsvp-progress .meter {
-	background: #3399cc;
-	position: relative;
-	height: 30px;
-	-moz-border-radius: 6px; 
-	-webkit-border-radius: 6px;
-	border-radius: 6px;  }
 
 /*----- Response Table ----------*/
 #cp-breakdown { margin: 10px 0 0; }

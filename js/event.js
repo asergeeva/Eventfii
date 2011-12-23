@@ -25,7 +25,7 @@ var EVENT = (function() {
 })();
 
 $(document).ready(function() {
-	$("#event_attending_response input:disabled").parent("label").click( function() {
+	$("#event_attending_response input:disabled").parent("label").click(function() {
 		if (!$('#rsvp_days_left').hasClass('loggedIn')) {
 			$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {
 					eid: $('#event-id').text(),
@@ -35,22 +35,29 @@ $(document).ready(function() {
 		}
 		return false;
 	});
-	
-	$("#log-in .popup-close a").click( function() {
+	$("#log-in .popup-close a").click(function() {
 		$("#log-in").fadeOut(500);
 		return false;
 	});
 	
-	$("#all-guests").click( function() {
+	$("#all-guests").click(function() {
 		$("#see-all").fadeIn(500);
 		var position = $("#event-attendants").position();
 		var top = position.top - 150;
 		$("#see-all").css("top", top + "px");
 		return false;
 	});
-	
-	$("#see-all .popup-close a").click( function() {
+	$("#see-all .popup-close a").click(function() {
 		$("#see-all").fadeOut(500);
+		return false;
+	});
+	
+	$("#event_attending_response").click(function() {
+		$("#rsvp-multiple").fadeIn(500);
+		return false;
+	});
+	$("#rsvp-multiple .popup-close a").click(function() {
+		$("#rsvp-multiple").fadeOut(500);
 		return false;
 	});
 

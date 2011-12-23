@@ -63,38 +63,38 @@
 
 						</dd>
 						<dt class="inline">
-							<label for="other-email">Other E-mails (associated with your account)</label>
+							<label for="other-email">Other E-mails <em>(linked with your account)</em></label>
 						</dt>
 						<dd>
-							<span id="block-email-2">
-								<input type="text" name="email" value="{$smarty.session.user->email2}" class="inputbox" id="other-email-2" disabled="disabled" style="margin-bottom:10px" />
+							<p id="block-email-2">
+								<input type="text" name="email" value="{$smarty.session.user->email2}" class="inputbox" id="other-email-2" disabled="disabled" />
 								<a href="#" class="btn btn-manage" id="edit-email-2"><span>Edit</span></a>
 								<a href="#" class="btn btn-manage" id="save-email-2" style="display:none"><span>Save</span></a>
 								{if !isset($smarty.session.user->email3)}
 									<a href="#" class="btn btn-manage" id="add-email-2"><span>Add</span></a>
 								{/if}
-							</span>
-							<span id="block-email-3" {if !isset($smarty.session.user->email3)}style="display:none"{/if}>
-								<input type="text" name="email" value="{$smarty.session.user->email3}" class="inputbox" id="other-email-3" disabled="disabled" style="margin-bottom:10px" />
+							</p>
+							<p id="block-email-3"{if !isset($smarty.session.user->email3)} style="display: none"{/if}>
+								<input type="text" name="email" value="{$smarty.session.user->email3}" class="inputbox" id="other-email-3" disabled="disabled" />
 								<a href="#" class="btn btn-manage" id="edit-email-3"><span>Edit</span></a>
 								<a href="#" class="btn btn-manage" id="save-email-3" style="display:none"><span>Save</span></a>
 								{if !isset($smarty.session.user->email4)}
 									<a href="#" class="btn btn-manage" id="add-email-3"><span>Add</span></a>
 								{/if}
-							</span>
-							<span id="block-email-4" {if !isset($smarty.session.user->email4)}style="display:none"{/if}>
-								<input type="text" name="email" value="{$smarty.session.user->email4}" class="inputbox" id="other-email-4" disabled="disabled" style="margin-bottom:10px" />
+							</p>
+							<p id="block-email-4"{if !isset($smarty.session.user->email4)} style="display: none"{/if}>
+								<input type="text" name="email" value="{$smarty.session.user->email4}" class="inputbox" id="other-email-4" disabled="disabled" />
 								<a href="#" class="btn btn-manage" id="edit-email-4"><span>Edit</span></a>
 								<a href="#" class="btn btn-manage" id="save-email-4" style="display:none"><span>Save</span></a>
 								{if !isset($smarty.session.user->email5)}
 									<a href="#" class="btn btn-manage" id="add-email-4"><span>Add</span></a>
 								{/if}
-							</span>
-							<span id="block-email-5" {if !isset($smarty.session.user->email4)}style="display:none"{/if}>
-								<input type="text" name="email" value="{$smarty.session.user->email5}" class="inputbox" id="other-email-5" disabled="disabled" style="margin-bottom:10px" />
+							</p>
+							<p id="block-email-5"{if !isset($smarty.session.user->email4)} style="display: none"{/if}>
+								<input type="text" name="email" value="{$smarty.session.user->email5}" class="inputbox" id="other-email-5" disabled="disabled" />
 								<a href="#" class="btn btn-manage" id="edit-email-5"><span>Edit</span></a>
 								<a href="#" class="btn btn-manage" id="save-email-5" style="display:none"><span>Save</span></a>
-							</span>
+							</p>
 						</dd>
 						<dt class="inline">
 							<label for="user-phone">Cell #</label>
@@ -152,7 +152,7 @@
 				<fieldset>
 					<legend>Password Change</legend>
 					<dl>
-						<dt>
+						<dt class="inline">
 							<label for="password-current">Enter current password</label>
 						</dt>
 						<dd{if isset($responseMsg['password_error'])} class="error"{/if}>
@@ -161,13 +161,13 @@
 							<em>{$responseMsg['password_error']}</em>{/if}
 
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="password-new">Enter new password</label>
 						</dt>
 						<dd>
 							<input type="password" name="user-newpass" class="inputbox" id="password-new" />
 						</dd>
-						<dt>
+						<dt class="inline">
 							<label for="password-confirm">Confirm new password</label>
 						</dt>
 						<dd>
