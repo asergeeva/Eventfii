@@ -9,7 +9,7 @@
 		</hgroup>
 	</header>
 	<section id="main">
-		<aside class="extra">
+		<aside id="extra">
 			{include file="profile_user.tpl"}{*{if $profile->facebook || $profile->twitter}
 			<section class="block" id="user-social">
 				<ul class="network">
@@ -20,7 +20,7 @@
 				<p><a href="#{$profile->id}" id="follow_host"><span id="follow_button">{if $is_following eq 1}Unfollow{else}Follow{/if}</span></a></p>
 			</footer>*}
 		</aside>
-		<div class="content">
+		<div id="content">
 			{include file="block_events_created_pub.tpl"}
 			{include file="block_events_attending_pub.tpl"}
 		</div>

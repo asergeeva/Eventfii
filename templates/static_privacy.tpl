@@ -6,14 +6,14 @@
 	<header id="header">
 		<h1>trueRSVP Privacy Policy</h1>
 	</header>
-	<article>
+	<article class="static">
 		<section>
 			<header>
 				<h1>Our Policy:</h1>
 			</header>
 			<section>
 				<p>Welcome to the www.trueRSVP.com website (including all webpages, subdomains and subparts therein contained, the "Site") of trueRSVP, Inc. ("Company", "we", "us" and/or "our"). The Site has been created (i) to provide information about Company, (ii) to provide customized online event management & registration services (the "Company Services"), and (iii) to provide information about events listed on the Site.</p>
-				<p>This Privacy Policy sets forth Company's policy with respect to information, including personally identifiable information ("Personal Data"), that is collected from Site users and visitors (including through those users' and visitors' agents) ("you" or "your"), including (i) registered users who are event organizers and planners ("Organizers"), (ii) registered users who attend events llisted by Organizers on the Site ("Buyers"), and (iii) other non-Organizer users or visitors to the Site ("other non-Organizers").</p>
+				<p>This Privacy Policy sets forth Company's policy with respect to information, including personally identifiable information ("Personal Data"), that is collected from Site users and visitors (including through those users' and visitors' agents) ("you" or "your"), including (i) registered users who are event organizers and planners ("Organizers"), (ii) registered users who attend events listed by Organizers on the Site ("Buyers"), and (iii) other non-Organizer users or visitors to the Site ("other non-Organizers").</p>
 				<p>Company takes the privacy of your Personal Data and other information seriously. Because of that, Company has created this Privacy Policy. Please read this Privacy Policy as it includes important information regarding your Personal Data and other information.</p>
 				<p>If you have any questions or concerns, please do not hesitate to <a href="{$CURHOST}/contact">contact us</a>.</p>
 			</section>

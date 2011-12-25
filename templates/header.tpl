@@ -1,5 +1,5 @@
 <header id="page-header">
-	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a> <em>Beta</em></h1>
+	<h1 id="logo"><a href="{$CURHOST}">trueRSVP</a></h1>
 	<aside>
 		<nav>
 			<p>{if ! isset($smarty.session.user)}<a href="{$CURHOST}/login">Log In</a> | <a href="{$CURHOST}/register">Sign Up</a> | {else}<a href="{$CURHOST}">Home</a> | {/if}<a href="{$CURHOST}/method">How Does It Work?</a>{if isset($smarty.session.user)} | <a href="{$CURHOST}/logout">Log Out</a>{/if}</p>

@@ -5,7 +5,7 @@
 <div id="container">
 	{include file="cp_header.tpl"}
 	<section id="main">
-		<div class="navigation">
+		<div id="navigation">
 			<nav class="block" id="manage-before">
 				<header class="block-title">
 					<h1>Address Book</h1>
@@ -16,7 +16,7 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="manage">{if isset($page.contacts)}{include file="block_contacts.tpl"}{elseif isset($page.addcontacts)}{include file="block_addguests.tpl"}{/if}
+		<div id="content">{if isset($page.contacts)}{include file="block_contacts.tpl"}{elseif isset($page.addcontacts)}{include file="block_addguests.tpl"}{/if}
 		</div>
 	</section>
 </div>

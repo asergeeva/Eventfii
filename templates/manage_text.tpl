@@ -9,7 +9,7 @@
 			<p class="message" id="notification-message">Text sent successfully.</p>
 		</header>
 		{include file="manage_nav.tpl"}
-		<div class="manage">
+		<div id="content">
 			<header class="block">
 				<p class="message">Text your guests here.</p>
 			</header>
