@@ -36,7 +36,7 @@ class DBAPI extends DBConfig {
 							lname 	= '$lname'
 							WHERE	email = '$email'";
 		$this->executeUpdateQuery($UPDATE_USER_PROFILE);
-	}
+	}	
 	/*public function m_checkValidUser($email, $pass) 
 	{
 		$CHECK_VALID_USER = "SELECT * FROM ef_users e WHERE e.email = '".$email."' AND e.password = '".$pass."'";
@@ -175,7 +175,7 @@ class DBAPI extends DBConfig {
 	}*/
 	public function m_eventSignUpWithDate($uid, $event, $conf, $date)
 	{
-		$getRSVPDate = $this->m_getCheckInDate($event-eid, $uid);
+		$getRSVPDate = $this->m_getCheckInDate($event->eid, $uid);
 		$rsvpDate = new DateTime($getRSVPDate['rsvp_time']);
 		$incomingRSVPDate = new DateTime($date);
 		if($incomingRSVPDate >= $rsvpDate)
@@ -240,5 +240,11 @@ class DBAPI extends DBConfig {
 							FROM	ef_users u
 							WHERE	u.email = " . $email;
 		return count($this->executeValidQuery($CHECK_EMAIL));
+	}
+	public function m_getIDFromEmail($email)
+	{
+		$GUEST_ADDED="SELECT * FROM ef_users WHERE email = '$email'";
+		$GUEST_DATA = $this->executeQuery($GUEST_ADDED);
+		return $GUEST_DATA['id'];	
 	}
 }

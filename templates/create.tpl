@@ -94,9 +94,15 @@
 							<dt>
 								<label for="early"><input type="checkbox" id="early" /> Send my most reliable guests an early invite</label>
 							</dt>
-							<dt>
+							<dd>
 								<p>Delay the rest of the invitations for <select name="delay"><option value="0">Please select</option> <option value="1">1 hour</option> <option value="2">2 hours</option> <option value="3">3 hours</option> <option value="4">4 hours</option> <option value="5">5 hours</option> <option value="6">6 hours</option> <option value="12">12 hours</option> <option value="16">16 hours</option> <option value="24">24 hours</option> <option value="48">48 hours</option></select></p>
-							</dt> 
+							</dd> 
+							<dt>
+								<label for="multiple"><input type="checkbox" id="multiple" /> Multiple RSVPs</label>
+							</dt>
+							<dd>
+								<p>Guests can RSVP for up to <select name="delay"><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option></select></p>
+							</dd> 
 						</dl>{if ! isset($error.goal)}
 
 						<aside class="turtle">
@@ -196,10 +202,10 @@
 							</dt>
 							<dd>
 								<label for="is_public_yes">
-									<input type="radio" name="is_public" value="1"{if isset($event_field) && $event_field.is_public eq '1' or ! isset($event_field.is_public)} checked="checked"{/if} id="is_public_yes" /> <span>Anyone can sign up and invite others</span>
+									<input type="radio" name="is_public" value="1"{if isset($event_field) && $event_field.is_public eq '1' or ! isset($event_field.is_public)} checked="checked"{/if} id="is_public_yes" /> <span>Public page: anyone can view</span>
 								</label> 
 								<label for="is_public_no">
-									<input type="radio" name="is_public" value="0"{if isset($event_field) && $event_field.is_public eq '0'} checked="checked"{/if} id="is_public_no" /> <span>Only people you invite can attend</span>
+									<input type="radio" name="is_public" value="0"{if isset($event_field) && $event_field.is_public eq '0'} checked="checked"{/if} id="is_public_no" /> <span>Private page: only invited guests can view</span>
 								</label>
 							</dd>
 							<dt>

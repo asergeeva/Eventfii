@@ -5,7 +5,7 @@
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
-		<aside class="checkin">
+		<aside id="checkin">
 			<div class="turtle">
 				<p>Check-in to improve trueRSVP’s accuracy!</p>
 			</div>
@@ -19,7 +19,7 @@
 				<p><a href="{$CURHOST}/event/manage?eventId={$smarty.session.manage_event->eid}" class="btn btn-manage"><span><span class="btn-back">Back to manage page</span></span></a></p>
 			</footer>
 		</aside>
-		<div class="manage">
+		<div id="content">
 			<header class="block">
 				<p class="message">Confirm who showed up to improve your trueRSVP accuracy for your next event!</p>
 			</header>{if ! isset($eventAttendees)}

@@ -1,4 +1,4 @@
-<div class="navigation">
+<div id="navigation">
 			<nav class="manage-nav">
 				<ul class="buttons">
 					<li><a href="{$CURHOST}/event/manage/attendees?eventId={$smarty.session.manage_event->eid}" class="{if isset($page.attendeelist)}current {/if}btn btn-nav nav-guestlist"><span><em>Guest List</em></span></a></li>{if $smarty.session.manage_event->days_left > 0}

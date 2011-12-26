@@ -1,4 +1,4 @@
-	<section class="block" id="events-created">
+<section class="block" id="events-created">
 				<header class="block-collapsable-title">
 					<h1>Past hosted events</h1>
 				</header>{assign var=pastCreatedEvents_counts value=$pastCreatedEvents|@count}{if $pastCreatedEvents_counts gt 0}

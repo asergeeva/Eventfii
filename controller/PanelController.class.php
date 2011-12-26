@@ -551,8 +551,12 @@ class PanelController {
 			case '/event/manage/email':
 				$page['email'] = true;
 				EFCommon::$smarty->append('page', $page, TRUE);
+				if ( ! isset($_GET['create']) || ! $_GET['create'] ) {
+					EFCommon::$smarty->display('manage_email.tpl');
+				} else {
+					EFCommon::$smarty->display('manage_email_create.tpl');
+				}
 				
-				EFCommon::$smarty->display('manage_email.tpl');
 				break;
 			case '/event/email/send':
 				$event = $_SESSION['manage_event'];

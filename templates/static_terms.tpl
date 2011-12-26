@@ -6,7 +6,7 @@
 	<header id="header">
 		<h1>Terms of Service</h1>
 	</header>
-	<article>
+	<article class="static">
 		<section>
 			<header>
 				<h1>trueRSVP Terms of Service</h1>
