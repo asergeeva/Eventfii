@@ -34,7 +34,7 @@ class EFMail {
 	);
 	
 	public function __construct() {
-		mailgun_init('key-afy6amxoo2fnj$u@mc');
+		mailgun_init('key-43033qlv70665f8rxn9l6zld10jkgrs1');
 	}
 	
 	public function __destruct() {
