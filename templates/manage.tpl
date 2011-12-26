@@ -47,7 +47,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
@@ -62,7 +62,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
@@ -77,7 +77,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
@@ -92,7 +92,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
@@ -107,7 +107,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
@@ -122,7 +122,7 @@
 									<label for="{$guest.email}">
 										<img src="{if isset($guest.pic)}{$guest.pic}{else}{$IMG_PATH}/default_thumb.jpg{/if}" width="36px" height="36px" alt="Guest Name" />
 										<h3>{$guest.fname} {$guest.lname}</h3>
-										<p>{$guest.email}</p>
+										<span>{$guest.email}</span>
 									</label>
 								</li>{/foreach}
 
