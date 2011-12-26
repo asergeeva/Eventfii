@@ -26,11 +26,7 @@
 		</div>
 	</div>{/if}
 
-	<header id="header">
-		<hgroup>
-			<h1 id="event-{$event->eid}"><a href="{$CURHOST}/event/a/{$event->alias}">{$event->title}</a></h1>		
-			<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
-		</hgroup>{if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id) && ( ! isset($smarty.get.public) || $smarty.get.public != true)}
+	<header id="header">{if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id) && ( ! isset($smarty.get.public) || $smarty.get.public != true)}
 
 		<nav>
 			<ul>
@@ -40,8 +36,12 @@
 			</ul>
 		</nav>{else}{if $event->is_public}
 
-		<div class="fb-share"><fb:like href="{$EVENT_URL}/{$event->eid}" align="right" send="true" layout="button_count" width="25" style="float:right;" show_faces="false" action="like" font=""></fb:like></div>{/if}{/if}
+		<div class="fb-like" data-href="{$CURHOST}/event/a/{$event->alias}" data-send="true" data-layout="button_count" data-show-faces="false"></div>{/if}{/if}
 
+		<hgroup>
+			<h1 id="event-{$event->eid}"><a href="{$CURHOST}/event/a/{$event->alias}">{$event->title}</a></h1>		
+			<p class="event-time"><time datetime="">{date("F j, Y, g:i A", strtotime($event->datetime))}</time>{if isset($event->end_date)} - {if $event->date == $event->end_date}<time datetime="">{date("g:i A", strtotime($event->end_datetime))}</time>{else}<time datetime="">{date("F j, Y, g:i A", strtotime($event->end_datetime))}</time>{/if}{/if}</p>
+		</hgroup>
 		<span id="event-id" style="display: none">{$event->eid}</span>
 	</header>
 	<div id="wrapper">
@@ -108,9 +108,9 @@
 			<div id="event">
 				<header id="event-info">
 					<hgroup>
-						<h1><span>What:</span> Orientation Mixers</h1>
-						<h2><span>When:</span> August 15, 2011 7:00PM</h2>
-						<h3><span>Where:</span> <address>USC Campus Center, 1234 Exposition Blvd, Los Angeles, CA 90007</address></h3>
+						<h1><span>What:</span> {$event->title}</h1>
+						<h2><span>When:</span> {date("F j, Y, g:i A", strtotime($event->datetime))}</h2>
+						<h3><span>Where:</span> <address>{if isset($event->location) && trim($event->location) neq ""}{$event->location}, {/if}{$event->address}</address></h3>
 					</hgroup>
 				</header>
 				<footer class="user-info">
@@ -195,7 +195,7 @@
 					<header class="block-title">
 						<h1>Comments</h1>
 					</header>
-					<div class="fb-comments" data-href="{$CURHOST}/event/{$event->eid}" data-num-posts="2" data-width="5433px"></div>
+					<div class="fb-comments" data-href="{$CURHOST}/event/{$event->eid}" data-num-posts="2" data-width="540px"></div>
 				</section>
 			</div>
 		</section>

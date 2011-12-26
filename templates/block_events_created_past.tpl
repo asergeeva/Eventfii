@@ -16,8 +16,7 @@
 
 				</ul>{else}
 				
-				<p class="message">There are no past hosted events.</p>
-				{/if}
+				<p class="message">There are no past hosted events.</p>{/if}
 				
 				<p class="message-extra"><a href="{$CURHOST}">View events you're scheduled to host</a></p>
 			</section>

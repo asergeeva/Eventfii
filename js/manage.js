@@ -124,8 +124,12 @@ $(document).ready(function() {
 	CSV_UPLOADER.init();
 	
 	// Accordian Function
-	$(".table a.manage-accord").click( function() {
+	$(".responses dt a").click( function() {
 		var link = $(this);
+		
+		if ( ! link.hasClass("manage-accord") )
+			return false;
+			
 		var list = link.parent("dt").next("dd").next("dd");
 
 		link.addClass('active');		
@@ -136,7 +140,7 @@ $(document).ready(function() {
 			  if ( ! list.is(":visible") ) {
 				link.removeClass('active');
 			  }
-			}).siblings(".table-extra").slideUp("slow");;
+			}).siblings(".responses-extra").slideUp("slow");;
 		}
 		return false;
 	} );

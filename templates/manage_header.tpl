@@ -1,9 +1,4 @@
 <header id="header">
-		<hgroup>
-			<h1 id="manage-title">{$smarty.session.manage_event->title}</h1>
-			<h2><a href="{$CURHOST}/event/a/{$smarty.session.manage_event->alias}?public=true">See public event page</a></h2>
-			<span id="event-id" style="display: none">{$smarty.get.eventId}</span>
-		</hgroup>
 		<nav>
 			<ul>
 				<li{if (isset($page.manage) || isset($page.cp) ) && ! isset($page.edit)} class="current"{/if} id="manage"><a href="{$CURHOST}/event/manage?eventId={$smarty.get.eventId}"><span>Manage</span></a></li>
@@ -11,4 +6,9 @@
 				<li><a href="{$CURHOST}/event/a/{$smarty.session.manage_event->alias}" id="update_event_preview"><span>Preview</span></a></li>
 			</ul>
 		</nav>
+		<hgroup>
+			<h1 id="manage-title">{$smarty.session.manage_event->title}</h1>
+			<h2><a href="{$CURHOST}/event/a/{$smarty.session.manage_event->alias}?public=true">See public event page</a></h2>
+			<span id="event-id" style="display: none">{$smarty.get.eventId}</span>
+		</hgroup>
 	</header>

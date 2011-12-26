@@ -11,7 +11,7 @@ html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, i
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+	font: inherit;s
 	vertical-align: baseline; }
 aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
@@ -152,7 +152,7 @@ textarea.inputbox { height: 126px; }
 	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); }
-.inputbox-small { width: 44px; }
+.inputbox-small { width: 30px; }
 .error .inputbox {
 	border-color: #c87872;
 	-webkit-box-shadow: 0 0 3px rgba(171, 41, 32, 0.25);
@@ -799,23 +799,22 @@ header#page-header {
 /* Section Headers
  -------------------------*/
 #header { 
-	margin: 0 0 20px;
-	overflow: hidden; }
+	position: relative;
+	margin: 0 0 20px; }
 
 /*----- Page Information and Tabbed Navigation ----------*/
 /* Page Information */
-#header hgroup { 
-	float: left;
-	height: 55px; }
+#header hgroup { height: 55px; }
 #header hgroup h1 { 
 	font-size: 24px;
 	line-height: 36px; }
 #header hgroup h2, #header hgroup p { font-size: 14px; }
 
 /* Facebook */
-#header .fb-share { 
-	float: right; 
-	margin: -5px 0 0; }
+#header .fb-like { 
+	position: absolute; 
+	bottom: 0;
+	right: 0; }
 
 /* Tabbed navigation */
 #header nav { 
@@ -851,7 +850,6 @@ header#page-header {
 	height: 24px; /* 39 - 17 */
 	padding: 15px 21px 0 10px;
 	display: inline-block; }
-#header nav li.current a { cursor: default; }
 #header nav li.current a, #header nav li:hover a { 
 	background-image: url(../images/manage_nav_left.gif);
 	color: #8f8f8f; }
