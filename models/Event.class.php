@@ -235,11 +235,14 @@ class Event {
 		// Check the address using a geocoder
 		$geocode = EFCommon::$google->getGeocode($this->address);
 		
-		if( ! is_numeric($geocode['lat']) || ! is_numeric($geocode['lon'])) {
-			$this->error['address'] = "Address is invalid";
-			$this->numErrors++;
-			return;
-		}
+		// We are not going to validate the address geolocation
+		// There is bugs in the Google geocoder API that we're using
+		//
+		//if ( ! is_numeric($geocode['lat']) || ! is_numeric($geocode['lon'])) {
+		//	$this->error['address'] = "Address is invalid";
+		//	$this->numErrors++;
+		//	return;
+		//}
 		
 		$this->location_lat = $geocode['lat'];
 		$this->location_long = $geocode['lon'];
