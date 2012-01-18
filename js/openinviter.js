@@ -34,21 +34,20 @@ var OPENINVITER = (function() {
 	});
 	
 	return {
-		listFilter: function (form, list) {
+		listFilter: function (header, list) {
 		    // create and add the filter form to the header
-		    var input = form.find("input"),
-		    	initVal = input.val();
-		    
-		    var previous;
+		    var initVal = "Search by name",
+		    	form = $("<form>").attr({"class":"filterform","action":"#"}),
+		    	input = $("<input>").attr({"class":"filterinput","type":"text","value":initVal});
+		    	
+		    $(form).append(input).appendTo(header);
 		    
 		    input.focus(function() {
-		    	previous = $(this).val();
 		    	$(this).val('');
 		    });
 		    
 		    input.focusout(function() {
-		    	if ( $(this).val() == '' )
-		    		input.val(previous);
+		    	input.val(initVal);
 		    });
 		 
 		    $(input)
@@ -74,7 +73,7 @@ var OPENINVITER = (function() {
 			if (requestIds != null) {
 				var i,
 					requestInfo;
-				FB.api('', {"ids": requestIds.request_ids.join(',') }, function(requestInfo) {
+				FB.api('', {"ids": requestIds.to.join(',') }, function(requestInfo) {
 					for (requestId in requestInfo) {
 						$.post(EFGLOBAL.baseUrl + '/fb/invite', {
 							request_id: requestId,
@@ -96,6 +95,7 @@ $(document).ready(function() {
 	// Search for add contacts
 	OPENINVITER.listFilter($("#search-guestlist"), $("#attendee-list"));
 	OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+	OPENINVITER.listFilter($("#attendee-header"), $("#attendee-list"));
 	
 	// Gmail & Yahoo Importer
 	$('#oi_import').live('click', function() {

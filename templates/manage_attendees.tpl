@@ -30,11 +30,8 @@
 				</header>
 			</section>{else}
 			
-			<form method="post" action="#" class="quicksearch" id="search-guestlist">
-				<fieldset>
-					<input type="text" value="Search by name" />
-				</fieldset>
-			</form>
+			<span id="attendee-header"></span>
+			
 			<section class="block" id="cp-attendees">
 
 				<header class="block-collapsable-title">
