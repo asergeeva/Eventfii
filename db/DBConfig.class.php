@@ -322,6 +322,16 @@ class DBConfig {
 	}
 	
 	/**
+	 * If this is numeric, return the value, otherwise use ZERO
+	 */
+	private function checkZeroOrValSql($val) {
+		if (is_numeric($val)) {
+			return $val;
+		}
+		return 0;
+	}
+	
+	/**
 	 * Update user
 	 */
 	private function updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email) {
@@ -616,12 +626,13 @@ class DBConfig {
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . mysql_real_escape_string($newEvent->is_public) . ",
 						" . mysql_real_escape_string($newEvent->type) . ",
-						" . mysql_real_escape_string($newEvent->location_lat) . ",
-						" . mysql_real_escape_string($newEvent->location_long) . ",
+						" . $this->checkZeroOrValSql($newEvent->location_lat) . ",
+						" . $this->checkZeroOrValSql($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
 						'" .dechex(EVENT_ALIAS_OFFSET + $nextEventId). "',
 						'" .md5(EVENT_REF_PREFIX.$nextEventId). "'
 			)";
+		
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	
