@@ -16,11 +16,13 @@ html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, i
 aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
+html { height: 100% }
 body {
 	background: #f7f7f7 url(../images/header_bg.gif) 0 0 repeat-x;
 	font: 11px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #666;
-	font-size: 11px; }
+	font-size: 11px;
+	height: 100%; }
 a { 
 	color: #3399cc;
 	text-decoration: none;
@@ -729,7 +731,7 @@ header#page-header {
 	color: #fff;
 	width: 900px;
 	height: 49px;
-	margin: 0 auto; }
+	margin: 0 auto 50px; }
 
 /*----- Logo ----------*/
 #logo { float: left; }
@@ -768,7 +770,8 @@ header#page-header {
  -------------------------*/
 #container {
 	width: 820px;
-	margin: 50px auto 70px; }
+	min-height: 100%;
+	margin: 0 auto -50px; }
 	
 /*----- Main Content ----------*/
 #main {
@@ -1727,6 +1730,7 @@ footer#site-map {
 	background: url(../images/footer_bg.gif) 0 0 repeat-x;
 	color: #fff;
 	height: 125px; /* 158 - 33 */
+	margin: 70px 0 0;
 	padding: 33px 0 0;
 	clear: both; }
 #site-map ul { 
