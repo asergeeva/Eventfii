@@ -6,10 +6,11 @@
  * All rights reserved
  */
 require_once(realpath(dirname(__FILE__)).'/PanelController.class.php');
- 
+require_once(realpath(dirname(__FILE__)).'/../db/AdminDB.class.php');
+
 class EventController extends PanelController {
 	public function __construct() {
-	
+		$this->dbConn = new AdminDB();
 	}
 	
 	public function __destruct() {
@@ -20,6 +21,11 @@ class EventController extends PanelController {
 	 * Displaying the event given its ID
 	 * @param $eventId  Integer event ID
 	 */
+	private function getEventImage($eid)
+	{
+		return $image = $this->dbConn->admin_getEventImage($eid);
+		exit;
+	}
 	private function displayEventById($eventId) {
 		$event = $this->buildEvent($eventId);
 		$_SESSION['eventViewed'] = $event;
@@ -80,7 +86,11 @@ class EventController extends PanelController {
 		}
 		
 		EFCommon::$smarty->assign( 'attending', $attending );
-		
+		if(isset($_SESSION['user']))
+			EFCommon::$smarty->assign( 'userid', json_encode(array('uid'=>$_SESSION['user']->id,'eid'=>$eventId)) );
+		else
+			EFCommon::$smarty->assign( 'userid', json_encode(array('uid'=>0)) );
+		EFCommon::$smarty->assign('event_image', $this->getEventImage($eventId));
 		EFCommon::$smarty->display('event.tpl');
 	}
 	

@@ -5,10 +5,12 @@
  * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
+require_once(realpath(dirname(__FILE__)).'/../db/AdminDB.class.php');
 
 class PanelController {
+	private $dbConn;
 	public function __construct() {
-	
+		$this->dbConn = new AdminDB();
 	}
 
 	public function __destruct() {
@@ -21,10 +23,44 @@ class PanelController {
 	 *
 	 * @param $requestUri | The URI of the current page
 	 */
+	private function insertEventImages($uid, $eid, $imageName)
+	{
+		EFCommon::$dbCon->insertEventImages($uid, $eid, $imageName);
+	}
+	private function getAllEventImages($eid)
+	{
+		return EFCommon::$dbCon->getAllEventImages($eid);
+	}
+	private function getUsersByImages($eid)
+	{
+		$users_dropdown = "<select id='users_dropdown' name='users_dropdown' onchange=''><option value='0'>Select</option>";
+		$user_ids = EFCommon::$dbCon->getUsersByImages($eid);
+		foreach($user_ids as $user_id)
+		{
+			$name = EFCommon::$dbCon->getUserNameById($user_id['owner_id']);
+			$users_dropdown .= '<option value="'.$user_id['owner_id'].'">'.$name.'</option>';
+		}
+		$users_dropdown .= '</select>';
+		return $users_dropdown;
+	}
+	private function get_file_extension($file_name)
+	{
+			  return substr(strrchr($file_name,'.'),1);
+	}
+	 private function displayStock()
+	{
+		$stockList = $this->dbConn->admin_getStockList();
+		$stockPhotosCount = array();
+		EFCommon::$smarty->assign('stock', $stockList);
+	}
+	private function getEventImage($eid)
+	{
+		return $image = $this->dbConn->admin_getEventImage($eid);
+		exit;
+	}
 	public function getView($uri) {
 		EFCommon::$smarty->assign("current_page", $uri);
 		$requestUri = str_replace(PATH, '', $uri);
-		
 		// Check for cookie
 		if (isset($_COOKIE[USER_COOKIE])) {
 			$userCookie = EFCommon::$dbCon->getUserByCookie($_COOKIE[USER_COOKIE]);
@@ -99,7 +135,6 @@ class PanelController {
 		// Check if there's a create event
 		$createController = new CreateController();
 		$createController->getView($current_page);
-
 		switch ($current_page) {
 			case '/':
 			case '/home':
@@ -135,6 +170,91 @@ class PanelController {
 					EFCommon::$smarty->display('index.tpl');
 				}
 				break;
+			case '/upload/event/images':
+				if (!empty($_FILES))
+				{
+					$file		=  $_FILES['Filedata'];
+					$tmp_name	=  $file['tmp_name'];
+					$filename   =  $file['name'];
+					//$ext = $this->get_file_extension($filename);
+					$uid		=  $_REQUEST['uid'];
+					$eid		=  $_REQUEST['eid'];
+					$uploadPath = './eventimages/';
+					$uploadPathThumb = './eventimages/thumbs/';
+					$upfile  = $uid.'_'.$eid.'_'.$filename;
+					move_uploaded_file($tmp_name,$uploadPath.$upfile);
+					$this->insertEventImages($uid, $eid, $upfile);
+					chmod($uploadPath.$upfile, 0777);
+					/*Image Resize CI Library*/			
+					include("./libs/image_resize/resize_class.php");
+					$image_resize = new CI_Image_lib();
+					$source_image = $upfile;
+					$medium_image = $upfile;
+					$config['source_image'] = $uploadPath.$source_image;
+					$config['new_image'] = $uploadPath.$medium_image;
+					$config['quality'] = '80';
+					$width = '540';
+					$height = '540';
+					if(file_exists($uploadPath.$source_image))
+					{
+						list($awidth, $aheight) = getimagesize($uploadPath.$source_image);
+						if($awidth < $width)
+						{
+							$width = $awidth;
+						}
+					}
+					$config['width'] = $width;
+					$config['height'] = $height;
+					$config['maintain_ratio'] = TRUE;
+					$config['image_library'] = 'gd2';
+					$image_resize->initialize($config); 
+					if ( ! $image_resize->resize())
+					{								
+					}
+					$source_image = $upfile;
+					$medium_image = $upfile;
+					$config['source_image'] = $uploadPath.$source_image;
+					$config['new_image'] = $uploadPathThumb.$medium_image;
+					$config['quality'] = '80';
+					$width = '150';
+					$height = '150';
+					if(file_exists($uploadPath.$source_image))
+					{
+						list($awidth, $aheight) = getimagesize($uploadPath.$source_image);
+						if($awidth < $width)
+						{
+							$width = $awidth;
+						}
+					}
+					$config['width'] = $width;
+					$config['height'] = $height;
+					$config['maintain_ratio'] = TRUE;
+					$config['image_library'] = 'gd2';
+					$image_resize->initialize($config); 
+					if ( ! $image_resize->resize())
+					{								
+					}
+					echo $upfile;
+					//upload Here	
+				}
+				break;
+			case '/event/reloadImages':
+				$allImages = $this->getAllEventImages($_POST['eid']);
+				$users_dropdown = $this->getUsersByImages($_POST['eid']);
+				$html = '';
+				$slideshow = '';
+				$count_images = 0;
+				foreach($allImages as $image)
+				{
+					$count_images++;
+					if($slideshow == '')
+					{
+						$slideshow = CURHOST.'/eventimages/'.$image['image'];
+					}
+					$html .= '<a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
+				}
+				echo json_encode(array('html'=>$html, 'slideshow'=>$slideshow, 'count_images'=>$count_images, 'users_dropdown'=>$users_dropdown));
+				break;
 			case '/demo':
 				header("Location: ".EVENT_URL."/a/1af");
 				break;
@@ -152,6 +272,56 @@ class PanelController {
 				break;
 			case '/faq':
 				EFCommon::$smarty->display('static_faq.tpl');
+				break;
+			case '/info':
+				phpinfo();
+				break;
+			case '/email':
+			// multiple recipients
+			$to  = 'muhammad.saleem@purelogics.net' . ', ';
+			$to  .= 'malik.usman@purelogics.net' . ', ';
+			$to  .= 'saleempugc@gmail.com' . ', ';
+			$to  .= 'saleempugc@hotmail.com' . ', ';
+			$to .= 'saleem_pugc@yahoo.com';
+			
+			// subject
+			$subject = 'Email test for background images';
+			
+			// message
+			$message = '
+			<table width="600" border="0" cellspacing="0" cellpadding="0" align="center">
+			  <tr>
+				<td><img src="http://eventfii.iserver.purelogics.info/images/templates/main_bg_top.jpg" height="19" width="600" alt="" /></td>
+			  </tr>
+			  <tr>
+				<td background="http://eventfii.iserver.purelogics.info/images/templates/main_bg_cnt.jpg" style="background-repeat:repeat-y;" height="600" valign="top">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					  <tr>
+						<td align="center"><img src="http://eventfii.iserver.purelogics.info/images/templates/frame_top.jpg" height="17" width="553" alt="" /></td>
+					  </tr>
+					  <tr>
+						<td>&nbsp;</td>
+					  </tr>
+					  <tr>
+						<td>&nbsp;</td>
+					  </tr>
+					  <tr>
+						<td>&nbsp;</td>
+					  </tr>
+					</table>
+				</td>
+			  </tr>
+			  <tr>
+				<td><img src="http://eventfii.iserver.purelogics.info/images/templates/main_bg_bot.jpg" height="25" width="600" alt="" /></td>
+			  </tr>
+			</table>
+			';
+			
+			// To send HTML mail, the Content-type header must be set
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			// Mail it
+			mail($to, $subject, $message, $headers);
 				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
@@ -446,6 +616,9 @@ class PanelController {
 				if ( ! isset ($_POST['submit']) ) {
 					$editEvent = $this->buildEvent($_GET['eventId'], true);
 					$this->saveEventFields( $editEvent );
+					$this->displayStock();
+					EFCommon::$smarty->assign('eventid', json_encode(array('eid'=>$_GET['eventId'])));
+					EFCommon::$smarty->assign('event_image', $this->getEventImage($_GET['eventId']));
 					EFCommon::$smarty->display('manage_edit.tpl');
 					break;
 				}
@@ -460,10 +633,11 @@ class PanelController {
 					$_SESSION['manage_event'] = new Event($editEvent->eid);
 					EFCommon::$smarty->assign("saved", true);
 				}
-				
+				$this->displayStock();
+				EFCommon::$smarty->assign('eventid', json_encode(array('eid'=>$_GET['eventId'])));
 				$this->saveEventFields( $editEvent );
+				EFCommon::$smarty->assign('event_image', $this->getEventImage($_GET['eventId']));
 				EFCommon::$smarty->display('manage_edit.tpl');
-                
 				break;
 			case '/event/manage/guests':
 				$page['addguests'] = true;
@@ -551,11 +725,11 @@ class PanelController {
 			case '/event/manage/email':
 				$page['email'] = true;
 				EFCommon::$smarty->append('page', $page, TRUE);
-				//if ( ! isset($_GET['create']) || ! $_GET['create'] ) {
-				//	EFCommon::$smarty->display('manage_email.tpl');
-				//} else {
+				if ( ! isset($_GET['create']) || ! $_GET['create'] ) {
+					EFCommon::$smarty->display('manage_email.tpl');
+				} else {
 					EFCommon::$smarty->display('manage_email_create.tpl');
-				//}
+				}
 				
 				break;
 			case '/event/email/send':
@@ -873,7 +1047,6 @@ class PanelController {
 					EFCommon::$smarty->display('login.tpl');
 					break;
 				}
-				
 				if ( isset ( $params ) ) {
 					header("Location: " . $this->getRedirectUrl());
 					exit;
@@ -943,7 +1116,7 @@ class PanelController {
 				if ($_REQUEST['value'] != "Click here to edit") {
 					EFCommon::$dbCon->updateUserStatus($_REQUEST['value']);
 					$_SESSION['user']->about = $_REQUEST['value'];
-					echo($_REQUEST['value']);
+					//echo($_REQUEST['value']);
 				}
 				break;
 			case '/user/profile/update':
@@ -1018,6 +1191,16 @@ class PanelController {
 			
 		$_SESSION['newEvent'] = $newEvent;
 	}
+	protected function addEventImage($eid, $imageURL)
+	{
+		if ( ! isset($_SESSION['user']) ) {
+			$_SESSION['newEvent'] = $newEvent;
+			header("Location: " . CURHOST . "/login");
+			exit;
+		}
+		EFCommon::$dbCon->addEventImage($eid, $imageURL);
+			
+	}
 	
 	/* saveEventFields
      * Stores the current values for the new event
@@ -1030,7 +1213,6 @@ class PanelController {
 
 		// Save the current fields
 		$event_field = $newEvent->get_array();
-		
 		EFCommon::$smarty->assign('event_field', $event_field);
 	}
 	

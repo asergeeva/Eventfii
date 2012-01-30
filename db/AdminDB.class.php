@@ -14,7 +14,9 @@ class AdminDB extends DBConfig {
 		"scott@truersvp.com", "scott@organicstartup.com", // Scott
 		"adamrwexler@gmail.com", "adam@truersvp.com", // Adam
 		"movingincircles@gmail.com", "nick@truersvp.com", "iwantzcouponz@gmail.com", // Nick
-		"laksmono@usc.edu", "grady@truersvp.com", "grady.infolab@gmail.com" // Grady
+		"laksmono@usc.edu", "grady@truersvp.com", "grady.infolab@gmail.com", // Grady
+		"muhammad.saleem@purelogics.net",	//Muhammad Saleem
+		"zaeem.babar@purelogics.net"	//Zaeem Babar
 	);
 
 	public function __construct() {
@@ -38,7 +40,48 @@ class AdminDB extends DBConfig {
 			return $excludeParam;
 		}
 	}
-	
+	public function admin_getEventImage($eid)
+	{
+		$GET_IMAGE = "SELECT image FROM ef_events WHERE id=".$eid;
+		$image = $this->executeQuery($GET_IMAGE);
+		return $image['image'];
+	}
+	public function admin_getStockList()
+	{
+		$GET_STOCK_LIST = "SELECT * FROM ef_stock";
+		return $this->getQueryResultAssoc($GET_STOCK_LIST);		
+	}
+	public function admin_getStockPhotos($stockId)
+	{
+		$GET_STOCK_PHOTOS = "SELECT * FROM ef_stock_photos WHERE stock_id=".$stockId;
+		return $this->getQueryResultAssoc($GET_STOCK_PHOTOS);
+	}
+	public function admin_getStockPhotosCount($id)
+	{
+		$GET_STOCK_PHOTOS_COUNT = "SELECT count(*) as count FROM ef_stock_photos WHERE stock_id=".$id;
+		$count = $this->executeQuery($GET_STOCK_PHOTOS_COUNT);
+		return $count['count'];
+	}
+	public function insertStockPhoto($image_name, $stockId)
+	{
+		$INSERT_STOCK_PHOTO = "INSERT INTO ef_stock_photos SET stock_id='".$stockId."', photo='".$image_name."', thumb='".$image_name."'";
+		$this->executeUpdateQuery($INSERT_STOCK_PHOTO);
+	}
+	public function admin_delStockPhoto($delId)
+	{
+		$GET_STOCK_PHOTOS = "SELECT * FROM ef_stock_photos WHERE id=".$delId;
+		$stockPhoto = $this->getQueryResultAssoc($GET_STOCK_PHOTOS);
+		unlink("../upload/stock/".$stockPhoto[0]['photo']);
+		unlink("../upload/stock/thumb/".$stockPhoto[0]['photo']);
+		$DEL = "DELETE FROM ef_stock_photos WHERE id=".$delId;
+		return $this->executeUpdateQuery($DEL);
+	}
+	public function  admin_getStockName($id)
+	{
+		$GET_STOCK_NAME = "SELECT name FROM ef_stock WHERE id=".$id;
+		$name = $this->executeQuery($GET_STOCK_NAME);	
+		return $name['name'];
+	}
 	public function admin_getEventList() {
 		$GET_EVENT_LIST = "SELECT e.*, u.fname, u.lname, u.email FROM ef_events e, ef_users u WHERE e.organizer = u.id".$this->constructExcludeEmails();
 		return $this->getQueryResultAssoc($GET_EVENT_LIST);

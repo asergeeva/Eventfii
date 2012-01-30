@@ -23,6 +23,7 @@ class Event {
 	public $datetime;
 	public $date;
 	public $time;
+	public $image;
 	
 	public $friendly_date;
 	public $friendly_time;
@@ -68,7 +69,6 @@ class Event {
 			$this->set_end_time(NULL);
 			$this->set_goal(NULL);
 			$this->global_ref = NULL;
-			
 			// For event creation some fields aren't checked
 			// until step 2. Keep those out of the validation loop.
 			if ( ! $step1 ) {		
@@ -152,6 +152,21 @@ class Event {
 		
 		if( strlen($this->description) < 5 ) {
 			$this->error['desc'] = "Event description must be at least 5 characters";
+			$this->numErrors++;
+		}
+	}
+	/*set_image*/
+	private function set_image( $type = NULL ) {
+		if ( $type == NULL ) {
+			if ( isset($_POST['image']) ) {
+				$type = $_POST['image'];
+			}
+		}
+		
+		$this->image = $type;
+		
+		if ( $type == 0 ) {
+			$this->error['image'] = "Please select an image.";
 			$this->numErrors++;
 		}
 	}
@@ -520,6 +535,7 @@ class Event {
 		if ( isset($eventInfo['location_long']) ) {
 			$this->location_long = $eventInfo['location_long'];
 		}
+		$this->image = $eventInfo['image'];
 		
 		// Prepare date and time
 		$this->datetime = $eventInfo['event_datetime'];
@@ -593,6 +609,7 @@ class Event {
 		$eventInfo['twitter'] = $this->twitter;
 		$eventInfo['alias'] = $this->alias;
 		$eventInfo['global_ref'] = $this->global_ref;
+		$eventInfo['image'] = $this->image;
 		
 		return $eventInfo;
 	}
@@ -700,6 +717,8 @@ class Event {
 		} 
 		
 		// Send the email invites
+		//print_r($this);
+		//exit;
 		EFCommon::$mailer->sendHtmlInvite($this, $newGuests);
 		
 		return $newGuests;

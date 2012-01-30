@@ -95,11 +95,20 @@ class EFMail {
 						$replaceItems->item($j)->nodeValue = $event->time;
 					}
 					break;
+				case "invite_image":
+					if($event->image != NULL)
+					{
+						$replaceItems->item($j)->nodeValue = '<img src="'.CURHOST.'/upload/events/'.$event->image.'" />';
+					}
+				break;
 				case "event_location":
 					$replaceItems->item($j)->nodeValue = $event->address;
 					break;
 				case "event_link":
 					$replaceItems->item($j)->parentNode->setAttribute("href", EVENT_URL."/a/".$event->alias.$reference);
+					break;
+				case "event_link_actual":
+					$replaceItems->item($j)->nodeValue = EVENT_URL."/a/".$event->alias.$reference;
 					break;
 				case "event_description":
 					$replaceItems->item($j)->nodeValue = $event->description;
@@ -119,6 +128,23 @@ class EFMail {
 					break;
 				case "event_host":
 					$replaceItems->item($j)->nodeValue = $event->organizer->fname;
+					break;
+				case "event_custom_invite":
+					list($awidth, $aheight) = getimagesize('./upload/events/'.$event->image);
+					$replaceItems->item($j)->firstChild->setAttribute("src", CURHOST."/upload/events/".$event->image);
+					if($awidth > 531)
+					{
+						$replaceItems->item($j)->firstChild->setAttribute("width", '531');	
+					}
+					break;
+				case "event_rsvp_days":
+					$date1 = date('Y-m-d');
+					$date2 = $event->deadline;
+					$diff = abs(strtotime($date2) - strtotime($date1));
+					$years = floor($diff / (365*60*60*24));
+					$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+					$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+					$replaceItems->item($j)->nodeValue = $days;
 					break;
 			}
 		}

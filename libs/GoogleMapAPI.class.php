@@ -1288,7 +1288,7 @@ class GoogleMapAPI {
      * @param string $address
      */
     function geoGetCoords($address,$depth=0) {
-        
+        $_coords = array('lat'=>0, 'lon'=>0);
         switch($this->lookup_service) {
                         
             case 'GOOGLE':
@@ -1338,10 +1338,9 @@ class GoogleMapAPI {
      * 
      * @param string $url
      */
-    function fetchURL($url) {
-
-        return file_get_contents($url);
-
+    function fetchURL($url) 
+	{
+        return @file_get_contents($url);
     }
 
     /**

@@ -25,6 +25,9 @@ var EVENT = (function() {
 })();
 
 $(document).ready(function() {
+	$("#showLoginPopup").click(function(){
+		$("#log-in").fadeIn(500);
+	});
 	$("#event_attending_response input:disabled").parent("label").click(function() {
 		if (!$('#rsvp_days_left').hasClass('loggedIn')) {
 			$.post(EFGLOBAL.baseUrl + '/event/attend/attempt', {

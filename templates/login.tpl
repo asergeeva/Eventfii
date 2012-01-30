@@ -23,7 +23,7 @@
 <script src="{$JS_PATH}/login.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	FB.Event.subscribe('auth.login', FBCON.loginUser);
+	//FB.Event.subscribe('auth.login', FBCON.loginUser);
 });
 </script>
 </body>

@@ -8,7 +8,7 @@ var EF_CONTACTS = (function() {
 	return {
 		init: function() {
 			CSV_UPLOADER.init();
-			//$('#contacts-list').find('input').attr('checked', 'checked');
+			$('#contacts-list').find('input').attr('checked', 'checked');
 			
 			/* SELECT CONTACTS ALL or NONE */
 			$('#select_contact_all').live('click', function() {

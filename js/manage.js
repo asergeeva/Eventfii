@@ -95,7 +95,7 @@ var MANAGE_EVENT = ( function() {
 					'eventId': this.value.split('_')[2]
 				});
 			});
-			//$('#contacts-list').find('input').attr('checked', 'checked');
+			$('#contacts-list').find('input').attr('checked', 'checked');
 			
 			
 			$('#text-message').keyup(function() {

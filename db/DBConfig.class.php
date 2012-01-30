@@ -83,7 +83,10 @@ class DBConfig {
 		
 		return $result;
 	}
-	
+	public function executeInsert($query) {
+		$dbLink = $this->openCon();
+		$dbResult = mysql_query( $query );
+	}
 	/* function executeUpdateQuery
 	 * Executes an updates query. There is not result set.
 	 *
@@ -197,6 +200,30 @@ class DBConfig {
 		return $userInfo;
 	}
 	
+	/*Inserting images for event*/
+	public function insertEventImages($uid, $eid, $imageName)
+	{
+		$IMAGES = "INSERT INTO ef_event_images SET event_id='".mysql_real_escape_string($eid)."', owner_id='".mysql_real_escape_string($uid)."', image='".mysql_real_escape_string($imageName)."'";	
+		$this->executeInsert($IMAGES);
+	}
+	/*Select all event images*/
+	public function getAllEventImages($eid)
+	{
+		$GET_IMAGES = "SELECT image FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'";
+		return $this->getQueryResultAssoc($GET_IMAGES);
+	}
+	public function getUsersByImages($eid)
+	{
+		$GET_USERS = "SELECT DISTINCT owner_id FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'";
+		return $this->getQueryResultAssoc($GET_USERS);
+	}
+	public function getUserNameById($uid)
+	{
+		$GET_USER_NAME = "SELECT CONCAT(fname, ' ', lname) as name FROM ef_users WHERE id='".mysql_real_escape_string($uid)."'";	
+		$row = $this->executeValidQuery($GET_USER_NAME);
+		return $row['name'];
+	}
+	
 	/**
 	 * Get the a specific user based on the email
 	 * @param $email | String | A valid email address
@@ -247,11 +274,11 @@ class DBConfig {
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
 							WHERE 	
-							e.email = '" . mysql_real_escape_string($email) . "'
-							OR e.email2 = '" . mysql_real_escape_string($email) . "' 
+							e.email = '" . mysql_real_escape_string($email) . "'";
+							/*OR e.email2 = '" . mysql_real_escape_string($email) . "' 
 							OR e.email3 = '" . mysql_real_escape_string($email) . "' 
 							OR e.email4 = '" . mysql_real_escape_string($email) . "' 
-							OR e.email5 = '" . mysql_real_escape_string($email) . "'";
+							OR e.email5 = '" . mysql_real_escape_string($email) . "'";*/
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -262,12 +289,12 @@ class DBConfig {
 		$GET_USER_EMAIL = "	SELECT	* 
 							FROM 	ef_users e 
 							WHERE 	
-							e.email = '" . mysql_real_escape_string($email) . "'
-							OR e.email2 = '" . mysql_real_escape_string($email) . "' 
+							e.email = '" . mysql_real_escape_string($email) . "' AND password IS NULL";
+							/*OR e.email2 = '" . mysql_real_escape_string($email) . "' 
 							OR e.email3 = '" . mysql_real_escape_string($email) . "' 
 							OR e.email4 = '" . mysql_real_escape_string($email) . "' 
 							OR e.email5 = '" . mysql_real_escape_string($email) . "' 
-							AND password IS NULL";
+							AND password IS NULL";*/
 		if ($this->getRowNum($GET_USER_EMAIL) == 0) {
 			return false;
 		}
@@ -322,16 +349,6 @@ class DBConfig {
 	}
 	
 	/**
-	 * If this is numeric, return the value, otherwise use ZERO
-	 */
-	private function checkZeroOrValSql($val) {
-		if (is_numeric($val)) {
-			return $val;
-		}
-		return 0;
-	}
-	
-	/**
 	 * Update user
 	 */
 	private function updateUser($fname, $lname, $phone, $pass, $zip, $fbid, $access_token, $session_key, $email) {
@@ -361,11 +378,11 @@ class DBConfig {
 								fb_session_key = ".$this->checkNullOrValSql($session_key).",
 								url_alias = HEX(".USER_ALIAS_OFFSET." + id)
 								".$emailPredicate." 
-						WHERE email = '" . mysql_real_escape_string($email) . "' 
-						OR email2 = '" . mysql_real_escape_string($email) . "' 
+						WHERE email = '" . mysql_real_escape_string($email) . "'"; 
+						/*OR email2 = '" . mysql_real_escape_string($email) . "' 
 						OR email3 = '" . mysql_real_escape_string($email) . "' 
 						OR email4 = '" . mysql_real_escape_string($email) . "' 
-						OR email5 = '" . mysql_real_escape_string($email) . "'";
+						OR email5 = '" . mysql_real_escape_string($email) . "'";*/
 	
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
@@ -500,11 +517,11 @@ class DBConfig {
 										fb_session_key = ".$this->checkNullOrValSql($session_key).",
 										url_alias = HEX(".USER_ALIAS_OFFSET." + id) 
 								WHERE	
-								email = '" . mysql_real_escape_string($email) . "'
-								OR email2 = '" . mysql_real_escape_string($email) . "'
+								email = '" . mysql_real_escape_string($email) . "'";
+								/*OR email2 = '" . mysql_real_escape_string($email) . "'
 								OR email3 = '" . mysql_real_escape_string($email) . "'
 								OR email4 = '" . mysql_real_escape_string($email) . "'
-								OR email5 = '" . mysql_real_escape_string($email) . "'";
+								OR email5 = '" . mysql_real_escape_string($email) . "'";*/
 								
 			// setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 			// The user must have already registered
@@ -577,6 +594,12 @@ class DBConfig {
 		return $dateElem[1]."/".$dateElem[2]."/".$dateElem[0];
 	}
 	
+	public function addEventImage($event_id, $imageURL)
+	{
+		$UPDATE_EVENT = "UPDATE ef_events SET image='".mysql_real_escape_string($imageURL)."' WHERE id='".mysql_real_escape_string($event_id)."'";
+		$this->executeUpdateQuery($UPDATE_EVENT);
+	}
+	
 	public function createNewEvent($newEvent) {
 		$datetime = $this->dateToSql($newEvent->date) . " " . $newEvent->time;
 		if ( strlen($newEvent->end_date) != 0 && strlen($newEvent->end_time) != 0 ) {
@@ -626,13 +649,12 @@ class DBConfig {
 						'" . mysql_real_escape_string($newEvent->description) . "',	
 						" . mysql_real_escape_string($newEvent->is_public) . ",
 						" . mysql_real_escape_string($newEvent->type) . ",
-						" . $this->checkZeroOrValSql($newEvent->location_lat) . ",
-						" . $this->checkZeroOrValSql($newEvent->location_long) . ",
+						" . mysql_real_escape_string($newEvent->location_lat) . ",
+						" . mysql_real_escape_string($newEvent->location_long) . ",
 						" . $this->checkNullOrValSql($twitter) . ",
 						'" .dechex(EVENT_ALIAS_OFFSET + $nextEventId). "',
 						'" .md5(EVENT_REF_PREFIX.$nextEventId). "'
 			)";
-		
 		$this->executeUpdateQuery($CREATE_NEW_EVENT);
 	}
 	

@@ -124,7 +124,7 @@
 			</header>{/if}
 
 			<div class="form" id="event_create">
-				<form method="post" action="{$CURHOST}/event/create/guests">
+				<form method="post" action="{$CURHOST}/event/create/invite">
 					<fieldset>
 						<legend>Create Event</legend> 
 						<dl>

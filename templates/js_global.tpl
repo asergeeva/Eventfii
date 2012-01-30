@@ -1,6 +1,6 @@
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="https://platform.twitter.com/anywhere.js?id={$TWITTER_API}&amp;v=1"></script>
-<script type="text/javascript" src="{$JS_PATH}/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery-ui-1.8.11.custom.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.tools.min.js"></script>
 <script type="text/javascript" src="{$JS_PATH}/jquery.validate.pack.js"></script>
@@ -30,6 +30,42 @@ $(document).ready(function() {
 	$('#contactable').contactable({
 		subject: 'feedback URL:'+location.href
 	});
+	$(".dropdown dt a").click(function() {
+	
+	// Change the behaviour of onclick states for links within the menu.
+	var toggleId = "#" + this.id.replace(/^link/,"ul");
+	
+	// Hides all other menus depending on JQuery id assigned to them
+	$(".dropdown dd ul").not(toggleId).hide();
+	
+	//Only toggles the menu we want since the menu could be showing and we want to hide it.
+	$(toggleId).toggle();
+	
+	//Change the css class on the menu header to show the selected class.
+	if($(toggleId).css("display") == "none"){
+	$(this).removeClass("selected");
+	}else{
+	$(this).addClass("selected");
+	}
+	
+	});
+	
+	$(".dropdown dd ul li a").click(function() {
+	
+	// This is the default behaviour for all links within the menus
+	var text = $(this).html();
+	$(".dropdown dt a span").html(text);
+	$(".dropdown dd ul").hide();
+	});
+	
+	$(document).bind('click', function(e) {
+	
+	// Lets hide the menu when the page is clicked anywhere but the menu.
+	var $clicked = $(e.target);
+	if (! $clicked.parents().hasClass("dropdown")){
+	$(".dropdown dd ul").hide();
+	$(".dropdown dt a").removeClass("selected");
+	}});
 });
 {/literal}
 </script>

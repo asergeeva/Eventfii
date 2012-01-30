@@ -5,6 +5,7 @@
  * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
+ini_set( "display_errors", 0);
 require_once(realpath(dirname(__FILE__)).'/baseconfig.php');
 require_once(realpath(dirname(__FILE__)).'/libs/Smarty.class.php');
 

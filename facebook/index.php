@@ -10,6 +10,8 @@ require_once(realpath(dirname(__FILE__)).'/../models/EFCommon.class.php');
 
 require_once(realpath(dirname(__FILE__)).'/../controller/FBController.class.php');
 
+ini_set( "display_errors", 0);
+
 if (isset($_GET['code'])){
 	header("Location: ".FB_BASE_URL."?request_ids=".$_GET['request_ids']);
 	exit;

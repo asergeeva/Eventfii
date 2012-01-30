@@ -97,7 +97,7 @@ class openinviter
 			}
 		elseif (!is_readable($db_file)) { $this->internalError="Unable to open stats database. {$db_file} is not readable.";return false; }
 		elseif (!is_writable($db_file)) { $this->internalError="Unable to write stats. {$db_file} is not writable";return false; }
-		elseif (!$this->statsOpenDB()) { $this->internalError="Unable to open the stats database.";return false; }
+		elseif (!$this->statsOpenDB()) { $this->internalError="Unable to open the stats database.".$this->basePath;return false; }
 		return true;
 		}
 	

@@ -16,13 +16,11 @@ html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, address, dfn, em, i
 aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
-html { height: 100% }
 body {
 	background: #f7f7f7 url(../images/header_bg.gif) 0 0 repeat-x;
 	font: 11px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #666;
-	font-size: 11px;
-	height: 100%; }
+	font-size: 11px; }
 a { 
 	color: #3399cc;
 	text-decoration: none;
@@ -43,7 +41,7 @@ fieldset legend {
 	color: #404040;
 	font-weight: bold; 
 	font-size: 18px;
-	padding: 0 0 9px;
+	padding: 15px 0 9px;
 	width: 100%;
 	border-bottom: 1px solid #ccc;
 	display: block; }
@@ -731,7 +729,7 @@ header#page-header {
 	color: #fff;
 	width: 900px;
 	height: 49px;
-	margin: 0 auto 50px; }
+	margin: 0 auto; }
 
 /*----- Logo ----------*/
 #logo { float: left; }
@@ -756,7 +754,8 @@ header#page-header {
 	float: right;
 	text-align: right;
 	padding: 12px 0 0;
-	overflow: auto; }
+	/* overflow: auto; */
+	min-width:350px; }
 #page-header nav { 
 	padding: 0 4px 0 0;
 	vertical-align: middle;
@@ -769,9 +768,7 @@ header#page-header {
 /* Primary Sections
  -------------------------*/
 #container {
-	width: 820px;
-	min-height: 100%;
-	margin: 0 auto -50px; }
+	width: 900px;margin: 50px auto 70px; display:block; }
 	
 /*----- Main Content ----------*/
 #main {
@@ -912,10 +909,9 @@ header#page-header {
 #event .user-info .user-name { font-size: 11px; }
 #event .user-info .user-contact { font-size: 10px; }
 
-/*----- RSVP Options ----------*/
+/*----- RSVP Options 	height: 320px; ----------*/
 #rsvp { 
 	text-align: center;
-	height: 320px;
 	width: 215px;
 	margin: 11px 24px 0;
 	float: left; }
@@ -1044,12 +1040,12 @@ ol.rsvp-list li label span {
 	margin: 0;
 	padding: 0;
 	overflow: hidden; }
-.thumbs li {
-	float: left;
-	width: 73px;
-	height: 80px;
-	margin: 5px 10px;
-	overflow: hidden; }
+.thumbs li{
+	float:left;
+	width:73px;
+	height:93px;
+	margin:5px 10px;
+	overflow:hidden; }
 .thumbs li a { display: block; }
 .thumbs li a:hover figcaption { text-decoration: underline; }
 .thumbs li figure span {
@@ -1064,6 +1060,7 @@ ol.rsvp-list li label span {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	border: 1px solid #999; }
+.thumbs li figure figcaption{padding:2px 0 0; color:#666666; font-size:12px; font-weight: bold;}
 
 /*----- Event Location ----------*/
 #event-location address { 
@@ -1520,6 +1517,7 @@ ol.rsvp-list li label span {
 	margin: 0 auto 2px; }
 .steps.step-2 { background-position: 0 -50px; }
 .steps.step-3 { background-position: 0 -100px; }
+.steps.step-4 { background-position: 0 -150px; }
 .steps li { text-indent: -10000px; }
 
 
@@ -1730,7 +1728,6 @@ footer#site-map {
 	background: url(../images/footer_bg.gif) 0 0 repeat-x;
 	color: #fff;
 	height: 125px; /* 158 - 33 */
-	margin: 70px 0 0;
 	padding: 33px 0 0;
 	clear: both; }
 #site-map ul { 
@@ -1757,3 +1754,29 @@ footer#site-map {
 	margin: 0;
 	padding: 0 3px 3px 0;
 	display: block; }
+.overview img
+{
+	cursor:pointer;
+}
+ul.left li span:hover
+{
+	cursor:pointer;
+}
+
+.align_lft{text-align: left;}
+.align_lft figure{text-align: left;}
+
+#container_iso a
+{
+	height:150px;
+	width: 150px;
+	display:block;
+	float:left;
+	overflow:hidden;
+	margin:5px 0px 0px 5px;
+}
+#container_iso img
+{
+	min-width: 150px;
+	min-height: 150px;	
+}
