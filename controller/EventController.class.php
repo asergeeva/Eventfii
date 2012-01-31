@@ -89,7 +89,7 @@ class EventController extends PanelController {
 		if(isset($_SESSION['user']))
 			EFCommon::$smarty->assign( 'userid', json_encode(array('uid'=>$_SESSION['user']->id,'eid'=>$eventId)) );
 		else
-			EFCommon::$smarty->assign( 'userid', json_encode(array('uid'=>0)) );
+			EFCommon::$smarty->assign( 'userid', json_encode(array('uid'=>0,'eid'=>$eventId)) );
 		EFCommon::$smarty->assign('event_image', $this->getEventImage($eventId));
 		EFCommon::$smarty->display('event.tpl');
 	}

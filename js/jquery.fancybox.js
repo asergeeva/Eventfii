@@ -24,6 +24,7 @@
 
 		defaults: {
 			padding: 15,
+			padding_2: 50,
 			margin: 20,
 
 			width: 800,
@@ -701,7 +702,7 @@
 
 			//Build the neccessary markup
 			F.wrap = $(F.current.tpl.wrap).addClass('fancybox-tmp ' + F.current.wrapCSS).appendTo('body');
-			F.outer = $('.fancybox-outer', F.wrap).css('padding', F.current.padding + 'px');
+			F.outer = $('.fancybox-outer', F.wrap).css('padding', F.current.padding + 'px '+F.current.padding_2 + 'px ');
 			F.inner = $('.fancybox-inner', F.wrap);
 
 			F._setContent();
@@ -785,7 +786,7 @@
 				current = F.current,
 				viewport = F.getViewport(),
 				margin = current.margin,
-				padding2 = current.padding * 2,
+				padding2 = current.padding_2 * 2,
 				width = current.width + padding2,
 				height = current.height + padding2,
 				ratio = current.width / current.height,

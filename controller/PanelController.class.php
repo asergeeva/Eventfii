@@ -31,16 +31,51 @@ class PanelController {
 	{
 		return EFCommon::$dbCon->getAllEventImages($eid);
 	}
+	private function getAllEventImagesByUser($eid, $uid)
+	{
+		return EFCommon::$dbCon->getAllEventImages($eid, $uid);
+	}
 	private function getUsersByImages($eid)
 	{
-		$users_dropdown = "<select id='users_dropdown' name='users_dropdown' onchange=''><option value='0'>Select</option>";
+		$users_dropdown = '<ul>';
+		$users_dropdown .= '<li>Time taken</li>';
+		$users_dropdown .= '<li>Date added</li>';
+		$users_dropdown .= '<li class="txt_gray">All photos taken by:</li>';
+		$users_dropdown .= '<li class="expand">';
+		$users_dropdown .= '<ul>';
 		$user_ids = EFCommon::$dbCon->getUsersByImages($eid);
 		foreach($user_ids as $user_id)
 		{
 			$name = EFCommon::$dbCon->getUserNameById($user_id['owner_id']);
-			$users_dropdown .= '<option value="'.$user_id['owner_id'].'">'.$name.'</option>';
+			$users_dropdown .= '<li onclick="changeImagesView('.$user_id['owner_id'].', \''.$name.'\')">'.$name.'</li>';
 		}
-		$users_dropdown .= '</select>';
+		$users_dropdown .= '</ul>';
+		$users_dropdown .= '</li>';
+		$users_dropdown .= '</ul>';
+		return $users_dropdown;
+	}
+	private function getUsersByImagesSelected($eid, $uid)
+	{
+		$users_dropdown = '<ul>';
+		$users_dropdown .= '<li>Time taken</li>';
+		$users_dropdown .= '<li>Date added</li>';
+		$users_dropdown .= '<li class="txt_gray">All photos taken by:</li>';
+		$users_dropdown .= '<li class="expand">';
+		$users_dropdown .= '<ul>';
+		$user_ids = EFCommon::$dbCon->getUsersByImages($eid);
+		foreach($user_ids as $user_id)
+		{
+			$selected = '';
+			$name = EFCommon::$dbCon->getUserNameById($user_id['owner_id']);
+			if($user_id['owner_id'] == $uid)
+			{
+				$selected = " class='selected'";	
+			}
+			$users_dropdown .= '<li onclick="changeImagesView('.$user_id['owner_id'].', \''.$name.'\')" '.$selected.'>'.$name.'</li>';
+		}
+		$users_dropdown .= '</ul>';
+		$users_dropdown .= '</li>';
+		$users_dropdown .= '</ul>';
 		return $users_dropdown;
 	}
 	private function get_file_extension($file_name)
@@ -251,9 +286,64 @@ class PanelController {
 					{
 						$slideshow = CURHOST.'/eventimages/'.$image['image'];
 					}
-					$html .= '<a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
+					$name = EFCommon::$dbCon->getUserNameById($image['owner_id']);
+					$html .= '<span><a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
+					$html .= '<div class="show_links"></div>';
+                    $html .= '<div class="show_links_up lnk_blu">';
+                    $html .= '<div class="fl" style="max-width:80px;">by '.$name.'<a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
+                    $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" style="display:inline-block !important ;" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+					if(isset($_SESSION['user']))
+					{
+						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
+					}
+					$html .= '</div>';
+                    $html .= '</div>';
+					$html .= '</span>';
 				}
 				echo json_encode(array('html'=>$html, 'slideshow'=>$slideshow, 'count_images'=>$count_images, 'users_dropdown'=>$users_dropdown));
+				break;
+			case '/event/reloadImagesByUser':
+				$allImages = $this->getAllEventImagesByUser($_POST['eid'], $_POST['uid']);
+				$users_dropdown = $this->getUsersByImagesSelected($_POST['eid'], $_POST['uid']);
+				$html = '';
+				$slideshow = '';
+				$count_images = 0;
+				foreach($allImages as $image)
+				{
+					$count_images++;
+					if($slideshow == '')
+					{
+						$slideshow = CURHOST.'/eventimages/'.$image['image'];
+					}
+					$name = EFCommon::$dbCon->getUserNameById($image['owner_id']);
+					$html .= '<span><a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
+					$html .= '<div class="show_links"></div>';
+                    $html .= '<div class="show_links_up lnk_blu">';
+                    $html .= '<div class="fl" style="max-width:80px;">by '.$name.'<a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
+                    $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+					if(isset($_SESSION['user']))
+					{
+						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
+					}
+					$html .= '</div>';
+                    $html .= '</div>';
+					$html .= '</span>';
+				}
+				echo json_encode(array('html'=>$html, 'slideshow'=>$slideshow, 'count_images'=>$count_images, 'users_dropdown'=>$users_dropdown));
+				break;
+			case '/event/getJsonArray':
+				echo json_encode(array('val'=>$_POST));
+				break;
+			case '/event/imageDownload/':
+					$file = CURHOST.'/eventimages/'.$_GET['file'];
+					header('Content-Description: File Transfer');
+					header("Content-type: image/jpg");
+					header("Content-disposition: attachment; filename= ".$_GET['file']."");
+					readfile($file);
+				break;
+			case '/event/delImage/':
+				 EFCommon::$dbCon->delImage($_POST['delId']);
+				 echo '1';
 				break;
 			case '/demo':
 				header("Location: ".EVENT_URL."/a/1af");

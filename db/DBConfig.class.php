@@ -207,10 +207,23 @@ class DBConfig {
 		$this->executeInsert($IMAGES);
 	}
 	/*Select all event images*/
-	public function getAllEventImages($eid)
+	public function getAllEventImages($eid, $uid=0)
 	{
-		$GET_IMAGES = "SELECT image FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'";
+		$where = '';
+		if($uid != 0)
+		{
+			$where = " AND owner_id='".mysql_real_escape_string($uid)."'";
+		}
+		$GET_IMAGES = "SELECT id, image, owner_id FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'".$where;
 		return $this->getQueryResultAssoc($GET_IMAGES);
+	}
+	public function delImage($delId)
+	{
+		//$SQL = "SELECT image FROM ef_event_images WHERE id='".mysql_real_escape_string($delId)."'";
+		//$row = $this->executeValidQuery($SQL);
+		//unlink();
+		$SQL = "DELETE FROM ef_event_images WHERE id='".mysql_real_escape_string($delId)."'";
+		$this->executeUpdateQuery($SQL);
 	}
 	public function getUsersByImages($eid)
 	{

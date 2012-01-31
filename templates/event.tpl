@@ -26,25 +26,38 @@
     <div style="clear:both"></div>
         {/if}
         <div style="width: 900px; margin: 20px auto;">
-            <section class="block" style="display:block;">
-                <div class="viewby_top">
-                	{if isset($smarty.session.user)}
-                		<div style="float:right;"><form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form></div>
-                    {else}
-                    	<a href="javascript:void(0);" class="btn btn-manage fr" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>
-                    {/if}
-                </div>
+            <section class="block clearfix" style="display:block; overflow:visible;">
+            	<center>
+                    <table cellpadding="0" cellspacing="0" style="width:auto">
+                    <tr>
+                        <td align="center">
+                            <div class="viewby_top">
+                        		<img src="{$CURHOST}/images/share_photo_txt.png" alt="Photo" style="vertical-align: -11px; float:left;" /> &nbsp; <span style="font-size:16px; float:left; padding:0 10px;">Share your photos from <strong>{$event->title}!</strong></span> &nbsp; 
+                        
+                            {if isset($smarty.session.user)}
+                                <div style=" float:left; margin-top:5px; "><form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form></div>
+                            {else}
+                                <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>    
+                            {/if}
+                    </div>
+                        </td>
+                    </tr>
+                    </table>
+                </center>
                 <div class="viewby_img">
-                    <!--<div class="title">Viewing all by Scott Sangster</div>-->
                     <div id="container_isolate">
+                    	<div class="title" id="viewBy">Viewing all by <span id="viewByName"></span></div>
                     	<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
                         <div class="viewport">
-                        	<div class="overview" id="container_iso"></div>
+                        	<div class="overview" id="container_iso"></div>                            
                         </div>
                     </div>
                 </div>
                 <div class="viewby_bot">
-                    <div class="bl">Sort by: <span id="sort_by"></span> <a href="javascript:void(0);">Back to All Photo</a> </div>
+                    <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
+                    <div class="dd_box" style="display:none;">
+                    </div>
+                    <a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a> </div>
                     <div class="br">View: <a href="javascript:void(0);" onClick="openFaceBox();" id="slideshow">Slideshow</a></div>
                 </div>
             </section>
@@ -204,13 +217,13 @@
 </article>
 <div id="dialog"></div>
 <input type="hidden" id="count_images" value="0" name="count_images" />
-<input type="text" name="by_user_id" id="by_user_id" value='' />
 {include file="footer.tpl"}
 {include file="popup_login.tpl"}
 {include file="popup_seeall.tpl"}
 {include file="popup_rsvp_multiple.tpl"}
 
 {include file="js_global.tpl"}
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 {include file="js_event.tpl"}
 <!-- Add fancyBox main JS and CSS files -->
@@ -245,12 +258,12 @@ $(document).ready(function() {
 	'onComplete'  : function(event, ID, fileObj, response, data) {
 		queSize--;
 		uploaded++;
-		$("#upload-complete").fadeIn(500);
-		$("#upload-total").html(totalQueued);
-		$("#upload-completed").html(uploaded);
     },
 	'onAllComplete' : function(event,data) {
-		//$("#upload-progress").fadeOut(500);
+		$("#upload-progress").fadeOut(500);
+		$("#upload-complete").fadeIn(500);
+		$("#upload-total-complete").html(totalQueued);
+		$("#upload-completed-complete").html(totalQueued);
 		reloadImages({$userid});
 		totalQueued = 0;
 		uploaded = 1;
@@ -266,7 +279,18 @@ $(document).ready(function() {
     },
 	'onError': function(event,ID,fileObj, d)
 	{
-		$("#upload-error").fadeIn(500);
+		/*$("#upload-progress").fadeOut(500);
+		$("#upload-complete").fadeOut(500);*/
+		if(d.info == 500)
+		{
+			$("#upload-error-new").fadeIn(500);	
+		}else
+		{
+			$("#upload-error").fadeIn(500);
+		}
+		totalQueued = 0;
+		uploaded = 1;
+		queSize = 50;
 		//alert("Error: "+d.type+"      Info: "+d.info);
 	}
 	
@@ -277,8 +301,14 @@ function startUpload()
 {
 	$('#file').uploadifyUpload();	
 }
+function reloadImagesAll()
+{
+	reloadImages({$userid});	
+}
 function reloadImages(data)
 {
+	$("#viewBy").hide();
+	$("#sort_by").html('All');
 	$.ajax({
 		type: 'POST',
 		data: data,
@@ -288,7 +318,35 @@ function reloadImages(data)
 		success: function(response)
 		{
 			$("#container_iso").html(response.html);
-			$("#sort_by").html(response.users_dropdown);
+			$(".dd_box").html(response.users_dropdown);
+			$("#count_images").val(response.count_images);
+			bindfancyBox();
+			t = setInterval("bindScrollBar()", 1000);
+		}
+	});
+}
+function reloadImagesByUser(data, uid, name)
+{
+	if(uid == 0)
+	{
+		$("#viewBy").hide();
+	}else
+	{
+		$("#viewBy").show();
+		$("#viewByName").html(name);
+		$("#sort_by").html(name);
+	}
+	$.ajax({
+		type: 'POST',
+		data: data,
+		url : '{$CURHOST}/event/reloadImagesByUser',
+		cache: false,
+		dataType: 'json',
+		success: function(response)
+		{
+			$("#container_iso").html(response.html);
+			$(".dd_box").html(response.users_dropdown);
+			$(".dd_box").hide();
 			$("#count_images").val(response.count_images);
 			bindfancyBox();
 			t = setInterval("bindScrollBar()", 1000);
@@ -299,7 +357,6 @@ function loadImagesByUser(uid)
 {
 	
 }
-reloadImages({$userid});
 function bindfancyBox()
 {
 	$('.fancybox-buttons').fancybox({
@@ -328,6 +385,51 @@ function bindScrollBar()
 	$('#container_isolate').tinyscrollbar();
 	clearInterval(t);	
 }
+function changeImagesView(uid, name)
+{
+	var data = "uid="+uid+"&eid={$event->eid}";
+	$.ajax({
+		type: 'POST',
+		url: '{$CURHOST}/event/getJsonArray',
+		data: data,
+		cache: false,
+		dataType: 'json',
+		success: function(response)
+		{
+			reloadImagesByUser(response.val, uid, name);
+		}
+	});
+}
+function deletePhoto(delId)
+{
+	$("#delete-image").fadeIn(500);
+	$("#delImageId").val(delId);
+}
+function delImage()
+{
+	var delId = $("#delImageId").val();
+	$.ajax({
+		type: 'POST',
+		url: '{$CURHOST}/event/delImage/',
+		data: 'delId='+delId,
+		cache: false,
+		success: function(response)
+		{
+			if(response)
+			{
+				$("#delete-image").fadeOut(500);
+				$("#delImageId").val('');
+				reloadImages({$userid});
+			}	
+		}
+	});
+}
+$(document).ready(function(){
+	$("#sort_by").hover(function(){
+		$('.dd_box').show();	
+	});
+});
+reloadImages({$userid});
 </script>
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>

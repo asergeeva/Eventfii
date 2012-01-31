@@ -25,8 +25,20 @@ var EFGLOBAL = (function() {
 		fbGraph: '{/literal}{$FB_GRAPH_URL}{literal}'
 	}
 }());
+function postToFeed(ILink) {
+	var obj = {
+	  method: 'feed',
+	  link: ILink,
+	  picture: ILINK,
+	  name: 'TrueRSVP Share image on Facebook',
+	  caption: 'TrueRSVP Share image on Facebook',
+	  description: 'TrueRSVP Share image on Facebook'
+	};
+	FB.ui(obj);
+}
 
 $(document).ready(function() {
+	FB.init({appId: "{$FB_APP_ID}", status: true, cookie: true});
 	$('#contactable').contactable({
 		subject: 'feedback URL:'+location.href
 	});
