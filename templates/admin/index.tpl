@@ -3,12 +3,20 @@
 
 {include file="admin/header.tpl"}
 <div id="container">
+	<header id="header">
+        <nav style="float:left;">
+            <ul>
+                <li class="{if !isset($smarty.get.option)}current{/if}"><a href="{$CURHOST}/admin"><span>Administration</span></a></li>
+                <li class="{if isset($smarty.get.option) && $smarty.get.option eq 'manageStock'}current{/if}"><a href="{$CURHOST}/admin?option=manageStock" id="update_event_edit"><span>Manage Stock</span></a></li>
+                <li class="{if isset($smarty.get.option) && $smarty.get.option eq 'stock' || $smarty.get.option eq 'viewstock' || $smarty.get.option eq 'addstock'}current{/if}"><a href="{$CURHOST}/admin?option=stock" id="update_event_edit"><span>Manage Stock Photos</span></a></li>
+            </ul>
+        </nav>
+    </header>
+    <div style="clear:both;"></div>
 	<section id="main">
     	{if !isset($smarty.get.option)}
             <div class="content" style="overflow-y:scroll;width:100%">
                 <section class="block">
-                    <h1 style="font-size:24px;"><a href="{$CURHOST}/admin">Administration</a></h1>
-                    <h1 style="font-size:24px;"><a href="{$CURHOST}/admin?option=stock">Stock Photos</a></h1>
                     <table id="aggregation_stats">
                         <tr><th># of events:</th><td>{$num_events}</td></tr>
                         <tr><th># of users:</th><td>{$num_users}</td></tr>
@@ -44,10 +52,68 @@
                     </table>
                 </section>
             </div>
+        {elseif isset($smarty.get.option) && !isset($smarty.get.type) && $smarty.get.option eq 'manageStock'}
+        	<div class="content" style="overflow-y:scroll;width:100%">
+                <section class="block">
+                	<h1 style="font-size:24px;"><a href="{$CURHOST}/admin?option=manageStock&type=add">Add Stock</a></h1>
+                    <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
+                    <table id="events_stats_container" style="width:100%; text-align:center">
+                    <tr>
+                        <th>{counter start=0 skip=1}</th>
+                        <th>Stock name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {foreach $stock as $single_stock}
+                    <tr>
+                    	<td>{counter}</td>
+                        <td>{$single_stock['name']}</td>
+                        <td><a href="{$CURHOST}/admin/?option=manageStock&type=edit&stockId={$single_stock['id']}">Edit</a></td>
+                        <td><a href="{$CURHOST}/admin/?option=manageStock&type=del&stockId={$single_stock['id']}">Delete</a></td>
+                    </tr>
+                    {/foreach}
+                    </table>
+                </section>
+            </div>
+        {elseif isset($smarty.get.option) && isset($smarty.get.type) && $smarty.get.option eq 'manageStock' && $smarty.get.type eq 'add'}
+        	<div class="content" style="overflow-y:scroll;width:100%">
+                <section class="block">
+                	<h1 style="font-size:24px;">Add Stock</h1>
+                    <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
+                    <form enctype="multipart/form-data" method="post">
+                        <table id="events_stats_container" style="width:100%; text-align:center">
+                        <tr>
+                            <td>Stock Name</td>
+                            <td align="left"><input type="text" name="stock_name" id="stock_name" /></td>
+                        </tr>
+                        <tr>
+                        	<td colspan="2" align="left"><input type="submit" name="submit" id="" value="Save" /></td>
+                        </tr>
+                        </table>
+                    </form>
+                </section>
+            </div>
+        {elseif isset($smarty.get.option) && isset($smarty.get.type) && $smarty.get.option eq 'manageStock' && $smarty.get.type eq 'edit' && isset($smarty.get.stockId)}
+        	<div class="content" style="overflow-y:scroll;width:100%">
+                <section class="block">
+                	<h1 style="font-size:24px;">Edit Stock</h1>
+                    <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
+                    <form enctype="multipart/form-data" method="post">
+                        <table id="events_stats_container" style="width:100%; text-align:center">
+                        <tr>
+                            <td>Stock Name</td>
+                            <td align="left"><input type="text" name="stock_name" id="stock_name" value="{$stockName}" /></td>
+                        </tr>
+                        <tr>
+                        	<td colspan="2" align="left"><input type="submit" name="submit" id="" value="Save" /></td>
+                        </tr>
+                        </table>
+                    </form>
+                </section>
+            </div>
 		{elseif isset($smarty.get.option) && $smarty.get.option eq 'stock'}
         	<div class="content" style="overflow-y:scroll;width:100%">
                 <section class="block">
-                    <h1 style="font-size:24px;"><a href="{$CURHOST}/admin">Administration</a></h1>
                     <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
                     <table id="events_stats_container" style="width:100%; text-align:center">
                     <tr>
@@ -72,7 +138,6 @@
         {elseif isset($smarty.get.option) && $smarty.get.option eq 'viewstock'}
         	<div class="content" style="overflow-y:scroll;width:100%">
             	<section class="block">
-                	<h1 style="font-size:24px;"><a href="{$CURHOST}/admin?option=stock">Stock Photos</a></h1>
                     <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
                     <div id="content_zoom">
                     <table id="events_stats_container" style="width:100%; text-align:center">
@@ -102,7 +167,6 @@
         {elseif isset($smarty.get.option) && $smarty.get.option eq 'addstock'}
         	<div class="content" style="overflow-y:scroll;width:100%">
             	<section class="block">
-                	<h1 style="font-size:24px;"><a href="{$CURHOST}/admin?option=stock">Stock Photos</a></h1>
                     <span>{if isset($smarty.get.error)}{$smarty.get.error}{/if}</span>
                     <form enctype="multipart/form-data" method="post">
                         <table id="events_stats_container" style="width:100%; text-align:center">

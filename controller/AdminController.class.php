@@ -31,6 +31,16 @@ class AdminController {
 		EFCommon::$smarty->assign('stock', $stockList);
 		EFCommon::$smarty->assign('stockCount', $stockPhotosCount);
 	}
+	private function showStockList()
+	{
+		$stockList = $this->dbCon->admin_getStockList();
+		EFCommon::$smarty->assign('stock', $stockList);
+	}
+	private function getStockById($sid)
+	{
+		$stockName = $this->dbCon->admin_getStockName($sid);
+		EFCommon::$smarty->assign('stockName', $stockName);
+	}
 	private function displayStockPhotos($stockId)
 	{
 		$stockPhotos = $this->dbCon->admin_getStockPhotos($stockId);
@@ -64,6 +74,18 @@ class AdminController {
 	private function delStockPhoto($delId)
 	{
 		$this->dbCon->admin_delStockPhoto($delId);
+	}
+	private function saveStock()
+	{
+		$this->dbCon->admin_saveStock($_POST['stock_name']);	
+	}
+	private function EditStock()
+	{
+		$this->dbCon->admin_editStock($_POST['stock_name'], $_GET['stockId']);
+	}
+	private function DeleteStock()
+	{
+		$this->dbCon->admin_delStock($_GET['stockId']);
 	}
 	private function uploadFile()
 	{
@@ -184,6 +206,29 @@ class AdminController {
 				{
 					$this->delStockPhoto($_GET['delId']);
 					header("Location:".CURHOST."/admin/?option=viewstock&stockId=".$_GET['stockId']."&error=Image deleted.");
+				}elseif(isset($_GET['option']) && $_GET['option'] == 'manageStock' && !isset($_GET['type']))
+				{
+					$this->showStockList();
+					EFCommon::$smarty->assign('error', "");
+				}elseif(isset($_GET['option']) && $_GET['option'] == 'manageStock' && isset($_GET['type']) && $_GET['type'] == 'add')
+				{
+					if(isset($_POST['submit']))
+					{
+						$this->saveStock();
+						header("Location:".CURHOST."/admin/?option=manageStock&error=Record saved successfully.");	
+					}
+				}elseif(isset($_GET['option']) && $_GET['option'] == 'manageStock' && isset($_GET['type']) && $_GET['type'] == 'edit' && isset($_GET['stockId']))
+				{
+					$this->getStockById($_GET['stockId']);
+					if(isset($_POST['submit']))
+					{
+						$this->EditStock();
+						header("Location:".CURHOST."/admin/?option=manageStock&error=Record updated successfully.");	
+					}
+				}elseif(isset($_GET['option']) && $_GET['option'] == 'manageStock' && isset($_GET['type']) && $_GET['type'] == 'del' && isset($_GET['stockId']))
+				{
+					$this->DeleteStock();
+					header("Location:".CURHOST."/admin/?option=manageStock&error=Record deleted successfully.");
 				}
 				EFCommon::$smarty->display('admin/index.tpl');
 				break;

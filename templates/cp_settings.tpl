@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	{include file="cp_header.tpl"}
 	<section id="main">{if isset($notification)}

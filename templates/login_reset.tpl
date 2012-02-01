@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 
 <body>
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	<div id="login_container">
     <h3>Reset Password</h3>

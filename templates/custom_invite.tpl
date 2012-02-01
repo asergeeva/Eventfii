@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return launchEditor("image1", "{$CURHOST}/upload/events/"+response);
     },
 	'onAllComplete' : function(event,data) {
-		$("#after_success").html('<strong>Satisfied with your invitation? </strong><a class="btn btn-small" href="javascript:void(0);" onclick="save_image();"><span>&nbsp; Go to step 4 &nbsp;</span></a>');
+		$("#after_success").html('<strong>Satisfied with your invitation? </strong><a class="btn btn-small" href="javascript:void(0);" onclick="save_image();"><span>&nbsp; Go to step 4 &nbsp;</span></a>&nbsp;<a style="margin-top:5px;" href="{$CURHOST}/event/create/guests" class="btn btn-manage"><span>&nbsp; Skip &nbsp;</span></a>');
     },
 	'onSelect': function(event,ID,fileObj) {
 		$('#loader').show();

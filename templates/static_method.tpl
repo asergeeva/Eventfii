@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div class="method" id="container">
 	<section>
 		<header>

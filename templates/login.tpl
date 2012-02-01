@@ -1,7 +1,7 @@
 {include file="head.tpl" title="Jumpstart your social life"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">{if isset($smarty.get.redirect)}
 	<header class="block error">
 		<p class="message">You must be logged in to access this page.</p>		

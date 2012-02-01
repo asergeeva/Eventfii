@@ -1,5 +1,4 @@
 {include file="head.tpl"}
-<link href="{$CURHOST}/css/menu.css" type="text/css" rel="stylesheet" />
     <body>
     {include file="new_header.tpl"}
 <article id="container">
@@ -26,7 +25,7 @@
     <div style="clear:both"></div>
         {/if}
         <div style="width: 900px; margin: 20px auto;">
-            <section class="block clearfix" style="display:block; overflow:visible;">
+            <section class="block clearfix" style=" display:block; padding-bottom:0px;overflow:visible;">
             	<center>
                     <table cellpadding="0" cellspacing="0" style="width:auto">
                     <tr>
@@ -53,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="viewby_bot">
+                <div class="viewby_bot clearfix ">
                     <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
                     <div class="dd_box" style="display:none;">
                     </div>
@@ -111,7 +110,7 @@
                     <div style="padding:0 15px;">
                     	<fieldset>
                         	<legend>Comments</legend>
-                            <div class="fb-comments" data-href="{$CURHOST}/event/{$event->eid}" data-num-posts="2" data-width="540px"></div>
+                            <div class="fb-comments" data-href="{$CURHOST}/event/{$event->eid}" data-num-posts="2" data-width="650px"></div>
                         </fieldset>
                     </div>
                     {/if}
@@ -203,12 +202,6 @@
                         	<p class="icons"><a href="{$CURHOST}/calendar/ics?eventId={$event->eid}" class="icon-ical" target="_blank">iCal</a> <a href="http://www.google.com/calendar/event?action=TEMPLATE&amp;text={$event->title}&amp;dates={if isset($event->end_date) && isset($event->end_time)}{$event->getCalDate($event->date, $event->time)}/{$event->getCalDate($event->end_date, $event->end_time)}{else}{$event->getCalDate($event->date, $event->time)}/{$event->getCalDate($event->date, $event->time)}{/if}&amp;details={$event->description}&amp;location={$event->address}&amp;trp=false&amp;sprop={$EVENT_URL}/{$event->eid}&amp;sprop={$event->description}" class="icon-gcal" target="_blank">Google Calendar</a> <a href="{$CURHOST}/calendar/vcs?eventId={$event->eid}" class="icon-outlook" target="_blank">Outlook</a></p>
                         </fieldset>
                     </div>
-                    <div>
-                    	<fieldset>
-                            <legend>Sponsors</legend>
-                            <div style="padding:10px; text-align:center;"><img src="{$CURHOST}/images/USC_image.gif" /></div>
-                        </fieldset>
-                    </div>
                     <div style="clear:both"></div>
                 </aside>
 
@@ -224,7 +217,6 @@
 
 {include file="js_global.tpl"}
 <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 {include file="js_event.tpl"}
 <!-- Add fancyBox main JS and CSS files -->
 <script type="text/javascript" src="{$JS_PATH}/jquery.fancybox.js"></script>
@@ -372,7 +364,12 @@ function bindfancyBox()
 			buttons	: {}
 		},
 		afterLoad : function() {
-			this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+			var index_to_show = (this.index + 1);
+			var href_download = str_replace("{$CURHOST}/eventimages/", "", this.href);
+			var title_to_show = '<div style="float:left; font-size:10px; max-width:80px; line-height:normal;">by '+$("#by_name_"+index_to_show).html()+'</div>';
+			title_to_show += '<div style="float:right; text-align:right; font-size:10px; line-height:normal">Share <a name="fb_share" type="icon" share_url="'+(this.href)+'"></a><br /><a href="{$CURHOST}/event/imageDownload/?file='+href_download+'">Download</a></div>';
+			this.title = title_to_show;
+			//this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
 		}
 	});
 }

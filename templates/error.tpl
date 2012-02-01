@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	<div class="page-error">
 		<h1>Uh oh! The page you requested does not exist.</h1>

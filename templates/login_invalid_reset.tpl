@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 
 <body>
 {include file="home_header.tpl"}

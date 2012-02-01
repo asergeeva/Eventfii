@@ -1,7 +1,6 @@
 {include file="head.tpl"}
 <body>
-
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">{if isset($isNewUser)}
 
 	<div class="block info-message">

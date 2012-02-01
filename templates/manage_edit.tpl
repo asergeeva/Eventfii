@@ -31,7 +31,7 @@
 		</div>
         {else}
         <div class="form">
-			<section class="block">
+			<section class="block" style="padding:0; padding-bottom:15px;">
 				<form method="post" action="{$CURHOST}/event/manage/edit?eventId={$smarty.session.manage_event->eid}">
 					{include file="block_edit_custom_invite.tpl"}
 				</form>
@@ -78,6 +78,7 @@ $(document).ready(function() {
 	'sizeLimit' : '8388608',
 	'onComplete'  : function(event, ID, fileObj, response, data) {
 		$('#loader').hide();
+		alert(response);
 		queSize--;
 		$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\'image1\', \'{$CURHOST}/upload/events/'+response+'\');"><img id="image1" src="{$CURHOST}/upload/events/'+response+'" alt="photo to edit" /></a>');
 		return launchEditor("image1", "{$CURHOST}/upload/events/"+response);

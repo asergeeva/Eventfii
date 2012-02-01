@@ -1,13 +1,13 @@
 <div id="fb-root"></div>
 <header id="page-header">
     <h1 id="logo"><a href="{$CURHOST}">trueRSVP</a></h1>
-    <aside>                
+    <aside>
         <p class="buttons buttons-create"><a class="btn btn-small" href="{$CURHOST}/event/create"><span>New Event</span></a></p>
         {if isset($smarty.session.user)}
             <span class="login_info">
             <span class="login_info_inr">
-                <span class="img_box"><img src="{$event->organizer->pic}" width="30" height="30" alt="" /></span>
-                <span class="user_name">{$event->organizer->fname} {$event->organizer->lname}</span>
+                <span class="img_box"><img src="{$smarty.session.user->pic}" width="30" height="30" alt="" /></span>
+                <span class="user_name">{$smarty.session.user->fname} {$smarty.session.user->lname}</span>
                 <div class="img_arow">
                     <dl style="" class="dropdown">
                        <dt>

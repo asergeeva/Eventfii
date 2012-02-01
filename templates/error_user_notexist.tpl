@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	<div class="error">
 		<h1>Sorry, the user you are trying to view does not exist.</h1>

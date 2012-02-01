@@ -46,6 +46,21 @@ class AdminDB extends DBConfig {
 		$image = $this->executeQuery($GET_IMAGE);
 		return $image['image'];
 	}
+	public function admin_saveStock($name)
+	{
+		$SQL_ADD = "INSERT INTO ef_stock SET name='".mysql_real_escape_string($name)."', created_at='".date('Y-m-d H:i:s')."'";
+		$this->executeUpdateQuery($SQL_ADD);
+	}
+	public function admin_editStock($name, $id)
+	{
+		$SQL_EDIT = "UPDATE ef_stock SET name='".mysql_real_escape_string($name)."' WHERE id=".$id;
+		$this->executeUpdateQuery($SQL_EDIT);
+	}
+	public function admin_delStock($id)
+	{
+		$SQL_DEL = "DELETE FROM ef_stock WHERE id=".$id;
+		$this->executeUpdateQuery($SQL_DEL);
+	}
 	public function admin_getStockList()
 	{
 		$GET_STOCK_LIST = "SELECT * FROM ef_stock";

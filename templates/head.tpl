@@ -27,4 +27,5 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<link rel="SHORTCUT ICON" href="{$CSS_PATH}/favicon.ico" />
+    <link href="{$CURHOST}/css/menu.css" type="text/css" rel="stylesheet" />
 </head>

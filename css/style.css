@@ -17,7 +17,7 @@ aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
 body {
-	background: #f7f7f7 url(../images/header_bg.gif) 0 0 repeat-x;
+	background: #ffffff url(../images/header_bg.gif) 0 0 repeat-x;
 	font: 11px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #666;
 	font-size: 11px; }
@@ -773,13 +773,13 @@ header#page-header {
 /*----- Main Content ----------*/
 #main {
 	background: #f8f8f8; /* url(../images/main_bg.gif); */
-	width: 820px;
+	width: 900px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	overflow: hidden; }
 #wrapper { 
-	width: 820px;
+	width: 900px;
 	overflow: hidden; }
 	
 /* Content Wrappers */

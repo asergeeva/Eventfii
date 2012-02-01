@@ -290,7 +290,7 @@ class PanelController {
 					$html .= '<span><a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
-                    $html .= '<div class="fl" style="max-width:80px;">by '.$name.'<a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
+                    $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
                     $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" style="display:inline-block !important ;" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
 					if(isset($_SESSION['user']))
 					{
@@ -319,7 +319,7 @@ class PanelController {
 					$html .= '<span><a href="'.CURHOST.'/eventimages/'.$image['image'].'" class="fancybox-buttons" data-fancybox-group="button"><img src="'.CURHOST.'/eventimages/thumbs/'.$image['image'].'" /></a>';
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
-                    $html .= '<div class="fl" style="max-width:80px;">by '.$name.'<a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
+                    $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
                     $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
 					if(isset($_SESSION['user']))
 					{

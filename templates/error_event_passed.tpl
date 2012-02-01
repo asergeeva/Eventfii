@@ -1,7 +1,7 @@
 {include file="head.tpl"}
 <body>
 
-{include file="header.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	<div class="page-error">
 		<h1>You can't add guests to an event that has already happened!</h1>

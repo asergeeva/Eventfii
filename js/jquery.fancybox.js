@@ -23,7 +23,7 @@
 		version: '2.0.4',
 
 		defaults: {
-			padding: 15,
+			padding: 50,
 			padding_2: 50,
 			margin: 20,
 
@@ -48,7 +48,7 @@
 			closeClick: false,
 			nextClick : false,
 			mouseWheel: true,
-			autoPlay: true,
+			autoPlay: false,
 			playSpeed: 3000,
 
 			modal: false,

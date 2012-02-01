@@ -188,9 +188,9 @@ h3.title{font-size:14px; line-height:19px;}
 #scrollbar1 .disable{display:none;}
 
 /*CSS For Big Scrollbar*/
-#container_isolate {width:794px; margin:0px 0 10px 36px;}
-#container_isolate .viewport { width: 784px; height:625px; overflow: hidden; position: relative; }
-#container_isolate .overview { list-style: none; position: absolute; left: 0; top: 0; }
+#container_isolate {width:794px; margin:0 auto 10px;}
+#container_isolate .viewport{width: 784px; /* height:625px; */ height:625px; overflow: hidden; position: relative; }
+#container_isolate .overview {list-style: none; position: absolute; left: 0; top: 0; }
 #container_isolate .thumb .end,
 #container_isolate .thumb { background-color: #cccccc; }
 #container_isolate .scrollbar { position: relative; float: right; width: 10px; }
@@ -278,9 +278,9 @@ h3.title{font-size:14px; line-height:19px;}
 
 .viewby_top{width: auto; margin: 0 auto; padding-left:38px; font-family: Arial,sans-serif; line-height: 35px; text-align: center; }
 .viewby_top strong{ font-weight: bold;}
-.viewby_img{min-height:640px; margin-top: 8px;}
+.viewby_img{/* min-height:640px; */ max-height:640px; margin-top: 8px;}
 .viewby_img .title{ line-height: 36px; background-color:#cccccc; color: #ffffff; font-size: 14px; margin-bottom: 5px; text-align: center;}
-.viewby_bot{ line-height: 20px;}
+.viewby_bot{line-height: 20px; padding-bottom: 15px;}
 .viewby_bot a{color:#3399cc}
 .viewby_bot .bl{float:left;}
 .viewby_bot .bl select{margin: 0 7px}

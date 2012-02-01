@@ -1,5 +1,4 @@
 <div style="width: 900px; margin: 0 auto; ">
-    <section class="block" style="width: 870px; margin:20px 0;">
         <div class="content_box">
                 <div class="upload_brow" id="after_success" align="center">
                 </div>
@@ -46,5 +45,4 @@
                 </div>
             </div>
         </div>
-    </section>
 </div>
