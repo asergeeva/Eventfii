@@ -17,10 +17,13 @@ aside, figcaption, figure, footer, header, nav, section { display: block; }
 ol, ul { list-style: none; }
 
 body {
-	background: #ffffff url(../images/header_bg.gif) 0 0 repeat-x;
+	background: #F7F7F7 url(../images/header_bg.gif) 0 0 repeat-x;
 	font: 11px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #666;
-	font-size: 11px; }
+	font-size: 11px;}
+body.whiteBg {
+	background: #ffffff url(../images/header_bg.gif) 0 0 repeat-x;
+}
 a { 
 	color: #3399cc;
 	text-decoration: none;
@@ -772,12 +775,14 @@ header#page-header {
 	
 /*----- Main Content ----------*/
 #main {
-	background: #f8f8f8; /* url(../images/main_bg.gif); */
+	background: #F7F7F7; /* url(../images/main_bg.gif); */
 	width: 900px;
 	-moz-border-radius: 8px; 
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	overflow: hidden; }
+.whiteBg #main {
+	background: #fff; /* url(../images/main_bg.gif); */ }
 #wrapper { 
 	width: 900px;
 	overflow: hidden; }
@@ -821,7 +826,7 @@ header#page-header {
 	float: right;
 	height: 55px; }
 #header nav ul {
-	background: url(../images/manage_nav_bg.gif) 0 100% repeat-x;
+	background: url(../images/manage_nav_bg2.gif) 0 100% repeat-x;
 	margin: 16px 0 0;
 	padding: 0 0 0 30px;
 	height: 39px; }
@@ -851,10 +856,15 @@ header#page-header {
 	padding: 15px 21px 0 10px;
 	display: inline-block; }
 #header nav li.current a, #header nav li:hover a { 
-	background-image: url(../images/manage_nav_left.gif);
+	background-image: url(../images/manage_nav_left2.gif);
 	color: #8f8f8f; }
 #header nav li.current a span, 
-#header nav li:hover a span { background-image: url(../images/manage_nav_right.gif); }
+#header nav li:hover a span { background-image: url(../images/manage_nav_right2.gif); }
+
+body.whiteBg #header nav ul {background: url(../images/manage_nav_bg.gif) 0 100% repeat-x;}
+body.whiteBg #header nav li.current a, body.whiteBg #header nav li:hover a { background-image: url(../images/manage_nav_left.gif);}
+body.whiteBg #header nav li.current a span, body.whiteBg #header nav li:hover a span { background-image: url(../images/manage_nav_right.gif); }
+	
 
 /* Event Public Page
  -------------------------*/

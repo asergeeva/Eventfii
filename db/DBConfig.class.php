@@ -200,6 +200,14 @@ class DBConfig {
 		return $userInfo;
 	}
 	
+	/*Gett image for event*/
+	public function getEventImage($eid)
+	{
+		$GET_IMAGE = "SELECT image FROM ef_events WHERE id=".$eid;
+		$image = $this->executeQuery($GET_IMAGE);
+		return $image['image'];
+	}
+	
 	/*Inserting images for event*/
 	public function insertEventImages($uid, $eid, $imageName)
 	{

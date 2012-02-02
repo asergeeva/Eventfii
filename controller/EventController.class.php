@@ -84,6 +84,18 @@ class EventController extends PanelController {
 		foreach($event_attendees as $guest) {
 			$attending[] = new User($guest);
 		}
+		EFCommon::$smarty->assign( 'showUpload', 'no' );
+		if(isset($_SESSION['user']))
+		{
+			foreach($attending as $value)
+			{
+				if($value->email == $_SESSION['user']->email)
+				{
+					EFCommon::$smarty->assign( 'showUpload', 'yes' );	
+					break;
+				}
+			}		
+		}
 		
 		EFCommon::$smarty->assign( 'attending', $attending );
 		if(isset($_SESSION['user']))
@@ -131,7 +143,7 @@ class EventController extends PanelController {
 		if (preg_match("/event\/a\/.*/", $current_page) > 0) {
 			$alias = $this->getAliasByUri($current_page);
 			if ( ! $alias ) {
-				EFCommon::$smarty->display( 'error.tpl' );
+				//EFCommon::$smarty->display( 'error.tpl' );
 				return;
 			}
 			$eventDb = EFCommon::$dbCon->getEventByURIAlias($alias);

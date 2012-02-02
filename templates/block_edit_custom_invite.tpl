@@ -8,7 +8,7 @@
                                 <div class="fram_top">
                                 <span id="image_view">
                                 	{if $event_image && $event_image != ''}
-			                			<a onclick="return launchEditor('image1', '{$CURHOST}/upload/events/{$event_image}');" href="javascript:void(0);"><img src="{$CURHOST}/upload/events/{$event_image}" alt="photo to edit" id="image1" /></a>
+			                			<a onclick="return launchEditor('image1', '{$CURHOST}/upload/events/{$event_image}');" href="javascript:void(0);"><img src="{$CURHOST}/upload/events/{$event_image}" alt="photo to edit" id="image1_after_save" /></a>
                                     {else}
                                     	<img src="{$CURHOST}/images/photo.png" alt="photo to edit" />
                                     {/if}

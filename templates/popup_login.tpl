@@ -42,6 +42,17 @@
     </div>
 </div>
 
+<div class="popup-container" id="rsvp-first-error">
+	<div class="popup block">
+    	<p class="popup-close"><a href="javascript:void(0);" onclick="$('#rsvp-first-error').fadeOut(500);">X</a></p>
+        <div class="popup_box">
+            <div class="delete_photo">
+                <p>Sorry, You can't upload images, untill you RSVP this event.</p>                    
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="popup-container" id="delete-image">
 	<div class="popup block">
     	<p class="popup-close"><a href="javascript:void(0);" onclick="$('#delete-image').fadeOut(500);">X</a></p>

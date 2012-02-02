@@ -2,7 +2,6 @@
     <section class="block" style="width: 870px; margin:20px 0;">
         <div class="content_box">
                 <div class="upload_brow" id="after_success" align="center">
-                	<strong>Skip and Go to Step 4? </strong><a href="{$CURHOST}/event/create/guests" class="btn btn-manage"><span>&nbsp; Skip &nbsp;</span></a>
                 </div>
                <div class="photo_frame_outer">
                         <div class="fram_bot">
@@ -24,6 +23,7 @@
             <div style="width: 80px; float: left; overflow:hidden;">
             	<form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form>
             </div>
+            <div class="fr"><a href="{$CURHOST}/event/create/guests" class="btn btn-manage"><span>&nbsp; Skip &nbsp;</span></a></div>
 <div class="clear"></div>
             </div>
             <div class="invit_sep"><strong>or</strong><span></span></div>

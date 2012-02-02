@@ -1,5 +1,5 @@
 {include file="head.tpl"}
-    <body>
+    <body class="whiteBg">
     {include file="new_header.tpl"}
 <article id="container">
     {if isset($smarty.get.created) && $smarty.session.user->id == $event->organizer->id}
@@ -25,44 +25,63 @@
     <div style="clear:both"></div>
         {/if}
         <div style="width: 900px; margin: 20px auto;">
-            <section class="block clearfix" style=" display:block; padding-bottom:0px;overflow:visible;">
-            	<center>
-                    <table cellpadding="0" cellspacing="0" style="width:auto">
-                    <tr>
-                        <td align="center">
-                            <div class="viewby_top">
-                        		<img src="{$CURHOST}/images/share_photo_txt.png" alt="Photo" style="vertical-align: -11px; float:left;" /> &nbsp; <span style="font-size:16px; float:left; padding:0 10px;">Share your photos from <strong>{$event->title}!</strong></span> &nbsp; 
-                        
-                            {if isset($smarty.session.user)}
-                                <div style=" float:left; margin-top:5px; "><form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form></div>
-                            {else}
-                                <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>    
-                            {/if}
-                    </div>
-                        </td>
-                    </tr>
-                    </table>
-                </center>
-                <div class="viewby_img">
-                    <div id="container_isolate">
-                    	<div class="title" id="viewBy">Viewing all by <span id="viewByName"></span></div>
-                    	<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
-                        <div class="viewport">
-                        	<div class="overview" id="container_iso"></div>                            
+        	{if date("Y-m-d", strtotime($event->datetime)) == date("Y-m-d") || date("Y-m-d", strtotime($event->datetime)) < date("Y-m-d")}
+                <section class="block clearfix" style=" display:block; padding-bottom:0px;overflow:visible;">
+                    <center>
+                        <table cellpadding="0" cellspacing="0" style="width:auto">
+                        <tr>
+                            <td align="center">
+                                <div class="viewby_top">
+                                    <img src="{$CURHOST}/images/share_photo_txt.png" alt="Photo" style="vertical-align: -11px; float:left;" /> &nbsp; <span style="font-size:16px; float:left; padding:0 10px;">Share your photos from <strong>{$event->title}!</strong></span> &nbsp; 
+                            
+                                {if isset($smarty.session.user)}
+                                	{if $showUpload eq 'yes'}
+                                    	<div style=" float:left; margin-top:5px; "><form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form></div>
+                                   	{else}
+                                    	<a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" onClick="$('#rsvp-first-error').fadeIn(500);"><span>&nbsp; Browse &nbsp;</span></a>
+                                    {/if}
+                                {else}
+                                    <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>    
+                                {/if}
+                        </div>
+                            </td>
+                        </tr>
+                        </table>
+                    </center>
+                    <div class="viewby_img">
+                        <div id="container_isolate">
+                            <div class="title" id="viewBy">Viewing all by <span id="viewByName"></span></div>
+                            <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+                            <div class="viewport">
+                                <div class="overview" id="container_iso"></div>                            
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="viewby_bot clearfix ">
-                    <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
-                    <div class="dd_box" style="display:none;">
+                    <div class="viewby_bot clearfix ">
+                        <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
+                        <div class="dd_box" style="display:none;">
+                        </div>
+                        <a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a> </div>
+                        <div class="br">View: <a href="javascript:void(0);" onClick="openFaceBox();" id="slideshow">Slideshow</a></div>
                     </div>
-                    <a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a> </div>
-                    <div class="br">View: <a href="javascript:void(0);" onClick="openFaceBox();" id="slideshow">Slideshow</a></div>
-                </div>
-            </section>
+                </section>
+            {/if}
+            {if $event_image eq NULL || $event_image eq ''}
+            	<div class="orent_box">
+                        <h2>{$event->title}</h2>
+                        <h3>{date("F j, Y, g:i A", strtotime($event->datetime))}</h3>
+                        <strong class="links fl">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}">{$CURHOST}/event/a/{$event->alias}</a></strong>
+                        <span class="fr" style="margin-right:-37px;margin-top:18px;">
+                        	{if $event->is_public}
+                            	<div class="fb-like" data-href="{$CURHOST}/event/a/{$event->alias}" data-send="true" data-layout="button_count" data-show-faces="false"></div>
+                        	{/if}
+                        </span>
+                    </div>
+            {/if}
             <div class="clear22"></div>
             <div>
                 <div class="photo_frame_outer poto_fram_gray fl">
+                {if $event_image neq ''}
                     <div class="fram_bot">
                         <div class="fram_cnt">
                             <div class="fram_top">
@@ -75,16 +94,17 @@
                         </div>
                     </div>
                     <div style="float:left; padding:10px 0 5px 10px;">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}">{$CURHOST}/event/a/{$event->alias}</a></div>
-                    <div style="float:right; padding:10px 0 0;">
+                    <div style="float:right; padding:10px 0 0; margin-right:-37px;">
                     	{if $event->is_public}
                             <div class="fb-like" data-href="{$CURHOST}/event/a/{$event->alias}" data-send="true" data-layout="button_count" data-show-faces="false"></div>
                         {/if}
                     </div>
+                 {/if}
                     <div style="clear:both;"></div>
                     {if isset($attending)}
                     <div style="padding:0 15px;">
                     	<fieldset>
-                            <legend>Who's Comming</legend>
+                            <legend>Who's Coming</legend>
                             <ul class="thumbs">{foreach from=$attending key=index item=guest}{if $index lt {$MAX_DISPLAY_GUEST}}
                             <li>
                                 <figure>
@@ -107,7 +127,7 @@
                         	<p class="event-desc" style="padding:10px 0 0; min-height:70px;">{$event->description}</p>
                         </fieldset>
                     </div>
-                    <div style="padding:0 15px;">
+                    <div style="padding:0 15px 20px;">
                     	<fieldset>
                         	<legend>Comments</legend>
                             <div class="fb-comments" data-href="{$CURHOST}/event/{$event->eid}" data-num-posts="2" data-width="650px"></div>
@@ -431,8 +451,10 @@ reloadImages({$userid});
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
+        <div class="popup_box_inr">
     	<div style="width:100%; text-align:center;">Please wait as we are uploading your photo.</div>
         <div style="text-align:center;"><img src="{$CURHOST}/images/loader.gif" /></div>
+        </div>
     </div>
 </div>
     </body>

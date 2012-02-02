@@ -30,28 +30,32 @@
     	<table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td align="center">
-            	<table width="569" border="0" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td style="font-size:0;"><img src="{$IMG_PATH}/frame_top.jpg" height="20" width="569" alt="" /></td>
-                  </tr>
-                  <tr>
-                    <td background="{$IMG_PATH}/frame_cnt.jpg" style="background-repeat:repeat-y;" align="center">
-                    	<span id="event_custom_invite">
-                        {if $event->image eq ""}
-                            <img src="{$IMG_PATH}/photo.jpg" width="531" height="291" alt="" />
-                        {else}
-                            <img src="{$CURHOST}/upload/events/{$event->image}" />
-                        {/if}
-                        </span><br /><strong><span style="font-size:14px; padding-top:5px; display:block;"><span id="event_name">{$event->title}</span></span><span id="event_date">{$event->friendly_date}</span> at <span id="event_time">{$event->friendly_time}</span></strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="font-size:0;"><img src="{$IMG_PATH}/frame_bot.jpg" height="20" width="569" alt="" /></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                  </tr>
-                </table>
+            	{if $event->image eq NULL || $event->image eq ''}
+            		<div style="display: block; width: 430px; margin: 0 auto 5px; padding:10px 0 14px; line-height: 40px; text-align: center; font-size: 30px; color: #666666; font-weight: bold; border-bottom: 1px solid #cccccc;">You're invited to...</div>
+                {else}
+                    <table width="569" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="font-size:0;"><img src="{$IMG_PATH}/frame_top.jpg" height="20" width="569" alt="" /></td>
+                      </tr>
+                      <tr>
+                        <td background="{$IMG_PATH}/frame_cnt.jpg" style="background-repeat:repeat-y;" align="center">
+                            <span id="event_custom_invite">
+                            {if $event->image eq ""}
+                                <img src="{$IMG_PATH}/photo.jpg" width="531" height="291" alt="" />
+                            {else}
+                                <img src="{$CURHOST}/upload/events/{$event->image}" />
+                            {/if}
+                            </span><br /><strong><span style="font-size:14px; padding-top:5px; display:block;"><span id="event_name">{$event->title}</span></span><span id="event_date">{$event->friendly_date}</span> at <span id="event_time">{$event->friendly_time}</span></strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-size:0;"><img src="{$IMG_PATH}/frame_bot.jpg" height="20" width="569" alt="" /></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                      </tr>
+                    </table>
+                {/if}
             </td>
           </tr>
           <tr>

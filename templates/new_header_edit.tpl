@@ -5,7 +5,7 @@
                 {if isset($smarty.session.user)}
                 	<span class="login_info">
                     <span class="login_info_inr">
-                        <span class="img_box"><img src="{$smarty.session.manage_event->organizer->pic}" width="30" height="30" alt="" /></span>
+                        <span class="img_box"><img src="{$smarty.session.user->pic}" width="30" height="30" alt="" /></span>
                         <span class="user_name">{$smarty.session.manage_event->organizer->fname} {$smarty.session.manage_event->organizer->lname}</span>
                         <div class="img_arow">
                             <dl style="" class="dropdown">

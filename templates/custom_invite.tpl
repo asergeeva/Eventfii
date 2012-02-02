@@ -51,7 +51,7 @@ $(document).ready(function() {
 		return launchEditor("image1", "{$CURHOST}/upload/events/"+response);
     },
 	'onAllComplete' : function(event,data) {
-		$("#after_success").html('<strong>Satisfied with your invitation? </strong><a class="btn btn-small" href="javascript:void(0);" onclick="save_image();"><span>&nbsp; Go to step 4 &nbsp;</span></a>&nbsp;<a style="margin-top:5px;" href="{$CURHOST}/event/create/guests" class="btn btn-manage"><span>&nbsp; Skip &nbsp;</span></a>');
+		$("#after_success").html('<strong>Satisfied with your invitation? </strong><a class="btn btn-small" href="javascript:void(0);" onclick="save_image();"><span>&nbsp; Go to step 4 &nbsp;</span></a>');
     },
 	'onSelect': function(event,ID,fileObj) {
 		$('#loader').show();
@@ -90,8 +90,10 @@ function bindScrollBar()
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
+        <div class="popup_box_inr">
     	<div style="width:100%; text-align:center;">Please wait as we are uploading your photo.</div>
         <div style="text-align:center;"><img src="{$CURHOST}/images/loader.gif" /></div>
+        </div>
     </div>
 </div>
 <!-- Load Feather code -->
@@ -104,6 +106,7 @@ var featherEditor = new(Aviary.Feather)({
 	tools: 'all',
 	appendTo: '',
 	onSave: function(imageID, newURL) {
+		featherEditor.close();
 		$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\''+imageID+'\', \''+newURL+'\');"><img id="'+imageID+'" src="'+newURL+'" alt="photo to edit" /></a>');
 	}
 });

@@ -150,7 +150,7 @@
                             <td>
                             	<div><a href="{$CURHOST}/upload/stock/{$stockPhoto['photo']}" id="example"><img src="{$CURHOST}/upload/stock/thumb/{$stockPhoto['thumb']}" width="185" id="{$count++}" /></a></div>
                                 <div align="center">
-                                	<p class="buttons buttons-create"><a href="{$CURHOST}/admin/?option=viewstock&stockId=1&delId={$stockPhoto['id']}" class="btn btn-small"><span>Delete Photo</span></a></p>
+                                	<p class="buttons buttons-create"><a href="{$CURHOST}/admin/?option=viewstock&stockId={$smarty.get.stockId}&delId={$stockPhoto['id']}" class="btn btn-small"><span>Delete Photo</span></a></p>
                                 </div>
                             </td>
                             {if $count%3 eq 0}

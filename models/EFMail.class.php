@@ -7,8 +7,10 @@
  */
  
 require_once(realpath(dirname(__FILE__)).'/../libs/Mailgun/Mailgun.php');
+require_once(realpath(dirname(__FILE__)).'/../db/DBConfig.class.php');
 
 class EFMail {
+	private $dbConnection;
 	const TPL_PATH = "/../templates/email/";
 
 	private $FROM = "trueRSVP <hello@truersvp.com>";
@@ -21,6 +23,7 @@ class EFMail {
 		"hosts_following" 	=> "eventplannersyouarefollowing.html", //- not yet
 		"follow_up" 		=> "followupemail_dayafter_attendeePOV.html",
 		"invite" 			=> "inviteemail.html",
+		"invite_image" 			=> "inviteemail_image.html",
 		"friends_attending" => "notificationwhenfriendsRSVP_attendeePOV.html", //- not yet
 		"forgot_pw" 		=> "recoverpassword_userPOV.html", //- we don't use this, yet
 		"reminder_4days" 	=> "reminder_4daysbefore_eventcreator.html",
@@ -35,6 +38,7 @@ class EFMail {
 	
 	public function __construct() {
 		mailgun_init('key-43033qlv70665f8rxn9l6zld10jkgrs1');
+		$this->dbConnection = new DBConfig();
 	}
 	
 	public function __destruct() {
@@ -74,7 +78,7 @@ class EFMail {
 	 */
 	public function mapEventHtml(&$htmlEmail, &$event, $reference = '') {
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
-
+		$imageExist = false;
 		for ($j = 0; $j < $replaceItems->length; ++$j) {
 			switch ($replaceItems->item($j)->getAttribute("id")) {
 				case "event_name":
@@ -130,11 +134,18 @@ class EFMail {
 					$replaceItems->item($j)->nodeValue = $event->organizer->fname;
 					break;
 				case "event_custom_invite":
-					list($awidth, $aheight) = getimagesize('./upload/events/'.$event->image);
-					$replaceItems->item($j)->firstChild->setAttribute("src", CURHOST."/upload/events/".$event->image);
-					if($awidth > 531)
+					if(file_exists('./upload/events/'.$event->image))
 					{
-						$replaceItems->item($j)->firstChild->setAttribute("width", '531');	
+						$imageExist = true;
+						list($awidth, $aheight) = getimagesize('./upload/events/'.$event->image);
+						$replaceItems->item($j)->firstChild->setAttribute("src", CURHOST."/upload/events/".$event->image);
+						if($awidth > 531)
+						{
+							$replaceItems->item($j)->firstChild->setAttribute("width", '531');	
+						}
+					}else
+					{
+						$imageExist = false;
 					}
 					break;
 				case "event_rsvp_days":
@@ -296,7 +307,14 @@ class EFMail {
 	 * We don't need transactions
 	 */
 	public function sendHtmlInvite($event, $newGuests) {
-		$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates['invite']);
+		$event->image = $this->dbConnection->getEventImage($event->eid);
+		if($event->image != NULL && $event->image != '')
+		{
+			$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates['invite_image']);
+		}else
+		{
+			$htmlStr = file_get_contents(realpath(dirname(__FILE__)).EFMail::TPL_PATH.$this->templates['invite']);
+		}
 		$htmlStr = str_replace('images', CURHOST.'/images/templates', $htmlStr);
 		
 		$htmlEmail = new DOMDocument();	
@@ -309,7 +327,8 @@ class EFMail {
 							
 					$insertedUser = EFCommon::$dbCon->getUserInfoByEmail($newGuests[$i]);
 					
-					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref."&eref=".$hash_key);				
+					$this->mapEventHtml($htmlEmail, $event, "?gref=".$event->global_ref."&eref=".$hash_key);	
+					$htmlEmail->saveXML();
 					$RECORD_HASH_KEY = "INSERT IGNORE INTO ef_event_invites (hash_key, email_to, event_id) 
 										VALUES ('" . mysql_real_escape_string($hash_key) . "', 
 												'" . mysql_real_escape_string($newGuests[$i]) . "', 

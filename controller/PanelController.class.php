@@ -366,53 +366,6 @@ class PanelController {
 			case '/info':
 				phpinfo();
 				break;
-			case '/email':
-			// multiple recipients
-			$to  = 'muhammad.saleem@purelogics.net' . ', ';
-			$to  .= 'malik.usman@purelogics.net' . ', ';
-			$to  .= 'saleempugc@gmail.com' . ', ';
-			$to  .= 'saleempugc@hotmail.com' . ', ';
-			$to .= 'saleem_pugc@yahoo.com';
-			
-			// subject
-			$subject = 'Email test for background images';
-			
-			// message
-			$message = '
-			<table width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-			  <tr>
-				<td><img src="http://eventfii.iserver.purelogics.info/images/templates/main_bg_top.jpg" height="19" width="600" alt="" /></td>
-			  </tr>
-			  <tr>
-				<td background="http://eventfii.iserver.purelogics.info/images/templates/main_bg_cnt.jpg" style="background-repeat:repeat-y;" height="600" valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					  <tr>
-						<td align="center"><img src="http://eventfii.iserver.purelogics.info/images/templates/frame_top.jpg" height="17" width="553" alt="" /></td>
-					  </tr>
-					  <tr>
-						<td>&nbsp;</td>
-					  </tr>
-					  <tr>
-						<td>&nbsp;</td>
-					  </tr>
-					  <tr>
-						<td>&nbsp;</td>
-					  </tr>
-					</table>
-				</td>
-			  </tr>
-			  <tr>
-				<td><img src="http://eventfii.iserver.purelogics.info/images/templates/main_bg_bot.jpg" height="25" width="600" alt="" /></td>
-			  </tr>
-			</table>
-			';
-			
-			// To send HTML mail, the Content-type header must be set
-			$headers  = 'MIME-Version: 1.0' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			// Mail it
-			mail($to, $subject, $message, $headers);
-				break;
 			case '/contact':
 				// if the form's been submitted, send its contents
 				if ( isset($_POST['submit']) && ! isset($_GET['success']) ) {

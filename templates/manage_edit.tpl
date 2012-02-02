@@ -1,6 +1,6 @@
 {include file="new_head.tpl"}
 <body>
-{include file="new_header_edit.tpl"}
+{include file="new_header.tpl"}
 <div id="container">
 	{include file="manage_header.tpl"}
 	<section id="main">
@@ -40,6 +40,7 @@
         {/if}
 	</section>
 </div>
+<img src="{$CURHOST}/upload/events/{$event_image}" id="image1" style="display:none;" />
 {include file="footer.tpl"}
 
 {include file="js_global.tpl"}
@@ -78,9 +79,9 @@ $(document).ready(function() {
 	'sizeLimit' : '8388608',
 	'onComplete'  : function(event, ID, fileObj, response, data) {
 		$('#loader').hide();
-		alert(response);
 		queSize--;
-		$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\'image1\', \'{$CURHOST}/upload/events/'+response+'\');"><img id="image1" src="{$CURHOST}/upload/events/'+response+'" alt="photo to edit" /></a>');
+		$("#image1").attr('src', '{$CURHOST}/upload/events/'+response);
+		//$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\'image1\', \'{$CURHOST}/upload/events/'+response+'\');"><img id="image1" src="{$CURHOST}/upload/events/'+response+'" alt="photo to edit" /></a>');
 		return launchEditor("image1", "{$CURHOST}/upload/events/"+response);
     },
 	'onAllComplete' : function(event,data) {
@@ -101,7 +102,8 @@ function changeImage(id)
 	var src = $("#"+id).attr('src');
 	var splitted = src.split("/");
 	src = splitted[(splitted.length-1)];
-	$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\'image1\', \'{$CURHOST}/upload/stock/'+src+'\');"><img id="image1" src="{$CURHOST}/upload/stock/'+src+'" alt="photo to edit" /></a>');
+	$("#image1").attr('src', '{$CURHOST}/upload/stock/'+src);
+	//$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\'image1\', \'{$CURHOST}/upload/stock/'+src+'\');"><img id="image1" src="{$CURHOST}/upload/stock/'+src+'" alt="photo to edit" /></a>');
 	return launchEditor("image1", '{$CURHOST}/upload/stock/'+src);
 }
 function startUpload()
@@ -116,8 +118,10 @@ function startUpload()
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
+        <div class="popup_box_inr">
     	<div style="width:100%; text-align:center;">Please wait as we are uploading your photo.</div>
         <div style="text-align:center;"><img src="{$CURHOST}/images/loader.gif" /></div>
+        </div>
     </div>
 </div>
 <!-- Load Feather code -->
@@ -130,7 +134,9 @@ var featherEditor = new(Aviary.Feather)({
 	tools: 'all',
 	appendTo: '',
 	onSave: function(imageID, newURL) {
-		$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\''+imageID+'\', \''+newURL+'\');"><img id="'+imageID+'" src="'+newURL+'" alt="photo to edit" /></a>');
+		featherEditor.close();
+		$("#image_view").html('<a href="javascript:void(0);" onclick="return launchEditor(\''+imageID+'\', \''+newURL+'\');"><img id="image1_after_save" src="'+newURL+'" alt="photo to edit" /></a>');
+		$("#image1").attr('src', newURL);
 		$("#after_success").html('<strong>Satisfied with your invitation? </strong><a class="btn btn-small" href="javascript:void(0);" onclick="save_image();"><span>&nbsp; Save Image &nbsp;</span></a>');
 	}
 });
@@ -144,7 +150,7 @@ function launchEditor(id, src) {
 }
 function save_image()
 {
-	var data = $.base64.encode($('#image1').attr('src'));
+	var data = $.base64.encode($('#image1_after_save').attr('src'));
 	$.ajax({
 		type: 'POST',
 		url: '{$CURHOST}/event/create/invite/upload/save',

@@ -19,6 +19,7 @@ $smarty->setConfigDir(realpath(dirname(__FILE__)).'/configs');
 
 define('IMG_PATH', CURHOST.'/images');
 define('IMG_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/images');
+define('IMG_UPLOAD_PATH_STOCK', realpath(dirname(__FILE__)).'/upload/stock');
 define('CSV_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/event/csv');
 define('USER_CSV_UPLOAD_PATH', realpath(dirname(__FILE__)).'/upload/user/csv');
 define('IMG_UPLOAD', CURHOST.'/'.IMG_UPLOAD_PATH);

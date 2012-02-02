@@ -175,7 +175,7 @@ h3.title{font-size:14px; line-height:19px;}
 
 /*CSS For Scrollbar*/
 #scrollbar1 {width:414px; margin:0px 0 10px;}
-#scrollbar1 .viewport { width: 402px; height: 262px; overflow: hidden; position: relative; }
+#scrollbar1 .viewport { width: 402px; height: 400px; overflow: hidden; position: relative; }
 #scrollbar1 .overview { list-style: none; position: absolute; left: 0; top: 0; }
 
 
@@ -223,7 +223,12 @@ background:#44B2D9 none repeat scroll 0 0; display:none;
     width:127px; top:16px; right:-5px;
     cursor:pointer;
     box-shadow: 10px 10px 5px #888888;
-        -moz-border-radius: 0 0 7px 7px;
+    
+    -moz-border-radius: 0 0 7px 7px;
+    -webkit-border-radius: 0 0 7px 7px;
+    border-radius:0 0 7px 7px;
+    z-index: 99;
+        
     }
 .dropdown dd ul li{margin:0;}
 .dropdown span.value { display:none;}
@@ -239,10 +244,10 @@ text-decoration:none;
 }
 
 /*Loading image*/
-.popup_box_main{}
+/*.popup_box_main{}
 .popup_box_main .popup_overlay{background: #000000; opacity:.5; position: absolute; width: 100%; height: 100%; z-index: 999; top: 0;}
 .popup_box_main .popup_box{background: #ffffff; position: absolute; width:400px; margin: 0 auto; height:auto; z-index: 1000; top:45%; left: 36%; padding: 10px; -moz-border-radius:10px; border: 5px solid #aaa; }
-/*********************************/
+*//*********************************/
 
 .login_info{background: url(../images/login_info_bar.png) no-repeat; float: right; display: block; padding-left: 20px; margin-left: 11px;}
 .login_info_inr{background: url(../images/login_info_bar.png) no-repeat right top; height: 47px; float: right; display: block; padding-right: 20px; font-size: 12px;}
@@ -286,7 +291,7 @@ h3.title{font-size:14px; line-height:19px;}
 .viewby_bot .bl select{margin: 0 7px}
 
 .viewby_bot .br{float: right; }
-.poto_fram_gray .fram_cnt, .poto_fram_gray .fram_top,.poto_fram_gray .photo_frame,.poto_fram_gray .fram_bot{background-image:url(../images/photo_frame_3.jpg)!important;}
+.poto_fram_gray .fram_cnt, .poto_fram_gray .fram_top,.poto_fram_gray .photo_frame,.poto_fram_gray .fram_bot{/* background-image:url(../images/photo_frame_3.jpg)!important; */ background-image:url(../images/photo_frame_2.jpg)!important;}
 .viewby_sidebar{float:right !important; margin: 11px 0 0 !important; width: 204px !important;}
 /***** 30 Jan *****/
 .delete_photo{font-size:20px; font-weight: bold; color: #666666; padding: 75px 0; text-align: center;}
@@ -319,9 +324,14 @@ h3.title{font-size:14px; line-height:19px;}
 
 /***** 30 Jan *****/
 
-.popup_box_main{}
+/* .popup_box_main{}
 .popup_box_main .popup_overlay{background: #000000; opacity:.5; position: fixed; width: 100%; height: 100%; z-index: 999; top: 0;}
-.popup_box_main .popup_box{background: #ffffff; position: absolute; width:480px; margin: 0 auto; height:auto; z-index: 1000; top:35%; left: 32%; padding: 10px; -moz-border-radius:10px; border: 2px solid #aaa; font-family:Arial,sans-serif; }
+.popup_box_main .popup_box{background: #ffffff; position: absolute; width:480px; margin: 0 auto; height:auto; z-index: 1000; top:35%; left: 32%; padding: 10px; -moz-border-radius:10px; border: 2px solid #aaa; font-family:Arial,sans-serif; } */
+
+.popup_box_main{}
+.popup_box_main .popup_overlay{background: #000000; opacity:.5; position:fixed; width: 100%; height: 100%; z-index: 999; top: 0;}
+.popup_box_main .popup_box{position:fixed; width:500px; min-height: 210px; height:auto; z-index: 1000; top:50%; left:50%;}
+.popup_box_main .popup_box .popup_box_inr{background:#ffffff; position:absolute; width:480px; margin:0; height:auto; z-index: 1001; top:-50%; left:-50%; padding: 10px; -moz-border-radius:10px; border: 2px solid #aaa; font-family:Arial,sans-serif;}
 
 
 /**** 31 Jan *****/
@@ -348,3 +358,8 @@ h3.title{font-size:14px; line-height:19px;}
 
 .overview span{position:relative; float:left;}
 .overview span:hover .show_links,.overview span:hover .show_links_up{display:block;}
+.orent_box{ width:670px;}
+.orent_box h2{font-size: 24px; color: #666666; font-weight: bold; padding: 5px 0 0}
+.orent_box h3{font-size: 14px; color: #666666; font-weight: bold; padding: 5px 0 0;}
+.orent_box .links{font-size: 12px; color: #666666; padding: 20px 0 0;}
+.orent_box .links a{font-size: 14px; color: 3bb9dd; }

@@ -86,7 +86,7 @@ class CreateController extends PanelController {
 					foreach($stockPhotos as $stockPhoto)
 					{
 						$count++;
-						$html .= '<img id="'.$stockPhoto['id'].'" src="'.CURHOST.'/upload/stock/thumb/'.$stockPhoto['thumb'].'" onclick="changeImage('.$stockPhoto['id'].');" />';
+						$html .= '<img id="'.$stockPhoto['id'].'" src="'.CURHOST.'/upload/stock/thumb/'.$stockPhoto['thumb'].'" onclick="changeImage('.$stockPhoto['id'].');" width="185" height="123" />';
 						if($count%2==0)
 						{
 							$html .= '<div class="clear"></div>';	
@@ -173,68 +173,74 @@ class CreateController extends PanelController {
 					}
 					break;
 					case '/event/create/invite/upload':
-						if (!empty($_FILES))
+						try
 						{
-							$file		=  $_FILES['Filedata'];
-							$tmp_name	=  $file['tmp_name'];
-							$filename   =  $file['name'];
-							$eid		=  $_REQUEST['eid'];
-							//$ext      = substr($filename,-3);
-							$ext		= $this->get_file_extension($filename);
-							$uploadPath = './upload/events/';
-							$file_name  = $eid.'_origional';
-							$upfile = $file_name.".$ext";
-							move_uploaded_file($tmp_name,$uploadPath.$upfile);	
-							chmod($uploadPath.$upfile, 0777);
-							/*Image Resize CI Library*/			
-							include("./libs/image_resize/resize_class.php");
-							$image_resize = new CI_Image_lib();
-							$source_image = $upfile;
-							$medium_image = $upfile;
-							$config['source_image'] = $uploadPath.$source_image;
-							$config['new_image'] = $uploadPath.$medium_image;
-							$config['quality'] = '80';
-							$width = '638';
-							$height = '638';
-							if(file_exists($uploadPath.$source_image))
+							if (!empty($_FILES))
 							{
-								list($awidth, $aheight) = getimagesize($uploadPath.$source_image);
-								if($awidth < $width)
+								$file		=  $_FILES['Filedata'];
+								$tmp_name	=  $file['tmp_name'];
+								$filename   =  $file['name'];
+								$eid		=  $_REQUEST['eid'];
+								//$ext      = substr($filename,-3);
+								$ext		= $this->get_file_extension($filename);
+								$uploadPath = './upload/events/';
+								$file_name  = $eid.'_origional';
+								$upfile = $file_name.".$ext";
+								move_uploaded_file($tmp_name,$uploadPath.$upfile);	
+								chmod($uploadPath.$upfile, 0777);
+								/*Image Resize CI Library*/			
+								include("./libs/image_resize/resize_class.php");
+								$image_resize = new CI_Image_lib();
+								$source_image = $upfile;
+								$medium_image = $upfile;
+								$config['source_image'] = $uploadPath.$source_image;
+								$config['new_image'] = $uploadPath.$medium_image;
+								$config['quality'] = '80';
+								$width = '638';
+								$height = '638';
+								if(file_exists($uploadPath.$source_image))
 								{
-									$width = $awidth;
+									list($awidth, $aheight) = getimagesize($uploadPath.$source_image);
+									if($awidth < $width)
+									{
+										$width = $awidth;
+									}
 								}
+								$config['width'] = $width;
+								$config['height'] = $height;
+								$config['maintain_ratio'] = TRUE;
+								$config['image_library'] = 'gd2';
+								$image_resize->initialize($config); 
+								if ( ! $image_resize->resize())
+								{								
+								}
+								echo $upfile;
+								exit; 
+								//upload Here	
 							}
-							$config['width'] = $width;
-							$config['height'] = $height;
-							$config['maintain_ratio'] = TRUE;
-							$config['image_library'] = 'gd2';
-							$image_resize->initialize($config); 
-							if ( ! $image_resize->resize())
-							{								
-							}
-							echo $upfile;
-							exit; 
-							//upload Here	
-						}
+						}catch(Exception $e){echo $e->getMessage();exit;}
 						break;
 					case '/event/create/invite/upload/save':
-						if(isset($_POST['eid']))
-							$eid = $_POST['eid'];
-						else
-							$eid = $_SESSION['newEvent']->eid;
-						$imageURL = base64_decode($_POST['imageURL']);
-						$sourcecode = $this->GetImageFromUrl($imageURL);
-						$uploadPath = './upload/events/';
-						$ext = $this->get_file_extension($imageURL);
-						chmod($uploadPath.$eid.'_origional.'.$ext,0777);
-						$savefile = fopen($uploadPath.$eid.'_origional.'.$ext, 'w');
-						$event_field = array();
-						$event_field['image'] = $uploadPath.$eid.'_origional.'.$ext;
-						if(!isset($_POST['eid']))
-							$_SESSION['newEvent']->image = $eid.'_origional.'.$ext;
-						$this->addEventImage($eid, $eid.'_origional.'.$ext);
-						fwrite($savefile, $sourcecode);
-						fclose($savefile);
+						try
+						{
+							if(isset($_POST['eid']))
+								$eid = $_POST['eid'];
+							else
+								$eid = $_SESSION['newEvent']->eid;
+							$imageURL = base64_decode($_POST['imageURL']);
+							$sourcecode = $this->GetImageFromUrl($imageURL);
+							$uploadPath = './upload/events/';
+							$ext = $this->get_file_extension($imageURL);
+							chmod($uploadPath.$eid.'_origional.'.$ext,0777);
+							$savefile = fopen($uploadPath.$eid.'_origional.'.$ext, 'w');
+							$event_field = array();
+							$event_field['image'] = $uploadPath.$eid.'_origional.'.$ext;
+							if(!isset($_POST['eid']))
+								$_SESSION['newEvent']->image = $eid.'_origional.'.$ext;
+							$this->addEventImage($eid, $eid.'_origional.'.$ext);
+							fwrite($savefile, $sourcecode);
+							fclose($savefile);
+						}catch(Exception $e){echo $e->getMessage();exit;}
 						break;
 			}
 			
