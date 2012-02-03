@@ -216,10 +216,10 @@ class PanelController {
 					$eid		=  $_REQUEST['eid'];
 					$uploadPath = './eventimages/';
 					$uploadPathThumb = './eventimages/thumbs/';
-					$upfile  = $uid.'_'.$eid.'_'.$filename;
+					$upfile  = $uid.'_'.$eid.'_'.str_replace(" ", "_", $filename);
 					move_uploaded_file($tmp_name,$uploadPath.$upfile);
 					$this->insertEventImages($uid, $eid, $upfile);
-					chmod($uploadPath.$upfile, 0777);
+					@chmod($uploadPath.$upfile, 0777);
 					/*Image Resize CI Library*/			
 					include("./libs/image_resize/resize_class.php");
 					$image_resize = new CI_Image_lib();
@@ -246,6 +246,7 @@ class PanelController {
 					if ( ! $image_resize->resize())
 					{								
 					}
+					@chmod($uploadPath.$upfile, 0777);
 					$source_image = $upfile;
 					$medium_image = $upfile;
 					$config['source_image'] = $uploadPath.$source_image;
@@ -269,6 +270,7 @@ class PanelController {
 					if ( ! $image_resize->resize())
 					{								
 					}
+					@chmod($uploadPathThumb.$source_image, 0777);
 					echo $upfile;
 					//upload Here	
 				}
@@ -1672,7 +1674,7 @@ class PanelController {
 							"Last name should only contain letters"
 						);
 						
-		if ( isset($ph_val) ) {
+		if ( isset($ph_val) && $ph_val != '') {
 			$ph_val = 	$this->valUsingRegExp(
 							$phone,
 							"/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/",

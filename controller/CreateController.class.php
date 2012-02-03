@@ -187,7 +187,7 @@ class CreateController extends PanelController {
 								$file_name  = $eid.'_origional';
 								$upfile = $file_name.".$ext";
 								move_uploaded_file($tmp_name,$uploadPath.$upfile);	
-								chmod($uploadPath.$upfile, 0777);
+								@chmod($uploadPath.$upfile, 0777);
 								/*Image Resize CI Library*/			
 								include("./libs/image_resize/resize_class.php");
 								$image_resize = new CI_Image_lib();
@@ -214,6 +214,7 @@ class CreateController extends PanelController {
 								if ( ! $image_resize->resize())
 								{								
 								}
+								@chmod($uploadPath.$upfile, 0777);
 								echo $upfile;
 								exit; 
 								//upload Here	

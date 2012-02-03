@@ -81,7 +81,7 @@ function startUpload()
 function bindScrollBar()
 {		
 	$('#scrollbar1').tinyscrollbar();
-	clearInterval(t);
+	clearInterval(t);	
 }
 </script>
 <div id="injection_site"></div>

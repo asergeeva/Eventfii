@@ -38,7 +38,6 @@ function postToFeed(ILink) {
 }
 
 $(document).ready(function() {
-	FB.init({appId: "{$FB_APP_ID}", status: true, cookie: true});
 	$('#contactable').contactable({
 		subject: 'feedback URL:'+location.href
 	});

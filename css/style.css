@@ -929,10 +929,15 @@ body.whiteBg #header nav li.current a span, body.whiteBg #header nav li:hover a 
 	margin: 0 auto;
 	padding: 0; }
 #rsvp fieldset legend { 
-	font-weight: normal;
-	color: #666;
+	border-bottom: 1px solid #CCCCCC;
+    color: #404040;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 8px;
+    width: 100%;
 	text-align: left;
-	padding-left: 8px; }
+	 }
 .rsvp-message {
 	font-size: 13px;
 	text-align: center;

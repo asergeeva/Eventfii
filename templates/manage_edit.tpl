@@ -76,7 +76,7 @@ $(document).ready(function() {
 	'buttonImg' : '{$CURHOST}/images/btn_chooseFle_2.png',
 	'queueSizeLimit' : queSize,
 	'fileExt'   : '*.jpg;*.jpeg;*.gif;*.JPG;*.JPEG;*.GIF',
-	'sizeLimit' : '8388608',
+	'sizeLimit' : '5242880',
 	'onComplete'  : function(event, ID, fileObj, response, data) {
 		$('#loader').hide();
 		queSize--;

@@ -101,7 +101,7 @@ class AdminController {
 				$thumbPath = IMG_UPLOAD_PATH_STOCK.'/thumb/';
 				$upfile = $s_id.'_'.str_replace(" ", "_", $filename);
 				move_uploaded_file($tmp_name,$uploadPath.$upfile);
-				chmod($uploadPath.$upfile, 0777);
+				@chmod($uploadPath.$upfile, 0777);
 				include("../libs/image_resize/resize_class.php");
 				$image_resize = new CI_Image_lib();
 				//Crop Main Image
@@ -130,7 +130,7 @@ class AdminController {
 				}
 				
 				//Crop thumnail image
-				chmod($uploadPath.$source_image, 0777);
+				@chmod($uploadPath.$source_image, 0777);
 				$config['source_image'] = $uploadPath.$source_image;
 				$config['new_image'] = $thumbPath.$medium_image;
 				$config['quality'] = '80';
@@ -154,7 +154,7 @@ class AdminController {
 					return CURHOST."/admin/?option=stock&error=Unable to upload image.";
 				}else
 				{
-					chmod($thumbPath.$medium_image, 0777);
+					@chmod($thumbPath.$medium_image, 0777);
 					$this->dbCon->insertStockPhoto($upfile, $s_id);	
 					return CURHOST."/admin/?option=stock&error=Image successfully uploaded.";
 				}

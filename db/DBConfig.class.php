@@ -636,6 +636,13 @@ class DBConfig {
 		}
 		
 		$nextEventId = $this->getNextEventId();
+		if(isset($newEvent->organizer->id) && $newEvent->organizer->id != '')
+		{
+			$organizer = $newEvent->organizer->id;
+		}else
+		{
+			$organizer = $_SESSION['user']->id;	
+		}
 		$CREATE_NEW_EVENT = "
 			INSERT INTO ef_events (	
 							created, 
@@ -658,7 +665,7 @@ class DBConfig {
 							global_ref
 						) 
 			VALUES (	NOW(), 
-						" . mysql_real_escape_string($newEvent->organizer->id) . ",
+						" . mysql_real_escape_string($organizer) . ",
 						'" . mysql_real_escape_string($newEvent->title) . "', 
 						" . mysql_real_escape_string($newEvent->goal) . ",
 						" . mysql_real_escape_string($newEvent->reach_goal). ",

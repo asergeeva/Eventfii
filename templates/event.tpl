@@ -38,7 +38,7 @@
                                 	{if $showUpload eq 'yes'}
                                     	<div style=" float:left; margin-top:5px; "><form method="post" id="create_guests" enctype="multipart/form-data"><input type="file" name="file" id="file" /></form></div>
                                    	{else}
-                                    	<a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" onClick="$('#rsvp-first-error').fadeIn(500);"><span>&nbsp; Browse &nbsp;</span></a>
+                                    	<a style="margin-top:-5px;" href="javascript:void(0);" class="btn btn-manage" onClick="$('#rsvp-first-error').fadeIn(500);"><span>&nbsp; Browse &nbsp;</span></a>
                                     {/if}
                                 {else}
                                     <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>    
@@ -48,7 +48,7 @@
                         </tr>
                         </table>
                     </center>
-                    <div class="viewby_img">
+                    <div class="viewby_img" id="viewby_img_div" style="display:none;">
                         <div id="container_isolate">
                             <div class="title" id="viewBy">Viewing all by <span id="viewByName"></span></div>
                             <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="viewby_bot clearfix ">
+                    <div class="viewby_bot clearfix " id="viewby_bot_div" style="display:none;">
                         <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
                         <div class="dd_box" style="display:none;">
                         </div>
@@ -239,9 +239,6 @@
 <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 {include file="js_event.tpl"}
 <!-- Add fancyBox main JS and CSS files -->
-<script type="text/javascript" src="{$JS_PATH}/jquery.fancybox.js"></script>
-<link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox.css" media="screen" />
-
 <!-- Add Button helper (this is optional) -->
 <link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox-buttons.css?v=2.0.3" />
 <script type="text/javascript" src="{$JS_PATH}/jquery.fancybox-buttons.js?v=2.0.3"></script>
@@ -254,6 +251,7 @@ var queSize     = 50;
 var uploaded	= 1;
 var totalQueued = 0;
 var t = '';
+var tb = '';
 $(document).ready(function() {
   $('#file').uploadify({
     'uploader'  : '{$JS_PATH}/uploadify/uploadify.swf',
@@ -332,7 +330,16 @@ function reloadImages(data)
 			$("#container_iso").html(response.html);
 			$(".dd_box").html(response.users_dropdown);
 			$("#count_images").val(response.count_images);
-			bindfancyBox();
+			if(response.count_images == 0)
+			{
+				$("#viewby_img_div").hide();
+				$("#viewby_bot_div").hide();	
+			}else
+			{
+				$("#viewby_img_div").show();
+				$("#viewby_bot_div").show();	
+			}
+			tb = setInterval("bindfancyBox()", 5000);
 			t = setInterval("bindScrollBar()", 1000);
 		}
 	});
@@ -360,7 +367,16 @@ function reloadImagesByUser(data, uid, name)
 			$(".dd_box").html(response.users_dropdown);
 			$(".dd_box").hide();
 			$("#count_images").val(response.count_images);
-			bindfancyBox();
+			if(response.count_images == 0)
+			{
+				$("#viewby_img_div").hide();
+				$("#viewby_bot_div").hide();	
+			}else
+			{
+				$("#viewby_img_div").show();
+				$("#viewby_bot_div").show();	
+			}
+			tb = setInterval("bindfancyBox()", 5000);
 			t = setInterval("bindScrollBar()", 1000);
 		}
 	});
@@ -371,6 +387,7 @@ function loadImagesByUser(uid)
 }
 function bindfancyBox()
 {
+	clearInterval(tb);
 	$('.fancybox-buttons').fancybox({
 		openEffect  : 'none',
 		closeEffect : 'none',
@@ -399,8 +416,12 @@ function openFaceBox()
 }
 function bindScrollBar()
 {
-	$('#container_isolate').tinyscrollbar();
-	clearInterval(t);	
+	clearInterval(t);
+	var oScrollbar = $('#container_isolate');
+	oScrollbar.tinyscrollbar();
+	oScrollbar.bottom($("#count_images").val());
+	//oScrollbar.tinyscrollbar_update('relative');
+	//$('#container_isolate').tinyscrollbar();	
 }
 function changeImagesView(uid, name)
 {
@@ -448,6 +469,8 @@ $(document).ready(function(){
 });
 reloadImages({$userid});
 </script>
+<script type="text/javascript" src="{$JS_PATH}/jquery.fancybox.js"></script>
+<link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox.css" media="screen" />
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
