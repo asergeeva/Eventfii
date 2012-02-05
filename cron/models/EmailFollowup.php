@@ -41,7 +41,7 @@ class EmailFollowup {
 						e.*
 					  FROM ef_events e
 						WHERE e.event_datetime BETWEEN 
-						DATE_SUB(NOW(), INTERVAL ".$interval_minute." MINUTE)
+						DATE_SUB(NOW(), INTERVAL ".$interval_minute." DAY)
 						AND
 						NOW()";
 		
