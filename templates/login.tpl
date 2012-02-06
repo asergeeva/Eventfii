@@ -25,6 +25,7 @@
 $(document).ready(function() {
 	FB.Event.subscribe('auth.login', FBCON.loginUser);
 });
+
 </script>
 </body>
 </html>

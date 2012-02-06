@@ -1,6 +1,6 @@
 <div class="popup-container" id="log-in">
 	<div class="popup block">
-		<p class="popup-close"><a href="#">X</a></p>
+		<p class="popup-close"><a href="javascript:void(0);" onclick="$('#log-in').fadeOut(500);">X</a></p>
 		{include file="login_form.tpl"}
 	</div>
 </div>

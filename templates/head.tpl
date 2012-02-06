@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<html xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="Author" content="trueRSVP" />

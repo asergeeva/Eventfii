@@ -200,6 +200,13 @@ class DBConfig {
 		return $userInfo;
 	}
 	
+	/*Get Image name*/
+	public function getEventName($eid)
+	{
+		$GET_TITLE = "SELECT title FROM ef_events WHERE id=".$eid;
+		$image = $this->executeQuery($GET_TITLE);
+		return $image['title'];	
+	}
 	/*Gett image for event*/
 	public function getEventImage($eid)
 	{
@@ -211,18 +218,23 @@ class DBConfig {
 	/*Inserting images for event*/
 	public function insertEventImages($uid, $eid, $imageName)
 	{
-		$IMAGES = "INSERT INTO ef_event_images SET event_id='".mysql_real_escape_string($eid)."', owner_id='".mysql_real_escape_string($uid)."', image='".mysql_real_escape_string($imageName)."'";	
+		$date = date("Y-m-d H:i:s");
+		$IMAGES = "INSERT INTO ef_event_images SET event_id='".mysql_real_escape_string($eid)."', owner_id='".mysql_real_escape_string($uid)."', image='".mysql_real_escape_string($imageName)."', created_at='".mysql_real_escape_string($date)."'";	
 		$this->executeInsert($IMAGES);
 	}
 	/*Select all event images*/
 	public function getAllEventImages($eid, $uid=0)
 	{
 		$where = '';
+		$order_by = '';
 		if($uid != 0)
 		{
 			$where = " AND owner_id='".mysql_real_escape_string($uid)."'";
+		}else if($uid == 'taken' || $uid == 'added')
+		{
+			$order_by = " ORDER BY created_at DESC";
 		}
-		$GET_IMAGES = "SELECT id, image, owner_id FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'".$where;
+		$GET_IMAGES = "SELECT id, image, owner_id FROM ef_event_images WHERE event_id='".mysql_real_escape_string($eid)."'".$where.' '.$order_by;
 		return $this->getQueryResultAssoc($GET_IMAGES);
 	}
 	public function delImage($delId)
@@ -809,6 +821,23 @@ class DBConfig {
 						) el
 						WHERE el.time_left < 0 ORDER BY el.days_left ASC";
 		return $this->getQueryResultAssoc($GET_EVENTS);
+	}
+	
+	/**
+		* Check whether the user belongs to a specific event or not?
+		* Params $uid, and $eid.
+		* return true if user is owner else return false.
+	**/
+	
+	public function checkEventOwner($uid, $eid)
+	{
+		$SQL = "SELECT * FROM ef_events WHERE organizer='".mysql_real_escape_string($uid)."' AND id='".mysql_real_escape_string($eid)."'";
+		if ($this->getRowNum($SQL) > 0) {
+			return true;
+		}else
+		{
+			return false;
+		}
 	}
 	
 	/**

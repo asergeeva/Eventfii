@@ -37,31 +37,40 @@ class PanelController {
 	}
 	private function getUsersByImages($eid)
 	{
-		$users_dropdown = '<ul>';
-		$users_dropdown .= '<li>Time taken</li>';
-		$users_dropdown .= '<li>Date added</li>';
-		$users_dropdown .= '<li class="txt_gray">All photos taken by:</li>';
-		$users_dropdown .= '<li class="expand">';
-		$users_dropdown .= '<ul>';
+		$users_dropdown = '<select id="sort_by_dropwdown" name="sort_by_dropwdown" onchange="changeImagesView($(\'#sort_by_dropwdown :selected\').val(), $(\'#sort_by_dropwdown :selected\').text());">
+							<option value="0">All</option>
+							<option value="taken">Time taken</option>
+							<option value="added">Date added</option>
+				  				<optgroup label="All photos taken by:">';
 		$user_ids = EFCommon::$dbCon->getUsersByImages($eid);
 		foreach($user_ids as $user_id)
 		{
 			$name = EFCommon::$dbCon->getUserNameById($user_id['owner_id']);
-			$users_dropdown .= '<li onclick="changeImagesView('.$user_id['owner_id'].', \''.$name.'\')">'.$name.'</li>';
+			$users_dropdown .= '<option value="'.$user_id['owner_id'].'">'.$name.'</option>';
 		}
-		$users_dropdown .= '</ul>';
-		$users_dropdown .= '</li>';
-		$users_dropdown .= '</ul>';
+		$users_dropdown .= '</optgroup></select>';
 		return $users_dropdown;
 	}
 	private function getUsersByImagesSelected($eid, $uid)
 	{
-		$users_dropdown = '<ul>';
-		$users_dropdown .= '<li>Time taken</li>';
-		$users_dropdown .= '<li>Date added</li>';
-		$users_dropdown .= '<li class="txt_gray">All photos taken by:</li>';
-		$users_dropdown .= '<li class="expand">';
-		$users_dropdown .= '<ul>';
+		$users_dropdown = '<select id="sort_by_dropwdown" name="sort_by_dropwdown" onchange="changeImagesView($(\'#sort_by_dropwdown :selected\').val(), $(\'#sort_by_dropwdown :selected\').text());"><option value="0">All</option>';
+		if($uid == 'taken')
+		{
+			
+			$users_dropdown .= '<option value="taken" selected="selected">Time taken</option>';
+		}else
+		{
+			$users_dropdown .= '<option value="taken">Time taken</option>';
+		}
+		if($uid == 'added')
+		{
+			$users_dropdown .= '<option value="added" selected="selected">Date added</option>';
+		}
+		else
+		{
+			$users_dropdown .= '<option value="added">Date added</option>';
+		}
+		$users_dropdown .= '<optgroup label="All photos taken by:">';
 		$user_ids = EFCommon::$dbCon->getUsersByImages($eid);
 		foreach($user_ids as $user_id)
 		{
@@ -69,14 +78,17 @@ class PanelController {
 			$name = EFCommon::$dbCon->getUserNameById($user_id['owner_id']);
 			if($user_id['owner_id'] == $uid)
 			{
-				$selected = " class='selected'";	
+				$selected = " selected='selected'";	
 			}
-			$users_dropdown .= '<li onclick="changeImagesView('.$user_id['owner_id'].', \''.$name.'\')" '.$selected.'>'.$name.'</li>';
+			$users_dropdown .= '<option value="'.$user_id['owner_id'].'" '.$selected.'>'.$name.'</option>';
 		}
-		$users_dropdown .= '</ul>';
-		$users_dropdown .= '</li>';
-		$users_dropdown .= '</ul>';
+		$users_dropdown .= '</optgroup></select>';
 		return $users_dropdown;
+	}
+	/*Function for checking the event owner*/
+	private function checkEventOwner($uid, $eid)
+	{
+		return $this->dbConn->checkEventOwner($uid, $eid);
 	}
 	private function get_file_extension($file_name)
 	{
@@ -278,6 +290,7 @@ class PanelController {
 			case '/event/reloadImages':
 				$allImages = $this->getAllEventImages($_POST['eid']);
 				$users_dropdown = $this->getUsersByImages($_POST['eid']);
+				$event_name = EFCommon::$dbCon->getEventName($_POST['eid']);
 				$html = '';
 				$slideshow = '';
 				$count_images = 0;
@@ -293,8 +306,8 @@ class PanelController {
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
                     $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
-                    $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" style="display:inline-block !important ;" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
-					if(isset($_SESSION['user']))
+                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/eventimages/'.$image['image'].'\', \'Check out this photo from '.$event_name.'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+					if(isset($_SESSION['user']) && $this->checkEventOwner($_SESSION['user']->id, $_POST['eid']))
 					{
 						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
 					}
@@ -307,6 +320,7 @@ class PanelController {
 			case '/event/reloadImagesByUser':
 				$allImages = $this->getAllEventImagesByUser($_POST['eid'], $_POST['uid']);
 				$users_dropdown = $this->getUsersByImagesSelected($_POST['eid'], $_POST['uid']);
+				$event_name = EFCommon::$dbCon->getEventName($_POST['eid']);
 				$html = '';
 				$slideshow = '';
 				$count_images = 0;
@@ -322,8 +336,8 @@ class PanelController {
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
                     $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
-                    $html .= '<div class="fr" style="text-align:right;">Share <a name="fb_share" type="icon" share_url="'.CURHOST.'/eventimages/'.$image['image'].'"></a><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
-					if(isset($_SESSION['user']))
+                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/eventimages/'.$image['image'].'\', \'Check out this photo from '.$event_name.'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+					if(isset($_SESSION['user']) && $this->checkEventOwner($_SESSION['user']->id, $_POST['eid']))
 					{
 						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
 					}
@@ -1078,6 +1092,8 @@ class PanelController {
 						$newEvent = $_SESSION['newEvent'];
 						if ( $this->validateEventInfo( $newEvent ) == true ) {
 							$this->makeNewEvent( $newEvent );
+							header("Location: " . CURHOST . "/event/create/invite");
+							exit;
 						}
 					}
 					

@@ -86,11 +86,14 @@ function fetch_tweets(elem){
 	});
 	return(false);
 }
-$(function(){
-	showTweetLinks=showTweetLinks.toLowerCase();
+jQuery.noConflict();
+(function($) { 
+  $(function() {
+    showTweetLinks=showTweetLinks.toLowerCase();
 	if(showTweetLinks.indexOf('all')!=-1)
 		showTweetLinks='reply,view,rt';
 	$('.twitStream').each(function(){
 		fetch_tweets(this);
 	});
-});
+  });
+})(jQuery);

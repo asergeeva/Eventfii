@@ -1,5 +1,6 @@
 {include file="head.tpl"}
     <body class="whiteBg">
+<span id="event_title" style="display:none;">{$event->title}</span>
     {include file="new_header.tpl"}
 <article id="container">
     {if isset($smarty.get.created) && $smarty.session.user->id == $event->organizer->id}
@@ -31,7 +32,7 @@
                         <table cellpadding="0" cellspacing="0" style="width:auto">
                         <tr>
                             <td align="center">
-                                <div class="viewby_top">
+                                <div class="viewby_top" style="width:100%;">
                                     <img src="{$CURHOST}/images/share_photo_txt.png" alt="Photo" style="vertical-align: -11px; float:left;" /> &nbsp; <span style="font-size:16px; float:left; padding:0 10px;">Share your photos from <strong>{$event->title}!</strong></span> &nbsp; 
                             
                                 {if isset($smarty.session.user)}
@@ -41,7 +42,7 @@
                                     	<a style="margin-top:-5px;" href="javascript:void(0);" class="btn btn-manage" onClick="$('#rsvp-first-error').fadeIn(500);"><span>&nbsp; Browse &nbsp;</span></a>
                                     {/if}
                                 {else}
-                                    <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="showLoginPopup"><span>&nbsp; Browse &nbsp;</span></a>    
+                                    <a style="margin-top:5px;" href="javascript:void(0);" class="btn btn-manage" id="" onClick="$('#log-in').fadeIn(500);"><span>&nbsp; Browse &nbsp;</span></a>    
                                 {/if}
                         </div>
                             </td>
@@ -57,11 +58,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="viewby_bot clearfix " id="viewby_bot_div" style="display:none;">
-                        <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"><strong>All</strong></span> 
+                    <div class="viewby_bot clearfix " id="viewby_bot_div" style="display:none; width:100%">
+                        <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"></span> 
                         <div class="dd_box" style="display:none;">
                         </div>
-                        <a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a> </div>
+                        <span id="back_to_all" style="display:none;"><a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a></span></div>
                         <div class="br">View: <a href="javascript:void(0);" onClick="openFaceBox();" id="slideshow">Slideshow</a></div>
                     </div>
                 </section>
@@ -235,17 +236,18 @@
 {include file="popup_seeall.tpl"}
 {include file="popup_rsvp_multiple.tpl"}
 
-{include file="js_global.tpl"}
-<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+{include file="js_global_event.tpl"}
 {include file="js_event.tpl"}
-<!-- Add fancyBox main JS and CSS files -->
-<!-- Add Button helper (this is optional) -->
+<script type="text/javascript" src="{$JS_PATH}/jquery.min.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/jquery.fancybox.js"></script>
+<link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox-buttons.css?v=2.0.3" />
 <script type="text/javascript" src="{$JS_PATH}/jquery.fancybox-buttons.js?v=2.0.3"></script>
 <link href="{$JS_PATH}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
 <script src="{$JS_PATH}/uploadify/swfobject.js"></script> 
 <script src="{$JS_PATH}/uploadify/jquery.uploadify.v2.1.4.js"></script>
 <script src="{$JS_PATH}/jquery.tinyscrollbar.min.js"></script>
+<script src="{$JS_PATH}/fb_share.js"></script>
 <script language="javascript">
 var queSize     = 50;
 var uploaded	= 1;
@@ -318,7 +320,7 @@ function reloadImagesAll()
 function reloadImages(data)
 {
 	$("#viewBy").hide();
-	$("#sort_by").html('All');
+	//$("#sort_by").html('All');
 	$.ajax({
 		type: 'POST',
 		data: data,
@@ -328,7 +330,7 @@ function reloadImages(data)
 		success: function(response)
 		{
 			$("#container_iso").html(response.html);
-			$(".dd_box").html(response.users_dropdown);
+			$("#sort_by").html(response.users_dropdown);
 			$("#count_images").val(response.count_images);
 			if(response.count_images == 0)
 			{
@@ -339,7 +341,7 @@ function reloadImages(data)
 				$("#viewby_img_div").show();
 				$("#viewby_bot_div").show();	
 			}
-			tb = setInterval("bindfancyBox()", 5000);
+			tb = setInterval("bindfancyBox()", 2000);
 			t = setInterval("bindScrollBar()", 1000);
 		}
 	});
@@ -349,11 +351,12 @@ function reloadImagesByUser(data, uid, name)
 	if(uid == 0)
 	{
 		$("#viewBy").hide();
+		$('#back_to_all').hide();
 	}else
 	{
 		$("#viewBy").show();
 		$("#viewByName").html(name);
-		$("#sort_by").html(name);
+		$('#back_to_all').show();
 	}
 	$.ajax({
 		type: 'POST',
@@ -364,8 +367,7 @@ function reloadImagesByUser(data, uid, name)
 		success: function(response)
 		{
 			$("#container_iso").html(response.html);
-			$(".dd_box").html(response.users_dropdown);
-			$(".dd_box").hide();
+			$("#sort_by").html(response.users_dropdown);
 			$("#count_images").val(response.count_images);
 			if(response.count_images == 0)
 			{
@@ -376,7 +378,7 @@ function reloadImagesByUser(data, uid, name)
 				$("#viewby_img_div").show();
 				$("#viewby_bot_div").show();	
 			}
-			tb = setInterval("bindfancyBox()", 5000);
+			tb = setInterval("bindfancyBox()", 2000);
 			t = setInterval("bindScrollBar()", 1000);
 		}
 	});
@@ -404,7 +406,7 @@ function bindfancyBox()
 			var index_to_show = (this.index + 1);
 			var href_download = str_replace("{$CURHOST}/eventimages/", "", this.href);
 			var title_to_show = '<div style="float:left; font-size:10px; max-width:80px; line-height:normal;">by '+$("#by_name_"+index_to_show).html()+'</div>';
-			title_to_show += '<div style="float:right; text-align:right; font-size:10px; line-height:normal">Share <a name="fb_share" type="icon" share_url="'+(this.href)+'"></a><br /><a href="{$CURHOST}/event/imageDownload/?file='+href_download+'">Download</a></div>';
+			title_to_show += '<div style="float:right; text-align:right; font-size:10px; line-height:normal">Share <img src="{$CURHOST}/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''+(this.href)+'\', \'Check out this photo from '+($("#event_title").html())+'\');" /><br /><a href="{$CURHOST}/event/imageDownload/?file='+href_download+'">Download</a></div>';
 			this.title = title_to_show;
 			//this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
 		}
@@ -462,15 +464,8 @@ function delImage()
 		}
 	});
 }
-$(document).ready(function(){
-	$("#sort_by").hover(function(){
-		$('.dd_box').show();	
-	});
-});
 reloadImages({$userid});
 </script>
-<script type="text/javascript" src="{$JS_PATH}/jquery.fancybox.js"></script>
-<link rel="stylesheet" type="text/css" href="{$CURHOST}/css/jquery.fancybox.css" media="screen" />
 <div class="popup_box_main" id="loader" style="display:none;">
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">

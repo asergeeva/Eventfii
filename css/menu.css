@@ -363,3 +363,14 @@ h3.title{font-size:14px; line-height:19px;}
 .orent_box h3{font-size: 14px; color: #666666; font-weight: bold; padding: 5px 0 0;}
 .orent_box .links{font-size: 12px; color: #666666; padding: 20px 0 0;}
 .orent_box .links a{font-size: 14px; color: 3bb9dd; }
+
+/*2/6/2012*/
+.fb_share{
+ min-height:11px !important;	
+ max-height: 11px !important;
+ min-width:11px !important;
+ max-width: 11px !important;
+ cursor:pointer;
+ height:11px;
+ width:11px;
+}

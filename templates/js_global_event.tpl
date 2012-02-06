@@ -27,7 +27,9 @@ var EFGLOBAL = (function() {
 }());
 
 
-$(document).ready(function(){
+jQuery.noConflict();
+(function($) { 
+  $(function() {
 	$('#contactable').contactable({
 		subject: 'feedback URL:'+location.href
 	});
@@ -67,6 +69,7 @@ $(document).ready(function(){
 	$(".dropdown dd ul").hide();
 	$(".dropdown dt a").removeClass("selected");
 	}});
-});
+  });
+})(jQuery);
 {/literal}
 </script>
