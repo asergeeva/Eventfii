@@ -4,7 +4,9 @@
  * All code (c) 2011 trueRSVP Inc. 
  * All rights reserved
  */
-
+jQuery.noConflict();
+(function($) { 
+  $(function() {
 var EVENT = (function() {
 	$('.rsvp-opt').live('click', function() {
 		$('.rsvp-label').removeClass('selected');
@@ -23,8 +25,12 @@ var EVENT = (function() {
 
 	}
 })();
+});
+})(jQuery);
 
-$(document).ready(function() {
+jQuery.noConflict();
+(function($) { 
+  $(function() {
 	$("#showLoginPopup").click(function(){
 		$("#log-in").fadeIn(500);
 	});
@@ -73,4 +79,5 @@ $(document).ready(function() {
 		$("#create-acc").fadeIn(500);
 		return false;
 	});*/
-});
+	});
+})(jQuery);

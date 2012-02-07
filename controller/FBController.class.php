@@ -62,9 +62,9 @@ class FBController {
 		        $delete_success = EFCommon::$facebook->api("/$full_request_id", 'DELETE');
 		        if (DEBUG) {
 			        if ($delete_success) {
-						echo "Successfully deleted " . $full_request_id. "<br />";
+						//echo "Successfully deleted " . $full_request_id. "<br />";
 			        } else {
-						echo "Delete failed".$full_request_id. "<br />";
+						//echo "Delete failed".$full_request_id. "<br />";
 			        }
 		        }
 		      } catch (FacebookApiException $e) {

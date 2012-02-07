@@ -1,4 +1,4 @@
-<div class="popup-container" id="rsvp-multiple">
+<!--<div class="popup-container" id="rsvp-multiple">
 	<div class="popup block">
 		<header class="block-title">
 			<h1>Please complete your RSVP!</h1>
@@ -17,5 +17,30 @@
 				</footer>
 			</dl>
 		</fieldset>
+	</div>
+</div>-->
+<div class="popup-container" id="rsvp-multiple">
+	<div class="popup block" style="width:226px;">
+    	<p class="popup-close"><a href="#">X</a></p>
+        <div class="pp_guest">
+            <h2>Fill out guest info</h2>
+            <div class="clear5"></div>
+            <div class="cont">
+                <div class="c_lft">You plus</div>                
+                <div class="c_rgt"><select><option>2 guest</option></select></div>
+                <div class="clear5"></div>
+                <div class="clear5"></div>
+                <div>We will e-mail your guest a reminder.</div>
+                <div class="clear5"></div>
+                <div class="c_lft">Guest #1:</div>                
+                <div class="c_rgt"><input type="text" value="Name" /> <input type="text" value="Email" /></div>
+                <div class="clear5"></div>
+                <div class="c_lft">Guest #2:</div>                
+                <div class="c_rgt"><input type="text" value="Name" /> <input type="text" value="Email" /></div>
+                <div class="clear5"></div>
+                <a href="#" class="btn btn-manage fr"><span>&nbsp; RSVP &nbsp;</span></a>
+                <div class="clear5"></div>
+            </div>
+        </div>
 	</div>
 </div>

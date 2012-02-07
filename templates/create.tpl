@@ -98,10 +98,10 @@
 								<p>Delay the rest of the invitations for <select name="delay"><option value="0">Please select</option> <option value="1">1 hour</option> <option value="2">2 hours</option> <option value="3">3 hours</option> <option value="4">4 hours</option> <option value="5">5 hours</option> <option value="6">6 hours</option> <option value="12">12 hours</option> <option value="16">16 hours</option> <option value="24">24 hours</option> <option value="48">48 hours</option></select></p>
 							</dd> 
 							<dt>
-								<label for="multiple"><input type="checkbox" id="multiple" /> Multiple RSVPs</label>
+								<label for="multiple"><input type="checkbox" id="multiple" onClick="showRsvpSelect();" /> Multiple RSVPs</label>
 							</dt>
 							<dd>
-								<p>Guests can RSVP for up to <select name="delay"><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option></select></p>
+								<p>Guests can RSVP for up to <select name="delay" id="delay" disabled><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option></select></p>
 							</dd> 
 						</dl>{if ! isset($error.goal)}
 
@@ -247,6 +247,17 @@
 
 {include file="js_global.tpl"}
 {include file="js_create.tpl"}
-
+<script>
+function showRsvpSelect()
+{
+	if($('#multiple').attr('checked'))
+	{
+		$("#delay").removeAttr("disabled");
+	}else
+	{
+		$("#delay").attr("disabled","disabled");
+	}
+}
+</script>
 </body>
 </html>

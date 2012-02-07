@@ -79,7 +79,7 @@ class AdminDB extends DBConfig {
 	}
 	public function insertStockPhoto($image_name, $stockId)
 	{
-		$INSERT_STOCK_PHOTO = "INSERT INTO ef_stock_photos SET stock_id='".$stockId."', photo='".$image_name."', thumb='".$image_name."'";
+		$INSERT_STOCK_PHOTO = "INSERT INTO ef_stock_photos SET stock_id='".$stockId."', photo='".$image_name."', thumb='".$image_name."', created_at='".date("Y-m-d H:i:s")."'";
 		$this->executeUpdateQuery($INSERT_STOCK_PHOTO);
 	}
 	public function admin_delStockPhoto($delId)

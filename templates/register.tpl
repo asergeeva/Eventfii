@@ -57,7 +57,8 @@
 						<label for="fname">First Name<span>*</span></label>
 					</dt>
 					<dd{if isset($error.fname)} class="error"{/if}>
-						<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.fname)}
+                    	<!--readonly="readonly"-->
+						<input type="text" name="fname" value="{if isset($smarty.post.fname)}{$smarty.post.fname}{elseif isset($smarty.session.fb->fname)}{$smarty.session.fb->fname}{/if}"{if isset($smarty.session.fb->fname)} {/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.fname)}
 
 						<em>{$error.fname}</em>{/if}
 
@@ -66,7 +67,8 @@
 						<label for="lname">Last Name<span>*</span></label>
 					</dt>
 					<dd{if isset($error.lname)} class="error"{/if}>
-						<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)} readonly="readonly"{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.lname)}
+                    <!-- readonly="readonly"-->
+						<input type="text" name="lname" value="{if isset($smarty.post.lname)}{$smarty.post.lname}{elseif isset($smarty.session.fb->lname)}{$smarty.session.fb->lname}{/if}"{if isset($smarty.session.fb->lname)}{/if} class="inputbox{if isset($smarty.session.fb->fname)} input-facebook{/if}" />{if isset($error.lname)}
 
 						<em>{$error.lname}</em>{/if}
 
@@ -94,7 +96,7 @@
 				</dl>
 				<footer class="buttons-submit"> 
 					<p><span class="btn btn-med"><input type="submit" name="register" value="Go" /></span></p>{*
-					<a href="#" onclick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>*}{/if}
+					<a href="#" onClick="LOGIN_FORM.newUserLogin()" class="btn-med" id="ef_create_user_btn"><span>Done</span></a>*}{/if}
 
 				</footer> 
 			</fieldset>

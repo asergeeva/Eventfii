@@ -374,3 +374,14 @@ h3.title{font-size:14px; line-height:19px;}
  height:11px;
  width:11px;
 }
+
+/** popup guest info   position: absolute; left: 45%; top: 45%; **/
+.pp_guest{width: 226px; background-color: #fff; font-family: arial;}
+.pp_guest h2{border-bottom: 1px solid #aaaaaa; padding: 4px 2px; font-size: 12px;}
+.pp_guest .cont{ padding: 0 5px;}
+.pp_guest .c_lft{ float: left; width: 55px; line-height:20px; font-weight: bold;}
+.pp_guest .c_rgt{ float: left; width: 160px; line-height:20px;}
+.pp_guest .c_rgt input[type='text']{float: left; width: 60px; height: 16px; border: 1px solid #cccccc; -wevkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; margin-right: 5px; font-size: 11px; color: #999999; padding: 0 5px;}
+.pp_guest .c_rgt select{float: left; width: 100px; height: 30px; border: 1px solid #cccccc; border-radius:3px;}
+
+.clear5{margin:0;padding:0;line-height:0;font-size:0;clear:both; height:5px;}

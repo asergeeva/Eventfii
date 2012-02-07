@@ -68,6 +68,7 @@
 							</footer>
 						</fieldset>
 					</div>
+          {$submitTo}
 					<div id="import_form_container" style="display:none">
 						<form method="post" action="{$submitTo}" id="create_guests">
 							<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
