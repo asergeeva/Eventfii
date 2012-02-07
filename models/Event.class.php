@@ -24,6 +24,7 @@ class Event {
 	public $date;
 	public $time;
 	public $image;
+	public $total_rsvps;
 	
 	public $friendly_date;
 	public $friendly_time;
@@ -69,6 +70,7 @@ class Event {
 			$this->set_end_time(NULL);
 			$this->set_goal(NULL);
 			$this->global_ref = NULL;
+			$this->set_total_rsvps(NULL);
 			// For event creation some fields aren't checked
 			// until step 2. Keep those out of the validation loop.
 			if ( ! $step1 ) {		
@@ -101,6 +103,18 @@ class Event {
 	
 	public function __destruct() {
 		
+	}
+	
+	
+	/*set total rsvps*/
+	private function set_total_rsvps( $rsvps = NULL ) {
+		if ( $rsvps == NULL ) {
+			if ( isset($_POST['delay']) ) {
+				$rsvps = $_POST['delay'];
+			}
+		}
+		
+		$this->total_rsvps = $rsvps;
 	}
 	
 	/* set_title
@@ -572,6 +586,7 @@ class Event {
 			$this->rsvp_days_left = $this->days_left;
 		}
 		
+		$this->total_rsvps = $eventInfo['total_rsvps'];
 		$this->type = $eventInfo['type'];
 		$this->goal = $eventInfo['goal'];
 		$this->reach_goal = $eventInfo['reach_goal'];
@@ -610,7 +625,7 @@ class Event {
 		$eventInfo['alias'] = $this->alias;
 		$eventInfo['global_ref'] = $this->global_ref;
 		$eventInfo['image'] = $this->image;
-		
+		$eventInfo['total_rsvps'] = $this->total_rsvps;
 		return $eventInfo;
 	}
 

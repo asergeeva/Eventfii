@@ -62,7 +62,7 @@
                         <div class="bl" style="position: relative;">Sort by: <span id="sort_by" style="min-width:78px;"></span> 
                         <div class="dd_box" style="display:none;">
                         </div>
-                        <span id="back_to_all" style="display:none;"><a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photo</a></span></div>
+                        <span id="back_to_all" style="display:none;"><a href="javascript:void(0);" onClick="reloadImagesAll();">Back to All Photos</a></span></div>
                         <div class="br">View: <a href="javascript:void(0);" onClick="openFaceBox();" id="slideshow">Slideshow</a></div>
                     </div>
                 </section>
@@ -140,13 +140,9 @@
                     <div>
                     	<fieldset>
                             <legend style="padding-top:0px;">RSVP Now</legend>{if $event->rsvp_days_left > 0}
-            
                             <p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>{else if $event->rsvp_days_left == 0}
-            
-                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}
-            
+                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}            
                             <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
-                        
                             <ol class="rsvp-list" id="event_attending_response">
                                 <li>
                                     <label class="rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">

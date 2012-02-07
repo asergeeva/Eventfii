@@ -64,7 +64,7 @@ var LOGIN_FORM = (function() {
 				window.location = EFGLOBAL.baseUrl + '/home?loggedIn=true';
 			// Facebook login
 			} else if ( status == 3 ) {
-				window.location = EFGLOBAL.baseUrl + '/register';
+				window.location = EFGLOBAL.baseUrl + '/register?step=create';
 			// Use the current page as redirect
 			} else if ( status == 4 ) {
 				window.location = window.location.href;

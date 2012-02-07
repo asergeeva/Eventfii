@@ -200,6 +200,8 @@ class PanelController {
 							$newEvent = $_SESSION['newEvent'];
 							$newEvent->organizer = $_SESSION['user'];
 							$this->makeNewEvent( $newEvent );
+							header("Location: " . CURHOST . "/event/create/invite");
+							exit;
 						}
 					}
 			
@@ -953,14 +955,14 @@ class PanelController {
 				// The FB ID's that is being invited by the user
 				if (isset($_SESSION['manage_event'])) {
 					EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id,
-												   $_REQUEST['from_fbid'],
+												   $_SESSION['user']->facebook,
 												   $_REQUEST['to_fbid'],
 												   $_REQUEST['request_id'], 
 												   isset($_REQUEST['data']) ? $_REQUEST['data'] : NULL, 
 												   $_SESSION['manage_event']->eid);
 				} else if (isset($_SESSION['newEvent'])) {
 					EFCommon::$dbCon->inviteUserFB($_SESSION['user']->id,
-												   $_REQUEST['from_fbid'],
+												   $_SESSION['user']->facebook,
 												   $_REQUEST['to_fbid'],
 												   $_REQUEST['request_id'], 
 												   isset($_REQUEST['data']) ? $_REQUEST['data'] : NULL, 

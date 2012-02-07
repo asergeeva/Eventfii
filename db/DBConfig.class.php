@@ -441,7 +441,7 @@ class DBConfig {
 	 * If the user is inviting friends through Facebook, record the invites
 	 */
 	public function inviteUserFB($uid, $from_fbid, $to_fbid, $request_id, $data, $eid) {
-		$INVITE_FB = "INSERT IGNORE INTO fb_invited (user_id, from_fbid, to_fbid, request_id, invite_data, event_id) 
+		echo $INVITE_FB = "INSERT IGNORE INTO fb_invited (user_id, from_fbid, to_fbid, request_id, invite_data, event_id) 
 						VALUES (".mysql_real_escape_string($uid).", 
 								'".mysql_real_escape_string($from_fbid)."', 
 								'".mysql_real_escape_string($to_fbid)."', 
@@ -655,6 +655,7 @@ class DBConfig {
 		{
 			$organizer = $_SESSION['user']->id;	
 		}
+		
 		$CREATE_NEW_EVENT = "
 			INSERT INTO ef_events (	
 							created, 
@@ -663,7 +664,8 @@ class DBConfig {
 							goal, 
 							reach_goal,
 							location_name,
-							location_address, 
+							total_rsvps,
+							location_address,
 							event_datetime, 
 							event_end_datetime,
 							event_deadline, 
@@ -682,6 +684,7 @@ class DBConfig {
 						" . mysql_real_escape_string($newEvent->goal) . ",
 						" . mysql_real_escape_string($newEvent->reach_goal). ",
 						" . $this->checkNullOrValSql($newEvent->location) . ",
+						'".mysql_real_escape_string($newEvent->total_rsvps)."',
 						'" . mysql_real_escape_string($newEvent->address) . "',
 						'" . mysql_real_escape_string($datetime) . "',
 						 " . $this->checkNullOrValSql($end_datetime) . ",

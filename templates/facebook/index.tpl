@@ -43,7 +43,7 @@
                             {if $event->image eq ""}
                                 <img src="{$IMG_PATH}/photo.jpg" width="531" height="291" alt="" />
                             {else}
-                                <img src="{$CURHOST}/upload/events/{$event->image}" />
+                                <img src="{$CURHOST}/upload/events/{$event->image}" width="531" height="291" />
                             {/if}
                             </span><br /><strong><span style="font-size:14px; padding-top:5px; display:block;"><span id="event_name">{$event->title}</span></span><span id="event_date">{$event->friendly_date}</span> at <span id="event_time">{$event->friendly_time}</span></strong>
                         </td>

@@ -74,13 +74,11 @@ var OPENINVITER = (function() {
 			if (requestIds != null) {
 				var i,
 					requestInfo;
-				FB.api('', {"ids": requestIds.request_ids.join(',') }, function(requestInfo) {
+				FB.api('', {"ids": requestIds.to.join(',') }, function(requestInfo) {
 					for (requestId in requestInfo) {
 						$.post(EFGLOBAL.baseUrl + '/fb/invite', {
-							request_id: requestId,
-							from_fbid: requestInfo[requestId].from.id,
-							to_fbid: requestInfo[requestId].to.id,
-							data: requestInfo[requestId].data
+							request_id: requestIds.request,
+							to_fbid: requestInfo[requestId].id
 						}, function() {
 							$('#submit_create_guests').trigger('click');
 						});
@@ -158,7 +156,7 @@ $(document).ready(function() {
 		}
 			
 		$('#emails-hidden').val(merged_email.substring(0, merged_email.length - 1));
-		
+
 		if (fb_ids.length > 0) {
 			var fbids = fb_ids.join(',');
 			FB.ui({method: 'apprequests',

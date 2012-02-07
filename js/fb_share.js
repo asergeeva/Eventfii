@@ -6,8 +6,8 @@ function streamPublish(ILInk, ITitle)
 		name: ITitle,
 		link: ILInk,
 		picture: ILInk,
-		caption: ITitle,
-		description: ITitle
+		caption: ILInk,
+		description: ''
 	  },
 	  function(response) {
 		if (response && response.post_id) {
