@@ -90,6 +90,13 @@ class PanelController {
 	{
 		return $this->dbConn->checkEventOwner($uid, $eid);
 	}
+	
+	/*Check whether email already exist*/
+	private function checkGuestEmail($email)
+	{
+		return EFCommon::$dbCon->isUserEmailExist($email);
+	}
+	
 	private function get_file_extension($file_name)
 	{
 			  return substr(strrchr($file_name,'.'),1);
@@ -758,9 +765,20 @@ class PanelController {
 					if (isset($inviter->plugin)) {
 						$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
 						$contactList = $inviter->getMyContacts();
+						asort($contactList);
+						//echo "<pre>";
+						//print_r($rec);
+						//echo "</pre>";
+						//$contactList = array_flip($contactList);
+						//ksort($contactList);
+						//$contactList = array_flip($contactList);
+
 						
 						if ($contactList) {
 							EFCommon::$smarty->assign('contactList', $contactList);
+							EFCommon::$smarty->assign('oi_email', $_REQUEST['oi_email']);
+							EFCommon::$smarty->assign('oi_pass', $_REQUEST['oi_pass']);
+							EFCommon::$smarty->assign('oi_provider', $_REQUEST['oi_provider']);
 							EFCommon::$smarty->display('import_contact_list.tpl');
 						} else {
 							print("Invalid username/password");
@@ -783,6 +801,61 @@ class PanelController {
 					EFCommon::$smarty->display('block_contacts.tpl');
 				}
 				break;
+				
+			case '/guest/inviterFilter':			
+				$inviter = new OpenInviter();
+				$oi_services = $inviter->getPlugins();
+				if ( isset( $_REQUEST['oi_email'] ) && isset( $_REQUEST['oi_pass'] ) ) {
+					$inviter->startPlugin($_REQUEST['oi_provider']);
+					$internal = $inviter->getInternalError();
+					if ( $internal && DEBUG ) {
+						print($internal);
+					}
+					$inviter->login( $_REQUEST['oi_email'], $_REQUEST['oi_pass'] );
+					if (isset($inviter->plugin)) {
+						$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
+						$contactList = $inviter->getMyContacts();
+						$oi_filter = $_REQUEST['oi_filter'];
+						$lenth = strlen($oi_filter);
+						$filterRecord = array();
+						foreach($contactList as $key => $values)
+						{
+							if(substr($values,0,$lenth)==$oi_filter)
+							{
+								$filterRecord[$key] = $values;
+							}
+						}
+					  $contactList = $filterRecord;
+						asort($contactList);
+						//if ($contactList) {
+						EFCommon::$smarty->assign('contactList', $contactList);
+						EFCommon::$smarty->assign('oi_email', $_REQUEST['oi_email']);
+						EFCommon::$smarty->assign('oi_pass', $_REQUEST['oi_pass']);
+						EFCommon::$smarty->assign('oi_provider', $_REQUEST['oi_provider']);
+						EFCommon::$smarty->assign('oi_filter', $_REQUEST['oi_filter']);
+						EFCommon::$smarty->display('import_contact_list.tpl');
+						//} else {
+						//	print("No record match");
+					//	}
+					}
+				} else {
+					$contacts = array();
+					$contactList = EFCommon::$dbCon->getUserContacts($_SESSION['user']->id);
+					for ($i = 0; $i < sizeof($contactList); ++$i) {
+						$contact = new User($contactList[$i]);
+						$contacts[] = $contact;
+					}
+					
+					if ( sizeof($contacts) > 0 )
+						EFCommon::$smarty->assign('contacts', $contacts);
+					else
+						EFCommon::$smarty->assign('contacts', NULL);
+					
+					EFCommon::$smarty->assign('addButton', true);
+					EFCommon::$smarty->display('block_contacts.tpl');
+				}
+				break;	
+				
 			case '/event/manage/email':
 				$page['email'] = true;
 				EFCommon::$smarty->append('page', $page, TRUE);
@@ -936,6 +1009,31 @@ class PanelController {
 				
 				EFCommon::$dbCon->saveText($event->eid, $_REQUEST['reminderContent'], $dateTime, SMS_REMINDER_TYPE, $autoReminder);
 				echo("Success");
+				break;
+			case '/event/saversvp':
+				$event_id = $_POST['event_id'];
+				$conf = $_POST['conf'];
+				$event = $this->buildEvent($event_id);
+				for($i=0;$i<=$_POST['total_rsvps'];$i++)
+				{
+					$guestName = $_POST['guest_name_'.$i];
+					$guestEmail = $_POST['guest_email_'.$i];
+					$exist = $this->checkGuestEmail($guestEmail);
+					if($exist)
+					{
+						$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
+						$userBuilded = new User($userInfo);
+						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf);
+						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+					}else
+					{
+						$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
+						$userBuilded = new User($userInfo);
+						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf);
+						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+					}
+				}
+				echo 'Done';
 				break;
 			case '/event/manage/followup':
 				$page['followup'] = true;

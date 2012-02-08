@@ -101,7 +101,7 @@
 								<label for="multiple"><input type="checkbox" id="multiple" onClick="showRsvpSelect();" /> Multiple RSVPs</label>
 							</dt>
 							<dd>
-								<p>Guests can RSVP for up to <select name="delay" id="delay" disabled><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option></select></p>
+								<p>Guests can RSVP for up to <select name="delay" id="delay" disabled><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option><option value="6">6 extra people</option><option value="7">7 extra people</option><option value="8">8 extra people</option></select></p>
 							</dd> 
 						</dl>{if ! isset($error.goal)}
 
@@ -223,7 +223,7 @@
 						</aside>
 						<footer class="buttons buttons-submit">
 							<input type="hidden" name="title" value="{$smarty.post.title}" />{if isset($smarty.post.location)}<input type="hidden" name="location" value="{$smarty.post.location}" />{/if}
-
+							<input type="hidden" name="delay" value="{$smarty.post.delay}" />
 							<input type="hidden" name="address" value="{$smarty.post.address}" />
 							<input type="hidden" name="date" value="{$smarty.post.date}" />
 							<input type="hidden" name="time" value="{$smarty.post.time}" />{if isset($smarty.post.end_date)}

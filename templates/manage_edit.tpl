@@ -1,5 +1,6 @@
 {include file="new_head.tpl"}
 <body>
+
 {include file="new_header.tpl"}
 <div id="container">
 	{include file="manage_header.tpl"}

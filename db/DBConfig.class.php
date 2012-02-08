@@ -1009,6 +1009,36 @@ class DBConfig {
 		return NULL;
 	}
 	
+	
+	/**
+	 * Sign up the user for an event with certain confidence level.
+	 * Send the thank you email to the user that is attending the event.
+	 * @param $uid   | Integer | The user ID that is signing up to the event
+	 * @param $event | Event   | The event
+	 * @update without sending email to users
+	 */
+	public function eventSignUpWithOutEmail($uid, $event, $conf) {
+		$signedUp = $this->hasAttend($uid, $event->eid);
+		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
+		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
+			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
+								VALUES(
+									" . mysql_real_escape_string($event->eid) . ", 
+									" . mysql_real_escape_string($uid) . ", 
+									" . mysql_real_escape_string($conf) . ",
+									NOW()
+								)";
+			$this->executeUpdateQuery($SIGN_UP_EVENT);
+		} else {
+			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
+								SET 	confidence = " . mysql_real_escape_string($conf) . " 
+								WHERE 	event_id = " . mysql_real_escape_string($event->eid) . " 
+								AND 	user_id = " . mysql_real_escape_string($uid);
+			
+			$this->executeUpdateQuery($UPDATE_SIGN_UP);
+		}
+	}
+	
 	/**
 	 * Sign up the user for an event with certain confidence level.
 	 * Send the thank you email to the user that is attending the event.

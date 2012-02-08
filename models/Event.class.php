@@ -107,14 +107,18 @@ class Event {
 	
 	
 	/*set total rsvps*/
-	private function set_total_rsvps( $rsvps = NULL ) {
-		if ( $rsvps == NULL ) {
+	private function set_total_rsvps($total_rsvp) {
+		$type = NULL;
+		if($total_rsvp == NULL)
+		{
 			if ( isset($_POST['delay']) ) {
-				$rsvps = $_POST['delay'];
+				$type = $_POST['delay'];
 			}
 		}
-		
-		$this->total_rsvps = $rsvps;
+		if($type != NULL)
+		{
+			$this->total_rsvps = $type;
+		}
 	}
 	
 	/* set_title
