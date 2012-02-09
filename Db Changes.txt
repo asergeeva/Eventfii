@@ -1,0 +1,7 @@
+====================== 2/9/2012 ===================================
+== Column added for reference of attendance
+
+ALTER TABLE `ef_attendance` ADD `referenced_by` INT( 11 ) NULL ;
+
+===================================================================
+

@@ -539,7 +539,14 @@ class DBConfig {
 				$_SESSION['eref']['email_secondary'] = $email;
 				$email = $_SESSION['eref']['email_to'];
 			}
-			
+			// If Facebook session exists, and we send request from manage guest page.
+			if(isset($_SESSION['user']))
+			{
+				$email =  $_SESSION['user']->email;
+			  // If Facebook session exists, use its data for the FB related variables
+				$fbFriends = EFCommon::$facebook->api('/me/friends', array('access_token' => $access_token));
+				$this->saveFBFriends($fbFriends['data'], $_SESSION['user']->id);
+			}
 			// Check to see that current users info is up to date
 			$UPDATE_USER = "	UPDATE	ef_users 
 								SET 	fname = '" . mysql_real_escape_string($fname) . "',
@@ -559,13 +566,11 @@ class DBConfig {
 			// setcookie(USER_COOKIE, $_SESSION['user']->cookie);
 			// The user must have already registered
 			$this->executeUpdateQuery($UPDATE_USER);
-			
-			$fbUser = $this->getUserInfoByEmail($email);
-			if (isset($fbUser['password'])) {
-				$_SESSION['user'] = new User($fbUser);
-			}
+				$fbUser = $this->getUserInfoByEmail($email);
+				if (isset($fbUser['password'])) {
+					$_SESSION['user'] = new User($fbUser);
+				}
 		}
-		
 		return $this->getUserInfoByEmail($email);
 	}
 	
@@ -1017,16 +1022,17 @@ class DBConfig {
 	 * @param $event | Event   | The event
 	 * @update without sending email to users
 	 */
-	public function eventSignUpWithOutEmail($uid, $event, $conf) {
+	public function eventSignUpWithOutEmail($uid, $event, $conf, $user_id_posted) {
 		$signedUp = $this->hasAttend($uid, $event->eid);
 		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
 		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
-			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
+			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time, referenced_by) 
 								VALUES(
 									" . mysql_real_escape_string($event->eid) . ", 
 									" . mysql_real_escape_string($uid) . ", 
 									" . mysql_real_escape_string($conf) . ",
-									NOW()
+									NOW(), 
+									'" . mysql_real_escape_string($user_id_posted) . "'
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
@@ -1050,11 +1056,12 @@ class DBConfig {
 		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
 		
 		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
-			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time) 
+			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, referenced_by, rsvp_time) 
 								VALUES(
 									" . mysql_real_escape_string($event->eid) . ", 
 									" . mysql_real_escape_string($uid) . ", 
 									" . mysql_real_escape_string($conf) . ",
+									" . mysql_real_escape_string($uid) . ",
 									NOW()
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
@@ -1193,6 +1200,21 @@ class DBConfig {
 									ef_users u 
 							WHERE 	a.user_id = u.id 
 							AND 	a.event_id = " . $eid . " AND a.confidence <> ".CONFELSE.
+							" AND a.confidence <> ".CONFOPT6.
+							" AND a.confidence <> ".CONFOPT5;
+		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	/**
+	 * Get all of the guests who already RSVP'ed
+	 * $uid, $eid   Integer   the ID of the user and event
+	 */
+	public function getConfirmedGuestsByUser($uid, $eid) {
+		$GET_ATTENDEES = "	SELECT	* 
+							FROM 	ef_attendance a, 
+									ef_users u 
+							WHERE 	a.user_id = u.id 
+							AND 	a.event_id = " . $eid . " AND a.referenced_by=" . $uid . " AND user_id != " . $uid ." AND a.confidence <> ".CONFELSE.
 							" AND a.confidence <> ".CONFOPT6.
 							" AND a.confidence <> ".CONFOPT5;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);

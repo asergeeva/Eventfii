@@ -39,6 +39,7 @@
 					<div id="csv_container" style="margin-bottom:10px"></div>
 					<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
 					<p id="add_import_contact_list" style="display:none"><span class="btn btn-med"><input type="submit" name="submit" value="Invite" /></span></p>
+          <p style="float:right"><a href="{$finishSubmit}&submit=true" class=""><span>I'm done, show me my event!</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 					<p style="text-align:center;margin-bottom:10px;">Upload a CSV with your guests' emails here.</p>
 					<p style="text-align:center">
 						<a href="#" class="btn btn-small" id="csv_upload"><span>Upload</span></a>
@@ -71,18 +72,20 @@
 					<div id="import_form_container" style="display:none">
 						<form method="post" action="{$submitTo}" id="create_guests">
 							<textarea name="emails" id="emails-hidden" style="display:none"></textarea>
-							<footer class"buttons buttons-submit">
+							<footer class="buttons buttons-submit">
 								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p>
+                <p style="float:right"><a href="{$finishSubmit}&submit=true" class=""><span>I'm done, show me my event!</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 							</footer>
 						</form>
 					</div>
-				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
-
+ 				</div>{else}{if ( ! isset($smarty.get.option) || $smarty.get.option == 'trueRSVP' ) && ! isset($page.addcontacts)}
+				{if $smarty.session.user->facebook eq '' || $smarty.session.user->facebook eq NULL}
 				<aside class="facebook-connect">
 					<p>Import your Facebook friends</p>
-					<a href="#">Import your facebook friends</a>
+				  <fb:login-button scope="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Import your facebook friends</fb:login-button>
 				</aside>
-				<section class="block">{if isset($contacts) || isset($fbContacts)}
+                {/if}
+       <section class="block">{if isset($contacts) || isset($fbContacts)}
 
 					<p style="float: right"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
 					<header class="block-title">
@@ -90,7 +93,6 @@
 					</header>
 					<div id="search-container">Search: <div id="contacts-header"></div></div>
 					<ul class="user-list" id="contacts-list">{if isset($contacts)}{foreach $contacts as $contact}
-
 						<li>
 							<label{if ! isset($addButton)}>{else} for="{$contact->cid}">							
 								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}
@@ -124,6 +126,7 @@
 						<input type="submit" name="submit" id="submit_create_guests" style="display:none" />
 						<footer class="buttons buttons-submit">
 							<p><span class="btn btn-med"><input type="button" name="invite" value="Invite" id="add_import_contact_list" /></span></p>
+              <p style="float:right"><a href="{$finishSubmit}&submit=true" class=""><span>I'm done, show me my event!</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 						</footer>
 					</form>{else}
 
@@ -145,13 +148,16 @@
 							<textarea name="emails" class="inputbox autowidth"></textarea>
 							<footer class="buttons buttons-submit"> 
 								<p><span class="btn btn-med"><input type="submit" name="submit" value="Invite" id="add_import_contact_list" /></span></p>
+                <p style="float:right"><a href="{$finishSubmit}&submit=true" class=""><span>I'm done, show me my event!</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 							</footer>
 						</fieldset>
 					</form>
 				</section>{/if}{/if}{if ! isset($page.contacts) && ! isset($page.addcontacts) && ! isset($page.manage)}
 
 				<footer class="buttons buttons-submit">
-					<p style="float:right"><a href="{$finishSubmit}&submit=true" class="btn btn-med"><span>Finish</span></a>{if sizeof($guests) == 1} <a href="{$CURHOST}/$event/a/{$event->alias}?created=true">Skip this step</a>{/if}</p>
 				</footer>{/if}
-
+<input type="hidden" name="req_uri" id="req_uri" value="fbimport" />
 			</section>
+<script src="{$JS_PATH}/md5-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/fb.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$JS_PATH}/login.js" type="text/javascript" charset="utf-8"></script>

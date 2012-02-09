@@ -1458,7 +1458,11 @@ ol.rsvp-list li label span {
 	margin: 4px auto 7px;
 	text-indent: -10000px;
 	display: block; }
-
+	
+	.facebook-connect .fb_button_text
+	{
+		display:none !important;
+	}
 /*----- Contacts List ----------*/
 .user-list { 
 	margin: 8px -7px 0;

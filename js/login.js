@@ -40,9 +40,10 @@ var LOGIN_FORM = (function() {
 		 * userInfo - the user object from Facebook
 		 * sessionInfo - the session from Facebook
 		 */
-		fbUserLogin: function(userInfo, sessionInfo) {
+		fbUserLogin: function(userInfo, sessionInfo, req_uri) {
 			$.post(EFGLOBAL.baseUrl + '/login', {
 				isExist: false,
+				req_uri: req_uri,
 				fname: userInfo.first_name,
 				lname: userInfo.last_name,
 				email: userInfo.email,
@@ -72,6 +73,9 @@ var LOGIN_FORM = (function() {
 			} else if ( status == 0 ) {
 				window.location = EFGLOBAL.baseUrl + '/login';
 				$('#invalid_credentials').html("Please enter valid login credentials.");
+				//If Facebook session exists, and we send request from manage guest page.
+			} else if ( status == 8 ) {
+				window.location.reload();
 			} else {
 				window.location = EFGLOBAL.baseUrl + '/login' + status;
 			}

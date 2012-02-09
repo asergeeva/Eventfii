@@ -97,5 +97,11 @@
 <script src="{$JS_PATH}/openinviter.js" type="text/javascript" charset="utf-8"></script>
 <script src="{$JS_PATH}/uploader.js" type="text/javascript" charset="utf-8"></script>
 <script src="{$JS_PATH}/contacts.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	FB.Event.subscribe('auth.login', FBCON.loginUser);
+});
+</script>
+
 </body>
 </html>

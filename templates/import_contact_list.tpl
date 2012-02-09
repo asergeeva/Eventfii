@@ -1,7 +1,7 @@
             {if isset($oi_filter)}
             {else}
-            <p style="float: right"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
-            <div id="search-container">Search: <input type="text" id="filterSearch" name="filterSearch" value="{if isset($oi_filter)}{$oi_filter}{/if}" onkeyup="filterRecord(this);" class="inputbox" style="width:200px;"  /><div id="contacts-header"></div></div><div id="contacts-list-filter">
+            <p style="float: right" id="rightPannel"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
+            <div id="search-container">Search: <input type="text" id="filterSearch" name="filterSearch" value="{if isset($oi_filter)}{$oi_filter}{/if}" class="inputbox" style="width:200px;"  /><div id="contacts-header"></div></div><div id="contacts-list-filter">
             {/if}
             
 								{if ($contactList)} 
@@ -17,7 +17,11 @@
                     </li>
                     {/foreach}
                   </ul>
-                {else}<span style='color:#c00; font-size:16px; display:block; margin:20px 0 10px; text-align:center;'>No record match</span>  
+                 <script> enableInviteButtton();</script>
+                {else}<span style='color:#c00; font-size:16px; display:block; margin:20px 0 10px; text-align:center;'>No record match</span>
+                <script>
+                	disableInviteButtton();
+							  </script>  
                {/if}
                 <input type="hidden" id="oi_email_filter" name="oi_email_filter" value="{$oi_email}" />
                 <input type="hidden" id="oi_pass_filter" name="oi_pass_filter" value="{$oi_pass}" />

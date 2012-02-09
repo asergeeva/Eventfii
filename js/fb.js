@@ -22,7 +22,14 @@ var FBCON = (function() {
 			if (sessionInfo.authResponse) {
 				FB.api('/me', function(userInfo) {
 					if (typeof userInfo.error == 'undefined') {
-						LOGIN_FORM.fbUserLogin(userInfo, sessionInfo);
+						// If Facebook session exists, and we send request from manage guest page.
+						var req_uri = '';
+						if(typeof($("#req_uri").val()) != 'undefined')
+						{
+							req_uri = 'fbimport';
+						}
+						// pass extra param 
+						LOGIN_FORM.fbUserLogin(userInfo, sessionInfo, req_uri);
 					}
 				});
 			} else {

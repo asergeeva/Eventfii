@@ -80,6 +80,12 @@
                     </div>
             {/if}
             <div class="clear22"></div>
+            <header id="notification-box-update" style="display:none;" class="block notification update"><p class="message">Your RSVP has been updated!</p></header>
+            {if $extraParam eq ''}
+            	<header id="notification-box" style="display:none;" class="block notification"><p class="message">Thanks for your RSVP!</p></header>
+            {else}
+            	<header id="notification-box" class="block notification"><p class="message">Thanks for your RSVP!</p></header>
+            {/if}
             <div>
                 <div class="photo_frame_outer poto_fram_gray fl">
                 {if $event_image neq ''}
@@ -140,10 +146,15 @@
                     <div>
                     	<fieldset>
                             <legend style="padding-top:0px;">RSVP Now</legend>{if $event->rsvp_days_left > 0}
-                            <p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>{else if $event->rsvp_days_left == 0}
+                            {if $you_rsvpd eq 'true'}
+                                <p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>You</em> and {sizeof($attending)-1} guests have RSVP'd</p>
+                           	{else}
+                            	<p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
+                          	{/if}
+                            {else if $event->rsvp_days_left == 0}
                             <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}            
                             <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
-                            <ol class="rsvp-list" id="event_attending_response">
+                            <ol class="rsvp-list {if $event->total_rsvps > 0}noMore{/if}" id="event_attending_response">
                                 <li>
                                     <label class="rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">
                                         <input type="radio" name="event_attending_response" value="{$CONFOPT1}"{if isset($conf90)}{$conf90}{/if}{if isset($disabled)}{$disabled}{/if} id="event_attending_response_1" class="rsvp-opt" /> 

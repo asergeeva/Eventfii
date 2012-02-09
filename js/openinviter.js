@@ -107,7 +107,7 @@ $(document).ready(function() {
 				oi_email: $('#oi_email').val(),
 				oi_pass: $('#oi_pass').val()
 			}, function(contactListPage) {
-					if(contactListPage=="Invalid username/password")
+					if(contactListPage=="Invalid username/password" || contactListPage == 'Invalid service provider')
 					{
 						var errorMsg= "<span style='color:#c00; font-size:16px;margin-left:160px;'>"+contactListPage+"</span>" 
 						$('#oi_container').html(errorMsg);
@@ -119,6 +119,7 @@ $(document).ready(function() {
 								OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
 								$('#import_form_container').css('display', 'block');
 								$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider[0] + '_logo.png" style="float:left" />');
+								filterRecord();
 								//$('#contacts-list').find('input').attr('checked', 'checked');
 							} else {
 								// Do notification
@@ -177,35 +178,45 @@ $(document).ready(function() {
 	
 });
 
-function filterRecord(filterVal)
-	{
+// used for filter record.
+function filterRecord(){
 		var  emailProvider = $('#oi_provider_filter').val();
-		if(filterVal.keyCode == '13'){
-		 $.post(EFGLOBAL.baseUrl + '/guest/inviterFilter', {
-				oi_provider:$('#oi_provider_filter').val(),
-				oi_email: $('#oi_email_filter').val(),
-				oi_pass: $('#oi_pass_filter').val(),oi_filter: filterVal.value
-			}, function(contactListPage) {
-					if(contactListPage=="No record match")
-					{
-						var errorMsg= "<span style='color:#c00; font-size:16px; display:block; margin:20px 0 10px; text-align:center;'>"+contactListPage+"</span>" 
-						$('#contacts-list-filter').html(errorMsg);
-						$('#import_form_container').css('display', 'none');
-					}else
-					{
-						$('#contacts-list-filter').html(contactListPage).ready(function() {
-							if (contactListPage != 'Invalid username/password' &&
-								  contactListPage != 'Invalid service provider') {
-								  OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
-								$('#import_form_container').css('display', 'block');
-								$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider + '_logo.png" style="float:left" />');
-								//$('#contacts-list').find('input').attr('checked', 'checked');
-							} else {
-								// Do notification
-							}
-						});
-				 }
-			});
-		
-		}
+		$("#filterSearch").keyup(function(e){
+			if(e.keyCode == '13'){
+			 $.post(EFGLOBAL.baseUrl + '/guest/inviterFilter', {
+					oi_provider:$('#oi_provider_filter').val(),
+					oi_email: $('#oi_email_filter').val(),
+					oi_pass: $('#oi_pass_filter').val(),oi_filter: $("#filterSearch").val()
+				}, function(contactListPage) {
+						if(contactListPage=="No record match")
+						{
+							var errorMsg= "<span style='color:#c00; font-size:16px; display:block; margin:20px 0 10px; text-align:center;'>"+contactListPage+"</span>" 
+							$('#contacts-list-filter').html(errorMsg);
+							$('#import_form_container').css('display', 'none');
+						}else
+						{
+							$('#contacts-list-filter').html(contactListPage).ready(function() {
+								if (contactListPage != 'Invalid username/password' &&
+										contactListPage != 'Invalid service provider') {
+										OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+									//$('#import_form_container').css('display', 'block');
+									$('#oi_logo').html('<img src="' + EFGLOBAL.baseUrl + '/images/' + emailProvider + '_logo.png" style="float:left" />');
+									//$('#contacts-list').find('input').attr('checked', 'checked');
+								} else {
+									// Do notification
+								}
+							});
+					 }
+				});
+			
+			}
+		});
+	}
+	
+	function disableInviteButtton(){
+		$('#import_form_container').css('display', 'none');
+	}
+	
+	function enableInviteButtton(){
+		$('#import_form_container').css('display', 'block');
 	}

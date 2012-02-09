@@ -765,17 +765,11 @@ class PanelController {
 					if (isset($inviter->plugin)) {
 						$_POST['oi_session_id'] = $inviter->plugin->getSessionID();
 						$contactList = $inviter->getMyContacts();
+						// record sort by Alphabetical
 						asort($contactList);
-						//echo "<pre>";
-						//print_r($rec);
-						//echo "</pre>";
-						//$contactList = array_flip($contactList);
-						//ksort($contactList);
-						//$contactList = array_flip($contactList);
-
-						
 						if ($contactList) {
 							EFCommon::$smarty->assign('contactList', $contactList);
+							// variables used for search or filter record
 							EFCommon::$smarty->assign('oi_email', $_REQUEST['oi_email']);
 							EFCommon::$smarty->assign('oi_pass', $_REQUEST['oi_pass']);
 							EFCommon::$smarty->assign('oi_provider', $_REQUEST['oi_provider']);
@@ -803,6 +797,7 @@ class PanelController {
 				break;
 				
 			case '/guest/inviterFilter':			
+				// case used when we filter record
 				$inviter = new OpenInviter();
 				$oi_services = $inviter->getPlugins();
 				if ( isset( $_REQUEST['oi_email'] ) && isset( $_REQUEST['oi_pass'] ) ) {
@@ -818,25 +813,27 @@ class PanelController {
 						$oi_filter = $_REQUEST['oi_filter'];
 						$lenth = strlen($oi_filter);
 						$filterRecord = array();
+						// apply filter
 						foreach($contactList as $key => $values)
 						{
 							if(substr($values,0,$lenth)==$oi_filter)
 							{
 								$filterRecord[$key] = $values;
+							}elseif(substr($key,0,$lenth)==$oi_filter)
+							{
+								$filterRecord[$key] = $values;
 							}
 						}
+						// genrate new filtered record
 					  $contactList = $filterRecord;
+						// reocrd sort
 						asort($contactList);
-						//if ($contactList) {
 						EFCommon::$smarty->assign('contactList', $contactList);
 						EFCommon::$smarty->assign('oi_email', $_REQUEST['oi_email']);
 						EFCommon::$smarty->assign('oi_pass', $_REQUEST['oi_pass']);
 						EFCommon::$smarty->assign('oi_provider', $_REQUEST['oi_provider']);
 						EFCommon::$smarty->assign('oi_filter', $_REQUEST['oi_filter']);
 						EFCommon::$smarty->display('import_contact_list.tpl');
-						//} else {
-						//	print("No record match");
-					//	}
 					}
 				} else {
 					$contacts = array();
@@ -1011,6 +1008,7 @@ class PanelController {
 				echo("Success");
 				break;
 			case '/event/saversvp':
+				$user_id_posted = $_POST['user_id_posted'];
 				$event_id = $_POST['event_id'];
 				$conf = $_POST['conf'];
 				$event = $this->buildEvent($event_id);
@@ -1023,15 +1021,27 @@ class PanelController {
 					{
 						$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
 						$userBuilded = new User($userInfo);
-						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf);
+						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
 						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
 					}else
 					{
 						$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
 						$userBuilded = new User($userInfo);
-						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf);
+						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
 						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
 					}
+				}
+				echo 'Done';
+				break;
+			case '/event/saversvplogout':
+				unset($_SESSION['attemptValue']);
+				unset($_SESSION['total_rsvps']);
+				$_SESSION['attemptValue'] = array($_POST['event_id'] => $_POST['conf']);
+				$_SESSION['total_rsvps'] = $_POST['total_rsvps'];
+				for($i=1;$i<=$_POST['total_rsvps'];$i++)
+				{
+					$_SESSION['guest_name_'.$i] = $_POST['guest_name_'.$i];
+					$_SESSION['guest_email_'.$i] = $_POST['guest_email_'.$i];
 				}
 				echo 'Done';
 				break;
@@ -1077,7 +1087,6 @@ class PanelController {
 				if ( isset($params) ) {
 					EFCommon::$smarty->assign('redirect', $params);
 				}
-
 				// If this is a Facebook form login
 				if ( isset($_POST['isFB'])) {
 					$this->handleFBLogin();
@@ -1135,8 +1144,11 @@ class PanelController {
 				header("Location: " . CURHOST);
 				break;
 			case '/login':
-				$this->loggedInRedirect();
-				
+				// If Facebook session exists, and we send request from manage guest page then .
+				if(!isset($_POST['req_uri']))
+				{
+					$this->loggedInRedirect();	
+				}
 				// Make sure the user is properly redirected
 				if ( isset($params) ) {
 					EFCommon::$smarty->assign('redirect', $params);
@@ -1432,7 +1444,7 @@ class PanelController {
 		if ( isset($_SESSION['user']) ) {
 			// If there is a page to be redirected to
 			if (isset($_SESSION['eventViewed'])) {
-				header("Location: " . EVENT_URL . "/a/" . $_SESSION['eventViewed']->alias);
+					header("Location: " . EVENT_URL . "/a/" . $_SESSION['eventViewed']->alias);
 			} else if (isset($_SESSION['page_redirect'])) { 
 				$redirect = $_SESSION['page_redirect'];
 				unset($_SESSION['page_redirect']);
@@ -1453,11 +1465,21 @@ class PanelController {
 	private function handleFBLogin() {
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], 
 													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
-		if ( $userInfo ) {
+		if ($userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
-			echo 3;
+			if(!isset($_POST['req_uri'])){
+				echo 3;
+			}else{
+				// If Facebook session exists, and we send request from manage guest page.
+				echo 8;
+			}
 		} else {
-			echo 0;
+			if(!isset($_POST['req_uri'])){
+				echo 0;
+			}else{
+				// If Facebook session exists, and we send request from manage guest page.
+				echo 8;
+			}
 		}
 	}
 	

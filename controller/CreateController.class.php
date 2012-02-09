@@ -102,7 +102,7 @@ class CreateController extends PanelController {
 							if ( sizeof($guest_emails) == 0 ) {
 								EFCommon::$smarty->assign('error', "No guests added.");
 							} else {
-								EFCommon::$smarty->assign('notification', "Yay!");
+								EFCommon::$smarty->assign('notification', "You've invited ".sizeof($guest_emails)." guests to your event!");
 							}
 						}
 						$this->displayStock();
@@ -134,7 +134,7 @@ class CreateController extends PanelController {
 							if ( sizeof($guest_emails) == 0 ) {
 								EFCommon::$smarty->assign('error', "No guests added.");
 							} else {
-								EFCommon::$smarty->assign('notification', "Yay!");
+								EFCommon::$smarty->assign('notification', "You've invited ".sizeof($guest_emails)." guests to your event!");
 							}
 						}
 						

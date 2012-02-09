@@ -45,6 +45,8 @@ var CSV_UPLOADER = (function() {
 							$('.contact-email').attr('checked', 'checked');
 						
 							OPENINVITER.listFilter($("#contacts-header"), $("#contacts-list"));
+							$('#search-container').hide();
+							$('#rightPannel').hide();
 						}
 					}
 				});
