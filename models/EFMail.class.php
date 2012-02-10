@@ -183,13 +183,35 @@ class EFMail {
 	 * $guest         User         The recipient
 	 * $message       String       the message that will be embedded - Optional
 	 */
-	public function mapGuestHtml(&$htmlEmail, &$guest, $message = NULL) {
+	public function mapGuestHtml(&$htmlEmail, &$guest, $message = NULL, $event_id=0) {
 		$replaceItems = $htmlEmail->getElementsByTagName("span");
-
 		for ($j = 0; $j < $replaceItems->length; ++$j) {
 			switch ($replaceItems->item($j)->getAttribute("id")) {
 				case "guest_name":
 					$replaceItems->item($j)->nodeValue = $guest->fname;
+					break;
+				case "guest_rate":
+					$act_confidence = '';
+					$confidence = EFCommon::$dbCon->getGuestConfidence($guest->id, $event_id);
+					switch($confidence)
+					{
+						case "90":
+							$act_confidence = 'Absolutely';
+							break;
+						case "65":
+							$act_confidence = 'Pretty sure';
+							break;
+						case "35":
+							$act_confidence = '50/50';
+							break;
+						case "15":
+							$act_confidence = 'Not likely';
+							break;
+						case "4":
+							$act_confidence = 'Raincheck';
+							break;
+					}
+					$replaceItems->item($j)->nodeValue = $act_confidence;
 					break;
 				case "message":
 					if (isset($message)) {
@@ -285,9 +307,9 @@ class EFMail {
 		$htmlEmail->loadXML($htmlStr);
 		
 		$this->mapEventHtml($htmlEmail, $event);
-		$this->mapGuestHtml($htmlEmail, $guest);
+		$this->mapGuestHtml($htmlEmail, $guest, NULL, $event->eid);
 		$this->mapEventGuestHtml($event, $guest, $htmlEmail);
-		
+	
 		$rawMime = 
 		    "X-Priority: 1 (Highest)\n".
 		    "X-Mailgun-Tag: truersvp\n".

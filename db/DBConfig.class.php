@@ -294,6 +294,11 @@ class DBConfig {
 						WHERE	id = " . $_SESSION['user']->id;
 		$this->executeUpdateQuery($UPDATE_USER);
 	}
+	public function updateUserInfoAttend($fname, $lname, $uid)
+	{
+		$SQL = "UPDATE ef_users SET fname='".$fname."', lname='".$lname."' WHERE id=".$uid;
+		$this->executeUpdateQuery($SQL);	
+	}
 	
 	public function getReferenceEmail($hashKey) {
 		$GET_REF_EMAIL = "	SELECT	* 
@@ -1045,6 +1050,14 @@ class DBConfig {
 		}
 	}
 	
+	/*Function getUserConfidence*/
+	public function getGuestConfidence($uid, $eid)
+	{
+			$SQL = "SELECT confidence FROM ef_attendance WHERE user_id='".mysql_real_escape_string($uid)."' AND event_id='".mysql_real_escape_string($eid)."'";
+			$row = $this->executeQuery($SQL);
+			return $row['confidence'];
+	}
+	
 	/**
 	 * Sign up the user for an event with certain confidence level.
 	 * Send the thank you email to the user that is attending the event.
@@ -1153,6 +1166,37 @@ class DBConfig {
 							WHERE 	a.user_id = u.id 
 							AND 	a.event_id = " . $eid;
 		return $this->getQueryResultAssoc($GET_ATTENDEES);
+	}
+	
+	/* markChecked
+		Mark the user as checked in
+		@param eid | Event id, uid | user id
+	*/
+	public function markChecked($eid, $uid)
+	{
+		$SQL = "UPDATE ef_attendance SET is_attending='1' WHERE user_id='".mysql_real_escape_string($uid)."' AND event_id='".mysql_real_escape_string($eid)."'";
+		$this->executeUpdateQuery($SQL);
+	}
+	
+	/* unmarkChecked
+		unMark the user as checked in
+		@param eid | Event id, uid | user id
+	*/
+	public function unmarkChecked($eid, $uid)
+	{
+		$SQL = "UPDATE ef_attendance SET is_attending='0' WHERE user_id='".mysql_real_escape_string($uid)."' AND event_id='".mysql_real_escape_string($eid)."'";
+		$this->executeUpdateQuery($SQL);
+	}
+	
+	/* getAttendeesByEventAndUser
+	 * Grabs all the invited users to a specific event.
+	 *
+	 * @param $eid | The ID of the event
+	 */
+	public function getAttendeesByEventAndUser($eid, $uid) {
+		$GET_ATTENDEES = "SELECT count(*) as count FROM ef_attendance WHERE event_id = " . $eid . " AND referenced_by=" . $uid;
+		$count = $this->executeQuery($GET_ATTENDEES);
+		return $count['count'];
 	}
 	
 	/* getAttendeesByEvent

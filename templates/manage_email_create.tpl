@@ -43,10 +43,10 @@
 									<p>Thanks!<br />{$smarty.session.user->fname}</p>
 								</div>
 							</dd>
-							<dt class="inline">
+							<dt class="inline" style="display:none;">
 								<label for="send">Send:</label>
 							</dt>
-							<dd>
+							<dd style="display:none;">
 								<div>
 									<p><label for="now"><input type="radio" name="send" id="now" /> Now</label></p>
 									<p><label for="date"><input type="radio" name="send" id="date" /> on <input type="text" class="inputbox datebox" /> at <select name="time">{include file="timeselect.tpl" time=null}</select></label></p>

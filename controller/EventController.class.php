@@ -39,23 +39,26 @@ class EventController extends PanelController {
 		$event = $this->buildEvent($event_id);
 		for($i=1;$i<=$_SESSION['total_rsvps'];$i++)
 		{
-			$guestName = $_SESSION['guest_name_'.$i];
-			unset($_SESSION['guest_name_'.$i]);
-			$guestEmail = $_SESSION['guest_email_'.$i];
-			unset($_SESSION['guest_email_'.$i]);
-			$exist = $this->checkGuestEmail($guestEmail);
-			if($exist)
+			if(isset($_SESSION['guest_email_'.$i]) && $_SESSION['guest_email_'.$i] != '' && $_SESSION['guest_email_'.$i] != 'Email')
 			{
-				$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
-				$userBuilded = new User($userInfo);
-				$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
-				EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
-			}else
-			{
-				$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
-				$userBuilded = new User($userInfo);
-				$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
-				EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+				$guestName = $_SESSION['guest_name_'.$i];
+				unset($_SESSION['guest_name_'.$i]);
+				$guestEmail = $_SESSION['guest_email_'.$i];
+				unset($_SESSION['guest_email_'.$i]);
+				$exist = $this->checkGuestEmail($guestEmail);
+				if($exist)
+				{
+					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
+					$userBuilded = new User($userInfo);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
+					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+				}else
+				{
+					$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
+					$userBuilded = new User($userInfo);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
+					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+				}
 			}
 		}
 		unset($_SESSION['total_rsvps']);

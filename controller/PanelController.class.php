@@ -366,6 +366,41 @@ class PanelController {
 					header("Content-disposition: attachment; filename= ".$_GET['file']."");
 					readfile($file);
 				break;
+			case '/event/addGuest':
+				$event_id = $_POST['event_id'];
+				$guest_fname = $_POST['guest_fname'];
+				$guest_lname = $_POST['guest_lname'];
+				$guest_email = $_POST['guest_email'];
+				$event = $this->buildEvent($event_id);
+				$exist = $this->checkGuestEmail($guest_email);
+				if($exist)
+				{
+					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guest_email);
+					EFCommon::$dbCon->updateUserInfoAttend($guest_fname, $guest_lname, $userInfo['id']);
+					$userBuilded = new User($userInfo);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0);
+					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+				}else
+				{
+					$userInfo = EFCommon::$dbCon->createNewUser($guest_fname, $guest_lname, $guest_email);
+					$userBuilded = new User($userInfo);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0);
+					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+				}
+				echo 'ok';
+				break;
+			case '/event/markChecked':
+				$eid = $_POST['eid'];
+				$uid = $_POST['uid'];
+				EFCommon::$dbCon->markChecked($eid, $uid);
+				echo 'ok';
+				break;
+			case '/event/unmarkChecked':
+				$eid = $_POST['eid'];
+				$uid = $_POST['uid'];
+				EFCommon::$dbCon->unmarkChecked($eid, $uid);
+				echo 'ok';
+				break;
 			case '/event/delImage/':
 				 EFCommon::$dbCon->delImage($_POST['delId']);
 				 echo '1';
@@ -626,10 +661,14 @@ class PanelController {
 				EFCommon::$smarty->append('page', $page, TRUE);
 			
 				$attendees = EFCommon::$dbCon->getAttendeesByEvent($_GET['eventId']);
+				$editEvent = $this->buildEvent($_GET['eventId'], true);
+				
 				$eventAttendees = array();
 				$noResponseAttendees = array();
+				$eventReferred = array();
 				
 				for ($i = 0; $i < sizeof($attendees); ++$i) {
+					$countAttendees = EFCommon::$dbCon->getAttendeesByEventAndUser($_GET['eventId'],$attendees[$i]['user_id'] );
 					$attendee = new User($attendees[$i]);
 					
 					$attendee->friendly_confidence = EFCommon::$confidenceMap[$attendees[$i]['confidence']];
@@ -638,11 +677,14 @@ class PanelController {
 					if ($attendee->confidence == CONFELSE) {
 						$noResponseAttendees[] = $attendee;
 					} else {
+						$eventReferred[] = $countAttendees;
 						$eventAttendees[] = $attendee;
 					}
 				}
 				
 				EFCommon::$smarty->assign('eventAttendees', $eventAttendees);
+				EFCommon::$smarty->assign('eventReferred', $eventReferred);
+				EFCommon::$smarty->assign('event', $editEvent);
 				EFCommon::$smarty->assign('noResponseAttendees', $noResponseAttendees);
 				EFCommon::$smarty->display('manage_attendees.tpl');
 				break;
@@ -865,7 +907,6 @@ class PanelController {
 				break;
 			case '/event/email/send':
 				$event = $_SESSION['manage_event'];
-				
 				// Determine whether the auto reminder is activated
 				$autoReminder = 0;
 				if (isset($_REQUEST['autoReminder']) && $_REQUEST['autoReminder'] == 'true') {
@@ -1014,21 +1055,24 @@ class PanelController {
 				$event = $this->buildEvent($event_id);
 				for($i=0;$i<=$_POST['total_rsvps'];$i++)
 				{
-					$guestName = $_POST['guest_name_'.$i];
-					$guestEmail = $_POST['guest_email_'.$i];
-					$exist = $this->checkGuestEmail($guestEmail);
-					if($exist)
+					if(isset($_POST['guest_email_'.$i]) && $_POST['guest_email_'.$i] != '' && $_POST['guest_email_'.$i] != 'Email')
 					{
-						$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
-						$userBuilded = new User($userInfo);
-						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
-						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
-					}else
-					{
-						$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
-						$userBuilded = new User($userInfo);
-						$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
-						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+						$guestName = $_POST['guest_name_'.$i];
+						$guestEmail = $_POST['guest_email_'.$i];
+						$exist = $this->checkGuestEmail($guestEmail);
+						if($exist)
+						{
+							$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
+							$userBuilded = new User($userInfo);
+							$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
+							EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+						}else
+						{
+							$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
+							$userBuilded = new User($userInfo);
+							$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
+							EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+						}
 					}
 				}
 				echo 'Done';
@@ -1145,7 +1189,7 @@ class PanelController {
 				break;
 			case '/login':
 				// If Facebook session exists, and we send request from manage guest page then .
-				if(!isset($_POST['req_uri']))
+				if(isset($_POST['req_uri']) && trim($_POST['req_uri'])=="")
 				{
 					$this->loggedInRedirect();	
 				}
@@ -1463,22 +1507,28 @@ class PanelController {
 	 * so let's take him to his profile page
 	 */
 	private function handleFBLogin() {
+		$response = 8;
+		if(isset($_SESSION['fb']->facebook) && $_SESSION['fb']->facebook!='')
+		{
+			$response = 9;
+		}
+		
 		$userInfo = EFCommon::$dbCon->facebookConnect( $_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['fbid'], 
 													   $_POST['fb_access_token'], $_POST['fb_session_key'] );
 		if ($userInfo ) {
 			$_SESSION['fb'] = new User($userInfo);
-			if(!isset($_POST['req_uri'])){
+			if(isset($_POST['req_uri']) && trim($_POST['req_uri'])==""){
 				echo 3;
 			}else{
 				// If Facebook session exists, and we send request from manage guest page.
-				echo 8;
+				echo $response;
 			}
 		} else {
-			if(!isset($_POST['req_uri'])){
+			if(isset($_POST['req_uri']) && trim($_POST['req_uri'])==""){
 				echo 0;
 			}else{
 				// If Facebook session exists, and we send request from manage guest page.
-				echo 8;
+				echo $response;
 			}
 		}
 	}

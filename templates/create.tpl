@@ -91,10 +91,10 @@
 								<em>{$error.goal}</em>{/if}
 
 							</dd>
-							<dt>
+							<dt style="display:none">
 								<label for="early"><input type="checkbox" id="early" /> Send my most reliable guests an early invite</label>
 							</dt>
-							<dd>
+							<dd style="display:none"> 
 								<p>Delay the rest of the invitations for <select name="delay"><option value="0">Please select</option> <option value="1">1 hour</option> <option value="2">2 hours</option> <option value="3">3 hours</option> <option value="4">4 hours</option> <option value="5">5 hours</option> <option value="6">6 hours</option> <option value="12">12 hours</option> <option value="16">16 hours</option> <option value="24">24 hours</option> <option value="48">48 hours</option></select></p>
 							</dd> 
 							<dt>

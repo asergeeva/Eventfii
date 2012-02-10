@@ -385,3 +385,49 @@ h3.title{font-size:14px; line-height:19px;}
 .pp_guest .c_rgt select{float: left; width: 100px; height: 30px; border: 1px solid #cccccc; border-radius:3px;}
 
 .clear5{margin:0;padding:0;line-height:0;font-size:0;clear:both; height:5px;}
+
+
+/************** manage box ***************/
+.manage_box{}
+.manage_box header.block-collapsable-title{-moz-border-radius:8px 8px 0 0; }
+.manage_box .list li{padding:2px 0;}
+.manage_box .list li em{width:115px; min-height: 24px;}
+.manage_box .list li span{width:144px; padding: 6px 5px;}
+.manage_box .list li strong{width:70px; padding: 6px 5px; text-align: center;}
+
+.manage_box .list li .btn-manage span,.manage_box .list li .btn-gray_sml span{width:auto; padding: 6px 11px 0 1px; text-align: center;}
+.manage_box .list li .btn-manage span.btn-back,.manage_box .list li .btn-gray_sml span.btn-back{width:70px; /* padding:0px; */}
+
+.manage_box .list li.list-head{margin-bottom: 0px; padding-bottom: 0px; min-height: 24px;}
+.manage_box .list li.list-head em{line-height: 24px;}
+
+.manage_box .list li.list-head .red{border-bottom: 2px solid #983627; color: #983627;}
+.manage_box .list li.list-head .yelo{border-bottom: 2px solid #f5cb47; color: #f5cb47;}
+.manage_box .list li.list-head .blue{border-bottom: 2px solid #51a9da; color: #51a9da;}
+.manage_box .list li.list-head .gren{border-bottom: 2px solid #71ab5e; color: #71ab5e;}
+.manage_box .list li.list-head .gray{border-bottom: 2px solid #983627; color: #acacac;}
+
+.manage_box .list li.list-head .red a{color: #983627;}
+.manage_box .list li.list-head .yelo a{color: #f5cb47;}
+.manage_box .list li.list-head .blue a{color: #51a9da;}
+.manage_box .list li.list-head .gren a{color: #71ab5e;}
+.manage_box .list li.list-head .gray a{color: #acacac;}
+
+/** popup Add Guest info - 9 Feb **/
+.pp_add_guest{width:300px; background-color: #fff; font-family: arial; margin: 10px;}
+.pp_add_guest h2{border-bottom: 1px solid #aaaaaa; padding: 7px 2px; font-size: 16px; text-align: center;}
+.pp_add_guest .cont{padding: 0 5px 0 30px; font-size: 12px;}
+.pp_add_guest .c_lft{float: left; width: 80px; line-height:26px; font-weight: bold;}
+.pp_add_guest .c_rgt{float: left; width: 160px; line-height:26px;}
+.pp_add_guest .c_rgt input[type='text']{float:left; width: 140px; height: 22px; border: 1px solid #cccccc; -wevkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; margin-right: 5px; font-size: 11px; color: #999999; padding: 0 5px;}
+.pp_add_guest .c_rgt select{float: left; width: 100px; height: 20px; border: 1px solid #cccccc; border-radius:3px;}
+.clear10{margin:0;padding:0;line-height:0;font-size:0;clear:both; height:10px;}
+
+/****** Gray Button *****/
+
+.btn-gray_sml{background-image: url(../images/btn_gray_left.png); background-position: 0 -27px; height: 27px; padding: 0 0 0 8px; }
+.btn-gray_sml span, .btn-gray_sml input{background-image: url(../images/btn_gray_right.png); background-position: 100% -27px; height: 20px; padding: 7px 9px 0 0;}
+.btn-gray_sml input{height:27px; padding: 0 9px 2px 0;}
+
+.add_guest{padding:0px !important; height:auto !important;}
+.add_guest span{background:url(../images/add_guest_ico.png) no-repeat 0 2px !important; padding:6px 11px 9px 39px !important;}

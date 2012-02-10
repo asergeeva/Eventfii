@@ -2,6 +2,7 @@
 == Column added for reference of attendance
 
 ALTER TABLE `ef_attendance` ADD `referenced_by` INT( 11 ) NULL ;
+ALTER TABLE `ef_events` ADD `test` INT( 11 ) NULL ;
 
 ===================================================================
 

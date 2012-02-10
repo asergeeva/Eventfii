@@ -83,13 +83,14 @@ jQuery.noConflict();
 				var id_s = '1';
 				if(!$('#rsvp_days_left').hasClass('loggedIn'))
 				{
-					id_s = '2';	
+					id_s = '1';	
 				}
 				saveRsvps(id_s);
 			}
 			else
 			{
 				$("#rsvp-multiple").fadeIn(500);
+				$("#error").html('');
 			}
 		}
 		return false;
@@ -114,7 +115,13 @@ function showInviteFieldsEdit(total_fields)
 			html += '<div class="c_lft" id="guest_id_'+i+'">Guest #'+i+':</div>';
 			html += '<div class="c_rgt" id="guest_info_'+i+'"><input type="text" name="guest_name_'+i+'" value="Name" onfocus="$(this).val(\'\');" id="guest_name_'+i+'" /> <input type="text" name="guest_email_'+i+'" id="guest_email_'+i+'" value="Email" onfocus="$(this).val(\'\');" /></div>';
 		}
-		$("#guest_info_"+total_fields_present).after(html);
+		if($("#guest_info_"+total_fields_present).length == 0)
+		{
+			$("#showInviteList").html(html);
+		}else
+		{
+			$("#guest_info_"+total_fields_present).after(html);
+		}
 		$("#total_guests").val(total_fields);
 	}
 	else if(total_fields < total_fields_present)
@@ -149,22 +156,31 @@ function showInviteFields(total_fields)
 var t = "";
 function saveRsvps(type, up_type)
 {
+	$("#error").html('');
+	var emailRegex  = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 	var error = true;
 	var total_guests_invite = $("#total_rsvps :selected").val();
 	for(i=1;i<=total_guests_invite;i++)
 	{
-		if(($("#guest_name_"+i).val() != '' && $("#guest_name_"+i).val() != 'Name'))
+		var name = $("#guest_name_"+i).val();
+		var email = $("#guest_email_"+i).val();
+		if(name != '' && name != 'Name')
 		{
-			if($("#guest_email_"+i).val() == '' || $("#guest_email_"+i).val() == 'Email')
+			if(email == '' || email == 'Email')
 			{
-				error = false;			
+				error = false;
+			}else if(!email.match(emailRegex))
+			{
+				error = false;	
+			}else
+			{
+				error = true;	
 			}
-			break;
 		}
 	}
 	if(error == false)
 	{
-		$("#error").html('Please enter correct value.');
+		$("#error").html('Please enter correct value for email.');
 	}else
 	{
 		$("#error").html('');

@@ -16,7 +16,7 @@
                         {/section}
                     	</select>
                     </div>
-                    <div id="error"></div>
+                    <div id="error" style="font-size:12px; color:red;"></div>
                     <div id="showInviteList"></div>
                     <div class="clear5"></div>
                     <a href="javascript:void(0);" class="btn btn-manage fr" onclick="saveRsvps({if isset($smarty.session.user)}'1'{else}'2'{/if});"><span>&nbsp; RSVP &nbsp;</span></a>
@@ -55,12 +55,12 @@
                         {/section}
                     	</select>
                     </div>
-                    <div id="error"></div>
+                    <div id="error" style="font-size:12px; color:red;"></div>
                     <div id="showInviteList">
                     	{foreach from=$user_refered key=index item=guest}
                         	<div class="clear5" id="clear_{$index+1}"></div>
                             <div class="c_lft" id="guest_id_{$index+1}">Guest #{$index+1}:</div>
-                            <div class="c_rgt" id="guest_info_{$index+1}"><input type="text" name="guest_name_{$index+1}" value="{$guest['fname']}" id="guest_name_{$index+1}" /> <input type="text" name="guest_email_{$index+1}" id="guest_email_{$index+1}" value="{$guest['email']}" /></div>
+                            <div class="c_rgt" id="guest_info_{$index+1}"><input type="text" name="guest_name_{$index+1}" value="{$guest['fname']}" id="guest_name_{$index+1}" readonly="readonly" /> <input type="text" name="guest_email_{$index+1}" id="guest_email_{$index+1}" value="{$guest['email']}" readonly="readonly" /></div>
                         {/foreach}
                     </div>
                     <div class="clear5"></div>
@@ -84,3 +84,11 @@
 	</div>
 </div>
 {/if}
+<div class="popup-container" id="already-rsvpd">
+	<div class="popup block" style="width:226px;">
+    	<p class="popup-close"><a href="#">X</a></p>
+        <div class="pp_guest">
+            <h2>You already has RSVP'd to {$event->title}</h2>
+        </div>
+	</div>
+</div>

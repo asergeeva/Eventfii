@@ -32,10 +32,13 @@
 			
 			<form method="post" action="#" class="quicksearch" id="search-guestlist">
 				<fieldset>
-					<input type="text" value="Search by name" />
+					<span class="fl"><input type="text" value="Search by name" /></span>
+                    {if date('Y-m-d', strtotime($event->datetime)) eq date('Y-m-d')}
+                    	<span class="fr"><a class="btn btn-manage" id="show-popup-addguest" href="javascript:void(0);"><span class="btn-back add_guest"><span>Add Guest</span></span></a></span>
+                     {/if}   
 				</fieldset>
 			</form>
-			<section class="block" id="cp-attendees">
+            <section class="block manage_box" id="cp-attendees">
 
 				<header class="block-collapsable-title">
 					<h1>Guest List</h1>
@@ -43,61 +46,38 @@
 				<ul class="list">
 					<li class="list-head">
 						<div>
-							<em id="head-show">Showed Up?</em><span id="head-name"><a href="#">Name</a></span><strong id="head-rsvp"><a href="#">RSVP</a></strong> 
+                                                    <em id="head-show" class="red">Showed Up?</em><span id="head-name" class="yelo"><a href="#">First Name</a></span><span id="head-name" class="blue"><a href="#">Last Name</a></span><span id="head-name" class="gren"><a href="#">RSVP</a></span><strong id="head-rsvp" class="gray"><a href="#">Plus</a></strong> 
 						</div>
 					</li>
 				</ul>
-				<ul class="list" id="attendee-list">{foreach $eventAttendees as $guest}
-
-					<li>
-						<label for="attendee-{$guest->id}">
-							<em><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></em><span title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</span><strong title="{$guest->confidence}">{$guest->friendly_confidence}</strong>								
+				<ul class="list" id="attendee-list">
+					{foreach from=$eventAttendees key=index item=guest}
+                    <li>
+						<label for="attendee-{$index}">
+                        	{if $guest->is_attending eq 0}
+								<em id="check-in-{$index}"><a class="btn btn-manage" href="javascript:void(0);" onClick="markCheckIn('{$smarty.get.eventId}', '{$guest->id}', 'check-in-{$index}', 'uncheck-in-{$index}');"><span class="btn-back">Check In</span></a></em>
+                                <em id="uncheck-in-{$index}" style="display:none;"><a class="btn btn-gray_sml" href="javascript:void(0);" onClick="unMarkCheckIn('{$smarty.get.eventId}', '{$guest->id}', 'uncheck-in-{$index}', 'check-in-{$index}');"><span class="btn-back">Checked In</span></a></em>
+                            {else}
+                            	<em id="uncheck-in-{$index}"><a class="btn btn-gray_sml" href="javascript:void(0);" onClick="unMarkCheckIn({$smarty.get.eventId}, {$guest->id}, 'uncheck-in-{$index}', 'check-in-{$index}');"><span class="btn-back">Checked In</span></a></em>
+                                <em id="check-in-{$index}" style="display:none;"><a class="btn btn-manage" href="javascript:void(0);" onClick="markCheckIn({$smarty.get.eventId}, {$guest->id}, 'check-in-{$index}', 'uncheck-in-{$index}');"><span class="btn-back">Check In</span></a></em>
+                            {/if}	
+                            <span title="{if isset($guest->fname)}{$guest->fname}{/if}">{if isset($guest->fname)}{$guest->fname}{/if}</span>
+                            <span title="{if isset($guest->lname)}{$guest->lname}{/if}">{if isset($guest->lname)}{$guest->lname}{/if}</span>
+                            <span title="{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if} {$guest->confidence}">{$guest->friendly_confidence}</span>
+                            <strong title="{$guest->confidence}">{$eventReferred[$index]}</strong>								
 						</label>
-					</li>{/foreach}
-
-				</ul>{*
-				<footer class="buttons buttons-submit">
-					<p><input type="submit" name="submit" value="Save" /></p> 
-				</footer>*}
-			</section>{*
-			<section class="block" id="nr-cp-attendees">
-				<header class="block-collapsable-title">
-					<h1>No Response</h1>
-					<span id="nr-attendee-header"></span>
-				</header>
-				<ul class="list">
-					<li class="list-head">
-						<span id="nr-head-show">Showed Up?</span>
-						<strong id="nr-head-name"><a href="#">Email</a></strong> 
-						<em id="nr-head-rsvp"><a href="#">RSVP</a></em> 
 					</li>
+                    {/foreach}
 				</ul>
-				<ul class="list" id="nr-attendee-list">{foreach $noResponseAttendees as $guest}
-
-					<li>
-						<label for="attendee-{$guest->id}">
-							<strong title="{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}">{if isset($guest->fname) || isset($guest->lname)}{if isset($guest->fname)}{$guest->fname}{/if} {if isset($guest->lname)}{$guest->lname}{/if}{else}{$guest->email}{/if}</strong> <em title="{$guest->confidence}">{$guest->friendly_confidence}</em> 
-							<span><input type="checkbox" id="attendee-{$guest->id}" value="attendee_{$guest->id}_{$smarty.session.manage_event->eid}"{if $guest->is_attending eq 1} checked="checked"{/if} name="selecteditems" class="event_attendees" /></span>
-						</label>
-					</li>{/foreach}
-
-				</ul>
-				<footer class="buttons buttons-submit">
-					<p><input type="submit" name="submit" value="Save" /></p> 
-				</footer> 
 			</section>
-			<footer class="links-extra">
-				<p><a href="{$CURHOST}/event/print?eventId={$smarty.session.manage_event->eid}" target="_blank">Print Attendance List</a></p> 
-			</footer>
-		</section>*}{/if}
+			{/if}
 
 		</div>
 	</section>
 </div>
 {include file="footer.tpl"}
-
 {include file="js_global.tpl"}
 {include file="js_manage.tpl"}
-
+{include file="popup_manage_guests.tpl"}
 </body>
 </html>

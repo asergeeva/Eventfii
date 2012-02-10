@@ -144,4 +144,93 @@ $(document).ready(function() {
 		}
 		return false;
 	} );
+	$("#show-popup-addguest").click(function(){
+		$("#popup-addguest").fadeIn(500)
+		return false;	
+	});
+	$("#popup-addguest .popup-close a").click(function(){
+		$("#popup-addguest").fadeOut(500);
+		return false;
+	});
 });
+
+/*Function for Marking checked In*/
+function markCheckIn(eid, uid, hid, sid)
+{
+	$.ajax({
+		type: 'POST',
+		data: 'eid='+eid+'&uid='+uid,
+		url: EFGLOBAL.baseUrl + '/event/markChecked',
+		cache: false,
+		success: function(response)
+		{
+			if(response)
+			{
+				$("#"+sid).show();
+				$("#"+hid).hide();
+			}	
+		}
+	});	
+}
+
+/*Function for UnMarking checked In*/
+function unMarkCheckIn(eid, uid, hid, sid)
+{
+	$.ajax({
+		type: 'POST',
+		data: 'eid='+eid+'&uid='+uid,
+		url: EFGLOBAL.baseUrl + '/event/unmarkChecked',
+		cache: false,
+		success: function(response)
+		{
+			if(response)
+			{
+				$("#"+sid).show();
+				$("#"+hid).hide();
+			}	
+		}
+	});		
+}
+var t = '';
+/*Function to save Guest on the day of Event*/
+function saveGuest()
+{
+	$("#error").html("");
+	var error = true;
+	var emailRegex  = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+	var fname = $("#guest_fname").val();
+	var lname = $("#guest_lname").val();
+	var email = $("#guest_email").val();
+	if(email == '' || email == 'Email')
+	{
+		error = false;
+	}else if(email != '' && email != 'Email' && !email.match(emailRegex))
+	{
+		error = false;	
+	}
+	if(error == true)
+	{
+		var data = $("#guest_form").serialize();
+		$.ajax({
+			type: 'POST',
+			data: data,
+			url: EFGLOBAL.baseUrl+'/event/addGuest',
+			cache: false,
+			success: function(response)
+			{
+				$("#success").html('Guest successfully invited.');
+				t = setInterval("reloadPage()", 3000);
+			}
+		});
+	}else
+	{
+		$("#error").html("Please enter correct value for email.");	
+	}
+}
+
+/*Function for reloading the page*/
+function reloadPage()
+{
+	clearInterval(t);	
+	window.location.reload();
+}

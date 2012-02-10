@@ -76,6 +76,8 @@ var LOGIN_FORM = (function() {
 				//If Facebook session exists, and we send request from manage guest page.
 			} else if ( status == 8 ) {
 				window.location.reload();
+			}else if ( status == 9 ) {
+				//do nothing
 			} else {
 				window.location = EFGLOBAL.baseUrl + '/login' + status;
 			}
