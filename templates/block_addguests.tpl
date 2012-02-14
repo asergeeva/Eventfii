@@ -95,8 +95,14 @@
 					<header class="block-title">
 						<h1>Contacts</h1>
 					</header>
-					<div id="search-container" style="display:none">Search: <div id="contacts-header"></div></div>
-					<ul class="user-list" id="contacts-list">{if isset($contacts)}{foreach $contacts as $contact}
+					<!--<div id="search-container" >Search: <div id="contacts-header"></div></div>-->
+          <form method="post" action="#" class="quicksearch" id="contacts-header">
+            <fieldset>
+              <span class="fl"><input type="text" value="Search by name" /></span>
+                          
+            </fieldset>
+          </form>
+         	<ul class="user-list" id="contacts-list">{if isset($contacts)}{foreach $contacts as $contact}
 						<li>
 							<label{if ! isset($addButton)}>{else} for="{$contact->cid}">							
 								<input type="checkbox" id="{$contact->cid}" value="{$contact->cid}" class="selected_contact {if $contact->is_email}contact-email{/if}" />{/if}

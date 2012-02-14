@@ -1,7 +1,14 @@
             {if isset($oi_filter)}
             {else}
             <p style="float: right" id="rightPannel"><a href="#" id="select_contact_all">Select all</a> | <a href="#" id="select_contact_none">Select none</a></p>
-            <div id="search-container">Search: <input type="text" id="filterSearch" name="filterSearch" value="{if isset($oi_filter)}{$oi_filter}{/if}" class="inputbox" style="width:200px;"  /><div id="contacts-header"></div></div><div id="contacts-list-filter">
+            <div id="search-container" style="display:none">Search: <input type="text" id="filterSearch" name="filterSearch" value="{if isset($oi_filter)}{$oi_filter}{/if}" class="inputbox" style="width:200px;"  /></div><div id="contacts-list-filter">
+            <form method="post" action="#" class="quicksearch" id="contacts-header">
+            <fieldset>
+              <span class="fl"><input type="text" value="Search by name" style="margin-top:-8px;" /></span>
+                          
+            </fieldset>
+          </form>
+            
             {/if}
             
 								{if ($contactList)} 
