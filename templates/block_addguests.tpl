@@ -95,7 +95,7 @@
 					<header class="block-title">
 						<h1>Contacts</h1>
 					</header>
-					<div id="search-container">Search: <div id="contacts-header"></div></div>
+					<div id="search-container" style="display:none">Search: <div id="contacts-header"></div></div>
 					<ul class="user-list" id="contacts-list">{if isset($contacts)}{foreach $contacts as $contact}
 						<li>
 							<label{if ! isset($addButton)}>{else} for="{$contact->cid}">							

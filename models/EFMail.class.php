@@ -190,6 +190,13 @@ class EFMail {
 				case "guest_name":
 					$replaceItems->item($j)->nodeValue = $guest->fname;
 					break;
+				case "evevt_subject":
+						if(!(isset($_SESSION['user']->id) && $_SESSION['user']->id==$guest->id))
+						{
+							$sessionUser = isset($_SESSION['user']->fname)?$_SESSION['user']->fname:"";
+							$replaceItems->item($j)->nodeValue = stripslashes($sessionUser." RSVP'd you to:");				
+						}
+					break;	
 				case "guest_rate":
 					$act_confidence = '';
 					$confidence = EFCommon::$dbCon->getGuestConfidence($guest->id, $event_id);

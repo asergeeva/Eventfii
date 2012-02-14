@@ -292,7 +292,8 @@ h3.title{font-size:14px; line-height:19px;}
 
 .viewby_bot .br{float: right; }
 .poto_fram_gray .fram_cnt, .poto_fram_gray .fram_top,.poto_fram_gray .photo_frame,.poto_fram_gray .fram_bot{/* background-image:url(../images/photo_frame_3.jpg)!important; */ background-image:url(../images/photo_frame_2.jpg)!important;}
-.viewby_sidebar{float:right !important; margin: 11px 0 0 !important; width: 204px !important;}
+.viewby_sidebar{float:right !important; margin: 11px 0 0 !important; width: 204px !important; position:relative;}
+.rssvp_popup_seting{ top: -75px !important; left:200px !important; z-index:10000 !important; }
 /***** 30 Jan *****/
 .delete_photo{font-size:20px; font-weight: bold; color: #666666; padding: 75px 0; text-align: center;}
 .delete_photo p{padding-bottom: 15px;}
@@ -391,7 +392,7 @@ h3.title{font-size:14px; line-height:19px;}
 .manage_box{}
 .manage_box header.block-collapsable-title{-moz-border-radius:8px 8px 0 0; }
 .manage_box .list li{padding:2px 0;}
-.manage_box .list li em{width:115px; min-height: 24px;}
+.manage_box .list li em{width:113px; min-height: 24px;}
 .manage_box .list li span{width:144px; padding: 6px 5px;}
 .manage_box .list li strong{width:70px; padding: 6px 5px; text-align: center;}
 

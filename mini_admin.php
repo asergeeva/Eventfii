@@ -7,8 +7,8 @@
  http://phpminiadmin.sourceforge.net
 */
 $hostname_DS = "internal-db.s99541.gridserver.com:3306";
-$database_DS = "db99541_true_dev";//"imlkzz_ds";
-$username_DS = "db99541_true_dev";//"imlkzz_milkman";
+$database_DS = "db99541_true_qa";//"imlkzz_ds";
+$username_DS = "db99541_true_qa";//"imlkzz_milkman";
 $password_DS = "happyparty";//"CashMone6978";
 
  $ACCESS_PWD='ali@12345.com'; #script access password, SET IT if you want to protect script from public access

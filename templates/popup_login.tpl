@@ -9,7 +9,7 @@
 		<p class="popup-close"><a href="javascript:void(0);" onclick="$('#upload-progress').fadeOut(500);">X</a></p>
         <div class="popup_box">
             <div class="delete_photo">
-                <p>Please wait as we are uploading your photos.</p>                    
+                <p>Please wait as we load your photo.</p>                    
                 <div class="loading_out">
                     <div class="loading_inr" id="loadingPercentage" style="width:0%"></div>
                 </div>

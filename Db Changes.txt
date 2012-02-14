@@ -2,7 +2,33 @@
 == Column added for reference of attendance
 
 ALTER TABLE `ef_attendance` ADD `referenced_by` INT( 11 ) NULL ;
-ALTER TABLE `ef_events` ADD `test` INT( 11 ) NULL ;
 
 ===================================================================
+
+======================= Previous DB Changes =======================
+
+ALTER TABLE `ef_events` ADD `total_rsvps` INT( 11 ) NULL AFTER `location_long`;
+ALTER TABLE `ef_events` ADD `image` TINYTEXT NULL;
+ALTER TABLE `ef_event_images` ADD `image` TINYTEXT NULL AFTER `event_id` , ADD `owner_id` INT( 11 ) NULL AFTER `image` , ADD `created_at` DATETIME NULL AFTER `owner_id`;
+
+CREATE TABLE IF NOT EXISTS `ef_stock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` tinytext,
+  `created_at` datetime DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+
+
+CREATE TABLE IF NOT EXISTS `ef_stock_photos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `photo` tinytext,
+  `thumb` tinytext,
+  `stock_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+
+===================================================================
+
 

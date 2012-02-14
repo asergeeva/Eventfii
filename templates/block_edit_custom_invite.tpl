@@ -6,14 +6,14 @@
                         <div class="fram_bot">
                             <div class="fram_cnt">
                                 <div class="fram_top">
-                                <span id="image_view">
+                                  <div><span>{$smarty.session.manage_event->title}</span>{strtotime($smarty.session.manage_event->datetime)|date_format:"%B %e, %Y"} at {strtotime($smarty.session.manage_event->datetime)|date_format:"%l:%M%p"}</div>
+                                  <span id="image_view">
                                 	{if $event_image && $event_image != ''}
 			                			<a onclick="return launchEditor('image1', '{$CURHOST}/upload/events/{$event_image}');" href="javascript:void(0);"><img src="{$CURHOST}/upload/events/{$event_image}" alt="photo to edit" id="image1_after_save" /></a>
                                     {else}
                                     	<img src="{$CURHOST}/images/photo.png" alt="photo to edit" />
                                     {/if}
-                				</span>
-                <span>{$smarty.session.manage_event->title}</span>{strtotime($smarty.session.manage_event->datetime)|date_format:"%B %e, %Y"} at {strtotime($smarty.session.manage_event->datetime)|date_format:"%l:%M%p"}
+                								</span>
                                 </div>
                             </div>
                         </div>

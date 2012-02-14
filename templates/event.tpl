@@ -13,8 +13,8 @@
             </footer>
         </div>
     {/if}
-    {if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id) && ( ! isset($smarty.get.public) || $smarty.get.public != true)}
-	<header id="header">
+    {if (isset($smarty.session.user) && $smarty.session.user->id == $event->organizer->id) && ( ! isset($smarty.get.public) || $smarty.get.public != true) && ( ! isset($smarty.get.created) || $smarty.get.created != true)}
+			<header id="header">
 		<nav>
 			<ul>
 				<li id="manage"><a href="{$CURHOST}/event/manage?eventId={$event->eid}"><span>Manage</span></a></li>
@@ -71,7 +71,7 @@
             	<div class="orent_box">
                         <h2>{$event->title}</h2>
                         <h3>{date("F j, Y, g:i A", strtotime($event->datetime))}</h3>
-                        <strong class="links fl">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}">{$CURHOST}/event/a/{$event->alias}</a></strong>
+                        <strong class="links fl">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}" id="eventURL">{$CURHOST}/event/a/{$event->alias}</a></strong>
                         <span class="fr" style="margin-right:-37px;margin-top:18px;">
                         	{if $event->is_public}
                             	<div class="fb-like" data-href="{$CURHOST}/event/a/{$event->alias}" data-send="true" data-layout="button_count" data-show-faces="false"></div>
@@ -92,15 +92,16 @@
                     <div class="fram_bot">
                         <div class="fram_cnt">
                             <div class="fram_top">
-                            {if $event_image neq ""}
-	                            <img src="{$CURHOST}/upload/events/{$event_image}" alt="photo" />
-                            {else}
-                            	<img src="{$CURHOST}/upload/events/photo.png" alt="photo" />
-                            {/if}  
-                                <span>{$event->title}</span>{date("F j, Y, g:i A", strtotime($event->datetime))}</div>
+                              <div><span>{$event->title}</span>{date("F j, Y, g:i A", strtotime($event->datetime))}</div>
+                              {if $event_image neq ""}
+                                <img src="{$CURHOST}/upload/events/{$event_image}" alt="photo" />
+                              {else}
+                                <img src="{$CURHOST}/upload/events/photo.png" alt="photo" />
+                              {/if}  
+                           </div>
                         </div>
                     </div>
-                    <div style="float:left; padding:10px 0 5px 10px;">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}">{$CURHOST}/event/a/{$event->alias}</a></div>
+                    <div style="float:left; padding:10px 0 5px 10px;">Share this event link: <a href="{$CURHOST}/event/a/{$event->alias}" id="eventURL">{$CURHOST}/event/a/{$event->alias}</a></div>
                     <div style="float:right; padding:10px 0 0; margin-right:-37px;">
                     	{if $event->is_public}
                             <div class="fb-like" data-href="{$CURHOST}/event/a/{$event->alias}" data-send="true" data-layout="button_count" data-show-faces="false"></div>
@@ -143,17 +144,19 @@
                     {/if}
                 </div>
                 <aside id="rsvp" class="viewby_sidebar">
+                	{include file="popup_rsvp_multiple.tpl"}
                     <div>
                     	<fieldset>
                             <legend style="padding-top:0px;">RSVP Now</legend>{if $event->rsvp_days_left > 0}
-                            {if $you_rsvpd eq 'true'}
-                                <p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>You</em> and {sizeof($attending)-1} guests have RSVP'd</p>
+                            {if $you_rsvpd eq 'true' && {sizeof($attending)-1} > 0}
+                                <p class="rsvp-message"><em id="rsvp_days_left"{if isset($smarty.session.user)} class="loggedIn"{/if}>You</em> and {sizeof($attending)-1} guests have RSVP'd</p>
+
                            	{else}
-                            	<p class="rsvp-message"><em id="rsvp_days_left"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
+                            	<p class="rsvp-message"><em id="rsvp_days_left"{if isset($smarty.session.user)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
                           	{/if}
                             {else if $event->rsvp_days_left == 0}
-                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}            
-                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($loggedIn) && ($loggedIn)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
+                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($smarty.session.user)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}            
+                            <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($smarty.session.user)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
                             <ol class="rsvp-list {if $event->total_rsvps > 0}noMore{/if}" id="event_attending_response">
                                 <li>
                                     <label class="rsvp-1{if isset($select90)} selected{/if}" for="event_attending_response_1">
@@ -207,14 +210,14 @@
                                 <li>
                                     <figure style="text-align:center;">
                                         <a href="{$CURHOST}/user/a/{$event->organizer->alias}">
-                                            <span></span><img src="{$event->organizer->pic}?type=normal" alt="{$event->organizer->fname} {$event->organizer->lname}" />
+                                            <span><img src="{$event->organizer->pic}?type=normal" alt="{$event->organizer->fname} {$event->organizer->lname}" /></span>
                                         </a>
                                     </figure>
                                 </li>
             
                             </ul>
                             </span>
-                            <span style="float:left; color:#3399CC; padding:10px 0 0; width:110px;">{$event->organizer->fname} {$event->organizer->lname}<br />&nbsp;<br /><a href="mailto:{$event->organizer->email}">Contact host</a></span>
+                            <span style="float:left; color:#3399CC; padding:10px 0 0; width:110px;"><a href="{$CURHOST}/user/a/{$event->organizer->alias}">{$event->organizer->fname} {$event->organizer->lname}</a><br />&nbsp;<br /><a href="mailto:{$event->organizer->email}">Contact host</a></span>
                         </fieldset>
                     </div>
                     <div class="align_lft">
@@ -241,7 +244,6 @@
 {include file="footer.tpl"}
 {include file="popup_login.tpl"}
 {include file="popup_seeall.tpl"}
-{include file="popup_rsvp_multiple.tpl"}
 
 {include file="js_global_event.tpl"}
 {include file="js_event.tpl"}
@@ -412,8 +414,9 @@ function bindfancyBox()
 		afterLoad : function() {
 			var index_to_show = (this.index + 1);
 			var href_download = str_replace("{$CURHOST}/eventimages/", "", this.href);
+			var hrefShare = $("#eventURL").text();
 			var title_to_show = '<div style="float:left; font-size:10px; max-width:80px; line-height:normal;">by '+$("#by_name_"+index_to_show).html()+'</div>';
-			title_to_show += '<div style="float:right; text-align:right; font-size:10px; line-height:normal">Share <img src="{$CURHOST}/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''+(this.href)+'\', \'Check out this photo from '+($("#event_title").html())+'\');" /><br /><a href="{$CURHOST}/event/imageDownload/?file='+href_download+'">Download</a></div>';
+			title_to_show += '<div style="float:right; text-align:right; font-size:10px; line-height:normal">Share <img src="{$CURHOST}/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''+(hrefShare)+'\', \'Check out this photo from '+($("#event_title").html())+'\', \''+(this.href)+'\');" /><br /><a href="{$CURHOST}/event/imageDownload/?file='+href_download+'">Download</a></div>';
 			this.title = title_to_show;
 			//this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
 		}
@@ -477,7 +480,7 @@ reloadImages({$userid});
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
         <div class="popup_box_inr">
-    	<div style="width:100%; text-align:center;">Please wait as we are uploading your photo.</div>
+    	<div style="width:100%; text-align:center;">Please wait as we load your photo.</div>
         <div style="text-align:center;"><img src="{$CURHOST}/images/loader.gif" /></div>
         </div>
     </div>

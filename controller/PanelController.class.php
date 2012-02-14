@@ -300,6 +300,7 @@ class PanelController {
 				$allImages = $this->getAllEventImages($_POST['eid']);
 				$users_dropdown = $this->getUsersByImages($_POST['eid']);
 				$event_name = EFCommon::$dbCon->getEventName($_POST['eid']);
+				$event = $this->buildEvent($_POST['eid']);
 				$html = '';
 				$slideshow = '';
 				$count_images = 0;
@@ -315,7 +316,7 @@ class PanelController {
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
                     $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
-                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/eventimages/'.$image['image'].'\', \'Check out this photo from '.$event_name.'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/event/a/'.($event->alias).'\', \'Check out this photo from '.$event_name.'\', \''.CURHOST.'/eventimages/'.$image['image'].'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
 					if(isset($_SESSION['user']) && $this->checkEventOwner($_SESSION['user']->id, $_POST['eid']))
 					{
 						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
@@ -329,6 +330,7 @@ class PanelController {
 			case '/event/reloadImagesByUser':
 				$allImages = $this->getAllEventImagesByUser($_POST['eid'], $_POST['uid']);
 				$users_dropdown = $this->getUsersByImagesSelected($_POST['eid'], $_POST['uid']);
+				$event_name = EFCommon::$dbCon->getEventName($_POST['eid']);
 				$event_name = EFCommon::$dbCon->getEventName($_POST['eid']);
 				$html = '';
 				$slideshow = '';
@@ -345,7 +347,7 @@ class PanelController {
 					$html .= '<div class="show_links"></div>';
                     $html .= '<div class="show_links_up lnk_blu">';
                     $html .= '<div class="fl" style="max-width:80px;">by <span id="by_name_'.$count_images.'">'.$name.'</span><a href="javascript:void(0);" onclick="changeImagesView('.$image['owner_id'].', \''.$name.'\')">See all</a></div>';
-                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/eventimages/'.$image['image'].'\', \'Check out this photo from '.$event_name.'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
+                    $html .= '<div class="fr" style="text-align:right;">Share <img src="'.CURHOST.'/images/connect_favicon.png" class="fb_share" onclick="streamPublish(\''.CURHOST.'/event/a/'.($event->alias).'\', \'Check out this photo from '.$event_name.'\'\''.CURHOST.'/eventimages/'.$image['image'].'\');" /><a href="'.CURHOST.'/event/imageDownload/?file='.$image['image'].'">Download</a>';
 					if(isset($_SESSION['user']) && $this->checkEventOwner($_SESSION['user']->id, $_POST['eid']))
 					{
 						$html .= '<a href="javascript:void(0);" onclick="deletePhoto('.$image['id'].');">Delete Photo</a>';
@@ -376,10 +378,10 @@ class PanelController {
 				if($exist)
 				{
 					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guest_email);
-					EFCommon::$dbCon->updateUserInfoAttend($guest_fname, $guest_lname, $userInfo['id']);
+				  EFCommon::$dbCon->updateUserInfoAttend($guest_fname, $guest_lname, $userInfo['id']);
 					$userBuilded = new User($userInfo);
 					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0);
-					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $subjectLine);
 				}else
 				{
 					$userInfo = EFCommon::$dbCon->createNewUser($guest_fname, $guest_lname, $guest_email);
@@ -1053,6 +1055,7 @@ class PanelController {
 				$event_id = $_POST['event_id'];
 				$conf = $_POST['conf'];
 				$event = $this->buildEvent($event_id);
+				$sessionUser = isset($_SESSION['user']->fname)?$_SESSION['user']->fname:"";
 				for($i=0;$i<=$_POST['total_rsvps'];$i++)
 				{
 					if(isset($_POST['guest_email_'.$i]) && $_POST['guest_email_'.$i] != '' && $_POST['guest_email_'.$i] != 'Email')
@@ -1060,18 +1063,32 @@ class PanelController {
 						$guestName = $_POST['guest_name_'.$i];
 						$guestEmail = $_POST['guest_email_'.$i];
 						$exist = $this->checkGuestEmail($guestEmail);
+						$subjectLine ="";
 						if($exist)
 						{
 							$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
+							if(isset($userInfo['id']) && $userInfo['id']== $user_id_posted)
+							{
+								$subjectLine = "Thank you for RSVPing to {Event name}";
+							}else
+							{
+								$subjectLine = $sessionUser." RSVP'd you to {Event name}";
+							}
 							$userBuilded = new User($userInfo);
 							$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
-							EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+							if(isset($_POST['total_guests_last_added']) && ($_POST['total_guests_last_added']==0 ||  $i > $_POST['total_guests_last_added']))
+							{
+								EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $subjectLine);
+							}
 						}else
 						{
 							$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
 							$userBuilded = new User($userInfo);
 							$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_posted);
-							EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+							if(isset($_POST['total_guests_last_added']) && ($_POST['total_guests_last_added']==0 ||  $i > $_POST['total_guests_last_added']))
+							{
+								EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $sessionUser." RSVP'd you to {Event name}");
+							}
 						}
 					}
 				}
@@ -1082,6 +1099,7 @@ class PanelController {
 				unset($_SESSION['total_rsvps']);
 				$_SESSION['attemptValue'] = array($_POST['event_id'] => $_POST['conf']);
 				$_SESSION['total_rsvps'] = $_POST['total_rsvps'];
+				$_SESSION['total_guests_last_added'] = $_POST['total_guests_last_added'];
 				for($i=1;$i<=$_POST['total_rsvps'];$i++)
 				{
 					$_SESSION['guest_name_'.$i] = $_POST['guest_name_'.$i];
@@ -1159,7 +1177,6 @@ class PanelController {
 															     $_POST['phone'], 
 															     md5($_POST['password']), 
 															     $_POST['zip'] );
-					
 					if (isset($userInfo)) {
 						// Assign user's SESSION variables
 						$_SESSION['user'] = new User($userInfo);
@@ -1170,7 +1187,7 @@ class PanelController {
 						// Check on which page the user should be redirected to
 						$this->loggedInRedirect();
 					} else {
-						EFCommon::$smarty->assign('user_create_email', 'This email has been used');
+						EFCommon::$smarty->assign('user_create_email', 'You already have a trueRSVP account. <a href="'.CURHOST.'/login/forgot">Forgot password?</a>');
 						EFCommon::$smarty->display('register.tpl');
 						break;
 					}

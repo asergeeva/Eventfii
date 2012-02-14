@@ -81,9 +81,9 @@ jQuery.noConflict();
 		{
 			if (!$('#event_attending_response').hasClass('noMore')) {
 				var id_s = '1';
-				if(!$('#rsvp_days_left').hasClass('loggedIn'))
+				if(!$('#rsvp_days_left').hasClass('loggedIn') && !$('#event_attending_response').hasClass('noMore'))
 				{
-					id_s = '1';	
+					id_s = '2';	
 				}
 				saveRsvps(id_s);
 			}

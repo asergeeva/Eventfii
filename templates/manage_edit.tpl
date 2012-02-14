@@ -120,7 +120,7 @@ function startUpload()
     <div class="popup_overlay"></div>
     <div class="popup_box" align="center">
         <div class="popup_box_inr">
-    	<div style="width:100%; text-align:center;">Please wait as we are uploading your photo.</div>
+    	<div style="width:100%; text-align:center;">Please wait as we load your photo.</div>
         <div style="text-align:center;"><img src="{$CURHOST}/images/loader.gif" /></div>
         </div>
     </div>

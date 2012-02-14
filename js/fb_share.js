@@ -1,11 +1,11 @@
-function streamPublish(ILInk, ITitle)
+function streamPublish(ILInk, ITitle, ImLink)
 {
 	FB.ui(
 	  {
 		method: 'feed',
 		name: ITitle,
 		link: ILInk,
-		picture: ILInk,
+		picture: ImLink,
 		caption: ILInk,
 		description: ''
 	  },

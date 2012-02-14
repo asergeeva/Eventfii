@@ -17,7 +17,11 @@
 				<p class="fb-connected"><span>Your trueRSVP account has been created.</span></p>
 				<p class="message-small">Enter remaining account details</p>{else}
 
-				<legend>Create a new account</legend>{if ! isset($smarty.get.step) || ($smarty.get.step != "create" && $smarty.get.step != "moreinfo")}
+				<legend>Create a new account</legend>
+                {if isset($user_create_email)}
+                	<div style="background: none repeat scroll 0 0 #FAE5E3;padding-bottom: 10px;padding-top: 10px;text-align: center;">{$user_create_email}</div>
+                {/if}
+                {if ! isset($smarty.get.step) || ($smarty.get.step != "create" && $smarty.get.step != "moreinfo")}
 
 				<div id="fb-root"></div>
 				<p class="message-small"><fb:login-button perms="email,publish_stream" id="fb-login-button" onlogin="FBCON.onlogin()">Connect with Facebook</fb:login-button></p>

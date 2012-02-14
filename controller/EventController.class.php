@@ -37,6 +37,7 @@ class EventController extends PanelController {
 	{
 		$user_id_to_post = $_SESSION['user']->id;
 		$event = $this->buildEvent($event_id);
+		$sessionUser = isset($_SESSION['user']->fname)?$_SESSION['user']->fname:"";
 		for($i=1;$i<=$_SESSION['total_rsvps'];$i++)
 		{
 			if(isset($_SESSION['guest_email_'.$i]) && $_SESSION['guest_email_'.$i] != '' && $_SESSION['guest_email_'.$i] != 'Email')
@@ -49,15 +50,29 @@ class EventController extends PanelController {
 				if($exist)
 				{
 					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guestEmail);
+					$subjectLine ="";
+					if(isset($userInfo['id']) && $userInfo['id']== $user_id_posted)
+					{
+						$subjectLine = "Thank you for RSVPing to {Event name}";
+					}else
+					{
+						$subjectLine = $sessionUser." RSVP'd you to {Event name}";
+					}
 					$userBuilded = new User($userInfo);
 					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
-					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+					if(isset($_SESSION['total_guests_last_added']) && ($_SESSION['total_guests_last_added']==0 ||  $i > $_SESSION['total_guests_last_added']))
+				  {
+						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $subjectLine);
+					}
 				}else
 				{
 					$userInfo = EFCommon::$dbCon->createNewUser($guestName, NULL, $guestEmail);
 					$userBuilded = new User($userInfo);
 					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, $conf, $user_id_to_post);
-					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
+					if(isset($_SESSION['total_guests_last_added']) && ($_SESSION['total_guests_last_added']==0 ||  $i > $_SESSION['total_guests_last_added']))
+				  {
+						EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $sessionUser." RSVP'd you to {Event name}");
+					}
 				}
 			}
 		}

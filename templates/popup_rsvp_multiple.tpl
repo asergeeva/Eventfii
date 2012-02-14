@@ -1,5 +1,5 @@
 {if $you_rsvpd eq 'false'}
-<div class="popup-container" id="rsvp-multiple">
+<div class="popup-container rssvp_popup_seting" id="rsvp-multiple">
 	<div class="popup block" style="width:226px;">
     	<p class="popup-close"><a href="#">X</a></p>
         <div class="pp_guest">
@@ -12,7 +12,7 @@
                     <div class="c_rgt">
                     	<select id="total_rsvps" name="total_rsvps" onchange="showInviteFields($('#total_rsvps :selected').val());">
                         {section name=foo start=0 loop=($event->total_rsvps+1) step=1}
-                        	<option value="{$smarty.section.foo.index}">{$smarty.section.foo.index} extra people</option>
+                        	<option value="{$smarty.section.foo.index}">{$smarty.section.foo.index} extra person</option>
                         {/section}
                     	</select>
                     </div>
@@ -24,6 +24,7 @@
                 </div>
 			{/if}
             <input type="hidden" name="event_id" id="event_id" value="{$event->eid}" />
+            <input type="hidden" name="total_guests_last_added" id="total_guests_last_added" value="0" />
             {if isset($smarty.session.user)}
                 <input type="hidden" name="guest_name_0" value="{$smarty.session.user->fname}" id="guest_name_0" />
                 <input type="hidden" name="guest_email_0" id="guest_email_0" value="{$smarty.session.user->email}" />
@@ -38,7 +39,7 @@
 	</div>
 </div>
 {else}
-<div class="popup-container" id="rsvp-multiple">
+<div class="popup-container rssvp_popup_seting" id="rsvp-multiple">
 	<div class="popup block" style="width:226px;">
     	<p class="popup-close"><a href="#">X</a></p>
         <div class="pp_guest">
@@ -51,7 +52,7 @@
                     <div class="c_rgt">
                     	<select id="total_rsvps" name="total_rsvps" onchange="showInviteFieldsEdit($('#total_rsvps :selected').val());">
                         {section name=foo start=sizeof($user_refered) loop=($event->total_rsvps+1) step=1}
-                        	<option value="{$smarty.section.foo.index}" {if sizeof($user_refered) eq $smarty.section.foo.index} selected="selected"{/if}>{$smarty.section.foo.index} extra people</option>
+                        	<option value="{$smarty.section.foo.index}" {if sizeof($user_refered) eq $smarty.section.foo.index} selected="selected"{/if}>{$smarty.section.foo.index} extra person</option>
                         {/section}
                     	</select>
                     </div>
@@ -70,6 +71,7 @@
 			{/if}
             <input type="hidden" name="event_id" id="event_id" value="{$event->eid}" />
             <input type="hidden" name="total_guests" id="total_guests" value="{sizeof($user_refered)}" />
+            <input type="hidden" name="total_guests_last_added" id="total_guests_last_added" value="{sizeof($user_refered)}" />
             {if isset($smarty.session.user)}
                 <input type="hidden" name="guest_name_0" value="{$smarty.session.user->fname}" id="guest_name_0" />
                 <input type="hidden" name="guest_email_0" id="guest_email_0" value="{$smarty.session.user->email}" />
