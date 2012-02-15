@@ -101,7 +101,7 @@
 								<label for="multiple"><input type="checkbox" id="multiple" onClick="showRsvpSelect();" /> Multiple RSVPs</label>
 							</dt>
 							<dd>
-								<p>Guests can RSVP for up to <select name="delay" id="delay" disabled><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra person</option> <option value="3">3 extra person</option> <option value="4">4 extra person</option> <option value="5">5 extra person</option><option value="6">6 extra person</option><option value="7">7 extra person</option><option value="8">8 extra person</option></select></p>
+								<p>Guests can RSVP for up to <select name="delay" id="delay" disabled><option value="0">Please select</option> <option value="1">1 extra person</option> <option value="2">2 extra people</option> <option value="3">3 extra people</option> <option value="4">4 extra people</option> <option value="5">5 extra people</option><option value="6">6 extra people</option><option value="7">7 extra people</option><option value="8">8 extra people</option></select></p>
 							</dd> 
 						</dl>{if ! isset($error.goal)}
 

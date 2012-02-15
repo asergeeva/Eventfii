@@ -1,6 +1,6 @@
 {if $you_rsvpd eq 'false'}
 <div class="popup-container rssvp_popup_seting" id="rsvp-multiple">
-	<div class="popup block" style="width:226px;">
+	<div class="popup block" style="width:235px;">
     	<p class="popup-close"><a href="#">X</a></p>
         <div class="pp_guest">
             <h2>Fill out guest info</h2>
@@ -12,7 +12,7 @@
                     <div class="c_rgt">
                     	<select id="total_rsvps" name="total_rsvps" onchange="showInviteFields($('#total_rsvps :selected').val());">
                         {section name=foo start=0 loop=($event->total_rsvps+1) step=1}
-                        	<option value="{$smarty.section.foo.index}">{$smarty.section.foo.index} extra person</option>
+                        	<option value="{$smarty.section.foo.index}">{$smarty.section.foo.index} {if $smarty.section.foo.index>1}extra people {else}extra person {/if}</option>
                         {/section}
                     	</select>
                     </div>
@@ -40,7 +40,7 @@
 </div>
 {else}
 <div class="popup-container rssvp_popup_seting" id="rsvp-multiple">
-	<div class="popup block" style="width:226px;">
+	<div class="popup block" style="width:235px;">
     	<p class="popup-close"><a href="#">X</a></p>
         <div class="pp_guest">
             <h2>Fill out guest info</h2>
@@ -52,7 +52,7 @@
                     <div class="c_rgt">
                     	<select id="total_rsvps" name="total_rsvps" onchange="showInviteFieldsEdit($('#total_rsvps :selected').val());">
                         {section name=foo start=sizeof($user_refered) loop=($event->total_rsvps+1) step=1}
-                        	<option value="{$smarty.section.foo.index}" {if sizeof($user_refered) eq $smarty.section.foo.index} selected="selected"{/if}>{$smarty.section.foo.index} extra person</option>
+                        	<option value="{$smarty.section.foo.index}" {if sizeof($user_refered) eq $smarty.section.foo.index} selected="selected"{/if}>{$smarty.section.foo.index} {if $smarty.section.foo.index>1}extra people {else}extra person {/if}</option>
                         {/section}
                     	</select>
                     </div>
@@ -61,7 +61,11 @@
                     	{foreach from=$user_refered key=index item=guest}
                         	<div class="clear5" id="clear_{$index+1}"></div>
                             <div class="c_lft" id="guest_id_{$index+1}">Guest #{$index+1}:</div>
-                            <div class="c_rgt" id="guest_info_{$index+1}"><input type="text" name="guest_name_{$index+1}" value="{$guest['fname']}" id="guest_name_{$index+1}" readonly="readonly" /> <input type="text" name="guest_email_{$index+1}" id="guest_email_{$index+1}" value="{$guest['email']}" readonly="readonly" /></div>
+                            <div class="c_rgt" id="guest_info_{$index+1}">
+                            	<input type="text" name="guest_name_{$index+1}" value="{$guest['fname']}" id="guest_name_{$index+1}" readonly="readonly" />
+                                <input type="text" name="guest_email_{$index+1}" id="guest_email_{$index+1}" value="{$guest['email']}" readonly="readonly" />
+                                &nbsp;<a href="javascript:void(0);" onclick="deleteRSVP('{$index+1}', '{$guest['event_id']}_{$guest['user_id']}');">X</a>
+                            </div>
                         {/foreach}
                     </div>
                     <div class="clear5"></div>

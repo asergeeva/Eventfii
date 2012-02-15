@@ -34,8 +34,8 @@
 				<fieldset>
 					<span class="fl"><input type="text" value="Search by name" /></span>
                     {if date('Y-m-d', strtotime($event->datetime)) eq date('Y-m-d')}
-                    	<span class="fr"><a class="btn btn-manage" id="show-popup-addguest" href="javascript:void(0);"><span class="btn-back add_guest"><span>Add Guest</span></span></a></span>
-                     {/if}   
+                    	<span class="fr"><a class="btn btn-manage" style="margin-top:4px;" id="show-popup-addguest" href="javascript:void(0);"><span class="btn-back add_guest"><span>Add Guest</span></span></a></span>
+                    {/if}
 				</fieldset>
 			</form>
             <section class="block manage_box" id="cp-attendees">

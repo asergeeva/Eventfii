@@ -7,10 +7,10 @@
                         <div class="fram_bot">
                             <div class="fram_cnt">
                                 <div class="fram_top">
-                                <div><span>{$event->title}</span>{strtotime($event->datetime)|date_format:"%B %e, %Y"} at {strtotime($event->datetime)|date_format:"%l:%M%p"}</div>
                                 <span id="image_view">
                                   <img src="{$CURHOST}/images/photo.png" alt="photo to edit" />
                                 </span>
+                                 <div><span>{$event->title}</span>{strtotime($event->datetime)|date_format:"%B %e, %Y"} at {strtotime($event->datetime)|date_format:"%l:%M%p"}</div>
                                 </div>
                             </div>
                         </div>

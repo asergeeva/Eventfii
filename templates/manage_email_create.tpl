@@ -10,6 +10,9 @@
 		</header>
 		{include file="manage_nav.tpl"}
 		<div id="content">
+        	<header class="block">
+				<p class="message">Email your guests here.</p>
+			</header>
 			<section class="block" id="manage-email">
 				<form method="post" action="">
 					<fieldset>

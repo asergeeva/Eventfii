@@ -25,7 +25,7 @@ if($_SERVER['HTTP_HOST'] == 'eventfii.iserver.purelogics.info')
 define('DEBUG', true);
 define('ENABLE_EMAIL', true);
 
-define('FB_BASE_URL', 'https://apps.facebook.com/truersvp_dev');
+define('FB_BASE_URL', 'http://apps.facebook.com/truersvp_dev');
 define('FB_GRAPH_URL', 'https://graph.facebook.com');
 define('FB_APP_ID', '215532001821574');
 define('FB_APP_SECRET', '356ff9caba21a0da73cb8fbe99310f86');

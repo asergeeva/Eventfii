@@ -154,6 +154,27 @@ function showInviteFields(total_fields)
 	$("#showInviteList").html(html);
 }
 var t = "";
+
+/*Function for deleting the RSVP*/
+function deleteRSVP(elementID, attendance_id)
+{
+	$.ajax({
+		type: 'POST',
+		data: 'attendance_id='+attendance_id,
+		url: EFGLOBAL.baseUrl+'/event/deleteRSVP',
+		cache: false,
+		success: function(response)
+		{
+			$("#guest_name_"+elementID).val('');
+			$("#guest_email_"+elementID).val('');
+			$("#guest_info_"+elementID).hide();	
+			$("#guest_id_"+elementID).hide();
+			$("#clear_"+elementID).hide();
+			$("#error").html("RSVP successfully deleted.");
+		}	
+	});
+}
+
 function saveRsvps(type, up_type)
 {
 	$("#error").html('');

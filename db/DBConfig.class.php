@@ -1030,6 +1030,17 @@ class DBConfig {
 	}
 	
 	
+	/*Function for deleting the RSVP*/
+	public function deleteRSVP($attend_id)
+	{
+		$exp = explode("_", $attend_id);
+		$event_id = $exp[0];
+		$user_id = $exp[1];
+		$SQL_DELETE = "DELETE FROM ef_attendance WHERE event_id='". mysql_real_escape_string($event_id) ."' AND user_id='" . mysql_real_escape_string($user_id) . "'";
+		$this->executeUpdateQuery($SQL_DELETE);
+	}
+	
+	
 	/**
 	 * Sign up the user for an event with certain confidence level.
 	 * Send the thank you email to the user that is attending the event.
@@ -1037,17 +1048,18 @@ class DBConfig {
 	 * @param $event | Event   | The event
 	 * @update without sending email to users
 	 */
-	public function eventSignUpWithOutEmail($uid, $event, $conf, $user_id_posted) {
+	public function eventSignUpWithOutEmail($uid, $event, $conf, $user_id_posted, $is_attending=0) {
 		$signedUp = $this->hasAttend($uid, $event->eid);
 		$invitedNoResp = $this->isInvitedNoResp($uid, $event->eid);
 		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
-			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time, referenced_by) 
+			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time, referenced_by, is_attending) 
 								VALUES(
 									" . mysql_real_escape_string($event->eid) . ", 
 									" . mysql_real_escape_string($uid) . ", 
 									" . mysql_real_escape_string($conf) . ",
 									NOW(), 
-									'" . mysql_real_escape_string($user_id_posted) . "'
+									'" . mysql_real_escape_string($user_id_posted) . "',
+									'" . mysql_real_escape_string($is_attending) . "'
 								)";
 			$this->executeUpdateQuery($SIGN_UP_EVENT);
 		} else {
@@ -1060,36 +1072,6 @@ class DBConfig {
 		}
 	}
 	
-	/**
-	 * Sign up the user for an event with certain confidence level.
-	 * Send the thank you email to the user that is attending the event.
-	 * @param $uid   | Integer | The user ID that is signing up to the event
-	 * @param $event_id | Event ID  | The event ID
-	 * @update without sending email to users
-	 */
-	public function eventSignUpFromAddGuest($uid, $event_id, $conf, $user_id_posted) {
-		$signedUp = $this->hasAttend($uid, $event_id);
-		$invitedNoResp = $this->isInvitedNoResp($uid, $event_id);
-		if ( ! isset($signedUp) && ! isset($invitedNoResp) ) {
-			$SIGN_UP_EVENT = "	INSERT IGNORE INTO ef_attendance (event_id, user_id, confidence, rsvp_time, referenced_by, is_attending) 
-								VALUES(
-									" . mysql_real_escape_string($event_id) . ", 
-									" . mysql_real_escape_string($uid) . ", 
-									" . mysql_real_escape_string($conf) . ",
-									NOW(), 
-									'" . mysql_real_escape_string($user_id_posted) . "',
-									'1'
-								)";
-			$this->executeUpdateQuery($SIGN_UP_EVENT);
-		} else {
-			$UPDATE_SIGN_UP = "	UPDATE 	ef_attendance 
-								SET 	confidence = " . mysql_real_escape_string($conf) . " 
-								WHERE 	event_id = " . mysql_real_escape_string($event_id) . " 
-								AND 	user_id = " . mysql_real_escape_string($uid);
-			
-			$this->executeUpdateQuery($UPDATE_SIGN_UP);
-		}
-	}
 	
 	/*Function getUserConfidence*/
 	public function getGuestConfidence($uid, $eid)
@@ -1189,13 +1171,6 @@ class DBConfig {
 													'" . mysql_real_escape_string($guestEmails[$i]) . "', 
 													 " . mysql_real_escape_string($_SESSION['user']->id) . ")";
 				$this->executeUpdateQuery($STORE_GUEST_EMAIL_USERS);
-				$uid = $this->getLastInsertedId();
-				$this->eventSignUpFromAddGuest($uid, $eid, 90, $_SESSION['user']->id);
-			}else
-			{
-				$userInfo = $this->getUserInfoByEmail($guestEmails[$i]);
-				$uid = $userInfo['id'];
-				$this->eventSignUpFromAddGuest($uid, $eid, 90, $_SESSION['user']->id);
 			}
 			$STORE_GUEST_EMAIL_ATTENDEES = "INSERT IGNORE INTO ef_attendance (event_id, user_id) VALUES (" . mysql_real_escape_string($eid) . ", " . mysql_real_escape_string($_SESSION['user']->id) . ")";
 			$this->executeUpdateQuery($STORE_GUEST_EMAIL_ATTENDEES);

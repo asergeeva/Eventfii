@@ -92,12 +92,12 @@
                     <div class="fram_bot">
                         <div class="fram_cnt">
                             <div class="fram_top">
-                              <div><span>{$event->title}</span>{date("F j, Y, g:i A", strtotime($event->datetime))}</div>
                               {if $event_image neq ""}
                                 <img src="{$CURHOST}/upload/events/{$event_image}" alt="photo" />
                               {else}
                                 <img src="{$CURHOST}/upload/events/photo.png" alt="photo" />
-                              {/if}  
+                              {/if} 
+                             <div><span>{$event->title}</span>{date("F j, Y, g:i A", strtotime($event->datetime))}</div>  
                            </div>
                         </div>
                     </div>

@@ -377,11 +377,11 @@ h3.title{font-size:14px; line-height:19px;}
 }
 
 /** popup guest info   position: absolute; left: 45%; top: 45%; **/
-.pp_guest{width: 226px; background-color: #fff; font-family: arial;}
+.pp_guest{width: 232px; background-color: #fff; font-family: arial;}
 .pp_guest h2{border-bottom: 1px solid #aaaaaa; padding: 4px 2px; font-size: 12px;}
 .pp_guest .cont{ padding: 0 5px;}
 .pp_guest .c_lft{ float: left; width: 55px; line-height:20px; font-weight: bold;}
-.pp_guest .c_rgt{ float: left; width: 160px; line-height:20px;}
+.pp_guest .c_rgt{ float: left; width: 167px; line-height:20px;}
 .pp_guest .c_rgt input[type='text']{float: left; width: 60px; height: 16px; border: 1px solid #cccccc; -wevkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; margin-right: 5px; font-size: 11px; color: #999999; padding: 0 5px;}
 .pp_guest .c_rgt select{float: left; width: 100px; height: 30px; border: 1px solid #cccccc; border-radius:3px;}
 
@@ -431,4 +431,4 @@ h3.title{font-size:14px; line-height:19px;}
 .btn-gray_sml input{height:27px; padding: 0 9px 2px 0;}
 
 .add_guest{padding:0px !important; height:auto !important;}
-.add_guest span{background:url(../images/add_guest_ico.png) no-repeat 0 2px !important; padding:6px 11px 9px 39px !important;}
+.add_guest span{background:url(../images/add_guest_ico.png) no-repeat 0 2px !important; padding:6px 31px 9px 39px !important; margin:0 0 0 3px}

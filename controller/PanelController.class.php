@@ -380,13 +380,13 @@ class PanelController {
 					$userInfo = EFCommon::$dbCon->getUserInfoByEmail($guest_email);
 				  EFCommon::$dbCon->updateUserInfoAttend($guest_fname, $guest_lname, $userInfo['id']);
 					$userBuilded = new User($userInfo);
-					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0, 1);
 					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, $subjectLine);
 				}else
 				{
 					$userInfo = EFCommon::$dbCon->createNewUser($guest_fname, $guest_lname, $guest_email);
 					$userBuilded = new User($userInfo);
-					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0);
+					$recordAttendance = EFCommon::$dbCon->eventSignUpWithOutEmail($userInfo['id'], $event, 90, 0, 1);
 					EFCommon::$mailer->sendAGuestHtmlEmailByEvent('thankyou_RSVP', $userBuilded, $event, 'Thank you for RSVPing to {Event name}');
 				}
 				echo 'ok';
@@ -1049,6 +1049,9 @@ class PanelController {
 				
 				EFCommon::$dbCon->saveText($event->eid, $_REQUEST['reminderContent'], $dateTime, SMS_REMINDER_TYPE, $autoReminder);
 				echo("Success");
+				break;
+			case '/event/deleteRSVP':
+				EFCommon::$dbCon->deleteRSVP($_POST['attendance_id']);			
 				break;
 			case '/event/saversvp':
 				$user_id_posted = $_POST['user_id_posted'];
