@@ -148,12 +148,11 @@
                     <div>
                     	<fieldset>
                             <legend style="padding-top:0px;">RSVP Now</legend>{if $event->rsvp_days_left > 0}
-                            {if $you_rsvpd eq 'true' && {sizeof($attending)-1} > 0}
+                            {* {if $you_rsvpd eq 'true' && {sizeof($attending)-1} > 0}
                                 <p class="rsvp-message"><em id="rsvp_days_left"{if isset($smarty.session.user)} class="loggedIn"{/if}>You</em> and {sizeof($attending)-1} guests have RSVP'd</p>
-
-                           	{else}
+                           	{else} *}
                             	<p class="rsvp-message"><em id="rsvp_days_left"{if isset($smarty.session.user)} class="loggedIn"{/if}>{$event->rsvp_days_left}</em> days left to RSVP</p>
-                          	{/if}
+                          	{* {/if} *}
                             {else if $event->rsvp_days_left == 0}
                             <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($smarty.session.user)} class="loggedIn"{/if}>0</em>Today is the last day to RSVP for this event</p>{else}            
                             <p class="rsvp-message"><em id="rsvp_days_left" style="display:none"{if isset($smarty.session.user)} class="loggedIn"{/if}></em>The deadline to RSVP for this event had passed</p>{/if}
