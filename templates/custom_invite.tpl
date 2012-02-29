@@ -97,7 +97,7 @@ function bindScrollBar()
     </div>
 </div>
 <!-- Load Feather code -->
-<script type="text/javascript" src="http://feather.aviary.com/js/feather.js"></script>
+<script type="text/javascript" src="{$JS_PATH}/feather.js"></script>
 <!-- Instantiate Feather -->
 <script type="text/javascript">
 var featherEditor = new(Aviary.Feather)({
